@@ -1,0 +1,1610 @@
+########## RUN 2026-06-27 00:00:05 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-26T16:00:05+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+====================================================================================================================================================================================================================================================
+=== OPPORTUNITY TABLE (ranked by per-trade EXPECTED SHARPE) ===
+   YOUR BAR: E[R]>=+1%/trade  sigma<=5%  Sharpe>=0.40  sample n>=20  horizon<=5d  t>=2 (Bonferroni-adj.)  OOS edge>0
+   E[R]=NET backtested expected return (after costs)  sigma=std-dev of outcomes (the risk)  Sharpe=E[R]/sigma
+   t=significance of E[R]>0 (>=2 ~ 95%, raised for #tests)  oosS=out-of-sample Sharpe (recent 30% held out; must stay positive)
+Instrument                  中文/名   Sym        Market  Dir             Price (ET)    Chg%   E[R]%  sigma%   Sharpe t-stat   oosS   Win%     n    R:R  Risk%   ATR%  Kelly%      Stop    Target  Tech              News        Data     
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  (no trade cleared the expected-Sharpe bar this scan -- correct when no high-E[R]/low-sigma edge exists; showing best measured edges)
+US: CRWU                              CRWU       US      Long         6.02 16:00 ET -11.73%   2.25%   6.45%     0.35    5.2   0.42    18%   225   24.4  0.66% 19.25%   14.4%      5.98      6.99  RSI41 dn RS-14    . n0        STALE 20.0h
+US: WYFI                              WYFI       US      Long        36.82 16:00 ET  -9.27%   1.90%  10.13%     0.19    2.8   0.35    38%   216    3.3  5.48% 14.53%   18.6%     34.80     43.51  RSI62 up RS+19    + n1 35h    STALE 20.0h
+US: ASST                              ASST       US      Long        11.40 16:00 ET -12.10%   1.56%   5.49%     0.28    5.9   0.31    15%   434   24.6  0.61% 12.43%   11.0%     11.33     13.12  RSI34os dn RS-34  + n0        STALE 20.0h
+US: AIIO                              AIIO       US      Short        3.90 16:00 ET  22.26%   1.49%  15.28%     0.10    2.0   0.26    46%   434    2.9 11.28% 11.85%   27.3%      4.34      2.64  RSI61 up RS+38    + n5 21h    STALE 20.0h
+US: ABSI                              ABSI       US      Long        10.21 16:00 ET  -7.18%   1.48%  10.65%     0.14    2.9   0.25    48%   434    2.2  8.72% 10.77%   23.9%      9.32     12.14  RSI68ob up RS+100  . n15 31h   STALE 20.0h
+US: ZIP                               ZIP        US      Short        3.97 16:00 ET  18.15%   1.05%   7.20%     0.15    3.0   0.25    35%   434    5.3  3.78%  8.07%   23.2%      4.12      3.18  RSI65 up RS+22    . n1 6d     STALE 20.0h
+US: HOOG                              HOOG       US      Long        26.22 16:00 ET -11.27%   1.29%   5.34%     0.24    4.3   0.24    16%   311   14.7  0.93% 16.29%   10.0%     25.98     29.81  RSI53 mix RS+42   . n0        STALE 20.0h
+US: KEEL                              KEEL       US      Long         5.87 16:00 ET  -7.41%   0.23%   9.19%     0.03    0.5   0.22    35%   434    2.4  6.39% 12.95%    8.7%      5.50      6.79  RSI49 up RS+9     . n6 2d     STALE 20.0h
+US: RGTX                              RGTX       US      Long        16.87 16:00 ET -15.52%   2.60%   8.59%     0.30    5.3   0.21    13%   304   34.3  0.71% 30.55%   11.0%     16.75     20.99  RSI30os mix RS-50  . n0        STALE 20.0h
+US: BTDR                              BTDR       US      Long        16.39 16:00 ET  -7.97%   1.14%   9.08%     0.13    2.6   0.21    37%   434    2.7  5.58% 11.12%   12.7%     15.47     18.81  RSI34os mix RS+8  . n9 14h    STALE 20.0h
+  (87 instruments shown without expectancy -- no free daily history (China A-share/Taiwan); cannot estimate Sharpe, excluded from rank)
+
+-- SHORT-RESTRICTED MARKETS -> shortable proxy --
+  * China: CATL 宁德时代 (sz300750): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Midea Group 美的集团 (sz000333): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Yangtze Power 长江电力 (sh600900): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: BYD 比亚迪 (sz002594): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * Taiwan: MediaTek 聯發科 (2454): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+  * Taiwan: Chunghwa Telecom 中華電 (2412): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+
+-- CATALYSTS (latest company news for top candidates; verify before acting) --
+  WYFI    Long  [+]  BTIG Maintains Buy on Whitefiber, Raises Price Target to $50
+          (35h ago  1 src  1 articles/7d)
+          why: Stock surged 9.38% on the back of a major $865 million, 10-year contract with Nscale Global Holdings and a reite…
+  ASST    Long  [+]  Strive, Inc. Announces Daily Dividends on SATA Stock and First Quarter 2026 Financial Results
+          why: Company is expanding financial flexibility through a significant preferred stock offering, demonstrating strateg…
+  AIIO    Short [+]  Here are the top movers in Thursday's session.
+          (21h ago  3 src  5 articles/7d)
+          why: The company announced a strategic acquisition that expands its AI capabilities and investment portfolio. The sto…
+  ABSI    Long       Micron To Rally More Than 57%? Here Are 10 Top Analyst Forecasts For Thursday
+          (31h ago  3 src  15 articles/7d)
+  ZIP     Short      ZipRecruiter: Stuck In A Low-Hiring Hole, Sell This Spike
+          (6d ago  1 src  1 articles/7d)
+  KEEL    Long       Citizens Initiates Coverage On Keel Infrastructure with Market Outperform Rating, Announces Price Target…
+          (2d ago  2 src  6 articles/7d)
+  BTDR    Long       Bitdeer AI Wins “AI Cloud Platform of the Year” in 2026 AI Breakthrough Awards, Recognized as a Global L…
+          (14h ago  2 src  9 articles/7d)
+
+research only, not financial advice. verify before acting.
+
+########## RUN 2026-06-27 01:00:05 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-26T17:00:05+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+Traceback (most recent call last):
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1508, in connect
+    self.sock = self._context.wrap_socket(self.sock,
+                ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+                                          server_hostname=server_hostname)
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/ssl.py", line 455, in wrap_socket
+    return self.sslsocket_class._create(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sock=sock,
+        ^^^^^^^^^^
+    ...<5 lines>...
+        session=session
+        ^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/ssl.py", line 1076, in _create
+    self.do_handshake()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/ssl.py", line 1372, in do_handshake
+    self._sslobj.do_handshake()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+TimeoutError: _ssl.c:1063: The handshake operation timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 189, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 114, in main
+    quotes = report.collect_quotes()
+  File "/Users/daxu/software/world-trader/tools/wt/report.py", line 48, in collect_quotes
+    for label, sym, native, q, err in sources.fetch_many(sources.sina_quote, inst.CHINA_A, workers=8):
+                                      ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 272, in fetch_many
+    return list(p.map(one, items))
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 639, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 311, in _result_or_cancel
+    return fut.result(timeout)
+           ~~~~~~~~~~^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 450, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 395, in __get_result
+    raise self._exception
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 269, in one
+    q, err = fn(sym)
+             ~~^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 54, in sina_quote
+    txt = http_get(f"https://hq.sinajs.cn/list={code}",
+                   headers={"Referer": "https://finance.sina.com.cn"}, decode="gbk")
+  File "/Users/daxu/software/world-trader/tools/wt/core.py", line 20, in http_get
+    with urllib.request.urlopen(req, timeout=timeout, context=CTX) as r:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error _ssl.c:1063: The handshake operation timed out>
+########## RUN 2026-06-27 02:00:04 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-26T18:00:05+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+====================================================================================================================================================================================================================================================
+=== OPPORTUNITY TABLE (ranked by per-trade EXPECTED SHARPE) ===
+   YOUR BAR: E[R]>=+1%/trade  sigma<=5%  Sharpe>=0.40  sample n>=20  horizon<=5d  t>=2 (Bonferroni-adj.)  OOS edge>0
+   E[R]=NET backtested expected return (after costs)  sigma=std-dev of outcomes (the risk)  Sharpe=E[R]/sigma
+   t=significance of E[R]>0 (>=2 ~ 95%, raised for #tests)  oosS=out-of-sample Sharpe (recent 30% held out; must stay positive)
+Instrument                  中文/名   Sym        Market  Dir             Price (ET)    Chg%   E[R]%  sigma%   Sharpe t-stat   oosS   Win%     n    R:R  Risk%   ATR%  Kelly%      Stop    Target  Tech              News        Data     
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  (no trade cleared the expected-Sharpe bar this scan -- correct when no high-E[R]/low-sigma edge exists; showing best measured edges)
+US: ALOY                              ALOY       US      Long        14.25 16:00 ET -14.10%   1.57%  12.66%     0.12    1.1   0.69    31%    78    3.5  6.67% 15.90%   10.8%     13.30     17.55  RSI51 mix RS+53   + n4 27h    STALE 22.0h
+US: LABX                              LABX       US      Long       154.79 16:00 ET -10.14%   2.03%  12.61%     0.16    2.3   0.41    31%   213    3.4  6.32% 18.49%   11.3%    145.00    188.16  RSI55 up RS+39    . n0        STALE 22.0h
+US: WYFI                              WYFI       US      Long        36.82 16:00 ET  -9.27%   1.90%  10.13%     0.19    2.8   0.35    38%   216    3.3  5.48% 14.53%   18.6%     34.80     43.51  RSI62 up RS+19    + n1 37h    STALE 22.0h
+US: CRDU                              CRDU       US      Long        94.65 16:00 ET -13.80%   0.41%  12.34%     0.03    0.5   0.33    24%   189    3.5  6.44% 21.02%    3.0%     88.55    116.24  RSI59 up RS+37    . n0        STALE 22.0h
+US: ASST                              ASST       US      Long        11.40 16:00 ET -12.10%   1.56%   5.49%     0.28    5.9   0.31    15%   434   24.6  0.61% 12.43%   11.0%     11.33     13.12  RSI34os dn RS-34  . n0        STALE 22.0h
+US: QPUX                              QPUX       US      Long        24.63 16:00 ET -15.07%   1.56%   8.03%     0.19    2.9   0.27    13%   216   15.4  1.46% 26.88%    7.3%     24.27     30.16  RSI32os mix RS-43  . n0        STALE 22.0h
+US: AIIO                              AIIO       US      Short        3.90 16:00 ET  22.26%   1.49%  15.28%     0.10    2.0   0.26    46%   434    2.9 11.28% 11.85%   27.3%      4.34      2.64  RSI61 up RS+38    . n5 23h    STALE 22.0h
+US: ABSI                              ABSI       US      Long        10.21 16:00 ET  -7.18%   1.48%  10.65%     0.14    2.9   0.25    48%   434    2.2  8.72% 10.77%   23.9%      9.32     12.14  RSI68ob up RS+100  . n15 33h   STALE 22.0h
+US: ZIP                               ZIP        US      Short        3.97 16:00 ET  18.15%   1.05%   7.20%     0.15    3.0   0.25    35%   434    5.3  3.78%  8.07%   23.2%      4.12      3.18  RSI65 up RS+22    . n1 6d     STALE 22.0h
+US: KEEL                              KEEL       US      Long         5.87 16:00 ET  -7.41%   0.23%   9.19%     0.03    0.5   0.22    35%   434    2.4  6.39% 12.95%    8.7%      5.50      6.79  RSI49 up RS+9     . n6 2d     STALE 22.0h
+  (88 instruments shown without expectancy -- no free daily history (China A-share/Taiwan); cannot estimate Sharpe, excluded from rank)
+
+-- SHORT-RESTRICTED MARKETS -> shortable proxy --
+  * China: CATL 宁德时代 (sz300750): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Midea Group 美的集团 (sz000333): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Yangtze Power 长江电力 (sh600900): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: BYD 比亚迪 (sz002594): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * Taiwan: MediaTek 聯發科 (2454): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+  * Taiwan: Chunghwa Telecom 中華電 (2412): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+
+-- CATALYSTS (latest company news for top candidates; verify before acting) --
+  ALOY    Long  [+]  'US Army Bases to Host Critical Minerals Plants in Onshoring Push' - Bloomberg
+          (27h ago  2 src  4 articles/7d)
+          why: Company secured a landmark conditional partnership with the U.S. Army for critical mineral processing, positioni…
+  WYFI    Long  [+]  BTIG Maintains Buy on Whitefiber, Raises Price Target to $50
+          (37h ago  1 src  1 articles/7d)
+          why: Stock surged 9.38% on the back of a major $865 million, 10-year contract with Nscale Global Holdings and a reite…
+  AIIO    Short      Here are the top movers in Thursday's session.
+          (23h ago  3 src  5 articles/7d)
+  ABSI    Long       Micron To Rally More Than 57%? Here Are 10 Top Analyst Forecasts For Thursday
+          (33h ago  3 src  15 articles/7d)
+  ZIP     Short      ZipRecruiter: Stuck In A Low-Hiring Hole, Sell This Spike
+          (6d ago  1 src  1 articles/7d)
+  KEEL    Long       Citizens Initiates Coverage On Keel Infrastructure with Market Outperform Rating, Announces Price Target…
+          (2d ago  2 src  6 articles/7d)
+
+research only, not financial advice. verify before acting.
+
+########## RUN 2026-06-27 03:00:05 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-26T19:00:06+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+====================================================================================================================================================================================================================================================
+=== OPPORTUNITY TABLE (ranked by per-trade EXPECTED SHARPE) ===
+   YOUR BAR: E[R]>=+1%/trade  sigma<=5%  Sharpe>=0.40  sample n>=20  horizon<=5d  t>=2 (Bonferroni-adj.)  OOS edge>0
+   E[R]=NET backtested expected return (after costs)  sigma=std-dev of outcomes (the risk)  Sharpe=E[R]/sigma
+   t=significance of E[R]>0 (>=2 ~ 95%, raised for #tests)  oosS=out-of-sample Sharpe (recent 30% held out; must stay positive)
+Instrument                  中文/名   Sym        Market  Dir             Price (ET)    Chg%   E[R]%  sigma%   Sharpe t-stat   oosS   Win%     n    R:R  Risk%   ATR%  Kelly%      Stop    Target  Tech              News        Data     
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  (no trade cleared the expected-Sharpe bar this scan -- correct when no high-E[R]/low-sigma edge exists; showing best measured edges)
+US: CRWU                              CRWU       US      Long         6.02 16:00 ET -11.73%   2.25%   6.45%     0.35    5.2   0.42    18%   225   24.4  0.66% 19.25%   14.4%      5.98      6.99  RSI41 dn RS-14    . n0        STALE 23.0h
+US: WYFI                              WYFI       US      Long        36.82 16:00 ET  -9.27%   1.90%  10.13%     0.19    2.8   0.35    38%   216    3.3  5.48% 14.53%   18.6%     34.80     43.51  RSI62 up RS+19    + n1 38h    STALE 23.0h
+US: ASST                              ASST       US      Long        11.40 16:00 ET -12.10%   1.51%   5.44%     0.28    5.3   0.27    14%   364   24.6  0.61% 12.43%   10.8%     11.33     13.12  RSI34os dn RS-34  + n0        STALE 23.0h
+US: AIIO                              AIIO       US      Short        3.90 16:00 ET  22.26%   1.49%  15.28%     0.10    2.0   0.26    46%   434    2.9 11.28% 11.85%   27.3%      4.34      2.64  RSI61 up RS+38    + n5 24h    STALE 23.0h
+US: ABSI                              ABSI       US      Long        10.21 16:00 ET  -7.18%   1.48%  10.65%     0.14    2.9   0.25    48%   434    2.2  8.72% 10.77%   23.9%      9.32     12.14  RSI68ob up RS+100  . n15 34h   STALE 23.0h
+US: ZIP                               ZIP        US      Short        3.97 16:00 ET  18.15%   1.05%   7.20%     0.15    3.0   0.25    35%   434    5.3  3.78%  8.07%   23.2%      4.12      3.18  RSI65 up RS+22    . n1 6d     STALE 23.0h
+US: KEEL                              KEEL       US      Long         5.87 16:00 ET  -7.41%   0.23%   9.19%     0.03    0.5   0.22    35%   434    2.4  6.39% 12.95%    8.7%      5.50      6.79  RSI49 up RS+9     . n6 2d     STALE 23.0h
+US: BTDR                              BTDR       US      Long        16.39 16:00 ET  -7.97%   1.14%   9.08%     0.13    2.6   0.21    37%   434    2.7  5.58% 11.12%   12.7%     15.47     18.81  RSI34os mix RS+8  . n9 17h    STALE 23.0h
+US: WYY                               WYY        US      Long        20.20 16:00 ET -15.83%   1.32%  10.48%     0.13    2.6   0.20    45%   434    3.9  7.08%  8.69%   30.4%     18.77     25.73  RSI93ob up RS+99  . n9 2h     STALE 23.0h
+US: NVTS                              NVTS       US      Long        17.70 16:00 ET  -9.23%   1.10%   6.75%     0.16    3.4   0.19    26%   434    4.9  2.71% 16.00%   10.9%     17.22     20.05  RSI22os mix RS-37  . n1 2d     STALE 23.0h
+  (89 instruments shown without expectancy -- no free daily history (China A-share/Taiwan); cannot estimate Sharpe, excluded from rank)
+
+-- SHORT-RESTRICTED MARKETS -> shortable proxy --
+  * China: CATL 宁德时代 (sz300750): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Midea Group 美的集团 (sz000333): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Yangtze Power 长江电力 (sh600900): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: BYD 比亚迪 (sz002594): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * Taiwan: MediaTek 聯發科 (2454): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+  * Taiwan: Chunghwa Telecom 中華電 (2412): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+
+-- CATALYSTS (latest company news for top candidates; verify before acting) --
+  WYFI    Long  [+]  BTIG Maintains Buy on Whitefiber, Raises Price Target to $50
+          (38h ago  1 src  1 articles/7d)
+          why: Stock surged 9.38% on the back of a major $865 million, 10-year contract with Nscale Global Holdings and a reite…
+  ASST    Long  [+]  Strive, Inc. Announces Daily Dividends on SATA Stock and First Quarter 2026 Financial Results
+          why: Company is expanding financial flexibility through a significant preferred stock offering, demonstrating strateg…
+  AIIO    Short [+]  Here are the top movers in Thursday's session.
+          (24h ago  3 src  5 articles/7d)
+          why: The company announced a strategic acquisition that expands its AI capabilities and investment portfolio. The sto…
+  ABSI    Long       Micron To Rally More Than 57%? Here Are 10 Top Analyst Forecasts For Thursday
+          (34h ago  3 src  15 articles/7d)
+  ZIP     Short      ZipRecruiter: Stuck In A Low-Hiring Hole, Sell This Spike
+          (6d ago  1 src  1 articles/7d)
+  KEEL    Long       Citizens Initiates Coverage On Keel Infrastructure with Market Outperform Rating, Announces Price Target…
+          (2d ago  2 src  6 articles/7d)
+  BTDR    Long       Bitdeer AI Wins “AI Cloud Platform of the Year” in 2026 AI Breakthrough Awards, Recognized as a Global L…
+          (17h ago  2 src  9 articles/7d)
+  WYY     Long       The trading volume of these stocks is deviating from the norm in today's session.
+          (2h ago  3 src  9 articles/7d)
+  NVTS    Long       12 Information Technology Stocks Moving In Wednesday's Intraday Session
+          (2d ago  1 src  1 articles/7d)
+
+research only, not financial advice. verify before acting.
+
+########## RUN 2026-06-27 04:00:01 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-26T20:00:02+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+====================================================================================================================================================================================================================================================
+=== OPPORTUNITY TABLE (ranked by per-trade EXPECTED SHARPE) ===
+   YOUR BAR: E[R]>=+1%/trade  sigma<=5%  Sharpe>=0.40  sample n>=20  horizon<=5d  t>=2 (Bonferroni-adj.)  OOS edge>0
+   E[R]=NET backtested expected return (after costs)  sigma=std-dev of outcomes (the risk)  Sharpe=E[R]/sigma
+   t=significance of E[R]>0 (>=2 ~ 95%, raised for #tests)  oosS=out-of-sample Sharpe (recent 30% held out; must stay positive)
+Instrument                  中文/名   Sym        Market  Dir             Price (ET)    Chg%   E[R]%  sigma%   Sharpe t-stat   oosS   Win%     n    R:R  Risk%   ATR%  Kelly%      Stop    Target  Tech              News        Data     
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  (no trade cleared the expected-Sharpe bar this scan -- correct when no high-E[R]/low-sigma edge exists; showing best measured edges)
+US: NBIL                              NBIL       US      Long        50.09 16:00 ET -10.55%   1.88%   9.00%     0.21    2.8   0.41    24%   174    5.7  3.11% 21.68%   10.9%     48.53     59.06  RSI47 up RS+42    . n1 4d     STALE 24.0h
+US: WYFI                              WYFI       US      Long        36.82 16:00 ET  -9.27%   1.90%  10.13%     0.19    2.8   0.35    38%   216    3.3  5.48% 14.53%   18.6%     34.80     43.51  RSI62 up RS+19    + n1 38h    STALE 24.0h
+US: NVTX                              NVTX       US      Long        47.54 16:00 ET  -8.59%   3.01%  13.84%     0.22    3.0   0.32    25%   194    5.9  4.77% 46.55%   11.9%     45.27     60.86  RSI19os mix RS-67  . n0        STALE 24.0h
+US: NBIG                              NBIG       US      Long        34.86 16:00 ET -11.04%   1.71%   8.76%     0.20    2.5   0.32    23%   160    5.9  3.01% 21.88%   10.1%     33.81     41.05  RSI46 up RS+41    . n0        STALE 24.0h
+US: ASST                              ASST       US      Long        11.40 16:00 ET -12.10%   1.56%   5.49%     0.28    5.9   0.31    15%   434   24.6  0.61% 12.43%   11.0%     11.33     13.12  RSI34os dn RS-34  . n0        STALE 24.0h
+US: QPUX                              QPUX       US      Long        24.63 16:00 ET -15.07%   1.56%   8.03%     0.19    2.9   0.27    13%   216   15.4  1.46% 26.88%    7.3%     24.27     30.16  RSI32os mix RS-43  . n0        STALE 24.0h
+US: AIIO                              AIIO       US      Short        3.90 16:00 ET  22.26%   1.49%  15.28%     0.10    2.0   0.26    46%   434    2.9 11.28% 11.85%   27.3%      4.34      2.64  RSI61 up RS+38    . n5 25h    STALE 24.0h
+US: ABSI                              ABSI       US      Long        10.21 16:00 ET  -7.18%   1.48%  10.65%     0.14    2.9   0.25    48%   434    2.2  8.72% 10.77%   23.9%      9.32     12.14  RSI68ob up RS+100  . n15 35h   STALE 24.0h
+US: ZIP                               ZIP        US      Short        3.97 16:00 ET  18.15%   1.05%   7.20%     0.15    3.0   0.25    35%   434    5.3  3.78%  8.07%   23.2%      4.12      3.18  RSI65 up RS+22    . n1 6d     STALE 24.0h
+US: KEEL                              KEEL       US      Long         5.87 16:00 ET  -7.41%   0.23%   9.19%     0.03    0.5   0.22    35%   434    2.4  6.39% 12.95%    8.7%      5.50      6.79  RSI49 up RS+9     . n6 2d     STALE 24.0h
+  (85 instruments shown without expectancy -- no free daily history (China A-share/Taiwan); cannot estimate Sharpe, excluded from rank)
+
+-- SHORT-RESTRICTED MARKETS -> shortable proxy --
+  * China: CATL 宁德时代 (sz300750): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Midea Group 美的集团 (sz000333): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Yangtze Power 长江电力 (sh600900): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: BYD 比亚迪 (sz002594): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * Taiwan: MediaTek 聯發科 (2454): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+  * Taiwan: Chunghwa Telecom 中華電 (2412): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+
+-- CATALYSTS (latest company news for top candidates; verify before acting) --
+  NBIL    Long       Warsh, SpaceX & Iran Rule Last Week: 5 Leveraged ETF Winners
+          (4d ago  1 src  1 articles/7d)
+  WYFI    Long  [+]  BTIG Maintains Buy on Whitefiber, Raises Price Target to $50
+          (38h ago  1 src  1 articles/7d)
+          why: Stock surged 9.38% on the back of a major $865 million, 10-year contract with Nscale Global Holdings and a reite…
+  AIIO    Short      Here are the top movers in Thursday's session.
+          (25h ago  3 src  5 articles/7d)
+  ABSI    Long       Micron To Rally More Than 57%? Here Are 10 Top Analyst Forecasts For Thursday
+          (35h ago  3 src  15 articles/7d)
+  ZIP     Short      ZipRecruiter: Stuck In A Low-Hiring Hole, Sell This Spike
+          (6d ago  1 src  1 articles/7d)
+  KEEL    Long       Citizens Initiates Coverage On Keel Infrastructure with Market Outperform Rating, Announces Price Target…
+          (2d ago  2 src  6 articles/7d)
+
+research only, not financial advice. verify before acting.
+
+########## RUN 2026-06-27 05:00:05 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-26T21:00:06+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+====================================================================================================================================================================================================================================================
+=== OPPORTUNITY TABLE (ranked by per-trade EXPECTED SHARPE) ===
+   YOUR BAR: E[R]>=+1%/trade  sigma<=5%  Sharpe>=0.40  sample n>=20  horizon<=5d  t>=2 (Bonferroni-adj.)  OOS edge>0
+   E[R]=NET backtested expected return (after costs)  sigma=std-dev of outcomes (the risk)  Sharpe=E[R]/sigma
+   t=significance of E[R]>0 (>=2 ~ 95%, raised for #tests)  oosS=out-of-sample Sharpe (recent 30% held out; must stay positive)
+Instrument                  中文/名   Sym        Market  Dir             Price (ET)    Chg%   E[R]%  sigma%   Sharpe t-stat   oosS   Win%     n    R:R  Risk%   ATR%  Kelly%      Stop    Target  Tech              News        Data     
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  (no trade cleared the expected-Sharpe bar this scan -- correct when no high-E[R]/low-sigma edge exists; showing best measured edges)
+US: CRWU                              CRWU       US      Long         6.02 16:00 ET -11.73%   2.25%   6.45%     0.35    5.2   0.42    18%   225   24.4  0.66% 19.25%   14.4%      5.98      6.99  RSI41 dn RS-14    . n0        STALE 25.0h
+US: WYFI                              WYFI       US      Long        36.82 16:00 ET  -9.27%   1.90%  10.13%     0.19    2.8   0.35    38%   216    3.3  5.48% 14.53%   18.6%     34.80     43.51  RSI62 up RS+19    + n1 39h    STALE 25.0h
+US: ASST                              ASST       US      Long        11.40 16:00 ET -12.10%   1.51%   5.44%     0.28    5.3   0.27    14%   364   24.6  0.61% 12.43%   10.8%     11.33     13.12  RSI34os dn RS-34  + n0        STALE 25.0h
+US: AIIO                              AIIO       US      Short        3.90 16:00 ET  22.26%   1.49%  15.28%     0.10    2.0   0.26    46%   434    2.9 11.28% 11.85%   27.3%      4.34      2.64  RSI61 up RS+38    + n5 26h    STALE 25.0h
+US: ABSI                              ABSI       US      Long        10.21 16:00 ET  -7.18%   1.48%  10.65%     0.14    2.9   0.25    48%   434    2.2  8.72% 10.77%   23.9%      9.32     12.14  RSI68ob up RS+100  . n15 36h   STALE 25.0h
+US: ZIP                               ZIP        US      Short        3.97 16:00 ET  18.15%   1.05%   7.20%     0.15    3.0   0.25    35%   434    5.3  3.78%  8.07%   23.2%      4.12      3.18  RSI65 up RS+22    . n1 6d     STALE 25.0h
+US: KEEL                              KEEL       US      Long         5.87 16:00 ET  -7.41%   0.23%   9.19%     0.03    0.5   0.22    35%   434    2.4  6.39% 12.95%    8.7%      5.50      6.79  RSI49 up RS+9     . n6 2d     STALE 25.0h
+US: RGTX                              RGTX       US      Long        16.87 16:00 ET -15.52%   2.60%   8.59%     0.30    5.3   0.21    13%   304   34.3  0.71% 30.55%   11.0%     16.75     20.99  RSI30os mix RS-50  . n0        STALE 25.0h
+US: BTDR                              BTDR       US      Long        16.39 16:00 ET  -7.97%   1.14%   9.08%     0.13    2.6   0.21    37%   434    2.7  5.58% 11.12%   12.7%     15.47     18.81  RSI34os mix RS+8  . n9 19h    STALE 25.0h
+US: WYY                               WYY        US      Long        20.20 16:00 ET -15.83%   1.32%  10.48%     0.13    2.6   0.20    45%   434    3.9  7.08%  8.69%   30.4%     18.77     25.73  RSI93ob up RS+99  . n9 4h     STALE 25.0h
+  (88 instruments shown without expectancy -- no free daily history (China A-share/Taiwan); cannot estimate Sharpe, excluded from rank)
+
+-- SHORT-RESTRICTED MARKETS -> shortable proxy --
+  * China: CATL 宁德时代 (sz300750): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Midea Group 美的集团 (sz000333): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Yangtze Power 长江电力 (sh600900): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: BYD 比亚迪 (sz002594): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * Taiwan: MediaTek 聯發科 (2454): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+  * Taiwan: Chunghwa Telecom 中華電 (2412): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+
+-- CATALYSTS (latest company news for top candidates; verify before acting) --
+  WYFI    Long  [+]  BTIG Maintains Buy on Whitefiber, Raises Price Target to $50
+          (39h ago  1 src  1 articles/7d)
+          why: Stock surged 9.38% on the back of a major $865 million, 10-year contract with Nscale Global Holdings and a reite…
+  ASST    Long  [+]  Strive, Inc. Announces Daily Dividends on SATA Stock and First Quarter 2026 Financial Results
+          why: Company is expanding financial flexibility through a significant preferred stock offering, demonstrating strateg…
+  AIIO    Short [+]  Here are the top movers in Thursday's session.
+          (26h ago  3 src  5 articles/7d)
+          why: The company announced a strategic acquisition that expands its AI capabilities and investment portfolio. The sto…
+  ABSI    Long       Micron To Rally More Than 57%? Here Are 10 Top Analyst Forecasts For Thursday
+          (36h ago  3 src  15 articles/7d)
+  ZIP     Short      ZipRecruiter: Stuck In A Low-Hiring Hole, Sell This Spike
+          (6d ago  1 src  1 articles/7d)
+  KEEL    Long       Citizens Initiates Coverage On Keel Infrastructure with Market Outperform Rating, Announces Price Target…
+          (2d ago  2 src  6 articles/7d)
+  BTDR    Long       Bitdeer AI Wins “AI Cloud Platform of the Year” in 2026 AI Breakthrough Awards, Recognized as a Global L…
+          (19h ago  2 src  9 articles/7d)
+  WYY     Long       The trading volume of these stocks is deviating from the norm in today's session.
+          (4h ago  3 src  9 articles/7d)
+
+research only, not financial advice. verify before acting.
+
+########## RUN 2026-06-27 06:00:05 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-26T22:00:06+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+====================================================================================================================================================================================================================================================
+=== OPPORTUNITY TABLE (ranked by per-trade EXPECTED SHARPE) ===
+   YOUR BAR: E[R]>=+1%/trade  sigma<=5%  Sharpe>=0.40  sample n>=20  horizon<=5d  t>=2 (Bonferroni-adj.)  OOS edge>0
+   E[R]=NET backtested expected return (after costs)  sigma=std-dev of outcomes (the risk)  Sharpe=E[R]/sigma
+   t=significance of E[R]>0 (>=2 ~ 95%, raised for #tests)  oosS=out-of-sample Sharpe (recent 30% held out; must stay positive)
+Instrument                  中文/名   Sym        Market  Dir             Price (ET)    Chg%   E[R]%  sigma%   Sharpe t-stat   oosS   Win%     n    R:R  Risk%   ATR%  Kelly%      Stop    Target  Tech              News        Data     
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  (no trade cleared the expected-Sharpe bar this scan -- correct when no high-E[R]/low-sigma edge exists; showing best measured edges)
+US: POEL                              POEL       US      Long        20.74 16:00 ET -16.84%   4.81%  20.26%     0.24    1.3   0.86    38%    32    2.9 10.80% 43.22%   15.8%     18.50     27.18  RSI24os RS-54     . n0        STALE 26.1h
+US: CORD                              CORD       US      Short        5.62 16:00 ET  14.46%   2.15%   5.97%     0.36    4.9   0.53    18%   181   28.3  0.53% 15.45%   14.8%      5.65      4.77  RSI54 mix RS-6    . n0        STALE 26.1h
+US: WYFI                              WYFI       US      Long        36.82 16:00 ET  -9.27%   1.90%  10.13%     0.19    2.8   0.35    38%   216    3.3  5.48% 14.53%   18.6%     34.80     43.51  RSI62 up RS+19    + n1 41h    STALE 26.1h
+US: RGTZ                              RGTZ       US      Short        4.18 16:00 ET  16.43%   1.12%   6.60%     0.17    2.2   0.32    12%   172   16.2  1.20% 18.17%    6.2%      4.23      3.37  RSI60 mix RS+32   . n0        STALE 26.1h
+US: ASST                              ASST       US      Long        11.40 16:00 ET -12.10%   1.51%   5.44%     0.28    5.3   0.27    14%   364   24.6  0.61% 12.43%   10.8%     11.33     13.12  RSI34os dn RS-34  . n0        STALE 26.1h
+US: AIIO                              AIIO       US      Short        3.90 16:00 ET  22.26%   1.49%  15.28%     0.10    2.0   0.26    46%   434    2.9 11.28% 11.85%   27.3%      4.34      2.64  RSI61 up RS+38    . n5 27h    STALE 26.1h
+US: ABSI                              ABSI       US      Long        10.21 16:00 ET  -7.18%   1.48%  10.65%     0.14    2.9   0.25    48%   434    2.2  8.72% 10.77%   23.9%      9.32     12.14  RSI68ob up RS+100  . n15 37h   STALE 26.1h
+US: ZIP                               ZIP        US      Short        3.97 16:00 ET  18.15%   1.05%   7.20%     0.15    3.0   0.25    35%   434    5.3  3.78%  8.07%   23.2%      4.12      3.18  RSI65 up RS+22    . n1 6d     STALE 26.1h
+US: KEEL                              KEEL       US      Long         5.87 16:00 ET  -7.41%   0.23%   9.19%     0.03    0.5   0.22    35%   434    2.4  6.39% 12.95%    8.7%      5.50      6.79  RSI49 up RS+9     . n6 3d     STALE 26.1h
+US: SNXX                              SNXX       US      Short       45.82 16:00 ET   7.56%   0.58%   5.08%     0.11    1.1   0.21     8%    98   22.5  0.83% 16.17%    4.1%     46.20     37.28  RSI62 up RS+89    . n0        STALE 26.1h
+  (83 instruments shown without expectancy -- no free daily history (China A-share/Taiwan); cannot estimate Sharpe, excluded from rank)
+
+-- SHORT-RESTRICTED MARKETS -> shortable proxy --
+  * China: CATL 宁德时代 (sz300750): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Midea Group 美的集团 (sz000333): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Yangtze Power 长江电力 (sh600900): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: BYD 比亚迪 (sz002594): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * Taiwan: MediaTek 聯發科 (2454): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+  * Taiwan: Chunghwa Telecom 中華電 (2412): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+
+-- CATALYSTS (latest company news for top candidates; verify before acting) --
+  WYFI    Long  [+]  BTIG Maintains Buy on Whitefiber, Raises Price Target to $50
+          (41h ago  1 src  1 articles/7d)
+          why: Stock surged 9.38% on the back of a major $865 million, 10-year contract with Nscale Global Holdings and a reite…
+  AIIO    Short      Here are the top movers in Thursday's session.
+          (27h ago  3 src  5 articles/7d)
+  ABSI    Long       Micron To Rally More Than 57%? Here Are 10 Top Analyst Forecasts For Thursday
+          (37h ago  3 src  15 articles/7d)
+  ZIP     Short      ZipRecruiter: Stuck In A Low-Hiring Hole, Sell This Spike
+          (6d ago  1 src  1 articles/7d)
+  KEEL    Long       Citizens Initiates Coverage On Keel Infrastructure with Market Outperform Rating, Announces Price Target…
+          (3d ago  2 src  6 articles/7d)
+
+research only, not financial advice. verify before acting.
+
+########## RUN 2026-06-27 07:00:04 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-26T23:00:05+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+====================================================================================================================================================================================================================================================
+=== OPPORTUNITY TABLE (ranked by per-trade EXPECTED SHARPE) ===
+   YOUR BAR: E[R]>=+1%/trade  sigma<=5%  Sharpe>=0.40  sample n>=20  horizon<=5d  t>=2 (Bonferroni-adj.)  OOS edge>0
+   E[R]=NET backtested expected return (after costs)  sigma=std-dev of outcomes (the risk)  Sharpe=E[R]/sigma
+   t=significance of E[R]>0 (>=2 ~ 95%, raised for #tests)  oosS=out-of-sample Sharpe (recent 30% held out; must stay positive)
+Instrument                  中文/名   Sym        Market  Dir             Price (ET)    Chg%   E[R]%  sigma%   Sharpe t-stat   oosS   Win%     n    R:R  Risk%   ATR%  Kelly%      Stop    Target  Tech              News        Data     
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  (no trade cleared the expected-Sharpe bar this scan -- correct when no high-E[R]/low-sigma edge exists; showing best measured edges)
+US: WDCX                              WDCX       US      Long        48.98 16:00 ET -12.83%   3.82%  11.91%     0.32    3.2   0.59    36%    98    4.1  4.94% 17.53%   20.1%     46.56     58.95  RSI58 up RS+52    . n0        STALE 27.0h
+US: WYFI                              WYFI       US      Long        36.82 16:00 ET  -9.27%   1.90%  10.13%     0.19    2.8   0.35    38%   216    3.3  5.48% 14.53%   18.6%     34.80     43.51  RSI62 up RS+19    + n1 42h    STALE 27.0h
+US: ASST                              ASST       US      Long        11.40 16:00 ET -12.10%   1.56%   5.49%     0.28    5.9   0.31    15%   434   24.6  0.61% 12.43%   11.0%     11.33     13.12  RSI34os dn RS-34  + n0        STALE 27.0h
+US: AIIO                              AIIO       US      Short        3.90 16:00 ET  22.26%   1.49%  15.28%     0.10    2.0   0.26    46%   434    2.9 11.28% 11.85%   27.3%      4.34      2.64  RSI61 up RS+38    + n5 28h    STALE 27.0h
+US: ABSI                              ABSI       US      Long        10.21 16:00 ET  -7.18%   1.48%  10.65%     0.14    2.9   0.25    48%   434    2.2  8.72% 10.77%   23.9%      9.32     12.14  RSI68ob up RS+100  . n15 38h   STALE 27.0h
+US: ZIP                               ZIP        US      Short        3.97 16:00 ET  18.15%   1.05%   7.20%     0.15    3.0   0.25    35%   434    5.3  3.78%  8.07%   23.2%      4.12      3.18  RSI65 up RS+22    . n1 6d     STALE 27.0h
+US: HOOG                              HOOG       US      Long        26.22 16:00 ET -11.27%   1.29%   5.34%     0.24    4.3   0.24    16%   311   14.7  0.93% 16.29%   10.0%     25.98     29.81  RSI53 mix RS+42   . n0        STALE 27.0h
+US: KEEL                              KEEL       US      Long         5.87 16:00 ET  -7.41%   0.23%   9.19%     0.03    0.5   0.22    35%   434    2.4  6.39% 12.95%    8.7%      5.50      6.79  RSI49 up RS+9     . n6 3d     STALE 27.0h
+US: BTDR                              BTDR       US      Long        16.39 16:00 ET  -7.97%   1.14%   9.08%     0.13    2.6   0.21    37%   434    2.7  5.58% 11.12%   12.7%     15.47     18.81  RSI34os mix RS+8  . n9 21h    STALE 27.0h
+US: WYY                               WYY        US      Long        20.20 16:00 ET -15.83%   1.32%  10.48%     0.13    2.6   0.20    45%   434    3.9  7.08%  8.69%   30.4%     18.77     25.73  RSI93ob up RS+99  . n9 6h     STALE 27.0h
+  (84 instruments shown without expectancy -- no free daily history (China A-share/Taiwan); cannot estimate Sharpe, excluded from rank)
+
+-- SHORT-RESTRICTED MARKETS -> shortable proxy --
+  * China: CATL 宁德时代 (sz300750): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Midea Group 美的集团 (sz000333): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Yangtze Power 长江电力 (sh600900): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: BYD 比亚迪 (sz002594): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * Taiwan: MediaTek 聯發科 (2454): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+  * Taiwan: Chunghwa Telecom 中華電 (2412): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+
+-- CATALYSTS (latest company news for top candidates; verify before acting) --
+  WYFI    Long  [+]  BTIG Maintains Buy on Whitefiber, Raises Price Target to $50
+          (42h ago  1 src  1 articles/7d)
+          why: Stock surged 9.38% on the back of a major $865 million, 10-year contract with Nscale Global Holdings and a reite…
+  ASST    Long  [+]  Strive, Inc. Announces Daily Dividends on SATA Stock and First Quarter 2026 Financial Results
+          why: Company is expanding financial flexibility through a significant preferred stock offering, demonstrating strateg…
+  AIIO    Short [+]  Here are the top movers in Thursday's session.
+          (28h ago  3 src  5 articles/7d)
+          why: The company announced a strategic acquisition that expands its AI capabilities and investment portfolio. The sto…
+  ABSI    Long       Micron To Rally More Than 57%? Here Are 10 Top Analyst Forecasts For Thursday
+          (38h ago  3 src  15 articles/7d)
+  ZIP     Short      ZipRecruiter: Stuck In A Low-Hiring Hole, Sell This Spike
+          (6d ago  1 src  1 articles/7d)
+  KEEL    Long       Citizens Initiates Coverage On Keel Infrastructure with Market Outperform Rating, Announces Price Target…
+          (3d ago  2 src  6 articles/7d)
+  BTDR    Long       Bitdeer AI Wins “AI Cloud Platform of the Year” in 2026 AI Breakthrough Awards, Recognized as a Global L…
+          (21h ago  2 src  9 articles/7d)
+  WYY     Long       The trading volume of these stocks is deviating from the norm in today's session.
+          (6h ago  3 src  9 articles/7d)
+
+research only, not financial advice. verify before acting.
+
+########## RUN 2026-06-27 08:00:05 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-27T00:00:05+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+====================================================================================================================================================================================================================================================
+=== OPPORTUNITY TABLE (ranked by per-trade EXPECTED SHARPE) ===
+   YOUR BAR: E[R]>=+1%/trade  sigma<=5%  Sharpe>=0.40  sample n>=20  horizon<=5d  t>=2 (Bonferroni-adj.)  OOS edge>0
+   E[R]=NET backtested expected return (after costs)  sigma=std-dev of outcomes (the risk)  Sharpe=E[R]/sigma
+   t=significance of E[R]>0 (>=2 ~ 95%, raised for #tests)  oosS=out-of-sample Sharpe (recent 30% held out; must stay positive)
+Instrument                  中文/名   Sym        Market  Dir             Price (ET)    Chg%   E[R]%  sigma%   Sharpe t-stat   oosS   Win%     n    R:R  Risk%   ATR%  Kelly%      Stop    Target  Tech              News        Data     
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  (no trade cleared the expected-Sharpe bar this scan -- correct when no high-E[R]/low-sigma edge exists; showing best measured edges)
+US: STXX                              STXX       US      Long        69.54 16:00 ET   7.30%   6.87%  14.07%     0.49    3.0   1.07    51%    37    3.4  6.80% 14.90%   37.1%     64.81     85.72  RSI57 RS+35       . n0        STALE 28.1h
+US: ALOY                              ALOY       US      Long        14.25 16:00 ET -14.10%   1.57%  12.66%     0.12    1.1   0.69    31%    78    3.5  6.67% 15.90%   10.8%     13.30     17.55  RSI51 mix RS+53   + n4 33h    STALE 28.1h
+US: CRWU                              CRWU       US      Long         6.02 16:00 ET -11.73%   2.25%   6.45%     0.35    5.2   0.42    18%   225   24.4  0.66% 19.25%   14.4%      5.98      6.99  RSI41 dn RS-14    . n0        STALE 28.1h
+US: WYFI                              WYFI       US      Long        36.82 16:00 ET  -9.27%   1.90%  10.13%     0.19    2.8   0.35    38%   216    3.3  5.48% 14.53%   18.6%     34.80     43.51  RSI62 up RS+19    + n1 43h    STALE 28.1h
+US: CRDU                              CRDU       US      Long        94.65 16:00 ET -13.80%   0.41%  12.34%     0.03    0.5   0.33    24%   189    3.5  6.44% 21.02%    3.0%     88.55    116.24  RSI59 up RS+37    . n0        STALE 28.1h
+US: ASST                              ASST       US      Long        11.40 16:00 ET -12.10%   1.56%   5.49%     0.28    5.9   0.31    15%   434   24.6  0.61% 12.43%   11.0%     11.33     13.12  RSI34os dn RS-34  . n0        STALE 28.1h
+US: AIIO                              AIIO       US      Short        3.90 16:00 ET  22.26%   1.49%  15.28%     0.10    2.0   0.26    46%   434    2.9 11.28% 11.85%   27.3%      4.34      2.64  RSI61 up RS+38    . n5 29h    STALE 28.1h
+US: ABSI                              ABSI       US      Long        10.21 16:00 ET  -7.18%   1.48%  10.65%     0.14    2.9   0.25    48%   434    2.2  8.72% 10.77%   23.9%      9.32     12.14  RSI68ob up RS+100  . n15 39h   STALE 28.1h
+US: ZIP                               ZIP        US      Short        3.97 16:00 ET  18.15%   1.05%   7.20%     0.15    3.0   0.25    35%   434    5.3  3.78%  8.07%   23.2%      4.12      3.18  RSI65 up RS+22    . n1 6d     STALE 28.1h
+US: VELO                              VELO       US      Long        17.38 16:00 ET -15.22%   2.94%  14.42%     0.20    2.9   0.24    34%   208    3.6  7.13% 27.05%   15.6%     16.14     21.79  RSI48 mix RS-30   . n6 35h    STALE 28.1h
+  (85 instruments shown without expectancy -- no free daily history (China A-share/Taiwan); cannot estimate Sharpe, excluded from rank)
+
+-- SHORT-RESTRICTED MARKETS -> shortable proxy --
+  * China: CATL 宁德时代 (sz300750): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Midea Group 美的集团 (sz000333): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Yangtze Power 长江电力 (sh600900): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: BYD 比亚迪 (sz002594): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * Taiwan: MediaTek 聯發科 (2454): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+  * Taiwan: Chunghwa Telecom 中華電 (2412): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+
+-- CATALYSTS (latest company news for top candidates; verify before acting) --
+  ALOY    Long  [+]  'US Army Bases to Host Critical Minerals Plants in Onshoring Push' - Bloomberg
+          (33h ago  2 src  4 articles/7d)
+          why: The company successfully closed a substantial $100 million private placement, demonstrating investor confidence…
+  WYFI    Long  [+]  BTIG Maintains Buy on Whitefiber, Raises Price Target to $50
+          (43h ago  1 src  1 articles/7d)
+          why: Stock surged 9.38% on the back of a major $865 million, 10-year contract with Nscale Global Holdings and a reite…
+  AIIO    Short      Here are the top movers in Thursday's session.
+          (29h ago  3 src  5 articles/7d)
+  ABSI    Long       Micron To Rally More Than 57%? Here Are 10 Top Analyst Forecasts For Thursday
+          (39h ago  3 src  15 articles/7d)
+  ZIP     Short      ZipRecruiter: Stuck In A Low-Hiring Hole, Sell This Spike
+          (6d ago  1 src  1 articles/7d)
+  VELO    Long       Velo3D Splits The Street: Needham Sees 80% Upside Same Day Short Seller Alleges 'Grift'
+          (35h ago  2 src  6 articles/7d)
+
+research only, not financial advice. verify before acting.
+
+########## RUN 2026-06-27 09:00:04 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-27T01:00:05+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+====================================================================================================================================================================================================================================================
+=== OPPORTUNITY TABLE (ranked by per-trade EXPECTED SHARPE) ===
+   YOUR BAR: E[R]>=+1%/trade  sigma<=5%  Sharpe>=0.40  sample n>=20  horizon<=5d  t>=2 (Bonferroni-adj.)  OOS edge>0
+   E[R]=NET backtested expected return (after costs)  sigma=std-dev of outcomes (the risk)  Sharpe=E[R]/sigma
+   t=significance of E[R]>0 (>=2 ~ 95%, raised for #tests)  oosS=out-of-sample Sharpe (recent 30% held out; must stay positive)
+Instrument                  中文/名   Sym        Market  Dir             Price (ET)    Chg%   E[R]%  sigma%   Sharpe t-stat   oosS   Win%     n    R:R  Risk%   ATR%  Kelly%      Stop    Target  Tech              News        Data     
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  (no trade cleared the expected-Sharpe bar this scan -- correct when no high-E[R]/low-sigma edge exists; showing best measured edges)
+US: WYFI                              WYFI       US      Long        36.82 16:00 ET  -9.27%   1.90%  10.13%     0.19    2.8   0.35    38%   216    3.3  5.48% 14.53%   18.6%     34.80     43.51  RSI62 up RS+19    + n1 43h    STALE 29.0h
+US: ASST                              ASST       US      Long        11.40 16:00 ET -12.10%   1.56%   5.49%     0.28    5.9   0.31    15%   434   24.6  0.61% 12.43%   11.0%     11.33     13.12  RSI34os dn RS-34  + n0        STALE 29.0h
+US: AIIO                              AIIO       US      Short        3.90 16:00 ET  22.26%   1.49%  15.28%     0.10    2.0   0.26    46%   434    2.9 11.28% 11.85%   27.3%      4.34      2.64  RSI61 up RS+38    + n5 30h    STALE 29.0h
+US: ABSI                              ABSI       US      Long        10.21 16:00 ET  -7.18%   1.48%  10.65%     0.14    2.9   0.25    48%   434    2.2  8.72% 10.77%   23.9%      9.32     12.14  RSI68ob up RS+100  + n15 40h   STALE 29.0h
+US: ZIP                               ZIP        US      Short        3.97 16:00 ET  18.15%   1.05%   7.20%     0.15    3.0   0.25    35%   434    5.3  3.78%  8.07%   23.2%      4.12      3.18  RSI65 up RS+22    . n1 6d     STALE 29.0h
+US: HOOG                              HOOG       US      Long        26.22 16:00 ET -11.27%   1.29%   5.34%     0.24    4.3   0.24    16%   311   14.7  0.93% 16.29%   10.0%     25.98     29.81  RSI53 mix RS+42   . n0        STALE 29.0h
+US: SMCL                              SMCL       US      Long        14.45 16:00 ET -11.22%   1.52%   6.72%     0.23    4.3   0.23    21%   364    7.9  1.87% 33.48%   11.1%     14.18     16.58  RSI25os mix RS-46  . n0        STALE 29.0h
+US: KEEL                              KEEL       US      Long         5.87 16:00 ET  -7.41%   0.23%   9.19%     0.03    0.5   0.22    35%   434    2.4  6.39% 12.95%    8.7%      5.50      6.79  RSI49 up RS+9     . n6 3d     STALE 29.0h
+US: BTDR                              BTDR       US      Long        16.39 16:00 ET  -7.97%   1.14%   9.08%     0.13    2.6   0.21    37%   434    2.7  5.58% 11.12%   12.7%     15.47     18.81  RSI34os mix RS+8  . n9 23h    STALE 29.0h
+US: AXTX                              AXTX       US      Short       13.48 16:00 ET -11.55%   2.17%  20.18%     0.11    0.7   0.21    38%    37    2.1 13.50% 59.98%    8.0%     15.30      9.69  RSI32os RS-73     . n0        STALE 29.0h
+  (84 instruments shown without expectancy -- no free daily history (China A-share/Taiwan); cannot estimate Sharpe, excluded from rank)
+
+-- SHORT-RESTRICTED MARKETS -> shortable proxy --
+  * China: CATL 宁德时代 (sz300750): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Midea Group 美的集团 (sz000333): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Yangtze Power 长江电力 (sh600900): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: BYD 比亚迪 (sz002594): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * Taiwan: MediaTek 聯發科 (2454): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+  * Taiwan: Chunghwa Telecom 中華電 (2412): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+
+-- CATALYSTS (latest company news for top candidates; verify before acting) --
+  WYFI    Long  [+]  BTIG Maintains Buy on Whitefiber, Raises Price Target to $50
+          (43h ago  1 src  1 articles/7d)
+          why: Stock surged 9.38% on the back of a major $865 million, 10-year contract with Nscale Global Holdings and a reite…
+  ASST    Long  [+]  Strive, Inc. Announces Daily Dividends on SATA Stock and First Quarter 2026 Financial Results
+          why: Company is expanding financial flexibility through a significant preferred stock offering, demonstrating strateg…
+  AIIO    Short [+]  Here are the top movers in Thursday's session.
+          (30h ago  3 src  5 articles/7d)
+          why: The company announced a strategic acquisition that expands its AI capabilities and investment portfolio. The sto…
+  ABSI    Long  [+]  Micron To Rally More Than 57%? Here Are 10 Top Analyst Forecasts For Thursday
+          (40h ago  3 src  15 articles/7d)
+          why: The appointment of an experienced clinical leader from a major pharmaceutical company (Vertex) strengthens Absci…
+  ZIP     Short      ZipRecruiter: Stuck In A Low-Hiring Hole, Sell This Spike
+          (6d ago  1 src  1 articles/7d)
+  KEEL    Long       Citizens Initiates Coverage On Keel Infrastructure with Market Outperform Rating, Announces Price Target…
+          (3d ago  2 src  6 articles/7d)
+  BTDR    Long       Bitdeer AI Wins “AI Cloud Platform of the Year” in 2026 AI Breakthrough Awards, Recognized as a Global L…
+          (23h ago  2 src  9 articles/7d)
+
+research only, not financial advice. verify before acting.
+
+########## RUN 2026-06-27 10:00:03 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-27T02:00:04+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+====================================================================================================================================================================================================================================================
+=== OPPORTUNITY TABLE (ranked by per-trade EXPECTED SHARPE) ===
+   YOUR BAR: E[R]>=+1%/trade  sigma<=5%  Sharpe>=0.40  sample n>=20  horizon<=5d  t>=2 (Bonferroni-adj.)  OOS edge>0
+   E[R]=NET backtested expected return (after costs)  sigma=std-dev of outcomes (the risk)  Sharpe=E[R]/sigma
+   t=significance of E[R]>0 (>=2 ~ 95%, raised for #tests)  oosS=out-of-sample Sharpe (recent 30% held out; must stay positive)
+Instrument                  中文/名   Sym        Market  Dir             Price (ET)    Chg%   E[R]%  sigma%   Sharpe t-stat   oosS   Win%     n    R:R  Risk%   ATR%  Kelly%      Stop    Target  Tech              News        Data     
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  (no trade cleared the expected-Sharpe bar this scan -- correct when no high-E[R]/low-sigma edge exists; showing best measured edges)
+US: CRWU                              CRWU       US      Long         6.02 16:00 ET -11.73%   2.25%   6.45%     0.35    5.2   0.42    18%   225   24.4  0.66% 19.25%   14.4%      5.98      6.99  RSI41 dn RS-12    . n0        STALE 30.0h
+US: KEEL                              KEEL       US      Long         5.87 16:00 ET  -7.41%   5.88%  10.51%     0.56    4.0   0.41    59%    51    2.4  6.39% 12.95%   41.9%      5.50      6.79  RSI49 up RS+10    = n6 3d     STALE 30.0h
+US: WYFI                              WYFI       US      Long        36.82 16:00 ET  -9.27%   1.97%  10.16%     0.19    2.9   0.38    38%   217    3.3  5.48% 14.59%   19.0%     34.80     43.51  RSI71ob up RS+22  + n1 45h    STALE 30.0h
+US: ASST                              ASST       US      Long        11.40 16:00 ET -12.10%   1.56%   5.49%     0.28    5.9   0.29    15%   434   24.6  0.61% 12.00%   11.0%     11.33     13.12  RSI37 dn RS-33    + n0        STALE 30.0h
+US: PLSM                              PLSM       US      Short        5.90 16:00 ET  10.69%   1.97%   8.39%     0.23    2.3   0.29    62%    96    3.4  8.47% 17.36%   51.5%      6.40      4.19  RSI65 up RS+29    . n9 18h    STALE 30.0h
+US: QPUX                              QPUX       US      Long        24.63 16:00 ET -15.07%   1.56%   8.03%     0.19    2.9   0.27    13%   216   15.4  1.46% 26.88%    7.3%     24.27     30.16  RSI32os mix RS-41  . n0        STALE 30.0h
+US: HOOG                              HOOG       US      Long        26.22 16:00 ET -11.27%   1.29%   5.34%     0.24    4.3   0.24    16%   311   14.7  0.93% 16.29%   10.0%     25.98     29.81  RSI53 mix RS+43   . n0        STALE 30.0h
+US: ZIP                               ZIP        US      Short        3.97 16:00 ET  18.15%   1.04%   7.21%     0.14    3.0   0.24    35%   434    5.3  3.78%  8.32%   23.2%      4.12      3.18  RSI68ob up RS+25  . n1 6d     STALE 30.0h
+US: ALOY                              ALOY       US      Long        14.25 16:00 ET -14.10%   1.00%  10.95%     0.09    1.9   0.20    36%   434    3.5  6.67% 15.92%   17.2%     13.30     17.55  RSI56 up RS+54    . n4 35h    STALE 30.0h
+US: WYY                               WYY        US      Long        20.20 16:00 ET -15.83%   1.28%  10.48%     0.12    2.6   0.20    44%   434    3.9  7.08%  9.64%   30.1%     18.77     25.73  RSI71ob up RS+57  . n9 9h     STALE 30.0h
+  (89 instruments shown without expectancy -- no free daily history (China A-share/Taiwan); cannot estimate Sharpe, excluded from rank)
+
+-- SHORT-RESTRICTED MARKETS -> shortable proxy --
+  * China: CATL 宁德时代 (sz300750): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Midea Group 美的集团 (sz000333): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Yangtze Power 长江电力 (sh600900): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: BYD 比亚迪 (sz002594): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * Taiwan: MediaTek 聯發科 (2454): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+  * Taiwan: Chunghwa Telecom 中華電 (2412): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+
+-- CATALYSTS (latest company news for top candidates; verify before acting) --
+  KEEL    Long  [=]  Citizens Initiates Coverage On Keel Infrastructure with Market Outperform Rating, Announces Price Target…
+          (3d ago  2 src  6 articles/7d)
+          why: Company has strong growth potential with 2.2 GW pipeline, $533M liquidity to fund expansion, and expected lease…
+  WYFI    Long  [+]  BTIG Maintains Buy on Whitefiber, Raises Price Target to $50
+          (45h ago  1 src  1 articles/7d)
+          why: Stock surged 9.38% on the back of a major $865 million, 10-year contract with Nscale Global Holdings and a reite…
+  ASST    Long  [+]  Strive, Inc. Announces Daily Dividends on SATA Stock and First Quarter 2026 Financial Results
+          why: Company is expanding financial flexibility through a significant preferred stock offering, demonstrating strateg…
+  PLSM    Short      12 Health Care Stocks Moving In Friday's Pre-Market Session
+          (18h ago  1 src  9 articles/7d)
+  ZIP     Short      ZipRecruiter: Stuck In A Low-Hiring Hole, Sell This Spike
+          (6d ago  1 src  1 articles/7d)
+  ALOY    Long       'US Army Bases to Host Critical Minerals Plants in Onshoring Push' - Bloomberg
+          (35h ago  2 src  4 articles/7d)
+  WYY     Long       The trading volume of these stocks is deviating from the norm in today's session.
+          (9h ago  3 src  9 articles/7d)
+
+research only, not financial advice. verify before acting.
+
+########## RUN 2026-06-27 11:00:05 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-27T03:00:05+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+====================================================================================================================================================================================================================================================
+=== OPPORTUNITY TABLE (ranked by per-trade EXPECTED SHARPE) ===
+   YOUR BAR: E[R]>=+1%/trade  sigma<=5%  Sharpe>=0.40  sample n>=20  horizon<=5d  t>=2 (Bonferroni-adj.)  OOS edge>0
+   E[R]=NET backtested expected return (after costs)  sigma=std-dev of outcomes (the risk)  Sharpe=E[R]/sigma
+   t=significance of E[R]>0 (>=2 ~ 95%, raised for #tests)  oosS=out-of-sample Sharpe (recent 30% held out; must stay positive)
+Instrument                  中文/名   Sym        Market  Dir             Price (ET)    Chg%   E[R]%  sigma%   Sharpe t-stat   oosS   Win%     n    R:R  Risk%   ATR%  Kelly%      Stop    Target  Tech              News        Data     
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  (no trade cleared the expected-Sharpe bar this scan -- correct when no high-E[R]/low-sigma edge exists; showing best measured edges)
+US: CORD                              CORD       US      Short        5.62 16:00 ET  14.46%   2.15%   5.97%     0.36    4.9   0.53    18%   181   28.3  0.53% 15.45%   14.8%      5.65      4.77  RSI54 mix RS-5    . n0        STALE 31.0h
+US: CWVX                              CWVX       US      Long        26.03 16:00 ET -12.18%   2.53%   6.56%     0.39    5.9   0.47    19%   235   30.4  0.54% 19.35%   16.1%     25.89     30.27  RSI41 dn RS-13    - n0        STALE 31.0h
+US: WYFI                              WYFI       US      Long        36.82 16:00 ET  -9.27%   1.97%  10.16%     0.19    2.9   0.38    38%   217    3.3  5.48% 14.59%   19.0%     34.80     43.51  RSI71ob up RS+22  + n1 45h    STALE 31.0h
+US: ASST                              ASST       US      Long        11.40 16:00 ET -12.10%   1.51%   5.44%     0.28    5.3   0.27    14%   364   24.6  0.61% 12.43%   10.8%     11.33     13.12  RSI34os dn RS-33  + n0        STALE 31.0h
+US: ABSI                              ABSI       US      Long        10.21 16:00 ET  -7.18%   1.54%  10.68%     0.14    3.0   0.26    48%   434    2.2  8.72% 10.97%   24.2%      9.32     12.14  RSI78ob up RS+83  . n15 42h   STALE 31.0h
+US: KEEL                              KEEL       US      Long         5.87 16:00 ET  -7.41%   0.26%   9.21%     0.03    0.6   0.24    35%   434    2.4  6.39% 12.38%    8.7%      5.50      6.79  RSI64 up RS+11    . n6 3d     STALE 31.0h
+US: AIIO                              AIIO       US      Short        3.90 16:00 ET  22.26%   1.46%  15.29%     0.10    2.0   0.24    46%   434    2.9 11.28% 12.80%   26.9%      4.34      2.64  RSI71ob up RS+65  . n5 32h    STALE 31.0h
+US: ZIP                               ZIP        US      Short        3.97 16:00 ET  18.15%   1.04%   7.21%     0.14    3.0   0.24    35%   434    5.3  3.78%  8.32%   23.2%      4.12      3.18  RSI68ob up RS+25  . n1 6d     STALE 31.0h
+US: SNXX                              SNXX       US      Short       45.82 16:00 ET   7.56%   0.58%   5.08%     0.11    1.1   0.21     8%    98   22.5  0.83% 16.17%    4.1%     46.20     37.28  RSI62 up RS+90    . n0        STALE 31.0h
+US: ALOY                              ALOY       US      Long        14.25 16:00 ET -14.10%   1.00%  10.95%     0.09    1.9   0.20    36%   434    3.5  6.67% 15.92%   17.2%     13.30     17.55  RSI56 up RS+54    . n4 36h    STALE 31.0h
+  (88 instruments shown without expectancy -- no free daily history (China A-share/Taiwan); cannot estimate Sharpe, excluded from rank)
+
+-- SHORT-RESTRICTED MARKETS -> shortable proxy --
+  * China: CATL 宁德时代 (sz300750): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Midea Group 美的集团 (sz000333): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Yangtze Power 长江电力 (sh600900): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: BYD 比亚迪 (sz002594): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * Taiwan: MediaTek 聯發科 (2454): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+  * Taiwan: Chunghwa Telecom 中華電 (2412): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+
+-- CATALYSTS (latest company news for top candidates; verify before acting) --
+  CWVX    Long  [-]  What's Happening With CoreWeave Shares On Tuesday?
+          why: Leveraged inverse ETF declined 5.61%, reflecting the 2.86% decline in CRWV stock with amplified losses due to 2X…
+  WYFI    Long  [+]  BTIG Maintains Buy on Whitefiber, Raises Price Target to $50
+          (45h ago  1 src  1 articles/7d)
+          why: Stock surged 9.38% on the back of a major $865 million, 10-year contract with Nscale Global Holdings and a reite…
+  ASST    Long  [+]  Strive, Inc. Announces Daily Dividends on SATA Stock and First Quarter 2026 Financial Results
+          why: Company is expanding financial flexibility through a significant preferred stock offering, demonstrating strateg…
+  ABSI    Long       Micron To Rally More Than 57%? Here Are 10 Top Analyst Forecasts For Thursday
+          (42h ago  3 src  15 articles/7d)
+  KEEL    Long       Citizens Initiates Coverage On Keel Infrastructure with Market Outperform Rating, Announces Price Target…
+          (3d ago  2 src  6 articles/7d)
+  AIIO    Short      Here are the top movers in Thursday's session.
+          (32h ago  3 src  5 articles/7d)
+  ZIP     Short      ZipRecruiter: Stuck In A Low-Hiring Hole, Sell This Spike
+          (6d ago  1 src  1 articles/7d)
+  ALOY    Long       'US Army Bases to Host Critical Minerals Plants in Onshoring Push' - Bloomberg
+          (36h ago  2 src  4 articles/7d)
+
+research only, not financial advice. verify before acting.
+
+########## RUN 2026-06-27 12:00:05 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-27T04:00:05+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+====================================================================================================================================================================================================================================================
+=== OPPORTUNITY TABLE (ranked by per-trade EXPECTED SHARPE) ===
+   YOUR BAR: E[R]>=+1%/trade  sigma<=5%  Sharpe>=0.40  sample n>=20  horizon<=5d  t>=2 (Bonferroni-adj.)  OOS edge>0
+   E[R]=NET backtested expected return (after costs)  sigma=std-dev of outcomes (the risk)  Sharpe=E[R]/sigma
+   t=significance of E[R]>0 (>=2 ~ 95%, raised for #tests)  oosS=out-of-sample Sharpe (recent 30% held out; must stay positive)
+Instrument                  中文/名   Sym        Market  Dir             Price (ET)    Chg%   E[R]%  sigma%   Sharpe t-stat   oosS   Win%     n    R:R  Risk%   ATR%  Kelly%      Stop    Target  Tech              News        Data     
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  (no trade cleared the expected-Sharpe bar this scan -- correct when no high-E[R]/low-sigma edge exists; showing best measured edges)
+US: WDC                               WDC        US      Long       586.45 16:00 ET  -8.82%   1.82%   4.97%     0.37    7.0   0.44    32%   365    9.8  1.18% 11.00%   25.1%    579.51    654.36  RSI57 mix RS+14   + n156 6h   CLOSED 8.0h
+US: STX                               STX        US      Long       899.90 16:00 ET  -9.52%   1.61%   5.45%     0.29    6.1   0.37    39%   434    6.0  2.16%  9.50%   28.7%    880.49   1015.89  RSI54 mix RS+6    + n88 7h    CLOSED 8.0h
+US: QBTZ                              QBTZ       US      Long         4.29 16:00 ET -12.80%   2.35%   7.18%     0.33    4.3   0.37    16%   175   27.0  0.70% 19.89%   12.9%      4.26      5.10  RSI46 mix RS+29   . n0        CLOSED 8.0h
+US: SWMR                              SWMR       US      Short       41.01 16:00 ET  12.91%   1.86%   8.06%     0.23    1.9   0.30    28%    65    4.9  3.10% 15.38%   12.9%     42.28     34.79  RSI27os mix RS-24  + n0        CLOSED 8.0h
+US: SDOT                              SDOT       US      Short       21.45 16:00 ET  86.52%   3.29%  13.68%     0.24    5.0   0.29    43%   434   10.0  6.06% 51.58%   37.6%     22.75      8.51  RSI55 mix RS+576  . n6 7h     CLOSED 8.0h
+US: BE                                BE         US      Long       252.02 16:00 ET -14.43%   1.68%   7.39%     0.23    4.7   0.28    21%   434   11.9  1.70% 12.70%   14.3%    247.74    302.81  RSI48 mix RS-10   . n17 17h   CLOSED 8.0h
+US: WSHP                              WSHP       US      Short        8.00 16:00 ET  66.67%   2.89%  14.52%     0.20    2.4   0.27    31%   147    7.8  5.87%  9.05%   22.5%      8.47      4.33  RSI66ob mix RS+20  . n3 9h     CLOSED 8.0h
+US: AIIO                              AIIO       US      Short        4.37 16:00 ET  13.51%   0.94%  11.99%     0.08    1.6   0.24    40%   434    2.5  8.24% 11.42%   15.9%      4.73      3.48  RSI71ob up RS+65  . n5 33h    CLOSED 8.0h
+US: ANGI                              ANGI       US      Short        5.97 16:00 ET  17.29%   0.58%   3.58%     0.16    3.1   0.23    12%   365   30.3  0.50%  7.17%    8.6%      6.00      5.06  RSI51 mix RS+9    . n1 15h    CLOSED 8.0h
+US: QCMU                              QCMU       US      Long        25.73 16:00 ET -12.21%   1.22%   7.35%     0.17    2.6   0.23    30%   247    9.4  2.72% 20.10%   22.5%     25.03     32.28  RSI38 mix RS-41   . n1 4d     CLOSED 8.0h
+  (49 instruments shown without expectancy -- no free daily history (China A-share/Taiwan); cannot estimate Sharpe, excluded from rank)
+
+-- SHORT-RESTRICTED MARKETS -> shortable proxy --
+  * China: CATL 宁德时代 (sz300750): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Midea Group 美的集团 (sz000333): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Yangtze Power 长江电力 (sh600900): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: BYD 比亚迪 (sz002594): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * Taiwan: MediaTek 聯發科 (2454): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+  * Taiwan: Chunghwa Telecom 中華電 (2412): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+
+-- CATALYSTS (latest company news for top candidates; verify before acting) --
+  WDC     Long  [+]  Here's Why Western Digital (WDC) Fell More Than Broader Market
+          (6h ago  5 src  156 articles/7d)
+          why: Added 4.9% as storage maker benefits from memory supply tightness and AI infrastructure demand.
+  STX     Long  [+]  Stock Market Today, June 26: Sandisk Tumbles and Tech Weakness Weighs on Markets
+          (7h ago  5 src  88 articles/7d)
+          why: Riding strong demand tailwind with 44% year-over-year revenue growth and record 47% adjusted gross margin. New M…
+  SWMR    Short [+]  The SpaceX IPO Isn't Here Yet -- but This 2026 IPO Is, and It Looks Like a Steal
+          why: Strong IPO performance with 117% gains since March debut, proven real-world deployment in 100,000+ combat missio…
+  SDOT    Short      Friday's after hours session: top gainers and losers
+          (7h ago  2 src  6 articles/7d)
+  BE      Long       Russell 2000's 'Graduating Class' Just Turned Into Mid-Caps
+          (17h ago  3 src  17 articles/7d)
+  WSHP    Short      Top movers analysis one hour before the close of the markets on 2026-06-26: top gainers and losers in to…
+          (9h ago  2 src  3 articles/7d)
+  AIIO    Short      Here are the top movers in Thursday's session.
+          (33h ago  3 src  5 articles/7d)
+  ANGI    Short      11 Communication Services Stocks Moving In Friday's Intraday Session
+          (15h ago  1 src  1 articles/7d)
+  QCMU    Long       Qualcomm: The Coiled Spring Of The AI Semiconductor Market
+          (4d ago  1 src  1 articles/7d)
+
+research only, not financial advice. verify before acting.
+
+########## RUN 2026-06-27 13:00:03 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-27T05:00:04+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+====================================================================================================================================================================================================================================================
+=== OPPORTUNITY TABLE (ranked by per-trade EXPECTED SHARPE) ===
+   YOUR BAR: E[R]>=+1%/trade  sigma<=5%  Sharpe>=0.40  sample n>=20  horizon<=5d  t>=2 (Bonferroni-adj.)  OOS edge>0
+   E[R]=NET backtested expected return (after costs)  sigma=std-dev of outcomes (the risk)  Sharpe=E[R]/sigma
+   t=significance of E[R]>0 (>=2 ~ 95%, raised for #tests)  oosS=out-of-sample Sharpe (recent 30% held out; must stay positive)
+Instrument                  中文/名   Sym        Market  Dir             Price (ET)    Chg%   E[R]%  sigma%   Sharpe t-stat   oosS   Win%     n    R:R  Risk%   ATR%  Kelly%      Stop    Target  Tech              News        Data     
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  (no trade cleared the expected-Sharpe bar this scan -- correct when no high-E[R]/low-sigma edge exists; showing best measured edges)
+US: CONI                              CONI       US      Long        61.39 16:00 ET -13.13%   1.82%   5.86%     0.31    5.9   0.47    16%   365   24.9  0.63% 11.89%   12.8%     61.00     71.06  RSI48 up RS+36    . n0        CLOSED 9.1h
+US: WDC                               WDC        US      Long       586.45 16:00 ET  -8.82%   1.82%   4.97%     0.37    7.0   0.44    32%   365    9.8  1.18% 11.00%   25.1%    579.51    654.36  RSI57 mix RS+14   + n156 7h   CLOSED 9.1h
+US: STX                               STX        US      Long       899.90 16:00 ET  -9.52%   1.61%   5.45%     0.29    6.1   0.37    39%   434    6.0  2.16%  9.50%   28.7%    880.49   1015.89  RSI54 mix RS+6    + n88 8h    CLOSED 9.1h
+US: SWMR                              SWMR       US      Short       41.01 16:00 ET  12.91%   1.86%   8.06%     0.23    1.9   0.30    28%    65    4.9  3.10% 15.38%   12.9%     42.28     34.79  RSI27os mix RS-24  + n0        CLOSED 9.1h
+US: SDOT                              SDOT       US      Short       21.45 16:00 ET  86.52%   3.29%  13.68%     0.24    5.0   0.29    43%   434   10.0  6.06% 51.58%   37.6%     22.75      8.51  RSI55 mix RS+576  . n6 8h     CLOSED 9.1h
+US: SNXX                              SNXX       US      Long        36.50 16:00 ET  -7.16%   3.21%  10.73%     0.30    3.0   0.27    28%    99    5.9  3.45% 20.74%   16.2%     35.24     43.95  RSI60 up RS+45    . n0        CLOSED 9.1h
+US: WSHP                              WSHP       US      Short        8.00 16:00 ET  66.67%   2.89%  14.52%     0.20    2.4   0.27    31%   147    7.8  5.87%  9.05%   22.5%      8.47      4.33  RSI66ob mix RS+20  . n3 10h    CLOSED 9.1h
+US: AIIO                              AIIO       US      Short        4.37 16:00 ET  13.51%   0.94%  11.99%     0.08    1.6   0.24    40%   434    2.5  8.24% 11.42%   15.9%      4.73      3.48  RSI71ob up RS+65  . n5 34h    CLOSED 9.1h
+US: EIKN                              EIKN       US      Short       11.45 16:00 ET  16.36%   0.18%   5.95%     0.03    0.3   0.23    13%    92    7.9  2.03%  7.74%    2.1%     11.68      9.61  RSI76ob mix RS+15  . n2 36h    CLOSED 9.1h
+US: BEG                               BEG        US      Long        61.25 16:00 ET -27.94%   5.84%  20.84%     0.28    3.1   0.22    32%   126    6.6  6.98% 29.04%   21.4%     56.98     89.34  RSI46 mix RS-29   . n0        CLOSED 9.1h
+  (46 instruments shown without expectancy -- no free daily history (China A-share/Taiwan); cannot estimate Sharpe, excluded from rank)
+
+-- SHORT-RESTRICTED MARKETS -> shortable proxy --
+  * China: CATL 宁德时代 (sz300750): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Midea Group 美的集团 (sz000333): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Yangtze Power 长江电力 (sh600900): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: BYD 比亚迪 (sz002594): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * Taiwan: MediaTek 聯發科 (2454): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+  * Taiwan: Chunghwa Telecom 中華電 (2412): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+
+-- CATALYSTS (latest company news for top candidates; verify before acting) --
+  WDC     Long  [+]  Here's Why Western Digital (WDC) Fell More Than Broader Market
+          (7h ago  5 src  156 articles/7d)
+          why: Added 4.9% as storage maker benefits from memory supply tightness and AI infrastructure demand.
+  STX     Long  [+]  Stock Market Today, June 26: Sandisk Tumbles and Tech Weakness Weighs on Markets
+          (8h ago  5 src  88 articles/7d)
+          why: Riding strong demand tailwind with 44% year-over-year revenue growth and record 47% adjusted gross margin. New M…
+  SWMR    Short [+]  The SpaceX IPO Isn't Here Yet -- but This 2026 IPO Is, and It Looks Like a Steal
+          why: Strong IPO performance with 117% gains since March debut, proven real-world deployment in 100,000+ combat missio…
+  SDOT    Short      Friday's after hours session: top gainers and losers
+          (8h ago  2 src  6 articles/7d)
+  WSHP    Short      Top movers analysis one hour before the close of the markets on 2026-06-26: top gainers and losers in to…
+          (10h ago  2 src  3 articles/7d)
+  AIIO    Short      Here are the top movers in Thursday's session.
+          (34h ago  3 src  5 articles/7d)
+  EIKN    Short      12 Health Care Stocks Moving In Thursday's After-Market Session
+          (36h ago  1 src  2 articles/7d)
+
+research only, not financial advice. verify before acting.
+
+########## RUN 2026-06-27 14:00:05 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-27T06:00:06+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+====================================================================================================================================================================================================================================================
+=== OPPORTUNITY TABLE (ranked by per-trade EXPECTED SHARPE) ===
+   YOUR BAR: E[R]>=+1%/trade  sigma<=5%  Sharpe>=0.40  sample n>=20  horizon<=5d  t>=2 (Bonferroni-adj.)  OOS edge>0
+   E[R]=NET backtested expected return (after costs)  sigma=std-dev of outcomes (the risk)  Sharpe=E[R]/sigma
+   t=significance of E[R]>0 (>=2 ~ 95%, raised for #tests)  oosS=out-of-sample Sharpe (recent 30% held out; must stay positive)
+Instrument                  中文/名   Sym        Market  Dir             Price (ET)    Chg%   E[R]%  sigma%   Sharpe t-stat   oosS   Win%     n    R:R  Risk%   ATR%  Kelly%      Stop    Target  Tech              News        Data     
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  (no trade cleared the expected-Sharpe bar this scan -- correct when no high-E[R]/low-sigma edge exists; showing best measured edges)
+US: STXL                              STXL       US      Long        42.10 16:00 ET -23.13%   7.10%  14.96%     0.47    3.0   0.58    36%    39   10.1  3.30% 21.30%   29.6%     40.71     56.16  RSI52 RS-0        . n0        CLOSED 10.0h
+US: STXX                              STXX       US      Long        51.87 16:00 ET -21.41%   7.99%  14.48%     0.55    3.4   0.58    39%    38    9.9  3.05% 21.19%   33.4%     50.29     67.58  RSI52 RS+0        . n0        CLOSED 10.0h
+US: WDC                               WDC        US      Long       586.45 16:00 ET  -8.82%   1.82%   4.97%     0.37    7.0   0.44    32%   365    9.8  1.18% 11.00%   25.1%    579.51    654.36  RSI57 mix RS+14   + n156 8h   CLOSED 10.0h
+US: STX                               STX        US      Long       899.90 16:00 ET  -9.52%   1.61%   5.45%     0.29    6.1   0.37    39%   434    6.0  2.16%  9.50%   28.7%    880.49   1015.89  RSI54 mix RS+6    + n88 9h    CLOSED 10.0h
+US: SNDG                              SNDG       US      Long        22.51 16:00 ET  -7.29%   3.75%  10.05%     0.37    1.9   0.34    27%    26    9.0  2.27% 20.80%   18.8%     22.00     27.10  RSI59 RS+42       . n0        CLOSED 10.0h
+US: SWMR                              SWMR       US      Short       41.01 16:00 ET  12.91%   1.86%   8.06%     0.23    1.9   0.30    28%    65    4.9  3.10% 15.38%   12.9%     42.28     34.79  RSI27os mix RS-24  . n0        CLOSED 10.0h
+US: SDOT                              SDOT       US      Short       21.45 16:00 ET  86.52%   3.29%  13.68%     0.24    5.0   0.29    43%   434   10.0  6.06% 51.58%   37.6%     22.75      8.51  RSI55 mix RS+576  . n6 9h     CLOSED 10.0h
+US: WSHP                              WSHP       US      Short        8.00 16:00 ET  66.67%   2.89%  14.52%     0.20    2.4   0.27    31%   147    7.8  5.87%  9.05%   22.5%      8.47      4.33  RSI66ob mix RS+20  . n3 11h    CLOSED 10.0h
+US: AIIO                              AIIO       US      Short        4.37 16:00 ET  13.51%   0.94%  11.99%     0.08    1.6   0.24    40%   434    2.5  8.24% 11.42%   15.9%      4.73      3.48  RSI71ob up RS+65  . n5 35h    CLOSED 10.0h
+US: EIKN                              EIKN       US      Short       11.45 16:00 ET  16.36%   0.18%   5.95%     0.03    0.3   0.23    13%    92    7.9  2.03%  7.74%    2.1%     11.68      9.61  RSI76ob mix RS+15  . n2 37h    CLOSED 10.0h
+  (47 instruments shown without expectancy -- no free daily history (China A-share/Taiwan); cannot estimate Sharpe, excluded from rank)
+
+-- SHORT-RESTRICTED MARKETS -> shortable proxy --
+  * China: CATL 宁德时代 (sz300750): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Midea Group 美的集团 (sz000333): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Yangtze Power 长江电力 (sh600900): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: BYD 比亚迪 (sz002594): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * Taiwan: MediaTek 聯發科 (2454): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+  * Taiwan: Chunghwa Telecom 中華電 (2412): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+
+-- CATALYSTS (latest company news for top candidates; verify before acting) --
+  WDC     Long  [+]  Here's Why Western Digital (WDC) Fell More Than Broader Market
+          (8h ago  5 src  156 articles/7d)
+          why: Added 4.9% as storage maker benefits from memory supply tightness and AI infrastructure demand.
+  STX     Long  [+]  Stock Market Today, June 26: Sandisk Tumbles and Tech Weakness Weighs on Markets
+          (9h ago  5 src  88 articles/7d)
+          why: Riding strong demand tailwind with 44% year-over-year revenue growth and record 47% adjusted gross margin. New M…
+  SDOT    Short      Friday's after hours session: top gainers and losers
+          (9h ago  2 src  6 articles/7d)
+  WSHP    Short      Top movers analysis one hour before the close of the markets on 2026-06-26: top gainers and losers in to…
+          (11h ago  2 src  3 articles/7d)
+  AIIO    Short      Here are the top movers in Thursday's session.
+          (35h ago  3 src  5 articles/7d)
+  EIKN    Short      12 Health Care Stocks Moving In Thursday's After-Market Session
+          (37h ago  1 src  2 articles/7d)
+
+research only, not financial advice. verify before acting.
+
+########## RUN 2026-06-27 15:00:05 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-27T07:00:05+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+====================================================================================================================================================================================================================================================
+=== OPPORTUNITY TABLE (ranked by per-trade EXPECTED SHARPE) ===
+   YOUR BAR: E[R]>=+1%/trade  sigma<=5%  Sharpe>=0.40  sample n>=20  horizon<=5d  t>=2 (Bonferroni-adj.)  OOS edge>0
+   E[R]=NET backtested expected return (after costs)  sigma=std-dev of outcomes (the risk)  Sharpe=E[R]/sigma
+   t=significance of E[R]>0 (>=2 ~ 95%, raised for #tests)  oosS=out-of-sample Sharpe (recent 30% held out; must stay positive)
+Instrument                  中文/名   Sym        Market  Dir             Price (ET)    Chg%   E[R]%  sigma%   Sharpe t-stat   oosS   Win%     n    R:R  Risk%   ATR%  Kelly%      Stop    Target  Tech              News        Data     
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  (no trade cleared the expected-Sharpe bar this scan -- correct when no high-E[R]/low-sigma edge exists; showing best measured edges)
+US: WDCX                              WDCX       US      Long        35.97 16:00 ET -17.73%   4.48%  12.59%     0.36    3.5   0.58    25%    99   10.1  2.70% 24.96%   17.8%     35.00     45.72  RSI54 mix RS+13   . n0        CLOSED 11.0h
+US: CONI                              CONI       US      Long        61.39 16:00 ET -13.13%   1.82%   5.86%     0.31    5.9   0.47    16%   365   24.9  0.63% 11.89%   12.8%     61.00     71.06  RSI48 up RS+36    . n0        CLOSED 11.0h
+US: WDC                               WDC        US      Long       586.45 16:00 ET  -8.82%   1.82%   4.97%     0.37    7.0   0.44    32%   365    9.8  1.18% 11.00%   25.1%    579.51    654.36  RSI57 mix RS+14   + n156 9h   CLOSED 11.0h
+US: STX                               STX        US      Long       899.90 16:00 ET  -9.52%   1.61%   5.45%     0.29    6.1   0.37    39%   434    6.0  2.16%  9.50%   28.7%    880.49   1015.89  RSI54 mix RS+6    + n88 10h   CLOSED 11.0h
+US: SWMR                              SWMR       US      Short       41.01 16:00 ET  12.91%   1.86%   8.06%     0.23    1.9   0.30    28%    65    4.9  3.10% 15.38%   12.9%     42.28     34.79  RSI27os mix RS-24  . n0        CLOSED 11.0h
+US: SDOT                              SDOT       US      Short       21.45 16:00 ET  86.52%   3.29%  13.68%     0.24    5.0   0.29    43%   434   10.0  6.06% 51.58%   37.6%     22.75      8.51  RSI55 mix RS+576  . n6 10h    CLOSED 11.0h
+US: WSHP                              WSHP       US      Short        8.00 16:00 ET  66.67%   2.89%  14.52%     0.20    2.4   0.27    31%   147    7.8  5.87%  9.05%   22.5%      8.47      4.33  RSI66ob mix RS+20  . n3 12h    CLOSED 11.0h
+US: AIIO                              AIIO       US      Short        4.37 16:00 ET  13.51%   0.94%  11.99%     0.08    1.6   0.24    40%   434    2.5  8.24% 11.42%   15.9%      4.73      3.48  RSI71ob up RS+65  . n5 36h    CLOSED 11.0h
+US: QCMU                              QCMU       US      Long        25.73 16:00 ET -12.21%   1.22%   7.35%     0.17    2.6   0.23    30%   247    9.4  2.72% 20.10%   22.5%     25.03     32.28  RSI38 mix RS-41   . n1 4d     CLOSED 11.0h
+US: EIKN                              EIKN       US      Short       11.45 16:00 ET  16.36%   0.18%   5.95%     0.03    0.3   0.23    13%    92    7.9  2.03%  7.74%    2.1%     11.68      9.61  RSI76ob mix RS+15  . n2 38h    CLOSED 11.0h
+  (47 instruments shown without expectancy -- no free daily history (China A-share/Taiwan); cannot estimate Sharpe, excluded from rank)
+
+-- SHORT-RESTRICTED MARKETS -> shortable proxy --
+  * China: CATL 宁德时代 (sz300750): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Midea Group 美的集团 (sz000333): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Yangtze Power 长江电力 (sh600900): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: BYD 比亚迪 (sz002594): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * Taiwan: MediaTek 聯發科 (2454): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+  * Taiwan: Chunghwa Telecom 中華電 (2412): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+
+-- CATALYSTS (latest company news for top candidates; verify before acting) --
+  WDC     Long  [+]  Here's Why Western Digital (WDC) Fell More Than Broader Market
+          (9h ago  5 src  156 articles/7d)
+          why: Added 4.9% as storage maker benefits from memory supply tightness and AI infrastructure demand.
+  STX     Long  [+]  Stock Market Today, June 26: Sandisk Tumbles and Tech Weakness Weighs on Markets
+          (10h ago  5 src  88 articles/7d)
+          why: Riding strong demand tailwind with 44% year-over-year revenue growth and record 47% adjusted gross margin. New M…
+  SDOT    Short      Friday's after hours session: top gainers and losers
+          (10h ago  2 src  6 articles/7d)
+  WSHP    Short      Top movers analysis one hour before the close of the markets on 2026-06-26: top gainers and losers in to…
+          (12h ago  2 src  3 articles/7d)
+  AIIO    Short      Here are the top movers in Thursday's session.
+          (36h ago  3 src  5 articles/7d)
+  QCMU    Long       Qualcomm: The Coiled Spring Of The AI Semiconductor Market
+          (4d ago  1 src  1 articles/7d)
+  EIKN    Short      12 Health Care Stocks Moving In Thursday's After-Market Session
+          (38h ago  1 src  2 articles/7d)
+
+research only, not financial advice. verify before acting.
+
+########## RUN 2026-06-27 16:00:05 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-27T08:00:05+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+====================================================================================================================================================================================================================================================
+=== OPPORTUNITY TABLE (ranked by per-trade EXPECTED SHARPE) ===
+   YOUR BAR: E[R]>=+1%/trade  sigma<=5%  Sharpe>=0.40  sample n>=20  horizon<=5d  t>=2 (Bonferroni-adj.)  OOS edge>0
+   E[R]=NET backtested expected return (after costs)  sigma=std-dev of outcomes (the risk)  Sharpe=E[R]/sigma
+   t=significance of E[R]>0 (>=2 ~ 95%, raised for #tests)  oosS=out-of-sample Sharpe (recent 30% held out; must stay positive)
+Instrument                  中文/名   Sym        Market  Dir             Price (ET)    Chg%   E[R]%  sigma%   Sharpe t-stat   oosS   Win%     n    R:R  Risk%   ATR%  Kelly%      Stop    Target  Tech              News        Data     
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  (no trade cleared the expected-Sharpe bar this scan -- correct when no high-E[R]/low-sigma edge exists; showing best measured edges)
+US: WDC                               WDC        US      Long       586.45 16:00 ET  -8.82%   1.82%   4.97%     0.37    7.0   0.44    32%   365    9.8  1.18% 11.00%   25.1%    579.51    654.36  RSI57 mix RS+14   + n156 10h  CLOSED 12.0h
+US: STX                               STX        US      Long       899.90 16:00 ET  -9.52%   1.61%   5.45%     0.29    6.1   0.37    39%   434    6.0  2.16%  9.50%   28.7%    880.49   1015.89  RSI54 mix RS+6    + n88 11h   CLOSED 12.0h
+US: CRDU                              CRDU       US      Long        75.83 16:00 ET -14.55%   0.44%  15.53%     0.03    0.4   0.34    28%   190    3.1  8.95% 26.85%    5.2%     69.05     96.78  RSI55 mix RS+11   . n0        CLOSED 12.0h
+US: SWMR                              SWMR       US      Short       41.01 16:00 ET  12.91%   1.86%   8.06%     0.23    1.9   0.30    28%    65    4.9  3.10% 15.38%   12.9%     42.28     34.79  RSI27os mix RS-24  + n0        CLOSED 12.0h
+US: SDOT                              SDOT       US      Short       21.45 16:00 ET  86.52%   3.29%  13.68%     0.24    5.0   0.29    43%   434   10.0  6.06% 51.58%   37.6%     22.75      8.51  RSI55 mix RS+576  . n6 11h    CLOSED 12.0h
+US: WSHP                              WSHP       US      Short        8.00 16:00 ET  66.67%   2.89%  14.52%     0.20    2.4   0.27    31%   147    7.8  5.87%  9.05%   22.5%      8.47      4.33  RSI66ob mix RS+20  . n3 13h    CLOSED 12.0h
+US: AIIO                              AIIO       US      Short        4.37 16:00 ET  13.51%   0.94%  11.99%     0.08    1.6   0.24    40%   434    2.5  8.24% 11.42%   15.9%      4.73      3.48  RSI71ob up RS+65  . n5 37h    CLOSED 12.0h
+US: QCMU                              QCMU       US      Long        25.73 16:00 ET -12.21%   1.22%   7.35%     0.17    2.6   0.23    30%   247    9.4  2.72% 20.10%   22.5%     25.03     32.28  RSI38 mix RS-41   . n1 4d     CLOSED 12.0h
+US: EIKN                              EIKN       US      Short       11.45 16:00 ET  16.36%   0.18%   5.95%     0.03    0.3   0.23    13%    92    7.9  2.03%  7.74%    2.1%     11.68      9.61  RSI76ob mix RS+15  . n2 39h    CLOSED 12.0h
+US: ANGI                              ANGI       US      Short        5.97 16:00 ET  17.29%   0.52%   3.48%     0.15    3.1   0.22    11%   434   30.3  0.50%  7.17%    8.1%      6.00      5.06  RSI51 mix RS+9    . n1 19h    CLOSED 12.0h
+  (47 instruments shown without expectancy -- no free daily history (China A-share/Taiwan); cannot estimate Sharpe, excluded from rank)
+
+-- SHORT-RESTRICTED MARKETS -> shortable proxy --
+  * China: CATL 宁德时代 (sz300750): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Midea Group 美的集团 (sz000333): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Yangtze Power 长江电力 (sh600900): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: BYD 比亚迪 (sz002594): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * Taiwan: MediaTek 聯發科 (2454): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+  * Taiwan: Chunghwa Telecom 中華電 (2412): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+
+-- CATALYSTS (latest company news for top candidates; verify before acting) --
+  WDC     Long  [+]  Here's Why Western Digital (WDC) Fell More Than Broader Market
+          (10h ago  5 src  156 articles/7d)
+          why: Added 4.9% as storage maker benefits from memory supply tightness and AI infrastructure demand.
+  STX     Long  [+]  Stock Market Today, June 26: Sandisk Tumbles and Tech Weakness Weighs on Markets
+          (11h ago  5 src  88 articles/7d)
+          why: Riding strong demand tailwind with 44% year-over-year revenue growth and record 47% adjusted gross margin. New M…
+  SWMR    Short [+]  The SpaceX IPO Isn't Here Yet -- but This 2026 IPO Is, and It Looks Like a Steal
+          why: Strong IPO performance with 117% gains since March debut, proven real-world deployment in 100,000+ combat missio…
+  SDOT    Short      Friday's after hours session: top gainers and losers
+          (11h ago  2 src  6 articles/7d)
+  WSHP    Short      Top movers analysis one hour before the close of the markets on 2026-06-26: top gainers and losers in to…
+          (13h ago  2 src  3 articles/7d)
+  AIIO    Short      Here are the top movers in Thursday's session.
+          (37h ago  3 src  5 articles/7d)
+  QCMU    Long       Qualcomm: The Coiled Spring Of The AI Semiconductor Market
+          (4d ago  1 src  1 articles/7d)
+  EIKN    Short      12 Health Care Stocks Moving In Thursday's After-Market Session
+          (39h ago  1 src  2 articles/7d)
+  ANGI    Short      11 Communication Services Stocks Moving In Friday's Intraday Session
+          (19h ago  1 src  1 articles/7d)
+
+research only, not financial advice. verify before acting.
+
+########## RUN 2026-06-27 17:00:05 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-27T09:00:05+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+Traceback (most recent call last):
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1501, in connect
+    super().connect()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1042, in connect
+    self._tunnel()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1000, in _tunnel
+    (version, code, message) = response._read_status()
+                               ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 297, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 729, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+TimeoutError: timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 189, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 114, in main
+    quotes = report.collect_quotes()
+  File "/Users/daxu/software/world-trader/tools/wt/report.py", line 48, in collect_quotes
+    for label, sym, native, q, err in sources.fetch_many(sources.sina_quote, inst.CHINA_A, workers=8):
+                                      ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 272, in fetch_many
+    return list(p.map(one, items))
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 639, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 311, in _result_or_cancel
+    return fut.result(timeout)
+           ~~~~~~~~~~^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 450, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 395, in __get_result
+    raise self._exception
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 269, in one
+    q, err = fn(sym)
+             ~~^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 54, in sina_quote
+    txt = http_get(f"https://hq.sinajs.cn/list={code}",
+                   headers={"Referer": "https://finance.sina.com.cn"}, decode="gbk")
+  File "/Users/daxu/software/world-trader/tools/wt/core.py", line 20, in http_get
+    with urllib.request.urlopen(req, timeout=timeout, context=CTX) as r:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error timed out>
+########## RUN 2026-06-27 18:00:03 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-27T10:00:03+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+Traceback (most recent call last):
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1501, in connect
+    super().connect()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1042, in connect
+    self._tunnel()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1000, in _tunnel
+    (version, code, message) = response._read_status()
+                               ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 297, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 729, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+TimeoutError: timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 189, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 114, in main
+    quotes = report.collect_quotes()
+  File "/Users/daxu/software/world-trader/tools/wt/report.py", line 48, in collect_quotes
+    for label, sym, native, q, err in sources.fetch_many(sources.sina_quote, inst.CHINA_A, workers=8):
+                                      ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 272, in fetch_many
+    return list(p.map(one, items))
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 639, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 311, in _result_or_cancel
+    return fut.result(timeout)
+           ~~~~~~~~~~^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 450, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 395, in __get_result
+    raise self._exception
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 269, in one
+    q, err = fn(sym)
+             ~~^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 54, in sina_quote
+    txt = http_get(f"https://hq.sinajs.cn/list={code}",
+                   headers={"Referer": "https://finance.sina.com.cn"}, decode="gbk")
+  File "/Users/daxu/software/world-trader/tools/wt/core.py", line 20, in http_get
+    with urllib.request.urlopen(req, timeout=timeout, context=CTX) as r:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error timed out>
+########## RUN 2026-06-27 19:00:01 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-27T11:00:01+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+Traceback (most recent call last):
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1501, in connect
+    super().connect()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1042, in connect
+    self._tunnel()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1000, in _tunnel
+    (version, code, message) = response._read_status()
+                               ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 297, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 729, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+TimeoutError: timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 189, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 114, in main
+    quotes = report.collect_quotes()
+  File "/Users/daxu/software/world-trader/tools/wt/report.py", line 48, in collect_quotes
+    for label, sym, native, q, err in sources.fetch_many(sources.sina_quote, inst.CHINA_A, workers=8):
+                                      ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 272, in fetch_many
+    return list(p.map(one, items))
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 639, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 311, in _result_or_cancel
+    return fut.result(timeout)
+           ~~~~~~~~~~^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 450, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 395, in __get_result
+    raise self._exception
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 269, in one
+    q, err = fn(sym)
+             ~~^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 54, in sina_quote
+    txt = http_get(f"https://hq.sinajs.cn/list={code}",
+                   headers={"Referer": "https://finance.sina.com.cn"}, decode="gbk")
+  File "/Users/daxu/software/world-trader/tools/wt/core.py", line 20, in http_get
+    with urllib.request.urlopen(req, timeout=timeout, context=CTX) as r:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error timed out>
+########## RUN 2026-06-27 20:00:05 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-27T12:00:05+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+Traceback (most recent call last):
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1501, in connect
+    super().connect()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1042, in connect
+    self._tunnel()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1000, in _tunnel
+    (version, code, message) = response._read_status()
+                               ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 297, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 729, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+TimeoutError: timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 189, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 114, in main
+    quotes = report.collect_quotes()
+  File "/Users/daxu/software/world-trader/tools/wt/report.py", line 48, in collect_quotes
+    for label, sym, native, q, err in sources.fetch_many(sources.sina_quote, inst.CHINA_A, workers=8):
+                                      ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 272, in fetch_many
+    return list(p.map(one, items))
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 639, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 311, in _result_or_cancel
+    return fut.result(timeout)
+           ~~~~~~~~~~^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 450, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 395, in __get_result
+    raise self._exception
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 269, in one
+    q, err = fn(sym)
+             ~~^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 54, in sina_quote
+    txt = http_get(f"https://hq.sinajs.cn/list={code}",
+                   headers={"Referer": "https://finance.sina.com.cn"}, decode="gbk")
+  File "/Users/daxu/software/world-trader/tools/wt/core.py", line 20, in http_get
+    with urllib.request.urlopen(req, timeout=timeout, context=CTX) as r:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error timed out>
+########## RUN 2026-06-27 21:00:00 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-27T13:00:00+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+Traceback (most recent call last):
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1501, in connect
+    super().connect()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1042, in connect
+    self._tunnel()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1000, in _tunnel
+    (version, code, message) = response._read_status()
+                               ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 297, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 729, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+TimeoutError: timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 189, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 114, in main
+    quotes = report.collect_quotes()
+  File "/Users/daxu/software/world-trader/tools/wt/report.py", line 48, in collect_quotes
+    for label, sym, native, q, err in sources.fetch_many(sources.sina_quote, inst.CHINA_A, workers=8):
+                                      ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 272, in fetch_many
+    return list(p.map(one, items))
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 639, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 311, in _result_or_cancel
+    return fut.result(timeout)
+           ~~~~~~~~~~^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 450, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 395, in __get_result
+    raise self._exception
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 269, in one
+    q, err = fn(sym)
+             ~~^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 54, in sina_quote
+    txt = http_get(f"https://hq.sinajs.cn/list={code}",
+                   headers={"Referer": "https://finance.sina.com.cn"}, decode="gbk")
+  File "/Users/daxu/software/world-trader/tools/wt/core.py", line 20, in http_get
+    with urllib.request.urlopen(req, timeout=timeout, context=CTX) as r:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error timed out>
+########## RUN 2026-06-27 22:00:01 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-27T14:00:01+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+Traceback (most recent call last):
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1501, in connect
+    super().connect()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1042, in connect
+    self._tunnel()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1000, in _tunnel
+    (version, code, message) = response._read_status()
+                               ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 297, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 729, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+TimeoutError: timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 189, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 114, in main
+    quotes = report.collect_quotes()
+  File "/Users/daxu/software/world-trader/tools/wt/report.py", line 48, in collect_quotes
+    for label, sym, native, q, err in sources.fetch_many(sources.sina_quote, inst.CHINA_A, workers=8):
+                                      ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 272, in fetch_many
+    return list(p.map(one, items))
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 639, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 311, in _result_or_cancel
+    return fut.result(timeout)
+           ~~~~~~~~~~^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 450, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 395, in __get_result
+    raise self._exception
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 269, in one
+    q, err = fn(sym)
+             ~~^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 54, in sina_quote
+    txt = http_get(f"https://hq.sinajs.cn/list={code}",
+                   headers={"Referer": "https://finance.sina.com.cn"}, decode="gbk")
+  File "/Users/daxu/software/world-trader/tools/wt/core.py", line 20, in http_get
+    with urllib.request.urlopen(req, timeout=timeout, context=CTX) as r:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error timed out>
+########## RUN 2026-06-27 23:00:01 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-27T15:00:01+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+Traceback (most recent call last):
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1501, in connect
+    super().connect()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1042, in connect
+    self._tunnel()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1000, in _tunnel
+    (version, code, message) = response._read_status()
+                               ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 297, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 729, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+TimeoutError: timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 189, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 114, in main
+    quotes = report.collect_quotes()
+  File "/Users/daxu/software/world-trader/tools/wt/report.py", line 48, in collect_quotes
+    for label, sym, native, q, err in sources.fetch_many(sources.sina_quote, inst.CHINA_A, workers=8):
+                                      ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 272, in fetch_many
+    return list(p.map(one, items))
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 639, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 311, in _result_or_cancel
+    return fut.result(timeout)
+           ~~~~~~~~~~^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 450, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 395, in __get_result
+    raise self._exception
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 269, in one
+    q, err = fn(sym)
+             ~~^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 54, in sina_quote
+    txt = http_get(f"https://hq.sinajs.cn/list={code}",
+                   headers={"Referer": "https://finance.sina.com.cn"}, decode="gbk")
+  File "/Users/daxu/software/world-trader/tools/wt/core.py", line 20, in http_get
+    with urllib.request.urlopen(req, timeout=timeout, context=CTX) as r:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error timed out>
