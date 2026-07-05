@@ -20,6 +20,17 @@ def http_get(url, *, headers=None, decode="utf-8", timeout=TIMEOUT):
     with urllib.request.urlopen(req, timeout=timeout, context=CTX) as r:
         return r.read().decode(decode, "replace")
 
+def http_post(url, *, headers=None, body=None, decode="utf-8", timeout=TIMEOUT):
+    """POST a URL with a bytes body, return decoded response text. Raises on
+    HTTP/network error. Used by the LLM providers (xAI/Anthropic) which both
+    speak JSON-over-HTTPS. None body = empty POST."""
+    h = {"User-Agent": UA, "Accept": "*/*"}
+    if headers:
+        h.update(headers)
+    req = urllib.request.Request(url, headers=h, data=body, method="POST")
+    with urllib.request.urlopen(req, timeout=timeout, context=CTX) as r:
+        return r.read().decode(decode, "replace")
+
 def get_json(url, **kw):
     return json.loads(http_get(url, **kw))
 

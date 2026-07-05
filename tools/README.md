@@ -131,6 +131,24 @@ price-momentum setup — so it can flip a borderline row into actionable when
 the directional edge is near the bar but options are clearly cheap. Skip with
 `--no-options`.
 
+## The LLM news-sentiment tiebreaker (xAI Grok, Anthropic fallback)
+
+The Finnhub/Polygon sentiment we already had is a coarse +/-1 article count.
+For the top 5 rows, the scanner now asks an LLM to read the same headlines and
+judge whether they **support the trade direction** (bullish for a long, bearish
+for a short). The judgment is a structured `{bias, confidence, reason}` and
+shows in the News column as `[L:B0.8]` (LLM: Bullish, 0.8 confidence).
+
+* **Provider priority:** xAI Grok first (`XAI_API_KEY`), Anthropic Claude
+  fallback (`ANTHROPIC_API_KEY`). First available wins; if neither key is set,
+  the scanner degrades gracefully to rule-based Polygon sentiment.
+* **Cost bounded:** 30-min per-symbol cache, max 5 rows per scan, ~1-3s/call.
+* **Never overrides the gate:** the LLM is a *gentle tiebreaker* among
+  near-misses. A row at Sharpe 0.35 with strongly-aligned news (LLM bull 0.9)
+  ranks above a row at Sharpe 0.35 with contradicting news (LLM bear 0.7) —
+  but both still need to clear the Sharpe/t/OOS bar to qualify.
+* **Skip with `--no-llm`** or by not setting either key.
+
 ## The China A-share wide funnel (Asian breadth, fully backtested)
 
 China gets the **same treatment as the US**, not a curated handful. Sina's

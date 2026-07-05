@@ -10,9 +10,18 @@ Pipeline (objective = fast, high reward:risk, low-risk short-term trades):
 """
 from __future__ import annotations
 from concurrent.futures import ThreadPoolExecutor
+import sys as _sys
 from . import core, sources, analysis, altdata, news, markets, instruments as inst
 from . import catalysts
 from . import options as _options
+
+def _sys_argv():
+    """Current CLI argv (so enrich_with_news can honor --no-llm without needing
+    an explicit param threaded through every caller)."""
+    try:
+        return _sys.argv
+    except Exception:
+        return []
 
 def _fnum(v):
     try: return float(v)
@@ -382,7 +391,7 @@ def _news_alignment(s):
         return 0
     return n["net"] if s["rr"]["side"] == "Long" else -n["net"]
 
-def enrich_with_news(scored, days=7, enrich_n=14, sentiment_budget=4):
+def enrich_with_news(scored, days=7, enrich_n=14, sentiment_budget=4, llm_n=5):
     """Attach per-candidate company news to the rows the table will display.
 
     The wide funnel surfaces dynamic tickers the 26 curated RSS feeds can't
@@ -391,6 +400,10 @@ def enrich_with_news(scored, days=7, enrich_n=14, sentiment_budget=4):
         recency, source breadth (parallel; fast).
       - Polygon per-ticker SENTIMENT (5/min) for the top few rows only -> a
         positive/negative read with reasoning (sequential, budgeted, 429-safe).
+      - LLM sentiment (xAI Grok or Anthropic fallback) for the top `llm_n` rows
+        -> a structured (bias, confidence, reason) judgment that the headlines
+        support the trade direction. Gentle tiebreaker; never overrides the
+        Sharpe/t/OOS gate. Skip with --no-llm or by not setting a provider key.
     Sets s['news'] (dict) and s['news_align'] (gentle tiebreaker). Returns scored.
     """
     passing, below = select_display_rows(scored)
@@ -435,6 +448,31 @@ def enrich_with_news(scored, days=7, enrich_n=14, sentiment_budget=4):
         budget -= 1
     for s in targets:
         s["news_align"] = _news_alignment(s)
+    # LLM sentiment tiebreaker: for the top few rows, ask an LLM (xAI Grok or
+    # Anthropic fallback) to judge whether the headlines support the trade
+    # direction. This is a GENTLE tiebreaker among near-misses -- it never
+    # overrides the Sharpe/t/OOS gate, and it's capped to enrich_n rows so the
+    # cost stays bounded. Skip with --no-llm or if no provider key is set.
+    if "--no-llm" not in _sys_argv():
+        try:
+            from . import llm as _llm
+        except Exception:
+            _llm = None
+        if _llm and _llm.available_provider():
+            _llm_targets = [s for s in targets if s.get("news", {}).get("headlines")]
+            _llm_targets = _llm_targets[:llm_n]
+            for s in _llm_targets:
+                hs = s["news"].get("headlines") or []
+                sent = _llm.news_sentiment(s["sym"], hs)
+                if sent:
+                    s["news"]["llm"] = sent
+                    # Recompute news_align with the LLM judgment as a stronger
+                    # signal: bias * confidence * side-alignment.
+                    side_long = (s["rr"]["side"] == "Long")
+                    if sent["bias"] == ("bull" if side_long else "bear"):
+                        s["news_align"] = max(s.get("news_align", 0), sent["confidence"])
+                    elif sent["bias"] == ("bear" if side_long else "bull"):
+                        s["news_align"] = min(s.get("news_align", 0), -sent["confidence"])
     return scored
 
 def enrich_with_catalysts(scored, days=14, enrich_n=40):
@@ -577,7 +615,10 @@ def _tech_brief(s):
 def _news_brief(s):
     """Compact news read for the table: sentiment glyph + article count + age of
     the latest headline. '+ n12 2h' (bullish, 12 articles, 2h old), '- n5 1d',
-    '= n8' (mixed), '. n0' (quiet), '--' (not enriched)."""
+    '= n8' (mixed), '. n0' (quiet), '--' (not enriched).
+
+    If the LLM sentiment layer ran, append '[L:bull 0.8]' style annotation so
+    a reader can see the LLM's structured judgment without leaving the table."""
     n = s.get("news")
     if not n:
         return "--"
@@ -590,7 +631,14 @@ def _news_brief(s):
         import time
         h = (time.time() - ts) / 3600
         age = f"{h:.0f}h" if h < 48 else f"{h/24:.0f}d"
-    return f"{glyph} n{cnt}" + (f" {age}" if age else "")
+    base = f"{glyph} n{cnt}" + (f" {age}" if age else "")
+    # LLM annotation (only if the LLM layer ran and produced a judgment)
+    llm_sent = n.get("llm")
+    if llm_sent and llm_sent.get("bias"):
+        b = llm_sent["bias"][0].upper()   # B/b/N
+        c = llm_sent.get("confidence", 0)
+        base += f" [L:{b}{c:.1f}]"
+    return base
 
 def _px(v):
     """Adaptive price format: enough decimals for the magnitude, no clutter."""

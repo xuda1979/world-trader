@@ -16,6 +16,7 @@ Usage:
   python3 tools/scan.py --quiet         # opportunity table only
   python3 tools/scan.py --no-news-enrich # skip per-candidate news + CATALYSTS
   python3 tools/scan.py --no-options    # skip CBOE straddle / RV-IV edge
+  python3 tools/scan.py --no-llm        # skip LLM news-sentiment tiebreaker
   python3 tools/scan.py --doctor        # self-check: keys + every source + modules
   python3 tools/scan.py --no-fred       # skip FRED (regime degrades gracefully)
 
@@ -110,6 +111,31 @@ def doctor():
             print(f"  FAIL  CBOE delayed chain  ({err})")
     except Exception as e:
         print(f"  FAIL  CBOE delayed chain  ({core.describe_err(e)})")
+    # 7. LLM probe (xAI Grok / Anthropic -- the news-sentiment tiebreaker)
+    print("\n[llm]")
+    try:
+        from wt import llm as _llm
+        p = _llm.available_provider()
+        if p:
+            key_name = ("XAI_API_KEY" if p == "xai" else "ANTHROPIC_API_KEY")
+            print(f"  OK    LLM provider: {p}  ({key_name} set)")
+            # Live probe (1 call, ~2s) -- skip on --no-llm.
+            if "--no-llm" not in sys.argv:
+                sent = _llm.news_sentiment("AAPL", [
+                    "Apple beats Q3 earnings estimates, raises guidance",
+                    "iPhone 17 pre-orders exceed expectations"])
+                if sent:
+                    print(f"  OK    LLM sentiment probe  "
+                          f"(bias={sent['bias']} conf={sent['confidence']:.2f} "
+                          f"provider={sent.get('provider')})")
+                else:
+                    print(f"  WARN  LLM sentiment probe  (provider auth failed or "
+                          f"returned empty -- check {key_name})")
+        else:
+            print("  SKIP  LLM provider: none  (set XAI_API_KEY or ANTHROPIC_API_KEY "
+                  "in .env.local to enable the news-sentiment tiebreaker)")
+    except Exception as e:
+        print(f"  FAIL  LLM  ({core.describe_err(e)})")
     print("\ndoctor complete. Run `python3 tools/scan.py` for the full scan.")
     return 0
 
