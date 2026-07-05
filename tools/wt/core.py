@@ -63,6 +63,35 @@ except Exception:                        # pragma: no cover
     from datetime import timedelta
     _EST = timezone(timedelta(hours=-5))  # fixed-offset fallback
 
+# Per-market local timezone (IANA). Used to render quote times in the
+# instrument's native wall-clock -- a CN-A quote at 15:14 Beijing should
+# READ "15:14 Asia/Shanghai", not "03:14 ET". Falls back to a fixed offset
+# if ZoneInfo isn't available.
+_MARKET_TZ = {}
+def _market_tz(market):
+    m = (market or "").upper()
+    if m in _MARKET_TZ:
+        return _MARKET_TZ[m]
+    iana = {
+        "CN-A": "Asia/Shanghai",
+        "HK":   "Asia/Hong_Kong",
+        "TW":   "Asia/Taipei",
+        "US":   "America/New_York",
+        "FX":   "UTC",          # FX is 24/5; UTC is the canonical stamp
+        "CRYPTO": "UTC",        # crypto is 24/7; UTC is canonical
+        "FUT":  "America/New_York",
+        "IDX":  "UTC",
+    }.get(m, "UTC")
+    try:
+        tz = ZoneInfo(iana)
+    except Exception:
+        from datetime import timedelta
+        offsets = {"CN-A": 8, "HK": 8, "TW": 8, "US": -5, "FX": 0,
+                   "CRYPTO": 0, "FUT": -5, "IDX": 0}
+        tz = timezone(timedelta(hours=offsets.get(m, 0)))
+    _MARKET_TZ[m] = tz
+    return tz
+
 def now_iso():
     return datetime.now(timezone.utc).isoformat(timespec="seconds")
 
@@ -116,6 +145,25 @@ def est_time(ts):
     try:
         dt = datetime.fromtimestamp(e, timezone.utc).astimezone(_EST)
         return dt.strftime("%Y-%m-%d %H:%M ET")
+    except Exception:
+        return ""
+
+def local_time(ts, market):
+    """Format a quote ts as 'MM-DD HH:MM' in the instrument's LOCAL timezone
+    (Beijing for CN-A, Taipei for TW, Hong Kong for HK, New York for US,
+    UTC for FX/CRYPTO). Returns '--' if ts is missing/unparseable.
+
+    Why local: a trader in front of a CN-A quote thinks in Beijing time;
+    showing ET would force a mental conversion every read. The freshness
+    gate still uses the UTC epoch internally, so this is purely a display
+    concern."""
+    e = _to_epoch(ts)
+    if e is None:
+        return ""
+    try:
+        tz = _market_tz(market)
+        dt = datetime.fromtimestamp(e, timezone.utc).astimezone(tz)
+        return dt.strftime("%m-%d %H:%M")
     except Exception:
         return ""
 

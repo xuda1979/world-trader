@@ -12,6 +12,7 @@ from __future__ import annotations
 from concurrent.futures import ThreadPoolExecutor
 from . import core, sources, analysis, altdata, news, markets, instruments as inst
 from . import catalysts
+from . import options as _options
 
 def _fnum(v):
     try: return float(v)
@@ -245,6 +246,9 @@ def enrich_with_technicals(scored, regime, top_n=20, vix=None):
         if not h:
             h, _ = sources.nasdaq_history(s["sym"], 400)
         if not h: return s, None
+        # Stash the history so enrich_with_options can compute ATR% without
+        # re-fetching. Tucked under "_" so it doesn't leak into display.
+        s["_hist"] = h
         return s, _process(s, h, spy_close, "US")
 
     def work_cx(s):
@@ -475,6 +479,78 @@ def enrich_with_catalysts(scored, days=14, enrich_n=40):
             s["comp"] = round((s.get("comp") or 0) + boost, 1)
     return scored
 
+# ---------------------------------------------------------------- options enrichment
+def enrich_with_options(scored, enrich_n=12, max_dte=45):
+    """Pull ATM straddle economics for the top US candidates and attach an
+    options edge signal (`s["opt"]`) that the table can surface.
+
+    WHY: a directional backtest edge is only HALF the trade. If implied vol is
+    CHEAP vs realized (RV/IV > 1), buying the straddle OR buying options to
+    express the directional view pays off more than the backtest suggests
+    (positive gamma + cheap premium). If IV is RICH (RV/IV < 1), the directional
+    edge should be expressed with SHORT options or with a tighter stop (the
+    options market is pricing a bigger move than the backtest realized -- the
+    premium collected funds the stop).
+
+    This is a NEW, structurally-independent edge source -- it's vol-regime, not
+    price-momentum. It can flip a "below" row into actionable when the
+    directional edge is borderline (Sharpe 0.30-0.40) but options are clearly
+    cheap (RV/IV > 1.3) and the straddle's expected move exceeds the backtest's.
+
+    Limits:
+      - CBOE covers US equities only -> crypto/FX/CN-A/HK/TW are skipped.
+      - 15-min delayed quotes; fine for a daily/hourly scan cadence.
+      - Caches per-symbol (TTL inside _options.chain), so repeated scans are cheap.
+
+    Mutates and returns `scored`. Failures are isolated per-symbol."""
+    if not scored:
+        return scored
+    # Only US equities have a CBOE chain worth pulling. ETFs too (SPY, QQQ, ...).
+    targets = [s for s in scored
+               if inst.market_of(s["sym"]) == "US"
+               and s.get("bt") is not None]
+    targets = targets[:enrich_n]
+    if not targets:
+        return scored
+
+    # We need realized vol (ATR%) per symbol. Reuse the history the backtest
+    # already pulled if it's attached to the row; otherwise fetch fresh.
+    def _one(s):
+        sym = s["sym"]
+        try:
+            st, err = _options.straddle(sym, max_dte=max_dte)
+            if not st:
+                return sym, None, err
+            # realized vol proxy: ATR% (per-bar) * sqrt(252) annualized.
+            h = s.get("_hist")
+            if not h:
+                h, _ = sources.nasdaq_history(sym, 60)
+            atr_pct = _options._atr_pct(h) if h else None
+            rv = (atr_pct / 100.0 * (252 ** 0.5)) if atr_pct else None
+            iv = st.get("iv_call") or st.get("iv_put")
+            ev = (rv / iv) if (rv and iv and iv > 0) else None
+            opt = {
+                "dte": st.get("dte"), "cost_pct": st.get("cost_pct"),
+                "iv": iv, "rv": rv, "ev_score": ev,
+                "up_be_pct": st.get("up_be_pct"), "down_be_pct": st.get("down_be_pct"),
+                "oi": (st.get("call_oi") or 0) + (st.get("put_oi") or 0),
+                "gamma": st.get("gamma"), "theta": st.get("theta"),
+            }
+            return sym, opt, None
+        except Exception as e:
+            return sym, None, core.describe_err(e)
+
+    with ThreadPoolExecutor(max_workers=6) as ex:
+        results = list(ex.map(_one, targets))
+    for sym, opt, err in results:
+        if opt:
+            # attach back to the matching scored row
+            for s in scored:
+                if s["sym"] == sym:
+                    s["opt"] = opt
+                    break
+    return scored
+
 # ---------------------------------------------------------------- printing
 def _tech_brief(s):
     """Compact technical read for the table: winning setup + RSI + trend."""
@@ -524,10 +600,14 @@ def _px(v):
     d = 2 if a >= 100 else 3 if a >= 1 else 5 if a >= 0.01 else 8
     return f"{v:.{d}f}"
 
-def _short_et(ts):
-    """'MM-DD HH:MM' from a quote ts (compact vs the full ET string)."""
-    e = core.est_time(ts)          # 'YYYY-MM-DD HH:MM ET' or ''
-    return e[5:16] if len(e) >= 16 else "--"
+def _short_local(ts, market):
+    """'MM-DD HH:MM' from a quote ts in the instrument's LOCAL timezone
+    (Beijing for CN-A, Taipei for TW, HK for HK, NY for US, UTC for FX/CRYPTO).
+    '--' if ts is missing/unparseable. Showing local time saves the reader the
+    mental ET-conversion on every row -- a CN-A quote at 15:14 Beijing reads
+    '15:14', not '03:14 ET'."""
+    s = core.local_time(ts, market)
+    return s if s else "--"
 
 def _clip(s, n):
     s = str(s)
@@ -572,7 +652,7 @@ def print_opportunity_table(scored):
 
     # ---- Table 1: the trade plan ----
     plan_hdr = ["#", "Instrument", "Sym", "Mkt", "Dir", "Setup",
-                "Price", "Quote(ET)", "Chg%", "Entry", "Stop", "Target", "R:R", "Risk%",
+                "Price", "Quote(Local)", "Chg%", "Entry", "Stop", "Target", "R:R", "Risk%",
                 "Catalyst"]
     plan_al = ["right", "left", "left", "left", "left", "left",
                "right", "left", "right", "right", "right", "right", "right", "right",
@@ -590,7 +670,8 @@ def print_opportunity_table(scored):
         plan_rows.append([
             f"{i}", _clip(s["label"], 22), s["sym"], inst.market_of(s["sym"]),
             rr["side"], s.get("setup") or "range",
-            _px(s.get("price")), _short_et(s.get("ts")), _fmt(s.get("dp"), "%", 1),
+            _px(s.get("price")), _short_local(s.get("ts"), inst.market_of(s["sym"])),
+            _fmt(s.get("dp"), "%", 1),
             _px(rr["entry"]), _px(rr["stop"]), _px(rr["target"]),
             f"{rr['rr']:.1f}", _fmt(rr["risk"]*100, "%", 2),
             cat_cell])
@@ -599,12 +680,17 @@ def print_opportunity_table(scored):
 
     # ---- Table 2: the evidence (same # key) ----
     ev_hdr = ["#", "Sym", "Verdict", "E[R]%", "sigma%", "Sharpe", "t", "oosS",
-              "Win%", "n", "ATR%", "Kelly%", "Data"]
+              "Win%", "n", "ATR%", "Kelly%", "RV/IV", "Data"]
     ev_al = ["right", "left", "left", "right", "right", "right", "right",
-             "right", "right", "right", "right", "right", "left"]
+             "right", "right", "right", "right", "right", "right", "left"]
     ev_rows = []
     for i, s in enumerate(rows, 1):
         pct = lambda v, d=2: _fmt(v*100 if v is not None else None, "%", d)
+        # Options edge: RV/IV ratio. >1 = cheap options (long-gamma tailwind),
+        # <1 = rich options (consider short options or tighter stop). '--' if
+        # the row has no options chain (non-US, or below the enrich cutoff).
+        opt = s.get("opt")
+        rviv = (f"{opt['ev_score']:.2f}" if opt and opt.get("ev_score") else "--")
         ev_rows.append([
             f"{i}", s["sym"], "PASS" if s.get("qualifies") else "below",
             pct(s.get("exp_ret")), pct(s.get("sd")),
@@ -612,9 +698,14 @@ def print_opportunity_table(scored):
             _fmt(s.get("oos_sharpe"), "", 2),
             _fmt(s.get("p_win")*100 if s.get("p_win") is not None else None, "%", 0),
             str(s.get("bt", {}).get("n", "--")) if s.get("bt") else "--",
-            _fmt(_atr_pct(s), "%", 1), _fmt(_kelly_pct(s), "%", 1), s["fresh"]])
+            _fmt(_atr_pct(s), "%", 1), _fmt(_kelly_pct(s), "%", 1),
+            rviv, s["fresh"]])
     print("\n-- EDGE & RISK (evidence for the SAME numbered rows) --")
     print(core.table(ev_hdr, ev_rows, ev_al))
+    # Legend for the new RV/IV column so a fresh reader knows what >1 means.
+    has_opt = any(s.get("opt") and s["opt"].get("ev_score") for s in rows)
+    if has_opt:
+        print("  RV/IV > 1.0 = options CHEAP vs realized vol (long-gamma tailwind)")
 
     no_bt = sum(1 for s in scored if s.get("sharpe") is None)
     if no_bt:
@@ -705,7 +796,7 @@ def _print_watch_tables(rows):
     """Render the PLAN + EDGE tables for an already-selected, freshly-requoted set
     of rows (shared by watch())."""
     plan_hdr = ["#", "Instrument", "Sym", "Mkt", "Dir", "Setup",
-                "Price", "Quote(ET)", "Chg%", "Entry", "Stop", "Target", "R:R", "Risk%"]
+                "Price", "Quote(Local)", "Chg%", "Entry", "Stop", "Target", "R:R", "Risk%"]
     plan_al = ["right", "left", "left", "left", "left", "left",
                "right", "left", "right", "right", "right", "right", "right", "right"]
     plan_rows = []
@@ -715,18 +806,21 @@ def _print_watch_tables(rows):
         plan_rows.append([
             f"{i}", _clip(s["label"], 22), s["sym"], inst.market_of(s["sym"]),
             rr["side"], s.get("setup") or "range",
-            _px(s.get("price")), _short_et(s.get("ts")) + live, _fmt(s.get("dp"), "%", 1),
+            _px(s.get("price")), _short_local(s.get("ts"), inst.market_of(s["sym"])) + live,
+            _fmt(s.get("dp"), "%", 1),
             _px(rr["entry"]), _px(rr["stop"]), _px(rr["target"]),
             f"{rr['rr']:.1f}", _fmt(rr["risk"]*100, "%", 2)])
     print("\n-- TRADE PLAN (live) --")
     print(core.table(plan_hdr, plan_rows, plan_al))
     ev_hdr = ["#", "Sym", "Verdict", "E[R]%", "sigma%", "Sharpe", "t", "oosS",
-              "Win%", "n", "ATR%", "Kelly%", "Data"]
+              "Win%", "n", "ATR%", "Kelly%", "RV/IV", "Data"]
     ev_al = ["right", "left", "left", "right", "right", "right", "right",
-             "right", "right", "right", "right", "right", "left"]
+             "right", "right", "right", "right", "right", "right", "left"]
     ev_rows = []
     for i, s in enumerate(rows, 1):
         pct = lambda v, d=2: _fmt(v*100 if v is not None else None, "%", d)
+        opt = s.get("opt")
+        rviv = (f"{opt['ev_score']:.2f}" if opt and opt.get("ev_score") else "--")
         ev_rows.append([
             f"{i}", s["sym"], "PASS" if s.get("qualifies") else "below",
             pct(s.get("exp_ret")), pct(s.get("sd")),
@@ -734,7 +828,8 @@ def _print_watch_tables(rows):
             _fmt(s.get("oos_sharpe"), "", 2),
             _fmt(s.get("p_win")*100 if s.get("p_win") is not None else None, "%", 0),
             str(s.get("bt", {}).get("n", "--")) if s.get("bt") else "--",
-            _fmt(_atr_pct(s), "%", 1), _fmt(_kelly_pct(s), "%", 1), s["fresh"]])
+            _fmt(_atr_pct(s), "%", 1), _fmt(_kelly_pct(s), "%", 1),
+            rviv, s["fresh"]])
     print("\n-- EDGE & RISK (from one-time backtest; * = live tick) --")
     print(core.table(ev_hdr, ev_rows, ev_al))
 

@@ -63,9 +63,16 @@ def sina_quote(code):
     name, pc, last, hi, lo = p[0], f(2), f(3), f(4), f(5)
     if not last: return None, "no price"
     dp = ((last - pc) / pc * 100) if pc else None
+    # p[30]=YYYY-MM-DD, p[31]=HH:MM:SS Beijing time. Convert to UTC epoch so
+    # the freshness gate can score staleness, and the display layer can render
+    # it back in the instrument's local tz. Without this, requoted CN-A rows
+    # carried ts=None and the table showed '--' for quote time even though we
+    # had a real, fresh tick.
+    ts = _cn_ts(p[31], p[30]) if len(p) > 31 else None
     return {"c": last, "price": last, "dp": dp, "h": hi, "l": lo, "o": f(1),
             "pc": pc, "name": name, "time": p[31] if len(p) > 31 else "",
-            "ts": None}, None
+            "date": p[30] if len(p) > 30 else "",
+            "ts": ts}, None
 
 def tencent_quote(code):
     """Cross-check China quote via Tencent qt.gtimg.cn. code like 'sh600519'."""
@@ -81,18 +88,27 @@ def tencent_quote(code):
             "pc": f(4), "name": p[1]}, None
 
 # ---------------------------- China WIDE funnel (ALL ~5,500 A-shares, bulk) -----
-def _cn_ts(ticktime):
-    """Beijing HH:MM:SS today -> UTC epoch (so the freshness gate can trust it)."""
-    import datetime, time
+def _cn_ts(ticktime, datestr=None):
+    """Beijing HH:MM:SS -> UTC epoch (so the freshness gate can trust it).
+
+    If `datestr` is given (YYYY-MM-DD, e.g. Sina's p[30]) use it as the
+    calendar day; otherwise assume today. Dating from the explicit date is
+    safer around midnight Beijing time and when replaying a payload captured
+    before 00:00 UTC."""
+    import datetime, time, re
     try:
         from zoneinfo import ZoneInfo
         tz = ZoneInfo("Asia/Shanghai")
     except Exception:
         tz = datetime.timezone(datetime.timedelta(hours=8))
     try:
-        now = datetime.datetime.now(tz)
         hh, mm, ss = (int(x) for x in str(ticktime).split(":"))
-        dt = now.replace(hour=hh, minute=mm, second=ss, microsecond=0)
+        if datestr:
+            y, mo, d = (int(x) for x in re.split(r"[-/]", str(datestr))[:3])
+            dt = datetime.datetime(y, mo, d, hh, mm, ss, tzinfo=tz)
+        else:
+            now = datetime.datetime.now(tz)
+            dt = now.replace(hour=hh, minute=mm, second=ss, microsecond=0)
         return int(dt.timestamp())
     except Exception:
         return int(time.time())
@@ -278,9 +294,27 @@ def twse_quote(code):
         except (TypeError, ValueError): last = None
     if last is None: return None, "no price"
     pc = f("y"); dp = ((last - pc) / pc * 100) if pc else None
+    # TWSE: m["d"]="YYYYMMDD" (e.g. "20260703"), m["t"]="HH:MM:SS" Taipei time
+    # (UTC+8). Parse to UTC epoch so the freshness gate works. Without this,
+    # every TW quote carried ts=None and showed "--" as quote time.
+    ts = None
+    try:
+        import datetime as _dt, re
+        d = str(m.get("d") or ""); t = str(m.get("t") or "")
+        if d and t:
+            y, mo, dd = int(d[:4]), int(d[4:6]), int(d[6:8])
+            hh, mm, ss = (int(x) for x in t.split(":"))
+            try:
+                from zoneinfo import ZoneInfo
+                tz = ZoneInfo("Asia/Taipei")
+            except Exception:
+                tz = _dt.timezone(_dt.timedelta(hours=8))
+            ts = int(_dt.datetime(y, mo, dd, hh, mm, ss, tzinfo=tz).timestamp())
+    except Exception:
+        ts = None
     return {"c": last, "price": last, "dp": dp, "h": f("h"), "l": f("l"),
             "o": f("o"), "pc": pc, "time": m.get("t"), "date": m.get("d"),
-            "name": m.get("n"), "ts": None}, None
+            "name": m.get("n"), "ts": ts}, None
 
 # ---------------------------------------------------------------- US real-time (Nasdaq)
 NQ_CLASS = {s: "etf" for s in (

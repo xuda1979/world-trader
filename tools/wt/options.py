@@ -80,14 +80,17 @@ def chain(sym):
     return _cached(f"chain:{sym}", fetch)
 
 # ---------------------------------------------------------------- expiry parse
-_OPT_RE = re.compile(r"^(\d{6})(C|P)(\d{8})$")
+# CBOE option symbols look like 'AAPL260702C00110000' = UNDERLYING + YYMMDD + C/P + STRIKE(cents).
+# The underlying is 1-5 uppercase letters; the regex captures each piece separately so
+# we can recover the expiry date and strike without needing a separate symbol table.
+_OPT_RE = re.compile(r"^([A-Z]{1,5})(\d{6})([CP])(\d{8})$")
 def _parse_opt(oc):
-    """Parse 'AAPL260702C00110000' -> (underlying, YYMMDD, C/P, strike_cents)."""
-    m = _OPT_RE.match(oc)
+    """Parse 'AAPL260702C00110000' -> (underlying, YYMMDD, C/P, strike_dollars)."""
+    m = _OPT_RE.match(oc or "")
     if not m:
         return None
-    yymmdd, cp, cents = m.group(1), m.group(2), m.group(3)
-    return (yymmdd, cp, int(cents) / 1000.0)
+    underlying, yymmdd, cp, cents = m.group(1), m.group(2), m.group(3), m.group(4)
+    return (underlying, yymmdd, cp, int(cents) / 1000.0)
 
 def _expiry_date(yymmdd):
     """YYMMDD -> date. Returns date or None."""
@@ -99,19 +102,26 @@ def _expiry_date(yymmdd):
 
 # ---------------------------------------------------------------- straddle/strangle
 def _atm_strike(opts, spot):
-    """Find the strike nearest to spot among the given option rows."""
-    strikes = sorted({o["strike"] for o in opts if "strike" in o})
+    """Find the strike nearest to spot among the given option rows. CBOE doesn't
+    return a `strike` field, so we parse it from the option symbol."""
+    strikes = set()
+    for o in opts:
+        p = _parse_opt(o.get("option", ""))
+        if p:
+            strikes.add(p[3])
     if not strikes:
         return None
     return min(strikes, key=lambda s: abs(s - spot))
 
 def _pick(opts, expiry_yymmdd, cp, strike):
-    """Find one option row matching expiry/cp/strike."""
+    """Find one option row matching expiry/cp/strike. Strike comes from the
+    parsed option symbol, not a `strike` field (CBOE omits it)."""
     for o in opts:
         p = _parse_opt(o.get("option", ""))
         if not p:
             continue
-        if p[0] == expiry_yymmdd and p[1] == cp and abs(o.get("strike", 0) - strike) < 1e-6:
+        # p = (underlying, yymmdd, cp, strike_dollars)
+        if p[1] == expiry_yymmdd and p[2] == cp and abs(p[3] - strike) < 1e-6:
             return o
     return None
 
@@ -146,13 +156,13 @@ def straddle(sym, expiry=None, max_dte=30):
         if not p:
             continue
         # only keep within max_dte
-        d = _expiry_date(p[0])
+        d = _expiry_date(p[1])
         if not d:
             continue
         dte = (d - datetime.date.today()).days
         if dte < 0 or dte > max_dte:
             continue
-        exps.setdefault(p[0], []).append(o)
+        exps.setdefault(p[1], []).append(o)
     if not exps:
         return None, "no expiries within max_dte"
     # pick expiry
@@ -237,13 +247,13 @@ def strangle(sym, expiry=None, wing_pct=0.05, max_dte=30):
         p = _parse_opt(o.get("option", ""))
         if not p:
             continue
-        d = _expiry_date(p[0])
+        d = _expiry_date(p[1])
         if not d:
             continue
         dte = (d - datetime.date.today()).days
         if dte < 0 or dte > max_dte:
             continue
-        exps.setdefault(p[0], []).append(o)
+        exps.setdefault(p[1], []).append(o)
     if not exps:
         return None, "no expiries"
     if expiry:
@@ -264,7 +274,8 @@ def strangle(sym, expiry=None, wing_pct=0.05, max_dte=30):
             return None, "no future expiry"
         chosen = min(valid)[1]
     e_opts = exps[chosen]
-    strikes = sorted({o["strike"] for o in e_opts if "strike" in o})
+    # CBOE doesn't return a `strike` field; parse it from the option symbol.
+    strikes = sorted({p[3] for o in e_opts if (p := _parse_opt(o.get("option", "")))})
     if not strikes:
         return None, "no strikes"
     put_k = max([s for s in strikes if s <= spot * (1 - wing_pct)] or [strikes[0]])
@@ -306,7 +317,7 @@ def iv_term_structure(sym, max_dte=60):
         p = _parse_opt(o.get("option", ""))
         if not p:
             continue
-        d = _expiry_date(p[0])
+        d = _expiry_date(p[1])
         if not d:
             continue
         dte = (d - datetime.date.today()).days
@@ -315,7 +326,7 @@ def iv_term_structure(sym, max_dte=60):
         iv = o.get("iv")
         if iv is None or iv == 0:
             continue
-        by_exp.setdefault(p[0], []).append(iv)
+        by_exp.setdefault(p[1], []).append(iv)
     out = []
     for yy, ivs in by_exp.items():
         d = _expiry_date(yy)

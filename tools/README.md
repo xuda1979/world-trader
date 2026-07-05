@@ -108,6 +108,29 @@ strategies raises — never lowers — the significance bar a row must clear. Th
 how the scanner finds *more* genuine opportunities without loosening the risk
 discipline.
 
+## The options edge (RV/IV — a vol-regime signal, independent of price-momentum)
+
+A directional backtest edge is only HALF the trade. The options market prices
+implied vol (IV) for every US equity with listed options; if IV is **cheap vs
+realized vol (RV)**, the trade has a tailwind the backtest doesn't see —
+long-gamma pays more than the price-only edge suggests. If IV is **rich**
+(RV/IV < 1), the directional view should be expressed with short options or a
+tighter stop.
+
+For the top US candidates the scanner now pulls the **ATM straddle** (CBOE
+delayed, no key) for the nearest expiry ≤ 45d and computes:
+
+* `RV` — realized vol proxy = `ATR% × √252` (annualized, from daily history)
+* `IV` — straddle-implied vol (CBOE-provided, call/put average)
+* `RV/IV` — the edge ratio; **> 1.0 = options cheap vs realized**
+* `Cost%` — straddle cost / spot (the market's priced 1-sigma move)
+
+This shows in the EDGE & RISK table as a new **`RV/IV`** column. It's a
+**structurally independent** signal source — it's vol-regime, not a reskinned
+price-momentum setup — so it can flip a borderline row into actionable when
+the directional edge is near the bar but options are clearly cheap. Skip with
+`--no-options`.
+
 ## The China A-share wide funnel (Asian breadth, fully backtested)
 
 China gets the **same treatment as the US**, not a curated handful. Sina's

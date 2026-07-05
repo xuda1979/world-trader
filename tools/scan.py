@@ -15,6 +15,7 @@ Usage:
   python3 tools/scan.py --full          # everything
   python3 tools/scan.py --quiet         # opportunity table only
   python3 tools/scan.py --no-news-enrich # skip per-candidate news + CATALYSTS
+  python3 tools/scan.py --no-options    # skip CBOE straddle / RV-IV edge
   python3 tools/scan.py --doctor        # self-check: keys + every source + modules
   python3 tools/scan.py --no-fred       # skip FRED (regime degrades gracefully)
 
@@ -94,6 +95,21 @@ def doctor():
         print(f"  {ok(has)}  per-ticker news (Finnhub+Polygon)  ({detail})")
     except Exception as e:
         print(f"  FAIL  per-ticker news  ({core.describe_err(e)})")
+    # 6. Options probe (CBOE delayed chain -- the new RV/IV edge source)
+    print("\n[options]")
+    try:
+        from wt import options as _opt
+        st, err = _opt.straddle("AAPL", max_dte=45)
+        if st:
+            iv = st.get("iv_call") or st.get("iv_put") or 0
+            oi = int((st.get("call_oi") or 0) + (st.get("put_oi") or 0))
+            detail = (f"AAPL ATM straddle: dte={st.get('dte')} "
+                      f"cost%={st.get('cost_pct'):.2f} iv={iv:.3f} oi={oi}")
+            print(f"  OK    CBOE delayed chain  ({detail})")
+        else:
+            print(f"  FAIL  CBOE delayed chain  ({err})")
+    except Exception as e:
+        print(f"  FAIL  CBOE delayed chain  ({core.describe_err(e)})")
     print("\ndoctor complete. Run `python3 tools/scan.py` for the full scan.")
     return 0
 
@@ -211,6 +227,16 @@ def main():
             scored = report.enrich_with_catalysts(scored)
             n_after = sum(1 for s in scored if s.get("catalyst"))
             _log(f"catalyst enrichment: {n_after} candidates have a near-term catalyst (+{n_after-n_with} new)")
+        # 3c-ter. OPTIONS edge: pull ATM straddle (CBOE delayed) for top US
+        # candidates and compute RV/IV -> the "cheap options" signal. This is
+        # a structurally-independent (vol-regime) edge source, not a reskinned
+        # price-momentum setup. Skip with --no-options.
+        if "--no-options" not in a:
+            _log("options enrichment: pulling ATM straddles (CBOE) for top US candidates")
+            n_with = sum(1 for s in scored if s.get("opt"))
+            scored = report.enrich_with_options(scored)
+            n_after = sum(1 for s in scored if s.get("opt"))
+            _log(f"options enrichment: {n_after} candidates have an RV/IV signal (+{n_after-n_with} new)")
     else:
         print("   (--fast: skipping expectancy backtest; rows show R:R only)")
     report.print_opportunity_table(scored)
