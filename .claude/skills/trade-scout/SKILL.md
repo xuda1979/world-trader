@@ -94,12 +94,14 @@ python3 tools/scan.py --doctor   # self-check: keys + every live source
 
 Output: a table ranked by **per-trade expected Sharpe (E[R]/sigma)**, where E[R]
 is the NET backtested return after realistic costs. To clear the **bar** a setup
-must have E[R]>=+1%, sigma<=5%, Sharpe>=0.40, n>=20, be **statistically
-significant** (t>=2, Bonferroni-adjusted for the number of candidates tested),
-AND **survive out-of-sample** (positive Sharpe on a held-out recent 30%). Rows
-that don't fully qualify are shown as "best measured edge", OOS-positive ones
-first. Long-only markets (China A-shares, Taiwan) auto-suggest a shortable
-ETF/ADR proxy (FXI/KWEB/ASHR, EWT/TSM) for bearish signals.
+must have E[R]>=+1%, sigma<=7%*sqrt(h/5) (horizon-aware: a 10-day trade gets a
+~9.9% ceiling, a 3-day trade gets ~5.4%), Sharpe>=0.40, n>=20, be
+**statistically significant** (t>=2, Bonferroni-adjusted per-candidate at
+m=setups×horizons ≈ 7-21, NOT globally), AND **survive out-of-sample** (positive
+Sharpe on a held-out recent 30%). Rows that don't fully qualify are shown as
+"best measured edge", OOS-positive ones first. Long-only markets (China
+A-shares, Taiwan) auto-suggest a shortable ETF/ADR proxy (FXI/KWEB/ASHR,
+EWT/TSM) for bearish signals.
 
 A full wide scan takes ~3-4 min (whole-market call + ~150 history fetches +
 backtests). Use `--narrow` for a fast curated-only scan.

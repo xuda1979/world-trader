@@ -185,17 +185,17 @@ def tencent_history(sym, days=400):
     rows = node.get("qfqday") or node.get("day") or []
     if len(rows) < 20:
         return None, "too few bars"
-    H, L, C, V, D = [], [], [], [], []
+    H, L, C, V, D, O = [], [], [], [], [], []
     for b in rows:  # [date, open, close, high, low, volume]
         try:
-            D.append(b[0]); C.append(float(b[2]))
+            D.append(b[0]); O.append(float(b[1])); C.append(float(b[2]))
             H.append(float(b[3])); L.append(float(b[4]))
             V.append(float(b[5]) if len(b) > 5 else 0)
         except (IndexError, ValueError):
             continue
     if len(C) < 20:
         return None, "too few bars"
-    return {"date": D, "high": H, "low": L, "close": C, "vol": V}, None
+    return {"date": D, "open": O, "high": H, "low": L, "close": C, "vol": V}, None
 
 def cn_history(sym, days=400):
     """A-share daily history: Sina primary, Tencent fallback."""
@@ -261,17 +261,17 @@ def hk_history(sym, days=400):
     rows = node.get("qfqday") or node.get("day") or []
     if len(rows) < 20:
         return None, "too few bars"
-    H, L, C, V, D = [], [], [], [], []
+    H, L, C, V, D, O = [], [], [], [], [], []
     for b in rows:  # [date, open, close, high, low, volume, {optional dividend}]
         try:
-            D.append(b[0]); C.append(float(b[2]))
+            D.append(b[0]); O.append(float(b[1])); C.append(float(b[2]))
             H.append(float(b[3])); L.append(float(b[4]))
             V.append(float(b[5]) if len(b) > 5 else 0)
         except (IndexError, ValueError):
             continue
     if len(C) < 20:
         return None, "too few bars"
-    return {"date": D, "high": H, "low": L, "close": C, "vol": V}, None
+    return {"date": D, "open": O, "high": H, "low": L, "close": C, "vol": V}, None
 
 # ---------------------------------------------------------------- Taiwan (TWSE live)
 def twse_quote(code):
@@ -433,16 +433,18 @@ def twelvedata_history(sym, days=400):
         return None, "too few bars"
     # Twelve Data returns newest-first; reverse to oldest-first for technicals.
     vals = list(reversed(vals))
-    H, L, C, D = [], [], [], []
+    H, L, C, D, O = [], [], [], [], []
     for v in vals:
         try:
+            O.append(float(v.get("open") or 0.0))
             H.append(float(v["high"])); L.append(float(v["low"]))
             C.append(float(v["close"])); D.append(v["datetime"])
         except (KeyError, ValueError):
             continue
     if len(C) < 20:
         return None, "too few valid bars"
-    return {"date": D, "high": H, "low": L, "close": C, "vol": [0]*len(C)}, None
+    return {"date": D, "open": O, "high": H, "low": L, "close": C,
+            "vol": [0]*len(C)}, None
 
 # ------------------------------------------------ Polygon (WHOLE US MARKET bulk)
 def polygon_grouped_daily(date=None):
@@ -494,8 +496,8 @@ def polygon_history(sym, start="2025-01-01", end=None, limit=500):
         return None, "too few bars"
     H = [b["h"] for b in r]; L = [b["l"] for b in r]
     C = [b["c"] for b in r]; V = [b.get("v", 0) for b in r]
-    D = [b["t"] for b in r]
-    return {"date": D, "high": H, "low": L, "close": C, "vol": V}, None
+    D = [b["t"] for b in r]; O = [b.get("o") for b in r]
+    return {"date": D, "open": O, "high": H, "low": L, "close": C, "vol": V}, None
 
 # ---------------------------------------------------------------- batch helpers
 def fetch_many(fn, items, workers=10):
@@ -524,18 +526,19 @@ def stooq_history(sym, days=260):
     lines = [ln for ln in raw.strip().splitlines() if ln]
     if len(lines) < 3 or not lines[0].lower().startswith("date"):
         return None, "no history/challenge"
-    H, L, C, V, D = [], [], [], [], []
+    H, L, C, V, D, O = [], [], [], [], [], []
     for ln in lines[1:]:
         c = ln.split(",")
         if len(c) < 6: continue
         try:
-            D.append(c[0]); H.append(float(c[2])); L.append(float(c[3]))
+            D.append(c[0]); O.append(float(c[1])); H.append(float(c[2])); L.append(float(c[3]))
             C.append(float(c[4])); V.append(float(c[5]) if c[5] not in ("", "N/D") else 0)
         except ValueError:
             continue
     if len(C) < 20: return None, "too few bars"
     sl = slice(-days, None)
-    return {"date": D[sl], "high": H[sl], "low": L[sl], "close": C[sl], "vol": V[sl]}, None
+    return {"date": D[sl], "open": O[sl], "high": H[sl], "low": L[sl],
+            "close": C[sl], "vol": V[sl]}, None
 
 def nasdaq_history(sym, days=180):
     """Daily OHLC history from Nasdaq (no key) for technicals. Replaces Stooq
@@ -553,19 +556,20 @@ def nasdaq_history(sym, days=180):
     rows = (((d.get("data") or {}).get("tradesTable") or {}).get("rows")) or []
     if not rows:
         return None, "no history"
-    H, L, C, V, D = [], [], [], [], []
+    H, L, C, V, D, O = [], [], [], [], [], []
     def num(s):
         try: return float(str(s).replace("$", "").replace(",", ""))
         except (TypeError, ValueError): return None
     for r in reversed(rows):  # API is newest-first; we want oldest-first
         c = num(r.get("close")); h = num(r.get("high")); l = num(r.get("low"))
+        o = num(r.get("open"))
         if c is None or h is None or l is None:
             continue
-        D.append(r.get("date")); H.append(h); L.append(l); C.append(c)
+        D.append(r.get("date")); O.append(o); H.append(h); L.append(l); C.append(c)
         V.append(num(r.get("volume")) or 0)
     if len(C) < 20:
         return None, "too few bars"
-    return {"date": D, "high": H, "low": L, "close": C, "vol": V}, None
+    return {"date": D, "open": O, "high": H, "low": L, "close": C, "vol": V}, None
 
 def binance_klines(sym, interval="1d", limit=180):
     """Daily OHLC history for a crypto symbol (real-time market, 24/7). Returns
@@ -577,13 +581,13 @@ def binance_klines(sym, interval="1d", limit=180):
         return None, describe_err(e)
     if not rows:
         return None, "no klines"
-    H, L, C, V, D = [], [], [], [], []
+    H, L, C, V, D, O = [], [], [], [], [], []
     for k in rows:  # [openTime,open,high,low,close,volume,...]
         try:
-            H.append(float(k[2])); L.append(float(k[3]))
+            O.append(float(k[1])); H.append(float(k[2])); L.append(float(k[3]))
             C.append(float(k[4])); V.append(float(k[5])); D.append(k[0])
         except (IndexError, ValueError):
             continue
     if len(C) < 20:
         return None, "too few bars"
-    return {"date": D, "high": H, "low": L, "close": C, "vol": V}, None
+    return {"date": D, "open": O, "high": H, "low": L, "close": C, "vol": V}, None

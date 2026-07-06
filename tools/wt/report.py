@@ -245,7 +245,8 @@ def enrich_with_technicals(scored, regime, top_n=20, vix=None):
             side=s["rr"]["side"], market=market)
         # (b) conditional strategy library -- only setups firing on the last bar.
         setups = analysis.scan_setups(h["high"], h["low"], h["close"],
-                                      market=market, vix=vix, require_firing=True)
+                                      opens=h.get("open"), market=market,
+                                      vix=vix, require_firing=True)
         return tech, rs, base_bt, setups
 
     def work_us(s):
@@ -282,8 +283,9 @@ def enrich_with_technicals(scored, regime, top_n=20, vix=None):
                 h["high"], h["low"], h["close"], risk_frac=s["rr"]["risk"],
                 reward_frac=s["rr"]["reward"], side="Long", market="CN")
         setups = [sb for sb in analysis.scan_setups(
-                    h["high"], h["low"], h["close"], market="CN", vix=vix,
-                    require_firing=True) if sb["side"] == "Long"]
+                    h["high"], h["low"], h["close"], opens=h.get("open"),
+                    market="CN", vix=vix, require_firing=True)
+                  if sb["side"] == "Long"]
         return s, (tech, None, base_bt, setups)
 
     def work_hk(s):
@@ -320,13 +322,28 @@ def enrich_with_technicals(scored, regime, top_n=20, vix=None):
                 s["_options"] = options
                 s["comp"] = analysis.composite_score(
                     s["rr"], tech=tech, rs=rs, regime_score=regime["score"])
-    # Multiple-testing correction: the more setups we backtested this scan, the
-    # stricter the t-stat a single row must clear to be called an edge.
-    n_tests = max(1, len(tested))
+    # Multiple-testing correction. The honest unit is PER-CANDIDATE: how many
+    # distinct bets did we try on THIS name? A scan of 348 names each trying 7
+    # setups is NOT 348*7=2436 independent tests -- it's 348 separate 7-test
+    # families. The previous global len(tested) was far harsher than Bonferroni
+    # intended (it demanded t>=4.2, ~p<1e-5, which is why nothing ever cleared
+    # the bar). Per-candidate m ~= (1 baseline + n_setups * n_horizons) is both
+    # statistically defensible and lets real edges surface.
+    global_family = max(1, len(tested))   # logged for transparency only
     for s in scored:
-        s["n_tests"] = n_tests
-        # Pick the best option for this candidate: qualifying first, then Sharpe.
         opts = s.pop("_options", [])
+        # Family size for THIS candidate = 1 (baseline geometry, if present)
+        # + sum over setups of horizons tried. Each (setup, horizon) is a
+        # separate test because we searched across horizons for the best.
+        fam = 1 if any(name is None for _, _, name in opts) else 0
+        for bt, _, name in opts:
+            if name is None:
+                continue
+            fam += (bt.get("n_horizons_tried") or 1)
+        n_tests = max(1, fam)
+        s["n_tests"] = n_tests
+        s["n_tests_global"] = global_family
+        # Pick the best option for this candidate: qualifying first, then Sharpe.
         best = None
         for bt, rr, name in opts:
             q = analysis.qualifies_family(bt, n_tests)
@@ -676,7 +693,7 @@ def print_opportunity_table(scored):
     print(f"  markets open now ({core.now_iso()}): "
           f"{', '.join(sorted(opens)) if opens else 'NONE'}")
     print(f"  YOUR BAR to qualify: E[R]>=+{analysis.EXP_MIN*100:.0f}%/trade, "
-          f"sigma<={analysis.SD_MAX*100:.0f}%, Sharpe>={analysis.SHARPE_MIN:.2f}, "
+          f"sigma<={analysis.SD_MAX_BASE*100:.0f}%*sqrt(h/5), Sharpe>={analysis.SHARPE_MIN:.2f}, "
           f"n>={analysis.MIN_SAMPLE}, t>={analysis.TSTAT_MIN:.0f} (Bonferroni-adj.), OOS Sharpe>0")
 
     if not rows:

@@ -96,6 +96,15 @@ fires**:
 | `Breakout`  | Long  | close > prior-20d high **and** > SMA50 | trend-confirmed momentum breakout |
 | `Breakdown` | Short | close < prior-20d low **and** < SMA50 | trend-confirmed momentum breakdown |
 | `Pullback`  | Long  | SMA20>SMA50 uptrend **and** RSI<45 | buy a shallow dip in an uptrend |
+| `Squeeze`   | Long  | Bollinger width ≤ 4% of SMA20 **and** close > SMA20 | vol-compression resolving up |
+| `GapFade`   | Long  | gap down > 1.5×ATR% **and** close > prior close | opening-noise mean-reversion |
+
+Each setup is replayed at **three horizons (3, 5, 10 trading days)** and the
+best per-trade Sharpe variant is kept. Different edges resolve on different
+clocks — a gap-fade settles in 1–3 days, a squeeze-breakout can run 10 — so a
+single horizon=5 systematically missed both tails. The sigma ceiling scales
+with horizon (sqrt-time) so a 10-day trade isn't rejected for having the
+~1.4× sigma a 10-day window naturally has.
 
 Each setup uses a **volatility-aware (ATR-scaled) stop** and an R-multiple target,
 and is judged by the *exact same* bar — net E[R], small sigma, Sharpe, t-stat, and
@@ -175,7 +184,7 @@ stated plainly rather than faked.
 The opportunity table is **ranked by per-trade expected Sharpe = E[R] / sigma** —
 exactly the objective: *high expected return, small standard deviation of
 outcomes*. The **bar** a trade must clear:
-`E[R] >= +1%/trade, sigma <= 5%, Sharpe >= 0.40, sample n >= 20, horizon <= 5d`,
+`E[R] >= +1%/trade, sigma <= 7%*sqrt(h/5) (horizon-aware), Sharpe >= 0.40, sample n >= 20`,
 **plus** statistical significance (t ≥ 2, Bonferroni-adjusted for the number of
 candidates tested) **and** a positive out-of-sample Sharpe (held-out recent 30%).
 Rows clearing all of these print **above the bar**; the rest show best measured
@@ -187,7 +196,8 @@ high-E[R]/low-sigma edge exists right now.
 - **Sharpe** E[R] / sigma — the number that's sorted to the top
 - **t-stat** is the edge statistically real? `t = E[R] / standard-error`; **≥ 2**
   (~95% confidence) is required, and the threshold is **raised automatically by a
-  Bonferroni correction** for how many candidates were backtested this scan
+  Bonferroni correction** for how many setups × horizons were tested on THAT
+  candidate (per-candidate m ≈ 7–21, not the global scan total)
 - **oosS** out-of-sample Sharpe — the rule is fit/measured on the older 70% of
   bars, then **re-measured on the most recent 30% it never saw**. An edge that
   goes negative out-of-sample was curve-fitting and is rejected.
@@ -248,6 +258,40 @@ tools/wt/
 Legacy single-file tools remain as fallback: `global_markets.py`,
 `scan_news.py`, `fetch.py`, `probe_sources.py`.
 
+## Funding-rate arbitrage (new — fastest path to repeatable edge)
+
+Delta-neutral carry trades that don't depend on directional calls. Two scanners:
+
+- `wt/funding_arb.py` — single-exchange: long spot + short perp (or vice versa)
+  on Binance, capture funding every 8h. Filters by volume, spot listing, basis
+  cost, and maker fees. Run: `python3 tools/wt/funding_arb.py`
+
+- `wt/funding_xex.py` — cross-exchange: same perp on two venues, short the
+  high-funding one, long the low-funding one. Samples Binance, Bybit, OKX,
+  Gate, Bitget. Run: `python3 tools/wt/funding_xex.py`
+
+Daily digest (`tools/daily_digest.py`) runs both and ships a summary to your
+alert channels. Installed as `com.worldtrader.daily-digest` launchd job (09:00
+daily). Outputs append to `tools/logs/digest-YYYY-MM-DD.log`.
+
+**Realistic expectations:** gross edges of 12–120% APR show up frequently on
+small caps. Real edge after slippage, funding-interval mismatch, and
+liquidation-risk buffer is typically 1/3 to 1/2 of the gross. Verify live
+before sizing up.
+
+## Alert channels
+
+`wt/alerts.py` dispatches to email/Telegram/Discord. Configure via env vars in
+`.env.local` (see `.env.local.example` for keys). Unset channels degrade
+gracefully; everything always logs to `tools/logs/alerts.log`.
+
+## Alpaca paper trading
+
+`wt/alpaca_paper.py` is a thin scaffold over the Alpaca paper API. Set
+`ALPACA_PAPER_KEY` / `ALPACA_PAPER_SECRET` to enable. Defines bracket orders
+(entry + stop + target) for defined-risk equity trades. **Never goes live
+without you explicitly switching endpoints** — paper only.
+
 ## Full source/key catalog
 
 See `.claude/skills/trade-scout/SOURCES_CATALOG.md` — every endpoint, which keys
@@ -257,4 +301,6 @@ exist, and what's blocked in this environment. **Do not lose that file.**
 
 There is no guaranteed high return with low risk. This targets **asymmetry**
 (reward several multiples of risk) with **defined, hard stops** (small known
-loss per trade). Research only, not financial advice. Verify live before acting.
+loss per trade). Funding arbs target **carry** (small known payout per 8h,
+delta-neutral). Research only, not financial advice. Verify live before acting.
+

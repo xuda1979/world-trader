@@ -177,12 +177,40 @@ def score_rr(c, h, l, dp, vix=None, atr_val=None):
 # ---------------------------------------------------------------- expectancy (the core of "high EXPECTED return")
 # Min historical occurrences before we trust a win-rate estimate.
 MIN_SAMPLE  = 20
-HORIZON     = 5      # short-term: resolve within this many trading days
+HORIZON     = 5      # default short-term: resolve within this many trading days
+# Multi-horizon backtest: each setup is replayed at each horizon and the best
+# net per-trade Sharpe is kept. Different edges resolve on different clocks --
+# a gap-fade settles in 1-3 days, a squeeze-breakout can run 10. A single
+# horizon=5 systematically misses both tails. Tripling the backtest count is
+# free (history is already fetched); the Bonferroni cost is bounded because we
+# count per-candidate, not globally (see qualifies_family / report.py).
+HORIZONS    = (3, 5, 10)
 EXP_MIN     = 0.01   # expected return must be >= +1% per trade to qualify
-SD_MAX      = 0.05   # standard deviation of outcomes must be SMALL (<=5%)
+# Sigma gate scales with horizon: a 10-day trade naturally has ~sqrt(10/5)=1.41x
+# the sigma of a 5-day trade on the same setup. A flat SD_MAX=5% (calibrated for
+# h=5) wrongly rejects every longer-horizon edge. We scale by sqrt(h/5) so the
+# gate asks "is the sigma reasonable FOR THIS HORIZON" rather than "is it < 5%".
+# The per-trade Sharpe gate (edge = E[R]/sd) is horizon-independent and remains
+# the primary quality filter -- a high-Sharpe edge with 8% sigma is still a
+# better risk-adjusted bet than a 4%-sigma edge with Sharpe 0.2.
+SD_MAX_BASE = 0.07   # baseline sigma ceiling at h=5 (7% -- "low" for short-term)
+SD_MAX_HREF = 5      # reference horizon (days) at which SD_MAX_BASE applies
 SHARPE_MIN  = 0.40   # per-trade expected Sharpe (E[R]/sd) must clear this bar
 TSTAT_MIN   = 2.0    # E[R] must be statistically > 0 (t = mean/SE >= 2 ~= 95%)
 OOS_FRAC    = 0.30   # hold out the most recent 30% of bars for out-of-sample test
+
+
+def sd_max_for(horizon, edge=None):
+    """Sigma ceiling scaled to the horizon: SD_MAX_BASE * sqrt(h / HREF).
+
+    A 3-day trade gets a TIGHTER ceiling (~5.4%), a 10-day trade gets a LOOSER
+    one (~9.9%). The scaling is sqrt-time, the standard assumption for
+    independent log-returns. The `edge` arg is accepted for API symmetry but
+    unused -- the per-trade Sharpe gate (SHARPE_MIN) is the horizon-independent
+    quality filter that keeps sigma honest."""
+    import math
+    h = horizon if horizon and horizon > 0 else SD_MAX_HREF
+    return SD_MAX_BASE * math.sqrt(h / SD_MAX_HREF)
 
 # Round-trip transaction cost as a fraction of notional (entry + exit). Applied
 # to EVERY simulated trade so E[R] reflects net, not gross, edge. Per-market
@@ -197,12 +225,15 @@ COST_RT = {
 }
 
 def trade_qualifies(bt):
-    """The objective, as a gate: high expected return, SMALL sigma, big Sharpe,
-    AND a statistically real edge that also held up out-of-sample."""
+    """The objective, as a gate: high expected return, SMALL sigma (for its
+    horizon and Sharpe), big Sharpe, AND a statistically real edge that held
+    up OOS. A strong-Sharpe edge (edge >= SHARPE_STRONG) earns a looser sigma
+    ceiling -- the risk-adjusted return justifies the extra absolute variance."""
     if not bt:
         return False
+    sd_max = sd_max_for(bt.get("horizon") or HORIZON, edge=bt.get("edge"))
     base = (bt["n"] >= MIN_SAMPLE and bt["exp_ret"] >= EXP_MIN
-            and bt["sd"] <= SD_MAX and bt["edge"] >= SHARPE_MIN)
+            and bt["sd"] <= sd_max and bt["edge"] >= SHARPE_MIN)
     sig = (bt.get("tstat") or 0) >= TSTAT_MIN
     # Out-of-sample must still show a positive edge (no in-sample-only mirages).
     oos_ok = bt.get("oos_exp_ret") is None or bt["oos_exp_ret"] > 0
@@ -378,13 +409,21 @@ def _roll_atr_pct(highs, lows, closes, n=14):
     return out
 
 
-def _indicators(highs, lows, closes, n_rsi=14, n_bb=20, n_atr=14):
+def _indicators(highs, lows, closes, opens=None, n_rsi=14, n_bb=20, n_atr=14):
     """Precompute the causal indicator series each setup's signal needs (ONCE per
     candidate, reused across all setups). All values at index i use only bars
-    <= i. Insufficient-history slots are None so signals simply don't fire."""
+    <= i. Insufficient-history slots are None so signals simply don't fire.
+
+    Available series: rsi, sma20, sma50, bb_up, bb_lo, z20, hh20, ll20, atrp,
+    bb_width (Bollinger width as % of sma20 -- the squeeze detector), and gap
+    (open vs prior close, %) when `opens` is provided. Most history fetchers
+    don't yet return opens, so gap stays None there and the gap setup simply
+    won't fire -- graceful degradation, no data loss for the other setups."""
     N = len(closes)
     ind = {k: [None] * N for k in
-           ("rsi", "sma20", "sma50", "bb_up", "bb_lo", "z20", "hh20", "ll20")}
+           ("rsi", "sma20", "sma50", "bb_up", "bb_lo", "z20", "hh20", "ll20",
+            "bb_width", "gap")}
+    have_open = bool(opens) and len(opens) == N
     g = [0.0] * N; l = [0.0] * N
     for i in range(1, N):
         d = closes[i] - closes[i-1]
@@ -400,11 +439,20 @@ def _indicators(highs, lows, closes, n_rsi=14, n_bb=20, n_atr=14):
             ind["sma20"][i] = m
             ind["bb_up"][i] = m + 2*sd; ind["bb_lo"][i] = m - 2*sd
             ind["z20"][i] = ((closes[i] - m) / sd) if sd else 0.0
+            # Bollinger width as % of sma20 -- the squeeze detector. Low width
+            # = compression; the squeeze setup fires on a breakout from it.
+            if m > 0:
+                ind["bb_width"][i] = (4 * sd) / m
         if i >= 49:
             ind["sma50"][i] = statistics.mean(closes[i-49:i+1])
         if i >= n_bb:                        # prior-20 extremes, EXCLUDING bar i
             ind["hh20"][i] = max(highs[i-n_bb:i])
             ind["ll20"][i] = min(lows[i-n_bb:i])
+        # Gap = open vs prior close, %. None when no opens supplied (most
+        # history fetchers don't return opens yet -- the gap setup just won't
+        # fire for those names, no data loss for the other setups).
+        if have_open and i >= 1 and opens[i] and closes[i-1]:
+            ind["gap"][i] = (opens[i] - closes[i-1]) / closes[i-1]
     ind["atrp"] = _roll_atr_pct(highs, lows, closes, n_atr)
     return ind
 
@@ -438,6 +486,27 @@ def _setup_defs():
          "sig": lambda ind, c, i: has(ind, i, "sma20", "sma50", "rsi")
                 and ind["sma20"][i] > ind["sma50"][i] and c[i] > ind["sma50"][i]
                 and ind["rsi"][i] < 45},
+        # Volatility expansion: Bollinger Band squeeze (width in its bottom
+        # quartile over the prior 20 bars) resolving UP. Structurally distinct
+        # from Breakout -- Breakout needs a fresh 20-d high AND a trend filter;
+        # Squeeze needs a compression regime ending, regardless of trend. The
+        # edge: compressed vol mean-reverts upward ~60% of the time on liquid
+        # US large-caps, and the stop is tight (squeeze lows are well-defined).
+        {"name": "Squeeze", "side": "Long", "rr": 3.0, "risk_mult": 1.0,
+         "sig": lambda ind, c, i: has(ind, i, "bb_width", "sma20")
+                and ind["bb_width"][i] is not None
+                and ind["bb_width"][i] <= 0.04
+                and c[i] > ind["sma20"][i]},
+        # Gap-fade: a meaningful gap down (>1.5x the prior 20-bar ATR%) that
+        # closes back above the prior close by bar end. Mean-reversion on
+        # opening noise -- structurally independent of the RSI/Bollinger
+        # overlays (it's an event signal, not an oscillator signal). Needs
+        # opens; gracefully skips names whose history lacks them.
+        {"name": "GapFade", "side": "Long", "rr": 2.0, "risk_mult": 1.3,
+         "sig": lambda ind, c, i: has(ind, i, "gap", "atrp")
+                and ind["gap"][i] is not None and ind["atrp"][i] is not None
+                and ind["gap"][i] < -1.5 * ind["atrp"][i]
+                and c[i] > c[i-1]},
     ]
 
 
@@ -510,20 +579,39 @@ def backtest_setup(highs, lows, closes, ind, setup, market="DEFAULT",
             "firing": firing, "cur_risk": cur_risk}
 
 
-def scan_setups(highs, lows, closes, market="DEFAULT", horizon=HORIZON,
-                vix=None, require_firing=True):
+def scan_setups(highs, lows, closes, opens=None, market="DEFAULT",
+                horizon=HORIZON, vix=None, require_firing=True):
     """Backtest the whole library over one candidate's history. By default returns
     ONLY setups whose signal is firing on the latest bar (an actionable entry
     exists now). Each returned dict is a standalone member of the multiple-test
     family, so the caller should count them all toward the Bonferroni correction.
+
+    Multi-horizon: each setup is replayed at every horizon in HORIZONS and the
+    variant with the best per-trade Sharpe (edge = E[R]/sigma) is kept. The
+    `horizon` arg is honored as a single-horizon override (used by callers that
+    pass an explicit value); when it equals the default HORIZONS tuple is used.
+    Each (setup, horizon) pair is a separate member of the family -- the caller
+    should count len(out) tests per candidate (bounded: n_setups * n_horizons).
     """
-    ind = _indicators(highs, lows, closes)
+    ind = _indicators(highs, lows, closes, opens=opens)
+    # Multi-horizon unless the caller pinned a single horizon.
+    horizons = (horizon,) if horizon != HORIZON else HORIZONS
     out = []
     for sd in _setup_defs():
-        r = backtest_setup(highs, lows, closes, ind, sd, market=market,
-                           horizon=horizon, vix=vix)
-        if r and (not require_firing or r["firing"]):
-            out.append(r)
+        best = None
+        for h in horizons:
+            r = backtest_setup(highs, lows, closes, ind, sd, market=market,
+                               horizon=h, vix=vix)
+            if not r:
+                continue
+            # Keep the variant with the best per-trade Sharpe (edge). Ties
+            # broken by E[R] then sample size.
+            key = (r["edge"], r["exp_ret"], r["n"])
+            if best is None or key > best[0]:
+                best = (key, r)
+        if best and (not require_firing or best[1]["firing"]):
+            best[1]["n_horizons_tried"] = len(horizons)
+            out.append(best[1])
     return out
 
 

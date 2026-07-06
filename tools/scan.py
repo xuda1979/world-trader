@@ -237,6 +237,13 @@ def main():
     if "--fast" not in a:
         _log("backtest: enriching with technicals + E[R]/sigma/Sharpe")
         scored = report.enrich_with_technicals(scored, regime, vix=vix)
+        # Surface the multiple-testing family size so the bar is transparent.
+        fams = [s.get("n_tests", 0) for s in scored if s.get("n_tests")]
+        gfams = [s.get("n_tests_global", 0) for s in scored if s.get("n_tests_global")]
+        if fams:
+            _log(f"backtest: per-candidate family m={max(fams)} "
+                 f"(global total={max(gfams) if gfams else 0}) "
+                 f"-> Bonferroni t>={analysis._bonferroni_t(max(fams)):.2f}")
         # 3c. Per-candidate NEWS for the rows we'll display: Finnhub headline
         #     flow + Polygon sentiment on the top few. The wide funnel surfaces
         #     dynamic tickers the curated RSS feeds can't cover, so we fetch
