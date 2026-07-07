@@ -540,6 +540,51 @@ def stooq_history(sym, days=260):
     return {"date": D[sl], "open": O[sl], "high": H[sl], "low": L[sl],
             "close": C[sl], "vol": V[sl]}, None
 
+def polygon_intraday(sym, interval=5, days=60):
+    """Intraday OHLCV history for ONE ticker via Polygon aggregates.
+
+    interval: bar size in minutes (5 is the free-tier-friendly default; 1 is
+              allowed but burns the 5 calls/min budget fast). days: how many
+              trading days back to fetch (Polygon free allows 2y; we default
+              to 60 trading days = ~8400 5-min bars, plenty for ORB stats).
+
+    Returns (dict, err) where dict has parallel lists date/open/high/low/close/vol
+    PLUS a 'session' list tagging each bar to its calendar date (so ORB can
+    group bars by trading day). Bar timestamps are UTC ms epochs.
+    """
+    import datetime, time
+    k = api_key("POLYGON_KEY")
+    if not k:
+        return None, "no key"
+    end = datetime.date.today().isoformat()
+    start = (datetime.date.today() - datetime.timedelta(days=int(days * 1.5) + 10)).isoformat()
+    url = (f"https://api.polygon.io/v2/aggs/ticker/{sym}/range/{interval}/minute/"
+           f"{start}/{end}?adjusted=true&sort=asc&limit=50000&apiKey={k}")
+    try:
+        j = get_json(url)
+    except Exception as e:
+        return None, describe_err(e)
+    r = j.get("results") or []
+    if len(r) < 100:
+        return None, "too few bars"
+    O = []; H = []; L = []; C = []; V = []; D = []; S = []
+    for b in r:
+        try:
+            ts = b["t"] / 1000.0  # ms -> s
+            # tag each bar to its NY-session date (UTC date is wrong for pre-9:30 bars)
+            ny = datetime.datetime.fromtimestamp(ts, tz=datetime.timezone(
+                datetime.timedelta(hours=-5))).date().isoformat()
+            O.append(float(b["o"])); H.append(float(b["h"]))
+            L.append(float(b["l"])); C.append(float(b["c"]))
+            V.append(float(b.get("v", 0))); D.append(b["t"])
+            S.append(ny)
+        except (KeyError, TypeError, ValueError):
+            continue
+    if len(C) < 100:
+        return None, "too few bars after parse"
+    return {"date": D, "open": O, "high": H, "low": L, "close": C,
+            "vol": V, "session": S, "interval": interval}, None
+
 def nasdaq_history(sym, days=180):
     """Daily OHLC history from Nasdaq (no key) for technicals. Replaces Stooq
     (now JS-challenged). Returns (lists dict, err)."""

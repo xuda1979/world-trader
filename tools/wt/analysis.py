@@ -717,6 +717,130 @@ def rr_from_setup(price, setup_bt):
             "setup": setup_bt["setup"]}
 
 
+# ---------------------------------------------------------------- intraday ORB
+# Opening Range Breakout: a fundamentally different clock from the daily setups
+# above. Entry is INTRABAR (first 5-min bar that breaks the opening range),
+# exit is same-session (forced flat at the close, no overnight risk). This is
+# the canonical "defined-risk intraday" setup -- small per-trade risk (stop =
+# the opening range), bounded holding period (one session), no gap exposure.
+# Backtested separately because the replay is bar-level within a session, not
+# day-level across sessions.
+ORB_OPEN_MINUTES = 30          # the opening range is the first 30 minutes
+ORB_RR           = 2.0         # target = 2x the opening-range risk
+ORB_COST_RT      = 0.0008      # round-trip cost (US equity), same as daily
+
+def backtest_orb(intraday, open_minutes=ORB_OPEN_MINUTES, rr=ORB_RR,
+                 cost=ORB_COST_RT, side="Long", min_sessions=20):
+    """Replay Opening Range Breakout over intraday bars.
+
+    `intraday` is the dict from sources.polygon_intraday(): parallel lists for
+    open/high/low/close/vol PLUS a 'session' tag (calendar date) per bar so we
+    can group bars into trading days. `interval` (minutes per bar) is read from
+    the dict to size the opening range in bars.
+
+    For each session:
+      1. Take the first `open_minutes / interval` bars -> opening range (OR).
+      2. OR_high = max(high of OR bars), OR_low = min(low of OR bars).
+      3. Walk the REST of the session's bars:
+           - Long:  first bar where high > OR_high -> enter at OR_high (stop at
+                    OR_low, target = OR_high + rr*(OR_high-OR_low)).
+           - Short: first bar where low  < OR_low  -> enter at OR_low  (stop at
+                    OR_high, target = OR_low  - rr*(OR_high-OR_low)).
+      4. After entry, walk forward: stop hit? target hit? else exit at session
+         close (mark-to-close of the last bar of the session).
+      5. Charge `cost` per round-trip.
+
+    Returns the same stat dict shape as backtest_setup (exp_ret, sd, edge,
+    tstat, n, oos_*) so it drops into the same qualifying gate, plus a
+    `firing` flag if TODAY's session has cleared its opening range (so the
+    caller can surface an actionable entry). Returns None if too few sessions.
+    """
+    O = intraday["open"]; H = intraday["high"]; L = intraday["low"]
+    C = intraday["close"]; S = intraday["session"]
+    interval = intraday.get("interval", 5)
+    or_bars = max(1, open_minutes // interval)
+    if len(O) < or_bars * 4:
+        return None
+
+    # Group bar indices by session, preserving order.
+    sessions = {}
+    for i, s in enumerate(S):
+        sessions.setdefault(s, []).append(i)
+    if len(sessions) < min_sessions:
+        return None
+
+    # Walk sessions in chronological order, recording (session, return, or_risk)
+    # so the OOS split can be done on session ordering, not dict iteration.
+    session_rets = []  # list of (session_str, ret_fraction, or_risk_fraction)
+    today_session = S[-1]
+    today_fired = False
+    for s in sorted(sessions.keys()):
+        idxs = sessions[s]
+        if len(idxs) < or_bars + 1:
+            continue
+        or_idx = idxs[:or_bars]
+        rest = idxs[or_bars:]
+        or_high = max(H[i] for i in or_idx)
+        or_low  = min(L[i] for i in or_idx)
+        if or_high <= 0 or or_high == or_low:
+            continue
+        or_risk = (or_high - or_low) / or_high
+        entry = None
+        entry_bar = None
+        for i in rest:
+            if side == "Long" and H[i] > or_high:
+                entry = or_high; stop = or_low
+                tgt = or_high + rr * (or_high - or_low)
+                entry_bar = i; break
+            if side == "Short" and L[i] < or_low:
+                entry = or_low; stop = or_high
+                tgt = or_low - rr * (or_low - or_high)
+                entry_bar = i; break
+        if entry is None:
+            continue
+        if s == today_session:
+            today_fired = True
+        # Walk forward from entry_bar to end of THIS session's bars.
+        outcome = None
+        rest_after = rest[rest.index(entry_bar) + 1:]
+        for i in rest_after:
+            if side == "Long":
+                if L[i] <= stop:  outcome = -(entry - stop) / entry; break
+                if H[i] >= tgt:   outcome =  (tgt - entry) / entry; break
+            else:
+                if H[i] >= stop:  outcome = -(stop - entry) / entry; break
+                if L[i] <= tgt:   outcome =  (entry - tgt) / entry; break
+        if outcome is None:
+            exitp = C[idxs[-1]]
+            outcome = ((exitp - entry) / entry) if side == "Long" \
+                      else ((entry - exitp) / entry)
+        session_rets.append((s, outcome - cost, or_risk))
+
+    if len(session_rets) < min_sessions:
+        return None
+    rets = [r for _, r, _ in session_rets]
+    st = _stats(rets)
+    if not st or st["n"] < min_sessions:
+        return None
+    # OOS: hold out the most recent 30% of sessions (chronological).
+    split = int(len(session_rets) * 0.7)
+    oos_rets = [r for _, r, _ in session_rets[split:]] if split >= 5 else rets
+    oos_st = _stats(oos_rets) if len(oos_rets) >= 5 else None
+    # Today's actionable risk = today's opening range width (if today fired).
+    today_risk = None
+    for s, _, or_risk in session_rets:
+        if s == today_session:
+            today_risk = or_risk
+            break
+    return {"setup": "ORB" + side, "side": side, "rr": rr,
+            "exp_ret": st["exp_ret"], "sd": st["sd"], "edge": st["edge"],
+            "tstat": st["tstat"], "n": st["n"], "horizon": 1,
+            "oos_exp_ret": oos_st["exp_ret"] if oos_st else None,
+            "oos_edge": oos_st["edge"] if oos_st else None,
+            "firing": today_fired, "n_horizons_tried": 1,
+            "cur_risk": today_risk}
+
+
 # ---------------------------------------------------------------- composite rank
 def composite_score(rr_row, tech=None, rs=None, regime_score=None,
                     catalyst_days=None):

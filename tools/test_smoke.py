@@ -134,6 +134,47 @@ check(bt is not None and "exp_ret" in bt and "n" in bt,
       f"backtest_expectancy returns stats (n={bt['n'] if bt else 0})")
 check(bt["horizon"] == analysis.HORIZON, f"backtest_expectancy horizon={analysis.HORIZON}")
 
+# 8. backtest_orb works on synthetic intraday data (no network required)
+# Build 30 sessions of 5-min bars (78 bars/session = 6.5h trading day).
+import random as _r
+_r.seed(99)
+N_SESSIONS = 30
+BARS_PER_SESSION = 78
+o_intra = []; h_intra = []; l_intra = []; c_intra = []; v_intra = []; s_intra = []
+base = 100.0
+for sess in range(N_SESSIONS):
+    # First 6 bars: opening range. Then a breakout to the upside with volume.
+    or_open = base
+    for b in range(BARS_PER_SESSION):
+        if b < 6:
+            # tight opening range
+            op = or_open + _r.gauss(0, 0.05)
+            cl = op + _r.gauss(0, 0.03)
+        elif b == 6:
+            # breakout bar
+            op = or_open
+            cl = or_open + 0.5  # clear breakout up
+        else:
+            op = c_intra[-1]
+            cl = op + _r.gauss(0.001, 0.05)
+        hi = max(op, cl) * (1 + abs(_r.gauss(0, 0.002)))
+        lo = min(op, cl) * (1 - abs(_r.gauss(0, 0.002)))
+        o_intra.append(op); h_intra.append(hi); l_intra.append(lo)
+        c_intra.append(cl); v_intra.append(1000.0 + _r.gauss(0, 100))
+        s_intra.append(f"2026-01-{sess+1:02d}")
+    base = c_intra[-1]
+intraday = {"open": o_intra, "high": h_intra, "low": l_intra, "close": c_intra,
+            "vol": v_intra, "session": s_intra, "interval": 5}
+bt_orb = analysis.backtest_orb(intraday, side="Long")
+check(bt_orb is not None and "exp_ret" in bt_orb and "n" in bt_orb,
+      f"backtest_orb returns stats (n={bt_orb['n'] if bt_orb else 0})")
+if bt_orb:
+    check(bt_orb["setup"] == "ORBLong", "backtest_orb setup name = 'ORBLong'")
+    check(bt_orb["horizon"] == 1, "backtest_orb horizon = 1 (intraday)")
+    check(bt_orb["n"] >= 20, f"backtest_orb n>=20 (got {bt_orb['n']})")
+    # On constructed breakout-up data, ORB Long should have positive expectancy
+    check(bt_orb["exp_ret"] > 0, f"backtest_orb positive edge on breakout data (exp={bt_orb['exp_ret']:+.4f})")
+
 print()
 if failures:
     print(f"FAILED: {len(failures)} check(s)")
