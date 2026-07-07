@@ -244,9 +244,14 @@ def enrich_with_technicals(scored, regime, top_n=20, vix=None):
             risk_frac=s["rr"]["risk"], reward_frac=s["rr"]["reward"],
             side=s["rr"]["side"], market=market)
         # (b) conditional strategy library -- only setups firing on the last bar.
+        # Pass the regime score so counter-trend setups (longs in risk-off,
+        # shorts in risk-on) are skipped at the surface level -- the backtest
+        # still measures edge over the full history, this only gates which
+        # firing entries are actionable RIGHT NOW.
         setups = analysis.scan_setups(h["high"], h["low"], h["close"],
-                                      opens=h.get("open"), market=market,
-                                      vix=vix, require_firing=True)
+                                      opens=h.get("open"), volumes=h.get("vol"),
+                                      market=market, vix=vix, require_firing=True,
+                                      regime_score=regime["score"])
         return tech, rs, base_bt, setups
 
     def work_us(s):

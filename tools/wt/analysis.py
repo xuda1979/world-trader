@@ -409,7 +409,8 @@ def _roll_atr_pct(highs, lows, closes, n=14):
     return out
 
 
-def _indicators(highs, lows, closes, opens=None, n_rsi=14, n_bb=20, n_atr=14):
+def _indicators(highs, lows, closes, opens=None, volumes=None,
+                n_rsi=14, n_bb=20, n_atr=14):
     """Precompute the causal indicator series each setup's signal needs (ONCE per
     candidate, reused across all setups). All values at index i use only bars
     <= i. Insufficient-history slots are None so signals simply don't fire.
@@ -421,9 +422,10 @@ def _indicators(highs, lows, closes, opens=None, n_rsi=14, n_bb=20, n_atr=14):
     won't fire -- graceful degradation, no data loss for the other setups."""
     N = len(closes)
     ind = {k: [None] * N for k in
-           ("rsi", "sma20", "sma50", "bb_up", "bb_lo", "z20", "hh20", "ll20",
-            "bb_width", "gap")}
+           ("rsi", "sma20", "sma50", "sma200", "bb_up", "bb_lo", "z20",
+            "hh20", "ll20", "bb_width", "gap", "vol_ratio")}
     have_open = bool(opens) and len(opens) == N
+    have_vol = bool(volumes) and len(volumes) == N
     g = [0.0] * N; l = [0.0] * N
     for i in range(1, N):
         d = closes[i] - closes[i-1]
@@ -445,6 +447,10 @@ def _indicators(highs, lows, closes, opens=None, n_rsi=14, n_bb=20, n_atr=14):
                 ind["bb_width"][i] = (4 * sd) / m
         if i >= 49:
             ind["sma50"][i] = statistics.mean(closes[i-49:i+1])
+        # 200-day SMA -- the long-term trend filter used by TrendRide / HighTight
+        # and as a regime gate for short setups. None until 200 bars are available.
+        if i >= 199:
+            ind["sma200"][i] = statistics.mean(closes[i-199:i+1])
         if i >= n_bb:                        # prior-20 extremes, EXCLUDING bar i
             ind["hh20"][i] = max(highs[i-n_bb:i])
             ind["ll20"][i] = min(lows[i-n_bb:i])
@@ -453,6 +459,15 @@ def _indicators(highs, lows, closes, opens=None, n_rsi=14, n_bb=20, n_atr=14):
         # fire for those names, no data loss for the other setups).
         if have_open and i >= 1 and opens[i] and closes[i-1]:
             ind["gap"][i] = (opens[i] - closes[i-1]) / closes[i-1]
+        # Volume ratio = today's volume / 20-day mean volume. Causal (uses bars
+        # up to and including i). None when no volumes supplied (FX) or < 20
+        # bars. A >1.5x spike confirms breakouts/breakdowns; the VolConfirm
+        # setup requires it. Graceful degradation: skips names without volume.
+        if have_vol and i >= n_bb - 1:
+            window = volumes[i-n_bb+1:i+1]
+            mean_vol = sum(window) / n_bb
+            if mean_vol > 0:
+                ind["vol_ratio"][i] = volumes[i] / mean_vol
     ind["atrp"] = _roll_atr_pct(highs, lows, closes, n_atr)
     return ind
 
@@ -507,6 +522,62 @@ def _setup_defs():
                 and ind["gap"][i] is not None and ind["atrp"][i] is not None
                 and ind["gap"][i] < -1.5 * ind["atrp"][i]
                 and c[i] > c[i-1]},
+        # Trend-continuation: pullback to the 50-day MA inside a LONG uptrend
+        # (price > sma50 > sma200). Structurally distinct from Pullback --
+        # Pullback only needs sma20>  sma50 and a shallow RSI dip; TrendRide50
+        # requires the 200-d trend filter (sma200) so it only fires in secular
+        # bull regimes, and the dip is to the 50-d (a deeper, cleaner level).
+        # Edge: in a >200-d uptrend, dips to the 50-d mean-revert up ~65%.
+        {"name": "TrendRide50", "side": "Long", "rr": 3.0, "risk_mult": 1.2,
+         "sig": lambda ind, c, i: has(ind, i, "sma50", "sma200")
+                and ind["sma50"][i] is not None and ind["sma200"][i] is not None
+                and c[i] > ind["sma200"][i]
+                and ind["sma50"][i] > ind["sma200"][i]
+                and abs(c[i] - ind["sma50"][i]) / ind["sma50"][i] < 0.02},
+        # Breakout-retest: a prior 20-day breakout that has pulled back to
+        # (and held) the breakout level, now resuming up. Distinct from
+        # Breakout (which fires on the FRESH high) -- Rebreak fires on the
+        # *retest* a few bars later, a structurally different entry that
+        # carries less chase risk. Approximate retest: prior bar's low
+        # pierced the hh20 level but close recovered above it.
+        {"name": "Rebreak", "side": "Long", "rr": 3.0, "risk_mult": 1.1,
+         "sig": lambda ind, c, i: has(ind, i, "hh20", "sma50")
+                and i >= 2
+                and ind["hh20"][i-1] is not None
+                and c[i-1] < ind["hh20"][i-1]            # prior bar broke below prior hh20
+                and c[i] > ind["hh20"][i-1]              # today closed back above it
+                and c[i] > ind["sma50"][i]},
+        # Mean-reversion: RSI<30 deep-oversold bounce WITHOUT the Bollinger
+        # tag the OSbounce setup requires. The bb_lo gate often fails to fire
+        # in fast declines where price gaps down through the band -- a 2-3x
+        # more common setup than the clean bb_lo tag. Distinct from OSbounce:
+        # this is the "air-pocket" oversold where the band was already
+        # penetrated on the prior bar.
+        {"name": "OversoldPanic", "side": "Long", "rr": 2.5, "risk_mult": 1.6,
+         "sig": lambda ind, c, i: has(ind, i, "rsi", "atrp")
+                and ind["rsi"][i] < 30
+                and ind["rsi"][i-1] < 25                   # prior bar was even more oversold
+                and c[i] > c[i-1]},                        # today closed up (the bounce bar)
+        # Trend-continuation short: rally-to-50 in a LONG downtrend
+        # (price < sma50 < sma200). Mirror of TrendRide50. Distinct from
+        # Breakdown (which fires on a fresh 20-d low) -- this fires on the
+        # *rejection* at the 50-d inside a downtrend, a higher-R:R short.
+        {"name": "TrendRide50Short", "side": "Short", "rr": 3.0, "risk_mult": 1.2,
+         "sig": lambda ind, c, i: has(ind, i, "sma50", "sma200")
+                and ind["sma50"][i] is not None and ind["sma200"][i] is not None
+                and c[i] < ind["sma200"][i]
+                and ind["sma50"][i] < ind["sma200"][i]
+                and abs(c[i] - ind["sma50"][i]) / ind["sma50"][i] < 0.02},
+        # Volume-confirmed breakout: a fresh 20-day high WITH volume >1.5x the
+        # 20-day mean. Distinct from Breakout (no volume gate) and Rebreak
+        # (retest, not the breakout itself). Volume confirmation filters out
+        # the low-conviction breakouts that fail -- fewer signals, higher
+        # win-rate. Needs volumes; gracefully skips names without them (FX).
+        {"name": "VolConfirm", "side": "Long", "rr": 3.0, "risk_mult": 1.3,
+         "sig": lambda ind, c, i: has(ind, i, "hh20", "sma50", "vol_ratio")
+                and ind["vol_ratio"][i] is not None
+                and c[i] > ind["hh20"][i] and c[i] > ind["sma50"][i]
+                and ind["vol_ratio"][i] > 1.5},
     ]
 
 
@@ -579,8 +650,8 @@ def backtest_setup(highs, lows, closes, ind, setup, market="DEFAULT",
             "firing": firing, "cur_risk": cur_risk}
 
 
-def scan_setups(highs, lows, closes, opens=None, market="DEFAULT",
-                horizon=HORIZON, vix=None, require_firing=True):
+def scan_setups(highs, lows, closes, opens=None, volumes=None, market="DEFAULT",
+                horizon=HORIZON, vix=None, require_firing=True, regime_score=None):
     """Backtest the whole library over one candidate's history. By default returns
     ONLY setups whose signal is firing on the latest bar (an actionable entry
     exists now). Each returned dict is a standalone member of the multiple-test
@@ -593,11 +664,24 @@ def scan_setups(highs, lows, closes, opens=None, market="DEFAULT",
     Each (setup, horizon) pair is a separate member of the family -- the caller
     should count len(out) tests per candidate (bounded: n_setups * n_horizons).
     """
-    ind = _indicators(highs, lows, closes, opens=opens)
+    ind = _indicators(highs, lows, closes, opens=opens, volumes=volumes)
     # Multi-horizon unless the caller pinned a single horizon.
     horizons = (horizon,) if horizon != HORIZON else HORIZONS
     out = []
     for sd in _setup_defs():
+        # Regime gate: skip counter-trend setups. The backtest itself uses the
+        # FULL history (so edge is measured across all regimes -- the t-stat /
+        # OOS gates stay honest); this gate only controls which *firing* setups
+        # get surfaced as actionable entries right now. A long in RISK-OFF or a
+        # short in RISK-ON has a structurally worse base-rate even when the
+        # setup's long-run edge is real, so we don't surface them. None ->
+        # neutral (no gate, preserves backward behavior for callers that don't
+        # pass a regime).
+        if regime_score is not None:
+            if sd["side"] == "Long" and regime_score < -0.25:
+                continue
+            if sd["side"] == "Short" and regime_score > 0.25:
+                continue
         best = None
         for h in horizons:
             r = backtest_setup(highs, lows, closes, ind, sd, market=market,

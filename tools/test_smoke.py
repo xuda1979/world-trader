@@ -43,8 +43,8 @@ print("=== world-trader smoke tests ===")
 # 1. _indicators computes all advertised series
 h, l, c, o = synth()
 ind = analysis._indicators(h, l, c, opens=o)
-expected = {"rsi", "sma20", "sma50", "bb_up", "bb_lo", "z20", "hh20", "ll20",
-            "bb_width", "gap", "atrp"}
+expected = {"rsi", "sma20", "sma50", "sma200", "bb_up", "bb_lo", "z20",
+            "hh20", "ll20", "bb_width", "gap", "vol_ratio", "atrp"}
 check(set(ind.keys()) == expected, f"_indicators keys = {sorted(ind.keys())}")
 check(all(ind["bb_width"][i] is not None for i in range(50, len(c))),
       "bb_width populated for i>=50")
@@ -54,6 +54,23 @@ check(all(ind["gap"][i] is not None for i in range(1, len(c))),
 ind2 = analysis._indicators(h, l, c, opens=None)
 check(all(g is None for g in ind2["gap"]), "gap all-None when opens not given")
 
+# 1b. sma200 is populated for i>=199 and None before
+check(all(ind["sma200"][i] is None for i in range(0, 199)),
+      "sma200 None for i<199")
+check(all(ind["sma200"][i] is not None for i in range(199, len(c))),
+      "sma200 populated for i>=199")
+
+# 1c. vol_ratio is populated when volumes given, None when not
+vols = [1000.0 + i * 10 for i in range(len(c))]  # ramping volume
+ind_v = analysis._indicators(h, l, c, opens=o, volumes=vols)
+check(all(ind_v["vol_ratio"][i] is None for i in range(0, 19)),
+      "vol_ratio None for i<19")
+check(all(ind_v["vol_ratio"][i] is not None for i in range(19, len(c))),
+      "vol_ratio populated for i>=19 when volumes given")
+# Without volumes, vol_ratio should be all-None (graceful degradation)
+check(all(v is None for v in ind2["vol_ratio"]),
+      "vol_ratio all-None when volumes not given")
+
 # 2. scan_setups is multi-horizon and tags n_horizons_tried
 res = analysis.scan_setups(h, l, c, opens=o, market="US", require_firing=False)
 check(len(res) > 0, "scan_setups returns setups on synthetic data")
@@ -61,6 +78,21 @@ check(all(r.get("n_horizons_tried") == len(analysis.HORIZONS) for r in res),
       f"all setups tagged n_horizons_tried={len(analysis.HORIZONS)}")
 check(all(r["horizon"] in analysis.HORIZONS for r in res),
       "all setup horizons are in HORIZONS")
+
+# 2b. regime gate: counter-trend setups are skipped
+# Strong risk-off -> no Long setups surfaced; strong risk-on -> no Short setups.
+res_off = analysis.scan_setups(h, l, c, opens=o, market="US",
+                               require_firing=False, regime_score=-0.6)
+check(all(r["side"] != "Long" for r in res_off),
+      "regime_score=-0.6 (risk-off) suppresses Long setups")
+res_on = analysis.scan_setups(h, l, c, opens=o, market="US",
+                              require_firing=False, regime_score=0.6)
+check(all(r["side"] != "Short" for r in res_on),
+      "regime_score=+0.6 (risk-on) suppresses Short setups")
+# regime_score=None -> no gating (backward-compatible)
+res_none = analysis.scan_setups(h, l, c, opens=o, market="US",
+                                require_firing=False, regime_score=None)
+check(len(res_none) > 0, "regime_score=None preserves default behavior")
 
 # 3. sd_max_for scales correctly
 check(abs(analysis.sd_max_for(5) - analysis.SD_MAX_BASE) < 1e-9,
