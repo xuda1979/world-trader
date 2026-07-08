@@ -35,6 +35,36 @@ def fred_all():
     with ThreadPoolExecutor(max_workers=8) as p:
         return list(p.map(one, FRED_SERIES))
 
+def fred_history(sid, limit=500):
+    """Historical observations for a FRED series (oldest first). Returns
+    (values_list, dates_list, err). Skips non-numeric values ('.'  for FRED).
+    Used by the RV scanner for yield-curve spreads (e.g., 2s10s = DGS10-DGS2).
+
+    Fetches the most recent `limit` observations (sort_order=desc) then reverses
+    to oldest-first for the backtest. FRED's `sort_order=asc&limit=N` returns
+    the FIRST N obs (1960s for old series), not the most recent N -- a subtle
+    gotcha that produces useless 50-year-old data."""
+    k = api_key("FRED_KEY")
+    if not k: return None, None, "no key"
+    try:
+        d = get_json(f"https://api.stlouisfed.org/fred/series/observations?"
+                     f"series_id={sid}&api_key={k}&file_type=json"
+                     f"&sort_order=desc&limit={limit}")
+    except Exception as e:
+        return None, None, str(e)[:50]
+    obs = d.get("observations", [])
+    vals, dates = [], []
+    for o in obs:
+        v = o.get("value")
+        try:
+            vals.append(float(v)); dates.append(o.get("date"))
+        except (TypeError, ValueError):
+            continue
+    if len(vals) < 30:
+        return None, None, "too few obs"
+    vals.reverse(); dates.reverse()  # oldest-first for backtests
+    return vals, dates, None
+
 # ---------------------------------------------------------------- Treasury curve
 def treasury_curve():
     """Latest daily par yield curve from Treasury.gov (XML, no key)."""

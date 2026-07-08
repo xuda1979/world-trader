@@ -194,6 +194,32 @@ if bt_orb:
     # On constructed breakout-up data, ORB Long should have positive expectancy
     check(bt_orb["exp_ret"] > 0, f"backtest_orb positive edge on breakout data (exp={bt_orb['exp_ret']:+.4f})")
 
+# 9. backtest_rv_mean_reversion + qualifies_rv
+# OU (mean-reverting) spread -> should qualify; random walk -> should not
+import random as _r2
+_r2.seed(42)
+N2 = 400
+ou = [0.0]
+for i in range(1, N2):
+    ou.append(ou[-1] + 0.15 * (0.0 - ou[-1]) + _r2.gauss(0, 1.0))
+bt_rv = analysis.backtest_rv_mean_reversion(ou)
+check(bt_rv is not None and "exp_ret" in bt_rv, "backtest_rv returns stats on OU process")
+if bt_rv:
+    check(bt_rv["setup"] == "RVMR", "backtest_rv setup name = 'RVMR'")
+    check(analysis.qualifies_rv(bt_rv, n_tests=1),
+          f"OU mean-reverting spread qualifies (sharpe={bt_rv['edge']:.2f})")
+# Random walk -> should NOT qualify (no mean reversion edge)
+_r2.seed(7)
+rw = [0.0]
+for i in range(1, N2):
+    rw.append(rw[-1] + _r2.gauss(0, 1.0))
+bt_rw = analysis.backtest_rv_mean_reversion(rw)
+if bt_rw:
+    check(not analysis.qualifies_rv(bt_rw, n_tests=1),
+          f"random walk does not qualify (sharpe={bt_rw['edge']:.2f})")
+else:
+    check(True, "random walk: no entries or insufficient samples (also fine)")
+
 print()
 if failures:
     print(f"FAILED: {len(failures)} check(s)")

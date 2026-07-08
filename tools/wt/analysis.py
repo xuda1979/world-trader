@@ -847,6 +847,117 @@ def backtest_orb(intraday, open_minutes=ORB_OPEN_MINUTES, rr=ORB_RR,
             "cur_risk": today_risk}
 
 
+# ---------------------------------------------------------------- relative-value
+# Mean-reversion on a precomputed SPREAD series (e.g., 2s10s yield curve, EUR/GBP
+# cross, FANG index vs SPY). This is a structurally different edge from the
+# price-MR setups (OSbounce/OversoldPanic) above: those revert a single price to
+# its own mean; RV reverts the *relationship* between two instruments to its
+# historical mean. Cointegration-style, but we use a rolling-z trigger instead
+# of a full OLS hedge ratio (good enough for short-term, far less data-hungry).
+#
+# Entry: |rolling z-score of spread| > z_entry. Exit: z reverts to z_exit, or
+# at `horizon` bars. Risk = the spread's stdev at entry (so R:R is z_entry/z_exit
+# by construction). Same statistical guards: E[R], sd, Sharpe, t-stat, OOS.
+RV_Z_ENTRY   = 2.0     # enter when |z| > 2 (the classic 2-sigma band)
+RV_Z_EXIT    = 0.0     # exit when z reverts to 0
+RV_HORIZON   = 10      # max holding period (days)
+RV_COST_RT   = 0.0008  # round-trip cost (two legs of spread)
+
+def backtest_rv_mean_reversion(spread, z_entry=RV_Z_ENTRY, z_exit=RV_Z_EXIT,
+                               horizon=RV_HORIZON, cost=RV_COST_RT,
+                               lookback=60):
+    """Backtest mean-reversion on a spread series. `spread` is a list of floats
+    (the spread value at each bar, oldest first). Returns the standard stat dict
+    (with setup='RVMR') plus `firing` (|current z| > z_entry) and `cur_risk`
+    (current spread stdev, for sizing), or None if too few bars.
+
+    The replay: at each bar i >= lookback, compute the rolling z-score of the
+    spread over the prior `lookback` bars. If z < -z_entry, go LONG the spread
+    (bet it reverts up); if z > +z_entry, go SHORT. Walk forward up to `horizon`
+    bars; exit when z crosses z_exit (toward 0) or at horizon. PnL is the
+    change in spread * side, scaled by the entry-time stdev so R:R is
+    z_entry:z_exit by construction."""
+    N = len(spread)
+    if N < lookback + horizon + 5:
+        return None
+    # Rolling mean/sd over the prior `lookback` bars (causal: bars < i only).
+    def roll_stats(i):
+        w = spread[i-lookback:i]
+        m = sum(w) / lookback
+        var = sum((x - m) ** 2 for x in w) / (lookback - 1)
+        sd = math.sqrt(var) if var > 0 else 0.0
+        return m, sd
+    entries = []  # (entry_bar_index, side, entry_spread, entry_sd)
+    for i in range(lookback, N - 1):
+        m, sd = roll_stats(i)
+        if sd <= 0:
+            continue
+        z = (spread[i] - m) / sd
+        if z < -z_entry:
+            entries.append((i, 1, spread[i], sd))
+        elif z > z_entry:
+            entries.append((i, -1, spread[i], sd))
+    if len(entries) < MIN_SAMPLE:
+        return None
+
+    def sim(subset):
+        rets = []
+        for i, side, entry, esd in subset:
+            if esd <= 0:
+                continue
+            outcome = None
+            for j in range(i + 1, min(i + 1 + horizon, N)):
+                m, sd = roll_stats(j)
+                if sd <= 0:
+                    continue
+                z = (spread[j] - m) / sd
+                # Exit when z reverts to z_exit (crosses 0 toward mean).
+                if (side == 1 and z >= z_exit) or (side == -1 and z <= z_exit):
+                    outcome = side * (spread[j] - entry) / esd
+                    break
+            if outcome is None:
+                outcome = side * (spread[min(i + horizon, N - 1)] - entry) / esd
+            rets.append(outcome - cost)
+        return rets
+
+    st = _stats(sim(entries))
+    if not st or st["n"] < MIN_SAMPLE:
+        return None
+    split = int(N * (1 - OOS_FRAC))
+    oos_st = _stats(sim([e for e in entries if e[0] >= split])) or None
+    # Firing: current bar's |z| > z_entry.
+    m_now, sd_now = roll_stats(N - 1)
+    z_now = (spread[N - 1] - m_now) / sd_now if sd_now > 0 else 0.0
+    firing = abs(z_now) > z_entry
+    return {"setup": "RVMR", "side": "Long" if z_now < 0 else "Short",
+            "rr": z_entry / max(abs(z_exit), 0.5),
+            "exp_ret": st["exp_ret"], "sd": st["sd"], "edge": st["edge"],
+            "tstat": st["tstat"], "n": st["n"], "horizon": horizon,
+            "oos_exp_ret": oos_st["exp_ret"] if oos_st else None,
+            "oos_edge": oos_st["edge"] if oos_st else None,
+            "firing": firing, "n_horizons_tried": 1,
+            "cur_risk": sd_now if sd_now > 0 else None,
+            "z_now": z_now}
+
+
+def qualifies_rv(bt, n_tests=1):
+    """Qualifying gate for relative-value (spread) setups. RV PnL is in
+    spread-stdev units (the standard for stat-arb), NOT price-fraction units,
+    so the price-fraction gates (EXP_MIN, SD_MAX) don't apply. We keep the
+    statistical guards that DO transfer: per-trade Sharpe, t-stat (with
+    Bonferroni), sample size, and positive OOS Sharpe.
+
+    The bar is actually STRICTER on Sharpe (>= 0.6 vs 0.4 for price setups)
+    because RV setups have a structurally higher base-rate (the spread is
+    stationary by construction) -- a sharper gate keeps the family honest."""
+    if not bt:
+        return False
+    base = (bt["n"] >= MIN_SAMPLE and bt["edge"] >= 0.60)
+    sig = (bt.get("tstat") or 0) >= _bonferroni_t(n_tests)
+    oos_ok = (bt.get("oos_edge") is None or bt["oos_edge"] > 0)
+    return base and sig and oos_ok
+
+
 # ---------------------------------------------------------------- composite rank
 def composite_score(rr_row, tech=None, rs=None, regime_score=None,
                     catalyst_days=None):
