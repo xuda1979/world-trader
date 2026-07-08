@@ -111,6 +111,25 @@ bt_h5 = {"n": 30, "exp_ret": 0.03, "sd": 0.08, "edge": 0.5, "tstat": 3.0,
 check(analysis.trade_qualifies(bt_h10), "h=10 sd=8% passes (under 9.9% ceiling)")
 check(not analysis.trade_qualifies(bt_h5), "h=5 sd=8% fails (over 7% ceiling)")
 
+# 4b. OOS Sharpe gate: positive OOS expectancy but non-positive OOS Sharpe -> reject
+# A setup that earned +1.2% IS (sd 4%, Sharpe 0.5) but LOST money OOS (negative
+# OOS Sharpe) has positive OOS expectancy? No -- if OOS Sharpe < 0, OOS exp_ret
+# could still be barely positive. Test the case: oos_exp_ret=+0.001, oos_edge=-0.3.
+bt_oos_sharpe_bad = {"n": 30, "exp_ret": 0.012, "sd": 0.04, "edge": 0.5,
+                     "tstat": 3.0, "horizon": 5,
+                     "oos_exp_ret": 0.001, "oos_edge": -0.3}
+check(not analysis.trade_qualifies(bt_oos_sharpe_bad),
+      "OOS edge>0 required: positive OOS expectancy but negative OOS Sharpe rejected")
+# Same setup with positive OOS Sharpe -> accepted
+bt_oos_sharpe_ok = dict(bt_oos_sharpe_bad, oos_edge=0.45)
+check(analysis.trade_qualifies(bt_oos_sharpe_ok),
+      "positive OOS Sharpe passes the OOS gate")
+# Missing OOS fields entirely -> grace (don't fail on missing data)
+bt_no_oos = dict(bt_oos_sharpe_bad)
+del bt_no_oos["oos_exp_ret"]; del bt_no_oos["oos_edge"]
+check(analysis.trade_qualifies(bt_no_oos),
+      "missing OOS -> grace (no OOS gate applied)")
+
 # 5. Bonferroni t-threshold sane at expected family sizes
 t7 = analysis._bonferroni_t(7)
 t2000 = analysis._bonferroni_t(2000)

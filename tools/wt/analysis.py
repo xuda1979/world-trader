@@ -236,7 +236,13 @@ def trade_qualifies(bt):
             and bt["sd"] <= sd_max and bt["edge"] >= SHARPE_MIN)
     sig = (bt.get("tstat") or 0) >= TSTAT_MIN
     # Out-of-sample must still show a positive edge (no in-sample-only mirages).
-    oos_ok = bt.get("oos_exp_ret") is None or bt["oos_exp_ret"] > 0
+    # We require BOTH positive OOS expectancy AND positive OOS per-trade Sharpe
+    # (edge = E[R]/sd). A setup that earned +1.2% IS with sd=4% but only +0.1%
+    # OOS with sd=2% has positive OOS expectancy but a near-zero OOS Sharpe --
+    # the edge didn't survive out-of-sample. Requiring oos_edge > 0 closes that
+    # loophole. None (insufficient OOS sample) -> grace: don't fail on missing.
+    oos_ok = (bt.get("oos_exp_ret") is None or bt["oos_exp_ret"] > 0) and \
+             (bt.get("oos_edge") is None or bt["oos_edge"] > 0)
     return base and sig and oos_ok
 
 
