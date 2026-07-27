@@ -1,6 +1,6 @@
 # Real-Data Backtest Suite
 
-Generated: 2026-07-27 11:45:05  |  Elapsed: 4.9s
+Generated: 2026-07-27 19:22:22  |  Elapsed: 5.1s
 
 ## Methodology
 
@@ -14,14 +14,14 @@ Generated: 2026-07-27 11:45:05  |  Elapsed: 4.9s
 
 | Pair | Provider | Bars (IS/OO) | HL (bars) | Lookback | Trades | Win% | Expectancy | Per-trade Sharpe | t-stat | Ann Sharpe | Max DD | Total PnL |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| SPY/QQQ 🚩 | polygon/polygon | 501 (300/201) | 45.2 | 45 | 6 | 0.0% | -10.75% | -5.68 | -13.92 | -20.88 | 0.6% | $-643 |
-| SPY/IWM 🚩 | polygon/polygon | 501 (300/201) | 38.6 | 38 | 8 | 0.0% | -9.49% | -25.45 | -71.97 | -121.11 | 0.8% | $-756 |
-| QQQ/IWM 🚩 | polygon/polygon | 501 (300/201) | 53.7 | 53 | 6 | 0.0% | -9.74% | -8.14 | -19.93 | -31.32 | 0.6% | $-583 |
-| SPY/DIA 🚩 | polygon/polygon | 499 (299/200) | 46.7 | 46 | 8 | 0.0% | -9.82% | -14.88 | -42.09 | -59.76 | 0.8% | $-783 |
-| XLF/XLE 🚩 | polygon/twelvedata | 501 (300/201) | 36.9 | 36 | 8 | 0.0% | -10.71% | -2.53 | -7.15 | -10.36 | 0.9% | $-854 |
-| XLI/XLB 🚩 | twelvedata/twelvedata | 1000 (600/400) | 405.0 | 60 | 13 | 0.0% | -9.69% | -8.99 | -32.41 | -32.54 | 1.2% | $-1,252 |
-| EWA/EWC 🚩 | twelvedata/twelvedata | 999 (599/400) | 37.4 | 37 | 17 | 0.0% | -10.12% | -7.20 | -29.69 | -29.28 | 1.7% | $-1,706 |
-| BTC/ETH 🚩 | binance/binance | 1000 (600/400) | 815.0 | 60 | 8 | 0.0% | -13.64% | -1.92 | -5.44 | -5.26 | 1.1% | $-1,086 |
+| SPY/QQQ 🚩 | polygon/polygon | 501 (300/201) | 45.2 | 45 | 11 | 45.5% | -76.13% | -0.43 | -1.43 | -2.10 | 8.9% | $-8,222 |
+| SPY/IWM 🚩 | polygon/polygon | 501 (300/201) | 38.6 | 38 | 12 | 75.0% | +25.26% | +0.16 | +0.57 | +1.01 | 2.7% | $+2,926 |
+| QQQ/IWM 🚩 | polygon/polygon | 501 (300/201) | 53.7 | 53 | 9 | 66.7% | +21.86% | +0.15 | +0.46 | +0.74 | 2.6% | $+1,893 |
+| SPY/DIA 🚩 | polygon/polygon | 499 (299/200) | 46.7 | 46 | 11 | 81.8% | +65.16% | +0.46 | +1.54 | +2.26 | 2.3% | $+7,289 |
+| XLF/XLE 🚩 | polygon/twelvedata | 501 (300/201) | 36.9 | 36 | 15 | 53.3% | -41.93% | -0.23 | -0.90 | -1.31 | 11.0% | $-6,341 |
+| XLI/XLB 🚩 | twelvedata/twelvedata | 1000 (600/400) | 405.0 | 60 | 17 | 76.5% | +18.86% | +0.13 | +0.52 | +0.49 | 3.8% | $+3,056 |
+| EWA/EWC | twelvedata/twelvedata | 999 (599/400) | 37.4 | 37 | 28 | 57.1% | -49.15% | -0.22 | -1.16 | -1.08 | 20.4% | $-13,511 |
+| BTC/ETH 🚩 | binance/binance | 1000 (600/400) | 815.0 | 60 | 11 | 36.4% | -120.74% | -0.66 | -2.20 | -1.99 | 12.7% | $-12,671 |
 
 ## 2. Renaissance Setups on Real US Equities
 
@@ -65,7 +65,7 @@ Universe: AAPL, MSFT, NVDA, AMZN, GOOGL, META, TSLA, SPY, QQQ, IWM
 > *model*, not the *market*.  The numbers in this file are what the market
 > actually gave us over the last ~2-4 years of daily bars.
 
-- **RV pairs**: 0/8 pairs had positive OOS Sharpe. 0/8 had ≥20 trades (credible sample).
+- **RV pairs**: 4/8 pairs had positive OOS Sharpe. 1/8 had ≥20 trades (credible sample).
 - **Renaissance setups blended**: OOS ann Sharpe -0.06 over 1453 trades, t-stat -0.34.
   - ⚠️ Blended edge is **NOT** statistically significant (|t| < 2).
 

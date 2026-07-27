@@ -130,9 +130,17 @@ def backtest_pair_with_trades(label: str, asset_class: str, sym_a: str,
             m, sd = _roll_stats(spread, j, LOOKBACK)
             if sd <= 0:
                 continue
-            z = (spread[j] - m) / sd
-            if (side == 1 and z >= Z_EXIT) or (side == -1 and z <= Z_EXIT):
-                outcome = side * (spread[j] - entry) / esd
+            # FIX 2026-07-26 (Bug 9): exit on SPREAD move, not z move.
+            #   (a) take profit: spread moved >= 1.0 stdev toward mean
+            #   (b) stop loss:   spread moved >= 2.0 stdev against entry
+            #   (c) time stop:   held for HORIZON bars without tp/sl
+            d_stdev = (spread[j] - entry) / esd if esd > 0 else 0.0
+            if side * d_stdev >= 1.0:
+                outcome = side * d_stdev
+                exit_bar = j
+                break
+            if side * d_stdev <= -2.0:
+                outcome = side * d_stdev
                 exit_bar = j
                 break
         if outcome is None:

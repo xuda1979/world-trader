@@ -2561,11 +2561,22 @@ def backtest_rv_mean_reversion(spread, z_entry=RV_Z_ENTRY, z_exit=RV_Z_EXIT,
                 if sd <= 0:
                     continue
                 z = (spread[j] - m) / sd
-                # Exit when z reverts to z_exit (crosses 0 toward mean).
-                if (side == 1 and z >= z_exit) or (side == -1 and z <= z_exit):
-                    outcome = side * (spread[j] - entry) / esd
+                # FIX 2026-07-26 (Bug 9): exit on SPREAD move, not z move.
+                # Prior code exited when z reverted to z_exit, but z can revert
+                # via rolling-mean drift while the spread moves AGAINST you.
+                # New exit rules:
+                #   (a) take profit: spread moved >= 1.0 stdev toward mean
+                #   (b) stop loss:   spread moved >= 2.0 stdev against entry
+                #   (c) time stop:   held for `horizon` bars without tp/sl
+                d_stdev = (spread[j] - entry) / esd if esd > 0 else 0.0
+                if side * d_stdev >= 1.0:
+                    outcome = side * d_stdev  # take profit
+                    break
+                if side * d_stdev <= -2.0:
+                    outcome = side * d_stdev  # stop loss
                     break
             if outcome is None:
+                # time stop: exit at horizon
                 outcome = side * (spread[min(i + horizon, N - 1)] - entry) / esd
             # Realistic cost in stdev units.  Prior code called
             # round_trip_cost_frac("US", abs(entry), atrf) and subtracted that

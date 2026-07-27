@@ -120,6 +120,17 @@ def zscore(series: list, lookback: int = 20) -> list:
     return out
 
 
+def roll_stats(series: list, lookback: int = 20):
+    """Rolling (mean, sd) of a series.  Returns two lists aligned to `series`."""
+    means = [0.0] * len(series)
+    sds = [0.0] * len(series)
+    for i in range(lookback, len(series)):
+        window = series[i - lookback:i]
+        means[i] = sum(window) / len(window)
+        sds[i] = statistics.pstdev(window)
+    return means, sds
+
+
 # ---------------------------------------------------------------- RV on real pair
 def rv_real_pair(leg_a: str, leg_b: str, days: int = DEFAULT_BARS,
                  z_threshold: float = 1.5,
@@ -158,24 +169,57 @@ def rv_real_pair(leg_a: str, leg_b: str, days: int = DEFAULT_BARS,
     z = zscore(oos_with_seed, lookback=lookback)
     # trim the seed off the z-score
     z_oos = z[len(seed):]
-    # trade: enter at |z|>2, exit at |z|<0.5; simple discrete rule
+    # Rolling mean/sd for OOS, for measuring spread movement in stdev units.
+    means_oos, sds_oos = roll_stats(oos_with_seed, lookback=lookback)
+    means_oos = means_oos[len(seed):]
+    sds_oos = sds_oos[len(seed):]
+    # Trade: enter at |z|>z_threshold, exit on ONE of:
+    #   (a) spread reversion: spread moved >= 1.0 stdev toward mean (take profit)
+    #   (b) stop-loss:        spread moved >= 2.0 stdev against entry (cap DD)
+    #   (c) time stop:        held for `horizon_bars` without (a) or (b) (no holy-grail hold)
+    # FIX 2026-07-26 (Bug 9): prior code exited on |z|<0.5, but z can revert via
+    # rolling-mean drift while the spread moves AGAINST you -- producing a z-reversion
+    # without a spread reversion. Exit on SPREAD move, not z move.
+    horizon_bars = max(5, int(hl))  # time stop = OU half-life
     equity = START_EQUITY
     trades = []
     pos = 0  # +1 long spread, -1 short spread, 0 flat
     entry_z = 0.0
     entry_i = 0
     entry_equity = 0.0
+    entry_sd = 0.0  # rolling sd at entry (in spread units), for stdev-distance PnL
     for i in range(1, len(oos_spread)):
         zi = z_oos[i]
         # mark-to-market on existing position
         if pos != 0:
-            # spread change * position * risk_usd / entry_z_sd
+            # spread change in raw units
             d_spread = oos_spread[i] - oos_spread[entry_i]
-            # 1-sigma move in spread ~ entry_z sd; we sized so 1-sigma risk = RISK_PER_TRADE
-            sd_entry = abs(entry_z) if entry_z != 0 else 1.0
-            pnl = pos * d_spread / sd_entry * (entry_equity * RISK_PER_TRADE)
-        # exit logic
-        if pos != 0 and abs(zi) < 0.5:
+            # spread change in stdev units (using entry-time rolling sd)
+            d_stdev = d_spread / entry_sd if entry_sd > 0 else 0.0
+            # PnL in dollars: pos * d_stdev * dollar_per_stdev
+            # where dollar_per_stdev = RISK_PER_TRADE * entry_equity (the sizing convention)
+            pnl = pos * d_stdev * (entry_equity * RISK_PER_TRADE)
+        # exit logic: spread reversion (take profit), stop-loss, or time stop
+        # FIX 2026-07-26 (Bug 9): exit on SPREAD move, not z move.
+        should_exit = False
+        exit_reason = ""
+        if pos != 0:
+            # d_stdev is the spread move in stdev units (signed: + means spread rose)
+            # For a LONG (pos=+1): profit if d_stdev > 0; loss if d_stdev < 0
+            # For a SHORT (pos=-1): profit if d_stdev < 0; loss if d_stdev > 0
+            # Take profit: spread moved >= 1.0 stdev toward mean
+            if pos * d_stdev >= 1.0:
+                should_exit = True
+                exit_reason = "tp"
+            # Stop loss: spread moved >= 2.0 stdev against entry
+            elif pos * d_stdev <= -2.0:
+                should_exit = True
+                exit_reason = "sl"
+            # Time stop: held for horizon_bars without tp or sl
+            elif (i - entry_i) >= horizon_bars:
+                should_exit = True
+                exit_reason = "time"
+        if should_exit:
             # Apply round-trip cost (FIX 2026-07-26: prior code had NO cost).
             cost_stdev = _rv_cost_stdev("US", entry_equity)
             cost_usd = cost_stdev * (entry_equity * RISK_PER_TRADE)
@@ -186,6 +230,7 @@ def rv_real_pair(leg_a: str, leg_b: str, days: int = DEFAULT_BARS,
                 "entry_bar": entry_i, "exit_bar": i,
                 "side": "Long" if pos > 0 else "Short",
                 "entry_z": entry_z, "exit_z": zi,
+                "exit_reason": exit_reason,
                 "pnl_usd": pnl_net, "net_ret": ret,
                 "equity_after": equity,
             })
@@ -197,16 +242,18 @@ def rv_real_pair(leg_a: str, leg_b: str, days: int = DEFAULT_BARS,
                 entry_z = zi
                 entry_i = i
                 entry_equity = equity
+                entry_sd = sds_oos[i] if sds_oos[i] > 0 else 0.01
             elif zi < -z_threshold:
                 pos = +1
                 entry_z = zi
                 entry_i = i
                 entry_equity = equity
+                entry_sd = sds_oos[i] if sds_oos[i] > 0 else 0.01
     # close any open position at the end
     if pos != 0:
         d_spread = oos_spread[-1] - oos_spread[entry_i]
-        sd_entry = abs(entry_z) if entry_z != 0 else 1.0
-        pnl = pos * d_spread / sd_entry * (entry_equity * RISK_PER_TRADE)
+        d_stdev = d_spread / entry_sd if entry_sd > 0 else 0.0
+        pnl = pos * d_stdev * (entry_equity * RISK_PER_TRADE)
         # Apply round-trip cost (FIX 2026-07-26: prior code had NO cost).
         cost_stdev = _rv_cost_stdev("US", entry_equity)
         cost_usd = cost_stdev * (entry_equity * RISK_PER_TRADE)
@@ -217,6 +264,7 @@ def rv_real_pair(leg_a: str, leg_b: str, days: int = DEFAULT_BARS,
             "entry_bar": entry_i, "exit_bar": len(oos_spread) - 1,
             "side": "Long" if pos > 0 else "Short",
             "entry_z": entry_z, "exit_z": z_oos[-1],
+            "exit_reason": "eod",
             "pnl_usd": pnl_net, "net_ret": ret,
             "equity_after": equity,
         })

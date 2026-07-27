@@ -378,17 +378,22 @@ def run_rv_mean_reversion(spread, market="US", start_equity=100_000.0,
     curve = EquityCurve(start_equity)
     for i, side, entry, esd in entries:
         outcome = None
+        exit_bar = None
         for j in range(i + 1, min(i + 1 + RV_HORIZON, N)):
             window = spread[max(0, j-lookback):j]
             m = statistics.mean(window)
             sd = statistics.pstdev(window) if len(window) > 1 else esd
             if sd <= 0:
                 continue
-            z = (spread[j] - m) / sd
-            if side == 1 and z >= RV_Z_EXIT:
-                outcome = spread[j] - entry; exit_bar = j; break
-            if side == -1 and z <= RV_Z_EXIT:
-                outcome = entry - spread[j]; exit_bar = j; break
+            # FIX 2026-07-26 (Bug 9): exit on SPREAD move, not z move.
+            #   (a) take profit: spread moved >= 1.0 stdev toward mean
+            #   (b) stop loss:   spread moved >= 2.0 stdev against entry
+            #   (c) time stop:   held for RV_HORIZON bars without tp/sl
+            d_stdev = (spread[j] - entry) / esd if esd > 0 else 0.0
+            if side * d_stdev >= 1.0:
+                outcome = (spread[j] - entry) * side; exit_bar = j; break
+            if side * d_stdev <= -2.0:
+                outcome = (spread[j] - entry) * side; exit_bar = j; break
         if outcome is None:
             outcome = (spread[min(i+RV_HORIZON, N-1)] - entry) * side
             exit_bar = min(i+RV_HORIZON, N-1)

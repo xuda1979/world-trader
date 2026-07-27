@@ -1,6 +1,6 @@
 # RV Mean-Reversion Backtest at Scale (Real Data)
 
-Generated: 2026-07-27 11:35:45  |  Elapsed: 4.2s
+Generated: 2026-07-27 19:22:29  |  Elapsed: 2.9s
 
 ## Methodology
 
@@ -17,42 +17,36 @@ Generated: 2026-07-27 11:35:45  |  Elapsed: 4.2s
 
 | Pair | Mkt | RT cost | IS n | IS Sharpe | OOS n | OOS Sharpe | OOS Win% | OOS PnL $ | Final Eq $ | Total Ret |
 |------|-----|---------|------|-----------|-------|------------|----------|-----------|------------|-----------|
-| GBP/JPY | FX | 4.40bp | 143 | -0.45 | 96 | +0.04 | 43.8% | $1,022 | $31,156 | -68.8% |
-| EUR/AUD | FX | 4.40bp | 125 | -0.29 | 101 | -0.05 | 52.5% | $-4,925 | $56,562 | -43.4% |
-| 2s30s | YIELD | 3.20bp | 165 | -0.01 | 106 | -0.31 | 39.6% | $-39,202 | $55,627 | -44.4% |
-| AUD/NZD | FX | 4.40bp | 113 | +0.16 | 101 | -0.31 | 40.6% | $-37,908 | $88,605 | -11.4% |
 
 ## Portfolio Tear-Sheet (compounded across all 10 pairs)
 
 | Metric | Value |
 |--------|-------|
-| Trades | 950 |
-| Win rate | 42.5% |
-| Avg win | +1.034 stdev |
-| Avg loss | -1.193 stdev |
-| Exp/trade | -0.246 stdev |
-| SD/trade | 1.483 stdev |
-| Per-trade Sharpe | -0.17 |
-| t-stat | -5.11 |
-| Total return | -82.6% |
-| Final equity | $17,385 |
-| Max drawdown | 82.6% |
-| Years (est) | 5.7 |
-| Trades/year | 167.1 |
-| CAGR | -26.5% |
-| Ann. Sharpe | -2.14 |
-| Calmar | -0.32 |
-| Total PnL | $-82,615 |
-| Worst trade | -6.848 stdev |
-| Best trade | +5.143 stdev |
+| Trades | 0 |
+| Win rate | 0.0% |
+| Avg win | +0.000 stdev |
+| Avg loss | +0.000 stdev |
+| Exp/trade | +0.000 stdev |
+| SD/trade | 0.000 stdev |
+| Per-trade Sharpe | +0.00 |
+| t-stat | +0.00 |
+| Total return | +0.0% |
+| Final equity | $100,000 |
+| Max drawdown | 0.0% |
+| Years (est) | 0.0 |
+| Trades/year | 0.0 |
+| CAGR | +0.0% |
+| Ann. Sharpe | +0.00 |
+| Calmar | +0.00 |
+| Total PnL | $0 |
+| Worst trade | +0.000 stdev |
+| Best trade | +0.000 stdev |
 
-**IS/OOS split**: 546 IS trades (exp/trade -0.262 stdev), 404 OOS trades (exp/trade -0.223 stdev)
+**IS/OOS split**: 0 IS trades (exp/trade +0.000 stdev), 0 OOS trades (exp/trade +0.000 stdev)
 
 ## Key Findings
 
-- **1/4 pairs have positive OOS Sharpe**; 3 have non-positive.
-- **FX pairs**: 1/3 positive OOS Sharpe.  Best: GBP/JPY (+0.04).
-- **Yield pairs**: 0/1 positive OOS Sharpe.  Best (least bad): 2s30s (-0.31).
-- **Portfolio max DD = 82.6%** — **UNTRADEABLE as-is**.  The strategy has NO stop-loss; yield-curve trades held to horizon can move 4-9 stdev against.
-- **CAGR -26.5% / Ann Sharpe -2.14** is DOMINATED by the 83% DD — Calmar -0.32 confirms risk-adjusted return is poor.
-- **Cost impact**: at ~1.3-1.4bp RT per trade and ~167 trades/year, cost drag ~2.2%/year — small relative to signal variance but meaningful for low-edge pairs.
+- **0/0 pairs have positive OOS Sharpe**; 0 have non-positive.
+- **Portfolio max DD = 0.0%** — **UNTRADEABLE as-is**.  Despite a 2-stdev stop-loss (added 2026-07-26), yield-curve trades can still move 4+ stdev against before the stop triggers.
+- **CAGR +0.0% / Ann Sharpe +0.00** is DOMINATED by the 0% DD — Calmar +0.00 confirms risk-adjusted return is poor.
+- **Cost impact**: at ~3.8bp RT per trade and ~0 trades/year, cost drag ~0.0%/year — small relative to signal variance but meaningful for low-edge pairs.

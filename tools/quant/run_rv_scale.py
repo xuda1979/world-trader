@@ -174,6 +174,7 @@ class RVTrade:
     pnl_usd: float
     equity_after: float
     in_oos: bool
+    exit_reason: str = ""  # "tp", "sl", "time", "eod"
 
 
 def _rolling_z(spread: list, i: int, lookback: int) -> Tuple[float, float, float]:
@@ -226,18 +227,32 @@ def backtest_pair(label: str, spread: list, dates: list, market: str,
         outcome = None
         exit_bar = None
         exit_z = 0.0
+        exit_reason = ""
         for j in range(i + 1, min(i + 1 + horizon, N)):
             zj, _, _ = _rolling_z(spread, j, lookback)
-            if (side == 1 and zj >= z_exit) or (side == -1 and zj <= z_exit):
-                outcome = side * (spread[j] - entry) / esd
+            d_stdev = (spread[j] - entry) / esd if esd > 0 else 0.0
+            # FIX 2026-07-26 (Bug 9): exit on SPREAD move, not z move.
+            #   (a) take profit: spread moved >= 1.0 stdev toward mean
+            #   (b) stop loss:   spread moved >= 2.0 stdev against entry
+            #   (c) time stop:   held for `horizon` bars without tp/sl
+            if side * d_stdev >= 1.0:
+                outcome = side * d_stdev
                 exit_bar = j
                 exit_z = zj
+                exit_reason = "tp"
+                break
+            if side * d_stdev <= -2.0:
+                outcome = side * d_stdev
+                exit_bar = j
+                exit_z = zj
+                exit_reason = "sl"
                 break
         if outcome is None:
             j = min(i + horizon, N - 1)
             outcome = side * (spread[j] - entry) / esd
             exit_bar = j
             exit_z, _, _ = _rolling_z(spread, j, lookback)
+            exit_reason = "time"
 
         gross_ret = outcome  # in stdev units
         net_ret = gross_ret - _rv_cost_stdev(rt_cost)  # convert notional-frac to stdev units
@@ -252,6 +267,7 @@ def backtest_pair(label: str, spread: list, dates: list, market: str,
             gross_ret=gross_ret, cost_frac=rt_cost, net_ret=net_ret,
             pnl_usd=pnl, equity_after=equity,
             in_oos=(i >= oos_split),
+            exit_reason=exit_reason,
         ))
     if not trades:
         return None
@@ -379,7 +395,14 @@ def portfolio_equity_curve(results: List[dict], start_equity=START_EQUITY,
 
 def portfolio_stats(curve: List[float], trades: List[RVTrade], start_equity=START_EQUITY) -> dict:
     if not trades:
-        return {"n": 0}
+        return {"n_trades": 0, "n": 0, "p_win": 0.0, "avg_win": 0.0,
+                "avg_loss": 0.0, "exp_ret_per_trade": 0.0, "sd_per_trade": 0.0,
+                "per_trade_sharpe": 0.0, "t_stat": 0.0, "total_return": 0.0,
+                "final_equity": start_equity, "max_drawdown": 0.0,
+                "max_dd_peak_bar": 0, "max_dd_trough_bar": 0, "years": 0.0,
+                "trades_per_year": 0.0, "cagr": 0.0, "ann_sharpe": 0.0,
+                "calmar": 0.0, "total_pnl_usd": 0.0, "worst_trade": 0.0,
+                "best_trade": 0.0}
     eq = curve
     total_ret = (eq[-1] / eq[0] - 1.0) if eq[0] > 0 else 0.0
     # max drawdown
@@ -644,8 +667,9 @@ def main():
                 f.write(f"- **Yield pairs**: 0/{len(yld_all)} positive OOS Sharpe.  "
                         f"Best (least bad): {yb['pair']} ({yb['oos'].get('edge',0):+.2f}).\n")
         f.write(f"- **Portfolio max DD = {ps['max_drawdown']*100:.1f}%** — "
-                f"**UNTRADEABLE as-is**.  The strategy has NO stop-loss; "
-                f"yield-curve trades held to horizon can move 4-9 stdev against.\n")
+                f"**UNTRADEABLE as-is**.  Despite a 2-stdev stop-loss (added "
+                f"2026-07-26), yield-curve trades can still move 4+ stdev "
+                f"against before the stop triggers.\n")
         f.write(f"- **CAGR {ps['cagr']*100:+.1f}% / Ann Sharpe {ps['ann_sharpe']:+.2f}** "
                 f"is DOMINATED by the {ps['max_drawdown']*100:.0f}% DD — Calmar "
                 f"{ps['calmar']:+.2f} confirms risk-adjusted return is poor.\n")
