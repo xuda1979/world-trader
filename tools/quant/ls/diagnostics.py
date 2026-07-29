@@ -69,8 +69,12 @@ def window_sweep(panel: Dict, processed: Dict, cfg, kept_factors: List[str],
     results = {}
     for w in cfg.diag_window_sweep:
         cfg_w = cfg.copy(train_window=w, name=f"sweep_{w}")
-        out_w = model.roll_forward(processed, panel, cfg_w,
-                                   kept_factors=kept_factors, sign_flips=sign_flips)
+        # Use the SAME model method as the main run so the sweep is
+        # an apples-to-apples robustness check (otherwise an ICIR/GBRT
+        # main run is compared against an OLS sweep, which is misleading).
+        out_w = model.roll_forward_dispatch(processed, panel, cfg_w,
+                                            kept_factors=kept_factors,
+                                            sign_flips=sign_flips)
         if out_w["predictions"].empty:
             results[w] = {"sharpe": np.nan, "n_pred": 0}
             continue

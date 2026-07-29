@@ -437,11 +437,10 @@ def roll_forward_gbrt(processed: Dict[str, pd.DataFrame], panel: Dict, cfg,
         pass  # handled per-refit below
 
     # Winsorize the label to suppress outliers (Freyberger 2020 does this).
+    # NOTE: percentiles are computed INSIDE the refit loop on training data only
+    # to avoid look-ahead bias (using full-sample percentiles would leak future
+    # returns into the label clip thresholds).  The flag is just stored here.
     win_p = float(getattr(cfg, "gbrt_label_winsorize", 0.0))
-    if win_p > 0:
-        lo = np.nanpercentile(fwd_arr, win_p * 100)
-        hi = np.nanpercentile(fwd_arr, (1 - win_p) * 100)
-        fwd_arr = np.clip(fwd_arr, lo, hi)
 
     # ---- Label transform (applied after residualization, before fit) ----
     # 'raw'    = use fwd_arr as-is
@@ -523,6 +522,13 @@ def roll_forward_gbrt(processed: Dict[str, pd.DataFrame], panel: Dict, cfg,
                         y_use = y_train_resid[mask]
             except Exception:
                 pass  # fall back to raw label if PCA fails
+
+        # Winsorize the TRAINING labels at this refit (look-ahead-safe:
+        # percentiles use only training-window rows, no future data).
+        if win_p > 0:
+            lo = np.nanpercentile(y_use, win_p * 100)
+            hi = np.nanpercentile(y_use, (1 - win_p) * 100)
+            y_use = np.clip(y_use, lo, hi)
 
         # Fit a fresh GBRT (no warm start -- walk-forward purity)
         try:

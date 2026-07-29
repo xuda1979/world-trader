@@ -63,6 +63,8 @@ def run_backtest(panel: Dict, predictions: pd.DataFrame, cfg,
     gross_exp = pd.Series(0.0, index=prices.index, name="gross_exposure")
     net_exp = pd.Series(0.0, index=prices.index, name="net_exposure")
     port_beta = pd.Series(0.0, index=prices.index, name="portfolio_beta")
+    financing_cost = pd.Series(0.0, index=prices.index, name="financing_cost")
+    txn_cost = pd.Series(0.0, index=prices.index, name="txn_cost")
     risk_events = []
 
     # State
@@ -102,10 +104,29 @@ def run_backtest(panel: Dict, predictions: pd.DataFrame, cfg,
 
         # ---- 2b. Short-borrow cost (annualized, prorated daily) ----
         # Applied to the short market value held *overnight* into day t.
-        # short_borrow_annual_bps is the all-in short cost (forgone rebate + borrow fee).
+        # Two models:
+        #   (A) Call-rate based (practitioner-grade, default):
+        #       daily_short_cost = ((call_rate - rebate_paid_bps)/1e4 / 252) * |short_mv|
+        #                        + (borrow_fee_etb_bps/1e4 / 252) * |short_mv|
+        #       where call_rate = Fed Funds Effective Rate (DFF) at date t (in %).
+        #       This nets to ~1.25-2.25% annualized on ETB large-caps in a 5.25-5.50%
+        #       Fed funds environment.
+        #   (B) Legacy flat: short_borrow_annual_bps (default 50 bps) on |short_mv|.
+        #       Used only when use_call_rate_financing=False or CALL_RATE missing.
         if cfg.short_borrow_apply and i > 0:
             short_mv = float((w_aligned[w_aligned < 0]).abs().sum())
-            daily_borrow = (cfg.short_borrow_annual_bps / 1e4) / 252.0 * short_mv
+            if getattr(cfg, "use_call_rate_financing", False) and "CALL_RATE" in macro.columns:
+                # Call-rate-based short cost
+                call_rate_pct = float(macro["CALL_RATE"].iloc[i]) if pd.notna(macro["CALL_RATE"].iloc[i]) else 5.50
+                # Net rebate = call_rate - rebate_paid_bps (broker keeps the spread)
+                net_rebate_pct = call_rate_pct - getattr(cfg, "short_rebate_paid_bps", 150.0) / 1e2
+                # Convert percentage to a fraction (5.33% -> 0.0533) then daily
+                net_rebate_frac = net_rebate_pct / 100.0
+                borrow_fee_frac = getattr(cfg, "short_borrow_fee_etb_bps", 25.0) / 1e4
+                daily_borrow = (net_rebate_frac / 252.0) * short_mv + (borrow_fee_frac / 252.0) * short_mv
+            else:
+                # Legacy flat short-borrow model
+                daily_borrow = (cfg.short_borrow_annual_bps / 1e4) / 252.0 * short_mv
             # HTB premium: if any short name has avg dollar vol below threshold,
             # add the HTB premium.  (Simplified: apply premium to all shorts if
             # the strategy shorts low-vol names.  Off by default.)
@@ -119,10 +140,29 @@ def run_backtest(panel: Dict, predictions: pd.DataFrame, cfg,
             cost_today += daily_borrow
             borrow_cost_today = daily_borrow
 
+        # ---- 2c. Long-side financing cost (on levered long excess over equity) ----
+        # When gross leverage > 1.0, the long market value exceeds equity; the
+        # excess is funded by a broker call loan at call_rate + long_financing_spread_bps.
+        # This is the symmetric treatment to the short rebate: a levered long
+        # pays financing, an unlevered long doesn't.
+        if getattr(cfg, "long_financing_apply", False) and i > 0 and getattr(cfg, "use_call_rate_financing", False) and "CALL_RATE" in macro.columns:
+            long_mv = float((w_aligned[w_aligned > 0]).sum())
+            equity_now = float(equity_curve.iloc[i - 1]) if i > 0 else float(cfg.initial_capital)
+            # Only the portion of long MV exceeding equity is financed
+            financed_long = max(0.0, long_mv - equity_now)
+            if financed_long > 1e-9:
+                call_rate_pct = float(macro["CALL_RATE"].iloc[i]) if pd.notna(macro["CALL_RATE"].iloc[i]) else 5.50
+                long_rate_pct = call_rate_pct + getattr(cfg, "long_financing_spread_bps", 50.0) / 1e2
+                long_rate_frac = long_rate_pct / 100.0
+                daily_long_fin = (long_rate_frac / 252.0) * financed_long
+                cost_today += daily_long_fin
+                borrow_cost_today += daily_long_fin
+
         # ---- 3. Update equity (apply borrow cost every day) ----
         if i > 0:
             equity = equity_curve.iloc[i - 1] * (1.0 + gross_ret) - borrow_cost_today * equity_curve.iloc[i - 1]
         equity_curve.iloc[i] = equity
+        financing_cost.iloc[i] = borrow_cost_today
         daily_ret.iloc[i] = gross_ret - borrow_cost_today  # update with txn cost after rebalance
 
         # ---- 4. Risk controls (look-back, no future data) ----
@@ -184,6 +224,7 @@ def run_backtest(panel: Dict, predictions: pd.DataFrame, cfg,
                     # Apply the new weights TOMORROW (set w_current for next iter)
                     w_current = target_w.copy()
                     turnover.iloc[i] = float(delta.abs().sum())
+                    txn_cost.iloc[i] = txn_cost_today
                     # Re-adjust equity for txn cost (borrow already applied above)
                     equity -= txn_cost_today * equity
                     equity_curve.iloc[i] = equity
@@ -193,6 +234,7 @@ def run_backtest(panel: Dict, predictions: pd.DataFrame, cfg,
                     delta = target_w - holdings.iloc[i - 1] if i > 0 else target_w
                     txn_cost_today = float(delta.abs().sum() * (cost_bps + slippage_bps) / 1e4)
                     turnover.iloc[i] = float(delta.abs().sum())
+                    txn_cost.iloc[i] = txn_cost_today
                     equity -= txn_cost_today * equity
                     equity_curve.iloc[i] = equity
                     daily_ret.iloc[i] = gross_ret - borrow_cost_today - txn_cost_today

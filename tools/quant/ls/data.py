@@ -183,15 +183,22 @@ def load_panel(cfg) -> Dict[str, pd.DataFrame]:
 
 
 def _load_macro(cfg, date_index: pd.DatetimeIndex) -> pd.DataFrame:
-    """Load macro series (VIX) from FRED and align to price index.
+    """Load macro series (VIX + call rate) from FRED and align to price index.
 
     Uses tools.wt.altdata.fred_history.  Forward-fills (VIX is daily but may
-    lag).  Returns DataFrame indexed by date_index with columns like 'VIX'.
+    lag).  Returns DataFrame indexed by date_index with columns:
+      - 'VIX':       CBOE volatility index
+      - 'CALL_RATE': Fed Funds Effective Rate (DFF) -- the short-call base rate
+                     used for financing cost calculations.  In percentage units
+                     (e.g., 5.33 = 5.33%).  Forward-filled.
     """
     out = pd.DataFrame(index=date_index)
     if not cfg.use_macro:
         out["VIX"] = 0.0
+        if getattr(cfg, "use_call_rate_financing", False):
+            out["CALL_RATE"] = 0.0
         return out
+    # ---- VIX ----
     try:
         from tools.wt import altdata  # type: ignore
         vals, dates, err = altdata.fred_history(cfg.vix_series, limit=1500)
@@ -206,6 +213,26 @@ def _load_macro(cfg, date_index: pd.DatetimeIndex) -> pd.DataFrame:
             out["VIX"] = _proxy_vix(date_index)
         except Exception:
             out["VIX"] = 20.0  # constant fallback
+    # ---- Call rate (Fed Funds Effective Rate, DFF) ----
+    # Used by the financing cost model in backtest.py.  Fallback: a constant
+    # reflecting the 2024-2026 Fed funds target upper bound (~5.50%) when FRED
+    # is unreachable -- a conservative (i.e., cost-overstating) choice.
+    if getattr(cfg, "use_call_rate_financing", False):
+        call_sid = getattr(cfg, "call_rate_series", "DFF")
+        try:
+            from tools.wt import altdata  # type: ignore
+            vals, dates, err = altdata.fred_history(call_sid, limit=1500)
+            if vals is None or len(vals) == 0:
+                raise RuntimeError(err or "no call-rate data")
+            s = pd.Series(vals, index=pd.to_datetime(dates)).sort_index()
+            s = s.astype(float)
+            s = s.reindex(date_index).ffill().bfill(limit=10)
+            out["CALL_RATE"] = s
+        except Exception:
+            # Conservative fallback: assume the upper end of 2024-2026 Fed range
+            # (5.50%).  This OVERSTATES short cost slightly, which is safer than
+            # understating it for a retail trader evaluating net-of-cost alpha.
+            out["CALL_RATE"] = 5.50
     return out
 
 

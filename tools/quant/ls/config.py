@@ -184,10 +184,29 @@ class Config:
     # Retail short-sellers pay: (1) the short rebate forgone on cash collateral,
     # (2) a borrow fee that varies by name scarcity.  For liquid large-caps the
     # all-in short cost is typically 0.25-1.0% annualized; for HTB names 3-10%+.
-    short_borrow_annual_bps: float = 50.0          # 50bps annual = generic large-cap borrow
+    short_borrow_annual_bps: float = 50.0          # 50bps annual = generic large-cap borrow (legacy flat model)
     short_borrow_htb_premium_bps: float = 200.0    # extra for hard-to-borrow (if flagged)
     short_borrow_apply: bool = True                # apply short-borrow cost daily
     short_borrow_threshold_vol: float = 0.0        # names with vol < this treated as HTB (0=off)
+
+    # ---- Practitioner-grade financing model (call-rate based) ----
+    # When use_call_rate_financing=True, the daily short cost is:
+    #   daily_short_cost = (call_rate - rebate_paid_bps/1e4) / 252 * |short_mv|
+    #                    + (borrow_fee_etb_bps/1e4) / 252 * |short_mv|
+    # where call_rate is the Fed Funds Effective Rate (DFF) aligned to date t.
+    # The "rebate" is the interest the broker PAYS the short seller on cash
+    # collateral; for retail it's typically call_rate - 100 to 200 bps.
+    # The borrow fee is the explicit fee for borrowing the stock (0-25 bps ETB,
+    # 200-1000+ bps HTB).  Combined, short cost on ETB large-caps in a
+    # 5.25-5.50% Fed funds environment is roughly 1.25-2.25% annualized.
+    use_call_rate_financing: bool = True           # use DFF-based short cost (overrides flat 50bps)
+    call_rate_series: str = "DFF"                  # FRED series id for Fed Funds Effective Rate
+    short_rebate_paid_bps: float = 150.0           # broker keeps ~150bps of the call rate on shorts
+    short_borrow_fee_etb_bps: float = 25.0         # generic ETB borrow fee (annualized)
+    # Long-side financing: when gross leverage > 1.0, the excess long is funded
+    # by a broker call loan at call_rate + long_financing_spread_bps.
+    long_financing_spread_bps: float = 50.0        # spread over call rate on debit balance
+    long_financing_apply: bool = True              # apply long financing cost on levered long
     rebalance_freq: int = 5                        # rebalance every N days
     turnover_threshold_diff: float = 0.0008        # rebalance only if pred diff > cost
     hold_zone_top_pct: float = 0.03                # keep if still in top 3%
