@@ -1674,3 +1674,59 @@ still over-weights fx (tiny realized vol) so equal-weight / capped weights are
 preferred. Next: extend pairs+fx samples, add more independent alpha.
 
 Deliverable: build_strategy_portfolio.py now emits full_book (5 legs).
+
+## Update 2026-08-06 (xxxvii) — Recommended 5-leg book robustness (leave-one-out)
+
+Leave-one-out on the recommended 5-leg equal-weight book (1531d, @3.8bps):
+- FULL 5-leg:          Sharpe 1.20 | AnnRet 7.3% | MaxDD -7.7%
+- drop LS_GBRT -> 1.08 (flagship ML leg earns its place; biggest single drop)
+- drop tsmom   -> 0.99
+- drop gold    -> 1.03
+- drop fx      -> 1.20 but MaxDD -10.1% (fx = near-zero standalone Sharpe 0.18
+                   but a genuine drawdown-diversifier; keeping it improves DD)
+- drop etf_mom -> 1.20 but MaxDD -9.9%
+No single-leg removal collapses the book (all LOO >= ~1.0) -> the high-Sharpe
+book is ROBUST to any one strategy failing; it is not riding one winner. This
+is the strongest honest case behind the 5-leg equal-weight recommendation.
+
+## Update 2026-08-06 (xxxviii) — Honest forward-Sharpe estimate for the 5-leg book
+
+Year-by-year 5-leg equal-weight book (2020-26):
+2020 1.64 | 2021 -0.11 | 2022 -0.35 | 2023 -0.01 | 2024 2.48 | 2025 2.81 | 2026 1.47
+Rolling 3y (756d) Sharpe: mean 0.96, range -0.11..2.10 (13 overlapping snapshots).
+
+REVISED honest forward estimate: the headline 1.20 point Sharpe is regime-
+inflated by 2024-26 (a strong momentum/factor regime). Realistic forward
+3-year Sharpe expectancy ~0.9-1.0, NOT 1.2. In the 2021-2023 sideways/rising-
+rate regime (which 2026+ could resemble) the book runs flat-to-slightly-
+negative (Sharpe ~ -0.1..-0.35). This is the honest number to manage against;
+do not quote 1.20 (or the even more misleading 2.28 from the short-window
+screen, see update xxxvi) as expected future performance.
+
+## Update 2026-08-06 (xxxviii) — CRITICAL: trend/fx legs FAIL scramble test; 2.1 was overstated
+
+Multi-seed scramble control (25 seeds, price-lag noise benchmark) on the
+cross-asset legs added in (xxxvii):
+
+| leg            | real SR | scramble mean(SD) | P(scramble>real) |
+|----------------|---------|-------------------|------------------|
+| cross_asset_tsmom | 0.90 | 0.78 (0.40), p50=0.96, p95=1.31 | 52% |
+| gold_trend     | 0.96    | 0.76 (0.31), p50=0.85, p95=1.06  | 44% |
+| fx_momentum    | 0.50    | scramble42=2.09                  | (real<noise) |
+
+CONCLUSION: tsmom/gold/fx do NOT beat their own scrambled control. Their
+reported Sharpe is predominantly US-equity market/vol beta in the 2019-2026
+bull regime, NOT robust alpha. The 5-leg portfolio Sharpe ~2.1 printed in
+(xxxvii) was therefore OVERSTATED and must NOT be quoted as realized alpha.
+
+Scramble-validated alpha legs = equity L/S champion (~0.84, deep 8y WF OOS)
++ pairs statistical-arb (walk-forward, 11 qualified US pairs, OOS SR 6.96 on
+139 nonzero days / 204 OOS days). Combined on OOS-only window:
+  vol-parity 5.63 / equal-wt 6.62 -- but keep pairs capped & treat its SR as
+  a short-sample upper-bound (small # independent bets); realistic hold-period
+  portfolio Sharpe bounded well below that, anchored by the equity leg ~0.9.
+
+ACTION: validated_book (ls+pairs only) now emitted in strategy_portfolio.json;
+trend/fx legs kept only as reference, excluded from advocate portfolio.
+Next: extend pairs + acquire genuinely robust non-beta alpha (e.g. true
+cross-sectional stat-arb, carry, RV in rates/FX).
