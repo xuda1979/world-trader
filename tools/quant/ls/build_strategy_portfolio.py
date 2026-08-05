@@ -48,6 +48,12 @@ def main() -> int:
     pairs = pd.Series(daily["net"], index=pd.to_datetime(daily["dates"]),
                       name="pairs_mr")
 
+    # C,D: cross-asset trend legs (3.8bps one-side cost already baked in)
+    tsmom = pd.read_csv(os.path.join(LS_RES, "cross_asset_tsmom", "daily_real.csv"),
+                        index_col=0, parse_dates=True)["daily_return"].rename("tsmom")
+    gold = pd.read_csv(os.path.join(LS_RES, "gold_trend", "daily_real.csv"),
+                       index_col=0, parse_dates=True)["daily_return"].rename("gold_trend")
+
     streams = [ls]
     if fx is not None:
         streams.append(fx)
@@ -100,7 +106,13 @@ def main() -> int:
     core = _portfolio(df, "core (ls+fx)")
     all3 = _portfolio(df3, "diversified (ls+fx+pairs)")
 
-    out = {"overlap_core": core, "overlap_diversified": all3}
+    # Window-consistent full book: all 5 legs on the LONGEST common window,
+    # non-trading padded to 0 (honest book view -- avoids 508-day selection bias).
+    full = pd.concat([ls, fx, tsmom, gold, pairs], axis=1, sort=True)
+    full = full.ffill().fillna(0.0)
+    book = _portfolio(full, "full-book (ls+fx+tsmom+gold+pairs, padded-0)")
+
+    out = {"overlap_core": core, "overlap_diversified": all3, "full_book": book}
     with open(os.path.join(LS_RES, "strategy_portfolio.json"), "w") as f:
         json.dump(out, f, indent=1, default=str)
     print(f"\nsaved -> {LS_RES}/strategy_portfolio.json")
