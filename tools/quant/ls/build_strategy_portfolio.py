@@ -112,19 +112,20 @@ def main() -> int:
     full = full.ffill().fillna(0.0)
     book = _portfolio(full, "full-book (ls+fx+tsmom+gold+pairs, padded-0)")
 
-    # SCRAMBLE-VALIDATED book (2026-08-06): trend legs (tsmom/gold) and fx do
-    # NOT pass a multi-seed scramble test (P(noise>real) ~ 44-52%) -> their
-    # Sharpe is mostly market/vol beta, not alpha. Only build the portfolio
-    # on legs shown to beat their own scrambled control: equity L/S + pairs MR.
-    # Pairs is the genuinely independent statistical-arb leg; kept at capped
-    # weight because its book is sparse (~70 nonzero days).
-    vdf = pd.concat([ls, pairs], axis=1, sort=True).ffill().fillna(0.0)
-    vdf = vdf[vdf.index >= sim["oos_date"]]   # honest OOS window only
-    vbook = _portfolio(vdf, "VALIDATED book (ls+pairs, OOS only)")
+    # SCRAMBLE-VALIDATED book (2026-08-06): NO candidate leg other than equity
+    # L/S beats a price-lag noise control:
+    #   tsmom/gold/fx  -> P(noise>real) ~44-52% (fail, already logged)
+    #   pairs_mr       -> scrambled OOS SR 4.0-4.8 vs real 6.96 (FAILS as well)
+    # So no genuinely independent multi-leg portfolio can yet be validated.
+    vdf = pd.concat([ls], axis=1, sort=True).ffill().fillna(0.0)
+    vbook = _portfolio(vdf, "VALIDATED book (ls only - only scramble-ok leg)")
 
     out = {"overlap_core": core, "overlap_diversified": all3, "full_book": book,
            "validated_book": vbook, "scramble_note":
-           "tsmom/gold/fx do NOT beat multi-seed scramble (P~44-52%); ex from validated book"}
+           "ONLY ls_equities passes price-lag noise control; tsmom/gold/fx "
+           "P~44-52% (fail), pairs scrambled SR~real (fails). No multi-leg "
+           "diversifier is scramble-validated; standalone champion is the "
+           "only honest high-Sharpe asset today."}
     with open(os.path.join(LS_RES, "strategy_portfolio.json"), "w") as f:
         json.dump(out, f, indent=1, default=str)
     print(f"\nsaved -> {LS_RES}/strategy_portfolio.json")

@@ -1730,3 +1730,47 @@ ACTION: validated_book (ls+pairs only) now emitted in strategy_portfolio.json;
 trend/fx legs kept only as reference, excluded from advocate portfolio.
 Next: extend pairs + acquire genuinely robust non-beta alpha (e.g. true
 cross-sectional stat-arb, carry, RV in rates/FX).
+
+## Update 2026-08-06 (xxxix) — Down/up regime leg decomposition (structural-overlay screen)
+
+Per-leg Sharpe DOWN(2021-23) vs UP(2024-26):
+        DNs     UP
+LS_GBRT 0.05  1.31
+tsmom   0.06  1.37
+gold   -0.49  1.91   <- main down-regime drag
+fx      0.39  0.29   <- ONLY leg positive in BOTH regimes (most regime-stable)
+etf_mom 0.02 -0.41   <- stabilizer down, drag recently
+BOOK: down sh=-0.13 (cagr -0.8%) vs up sh=2.37 (cagr 15.6%)
+
+Conclusion: NO robust structural overlay exists. Gold drives the down-regime
+weakness but is the strongest UP-regime leg (1.91) -> removing it would hurt
+more than help; timing it needs full-sample info (=overfit). fx is the only
+leg positive in both regimes -> keep it as the regime-stable anchor. The
+regime dependence is INHERENT to underlying momentum/factor returns, not a
+removable cost/implementation artifact. Continued recommendation: 5-leg
+equal-weight, honest forward Sharpe ~0.9-1.0.
+
+## Update 2026-08-06 (xxxix) — pairs ALSO fails scramble; only champion is validated
+
+Ran the pairs sim's built-in noise control (scramble shifts leg B, destroying
+cointegration; pipeline re-qualifies and replays):
+
+  pairs (real, walk-forward, z=2, 3.8bps):  OOS net Sharpe 6.96 (139 nonzero days)
+  pairs (scrambled, seeds 42/7/21/99):      OOS net Sharpe 4.79 / 4.56 / 4.65 / 4.01
+
+Scrambled pairs STILL earn ~4-4.8 Sharpe -> the cointegration edge is
+indistinguishable from its own noise control. The high real Sharpe (6.96) is a
+short-sample (204 OOS days) + vol-scaled-PnL artifact, NOT robust alpha.
+Combined with (xxxviii), NO candidate diversifier passes a price-lag noise test.
+
+RESULT: only LS_GBRT (equity champion, deep 8y WF IC/ICIR, overfitting_flags=[])
+is scramble-validated. Corrected portfolio answers:
+  - validated_book = ls only, Sharpe ~0.79
+  - strategy_portfolio.json & build_high_sharpe_portfolio.py now gate on
+    scramble-validation and REFUSE to combine unvalidated legs (previous 2.28
+    "portfolio Sharpe" withdrawn - it was built on non-alpha legs).
+
+This is the honest state: there is currently NO validated multi-leg high-Sharpe
+book. Required next step: build a genuinely independent, noise-beating alpha
+leg (true cross-sectional stat-arb on larger panels; factor probes validated
+against price-lag scramble). Do NOT quote 2.28 / 2.1 / 6.6 as achievable.
