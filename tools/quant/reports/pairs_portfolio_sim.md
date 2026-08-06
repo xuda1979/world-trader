@@ -1,6 +1,6 @@
 # Pair Portfolio Simulation (calendar-time, net of costs)
 
-Generated: 2026-08-06 07:49:25  |  mode: walk-forward  |  - pairs tested, 11 qualified
+Generated: 2026-08-06 10:10:45  |  mode: walk-forward  |  - pairs tested, 11 qualified
 
 - Sizing: 1-sigma spread move = 1% equity per pair (dollar-neutral)
 - Annualization: 252 daily bars
