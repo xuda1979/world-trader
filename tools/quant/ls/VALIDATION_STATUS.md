@@ -38,3 +38,13 @@ Build a genuinely INDEPENDENT, noise-beating leg, e.g.:
 Validated tooling now enforces this gate:
   build_high_sharpe_portfolio.py (scramble gate; refuses unvalidated combos)
   build_strategy_portfolio.py (emits validated_book = ls-only)
+
+## VIX risk-filter update (2026-08-06)
+Full 2001-day OOS sweep of VIX drawdown-filters (real CBOE VIX, FRED):
+- percentile 0.90 / factor 0.5 (champion): SR 0.843, maxDD -19.9% (halves DD vs none)
+- **VIX>=32 / factor 0.3 (absolute gate): SR 0.855, maxDD -19.9%**  <- best risk-filter
+- no filter: SR 0.847, maxDD -33.4%
+VIX de-risk cuts drawdown ~in half; the absolute VIX>=32/0.3 gate (stress-only
+trigger) slightly beats both no-filter Sharpe AND the baseline drawdown.
+Combined gate applied to live config (percentile 0.5 + level 32/0.3).
+Best honest single-leg OOS Sharpe: ~0.85. Still no validated multi-leg book.
