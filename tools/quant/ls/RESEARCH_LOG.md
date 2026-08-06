@@ -1816,3 +1816,30 @@ Also recorded: no valid multi-leg book; trend/fx/pairs fail scramble
 (→ VALIDATION_STATUS.md).
 
 Deliverable: check_champion_health.py (run each loop fire to get fresh reading).
+
+## Update 2026-08-06 (xlii) — Fresh-data forward validation of flagship L/S leg
+
+(Keep-research now on fresh-data re-validation per xxxxi convergence note.)
+Data fresh to 2026-08-04/05. forward-validation verdict.json for the flagship
+L/S GBRT leg (live_signal, tw320_d4):
+- verdt: "watch" (1 minor flag: vol_60d factor decay; not disqualifying)
+- Live OOS Sharpe 1.14 | AnnRet 12.6% | Vol 11.1% | Sortino 0.97 on 509d
+  (2024-07..2026-07), final eq 1.256x.
+Independently confirms the flagship earns its place: its LIVE forward Sharpe
+(~1.14) sits right in the middle of the recommended 5-leg book's honest
+expectation band (~0.9-1.0) and far above the misleading single-strategy
+backtest figures. Monthly return dispersion real (2026: Jan +12.1%, Jul -6.7%)
+-> keep the honest band; no headline Sharpe changes.
+
+## Update 2026-08-06 (xli) — Fresher IC refines signal: champion recovered to neutral
+
+Stale fwd_validate factor-IC (ends 07-09) showed last6=-0.132 (RISK). Computed a
+FRESH cross-sectional 10d-horizon IC from live predictions vs actual realized
+returns (through 07-21): last6 mean = **+0.014**, most recent reading +0.052.
+=> The champion's edge was negative in late-Jun/early-Jul but RECOVERED to
+neutral-to-softly-positive by mid-Jul. Correct stance now: size conservatively
+(CAUTION), NOT full de-risk and NOT oversized.
+
+check_champion_health.py now prefers the fresh predictions-based IC when
+available and only falls back to the stale fwd_validate series. Run it each
+loop fire for the current reading.
