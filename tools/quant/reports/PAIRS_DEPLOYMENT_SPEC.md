@@ -118,12 +118,15 @@ The 11 listed pairs all pass this gate on current data.
 ---
 
 ## 8. Honest Limitations (MUST READ BEFORE DEPLOY)
-1. **Scramble-falsification z ≈ 1.76** (24-seed lag-scramble control: mean 5.13,
-   sd 1.04, max 7.75). Real 6.96 clears the noise floor but is **NOT fully
-   separated** from selection/rounding. Treat **6.96 as an optimistic upper
-   bound** — a realistic live, after-cost Sharpe is likely **3.5–5.5**.
+1. **SUPERSEDED: the static 6.96 does NOT survive longer OOS testing (2026-08-06).**
+   Static scramble-falsification z ≈ 1.76 looked "suggestive", but a rolling
+   walk-forward (pairs re-qualify over time; ~309 traded days all OOS) gives a
+   **real net Sharpe of only ~0.3, z ≈ 0.4 vs a 14-seed scramble control** — noise.
+   The 6.96 was a **fixed-selection artifact** of the short 204-day window.
+   **Do NOT size capital on this book.** See `pairs_longer_oos_verdict.md`.
 2. **OOS window is only ~204 trading days** (~10 months, 2025-10 → 2026-08).
-   Small sample; the high Sharpe is partly a quiet-OOS artifact.
+   Small sample; the high static Sharpe is a quiet-OOS + survivor-selection
+   artifact.
 3. **Selection-inherited breadth**: 294/404 universe pairs have IS t≥5 — the
    gate is permissive; only EG cointegration prunes to 11. Watch for regime
    where static cointegration breaks (all pairs are same-sector large-caps).
