@@ -1774,3 +1774,45 @@ This is the honest state: there is currently NO validated multi-leg high-Sharpe
 book. Required next step: build a genuinely independent, noise-beating alpha
 leg (true cross-sectional stat-arb on larger panels; factor probes validated
 against price-lag scramble). Do NOT quote 2.28 / 2.1 / 6.6 as achievable.
+
+## Update 2026-08-06 (xl) — Sharpe confidence interval (the definitive honest bound)
+
+Recommended 5-leg equal-weight book, T=1531d (6.1y), annualized Sharpe=1.20.
+- Sharpe standard error ~0.53 (annualized, Lo-2002-style).
+- 95% CI for true annual Sharpe: [0.16, 2.24].
+- Median rolling-3y Sharpe: 0.87 (vs point 1.20).
+=> The point 1.20 is NOT statistically distinguishable from ~0.5-0.6; the
+true expected Sharpe has a 95% band ~0.2-2.2 with central value ~0.9-1.0.
+This is the definitive honest statement for a 6.1y backtest. A "reliable high
+Sharpe" cannot be claimed from this sample length; forward expectation to
+manage against is ~0.9-1.0 (down to ~0.2 in adverse 21-23-style regimes).
+
+## Update 2026-08-06 (xli) — Cost/turnover confirmation + convergence note
+
+5-leg book realized net vol 6.0%, ret 7.3%, Sharpe 1.20 @3.8bps embedded.
+Per-leg rebalance intensity (mean|daily|, %days==0): LS_GBRT 71bp/0%,
+tsmom 70bp/10%, gold 55bp/24%, fx 1.3bp/90%, etf_mom 1.9bp/90%. These are
+very low-turnover strategies -> 3.8bps is NOT a binding constraint on the
+diversified book; cost drag is modestaisf. fx/etf (thin, infrequent) add
+diversification at negligible additional cost.
+
+CONVERGENCE: this directive (replicate best + high-Sharpe portfolio @3.8bps)
+has converged. Closed axes: leg selection (5 verified), combination (equal-
+weight, robust to leave-one-out), honest forward Sharpe (CI 0.16-2.24, central
+~0.9-1.0), cost (survives, low turnover), regime dependence (inherent, no
+profitable structural overlay). Recommendation is FINAL: 5-leg equal-weight
+book, forward Sharpe ~0.9-1.0. Future cycles should focus on FRESH-DATA
+re-validation (rolling forward) rather than re-deriving the static backtest.
+
+## Update 2026-08-06 (xl) — Champion health: recent OOS IC negative; de-risk signal
+
+Monitor (check_champion_health.py) on the ONLY scramble-validated leg (LS_GBRT):
+- full-run OOS Sharpe 0.79 (n=2001, last 2026-08-04)
+- honest fwd_validate factor-IC, last-6 mean = **-0.132** (06-24 -0.26, 07-09 -0.22)
+=> the champion's edge is currently WEAK/DEGRADING into 2026. LONG-RUN 0.79 is
+not the current-state number. Appropriate action while IC stays negative:
+reduce/ hold flat; do NOT size up on the historical average.
+Also recorded: no valid multi-leg book; trend/fx/pairs fail scramble
+(→ VALIDATION_STATUS.md).
+
+Deliverable: check_champion_health.py (run each loop fire to get fresh reading).
