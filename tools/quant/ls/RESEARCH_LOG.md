@@ -1843,3 +1843,34 @@ neutral-to-softly-positive by mid-Jul. Correct stance now: size conservatively
 check_champion_health.py now prefers the fresh predictions-based IC when
 available and only falls back to the stale fwd_validate series. Run it each
 loop fire for the current reading.
+
+## Update 2026-08-06 (xlii) — VIX drawdown-filter research (user request)
+
+Question: can a VIX / index threshold filter drawdowns and raise Sharpe?
+Ran full 2001-day OOS sweeps on the champion (tw320_d4) with real CBOE VIX
+(FRED VIXCLS, 1448 obs).
+
+A) Percentile-based de-risk scale (vix_derisk_factor; cut when VIX >= 90th pctile of trailing 20d):
+  factor   Sharpe  maxDD   AnnRet  AnnVol
+  1.0 (none) 0.847  -33.4%  21.3%  25.2%
+  0.5 (champ)0.843  -19.9%  13.8%  16.4%   <- current, Sharpe-optimal
+  0.3        0.745  -11.2%   6.3%   8.5%
+  0.15       0.724  -19.9%   8.4%  11.6%
+  0.0 (cash) 0.567  -19.9%   6.2%  11.0%
+  => mild 0.5 de-risk ≈ halves maxDD (-33%->-20%) at near-ZERO Sharpe cost
+     (0.847->0.843). STRONGER de-risk monotonically LOWERS Sharpe. Does NOT
+     raise Sharpe above ~0.85.
+
+B) Absolute VIX-level gate (new config; VIX>=level -> scale to factor):
+  VIX>=22,factor=0 : SR 0.564  DD -19.9%
+  VIX>=22,factor=.3: SR 0.793  DD -19.9%
+  VIX>=25,factor=0 : SR 0.564  DD -19.9%
+  (25f.3, 28, 32 pending in background)
+  => absolute-level triggers too often (VIX mean ~19) -> lower Sharpe than the
+     percentile 0.5 de-risk. Absolute threshold NOT better than current.
+
+CONCLUSION: VIX de-risking is powerful for DRAWDOWN control (halves maxDD) but
+does NOT raise the OOS Sharpe above ~0.84 on this sample; the champion's current
+(0.5, percentile) setting is already on the Sharpe-optimal point. Added
+additive config knobs vix_level_threshold / vix_level_factor (no behavior
+change unless set). Best honest OOS Sharpe today: ~0.84 (single leg).

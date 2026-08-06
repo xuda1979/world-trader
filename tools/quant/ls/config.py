@@ -82,6 +82,12 @@ class Config:
     high_lookback: int = 252
     # Extra factors for Sharpe 2.0 push
     use_extra_factors: bool = True
+    use_ohlc_factors: bool = False  # OHLC-based factors (overnight gap, range, etc.); experimental, off by default
+    use_interaction_features: bool = False  # cross-product features for tree models
+    use_v2_factors: bool = False  # 15 academic alpha factors (ivol, MAX, beta arb, trend eff, etc.)
+    use_ff_beta_factors: bool = False  # real French-Fama beta features (trailing OLS loadings on Mkt/SMB/HML/UMD)
+    ff_beta_window: int = 120          # trailing window for the FF beta regression
+    ff_beta_min_obs: int = 60          # min obs required for the FF beta regression
     rank_mom_windows: tuple = (126, 252)           # 6m, 12m rank-momentum
     price_accel_short: int = 10
     price_accel_long: int = 50
@@ -94,11 +100,15 @@ class Config:
     ic_bonferroni: bool = True                     # apply Bonferroni on per-factor tests
     ic_alpha_familywise: float = 0.05              # family-wise alpha for Bonferroni
     ic_sign_check: bool = True                     # flip sign if IC consistently negative
+    factor_exclude: tuple = ()                     # factor names to force-exclude (research tool)
+    bypass_ic_screen: bool = False                   # if True, skip ICIR screening (all factors go to model)
+    screen_trailing_only: bool = False               # screen ICIR on TRAILING data only (no future IC in selection)
 
     # ---- model / regression ----
     train_window: int = 120                        # rolling train window in trading days
     refit_freq: int = 5                            # refit every N days (1=daily, costly)
     predict_horizon: int = 5                       # match return_horizon_fwd
+    predict_horizons: tuple = (5, 10, 21)             # multi-horizon blending horizons
     model_method: str = "ols"                      # 'ols','icir', or 'gbrt' (GKX 2020 tree model)
     model_ols_ridge_lambda: float = 0.0            # 0 = plain OLS; >0 = ridge
     model_intercept: bool = True
@@ -132,9 +142,34 @@ class Config:
     # tree.  'none' = raw fwd return; 'demean' = subtract cross-sectional mean
     # (market-neutral label); 'pca' = regress out top-N principal components
     # of the return panel (statistical factor model, no external data).
-    gbrt_label_residual: str = "none"              # 'none','demean','pca'
+    gbrt_label_residual: str = "none"              # 'none','demean','pca','ff3','ff3_real'
+    gbrt_label_ff_beta_window: int = 60            # beta estimation window for ff3_real
+    gbrt_label_ff_min_obs: int = 30                # min obs for ff3_real beta regression
+    gbrt_label_ff_factors: str = "ff3umd"          # 'ff3umd' or 'ff3' (ff3 keeps momentum in label)
     gbrt_label_pca_n: int = 3                      # number of PCs to residualize (for 'pca')
     gbrt_label_winsorize: float = 0.01             # winsorize fwd return at this pct before fit
+    gbrt_label_vol_scale: bool = False             # scale label by trailing vol (SNR target)
+    gbrt_label_vol_window: int = 60                # trailing vol window for vol-scaling
+    # ---- Random Forest (Breiman 2001) ----
+    rf_n_estimators: int = 500                    # number of trees (more = smoother)
+    rf_max_depth: int = 5                         # tree depth (3-10 typical)
+    rf_min_samples_leaf: int = 20                 # minimum samples per leaf (regularization)
+    rf_max_features: str = "sqrt"                 # features per split ('sqrt','log2',float)
+
+    # ---- ElasticNet (Zou & Hastie 2005) ----
+    enet_cv_folds: int = 5                        # CV folds for alpha selection
+
+    # ---- XGBoost (Chen & Guestrin 2016) ----
+    xgb_n_estimators: int = 200                   # number of boosting rounds
+    xgb_max_depth: int = 3                        # tree depth
+    xgb_learning_rate: float = 0.05               # shrinkage
+    xgb_subsample: float = 0.8                    # row subsampling per tree
+    xgb_colsample_bytree: float = 0.8             # column subsampling per tree
+    xgb_reg_alpha: float = 0.1                    # L1 regularization (critical for small samples)
+    xgb_reg_lambda: float = 1.0                   # L2 regularization
+    xgb_min_child_weight: int = 5                 # minimum sum of instance weight in child
+    xgb_early_stopping_rounds: int = 0            # 0=disabled; 20-50 for early stopping
+
     # ---- Gârleanu-Pedersen (2013) turnover penalty ----
     # Objective becomes: max w'mu - (lam/2) w'Sigma w - tc_penalty * |w - w_prev|_1
     # Implemented as an SLSQP post-tuner on top of the mean-variance solution,
@@ -179,7 +214,7 @@ class Config:
     # ---- backtest / execution ----
     cost_bps_one_side: float = 3.8                 # 3.8 bps one-side (7.6bps round-trip retail)
     cost_round_trip_bps: float = 7.6               # used for rebalance threshold
-    slippage_bps: float = 1.0                      # additional slippage (retail no HFT)
+    slippage_bps: float = 0.0                      # no market impact / no slippage (user spec)
     # Short-borrow / short-call cost model (annualized, applied daily to short mkt value)
     # Retail short-sellers pay: (1) the short rebate forgone on cash collateral,
     # (2) a borrow fee that varies by name scarcity.  For liquid large-caps the
@@ -225,9 +260,19 @@ class Config:
     # ---- risk controls (rule VIII) ----
     vix_derisk_pctile: float = 0.90                # VIX >= 90th pctile of 20d history
     vix_derisk_factor: float = 0.5                 # cut exposure by this
+    # absolute VIX-level gate (None = disabled): when VIX >= vix_level_threshold,
+    # cap gross to vix_level_factor (simple, regime-like de-risk rule)
+    vix_level_threshold: float | None = None
+    vix_level_factor: float = 0.0
     max_daily_loss_pct: float = 0.03               # 3% daily loss -> next-period derisk
     max_daily_loss_factor: float = 0.5
     beta_check: bool = True
+    # ---- trend gate (honest: trailing benchmark return only, matches the
+    # diagnostics regime classification: bear = 60d SPY ret < -5%) ----
+    trend_gate_enabled: bool = False               # off by default
+    trend_gate_lookback: int = 60                  # trailing benchmark return window
+    trend_gate_threshold: float = -0.05            # below this = risk-off
+    trend_gate_factor: float = 0.0                 # gross exposure multiplier in risk-off (0 = flat)
 
     # ---- diagnostics / overfitting ----
     diag_regime_split: bool = True
@@ -294,7 +339,7 @@ class Config:
             raise ConfigError(f"unknown weighting: {self.weighting}")
         if self.opt_method not in ("scipy_slsqp", "closed_form_mv", "risk_parity"):
             raise ConfigError(f"unknown opt_method: {self.opt_method}")
-        if self.model_method not in ("ols", "icir", "gbrt"):
+        if self.model_method not in ("ols", "icir", "gbrt", "rf", "elasticnet", "xgb", "ensemble", "multihorizon"):
             raise ConfigError(f"unknown model_method: {self.model_method}")
         if self.sharpe_gate_threshold < 0:
             raise ConfigError("sharpe_gate_threshold must be >= 0")

@@ -78,11 +78,12 @@ def run_backtest(panel: Dict, predictions: pd.DataFrame, cfg,
     risk_scale = 1.0
     risk_scale_next = 1.0  # carries forward after daily-loss event
     vix_derisk_window = 20
+    prev_trend_off = False  # trend-gate regime state (for transition detection)
 
     # First prediction date: we can only rebalance starting here
     first_pred = pred_daily.dropna(how="all").index[0] if not pred_daily.dropna(how="all").empty else None
     if first_pred is None:
-        return _empty_result(prices)
+        return _empty_result(prices, cfg.initial_capital)
 
     first_idx = prices.index.get_loc(first_pred)
     rebalance_counter = 0
@@ -179,6 +180,46 @@ def run_backtest(panel: Dict, predictions: pd.DataFrame, cfg,
                                             "old_scale": risk_scale, "new_scale": cfg.vix_derisk_factor})
                     risk_scale = min(risk_scale, cfg.vix_derisk_factor)
 
+        # Absolute VIX-level gate (optional): VIX >= level -> cap exposure.
+        if cfg.use_macro and "VIX" in macro.columns and \
+                getattr(cfg, "vix_level_threshold", None) is not None:
+            vix_now = macro["VIX"].iloc[i]
+            if pd.notna(vix_now) and vix_now >= float(cfg.vix_level_threshold):
+                if risk_scale > cfg.vix_level_factor + 1e-6:
+                    risk_events.append({"date": date, "type": "vix_level",
+                                        "vix": float(vix_now),
+                                        "thresh": float(cfg.vix_level_threshold),
+                                        "new_scale": cfg.vix_level_factor})
+                risk_scale = min(risk_scale, cfg.vix_level_factor)
+
+        # Trend gate (honest): trailing benchmark return < threshold -> risk-off.
+        # Uses ONLY returns through day i (known at i); T+1 execution means the
+        # reduced exposure takes effect tomorrow.  Mirrors the diagnostics
+        # regime classification (bear = 60d benchmark ret < -5%), so gating on
+        # it is trading the same information the backtest audit uses.
+        # Event-driven: the gate FORCES a rebalance on regime transitions
+        # (risk-on -> risk-off and back), so it can cut a bear holding rather
+        # than waiting for the next scheduled rebalance date.  The forced
+        # rebalance pays full transaction costs on the delta.
+        trend_scale = 1.0
+        trend_off = False
+        if cfg.trend_gate_enabled:
+            bench_col = str(getattr(cfg, "benchmark", "SPY"))
+            lb = int(cfg.trend_gate_lookback)
+            if bench_col in returns.columns and i >= lb - 1:
+                seg = returns[bench_col].iloc[i - lb + 1:i + 1].dropna()
+                if len(seg) >= max(20, lb // 3):
+                    trend_ret = float((1 + seg).prod() - 1)
+                    if trend_ret < float(cfg.trend_gate_threshold):
+                        trend_scale = float(cfg.trend_gate_factor)
+                        trend_off = True
+            if trend_off != prev_trend_off:
+                risk_events.append({"date": date, "type": "trend_gate",
+                                    "trend_off": trend_off,
+                                    "new_scale": trend_scale})
+        trend_force_reb = cfg.trend_gate_enabled and (trend_off != prev_trend_off)
+        prev_trend_off = trend_off
+
         # Max daily loss: if yesterday's loss exceeded threshold, derisk today
         if i > 0 and daily_ret.iloc[i - 1] < -cfg.max_daily_loss_pct:
             risk_events.append({"date": date, "type": "max_daily_loss",
@@ -190,11 +231,12 @@ def run_backtest(panel: Dict, predictions: pd.DataFrame, cfg,
             risk_scale_next = risk_scale
 
         # ---- 5. Rebalance? ----
-        # We rebalance every cfg.rebalance_freq days starting at first_pred.
-        # We require a prediction to be available at this date.
+        # We rebalance every cfg.rebalance_freq days starting at first_pred,
+        # PLUS event-driven rebalances on trend-gate regime transitions
+        # (bear onset/exit) so the gate can cut/restore a holding mid-cycle.
         pred_row = pred_daily.iloc[i]
         if i >= first_idx and not pred_row.dropna().empty:
-            should_reb = (rebalance_counter % cfg.rebalance_freq == 0)
+            should_reb = (rebalance_counter % cfg.rebalance_freq == 0) or trend_force_reb
             if should_reb:
                 # Construct target weights using panel up to i (no future)
                 panel_t = {
@@ -205,8 +247,11 @@ def run_backtest(panel: Dict, predictions: pd.DataFrame, cfg,
                     "lows": panel["lows"].iloc[:i + 1],
                     "macro": macro.iloc[:i + 1],
                 }
-                # Apply risk scaling to gross leverage
-                cfg_eff = cfg.copy(gross_leverage=cfg.gross_leverage * risk_scale_next)
+                # Apply risk scaling to gross leverage (VIX derisk x trend gate).
+                # Clamp to a tiny positive value so a "go flat" gate (factor=0)
+                # still passes Config validation; ~0 leverage = flat portfolio.
+                gl = cfg.gross_leverage * risk_scale_next * trend_scale
+                cfg_eff = cfg.copy(gross_leverage=gl if gl > 1e-9 else 1e-9)
                 target_w = pf.construct_target_weights(
                     pred_row, panel_t, cfg_eff,
                     prev_weights=w_current if not w_current.empty else None,
@@ -319,9 +364,9 @@ def run_backtest(panel: Dict, predictions: pd.DataFrame, cfg,
     }
 
 
-def _empty_result(prices: pd.DataFrame) -> Dict[str, pd.DataFrame]:
+def _empty_result(prices: pd.DataFrame, initial_capital: float = 1_000_000.0) -> Dict[str, pd.DataFrame]:
     return {
-        "equity_curve": pd.Series(cfg.initial_capital, index=prices.index),
+        "equity_curve": pd.Series(initial_capital, index=prices.index),
         "daily_returns": pd.Series(0.0, index=prices.index),
         "holdings": pd.DataFrame(0.0, index=prices.index, columns=prices.columns),
         "turnover": pd.Series(0.0, index=prices.index),
