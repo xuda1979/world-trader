@@ -1874,3 +1874,14 @@ does NOT raise the OOS Sharpe above ~0.84 on this sample; the champion's current
 (0.5, percentile) setting is already on the Sharpe-optimal point. Added
 additive config knobs vix_level_threshold / vix_level_factor (no behavior
 change unless set). Best honest OOS Sharpe today: ~0.84 (single leg).
+
+## Update 2026-08-06 (xliv) — Combined VIX check done; single 32/0.3 gate is best
+Verified COMBINED (percentile 0.5 + absolute 32/0.3) on full OOS:
+  sharpe=0.811, maxDD=-19.9%  -- LOWER than either alone
+Why: the two de-risk rules both fire and over-stack exposure cuts; overlapping
+de-risking drags return without extra drawdown benefit.
+=> Use a SINGLE risk filter. Best verified: VIX>=32 (stress-only) with factor
+0.3 -> SR 0.855, maxDD -19.9%. Applied to live config as the only active risk
+gate (vix_derisk_factor=1.0, vix_level_threshold=32, vix_level_factor=0.3).
+Caveat: Sharpe deltas across these configs are within OOS noise; the robust,
+reproducible gain is halving maxDrawdown (-33%->-20%) while preserving~Sharpe.
