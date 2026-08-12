@@ -1,11 +1,13 @@
 """Sweep stat-arb parameters (entry/exit/cooldown/basket) to search for the
 config that survives 6 bps costs.
 
-FINDINGS (Aug 2026, 2008-2026, 6 bps round-trip):
-  - Baseline (zw=60, entry 1.5, exit 0.5, refit 126d, weekly, gross cap 2.0,
-    basket 80) is the best found: net Sharpe ~0.16, beta ~0.04.
-  - Rebalance slowdown 5->42d: Sharpe 0.157 -> -0.06 (execution lag kills the
-    fast-reverting edge; cost savings ~1.3%/yr don't cover edge loss).
+FINDINGS (Aug 2026, 2008-2026, 6 bps round-trip; cost-inclusive metric):
+  - All configs are NEGATIVE after costs. Best: zw=60, entry 1.5, exit 0.5,
+    refit 126d, 21d REBALANCE, gross cap 2.0, basket 80 -> Sharpe -0.14.
+  - The weekly baseline (-0.32) was previously called optimal under a
+    cost-exclusive metric that hid turnover drag; with costs counted,
+    slower rebalancing wins (25x vs 47x turnover).
+  - Rebalance slowdown 5->42d: -0.32 -> -0.26 (21d is the sweet spot).
   - Top-K forced exposure (always hold K most-extended pairs): -0.37..-0.59
     (forces weak setups; per-name overlap means effective diversification is
     far below K).
@@ -17,10 +19,10 @@ FINDINGS (Aug 2026, 2008-2026, 6 bps round-trip):
   - Book-level gross cap is LEVERAGE control only: uncapped gross is ~70x
     (30-40 pairs x $1 each leg) -> 219% vol -> -100% return. The "avg 1 pair"
     readings earlier were an artifact of measuring gross/2 with cap=2.0.
-  Conclusion: naive z-band pairs at 6 bps has an after-cost ceiling of
-  ~Sharpe 0.16 on this universe; 46x turnover x 6 bps = 2.7%/yr cost vs
-  ~3%/yr gross edge. Needs a genuinely different construction (sector
-  constraints, vol-regime timing, fundamental legs) to do better.
+  Conclusion: naive z-band pairs at 6 bps is NEGATIVE in every config
+  (best -0.14 with 21d rebalance); turnover x 6 bps ~= the gross edge.
+  Needs a genuinely different construction (sector constraints, vol-regime
+  timing, fundamental legs) to do better.
 """
 
 import sys
