@@ -66,36 +66,36 @@ See `results/strategy_comparison.csv` for full metrics.
 
 | Strategy | Ann Ret | Ann Vol | Sharpe | Max DD | Beta |
 |----------|---------|---------|--------|--------|------|
-| L/S 130/30 | +21.6% | 26.5% | **0.85** | -45.7% | 1.06 |
-| L/S 120/20 | +16.6% | 19.9% | **0.82** | -34.9% | 0.79 |
-| L/S Dollar Neutral | +23.9% | 32.5% | **0.82** | -56.1% | 1.32 |
+| L/S 130/30 | +21.6% | 26.5% | **0.80** | -45.8% | 1.06 |
+| L/S 120/20 | +16.6% | 19.9% | **0.77** | -34.9% | 0.79 |
+| L/S Dollar Neutral | +23.9% | 32.5% | **0.76** | -56.1% | 1.32 |
 | L/S 130/30 vol-managed | +17.7% | 21.5% | **0.77** | -26.2% | ~1.1 |
-| Risk Parity (Bridgewater) | +8.7% | 12.0% | **0.60** | -28.3% | 0.50 |
-| **CTA Futures (FRED macro, 21d)** | **+2.5%** | **12.5%** | **0.16** | **-37.8%** | **0.00** |
-| StatArb 80 pairs | ~0.0% | 6.2% | **0.16** | -16.9% | 0.04 |
+| Risk Parity (Bridgewater) | +8.7% | 12.0% | **0.59** | -28.4% | 0.50 |
+| **CTA Futures (FRED macro, 21d)** | **+2.5%** | **12.5%** | **0.10** | **-39.2%** | **0.00** |
+| StatArb 80 pairs | ~0.0% | 6.2% | -0.28 | -23.6% | 0.04 |
 | FX Carry (with accrual) | +2.3% | 7.7% | **0.08** | -16.5% | ~-0.8 |
-| FI Arb (curve z-score) | -1.4% | 0.6% | -3.44 | -3.0% | 0.00 |
-| Credit (spread z reversion) | -0.05% | 1.1% | -1.42 | -3.5% | 0.00 |
+| FI Arb (curve z-score) | -1.4% | 0.6% | -5.05 | -22.4% | 0.00 |
+| Credit (spread z reversion) | -0.05% | 1.1% | -1.86 | -8.3% | 0.00 |
 | Credit (unconditional carry) | +0.6% | 1.3% | -1.03 | -9.8% | 0.00 |
-| StatArb 40 pairs z1.0 | -0.3% | 5.9% | **0.11** | -15.2% | 0.04 |
+| StatArb 40 pairs z1.0 | -0.3% | 5.9% | -0.35 | -22.6% | 0.04 |
 | Global Macro | +1.1% | 4.7% | -0.12 | -10.7% | 0.08 |
 | CTA equities (3 variants) | -0.6% to -1.4% | 10-12% | -0.06 to -0.14 | -30%+ | ~0.05 |
 | Merger Arb PEAD | +1.1% | 2.6-2.9% | -0.21 to -0.28 | -8% | ~0.01 |
-| EMN (beta-neutral) | -5.4% | 15.8% | -0.32 | -61.6% | -0.04 |
+| EMN (beta-neutral) | -5.4% | 15.8% | -0.40 | -68.2% | -0.04 |
 | **Multi-Strategy EW (5 streams)** | **+7.2%** | **8.3%** | **0.64** | **-11.7%** | **0.00** |
 | Multi-Strategy Sharpe-weighted | +12.5% | 14.9% | **0.73** | -28.4% | 0.00 |
 
 **Honest findings (after 6 bps round-trip costs):**
-- **L/S momentum (Sharpe 0.85) is the best standalone** — but its edge is
+- **L/S momentum (Sharpe 0.80) is the best standalone** — but its edge is
   mostly market beta (β≈1.1) on the 130/30 net-long book; the "market
   neutral" L/S variant holds β=1.32, i.e. the vol-adjustment accidentally
   concentrates in high-beta names.
-- **CTA on the FRED macro panel (Sharpe 0.16, β=0.00) beats CTA on
-  equities/FX/crypto (-0.06..-0.14)** — trend following needs genuinely
+- **CTA on the FRED macro panel (Sharpe 0.10, β=0.00) beats CTA on
+  equities/FX/crypto (-0.18..-0.21)** — trend following needs genuinely
   uncorrelated cross-asset instruments, monthly rebalance (21d), and the
   yield inversion (long bond = short yield). Monthly is the sweet spot:
-  5d/10d rebalance give -0.15/-0.04 (churn), 21d +0.16.
-- **Multi-Strategy EW with futures CTA: Sharpe 0.61** (was 0.41 with equity
+  5d/10d rebalance churn, 21d +0.10.
+- **Multi-Strategy EW with futures CTA: Sharpe 0.64** (was 0.41 with equity
   CTA): the futures-CTA stream is negatively correlated with L/S (-0.07)
   and stat arb (-0.15), lifting the blend. The multi-strategy thesis —
   low-correlation streams with independent edges — is the suite's strongest
@@ -183,10 +183,10 @@ See `results/strategy_comparison.csv` for full metrics.
   noisy/costly; naive multi-factor EMN composites have no stable after-cost
   edge on this universe (consistent with the repo's ls/ research: only
   single-factor 52-week-high distance survives, at +0.34 gross).
-- **Multi-Strategy EW (Sharpe 0.41, β=0.00) demonstrates the core HF thesis**:
+- **Multi-Strategy EW (Sharpe 0.64, β=0.00) demonstrates the core HF thesis**:
   the stat-arb stream is *negatively* correlated with CTA (-0.19) and macro
   (-0.08), so blending uncorrelated streams produces positive risk-adjusted
-  return even when 3 of 4 components are individually ≤ 0 after cost.
+  return even when 4 of 5 components are individually ≤ 0 after cost.
 - A realistic outcome for naive heuristics — real hedge funds add event
   data, fundamental data, and lower turnover.
 
@@ -211,15 +211,16 @@ See `results/strategy_comparison.csv` for full metrics.
 
 Systematic sweep of the relative-value strategy at 6 bps found the baseline
 config is already the best: **z-window 60d, entry |z|>1.5, exit |z|<0.5,
-semiannual refit, weekly rebalance, gross cap 2.0, basket 80 → Sharpe 0.16,
-beta 0.04**. Everything else is worse:
-- rebalance slowdown 5→42d (0.16 → −0.06; execution lag kills the edge)
+semiannual refit, weekly rebalance, gross cap 2.0, basket 80 → Sharpe -0.28
+after costs (beta 0.04)**. Everything else is worse:
+- rebalance slowdown 5→42d (−0.28 → −0.40; execution lag kills the edge)
 - top-K forced exposure (−0.37..−0.59; forces weak setups)
 - slow signals, z-window 120/250d (−0.15..+0.11; edge is short-horizon)
 - full-convergence exit z=0 (turnover drops 46x→11x but edge decays faster)
 - cooldown after exit (no help)
 
 The binding constraint is cost, not signal: ~46x annual turnover × 6 bps =
-2.7%/yr drag vs ~3%/yr gross edge. A materially better stat-arb needs a
+2.7%/yr drag vs ~2.7%/yr gross edge — the after-cost result is NEGATIVE
+(-0.28). A materially better stat-arb needs a
 genuinely different construction (sector constraints, vol-regime timing,
 fundamental legs), not parameter tuning.

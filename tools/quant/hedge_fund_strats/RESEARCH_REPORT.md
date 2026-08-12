@@ -11,26 +11,30 @@ time of writing).
 
 **Engine**: T+1 execution, cost charged on weight deltas at each rebalance,
 vol targeting, position caps. All results in `results/strategy_comparison.csv`.
+NOTE (2026-08-12 correction): Sharpe/Sortino/MaxDD are computed from the
+COST-INCLUSIVE equity curve (pct_change). An earlier version used the
+engine's cost-exclusive daily returns, overstating high-turnover strategies
+(e.g. stat arb +0.16 -> -0.28); blends were always cost-inclusive.
 
 ## Final results (Sharpe, 6 bps, 2008–2026)
 
 | # | Strategy | Sharpe | AnnRet | MaxDD | Beta |
 |---|----------|--------|--------|-------|------|
-| 1 | L/S 130/30 | **0.85** | +21.6% | -45.7% | 1.06 |
-| 2 | L/S 120/20 | **0.82** | +16.6% | -34.9% | 0.79 |
-| 3 | L/S Dollar Neutral | **0.82** | +23.9% | -56.1% | 1.32 |
+| 1 | L/S 130/30 | **0.80** | +21.6% | -45.8% | 1.06 |
+| 2 | L/S 120/20 | **0.77** | +16.6% | -34.9% | 0.79 |
+| 3 | L/S Dollar Neutral | **0.76** | +23.9% | -56.1% | 1.32 |
 | 4 | **Multi-Strategy EW (5 streams)** | **0.64** | **+7.2%** | **-11.7%** | **0.00** |
-| 5 | Risk Parity (Bridgewater) | **0.60** | +8.7% | -28.3% | 0.50 |
-| 6 | CTA Futures (FRED macro, 21d) | **0.16** | +2.5% | -37.8% | 0.00 |
-| 7 | StatArb (80 pairs) | **0.16** | ~0.0% | -16.9% | 0.04 |
+| 5 | Risk Parity (Bridgewater) | **0.59** | +8.7% | -28.4% | 0.50 |
+| 6 | CTA Futures (FRED macro, 21d) | **0.10** | +2.5% | -39.2% | 0.00 |
+| 7 | StatArb (80 pairs) | -0.28 | ~0.0% | -23.6% | 0.04 |
 | 8 | FX Carry (with accrual) | **0.08** | +2.3% | -16.5% | ~-0.8 |
 | 9 | L/S 130/30 vol-managed | **0.77** | +17.7% | -26.2% | ~1.1 |
-| 9 | StatArb (40 pairs z1.0) | 0.11 | -0.3% | -15.2% | 0.04 |
+| 9 | StatArb (40 pairs z1.0) | -0.35 | -0.3% | -22.6% | 0.04 |
 | 10–21 | CTA equities, macro, merger arb, EMN, credit, FI arb | ≤ 0 | | | |
 
 ## Findings
 
-1. **L/S momentum is the best standalone (0.85) but it is market beta**
+1. **L/S momentum is the best standalone (0.80) but it is market beta**
    (β≈1.06); the "market neutral" L/S variant holds β=1.32. After-cost
    cross-sectional alpha on this universe is small.
 
@@ -42,23 +46,24 @@ vol targeting, position caps. All results in `results/strategy_comparison.csv`.
 
 3. **CTA works on real macro/futures series, not on equities**: the FRED
    macro panel (with yield inversion for bond direction + monthly
-   rebalance) turns CTA from -0.14 to +0.16. 21d rebalance is the sweet
+   rebalance) turns CTA from -0.14 to +0.10. 21d rebalance is the sweet
    spot; 5d/10d churn destroys the edge. The 2000-2008 window is flat —
    FRED discontinued daily gold/copper (the metals supercycle), a data gap
    Stooq real futures would fill.
 
-4. **6 bps is the binding constraint for fast strategies**: stat arb's gross
-   edge (~2.8%/yr) ≈ its cost drag (2.7%/yr at 46x turnover); exhaustive
-   parameter sweeps (rebalance freq, top-K, slow signals, cooldowns,
-   full-convergence exits) found no config beating the baseline 0.16.
+4. **6 bps is the binding constraint for fast strategies — stat arb is
+   NEGATIVE after costs** (-0.28): gross edge (~2.7%/yr) ≈ cost drag
+   (2.7%/yr at 46x turnover); exhaustive parameter sweeps (rebalance
+   freq, top-K, slow signals, cooldowns, full-convergence exits) found
+   no config beating the baseline.
 
 5. **Spread timing on rates/credit has NO gross edge**: FI arb (10y-2y,
-   30y-10y z-score) Sharpe -3.4; credit (BAA-AAA, 1983+; reversion AND
-   unconditional carry) -1.0..-2.5 — the quality spread structurally
+   30y-10y z-score) Sharpe -5.1; credit (BAA-AAA, 1983+; reversion AND
+   unconditional carry) -1.9..-2.5 — the quality spread structurally
    widened post-GFC, beating carry and timing alike. Carry only pays on
    FX (0.08), where the accrual is the edge, not the timing.
 6. **Vol management works on the winner**: scaling L/S 130/30 by inverse
-   realized vol (Moreira-Muir) keeps Sharpe 0.77 (vs 0.85) while halving
+   realized vol (Moreira-Muir) keeps Sharpe 0.77 (vs 0.80) while halving
    MaxDD (-45.7% -> -26.2%) — Calmar 0.47 -> 0.68. A free drawdown
    improvement on the suite's best strategy.
 
@@ -66,15 +71,15 @@ vol targeting, position caps. All results in `results/strategy_comparison.csv`.
    (Fama-French, long top-2/short bottom-2 of MKT/SMB/HML/UMD, monthly)
    earns +0.26 Sharpe over 1926-2026 (+4.5%/yr) and +0.24 since 1963 —
    the Ehsani-Linnainmaa anomaly is real historically — but is GONE in
-   the modern window: 2008+ Sharpe -0.04. Factor-premium crowding since
+   the modern window: 2008+ Sharpe -0.06. Factor-premium crowding since
    ~2010, consistent with the suite's broader story: naive premia no
    longer survive costs.
 
 6. **EMN after fixing two real bugs** (pandas 3 rolling-cov no-op + a sign
-   flip that doubled the long book): beta 0.00, Sharpe -0.59 → -0.32.
+   flip that doubled the long book): beta 0.00, Sharpe -0.59 → -0.40.
    Still negative — the 52-week-high factor IC does not survive 6 bps PnL.
 
-7. **Event-driven (merger arb PEAD proxy)** is ~breakeven (-0.21..-0.28)
+7. **Event-driven (merger arb PEAD proxy)** is ~breakeven (-0.26..-0.35)
    at low vol — the honest outcome without true event/announcement data.
 
 ## Sub-period robustness (Sharpe by period, geometric convention = CSV)

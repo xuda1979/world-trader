@@ -205,6 +205,19 @@ def compute_performance(daily_returns: pd.Series,
     if n_days < 2:
         return Performance()
 
+    # COST-INCLUSIVE returns: the engine's daily_returns are the portfolio
+    # P&L WITHOUT the cost deductions (costs hit equity directly at each
+    # rebalance). Risk metrics computed from daily_returns therefore
+    # systematically overstate high-turnover strategies (stat arb's 46x
+    # turnover x 6 bps = 2.8%/yr of invisible drag). Derive the true daily
+    # returns from the equity curve instead; keep `dr` only as a fallback
+    # and for the returned daily_returns field.
+    eq_s = equity_curve.dropna()
+    eq_ret = eq_s.pct_change().dropna()
+    if len(eq_ret) >= 2:
+        dr = eq_ret  # cost-inclusive series used for ALL risk metrics below
+    # else: fall back to the engine's daily_returns
+
     # Basic returns
     total_ret = float(equity_curve.iloc[-1] / equity_curve.iloc[0] - 1)
     years = n_days / TRADING_DAYS
