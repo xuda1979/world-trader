@@ -142,17 +142,21 @@ def beta_neutralize(weights: pd.DataFrame, returns: pd.DataFrame,
     """
     mkt_ret = returns.mean(axis=1)  # equal-weight market index
 
-    # Vectorized rolling beta per stock: beta_i = cov(r_i, mkt)/var(mkt)
-    # Compute via rolling cov/var on the returns frame.
-    # cov(r_i, mkt) = E[(r_i-mu_i)(mkt-mu_m)] - rolling
-    # We compute using pandas rolling corr * vol_i * vol_m / var_m
-    r_roll = returns.rolling(window).mean()
-    m_roll = mkt_ret.rolling(window).mean()
-    var_mkt = mkt_ret.rolling(window).var()
-    # E[r_i * mkt]
-    er_m = (returns * mkt_ret.to_frame("mkt")["mkt"]).rolling(window).mean()
-    cov_im = er_m.sub(r_roll.mul(m_roll, axis=0), axis=0)
-    betas = cov_im.div(var_mkt.replace(0, np.nan).to_frame("mkt")["mkt"], axis=0)
+    # Rolling beta per stock: beta_i = cov(r_i, mkt)/var(mkt).
+    # Vectorized numpy loop (pandas 3.x DataFrame.rolling().cov(Series) is
+    # broken — returns all-NaN), 261 names x 4500 days is fast.
+    vals = returns.values.astype(float)
+    mvals = mkt_ret.values.astype(float)
+    betas = np.full_like(vals, np.nan)
+    for i in range(window, len(returns)):
+        w = vals[i - window:i]
+        m = mvals[i - window:i]
+        mbar = m.mean()
+        den = float(np.dot(m - mbar, m - mbar))
+        if den > 1e-12:
+            num = np.dot(m - mbar, w - w.mean(axis=0))
+            betas[i] = num / den
+    betas = pd.DataFrame(betas, index=returns.index, columns=returns.columns)
     betas = betas.clip(-3, 3)  # cap extreme betas
     betas = betas.ffill()
 
@@ -173,27 +177,21 @@ def beta_neutralize(weights: pd.DataFrame, returns: pd.DataFrame,
         b_long = (pos * b[pos_idx]).sum() / pos.sum() if pos.sum() != 0 else 0
         b_short = (neg.abs() * b[neg_idx]).sum() / neg.abs().sum() if neg.abs().sum() != 0 else 0
 
-        # Scale to make portfolio beta = 0:
-        #   L * b_long - S * b_short = 0  =>  L/S = b_short/b_long
-        # Keep gross = |L|+|S| fixed.
+        # Scale to make portfolio beta = 0: L*b_long = S*b_short, L+S = gross.
+        # Closed form: L = gross * b_short/(b_long+b_short), S = gross * b_long/(b_long+b_short).
+        # Requires b_long and b_short to have the SAME SIGN (both positive for a
+        # long book + short book structure). Mixed-sign books (e.g. a negative-
+        # beta long book) have no all-positive solution — skip those dates.
         gross = pos.sum() + neg.abs().sum()
-        if abs(b_long) < 1e-9 and abs(b_short) < 1e-9:
-            # Both ~0 beta: keep as-is
+        if b_long * b_short <= 1e-12:
             continue
-        if abs(b_long) < 1e-9:
-            L = gross / 2
-            S = gross - L
-        elif abs(b_short) < 1e-9:
-            S = gross / 2
-            L = gross - S
-        else:
-            ratio = b_short / b_long
-            L = gross * ratio / (1 + ratio)
-            S = gross - L
+        L = gross * b_short / (b_long + b_short)
+        S = gross * b_long / (b_long + b_short)
 
-        # Distribute proportionally within each book, keep sign
+        # Distribute proportionally within each book, keep sign.
+        # neg is already negative; multiplying by +S gives a book summing to -S.
         new_pos = pos / pos.sum() * L
-        new_neg = neg / neg.abs().sum() * -S
+        new_neg = neg / neg.abs().sum() * S
         adjusted.loc[date, pos_idx] = new_pos.values
         adjusted.loc[date, neg_idx] = new_neg.values
 

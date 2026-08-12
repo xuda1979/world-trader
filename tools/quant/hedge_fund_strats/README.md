@@ -70,7 +70,7 @@ See `results/strategy_comparison.csv` for full metrics.
 | Global Macro | +1.1% | 4.7% | -0.12 | -10.7% | 0.08 |
 | CTA equities (3 variants) | -0.6% to -1.4% | 10-12% | -0.06 to -0.14 | -30%+ | ~0.05 |
 | Merger Arb PEAD | +1.1% | 2.6-2.9% | -0.21 to -0.28 | -8% | ~0.01 |
-| EMN | -12.3% | 20.1% | -0.59 | -90.3% | -0.37 |
+| EMN (beta-neutral) | -5.4% | 15.8% | -0.32 | -61.6% | -0.04 |
 | **Multi-Strategy EW (5 streams)** | **+7.2%** | **8.3%** | **0.64** | **-11.7%** | **0.00** |
 
 **Honest findings (after 6 bps round-trip costs):**
@@ -105,6 +105,16 @@ See `results/strategy_comparison.csv` for full metrics.
   discontinued on FRED — the 2000s supercycle was metals-led) and
   equities/FX trends were mixed. Real futures via Stooq would fill the gap
   when the IP block lifts.
+- **EMN beta-neutralization fixed** (was a silent no-op): pandas 3.x
+  DataFrame.rolling().cov(Series) returns all-NaN, so `beta_neutralize`
+  never changed weights (β stayed -0.37 on the 'neutral' book); also fixed
+  a sign-flip that doubled the long book when betas were negative. With the
+  vectorized numpy beta + sign fix: portfolio β ≈ 0.00-0.03 and EMN
+  improves -0.59 -> -0.32 Sharpe (2008+), MaxDD -90% -> -62%. Still
+  negative: the 52-week-high factor's alpha does not survive 6 bps costs in
+  this construction (consistent with the repo's ls/ research: reversal and
+  multi-factor composites fail; only the factor IC is positive, not
+  after-cost PnL).
 - **Statistical arbitrage is the only genuinely market-neutral positive-Sharpe
   strategy** (β≈0.04, Sharpe 0.11-0.16, profit factor 1.09, positive alpha
   +2-2.5%/yr) — but 45-48x annual turnover at 6 bps (≈27-29%/yr cost drag)

@@ -127,13 +127,15 @@ def run_all_strategies(prices: pd.DataFrame, returns: pd.DataFrame,
             perf, _ = run_emn(prices, returns,
                             n_long=30, n_short=30,
                             gross_leverage=2.0,
-                            rebalance_freq=21)
+                            rebalance_freq=21,
+                            beta_neutral=True)
             results["EMN"] = perf
         else:
             perf, _ = run_emn(prices, returns,
                             n_long=40, n_short=40,
                             gross_leverage=2.0,
-                            rebalance_freq=21)
+                            rebalance_freq=21,
+                            beta_neutral=True)
             results["EMN"] = perf
     except Exception as e:
         print(f"  EMN ERROR: {e}")
