@@ -21,7 +21,8 @@ data with **6 bps round-trip trading cost** (3 bps per side).
   - 275 additional tickers with 2 years (Polygon API)
 - **8 FX pairs** (EUR/USD, USD/JPY, etc., 2019+)
 - **2 crypto** (BTC, ETH, 2023+)
-- **27 Chinese stocks** (cn/)
+- **27 Chinese stocks** (cn/, 1.7y history only — 2024-12+; excluded from
+  backtests: below the suite's 500-day minimum, results would be noise)
 - **Fama-French factors** (1926-2026)
 - **14 macro series (2000-2026) via FRED API** (free, unlimited): WTI/Brent
   crude, nat gas, US 2/10/30y yields, 5 FX crosses, S&P500, Dow, VIX
