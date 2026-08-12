@@ -111,6 +111,23 @@ arithmetic-Sharpe version overstates stat arb and the recent blend.)
   convention lifting a low-vol series, not a robust edge.
 - L/S 130/30 positive everywhere but fading (0.48 in 2023-26).
 
+### Extended table (remaining strategies, same convention)
+
+| Strategy | 2008-2012 | 2013-2017 | 2018-2022 | 2023-2026 | All |
+|----------|-----------|-----------|-----------|-----------|-----|
+| Merger Arb (PEAD 3%) | -0.12 | -0.96 | 0.07 | -0.71 | -0.26 |
+| Global Macro | -0.36 | -0.01 | -0.07 | -0.23 | -0.18 |
+| CTA equities | -0.51 | 0.42 | -0.40 | -0.22 | -0.21 |
+| FI Arb | -4.48 | -6.06 | -5.93 | -4.02 | -5.05 |
+| Credit | -0.65 | -2.82 | -2.10 | -2.86 | -1.86 |
+| FX Carry | nan | nan | 0.33 | -0.16 | 0.08 |
+| Factor Momentum | -0.19 | -0.41 | 0.29 | -0.26 | -0.06 |
+
+Every remaining strategy is negative in at least 3 of 4 sub-periods
+(CTA equities and factor momentum positive in one period each; FX carry
+only in its first partial period). No single-strategy alpha survives
+regimes — only the blend and risk parity are all-weather.
+
 ## Bottom line
 
 After 6 bps costs on free daily data, **only beta (L/S), the carry premium
@@ -129,3 +146,22 @@ python tools/quant/hedge_fund_strats/run_extras.py       # stat arb variants + b
 python tools/quant/hedge_fund_strats/strat_fx_carry.py   # FX carry (2019+)
 python tools/quant/hedge_fund_strats/fetch_stooq.py es.f cl.f ...  # when IP block lifts
 ```
+
+## Addendum 2026-08-13 — AP gold composite as a 5th stream (cross-suite)
+
+The validated AP gold composite (alphaportfolio_replication: gold 0.2
+static, vt12, rev30 — SR 1.086, ret 14.1%, MaxDD -14.2% over 2008-2026,
+beta 0.05) is nearly uncorrelated with this suite's multi-strategy EW
+blend (corr 0.034). Monthly-frequency equal-weight test, same 2008-2026
+window (223 months):
+
+| blend | SR | ret | MaxDD |
+|-------|-----|-----|-------|
+| hedge EW (4 streams: L/S 130/30, CTA, Global Macro, StatArb) | 0.915 | 6.5% | -8.7% |
+| + AP gold composite (5th stream, EW) | 1.365 | 10.3% | -9.8% |
+
+SR +0.45, ret +3.8pp at equal weight, MaxDD ~unchanged. The AP gold
+composite's momentum/reversal/gold construction is a genuine diversifier
+for the market-neutral suite. (Monthly frequency; the AP stream rebalances
+monthly by construction.) Stream: alphaportfolio_replication/data/
+wf_champion_gold_opt.csv (net monthly).
