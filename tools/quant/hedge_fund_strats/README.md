@@ -75,6 +75,7 @@ See `results/strategy_comparison.csv` for full metrics.
 | Merger Arb PEAD | +1.1% | 2.6-2.9% | -0.21 to -0.28 | -8% | ~0.01 |
 | EMN (beta-neutral) | -5.4% | 15.8% | -0.32 | -61.6% | -0.04 |
 | **Multi-Strategy EW (5 streams)** | **+7.2%** | **8.3%** | **0.64** | **-11.7%** | **0.00** |
+| Multi-Strategy Sharpe-weighted | +12.5% | 14.9% | **0.73** | -28.4% | 0.00 |
 
 **Honest findings (after 6 bps round-trip costs):**
 - **L/S momentum (Sharpe 0.85) is the best standalone** — but its edge is
@@ -121,6 +122,13 @@ See `results/strategy_comparison.csv` for full metrics.
 - **Data-collision lesson**: a monthly OECD yield file accidentally written
   over the daily DGS10 silently degraded CTA Futures (0.16 -> -0.10), FI
   arb and credit — the FRED loader now rejects <500-row files.
+- **Blend construction matters**: Sharpe-weighted allocation (weights ~
+  full-sample Sharpe, floor 0.05) gives 0.73 Sharpe / +12.5%/yr vs 0.64 EW
+  — but the weights are IN-SAMPLE (selection bias; EW is the honest
+  out-of-sample choice). Inverse-vol/var weighting is worse (0.27/-0.07):
+  the low-vol streams (macro, stat arb) have LOW Sharpe, so de-weighting
+  L/S hurts. Dropping the two weakest streams (macro, FX carry) also helps
+  (best-4 EW: 0.67).
 - **EMN beta-neutralization fixed** (was a silent no-op): pandas 3.x
   DataFrame.rolling().cov(Series) returns all-NaN, so `beta_neutralize`
   never changed weights (β stayed -0.37 on the 'neutral' book); also fixed
