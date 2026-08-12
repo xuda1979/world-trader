@@ -30,6 +30,7 @@ from tools.quant.hedge_fund_strats.strat_stat_arb import run_stat_arb, run_stat_
 from tools.quant.hedge_fund_strats.strat_cta_futures import run_cta_futures
 from tools.quant.hedge_fund_strats.strat_fi_arb import run_fi_arb
 from tools.quant.hedge_fund_strats.strat_credit import run_credit
+from tools.quant.hedge_fund_strats.strat_fx_carry import run_fx_carry
 
 
 def prepare_data(max_tickers: int = None, min_history: int = 1000) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
@@ -205,6 +206,15 @@ def run_all_strategies(prices: pd.DataFrame, returns: pd.DataFrame,
             results["Credit (spread z reversion)"] = perf_cr
     except Exception as e:
         print(f"  Credit ERROR: {e}")
+        import traceback; traceback.print_exc()
+
+    # ---- Strategy 7: Alternative Risk Premia — FX Carry ----
+    try:
+        if not quick:
+            perf_fx, _ = run_fx_carry()
+            results["FX Carry"] = perf_fx
+    except Exception as e:
+        print(f"  FX Carry ERROR: {e}")
         import traceback; traceback.print_exc()
 
     # ---- Strategy 6: Relative Value / Statistical Arbitrage ----
