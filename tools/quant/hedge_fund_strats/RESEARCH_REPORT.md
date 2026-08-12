@@ -62,6 +62,14 @@ vol targeting, position caps. All results in `results/strategy_comparison.csv`.
    MaxDD (-45.7% -> -26.2%) — Calmar 0.47 -> 0.68. A free drawdown
    improvement on the suite's best strategy.
 
+8. **Factor momentum is a premium that died**: momentum of factor returns
+   (Fama-French, long top-2/short bottom-2 of MKT/SMB/HML/UMD, monthly)
+   earns +0.26 Sharpe over 1926-2026 (+4.5%/yr) and +0.24 since 1963 —
+   the Ehsani-Linnainmaa anomaly is real historically — but is GONE in
+   the modern window: 2008+ Sharpe -0.04. Factor-premium crowding since
+   ~2010, consistent with the suite's broader story: naive premia no
+   longer survive costs.
+
 6. **EMN after fixing two real bugs** (pandas 3 rolling-cov no-op + a sign
    flip that doubled the long book): beta 0.00, Sharpe -0.59 → -0.32.
    Still negative — the 52-week-high factor IC does not survive 6 bps PnL.

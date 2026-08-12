@@ -31,6 +31,7 @@ from tools.quant.hedge_fund_strats.strat_cta_futures import run_cta_futures
 from tools.quant.hedge_fund_strats.strat_fi_arb import run_fi_arb
 from tools.quant.hedge_fund_strats.strat_credit import run_credit
 from tools.quant.hedge_fund_strats.strat_fx_carry import run_fx_carry
+from tools.quant.hedge_fund_strats.strat_factor_momentum import run_factor_momentum
 
 
 def prepare_data(max_tickers: int = None, min_history: int = 1000) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
@@ -215,6 +216,15 @@ def run_all_strategies(prices: pd.DataFrame, returns: pd.DataFrame,
             results["FX Carry"] = perf_fx
     except Exception as e:
         print(f"  FX Carry ERROR: {e}")
+        import traceback; traceback.print_exc()
+
+    # ---- Strategy 8: ARP — Factor Momentum (Fama-French) ----
+    try:
+        if not quick:
+            perf_fm, _ = run_factor_momentum()
+            results["Factor Momentum (FF)"] = perf_fm
+    except Exception as e:
+        print(f"  Factor Momentum ERROR: {e}")
         import traceback; traceback.print_exc()
 
     # ---- Strategy 6: Relative Value / Statistical Arbitrage ----

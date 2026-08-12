@@ -129,6 +129,13 @@ See `results/strategy_comparison.csv` for full metrics.
   the low-vol streams (macro, stat arb) have LOW Sharpe, so de-weighting
   L/S hurts. Dropping the two weakest streams (macro, FX carry) also helps
   (best-4 EW: 0.67).
+- **Factor Momentum (Fama-French, Ehsani-Linnainmaa) — a premium that
+  died**: momentum of factor returns (long top-2 / short bottom-2 of
+  MKT/SMB/HML/UMD by trailing 12m, monthly) is a real century-long
+  anomaly — 1926+: Sharpe +0.26, +4.5%/yr; 1963+: +0.24 — but is
+  GONE post-GFC: 2008+ Sharpe -0.04. Consistent with factor-premium
+  crowding since ~2010. Uses the FF daily factors (1926-2026) that no
+  other suite strategy traded.
 - **Crypto trend-following loses (2023-2026, 2.8y)**: the multi-timeframe
   CTA machinery on BTC+ETH gives Sharpe -0.10 (21d) to -0.33 (5d) at 6 bps
   vs BTC buy-and-hold +0.62 — trend-following on two hyper-volatile assets
