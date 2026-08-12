@@ -94,10 +94,11 @@ def main():
     print("\n" + "=" * 70)
     print("MULTI-STRATEGY BLEND (equal weight)")
     print("=" * 70)
-    # Candidate curve files per stream (quick-run vs full-run naming)
+    # Candidate curve files per stream (quick-run vs full-run naming);
+    # futures CTA preferred when present (real managed-futures universe).
     candidates = {
         "ls": ["equity_L_S_130_30.csv"],
-        "cta": ["equity_CTA_15vol.csv", "equity_CTA_CTA_15vol_21d.csv"],
+        "cta": ["equity_CTA_Futures_multi_21d.csv", "equity_CTA_15vol.csv", "equity_CTA_CTA_15vol_21d.csv"],
         "macro": ["equity_Global_Macro.csv"],
     }
     streams = {}

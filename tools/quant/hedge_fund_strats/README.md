@@ -23,6 +23,13 @@ data with **6 bps round-trip trading cost** (3 bps per side).
 - **2 crypto** (BTC, ETH, 2023+)
 - **27 Chinese stocks** (cn/)
 - **Fama-French factors** (1926-2026)
+- **14 macro series (2000-2026) via FRED API** (free, unlimited): WTI/Brent
+  crude, nat gas, US 2/10/30y yields, 5 FX crosses, S&P500, Dow, VIX
+  (`data_fred/`). Yields are inverted to trade the BOND direction.
+- **21 real futures via Stooq** (`fetch_stooq.py`, free): ES/NQ/YM, CL/NG/RB/HO,
+  GC/SI/HG, ZB/ZN/ZF, 6E/6J/6B/6C/6A, ZC/ZS/ZW — downloads currently blocked
+  by Stooq IP throttling; `fetch_stooq.py` solves the SHA-256 PoW headlessly
+  and is ready to rerun when the block lifts.
 
 ## Key Design Decisions
 - **T+1 execution**: signals on day T execute at T+1 (no look-ahead bias)
@@ -54,19 +61,30 @@ See `results/strategy_comparison.csv` for full metrics.
 | L/S 120/20 | +16.6% | 19.9% | **0.82** | -34.9% | 0.79 |
 | L/S Market Neutral | +23.9% | 32.5% | **0.82** | -56.1% | 1.32 |
 | Risk Parity (Bridgewater) | +8.7% | 12.0% | **0.60** | -28.3% | 0.50 |
+| **CTA Futures (FRED macro, 21d)** | **+2.5%** | **12.5%** | **0.16** | **-37.8%** | **0.00** |
 | StatArb 80 pairs | ~0.0% | 6.2% | **0.16** | -16.9% | 0.04 |
 | StatArb 40 pairs z1.0 | -0.3% | 5.9% | **0.11** | -15.2% | 0.04 |
 | Global Macro | +1.1% | 4.7% | -0.12 | -10.7% | 0.08 |
-| CTA (3 variants) | -0.6% to -1.4% | 10-12% | -0.06 to -0.14 | -30%+ | ~0.05 |
+| CTA equities (3 variants) | -0.6% to -1.4% | 10-12% | -0.06 to -0.14 | -30%+ | ~0.05 |
 | Merger Arb PEAD | +1.1% | 2.6-2.9% | -0.21 to -0.28 | -8% | ~0.01 |
 | EMN | -12.3% | 20.1% | -0.59 | -90.3% | -0.37 |
-| **Multi-Strategy EW** | **+5.2%** | **8.4%** | **0.41** | **-15.1%** | **0.00** |
+| **Multi-Strategy EW** | **+6.8%** | **8.0%** | **0.61** | **-12.2%** | **0.00** |
 
 **Honest findings (after 6 bps round-trip costs):**
-- **L/S momentum (Sharpe 0.85) is the only alpha-positive standalone** — but
-  its edge is mostly market beta (β≈1.1) on the 130/30 net-long book; the
-  "market neutral" L/S variant holds β=1.32, i.e. the vol-adjustment
-  accidentally concentrates in high-beta names.
+- **L/S momentum (Sharpe 0.85) is the best standalone** — but its edge is
+  mostly market beta (β≈1.1) on the 130/30 net-long book; the "market
+  neutral" L/S variant holds β=1.32, i.e. the vol-adjustment accidentally
+  concentrates in high-beta names.
+- **CTA on the FRED macro panel (Sharpe 0.16, β=0.00) beats CTA on
+  equities/FX/crypto (-0.06..-0.14)** — trend following needs genuinely
+  uncorrelated cross-asset instruments, monthly rebalance (21d), and the
+  yield inversion (long bond = short yield). Monthly is the sweet spot:
+  5d/10d rebalance give -0.15/-0.04 (churn), 21d +0.16.
+- **Multi-Strategy EW with futures CTA: Sharpe 0.61** (was 0.41 with equity
+  CTA): the futures-CTA stream is negatively correlated with L/S (-0.07)
+  and stat arb (-0.15), lifting the blend. The multi-strategy thesis —
+  low-correlation streams with independent edges — is the suite's strongest
+  result, not any single strategy.
 - **Statistical arbitrage is the only genuinely market-neutral positive-Sharpe
   strategy** (β≈0.04, Sharpe 0.11-0.16, profit factor 1.09, positive alpha
   +2-2.5%/yr) — but 45-48x annual turnover at 6 bps (≈27-29%/yr cost drag)

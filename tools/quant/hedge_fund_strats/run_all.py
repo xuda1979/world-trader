@@ -27,6 +27,7 @@ from tools.quant.hedge_fund_strats.strat_global_macro import run_global_macro, r
 from tools.quant.hedge_fund_strats.strat_merger_arb import run_merger_arb_proxy, run_merger_arb_combined
 from tools.quant.hedge_fund_strats.strat_cta import run_cta, run_cta_variants
 from tools.quant.hedge_fund_strats.strat_stat_arb import run_stat_arb, run_stat_arb_variants
+from tools.quant.hedge_fund_strats.strat_cta_futures import run_cta_futures
 
 
 def prepare_data(max_tickers: int = None, min_history: int = 1000) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
@@ -173,6 +174,15 @@ def run_all_strategies(prices: pd.DataFrame, returns: pd.DataFrame,
             results.update({f"CTA {k}": v for k, v in cta_results.items()})
     except Exception as e:
         print(f"  CTA ERROR: {e}")
+        import traceback; traceback.print_exc()
+
+    # ---- Strategy 5b: CTA on real futures/macro (Stooq/FRED) ----
+    try:
+        if not quick:
+            perf_f, _ = run_cta_futures(rebalance_freq=21, signal_mode="multi")
+            results["CTA Futures (macro 21d)"] = perf_f
+    except Exception as e:
+        print(f"  CTA Futures ERROR: {e}")
         import traceback; traceback.print_exc()
 
     # ---- Strategy 6: Relative Value / Statistical Arbitrage ----
