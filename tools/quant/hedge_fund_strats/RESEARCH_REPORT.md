@@ -69,7 +69,7 @@ engine's cost-exclusive daily returns, overstating high-turnover strategies
 
 8. **Factor momentum is a premium that died**: momentum of factor returns
    (Fama-French, long top-2/short bottom-2 of MKT/SMB/HML/UMD, monthly)
-   earns +0.26 Sharpe over 1926-2026 (+4.5%/yr) and +0.24 since 1963 —
+   earns +0.24 Sharpe over 1926-2026 (+4.5%/yr) and +0.21 since 1963 —
    the Ehsani-Linnainmaa anomaly is real historically — but is GONE in
    the modern window: 2008+ Sharpe -0.06. Factor-premium crowding since
    ~2010, consistent with the suite's broader story: naive premia no
