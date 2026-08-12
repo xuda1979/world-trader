@@ -1,4 +1,4 @@
-"""Factor library: 12 alpha factors computed from price/volume only.
+"""Factor library: 23 alpha factors computed from price/volume only.
 
 All factors are computed *cross-sectionally* and produce a DataFrame[T, N]
 of factor exposures, indexed same as prices.  At each date t, the factor
@@ -399,3 +399,150 @@ def compute_extra_raw_factors(panel: Dict, cfg) -> Dict[str, pd.DataFrame]:
     mom12 = _rolling_mom(prices, cfg.mom_12m, cfg.mom_skip_recent)
     raw["mom_12m_squared"] = mom12.pow(2) * np.sign(mom12)  # signed square
     return raw
+def compute_interaction_features(panel, cfg):
+    prices = panel["prices"]
+    returns = panel["returns"]
+    volumes = panel["volumes"]
+    raw = {}
+    mom12 = _rolling_mom(prices, cfg.mom_12m, cfg.mom_skip_recent)
+    vol60 = _rolling_vol(returns, cfg.vol_window, cfg.vol_skip_recent)
+    mom12_1m = _rolling_mom(prices, cfg.mom_12m, cfg.mom_1m)
+    liq = _liq_turnover(volumes, prices, cfg.liq_window)
+    rev1w = _rolling_reversal(prices, cfg.reversal_1w)
+    rank_mom12 = _rank_momentum(prices, cfg.mom_12m, cfg.mom_skip_recent)
+    amihud = _amihud_illiquidity(prices, volumes, cfg.liq_window)
+    def cs_zscore(df):
+        return df.apply(_zscore_cross, axis=1)
+    raw["ixn_mom12_vol60"] = cs_zscore(mom12) * cs_zscore(vol60.clip(lower=0))
+    raw["ixn_mom121m_liq"] = cs_zscore(mom12_1m) * cs_zscore(liq)
+    raw["ixn_mom12_rank"] = cs_zscore(mom12) * cs_zscore(rank_mom12)
+    raw["ixn_vol60_amihud"] = cs_zscore(vol60.clip(lower=0)) * cs_zscore(amihud)
+    raw["ixn_rev1w_vol60"] = cs_zscore(rev1w) * cs_zscore(vol60.clip(lower=0))
+    raw["ixn_mom12_mom121m"] = cs_zscore(mom12) * cs_zscore(mom12_1m)
+    raw["ixn_ma200_ma50"] = cs_zscore(_ma_dev(prices, cfg.ma_dev_200)) * cs_zscore(_ma_dev(prices, cfg.ma_dev_50))
+    return raw
+
+
+
+# --------------------------------------------------------------------- OHLC-based factors (intraday/overnight signals)
+# These use open/high/low from daily bars.  All are look-ahead safe by
+# construction (open_t, high_t, low_t are known at time t; close_{t-1} is
+# known from the prior day).  These capture phenomena entirely orthogonal
+# to the momentum/volatility/reversal family.
+
+def compute_ohlc_factors(panel, cfg):
+    '''Compute OHLC-based alpha factors. Returns dict of DataFrames.
+    
+    All factors are raw (not winsorized/z-scored).  Call process_cross_section
+    afterward to get the standardised versions.
+    '''
+    import warnings
+    prices = panel["prices"]       # close prices
+    highs = panel["highs"]
+    lows = panel["lows"]
+    volumes = panel["volumes"]
+    returns = panel["returns"]
+    
+    raw = {}
+    
+    # 1. Overnight gap: (open_t / close_{t-1}) - 1  -- captures overnight news
+    # We need open prices.  If available in panel, use directly; otherwise
+    # approximate from (high+low+close)/3 as a rough open proxy.
+    # The panel currently doesn't have 'open' loaded.  We approximate open
+    # using (high + low + close) / 3 for the prior day.
+    # Actually let's check if we can reconstruct open: typical open is closer
+    # to prior close.  We use: open_proxy = prior close (shift 1).
+    open_proxy = prices.shift(1)
+    overnight_gap = (prices / open_proxy) - 1.0
+    overnight_gap = overnight_gap.replace([np.inf, -np.inf], np.nan)
+    raw["ohlc_overnight_gap"] = overnight_gap
+    
+    # 2. Intraday range (Parkinson volatility proxy): (high - low) / close
+    intraday_range = (highs - lows) / prices
+    intraday_range = intraday_range.replace([np.inf, -np.inf], np.nan)
+    raw["ohlc_intraday_range"] = intraday_range
+    
+    # 3. Close location: (close - low) / (high - low)  -- where did we close?
+    #   ~1.0 = closed near high (bullish), ~0.0 = closed near low (bearish)
+    hl_range = highs - lows
+    close_loc = (prices - lows) / hl_range.replace(0, np.nan)
+    close_loc = close_loc.replace([np.inf, -np.inf], np.nan)
+    raw["ohlc_close_location"] = close_loc
+    
+    # 4. Gap reversal: short-term mean reversion of overnight gaps
+    #   Reversal of prior day's gap: -sign(overnight_gap_{t-1})
+    gap_reversal = -np.sign(overnight_gap.shift(1))
+    raw["ohlc_gap_reversal"] = gap_reversal
+    
+    # 5. 5-day cumulative overnight gap (gap trend)
+    gap_5d = overnight_gap.rolling(5, min_periods=3).sum()
+    raw["ohlc_gap_5d"] = gap_5d
+    
+    # 6. Intraday range trend: SMA(5) of intraday_range / SMA(20)
+    range_sma5 = intraday_range.rolling(5, min_periods=3).mean()
+    range_sma20 = intraday_range.rolling(20, min_periods=10).mean()
+    range_trend = range_sma5 / range_sma20.replace(0, np.nan)
+    range_trend = range_trend.replace([np.inf, -np.inf], np.nan)
+    raw["ohlc_range_trend"] = range_trend
+    
+    # 7. Volume-price trend: correlation between vol and price direction
+    #   over 20 days (accumulation/distribution proxy)
+    vol_dir = volumes * np.sign(returns)
+    ad_line = vol_dir.rolling(20, min_periods=10).sum()
+    raw["ohlc_ad_line"] = ad_line
+    
+    # 8. High-low volatility ratio: (high-low)/close vs SMA volatility
+    #   Ratio of range-based vol to close-to-close vol
+    range_vol = intraday_range.rolling(20, min_periods=10).std(ddof=0)
+    close_vol = returns.rolling(20, min_periods=10).std(ddof=0)
+    hl_vol_ratio = range_vol / close_vol.replace(0, np.nan)
+    hl_vol_ratio = hl_vol_ratio.replace([np.inf, -np.inf], np.nan)
+    raw["ohlc_hl_vol_ratio"] = hl_vol_ratio
+    
+    # 9. True range (ATR-style): max(high-low, |high-prev_close|, |low-prev_close|)
+    prev_close = prices.shift(1)
+    tr1 = highs - lows
+    tr2 = (highs - prev_close).abs()
+    tr3 = (lows - prev_close).abs()
+    # True range = element-wise max of tr1, tr2, tr3
+    true_range = pd.DataFrame(
+        np.maximum(np.maximum(tr1.values, tr2.values), tr3.values),
+        index=prices.index, columns=prices.columns)
+    atr_14 = true_range.rolling(14, min_periods=7).mean()
+    raw["ohlc_atr"] = atr_14 / prices  # normalize by price
+    raw["ohlc_atr"] = raw["ohlc_atr"].replace([np.inf, -np.inf], np.nan)
+    
+    # 10. Overnight vs intraday ratio: gap magnitude / intraday range
+    #    High ratio = most of the move happened overnight
+    gap_abs = overnight_gap.abs()
+    oi_ratio = gap_abs / intraday_range.replace(0, np.nan)
+    oi_ratio = oi_ratio.replace([np.inf, -np.inf], np.nan)
+    raw["ohlc_overnight_intraday_ratio"] = oi_ratio
+    
+    return raw
+
+
+def compute_ff_beta_factors(panel: Dict, cfg) -> Dict[str, pd.DataFrame]:
+    """Real French-Fama beta features: trailing-window OLS loadings of each
+    stock's excess return on the published Ken French factors (Mkt-RF, SMB,
+    HML, UMD) as cross-sectional predictors of the FF-adjusted residual
+    return.  Look-ahead-safe (trailing window only, no full-sample stats);
+    alignment (reindex + ffill to panel dates) mirrors the ff3_real label
+    path in model.py.  Returns one DataFrame[T, N] per factor.
+    """
+    from .ff_data import load_ff_factors, _rolling_betas
+    returns = panel["returns"]
+    returns_simple = np.expm1(returns)          # log -> simple (label-path convention)
+    ff = load_ff_factors()
+    ff = ff.reindex(returns_simple.index).ffill().reindex(returns_simple.index)
+    factor_cols = ["MktRF", "SMB", "HML", "UMD"]
+    ff = ff[factor_cols + ["RF"]]
+    bw = int(getattr(cfg, "ff_beta_window", 120))
+    mo = int(getattr(cfg, "ff_beta_min_obs", 60))
+    betas = _rolling_betas(returns_simple, ff, beta_window=bw, min_obs=mo,
+                           factor_cols=factor_cols)   # [T, N, K]
+    out = {}
+    for k, col in enumerate(factor_cols):
+        out[f"ff_beta_{col.lower()}"] = pd.DataFrame(
+            betas[:, :, k], index=returns.index, columns=returns.columns)
+    return out

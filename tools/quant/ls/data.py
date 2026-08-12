@@ -199,9 +199,12 @@ def _load_macro(cfg, date_index: pd.DatetimeIndex) -> pd.DataFrame:
             out["CALL_RATE"] = 0.0
         return out
     # ---- VIX ----
+    # NOTE: limit=8000 (~31y of daily obs) so 20y backtests get REAL VIX for the
+    # whole window.  The old 1500 (~6y) left pre-2020 years on the constant
+    # fallback, silently disabling VIX de-risking in long tests.
     try:
         from tools.wt import altdata  # type: ignore
-        vals, dates, err = altdata.fred_history(cfg.vix_series, limit=1500)
+        vals, dates, err = altdata.fred_history(cfg.vix_series, limit=8000)
         if vals is None or len(vals) == 0:
             raise RuntimeError(err or "no VIX data")
         s = pd.Series(vals, index=pd.to_datetime(dates)).sort_index()
@@ -221,7 +224,7 @@ def _load_macro(cfg, date_index: pd.DatetimeIndex) -> pd.DataFrame:
         call_sid = getattr(cfg, "call_rate_series", "DFF")
         try:
             from tools.wt import altdata  # type: ignore
-            vals, dates, err = altdata.fred_history(call_sid, limit=1500)
+            vals, dates, err = altdata.fred_history(call_sid, limit=8000)
             if vals is None or len(vals) == 0:
                 raise RuntimeError(err or "no call-rate data")
             s = pd.Series(vals, index=pd.to_datetime(dates)).sort_index()

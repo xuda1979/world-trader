@@ -212,8 +212,8 @@ class Config:
     opt_long_only: bool = False                    # internal L/S sub-optimization flag
 
     # ---- backtest / execution ----
-    cost_bps_one_side: float = 3.8                 # 3.8 bps one-side (7.6bps round-trip retail)
-    cost_round_trip_bps: float = 7.6               # used for rebalance threshold
+    cost_bps_one_side: float = 6.0                 # 6 bps one-side (12bps round-trip, user spec 2026-08-12)
+    cost_round_trip_bps: float = 12.0              # used for rebalance threshold
     slippage_bps: float = 0.0                      # no market impact / no slippage (user spec)
     # Short-borrow / short-call cost model (annualized, applied daily to short mkt value)
     # Retail short-sellers pay: (1) the short rebate forgone on cash collateral,

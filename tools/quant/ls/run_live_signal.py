@@ -1,0 +1,94 @@
+"""Live portfolio signal for the frozen CAPM-alpha strategy.
+
+Loads the champion config (validation_test/mkt_full), runs the full
+walk-forward pipeline on the LATEST available data, and prints the
+current recommended portfolio: 13 long / 13 short with weights, net
+and gross exposure, beta, and the trend-gate state (risk-on/off).
+
+Honesty: the pipeline uses only data up to each signal date (future-
+function guards + T+1 execution inside the runner); the printed
+portfolio is the last walk-forward decision, not a re-fit on today.
+
+Usage:
+  python -m tools.quant.ls.run_live_signal            # print + save JSON
+"""
+from __future__ import annotations
+import os, sys, json
+
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
+if ROOT not in sys.path:
+    sys.path.insert(0, ROOT)
+
+from tools.quant.ls.config import Config
+from tools.quant.ls import runner
+
+CHAMPION_CFG = os.path.join(ROOT, "tools/quant/ls/results/validation_test/tw320d4_deep_full/config.json")
+OUT_JSON = os.path.join(ROOT, "tools/quant/ls/results/live_signal.json")
+
+
+def main() -> int:
+    with open(CHAMPION_CFG) as f:
+        d = json.load(f)
+    d.pop("name", None)
+    d.pop("out_dir", None)
+    d["plot"] = False
+    d["data_dir"] = "tools/quant/data/twelvedata"
+    d["verbose"] = False
+    cfg = Config(**d)
+    cfg.name = "live_signal"
+
+    res = runner.run(cfg)
+    m = res.get("metrics", {})
+    result = res.get("result") or {}
+    holdings = result.get("holdings")
+    risk_log = result.get("risk_log")
+
+    if holdings is None or holdings.empty:
+        print("No holdings available (no valid predictions).")
+        return 1
+
+    last_date = holdings.index[-1]
+    w = holdings.iloc[-1]
+    longs = w[w > 0].sort_values(ascending=False)
+    shorts = w[w < 0].sort_values()
+
+    # Trend-gate state: most recent trend_gate event
+    gate_state = "risk-on"
+    if risk_log is not None and not risk_log.empty and "type" in risk_log.columns:
+        tg = risk_log[risk_log["type"] == "trend_gate"]
+        if not tg.empty:
+            last_tg = tg.iloc[-1]
+            gate_state = "RISK-OFF (flat)" if bool(last_tg.get("trend_off", False)) else "risk-on"
+
+    signal = {
+        "as_of": str(last_date.date()),
+        "trend_gate": gate_state,
+        "gross_exposure": float(holdings.iloc[-1].abs().sum()),
+        "net_exposure": float(holdings.iloc[-1].sum()),
+        "avg_abs_beta": m.get("avg_abs_beta"),
+        "annualized_sharpe_daily_returns": m.get("sharpe"),
+        "annualized_return": m.get("annual_return"),
+        "max_drawdown": m.get("max_drawdown"),
+        "longs": [{"ticker": t, "weight": round(float(weight), 4)}
+                  for t, weight in longs.items()],
+        "shorts": [{"ticker": t, "weight": round(float(weight), 4)}
+                   for t, weight in shorts.items()],
+    }
+    with open(OUT_JSON, "w") as f:
+        json.dump(signal, f, indent=2)
+
+    print(f"=== LIVE SIGNAL — CAPM-alpha strategy (as of {signal['as_of']}) ===")
+    print(f"Trend gate : {gate_state}")
+    print(f"Gross      : {signal['gross_exposure']:.2f}  Net: {signal['net_exposure']:.3f}")
+    print(f"Backtest   : ann. Sharpe (daily ret) {signal['annualized_sharpe_daily_returns']:.2f} | "
+          f"ann. return {signal['annualized_return']*100:.1f}% | max DD {signal['max_drawdown']*100:.1f}%")
+    print("\nLONG  (weight):", ", ".join(f"{t} {weight:+.3f}" for t, weight in
+                                        [(x["ticker"], x["weight"]) for x in signal["longs"]]))
+    print("SHORT (weight):", ", ".join(f"{t} {weight:+.3f}" for t, weight in
+                                       [(x["ticker"], x["weight"]) for x in signal["shorts"]]))
+    print(f"\nSaved -> {OUT_JSON}")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

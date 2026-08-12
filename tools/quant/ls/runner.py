@@ -137,26 +137,76 @@ def run(cfg: Config, export: bool = True) -> Dict[str, Any]:
         extra_processed = factors.process_cross_section(extra_raw, panel, cfg)
         processed.update(extra_processed)
         factor_names = list(processed.keys())
+    if getattr(cfg, "use_interaction_features", False):
+        ixn_raw = factors.compute_interaction_features(panel, cfg)
+        ixn_processed = factors.process_cross_section(ixn_raw, panel, cfg)
+        processed.update(ixn_processed)
+        factor_names = list(processed.keys())
+    # Add OHLC-based factors (orthogonal to momentum/vol family)
+    if getattr(cfg, "use_ohlc_factors", False):
+        ohlc_raw = factors.compute_ohlc_factors(panel, cfg)
+        ohlc_processed = factors.process_cross_section(ohlc_raw, panel, cfg)
+        processed.update(ohlc_processed)
+        factor_names = list(processed.keys())
+    # Add V2 academic alpha factors (ivol, MAX, beta arb, trend eff, etc.)
+    if getattr(cfg, "use_v2_factors", False):
+        from . import factors_v2
+        v2_raw = factors_v2.compute_v2_factors(panel, cfg)
+        v2_processed = factors_v2.process_v2_factors(v2_raw, panel, cfg)
+        processed.update(v2_processed)
+        factor_names = list(processed.keys())
+    # Add real French-Fama beta features (trailing loadings on Mkt/SMB/HML/UMD)
+    if getattr(cfg, "use_ff_beta_factors", False):
+        ffbeta_raw = factors.compute_ff_beta_factors(panel, cfg)
+        ffbeta_processed = factors.process_cross_section(ffbeta_raw, panel, cfg)
+        processed.update(ffbeta_processed)
+        factor_names = list(processed.keys())
+
     print(f"  factors computed: {len(processed)} -> {list(processed.keys())}")
 
     # 3. IC + screen
     print("[3/7] Computing IC / ICIR + screening...")
     fwd = ic_screen.forward_returns(panel["prices"], cfg.return_horizon_fwd)
     ic_df = ic_screen.compute_all_ic(processed, fwd, cfg)
-    kept, stats, icir_full = ic_screen.screen_factors(ic_df, cfg, factor_names)
-    sign_flips = {f: s.get("sign_flip", False) for f, s in stats.items()}
-    print(f"  kept factors ({len(kept)}): {kept}")
 
-    # Fallback: if no factors pass the gate, use all with |mean_ic| > some floor
-    # so the pipeline still produces a runnable backtest (with a warning).
-    if not kept:
-        print("  WARNING: no factors passed the strict gate; using top 5 by |ICIR|")
-        ranked = sorted(stats.items(), key=lambda x: -abs(x[1].get("icir", 0)))
-        kept = [name for name, s in ranked[:5]
-                if np.isfinite(s.get("icir", 0)) and abs(s.get("icir", 0)) > 0.01]
+    if getattr(cfg, "screen_trailing_only", False):
+        # Honest screening: IC observations usable at the last prediction
+        # date T are those with s + h <= T (fwd realized by T).  Truncate
+        # the IC panel so the factor gate never sees future data.
+        tw_h = cfg.train_window + cfg.return_horizon_fwd
+        n_dates = len(panel["prices"])
+        grid = [t for t in range(tw_h, n_dates)
+                if (t - tw_h) % cfg.refit_freq == 0]
+        last_pred = grid[-1] if grid else n_dates - 1
+        cutoff = last_pred - cfg.return_horizon_fwd
+        ic_df = ic_df.loc[ic_df.index <= panel["prices"].index[cutoff]]
+        print(f"  screen_trailing_only: {len(ic_df)} IC obs through "
+              f"{panel['prices'].index[cutoff].date()}")
+    
+    if getattr(cfg, "bypass_ic_screen", False):
+        # Bypass ICIR screening: keep ALL factors (for tree models that do feature selection)
+        kept = list(factor_names)
+        # Still compute IC stats for diagnostics
+        _, stats, icir_full = ic_screen.screen_factors(ic_df, cfg, factor_names)
+        # Mark all as "kept_bypass"
+        for f in stats:
+            stats[f]["status"] = "kept_bypass"
+        sign_flips = {}
+        print(f"  bypass_ic_screen=True: keeping all {len(kept)} factors")
+    else:
+        kept, stats, icir_full = ic_screen.screen_factors(ic_df, cfg, factor_names)
+        sign_flips = {f: s.get("sign_flip", False) for f, s in stats.items()}
+        print(f"  kept factors ({len(kept)}): {kept}")
+
+        # Fallback: if no factors pass the gate, use all with |mean_ic| > some floor
         if not kept:
-            kept = factor_names[:5]
-        print(f"  fallback kept: {kept}")
+            print("  WARNING: no factors passed the strict gate; using top 5 by |ICIR|")
+            ranked = sorted(stats.items(), key=lambda x: -abs(x[1].get("icir", 0)))
+            kept = [name for name, s in ranked[:5]
+                    if np.isfinite(s.get("icir", 0)) and abs(s.get("icir", 0)) > 0.01]
+            if not kept:
+                kept = factor_names[:5]
+            print(f"  fallback kept: {kept}")
 
     # 4. Rolling model (OLS or ICIR-weighted ensemble per cfg.model_method)
     print("[4/7] Rolling model fit + predictions...")
@@ -164,6 +214,14 @@ def run(cfg: Config, export: bool = True) -> Dict[str, Any]:
                                             kept_factors=kept, sign_flips=sign_flips)
     print(f"  predictions: {out_model['predictions'].shape}  "
           f"weights: {out_model['weights'].shape}")
+    if out_model["predictions"].empty:
+        # Loud guard: an empty prediction frame would backtest to flat zeros
+        # and masquerade as a valid (sharpe=0.0) result.  Fail loudly instead.
+        raise RuntimeError(
+            f"[{cfg.name}] empty predictions: every walk-forward refit was "
+            f"skipped (kept_factors={kept}, model_min_factors="
+            f"{cfg.model_min_factors}, min_train_obs={cfg.model_min_train_obs}). "
+            f"Check the IC screen output and model constraints.")
     if out_model["ic_oos"].notna().any():
         print(f"  OOS IC: mean={out_model['ic_oos'].mean():.4f}  "
               f"std={out_model['ic_oos'].std():.4f}")

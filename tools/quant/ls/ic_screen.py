@@ -137,6 +137,9 @@ def screen_factors(ic_df: pd.DataFrame, cfg, factor_names: List[str]
         if name not in ic_df.columns:
             stats_per[name] = {"status": "missing"}
             continue
+        if name in cfg.factor_exclude:
+            stats_per[name] = {"status": "excluded"}
+            continue
         ic_series = ic_df[name].dropna()
         if len(ic_series) < cfg.ic_min_obs:
             stats_per[name] = {"status": "too_few_obs", "n_obs": len(ic_series)}

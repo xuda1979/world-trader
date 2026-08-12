@@ -199,6 +199,11 @@ def construct_target_weights(predictions: pd.Series, panel: Dict, cfg,
 
     # Candidate selection
     long_pred, short_pred, long_mask, short_mask = select_candidates(pred, cfg, prev_weights)
+    # select_candidates builds masks on pred.dropna(); re-align to the FULL
+    # prediction index so the optimizer's positional indexing matches (deep
+    # panels can have a NaN-name at a rebalance date -> mask length != n).
+    long_mask = pred.index.isin(long_pred.index)
+    short_mask = pred.index.isin(short_pred.index)
 
     if len(long_pred) == 0 or len(short_pred) == 0:
         return pd.Series(0.0, index=predictions.index)

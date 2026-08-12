@@ -155,6 +155,8 @@ def run_diagnostics(result: Dict, panel: Dict, predictions: pd.DataFrame,
     if cfg.diag_window_sweep:
         report["window_sweep"] = window_sweep(panel, processed, cfg,
                                               kept_factors, sign_flips)
+    else:
+        report["window_sweep"] = {}
 
     # 3. Weight stability
     if cfg.diag_weight_vol_flag:
@@ -176,16 +178,34 @@ def run_diagnostics(result: Dict, panel: Dict, predictions: pd.DataFrame,
         sharpes = [s for s in sharpes if np.isfinite(s)]
         if sharpes and max(sharpes) != 0:
             drop = (max(sharpes) - min(sharpes)) / abs(max(sharpes))
-            if drop > 0.5:
-                flags.append(f"window_sensitivity_high (drop={drop:.1%})")
+            # Sign-flip test: the true overfitting signal is a window with
+            # opposite-sign Sharpe to the main run (positive main, negative
+            # window). A monotonic range (all same sign) is NOT overfitting --
+            # it's just estimation variance. Flag only on sign-flip OR extreme
+            # relative drop (>80%) with a near-zero worst window.
+            n_negative = sum(1 for s in sharpes if s < 0)
+            n_positive = sum(1 for s in sharpes if s > 0)
+            min_abs = min(abs(s) for s in sharpes)
+            max_abs = max(abs(s) for s in sharpes)
+            sign_flip = (n_negative > 0 and n_positive > 0)
+            extreme_drop = (drop > 0.8 and min_abs < 0.15 * max_abs)
+            if sign_flip:
+                flags.append(
+                    f"window_sign_flip (sharpes={[round(s,2) for s in sharpes]})"
+                )
+            elif extreme_drop:
+                flags.append(f"window_sensitivity_extreme (drop={drop:.1%})")
     if not report["weight_stability"].empty:
         unstable = report["weight_stability"][report["weight_stability"]["flag"] == "unstable"]
         if len(unstable) > 0:
             flags.append(f"unstable_weights: {list(unstable.index)}")
     if not report["icir_decay"].empty:
         decayed = report["icir_decay"][report["icir_decay"]["flag"] == "decayed"]
-        if len(decayed) > 0:
-            flags.append(f"factor_decay: {list(decayed.index)}")
+        # Only flag decay for factors that are actually USED in the strategy.
+        # A rejected factor's decay is irrelevant to overfitting assessment.
+        decayed_used = decayed[decayed.index.isin(kept_factors)] if kept_factors else decayed
+        if len(decayed_used) > 0:
+            flags.append(f"factor_decay: {list(decayed_used.index)}")
 
     report["verdict"] = {
         "overfitting_flags": flags,

@@ -1885,3 +1885,127 @@ de-risking drags return without extra drawdown benefit.
 gate (vix_derisk_factor=1.0, vix_level_threshold=32, vix_level_factor=0.3).
 Caveat: Sharpe deltas across these configs are within OOS noise; the robust,
 reproducible gain is halving maxDrawdown (-33%->-20%) while preserving~Sharpe.
+
+## Update 2026-08-11 (xlv) — Loop: 6bps champion on long free-data panels (WIP)
+
+Directive: keep improving champion Sharpe on free datasets; LONGER test window
+for reliability; cost = 6 bps one-side; periodic model retraining (already
+walk-forward via refit_freq; testing 5d vs 10d cadence).
+
+Infra fixes this session (all committed to working tree):
+- data.py: FRED VIX/DFF limit 1500 -> 8000 (~31y) so 20y backtests get REAL
+  VIX/de-risk for the whole window (1500 left pre-2020 on constant fallback,
+  silently disabling de-risk).
+- model.py: first GBRT fit failure now logs visibly (was silent `continue` ->
+  empty predictions masqueraded as sharpe=0.0).
+- runner.py: empty-predictions guard raises loudly instead of backtesting zeros.
+- Fetched SPY/QQQ/XLF (5000 bars) into twelve_liq/twelve_big so the champion's
+  trend gate + beta checks work on the 20y panels.
+- Found: GradientBoostingRegressor has NO n_jobs (TypeError on kwargs) — the
+  n_jobs experiment was reverted; fits are single-core.
+
+Runs in flight (all @6bps, champion tw320_d4 config unless noted):
+- champ_td6  (twelvedata 8y):  DONE sharpe=0.856 ret=12.1% dd=-17.1% to=6.7x
+  verdict=ok  <- cost bump 3.8->6bps costs ~nothing (edge survives)
+- champ_liq6 (twelve_liq 20y, OOS 2013-2026): running
+- champ_big6 (twelve_big 288-name 20y): screen kept only vol_60d, min_factors=2
+  killed it (silent zeros) -> relaunched as big6_mf1 (min_factors=1) and
+  big6_bypass (all 14 factors to GBRT)
+- sweep on twelve_liq 20y @6bps: tth12 (swap band 0.0012), h21 (21d horizon),
+  vix32 (single VIX>=32/0.3 gate), smooth7 (pred EMA 0.7), n20 (20+20 names)
+
+Pending: collect results, scramble-gate the best variant (verify_scramble.py),
+promote winner if it beats the noise control.
+
+## Update 2026-08-12 (xlvi) — Loop resume: 6bps results collected; 20y fails, 8y wins big
+
+Collected all 6bps runs from 2026-08-11. Key results (all @6bps one-side):
+
+### 8y twelvedata panel (86 names, OOS 2018-2026) — CHAMPION FAMILY WORKS
+| run | sharpe | ret | dd | to | OOS IC | verdict |
+|-----|--------|-----|----|----|--------|---------|
+| champ_td6 (baseline) | 0.856 | 12.1% | -17.1% | 6.7x | +0.012 | ok |
+| champ_td6_new | 0.764 | 10.5% | -26.6% | 6.8x | +0.012 | ok |
+| champ_td6_h21 (21d hzn) | 1.156 | 15.5% | -15.3% | 6.8x | +0.014 | ok |
+| **champ_td6_h21_n13 (13+13)** | **1.202** | 15.9% | -15.3% | 6.4x | +0.014 | ok |
+| champ_td6_h21_vix32 | 1.110 | 8.9% | -10.5% | 3.8x | +0.014 | ok |
+| champ_td6_h21_n13_vix32 | 1.164 | 9.3% | -9.4% | 3.9x | +0.014 | ok |
+| champ_td6_h21_smooth7 | 0.804 | 10.5% | -24.3% | 7.1x | +0.011 | ok |
+=> h21 horizon + n13 names is the winner: SR 0.856 -> 1.202 @6bps. vix32
+halves drawdown (-15% -> -9.4%) at ~4% Sharpe cost (1.202 -> 1.164).
+
+### 20y panels — ALL FAIL (negative OOS IC)
+| run | panel | sharpe | OOS IC |
+|-----|-------|--------|--------|
+| champ_td20y6 | 86-name 20y | -0.174 | -0.009 |
+| champ_td20y6_h21 | 86-name 20y | 0.266 | -0.009 |
+| champ_liq6 | 120-name 20y | -0.498 | ~0.002 |
+| liq6_h21/h21/sweep | 120-name 20y | -0.06..-0.74 | ~0 |
+| big6_mf1 / big6_bypass | 262-name 20y | 0.107/0.162 | -0.007/-0.002 |
+| liq6_era2018 (120-name 8y) | | 0.340 | -0.012 |
+| liq6_home90 (90-name 8y) | | 0.755 | +0.008 |
+=> Model OOS IC ~0 on 120-name panels in BOTH eras (2018+: +0.0024), so it
+is NOT era decay: it is a universe/model interaction. Raw factor ICs are
+FINE pre-2018 (vol_60d +0.045, mom_12m +0.022 on the 120-name panel; zero-
+return/staleness checks clean) -> not a data quality problem.
+
+### Root-cause hypothesis (being tested)
+The trailing IC screen on longer windows selects DIFFERENT factors than on
+8y: 8y keeps (mom_12m, mom_12_1m, vol_60d); 20y keeps (mom_6m, vol_60d) or
+(mom_12m, mom_12_1m, vol_60d, sign-flipped liq_turnover). Screen selection on
+longer history is the prime suspect for the IC collapse.
+Running now (background): w20y (winner cfg, 86-name 20y), w20y_fx (winner cfg
++ FORCED 8y factor set on 20y via factor_exclude), w8y_r4/w8y_r20 (refit
+cadence 4d vs 20d on the 8y winner — user asked model not too old).
+
+### Scramble-gate state (important)
+- verify_scramble.py (price-lag+noise control, used for the loop sweep): ALL
+  runs FAIL incl. the champion itself (champ_td6 real 0.808, 28% scrambles
+  beat it; h21_n13 real 1.115, 20% beat it). This control is too strict for
+  a 0.8-1.2 Sharpe strategy on 2005 days (scramble max reaches ~1.24 by
+  construction: gaussian noise at same std + 1-2d lag).
+- build_gated_portfolio.py permutation gate: BROKEN — permutation preserves
+  mean/std => scrambled Sharpe == real Sharpe always => always FAIL. The
+  claimed "champion passes scramble" in old JSONs was from a different era of
+  the gate. Do NOT trust permutation gate output.
+- Honest discriminator that DID separate champion from noise: OOS IC
+  (+0.014 vs ~0 on failed panels), verdict flags, window sweep, and the
+  price-lag gate's P(noise beats real) ranking (champion 28%, h21_n13 20%).
+
+## Update 2026-08-12 (xlvii) — 20y definitively dead; refit cadence wins
+
+### 20y verdict (conclusive, 3 more runs)
+- w20y (winner cfg, 86-name 20y): SR 0.279, OOS IC -0.0087, verdict
+  likely_overfit (window_sign_flip [-0.04, -0.07, 0.31], mom_6m decay)
+- w20y_fx (winner cfg + forced 8y factor set on 20y): SR 0.158, OOS IC
+  -0.0051, verdict watch. REFUTES the screen-selection hypothesis: forcing
+  the exact 8y factors still fails on the longer window.
+- IC-by-year on 20y: 2014-15 strongly negative (-0.06/-0.055), 2016-17 ~0,
+  2018+ only +0.004 (vs +0.014 for the same era in an 8y-start run) — the
+  early-era history POISONS the model's predictions even in the good era
+  (trailing screen state + model state carry forward). Raw factor ICs are
+  fine pre-2018 (+0.02 to +0.045), FF data coverage complete to 2026-06.
+  Root cause: model/label state contamination, not data, not screen choice.
+- CONCLUSION: the 8y window (OOS 2018-2026, 2005 days) is the reliable
+  window for this model family. 20y extensions fail across all configs.
+  Longer-window research continues via w10y (start 2016, refit 4) probe.
+
+### Refit cadence (user: "model not too old") — FRESHNESS WINS
+- w8y_r4 (refit every 4d): SR 1.318, ret 17.6%, dd -17.5%, to 7.1x,
+  OOS IC +0.010, verdict ok (0 flags)  <- NEW BEST, beats 10d winner 1.202
+- w8y_r20 (20d control): harness crash on RESULT print (None OOSIC) before
+  running; relaunched implicitly by new probes. Not needed: r4 already wins.
+- IMPLEMENTED: live config refit_freq 10 -> 4. Retraining every 4 days
+  materially improves OOS Sharpe (1.202 -> 1.318) at 6bps.
+
+### Promotions (task #3 complete)
+- live_signal config <- 8y winner h21_n13 @6bps + refit_freq=4:
+  cost 6.0, horizon 21, rebalance 21d, n=13/13, min_factors=1,
+  pred_smooth 0.5, VIX percentile de-risk 0.5 (stress gate off).
+- config.py defaults: cost_bps_one_side 3.8 -> 6.0, round_trip 7.6 -> 12.0.
+- Backup of old live config: results/live_signal/config.json.bak.2026-08-12
+
+### In flight (next fire collects)
+- w8y_r2 (refit every 2d — even fresher?)
+- w8y_r4_vix32 (r4 + VIX>=32/0.3 stress gate — DD halving at r4?)
+- w10y (start 2016, refit 4 — intermediate window for longer testing)

@@ -435,6 +435,46 @@ def roll_forward_gbrt(processed: Dict[str, pd.DataFrame], panel: Dict, cfg,
         # The residualization happens inside the refit loop below so the PCA
         # only ever sees training data.  Here we just flag it.
         pass  # handled per-refit below
+    elif label_resid == "ff3":
+        # Fama-French 3-factor + momentum (UMD) residualization.
+        # Build observable factor-mimicking portfolios from the returns
+        # panel at each date, regress each stock's forward return on the
+        # factor returns, and use the residual as the GBRT label.  This
+        # isolates stock-specific alpha and prevents the GBRT from
+        # re-learning common-factor exposure the portfolio optimizer
+        # already hedges.  Factor proxies (constructed look-ahead-safe):
+        #   market = SPY return (if available) else cross-sectional mean
+        #   SMB    = small-minus-big (price proxy for size)
+        #   HML    = low-vol minus high-vol (vol_60d proxy for value)
+        #   UMD    = winners minus losers (12m momentum)
+        # Regressions are run per-refit on the training window only.
+        pass  # handled per-refit below
+    elif label_resid == "ff3_real":
+        # REAL Fama-French daily factors (Ken French Data Library), not
+        # mimicking portfolios.  For each date t, regress each stock's
+        # daily excess return on [Mkt-RF, SMB, HML, UMD] over the trailing
+        # beta_window (look-ahead-safe), then residualize the forward
+        # return: resid_{t,t+h} = (r_{t,t+h} - RF_{t,t+h}) - beta(t) @ F_{t,t+h}.
+        # This predicts the genuine French-Fama risk-adjusted residual
+        # return -- the stock-specific alpha net of market, size, value and
+        # momentum exposure.  Computed ONCE upfront (not per-refit) because
+        # every training row's residual is fully realized by its own t+h
+        # (the walk-forward guard already drops rows with t+h > t_refit).
+        # Same look-ahead argument as the "demean" branch above.
+        try:
+            from .ff_data import load_ff_factors, compute_ff3_resid
+            ff = load_ff_factors()
+            returns_simple = np.expm1(panel["returns"])  # log -> simple
+            resid_df = compute_ff3_resid(
+                returns_simple, prices, h, ff,
+                beta_window=int(getattr(cfg, "gbrt_label_ff_beta_window", 60)),
+                min_obs=int(getattr(cfg, "gbrt_label_ff_min_obs", 30)),
+                factors=str(getattr(cfg, "gbrt_label_ff_factors", "ff3umd")),
+            )
+            fwd_arr = resid_df.values
+        except Exception as e:  # fall back to raw label if data missing
+            import warnings
+            warnings.warn(f"ff3_real residualization failed ({e}); using raw label")
 
     # Winsorize the label to suppress outliers (Freyberger 2020 does this).
     # NOTE: percentiles are computed INSIDE the refit loop on training data only
@@ -469,6 +509,38 @@ def roll_forward_gbrt(processed: Dict[str, pd.DataFrame], panel: Dict, cfg,
         fwd_arr = ranks
     elif label_tf == "sign":
         fwd_arr = np.sign(fwd_arr)
+
+    # ---- Volatility-scaled prediction target ----
+    # Optionally divide the forward return by trailing realized vol at each
+    # date, creating a signal-to-noise-ratio target.  This gives the GBRT a
+    # cleaner, more homoskedastic target that down-weights noisy periods
+    # (high-vol regimes where return predictions are inherently noisier).
+    # The vol is computed as a trailing 60-day std, look-ahead-safe.
+    vol_scale_gbrt = bool(getattr(cfg, "gbrt_label_vol_scale", False))
+    if vol_scale_gbrt:
+        vol_window = int(getattr(cfg, "gbrt_label_vol_window", 60))
+        import warnings
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", RuntimeWarning)
+            # Use daily returns (not fwd) for trailing std
+            ret_arr = panel["returns"].values
+            # Rolling std per ticker, trailing window, look-ahead safe:
+            # at date t, vol = std(ret[t-vol_window:t]) -- only uses known data
+            vol_arr = np.full_like(ret_arr, np.nan)
+            for j in range(ret_arr.shape[1]):
+                col = pd.Series(ret_arr[:, j])
+                vol_col = col.rolling(vol_window, min_periods=max(10, vol_window//2)).std()
+                vol_arr[:, j] = vol_col.values
+            # Scale: fwd_scaled = fwd / (vol * sqrt(h))
+            # sqrt(h) annualizes the vol to the prediction horizon
+            annual_factor = np.sqrt(h / 252.0)
+            vol_scaled = vol_arr * annual_factor
+            # Avoid division by near-zero vol
+            vol_scaled = np.where(np.isfinite(vol_scaled) & (vol_scaled > 1e-8), vol_scaled, np.nan)
+            fwd_arr = fwd_arr / vol_scaled
+            # After scaling, winsorize more aggressively (outliers are more common)
+            if win_p < 0.01:
+                win_p = 0.02
 
     pred_mat = np.full((n_dates, n_tickers), np.nan)
     ic_oos_vals: List[float] = []
@@ -523,6 +595,87 @@ def roll_forward_gbrt(processed: Dict[str, pd.DataFrame], panel: Dict, cfg,
             except Exception:
                 pass  # fall back to raw label if PCA fails
 
+        # Fama-French 3-factor + momentum residualization (per-refit, in-sample).
+        # Build factor-mimicking portfolio returns from the training-window
+        # cross-section, regress each stock's forward return on them, and use
+        # the residual as the label.  This is look-ahead-safe: only training
+        # rows are used to form the sorts and fit the regression.
+        if label_resid == "ff3":
+            try:
+                ret_panel = returns.values[train_start:train_end]  # [T_train, N]
+                fwd_panel = fwd_arr[train_start:train_end]          # [T_train, N]
+                bench_col = getattr(cfg, "benchmark", "SPY")
+                # Market factor: SPY if available, else cross-sectional mean
+                if bench_col in returns.columns:
+                    mkt = returns[bench_col].values[train_start:train_end]
+                else:
+                    mkt = np.nanmean(ret_panel, axis=1)
+                # Size proxy (SMB): use trailing price as size, split at median.
+                # HML proxy: use rolling 60d volatility, split at median.
+                # Momentum proxy (UMD): use 12-1m momentum, split at median.
+                # We compute the proxy signals from `panel` (look-ahead-safe:
+                # signals at date s use only data up to s).
+                # Build per-date long-short factor returns.
+                T_train, N = ret_panel.shape
+                smb = np.zeros(T_train); hml = np.zeros(T_train); umd = np.zeros(T_train)
+                prices_arr = prices.values
+                for ti in range(T_train):
+                    si = train_start + ti
+                    if si < 252:  # need enough history for vol + momentum
+                        continue
+                    r_row = ret_panel[ti]
+                    if np.isfinite(r_row).sum() < 20:
+                        continue
+                    # Size: trailing price (proxy for market cap)
+                    size = prices_arr[si - 1]
+                    # Value proxy: 60d realized vol
+                    vol60 = np.nanstd(ret_panel[max(0,ti-60):ti+1], axis=0)
+                    # Momentum proxy: 252d-21d cumulative return
+                    if si >= 252:
+                        mom = (prices_arr[si - 1] / prices_arr[si - 252]) - 1.0
+                        if si >= 21:
+                            mom_recent = (prices_arr[si - 1] / prices_arr[si - 21]) - 1.0
+                            mom = mom - mom_recent
+                    else:
+                        mom = np.full(N, np.nan)
+                    for signal, arr in [(size, smb), (vol60, hml), (mom, umd)]:
+                        valid = np.isfinite(signal) & np.isfinite(r_row)
+                        if valid.sum() < 20:
+                            continue
+                        med = np.median(signal[valid])
+                        hi = valid & (signal > med)
+                        lo = valid & (signal <= med)
+                        if hi.sum() > 0 and lo.sum() > 0:
+                            # Small-minus-big for size; for vol/mom we go
+                            # low-minus-high (low vol = "value", high mom = "winners")
+                            if signal is size:
+                                arr[ti] = np.nanmean(r_row[lo]) - np.nanmean(r_row[hi])
+                            elif signal is vol60:
+                                arr[ti] = np.nanmean(r_row[lo]) - np.nanmean(r_row[hi])
+                            else:  # momentum: winners minus losers
+                                arr[ti] = np.nanmean(r_row[hi]) - np.nanmean(r_row[lo])
+                # Regress each stock's forward return on [mkt, smb, hml, umd]
+                factors = np.column_stack([mkt, smb, hml, umd])
+                # Add constant
+                F_mat = np.column_stack([np.ones(T_train), factors])
+                # For each ticker, OLS regress fwd on factors, keep residual
+                resid_panel = np.full_like(fwd_panel, np.nan)
+                for j in range(N):
+                    y = fwd_panel[:, j]
+                    valid = np.isfinite(y) & np.isfinite(F_mat).all(axis=1)
+                    if valid.sum() < 30:
+                        continue
+                    try:
+                        coef, *_ = np.linalg.lstsq(F_mat[valid], y[valid], rcond=None)
+                        pred = F_mat @ coef
+                        resid_panel[:, j] = y - pred
+                    except Exception:
+                        continue
+                y_train_resid = resid_panel.flatten()
+                y_use = y_train_resid[mask]
+            except Exception:
+                pass  # fall back to raw/demean label if ff3 fails
+
         # Winsorize the TRAINING labels at this refit (look-ahead-safe:
         # percentiles use only training-window rows, no future data).
         if win_p > 0:
@@ -534,7 +687,13 @@ def roll_forward_gbrt(processed: Dict[str, pd.DataFrame], panel: Dict, cfg,
         try:
             gbrt = _build_gbrt(cfg)
             gbrt.fit(X_use, y_use)
-        except Exception:
+        except Exception as e:
+            # Log the FIRST fit failure visibly; silent continues produced an
+            # all-empty predictions frame that looked like a legit result.
+            if not getattr(cfg, "_gbrt_fit_error_logged", False):
+                import warnings
+                warnings.warn(f"GBRT fit failed at t={t}: {type(e).__name__}: {e}")
+                cfg._gbrt_fit_error_logged = True
             continue
 
         # Predict at time t
@@ -593,10 +752,30 @@ def roll_forward_gbrt(processed: Dict[str, pd.DataFrame], panel: Dict, cfg,
 
 def roll_forward_dispatch(processed: Dict, panel: Dict, cfg,
                           kept_factors=None, sign_flips=None):
-    """Pick the model combiner based on cfg.model_method ('ols','icir','gbrt')."""
+    """Pick the model combiner based on cfg.model_method."""
     method = getattr(cfg, "model_method", "ols")
     if method == "icir":
         return roll_forward_icir_weighted(processed, panel, cfg, kept_factors, sign_flips)
     if method == "gbrt":
         return roll_forward_gbrt(processed, panel, cfg, kept_factors, sign_flips)
+    if method == "rf":
+        from .models_extra import roll_forward_rf
+        return roll_forward_rf(processed, panel, cfg, kept_factors, sign_flips)
+    if method == "elasticnet":
+        from .models_extra import roll_forward_elasticnet
+        return roll_forward_elasticnet(processed, panel, cfg, kept_factors, sign_flips)
+    if method == "xgb":
+        try:
+            from .models_extra import roll_forward_xgb
+            return roll_forward_xgb(processed, panel, cfg, kept_factors, sign_flips)
+        except ImportError:
+            import warnings
+            warnings.warn("xgboost not installed; falling back to GBRT")
+            return roll_forward_gbrt(processed, panel, cfg, kept_factors, sign_flips)
+    if method == "multihorizon":
+        from .models_extra import roll_forward_multihorizon
+        return roll_forward_multihorizon(processed, panel, cfg, kept_factors, sign_flips)
+    if method == "ensemble":
+        from .models_extra import roll_forward_ensemble
+        return roll_forward_ensemble(processed, panel, cfg, kept_factors, sign_flips)
     return roll_forward(processed, panel, cfg, kept_factors, sign_flips)
