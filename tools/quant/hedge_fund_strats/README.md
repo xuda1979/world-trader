@@ -64,12 +64,14 @@ See `results/strategy_comparison.csv` for full metrics.
 | **CTA Futures (FRED macro, 21d)** | **+2.5%** | **12.5%** | **0.16** | **-37.8%** | **0.00** |
 | StatArb 80 pairs | ~0.0% | 6.2% | **0.16** | -16.9% | 0.04 |
 | FI Arb (curve z-score) | -1.4% | 0.6% | -3.44 | -3.0% | 0.00 |
+| Credit (spread z reversion) | -0.05% | 1.1% | -1.42 | -3.5% | 0.00 |
+| Credit (unconditional carry) | +0.6% | 1.3% | -1.03 | -9.8% | 0.00 |
 | StatArb 40 pairs z1.0 | -0.3% | 5.9% | **0.11** | -15.2% | 0.04 |
 | Global Macro | +1.1% | 4.7% | -0.12 | -10.7% | 0.08 |
 | CTA equities (3 variants) | -0.6% to -1.4% | 10-12% | -0.06 to -0.14 | -30%+ | ~0.05 |
 | Merger Arb PEAD | +1.1% | 2.6-2.9% | -0.21 to -0.28 | -8% | ~0.01 |
 | EMN | -12.3% | 20.1% | -0.59 | -90.3% | -0.37 |
-| **Multi-Strategy EW** | **+6.8%** | **8.0%** | **0.61** | **-12.2%** | **0.00** |
+| **Multi-Strategy EW (5 streams)** | **+7.2%** | **8.3%** | **0.64** | **-11.7%** | **0.00** |
 
 **Honest findings (after 6 bps round-trip costs):**
 - **L/S momentum (Sharpe 0.85) is the best standalone** — but its edge is
@@ -91,6 +93,13 @@ See `results/strategy_comparison.csv` for full metrics.
   gross edge on 2008-2026 — inversion periods were trend continuations, and
   FI arb economics are carry/term-premium driven, not z-score driven. Cost
   drag is negligible (0.13%/yr) — the edge itself is negative.
+- **Credit Strategies fail too** (Sharpe -1.0..-2.5): z-score timing of the
+  BAA-AAA / BAA-10y spreads (Moody's, 1983+) and even unconditional credit
+  carry (Sharpe -1.0, +0.6%/yr vs -9.8% MaxDD) — the quality spread
+  structurally WIDENED post-GFC, so long-credit timing lost more than carry
+  earned. Both windows (1986+, 2008+) negative. Consistent with the FI arb
+  finding: spread timing on yields/credit has no naive edge; carry is real
+  but spread-level risk dominates at this sizing.
 - **CTA window robustness**: Sharpe +0.16 on 2008+ but -0.04 on 2000+
   (2000-2008 subperiod loses): the missing metals complex (gold/copper
   discontinued on FRED — the 2000s supercycle was metals-led) and
@@ -124,6 +133,7 @@ See `results/strategy_comparison.csv` for full metrics.
 - `strat_cta.py` - Managed Futures / CTA
 - `strat_stat_arb.py` - Relative Value / Statistical Arbitrage (pairs)
 - `strat_fi_arb.py` - Relative Value / Fixed Income Arbitrage (curve z-score)
+- `strat_credit.py` - Credit Strategies (spread z reversion + carry variants)
 - `strat_cta_futures.py` - CTA on real futures/macro (Stooq/FRED)
 - `run_all.py` - master runner + comparison
 - `run_extras.py` - stat arb variants + multi-strategy blend (appends)

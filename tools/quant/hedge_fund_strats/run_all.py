@@ -29,6 +29,7 @@ from tools.quant.hedge_fund_strats.strat_cta import run_cta, run_cta_variants
 from tools.quant.hedge_fund_strats.strat_stat_arb import run_stat_arb, run_stat_arb_variants
 from tools.quant.hedge_fund_strats.strat_cta_futures import run_cta_futures
 from tools.quant.hedge_fund_strats.strat_fi_arb import run_fi_arb
+from tools.quant.hedge_fund_strats.strat_credit import run_credit
 
 
 def prepare_data(max_tickers: int = None, min_history: int = 1000) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
@@ -193,6 +194,15 @@ def run_all_strategies(prices: pd.DataFrame, returns: pd.DataFrame,
             results["FI Arb (curve)"] = perf_fi
     except Exception as e:
         print(f"  FI Arb ERROR: {e}")
+        import traceback; traceback.print_exc()
+
+    # ---- Strategy 6c: Credit Strategies (supplementary category) ----
+    try:
+        if not quick:
+            perf_cr, _, _ = run_credit()
+            results["Credit (spread z reversion)"] = perf_cr
+    except Exception as e:
+        print(f"  Credit ERROR: {e}")
         import traceback; traceback.print_exc()
 
     # ---- Strategy 6: Relative Value / Statistical Arbitrage ----
