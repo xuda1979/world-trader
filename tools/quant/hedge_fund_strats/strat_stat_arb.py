@@ -91,7 +91,10 @@ def compute_pair_weights(prices: pd.DataFrame,
         weights.loc[:, b] += np.where(state != 0, sgn, 0.0)
         weights.loc[:, a] -= np.where(state != 0, sgn, 0.0)
 
-    # Normalize each date to target gross and cap
+    # Cap book gross at max_gross. NOTE: this is LEVERAGE control, not a pair
+    # count limit — 30-40 pairs are typically active simultaneously; gross
+    # without the cap would be ~70-80x. (Diagnosed via sweep: removing the cap
+    # -> 219% annualized vol -> -100% return.)
     for i in range(len(weights)):
         row = weights.iloc[i]
         gross = row.abs().sum()

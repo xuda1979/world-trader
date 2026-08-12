@@ -96,4 +96,22 @@ See `results/strategy_comparison.csv` for full metrics.
 - `strat_stat_arb.py` - Relative Value / Statistical Arbitrage (pairs)
 - `run_all.py` - master runner + comparison
 - `run_extras.py` - stat arb variants + multi-strategy blend (appends)
+- `sweep_stat_arb.py` - stat-arb parameter sweep (documents the search)
 - `download_data.py` - free data download (Polygon, Alpha Vantage, yfinance)
+
+## Stat-arb tuning exploration (Aug 2026)
+
+Systematic sweep of the relative-value strategy at 6 bps found the baseline
+config is already the best: **z-window 60d, entry |z|>1.5, exit |z|<0.5,
+semiannual refit, weekly rebalance, gross cap 2.0, basket 80 → Sharpe 0.16,
+beta 0.04**. Everything else is worse:
+- rebalance slowdown 5→42d (0.16 → −0.06; execution lag kills the edge)
+- top-K forced exposure (−0.37..−0.59; forces weak setups)
+- slow signals, z-window 120/250d (−0.15..+0.11; edge is short-horizon)
+- full-convergence exit z=0 (turnover drops 46x→11x but edge decays faster)
+- cooldown after exit (no help)
+
+The binding constraint is cost, not signal: ~46x annual turnover × 6 bps =
+2.7%/yr drag vs ~3%/yr gross edge. A materially better stat-arb needs a
+genuinely different construction (sector constraints, vol-regime timing,
+fundamental legs), not parameter tuning.
