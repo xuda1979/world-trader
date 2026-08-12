@@ -128,6 +128,14 @@ See `results/strategy_comparison.csv` for full metrics.
   the low-vol streams (macro, stat arb) have LOW Sharpe, so de-weighting
   L/S hurts. Dropping the two weakest streams (macro, FX carry) also helps
   (best-4 EW: 0.67).
+- **Global Macro's weakness is construction, not universe**: moving the
+  strategy to the FRED macro panel changes nothing (-0.12 -> -0.10), and
+  switching to inverse-vol weighting helps only marginally (-0.04 at 26%
+  vol). The fatal flaw is cross-sectional momentum RANKING across
+  heterogeneous instruments (ranking crude's 30% vol against a yield's 1%
+  vol is meaningless) plus the noisy vol-regime gate. The CTA construction
+  (multi-timeframe trend, inverse-vol, vol-target) on the SAME panel is
+  the superior macro implementation (+0.16).
 - **EMN beta-neutralization fixed** (was a silent no-op): pandas 3.x
   DataFrame.rolling().cov(Series) returns all-NaN, so `beta_neutralize`
   never changed weights (β stayed -0.37 on the 'neutral' book); also fixed
