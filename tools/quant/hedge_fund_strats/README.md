@@ -128,6 +128,11 @@ See `results/strategy_comparison.csv` for full metrics.
   the low-vol streams (macro, stat arb) have LOW Sharpe, so de-weighting
   L/S hurts. Dropping the two weakest streams (macro, FX carry) also helps
   (best-4 EW: 0.67).
+- **Crypto trend-following loses (2023-2026, 2.8y)**: the multi-timeframe
+  CTA machinery on BTC+ETH gives Sharpe -0.10 (21d) to -0.33 (5d) at 6 bps
+  vs BTC buy-and-hold +0.62 — trend-following on two hyper-volatile assets
+  whipsaws and churns; with only 2 instruments there is no breadth to
+  diversify. Buy-and-hold dominates on a single asset class.
 - **Global Macro's weakness is construction, not universe**: moving the
   strategy to the FRED macro panel changes nothing (-0.12 -> -0.10), and
   switching to inverse-vol weighting helps only marginally (-0.04 at 26%
