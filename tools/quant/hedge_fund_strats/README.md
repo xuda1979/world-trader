@@ -22,7 +22,11 @@ data with **6 bps round-trip trading cost** (3 bps per side).
   18-year panel (>50% NaN), but matter where their history exists: L/S
   on 2024+ with the 585-name cross-section runs Sharpe 0.79 vs 0.27 on
   the 261-name book — cross-sectional breadth nearly triples the Sharpe
-  in the recent window.
+  in the recent window. EMN also gains modestly (0.13 -> 0.19 on 2024+,
+  and is POSITIVE in the recent window vs -0.32 on 2008+) while stat arb
+  DEGRADES (-0.08 -> -0.65: more pair candidates = more spurious
+  selections). Breadth helps ranking-based strategies, not selection-based
+  ones.
 - **8 FX pairs** (EUR/USD, USD/JPY, etc., 2019+)
 - **2 crypto** (BTC, ETH, 2023+)
 - **27 Chinese stocks** (cn/, 1.7y history only — 2024-12+; excluded from
