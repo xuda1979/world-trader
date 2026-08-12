@@ -63,6 +63,11 @@ def load_futures(dir_path: Path = None) -> Dict[str, pd.DataFrame]:
             if not p.exists():
                 continue
             df = pd.read_csv(p, parse_dates=["date"], index_col="date")
+            # Guard: reject sparse files (e.g. a monthly series accidentally
+            # written over a daily one) — ffill would mask them.
+            if len(df) < 500:
+                print(f"  (skipping {sym}: only {len(df)} rows — too sparse)")
+                continue
             df.columns = ["close"]
             data[sym] = df
     return data

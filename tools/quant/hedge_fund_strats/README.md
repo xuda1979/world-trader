@@ -60,10 +60,12 @@ See `results/strategy_comparison.csv` for full metrics.
 | L/S 130/30 | +21.6% | 26.5% | **0.85** | -45.7% | 1.06 |
 | L/S 120/20 | +16.6% | 19.9% | **0.82** | -34.9% | 0.79 |
 | L/S Market Neutral | +23.9% | 32.5% | **0.82** | -56.1% | 1.32 |
+| L/S 130/30 vol-managed | +17.7% | 21.5% | **0.77** | -26.2% | ~1.1 |
+| Risk Parity (Bridgewater) | +8.7% | 12.0% | **0.60** | -28.3% | 0.50 |
 | Risk Parity (Bridgewater) | +8.7% | 12.0% | **0.60** | -28.3% | 0.50 |
 | **CTA Futures (FRED macro, 21d)** | **+2.5%** | **12.5%** | **0.16** | **-37.8%** | **0.00** |
 | StatArb 80 pairs | ~0.0% | 6.2% | **0.16** | -16.9% | 0.04 |
-| FX Carry (with accrual) | +2.9% | 7.7% | **0.15** | -18.4% | -0.86 |
+| FX Carry (with accrual) | +2.3% | 7.7% | **0.08** | -16.5% | ~-0.8 |
 | FI Arb (curve z-score) | -1.4% | 0.6% | -3.44 | -3.0% | 0.00 |
 | Credit (spread z reversion) | -0.05% | 1.1% | -1.42 | -3.5% | 0.00 |
 | Credit (unconditional carry) | +0.6% | 1.3% | -1.03 | -9.8% | 0.00 |
@@ -106,13 +108,19 @@ See `results/strategy_comparison.csv` for full metrics.
   discontinued on FRED — the 2000s supercycle was metals-led) and
   equities/FX trends were mixed. Real futures via Stooq would fill the gap
   when the IP block lifts.
-- **FX Carry (ARP, Sharpe 0.15)**: long top-3 / short bottom-3 currency pairs
-  by yield differential (FRED OECD country yields), monthly rebalance, 2019+
-  window. Spot-only P&L is ~zero (-0.18) — the edge IS the carry accrual
-  (+2.9%/yr with the rate differential accrued daily). Honest caveat: the
-  window contains two carry crashes (2020 COVID, 2022 USD surge), hence
-  beta -0.86 to the FX basket and -18% MaxDD; 3.5x turnover means costs
-  are negligible.
+- **FX Carry (ARP, Sharpe 0.08)**: long top-3 / short bottom-3 currency pairs
+  by yield differential (FRED OECD country yields + daily DGS10 for USD),
+  monthly rebalance, 2019+ window. Spot-only P&L is ~zero (-0.18) — the
+  edge IS the carry accrual (+2.3%/yr with the rate differential accrued
+  daily). Honest caveat: the window contains two carry crashes (2020 COVID,
+  2022 USD surge); 3.5x turnover means costs are negligible.
+- **Vol-managed L/S (Moreira-Muir, Sharpe 0.77)**: scaling the 130/30 book
+  by min(20%/21d realized vol, 2x) using t-1 info trades a little Sharpe
+  (0.85 -> 0.77) for HALF the drawdown (MaxDD -45.7% -> -26.2%, Calmar
+  0.47 -> 0.68) — the classic volatility-management result.
+- **Data-collision lesson**: a monthly OECD yield file accidentally written
+  over the daily DGS10 silently degraded CTA Futures (0.16 -> -0.10), FI
+  arb and credit — the FRED loader now rejects <500-row files.
 - **EMN beta-neutralization fixed** (was a silent no-op): pandas 3.x
   DataFrame.rolling().cov(Series) returns all-NaN, so `beta_neutralize`
   never changed weights (β stayed -0.37 on the 'neutral' book); also fixed

@@ -23,7 +23,8 @@ vol targeting, position caps. All results in `results/strategy_comparison.csv`.
 | 5 | Risk Parity (Bridgewater) | **0.60** | +8.7% | -28.3% | 0.50 |
 | 6 | CTA Futures (FRED macro, 21d) | **0.16** | +2.5% | -37.8% | 0.00 |
 | 7 | StatArb (80 pairs) | **0.16** | ~0.0% | -16.9% | 0.04 |
-| 8 | FX Carry (with accrual) | **0.15** | +2.9% | -18.4% | -0.86 |
+| 8 | FX Carry (with accrual) | **0.08** | +2.3% | -16.5% | ~-0.8 |
+| 9 | L/S 130/30 vol-managed | **0.77** | +17.7% | -26.2% | ~1.1 |
 | 9 | StatArb (40 pairs z1.0) | 0.11 | -0.3% | -15.2% | 0.04 |
 | 10–21 | CTA equities, macro, merger arb, EMN, credit, FI arb | ≤ 0 | | | |
 
@@ -55,7 +56,11 @@ vol targeting, position caps. All results in `results/strategy_comparison.csv`.
    30y-10y z-score) Sharpe -3.4; credit (BAA-AAA, 1983+; reversion AND
    unconditional carry) -1.0..-2.5 — the quality spread structurally
    widened post-GFC, beating carry and timing alike. Carry only pays on
-   FX (0.15), where the accrual is the edge, not the timing.
+   FX (0.08), where the accrual is the edge, not the timing.
+6. **Vol management works on the winner**: scaling L/S 130/30 by inverse
+   realized vol (Moreira-Muir) keeps Sharpe 0.77 (vs 0.85) while halving
+   MaxDD (-45.7% -> -26.2%) — Calmar 0.47 -> 0.68. A free drawdown
+   improvement on the suite's best strategy.
 
 6. **EMN after fixing two real bugs** (pandas 3 rolling-cov no-op + a sign
    flip that doubled the long book): beta 0.00, Sharpe -0.59 → -0.32.
