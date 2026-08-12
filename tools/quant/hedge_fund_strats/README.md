@@ -16,9 +16,13 @@ data with **6 bps round-trip trading cost** (3 bps per side).
 | 7 | Multi-Strategy | **EW Blend** | Low-correlation streams, one book | Equal-weight of L/S + CTA + Global Macro + StatArb |
 
 ## Data (free sources)
-- **576 US equities** (2006-2026): S&P 500 + mid-cap names
-  - 251 tickers with 16+ years of daily OHLCV (twelve_big)
-  - 275 additional tickers with 2 years (Polygon API)
+- **US equities**: 261 names with 16+ years of daily OHLCV (twelve_big,
+  2006-2026) form the 2008+ backtest universe (min-history filter 1000d).
+  351 additional names (Polygon API, ~2y history, 2024+) can't join an
+  18-year panel (>50% NaN), but matter where their history exists: L/S
+  on 2024+ with the 585-name cross-section runs Sharpe 0.79 vs 0.27 on
+  the 261-name book — cross-sectional breadth nearly triples the Sharpe
+  in the recent window.
 - **8 FX pairs** (EUR/USD, USD/JPY, etc., 2019+)
 - **2 crypto** (BTC, ETH, 2023+)
 - **27 Chinese stocks** (cn/, 1.7y history only — 2024-12+; excluded from
