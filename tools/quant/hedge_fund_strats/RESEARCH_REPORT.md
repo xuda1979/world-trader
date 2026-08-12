@@ -141,7 +141,7 @@ broader literature on cost-constrained retail-scale quant.
 ## Reproduce
 
 ```bash
-python tools/quant/hedge_fund_strats/run_all.py          # 19 strategies, ~4 min
+python tools/quant/hedge_fund_strats/run_all.py          # 21 strategies, ~4 min
 python tools/quant/hedge_fund_strats/run_extras.py       # stat arb variants + blend
 python tools/quant/hedge_fund_strats/strat_fx_carry.py   # FX carry (2019+)
 python tools/quant/hedge_fund_strats/fetch_stooq.py es.f cl.f ...  # when IP block lifts
@@ -165,3 +165,11 @@ composite's momentum/reversal/gold construction is a genuine diversifier
 for the market-neutral suite. (Monthly frequency; the AP stream rebalances
 monthly by construction.) Stream: alphaportfolio_replication/data/
 wf_champion_gold_opt.csv (net monthly).
+
+Correlation detail (monthly, 2008-2026): AP gold vs each stream — L/S
+130/30 +0.044, CTA +0.005, Global Macro -0.076, StatArb +0.042. The
+diversification is broad (|corr| <= 0.08 with every stream), not
+concentrated in one overlap. For reference, the AP composite (SR 1.086,
+beta 0.05, MaxDD -14.2%) also beats the suite's best standalone L/S
+130/30 (monthly SR 1.03, beta 1.06, MaxDD -25.5%) on risk-adjusted terms
+with a fraction of the drawdown and near-zero market beta.
