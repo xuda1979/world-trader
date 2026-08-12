@@ -167,10 +167,13 @@ def run_ls_variants(prices: pd.DataFrame, returns: pd.DataFrame) -> Dict[str, Pe
                                      n_long=40, n_short=10)
     results["120/20"] = perf
     
-    # Market neutral
+    # Dollar-neutral (net=0, gross=2.0). NOTE: honestly NOT beta-neutral —
+    # the momentum-short book holds negative-beta names (already-fallen
+    # stocks), so shorting them ADDS market exposure (measured beta 1.32).
+    # Mixed-sign book betas have no all-positive neutralization solution.
     perf, _ = run_long_short_equity(prices, returns,
                                      gross_leverage=2.0, net_exposure=0.0,
                                      n_long=30, n_short=30)
-    results["Market Neutral"] = perf
+    results["Dollar Neutral"] = perf
     
     return results

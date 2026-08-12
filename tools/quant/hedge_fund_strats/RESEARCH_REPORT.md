@@ -18,7 +18,7 @@ vol targeting, position caps. All results in `results/strategy_comparison.csv`.
 |---|----------|--------|--------|-------|------|
 | 1 | L/S 130/30 | **0.85** | +21.6% | -45.7% | 1.06 |
 | 2 | L/S 120/20 | **0.82** | +16.6% | -34.9% | 0.79 |
-| 3 | L/S Market Neutral | **0.82** | +23.9% | -56.1% | 1.32 |
+| 3 | L/S Dollar Neutral | **0.82** | +23.9% | -56.1% | 1.32 |
 | 4 | **Multi-Strategy EW (5 streams)** | **0.64** | **+7.2%** | **-11.7%** | **0.00** |
 | 5 | Risk Parity (Bridgewater) | **0.60** | +8.7% | -28.3% | 0.50 |
 | 6 | CTA Futures (FRED macro, 21d) | **0.16** | +2.5% | -37.8% | 0.00 |
