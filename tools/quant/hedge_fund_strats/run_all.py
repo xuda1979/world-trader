@@ -28,6 +28,7 @@ from tools.quant.hedge_fund_strats.strat_merger_arb import run_merger_arb_proxy,
 from tools.quant.hedge_fund_strats.strat_cta import run_cta, run_cta_variants
 from tools.quant.hedge_fund_strats.strat_stat_arb import run_stat_arb, run_stat_arb_variants
 from tools.quant.hedge_fund_strats.strat_cta_futures import run_cta_futures
+from tools.quant.hedge_fund_strats.strat_fi_arb import run_fi_arb
 
 
 def prepare_data(max_tickers: int = None, min_history: int = 1000) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
@@ -183,6 +184,15 @@ def run_all_strategies(prices: pd.DataFrame, returns: pd.DataFrame,
             results["CTA Futures (macro 21d)"] = perf_f
     except Exception as e:
         print(f"  CTA Futures ERROR: {e}")
+        import traceback; traceback.print_exc()
+
+    # ---- Strategy 6b: Relative Value / Fixed Income Arbitrage ----
+    try:
+        if not quick:
+            perf_fi, _ = run_fi_arb()
+            results["FI Arb (curve)"] = perf_fi
+    except Exception as e:
+        print(f"  FI Arb ERROR: {e}")
         import traceback; traceback.print_exc()
 
     # ---- Strategy 6: Relative Value / Statistical Arbitrage ----

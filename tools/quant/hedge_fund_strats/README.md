@@ -63,6 +63,7 @@ See `results/strategy_comparison.csv` for full metrics.
 | Risk Parity (Bridgewater) | +8.7% | 12.0% | **0.60** | -28.3% | 0.50 |
 | **CTA Futures (FRED macro, 21d)** | **+2.5%** | **12.5%** | **0.16** | **-37.8%** | **0.00** |
 | StatArb 80 pairs | ~0.0% | 6.2% | **0.16** | -16.9% | 0.04 |
+| FI Arb (curve z-score) | -1.4% | 0.6% | -3.44 | -3.0% | 0.00 |
 | StatArb 40 pairs z1.0 | -0.3% | 5.9% | **0.11** | -15.2% | 0.04 |
 | Global Macro | +1.1% | 4.7% | -0.12 | -10.7% | 0.08 |
 | CTA equities (3 variants) | -0.6% to -1.4% | 10-12% | -0.06 to -0.14 | -30%+ | ~0.05 |
@@ -85,6 +86,16 @@ See `results/strategy_comparison.csv` for full metrics.
   and stat arb (-0.15), lifting the blend. The multi-strategy thesis —
   low-correlation streams with independent edges — is the suite's strongest
   result, not any single strategy.
+- **Fixed Income Arbitrage fails** (Sharpe -3.4, both reversion AND momentum
+  z-score variants on 10y-2y/30y-10y): naive curve z-score timing has no
+  gross edge on 2008-2026 — inversion periods were trend continuations, and
+  FI arb economics are carry/term-premium driven, not z-score driven. Cost
+  drag is negligible (0.13%/yr) — the edge itself is negative.
+- **CTA window robustness**: Sharpe +0.16 on 2008+ but -0.04 on 2000+
+  (2000-2008 subperiod loses): the missing metals complex (gold/copper
+  discontinued on FRED — the 2000s supercycle was metals-led) and
+  equities/FX trends were mixed. Real futures via Stooq would fill the gap
+  when the IP block lifts.
 - **Statistical arbitrage is the only genuinely market-neutral positive-Sharpe
   strategy** (β≈0.04, Sharpe 0.11-0.16, profit factor 1.09, positive alpha
   +2-2.5%/yr) — but 45-48x annual turnover at 6 bps (≈27-29%/yr cost drag)
@@ -112,6 +123,8 @@ See `results/strategy_comparison.csv` for full metrics.
 - `strat_merger_arb.py` - Merger Arbitrage (event-driven proxy)
 - `strat_cta.py` - Managed Futures / CTA
 - `strat_stat_arb.py` - Relative Value / Statistical Arbitrage (pairs)
+- `strat_fi_arb.py` - Relative Value / Fixed Income Arbitrage (curve z-score)
+- `strat_cta_futures.py` - CTA on real futures/macro (Stooq/FRED)
 - `run_all.py` - master runner + comparison
 - `run_extras.py` - stat arb variants + multi-strategy blend (appends)
 - `sweep_stat_arb.py` - stat-arb parameter sweep (documents the search)
