@@ -133,10 +133,14 @@ See `results/strategy_comparison.csv` for full metrics.
 - **Blend construction matters**: Sharpe-weighted allocation (weights ~
   full-sample Sharpe, floor 0.05) gives 0.73 Sharpe / +12.5%/yr vs 0.64 EW
   — but the weights are IN-SAMPLE (selection bias; EW is the honest
-  out-of-sample choice). Inverse-vol/var weighting is worse (0.27/-0.07):
-  the low-vol streams (macro, stat arb) have LOW Sharpe, so de-weighting
-  L/S hurts. Dropping the two weakest streams (macro, FX carry) also helps
-  (best-4 EW: 0.67).
+  out-of-sample choice). The Sharpe-weighted blend also has the better
+  regime profile (sub-period Sharples 0.84/1.31/0.81/0.56 vs EW5
+  0.69/1.23/1.09/0.35 — best in 3 of 4 periods incl. the weak 2023-26).
+  Inverse-vol/var weighting is worse (0.27/-0.07): the low-vol streams
+  (macro, stat arb) have LOW Sharpe, so de-weighting L/S hurts. Dropping
+  the two weakest streams (macro, FX carry) also helps (best-4 EW: 0.67).
+  Vol-managed L/S IN the blend does NOT help (0.30 vs 0.35 recent) — the
+  lower-return stream dilutes the book despite its better drawdown.
 - **Factor Momentum (Fama-French, Ehsani-Linnainmaa) — a premium that
   died**: momentum of factor returns (long top-2 / short bottom-2 of
   MKT/SMB/HML/UMD by trailing 12m, monthly) is a real century-long
