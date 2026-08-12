@@ -77,29 +77,34 @@ vol targeting, position caps. All results in `results/strategy_comparison.csv`.
 7. **Event-driven (merger arb PEAD proxy)** is ~breakeven (-0.21..-0.28)
    at low vol — the honest outcome without true event/announcement data.
 
-## Sub-period robustness (Sharpe by period)
+## Sub-period robustness (Sharpe by period, geometric convention = CSV)
 
 | Strategy | 2008-2012 | 2013-2017 | 2018-2022 | 2023-2026 | All |
 |----------|-----------|-----------|-----------|-----------|-----|
-| L/S 130/30 | 0.91 | 1.25 | 0.81 | 0.57 | 0.87 |
-| EMN | -0.85 | 0.11 | -0.32 | -0.03 | -0.27 |
-| CTA Futures | -0.22 | 0.17 | 1.08 | -0.38 | 0.26 |
-| StatArb | 0.25 | -0.29 | 0.55 | -0.67 | 0.03 |
-| Risk Parity | 0.52 | 1.48 | 0.34 | 0.90 | 0.76 |
-| **Blend (5-stream EW)** | **0.69** | **1.23** | **1.09** | **0.35** | **0.88** |
+| L/S 130/30 | 0.84 | 1.15 | 0.75 | 0.48 | 0.80 |
+| EMN | -1.03 | -0.08 | -0.40 | -0.15 | -0.39 |
+| CTA Futures | -0.40 | -0.00 | 0.95 | -0.55 | 0.10 |
+| StatArb | -0.11 | -0.66 | 0.28 | -0.98 | -0.29 |
+| Risk Parity | 0.35 | 1.30 | 0.20 | 0.71 | 0.59 |
+| **Blend (5-stream EW)** | **0.45** | **0.94** | **0.89** | **0.07** | **0.64** |
 
-- **The blend is the only strategy positive in every sub-period** — the
-  diversification thesis survives regime decomposition.
+(Geometric-Sharpe convention consistent with strategy_comparison.csv; an
+arithmetic-Sharpe version overstates stat arb and the recent blend.)
+
+- **The blend is the only strategy positive in every sub-period** (0.45/
+  0.94/0.89/0.07) — the diversification thesis survives regime
+  decomposition, though 2023-26 is barely positive.
 - **Risk Parity is the most robust standalone** (positive in all 4
-  periods, 0.76 overall): the vol-risk premium is the steadiest source.
-- **EMN has no edge anywhere**: -0.85 in 2008-12 (the 2009 disaster) and
-  ~0.0-0.1 after — the factor is not regime-dependent, just weak.
-- **CTA Futures is regime-dependent**: 1.08 in 2018-2022 (COVID swings,
-  energy crisis — trend's golden era) vs -0.38 recently and -0.22 in
+  periods, 0.59 overall): the vol-risk premium is the steadiest source.
+- **EMN has no edge anywhere** (-1.03/-0.08/-0.40/-0.15): 2009 was just
+  its worst period, not the explanation.
+- **CTA Futures is regime-dependent**: 0.95 in 2018-2022 (COVID swings,
+  energy crisis — trend's golden era) vs -0.55 recently and -0.40 in
   2008-12 (missing metals).
-- **StatArb flips sign by regime**: 0.55 in 2018-22, -0.67 in 2023-26
-  (tight spreads -> rare entries + churn).
-- L/S 130/30 positive everywhere but fading (0.57 in 2023-26).
+- **StatArb is negative in every period** (-0.11/-0.66/0.28/-0.98):
+  least bad in 2018-22; the 2008+ headline +0.16 is mostly the geometric
+  convention lifting a low-vol series, not a robust edge.
+- L/S 130/30 positive everywhere but fading (0.48 in 2023-26).
 
 ## Bottom line
 
