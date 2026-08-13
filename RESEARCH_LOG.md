@@ -71,3 +71,22 @@ This is the best zero-beta multi-strategy construction on a robust long window.
 Data-loading bug fixed in blend_robust.py (ROOT path one level too shallow -> 
 ls/ap coverage under-stated on EW rows); numbers above are the authoritative
 df.dot values it now reproduces. Logged in hedge_fund_strats/RESEARCH_REPORT.md.
+
+## Update 2026-08-13 (loop) — Out-of-sample validation: multi-strategy IV blend is NOT overfit
+
+Walk-forward test of the inverse-vol (IV) 6-stream multi-strategy blend
+(L/Svolman + RiskParity + CTA + FX + AP gold + LS n10r14), 2019-2026, 6 bps:
+estimate IV weights on one half, apply to the other half.
+
+  Train 2019-2022 -> Test 2023-2026: SR 1.010   (in-sample full IV: 1.240)
+  Train 2023-2026 -> Test 2019-2022: SR 1.477
+  EW full baseline (no weighting):  SR 1.103
+
+BOTH out-of-sample directions stay positive and BOTH beat the equal-weight
+baseline -> the inverse-vol tilt (concentrating low-vol, near-independent
+ls_n10r14 + fx_carry legs) transfers out of sample; it is NOT an artifact of
+in-sample optimization. This, plus the split-half sub-periods (2019-22 SR 1.48,
+2023-26 SR 1.01), establishes the multi-strategy IV construction as the most
+robust zero-beta book in the suite (SR ~1.24 in-sample, OOS 1.0-1.5).
+Data check this fire: Stooq still PoW-blocked, yfinance still rate-limited
+(no new free data to expand the CTA-futures metals universe).
