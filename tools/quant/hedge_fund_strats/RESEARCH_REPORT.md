@@ -509,22 +509,25 @@ with a fraction of the drawdown and near-zero market beta.
 ## Addendum 2026-08-13 — Polygon LS champion as a daily 5th stream
 
 CORRECTION (2026-08-13): the "scramble PASS" claim on this leg is
-UNSUBSTANTIATED — no PASS record exists. **The parallel session's
-controlled A/B then proved the champion OVERFIT** (RESEARCH_LOG.md):
-the advertised SR 1.686 is a panel-state artifact — ±1 historical row
-swings SR ~0.8; root cause is the knife-edge ICIR-fallback screen
-selection (good factor set vs a redundant momentum cluster flips on
-±16 rows); controlled true edge is lev1 SR ~0.37 / lev3 SR ~0.49. The
-levdet3.0 series below (flat until mid-2025, then +13.3%/+38.4%
-re-costed) reflects the artifact-prone panel state — **treat the leg
-as speculative/paper until re-baselined** (paid polygon history or a
-screen-selection robustness fix); do not size to the 1.6-2.2 figures.
+UNSUBSTANTIATED — no PASS record exists. **The parallel session then
+proved the champion OVERFIT and later DECOMMISSIONED it** (RESEARCH_LOG
+2026-08-13, capstone): the advertised SR 1.686 is a panel-state
+artifact, and the root mechanism is a **volume-precision artifact** —
+polygon reports exact share counts (float64) vs twelvedata's 100-share
+rounding (int64), a 0.00007% difference in the liq_turnover factor
+that inverts SR by 0.45. All advertised SRs (1.686/0.86/0.49/0.35)
+were precision-state artifacts; ensemble mean -0.36 (0% positive).
+The levdet3.0 series below (flat until mid-2025, then +13.3%/+38.4%
+re-costed) reflects the artifact state — **the champion is
+DECOMMISSIONED** (live signal forces HOLD, zero positions) until
+re-derived on a volume-consistent feed; all 1.6-2.2 figures are
+historical artifacts and the 2024+ numbers below are record-only.
 
 The polygon LS champion @3x (tools/quant/ls/results/
 levdet3.0/daily_returns.csv, re-costed 3.8 -> 6 bps/side; status
-'overfit confirmed' — see correction above; speculative/paper) is the
-leg behind this blend's recent-window boost. Equal-weight test on the
-common 514-day window
+'decommissioned' — see correction above; volume-precision artifact,
+record-only) is the leg behind this blend's recent-window boost.
+Equal-weight test on the common 514-day window
 (2024-07..2026-08):
 
 | blend (daily) | SR | ret | MaxDD |
