@@ -637,6 +637,7 @@ AP gold legs and switching to inverse-vol weighting RAISES Sharpe (1.05 ->
 The LS n10r14 stream is the strongest diversifier (mean |pairwise corr| drops
 to 0.12 when added); inverse-vol concentrates the (lower-vol, independent) LS
 and FX-carry legs. This is the best zero-beta multi-strategy construction to
-date on a robust long window. NOTE: results verified independently with
-df.dot(weights); the blend_robust.py EW-case display had a cosmetic bug (echoed
-IV) — authoritative numbers are those above and the IV-6 = SR 1.24/DD -5.9%.
+date on a robust long window. NOTE: numbers are the authoritative df.dot(weight)
+values, reproduced by tools/quant/hedge_fund_strats/blend_robust.py (an earlier
+draft had a ROOT-path bug that under-stated ls/ap coverage on the EW rows; fixed —
+script now prints exactly the table above). IV-6 = SR 1.24 / DD -5.9%.
