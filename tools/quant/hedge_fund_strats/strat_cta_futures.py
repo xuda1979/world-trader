@@ -36,7 +36,11 @@ FUTURES = [
 ]
 
 # FRED daily series (free, unlimited): commodities, rates, FX, equity indices.
-# gold missing — LBMA AM/PM fixes discontinued on FRED.
+# gold missing — LBMA AM/PM fixes discontinued on FRED. OPT-IN metals now
+# available in data_fred/ (xau.csv, slv.csv, copx.csv — twelvedata free tier,
+# converted 2026-08-13): append "xau", "slv", "copx" to test a 17-inst leg.
+# NOT adopted by default: flagship daily MaxDD worsens -12.9% -> -15.0%
+# (monthly aggregates flat; see RESEARCH_LOG 2026-08-13 metals entry).
 FRED = [
     "wti", "brent", "natgas", "us2y", "us10y", "us30y",
     "eur", "jpy", "gbp", "cad", "cny", "spx", "dow", "vix",
