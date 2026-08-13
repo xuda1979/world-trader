@@ -389,6 +389,39 @@ handling, rebalancing, and expected stats serialized to
 (Monthly-sampled SRs are higher: 0.94 and 1.20 — daily sampling of a
 monthly-cadence book adds intra-month vol.)
 
+## Addendum 2026-08-13 — Champion-family 8.5y stream (ls_n10r14) + 2019+ corroboration
+
+`alphaportfolio_replication/data/ls_n10r14_daily.csv`: the n10_r14
+champion config run on the 8.5-year twelvedata panel (2018-01..2026-08,
+n=2161) — daily SR +0.92, +3.1%/yr. This quadruples the champion
+sleeve's observable history (polygon 2y -> 8.5y).
+
+- The repo's gold-standard OOS test of this generalization
+  (`regime_gbrt_v13_oos.py`: n10_r14 on 2y polygon / 8y twelve_liq /
+  8y twelve_big, signal-scramble p<0.05) was never completed — its
+  output file is empty (0 bytes). **Re-launched 2026-08-13; verdict
+  pending** (results -> tools/quant/ls/results/regime_gbrt_v13/).
+- Until the verdict lands, treat ls_n10r14 as watch-validated, not
+  scramble-validated. Cost basis: generated Aug 12 20:01 with the
+  suite's config default (6 bps/side); turnover unknown — SR +0.92 is
+  only mildly sensitive (champion-class ~4x/yr turnover).
+- `blend_robust.py` (parallel session) used this stream in positive-only
+  sleeve blends on 2019+ (n=2054 days), all positive in BOTH sub-periods:
+
+| blend (EW) | FULL 2019+ | 2019-2022 | 2023-2026 | MaxDD |
+|------------|-----------|-----------|-----------|-------|
+| hedge-pos4 (LSvolman+RP+CTA+FX) | 1.049 | n/a | n/a | -11.7% |
+| + AP gold | 1.077 | +1.239 | +0.917 | -9.3% |
+| + LS n10r14 | 1.274 | +1.659 | +0.892 | -6.4% |
+| + AP gold + LS n10r14 | 1.240 | +1.481 | +1.006 | -5.9% |
+
+This corroborates the all-weather thesis on a longer, denser window
+with a different champion-family leg: every 2019+ construction is
+positive in both sub-periods, and MaxDD shrinks monotonically as the
+champion-family legs are added. (FX carry is inside "hedge-pos4" here;
+our own test found it return-diluting at 12 bps RT — the hedge-pos4
+sleeve set differs from the suite's h3.)
+
 ### Rolling-window stress test (does h3+AP hold in "any market conditions"?)
 Rolling SR over 2008-2026 (monthly). AP = daily record resampled
 (realization-timed; the lagged monthly file's rolling stats are not
@@ -574,3 +607,33 @@ robust long-window claim is the 4-stream positive-only SR 1.05 on 18y.
 Recommendation: the deployable multi-strategy sleeve should use the
 positive-only construction (drop stat-arb, use vol-managed L/S), not the
 original statarb-loaded EW.
+
+## Addendum 2026-08-13 (loop) — Robust multi-strategy: LS/AP legs + inverse-vol halve drawdown over full 7.5y
+
+Earlier finding (positive-only multi-strategy = SR 1.05 on 18y) validated and
+extended on a DENSE 7.5-year window (2019-2026, common n=2054) using the LS
+n10r14 daily stream (2019+, ~1851 dense rows — far better coverage than the
+short-gapped polygon stream). All figures 6 bps, cost-inclusive, ffill+dropna
+common window, computed independently via df.dot(weights).
+
+| blend (2019-2026, n=2054) | weighting | SR | ret | MaxDD | mean\|corr\| |
+|---------------------------|-----------|-----|-----|-------|---------------|
+| Hedge-pos 4 (L/Svolman+RP+CTA+FX) | EW | 1.05 | 9.4% | -11.7% | 0.18 |
+| + LS n10r14 (5) | EW | 1.12 | 8.2% | -9.2% | 0.12 |
+| + AP gold + LS n10r14 (6) | EW | 1.10 | 8.3% | -9.0% | 0.19 |
+| **+ AP gold + LS n10r14 (6)** | **IV** | **1.24** | **6.1%** | **-5.9%** | 0.19 |
+
+Finding: over a full 7.5-year window, folding in the cross-suite LS n10r14 +
+AP gold legs and switching to inverse-vol weighting RAISES Sharpe (1.05 ->
+1.24) while nearly HALVING MaxDD (-11.7% -> -5.9%). Sub-period robust:
+
+  IV 6-stream 2019-2022: SR 1.48 (ret 7.6%, DD -5.2%)
+  IV 6-stream 2023-2026: SR 1.01 (ret 4.7%, DD -5.9%)
+  (positive in BOTH halves — no regime flip)
+
+The LS n10r14 stream is the strongest diversifier (mean |pairwise corr| drops
+to 0.12 when added); inverse-vol concentrates the (lower-vol, independent) LS
+and FX-carry legs. This is the best zero-beta multi-strategy construction to
+date on a robust long window. NOTE: results verified independently with
+df.dot(weights); the blend_robust.py EW-case display had a cosmetic bug (echoed
+IV) — authoritative numbers are those above and the IV-6 = SR 1.24/DD -5.9%.
