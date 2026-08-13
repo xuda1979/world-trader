@@ -33,6 +33,10 @@ reversal earns its money. The correct sizing raises leverage as VIX rises
 
 - **NOT a standalone high-Sharpe engine** (full SR only +0.34-0.43; MaxDD
   -45 to -61%). It is a **crash-insurance overlay**, not a core book.
+- **Covers 6 of 7 of the flagship's ACTUAL drawdown windows** (against the book's
+  own loss inventory): +4.4..+32% in 2010/2011/2015/2018/2020/2022-24 (SR 0.3-2.6);
+  only 2022 Q1 (slow grind) misses. Corr structure ideal: +0.20 on drawdown days
+  vs +0.05 on benign days (pure diversification when calm).
 - **FAST-HORIZON ONLY (k<=5)**: parameter sweep (k in {3,5,8,10} x n in
   {10..40}) shows the crash alpha exists ONLY at k=3-5; at k=8-10 the sleeve
   goes NEGATIVE in the crashes it is meant to insure (2018 Q4 -21..-41%).
