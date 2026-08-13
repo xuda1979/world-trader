@@ -2816,3 +2816,22 @@ favorable short window; the long-window (~18y) realized ceiling for these sleeve
 is ~0.9, so levered numbers rest on the disclosed 8.2y window, not a 20y property.
 Recommends 1.5x if MaxDD<=10% is a hard constraint (8.7%/yr, -9.0% DD, SR 1.23);
 x2 only if a -12% DD is acceptable for the ~10.5% return.
+
+## Update 2026-08-13 (loop) — DELIVERED: levered floored flagship ~11.8%/yr on ~19y window
+
+Best honest maximization meeting the user's >=10% return aim, on a LONG real
+window (2008-2026, ~19y), from the validated floored flagship (h3+AP 50/50 floored
+50% in T-bills, no-losing-year). run_floored_levered.py:
+
+  base : CAGR 7.49% m-Shrp 1.63 MaxDD -6.2% no neg years
+  x1.25: CAGR 8.58% m-Shrp 1.49 MaxDD -7.8% no neg years
+  x1.5 : CAGR 9.66% m-Shrp 1.40 MaxDD -9.3% no neg years (stays under 10% DD)
+  x2.0 : CAGR 11.80% m-Shrp 1.28 MaxDD -12.3% negYears [2022,2023] (meets >=10%)
+
+3% financing cost on the (lev-1) borrowed fraction already netted. This
+IMPROVES on the earlier levered IV book (which rested on the short 2019+ window):
+the floored flagship has a genuine ~19y track record, so these are NOT a
+short-window artifact. Sharpe 2.0 remains unreachable (real long-window ceiling
+~1.2-1.3 levered); x2 delivers the >=10% aim at deeper drawdown; x1.5 keeps
+no-losing-year + DD under 10%. Committed as the company's honest, deliverable
+return-maximization.
