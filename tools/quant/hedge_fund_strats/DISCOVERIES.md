@@ -182,6 +182,12 @@ rounds volume to nearest 100 (int64) — e.g. 44155331 vs 44155300
   SR 0.94 monthly, all-weather — it never depended on the champion).
 - N14/N15 were foreshadowed exactly by this (the 8y FAIL and the
   panel-state fragility); the volume-precision mechanism explains both.
+- **Flagship immunity audit (2026-08-13)**: every h3+AP leg is
+  price/macro-based — L/S (momentum/reversal), CTA (FRED macro), Global
+  Macro (price), AP gold composite (momentum/reversal, price). The only
+  volume-factor user in the suite (EMN's volume-surprise, strat_emn.py)
+  is excluded from the flagship (N9). **The flagship is structurally
+  immune to the volume-precision artifact class.**
 
 ## Operational monitoring (2026-08-13)
 
