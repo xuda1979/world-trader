@@ -78,3 +78,11 @@ alpha (proven illusory in RESEARCH_LOG 2026-08-13), yet REMOVING/capping it LOWE
 SR (1.24 -> 1.08) and WORSENS MaxDD (-5.9% -> -9.3%). It adds value purely as a
 low-vol, low-correlation diversifier. Capping at 0.20-0.25 gives SR 1.14-1.18 with
 half the concentration - recommended robustness trade. Full table in RESEARCH_LOG.
+
+## Update 2026-08-13 (loop) — DEPLOYED: IV book rolling inverse-vol (SR 1.44, n10r14 de-risked)
+Applied the sleeve audit: run_ms_iv_book.py now weights the 6-sleeve IV book with
+ROLLING-126d inverse-vol (no lookahead) instead of stale full-sample. Result:
+SR 1.24 -> 1.44, MaxDD -5.9% -> -5.5%, half-split 1.41/1.06 -> 1.55/1.32, and the
+n10r14 concentration de-risked 0.38 -> 0.16 weight. Robust across window choices
+(42/63/126/252 all beat old). ms_iv_daily.csv regenerated. This is the healthy,
+OOS-validated, now-de-risked multi-strategy book -- THE deliverable of the line.

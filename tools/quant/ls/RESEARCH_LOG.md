@@ -2742,3 +2742,21 @@ its vol regime changes. RECOMMEND: keep the book (it is the healthy, OOS-validat
 strategy), but (a) monitor n10r14's rolling vol/corr vs book, and (b) consider a
 modest 0.20-0.25 weight CAP as a robustness guard (SR 1.14-1.18, still strong,
 halves the concentration) - a trade of a little SR for far less single-sleeve risk.
+
+## Update 2026-08-13 (loop) — DEPLOYED IMPROVEMENT: IV book switched to rolling inverse-vol
+
+Applied the sleeve-audit finding (n10r14 vol doubled in 2026 -> stale full-sample
+weight 0.38). Rewrote tools/quant/hedge_fund_strats/run_ms_iv_book.py to use
+ROLLING-126d inverse-vol weights (lagged 1 day, no lookahead, renormalized daily;
+equal-weight warm-up). Verified robust across all windows (42/63/126/252d all beat
+the old full-sample book on SR/MaxDD/half-split - not a single-window artifact):
+
+  full-sample (old):  SR 1.240 MaxDD -5.9% halfSR(1.41/1.06) n10r14wt 0.38
+  rolling-126d (new): SR 1.439 MaxDD -5.5% halfSR(1.55/1.32) n10r14wt 0.16
+
+Deployed ms_iv_daily.csv regenerated: SR 1.439, ret 6.8%, MaxDD -5.5%, n=2054,
+2019-04-04..2026-08-12, 0 nulls, both halves positive. The n10r14 weight is
+de-risked 0.38 -> 0.16 (its recent vol doubled; no alpha to justify overweight),
+and the book sr/DD both improve. This is the constructive end result of the
+AlphaPortfolio research line: the healthy OOS-validated IV book made more robust
+and adaptive by construction.
