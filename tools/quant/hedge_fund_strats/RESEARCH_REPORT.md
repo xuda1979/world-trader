@@ -355,6 +355,40 @@ Checked every daily_returns.csv with >1000 rows in tools/quant/ls/results:
 Conclusion: no additional validated long-history sleeve exists; h3+AP
 (2008+) and h3+AP+LS (2024+) remain the best constructions.
 
+### Cross-asset replication legs audit (ls suite) — all FAIL the gate
+The six replication strategies (gold_trend, crypto_trend, fx_momentum,
+overnight_drift, cn_momentum, cross_asset_tsmom) each carry a stored
+scramble check; re-verified with the repo's own gate:
+
+| leg | real SR | pct scrambles beat real | verdict |
+|-----|---------|-------------------------|---------|
+| gold_trend (2019+) | +0.85 | 17% | FAIL |
+| cross_asset_tsmom (2019+) | +0.86 | 100% | FAIL |
+| crypto_trend (2024+) | +0.27 | 54% | FAIL |
+| fx_momentum (2020+) | +0.16 | 67% | FAIL |
+| overnight_drift (2018+) | +0.09 | 33% | FAIL |
+| cn_momentum (2024+) | -0.56 | 67% | FAIL |
+
+None clears p_better < 0.10. (Methodological note: the permutation-of-
+returns gate in build_gated_portfolio.py is mathematically vacuous — mean
+and std are permutation-invariant, so a return-shuffle changes nothing;
+the meaningful gate re-trades scrambled SIGNALS, which is what the
+champion passed and what these legs' stored checks fail.)
+
+## Deployment spec (`portfolio_spec.py`)
+
+Recommended portfolio as executable construction — sleeve weights, cost
+handling, rebalancing, and expected stats serialized to
+`results/recommended_portfolio.json` + daily weights/returns to
+`results/portfolio_weights.csv`:
+
+- 2008–2024: h3 50% + AP gold 50% (daily, cost-inclusive at 6 bps/side)
+  → daily SR 0.84, +11.1%/yr, MaxDD -12.9%
+- 2024+: h3 1/3 + AP 1/3 + LS champion 1/3 → daily SR 1.24, +12.0%/yr,
+  MaxDD -9.7%
+(Monthly-sampled SRs are higher: 0.94 and 1.20 — daily sampling of a
+monthly-cadence book adds intra-month vol.)
+
 ### Rolling-window stress test (does h3+AP hold in "any market conditions"?)
 Rolling SR over 2008-2026 (monthly). AP = daily record resampled
 (realization-timed; the lagged monthly file's rolling stats are not
