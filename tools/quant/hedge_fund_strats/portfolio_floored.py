@@ -29,7 +29,7 @@ TBILL = 0.04 / 252  # 4% annual T-bill, daily
 def main():
     import argparse
     ap = argparse.ArgumentParser()
-    ap.add_argument("--lev", type=float, default=1.0,
+    ap.add_argument("--lev", type=float, default=1.10,
                     help="leverage (P23: x1.10 preserves zero losing years at 3 pct funding; x1.5/x2 break the guarantee)")
     ap.add_argument("--funding", type=float, default=0.03)
     ap.add_argument("--dynamic", action="store_true",
