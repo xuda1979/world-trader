@@ -11,7 +11,7 @@ Primary source of detail: `RESEARCH_REPORT.md`; artifacts: `results/`,
 
 | # | Discovery | Evidence |
 |---|-----------|----------|
-| P1 | **The all-weather flagship: h3 + AP gold** (3-stream hedge EW: L/S 130/30 + CTA futures macro 21d + Global Macro, ex stat arb; 50/50 with AP gold composite). Monthly SR **0.94**, +10.7%/yr, MaxDD -10.1%, **positive in all 4 sub-periods 2008-2026** (+0.86/+1.49/+0.73/+0.50), **every 5y rolling window positive (min +0.25)** | `blend_monthly.py` |
+| P1 | **The all-weather flagship: h3 + AP gold** (3-stream hedge EW: L/S 130/30 + CTA futures macro 21d + Global Macro, ex stat arb; 50/50 with AP gold composite). Monthly SR **0.94**, +10.7%/yr, MaxDD -10.1%, **positive in all 4 sub-periods 2008-2026** (+0.86/+1.49/+0.73/+0.50), **every 5y rolling window positive (min +0.25)**. BETA (corrected 2026-08-13): **low-beta +0.34 vs SPY** (rolling 3y 0.26-0.80), NOT market-neutral — the earlier β=0.00 was a benchmark-unavailable artifact; the 2024+ 3-sleeve IS near-neutral (+0.06) | `blend_monthly.py` |
 | P2 | **The genuine diversifier is the polygon LS champion** (n10_r14/levdet3.0 family): corr with hedge sleeve **-0.003 daily** (+0.17 monthly) — the only near-zero-correlation validated leg found | `blend_6stream.py` |
 | P3 | **2024+ construction: h3 + AP + LS champion, sleeve EW** — daily SR **1.15** (monthly 1.20), +11%/yr, MaxDD -3.5%, positive in both half-windows; deployment spec SR 1.24 daily | `blend_6stream.py`, `portfolio_spec.py` |
 | P4 | **AP monthly-file/daily-audit mystery RESOLVED**: same book, one-month attribution lag (lag-1 corr **0.878**). Monthly file is signal-timed, daily audit realization-timed; the audit is the correct record | analysis in report |

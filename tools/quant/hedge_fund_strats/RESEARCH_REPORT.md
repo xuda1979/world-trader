@@ -289,8 +289,15 @@ correctly-timed series is what matters:
 | h4 + AP gold | 0.85 | +9.2% | -9.4% |
 | **h3 + AP gold** | **0.94** | **+10.7%** | **-10.1%** |
 
-corr(h3, AP) = **+0.489** (realization-aligned). **Sub-period robustness
-(geometric monthly SR):**
+corr(h3, AP) = **+0.489** (realization-aligned). BETA CORRECTION
+(2026-08-13): the "β=0.00" figures for blends were the benchmark-
+unavailable artifact — the flagship's real beta vs SPY is **+0.34**
+full-sample monthly (rolling 3y: +0.26..+0.80, med +0.39, |β|>0.3 in
+95% of windows; 2013-17 peak +0.80 from the L/S leg). h3+AP is a
+LOW-beta book (β≈0.34), not market-neutral. The 2024+ 3-sleeve
+(h3+AP+LS) is genuinely near-neutral: daily beta **+0.06** (LS leg
++0.04, h3 +0.11, AP +0.13 in that window).
+**Sub-period robustness (geometric monthly SR):**
 
 | blend | 2008-12 | 2013-17 | 2018-22 | 2023-26 |
 |-------|---------|---------|---------|---------|
