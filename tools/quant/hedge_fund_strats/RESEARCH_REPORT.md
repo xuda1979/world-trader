@@ -413,6 +413,13 @@ sleeve's observable history (polygon 2y -> 8.5y).
   scramble-validated. Cost basis: generated Aug 12 20:01 with the
   suite's config default (6 bps/side); turnover unknown — SR +0.92 is
   only mildly sensitive (champion-class ~4x/yr turnover).
+- Our own monthly test (h3 sleeve set, 2019+): n10r14's monthly SR is
+  0.32 (0.45/0.36 sub-periods) with **corr h3-n10 = -0.048** (genuine
+  diversifier); h3+AP 0.69 -> **h3+AP+n10 0.73**, improving BOTH
+  sub-periods (2019-22 +0.96->+1.04, 2023-26 +0.50->+0.57). The
+  champion-family stream extends the flagship's recent-era robustness
+  to 2018+ — pending the v13 verdict, the roadmap is h3+AP+n10r14
+  (2018+) / h3+AP+LS (2024+).
 - `blend_robust.py` (parallel session) used this stream in positive-only
   sleeve blends on 2019+ (n=2054 days), all positive in BOTH sub-periods:
 
