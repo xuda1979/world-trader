@@ -2438,3 +2438,18 @@ volume/mom factors). NOTE: this probe ran on the (then-untruncated, 516-row) bas
 panel of this session; treat SRs as relative-to-base under the incident caveat.
 The v2 family stays off. This is independent of the truncation incident logged
 below and remains a valid direction once the panel is re-baselined.
+
+### 2026-08-13 — Incident hardening DONE
+- refresh_polygon_panel.py rewritten APPEND-ONLY (never rewrite history from a
+  capped call); tested no-damage on failure (files intact at 516 rows after a
+  transient fetch timeout). Deployable for the next real refresh.
+- run_live_signal.py now has a SCREEN-STABILITY HARD GUARD: it only emits a
+  TRADE signal when the ICIR screen keeps EXACTLY the known-good champion set
+  [liq_turnover mom_12_1m range_vol_60d resid_mom_6m vol_60d]; otherwise it
+  emits HOLD/flat (action: HOLD, zero positions). Unit-tested: good->TRADE,
+  momentum-fallback->HOLD, shrunken-1->HOLD, ohlc_atr-variant->HOLD (conservative
+  until re-baselined). Happy path e2e: restored panel emits TRADE (SR 0.31).
+- Live panel remains the twelvedata-backfilled 516-row (best reproduction);
+  live_signal.json now honestly reports SR ~0.3 and action TRADE or HOLD.
+- OPEN: re-acquiring exact polygon history (paid plan) would let the champion
+  re-baseline; without it, trust the champion at de-risked sizing only.
