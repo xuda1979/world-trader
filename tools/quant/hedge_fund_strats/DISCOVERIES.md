@@ -65,21 +65,44 @@ Primary source of detail: `RESEARCH_REPORT.md`; artifacts: `results/`,
   the price-lag scramble; tsmom/gold/fx/pairs all FAIL — consistent with
   the sleeve audit (N3).
 
-## n10_r14 8y verdict — decision tree (contingency, documented before the verdict)
+## n10_r14 8y verdict — **FAIL (2026-08-13, validated)**
 
-The trimmed validator (`tools/quant/ls/validate_n10r14_trimmed.py`,
-twelve_big 8y, 10-scramble time-shift gate) is running. Whatever it
-returns, the flagship does NOT depend on it:
+`validate_n10r14_trimmed.py` on twelve_big 8y (10-scramble time-shift
+gate), results in `regime_gbrt_v13/trimmed_twelve_big.json`:
 
-| Verdict | Meaning | Portfolio impact |
-|---------|---------|------------------|
-| PASS (p<0.05) | Champion config generalizes to 8y | h3+AP+n10r14 (2018+) / h3+AP+LS (2024+) — extended champion coverage; expected SR ~0.73 monthly on 2019+ |
-| WATCH (0.05-0.10) | Marginally above the bar | Same as PASS but document as weak evidence; keep polygon LS (2024+) which passed on its own panel |
-| FAIL | 8y generalization not scramble-proof | No change: flagship stays h3+AP (2008+) / h3+AP+LS (2024+); 2018-24 gap remains h3+AP-only |
+- **Real backtest: Sharpe -0.33** (ret -3.7%/yr, MaxDD -65.9%, turnover
+  11.4x/yr); regime split normal -0.33 / high-vol -0.42 / stress -0.77
+  (negative in ALL regimes); diagnostics: `likely_overfit` (2 flags);
+  OOS IC mean only +0.011.
+- **Scramble: p = 1.000 → FAIL** — the real run is worse than its own
+  time-shifted scrambles.
+
+**N14 (critical) — the ls_n10r14_daily.csv stream (+0.92 SR, 2018+) is
+NOT REPRODUCIBLE as the n10_r14 config on twelve_big.** The validated
+run of the exact config shows -0.33 SR. Root cause: the factor screen
+keeps ZERO factors on twelve_big ("no factors passed the strict gate")
+and falls back to a DIFFERENT top-5 by ICIR — the stream must have been
+generated under a different (more favorable) factor set, and its +0.92
+is unverifiable and now suspect. The champion's polygon construction
+keeps exactly its own 5-factor set — that transfer does not exist on
+twelvedata.
+
+**Decision tree — FAIL branch taken:**
+- Flagship unchanged: h3+AP (2008+) / h3+AP+LS polygon levdet3.0 (2024+)
+  — the polygon champion passed its own panel's scramble gate and is
+  independent of this verdict.
+- **2018-24 gap stays h3+AP-only** — the n10r14 extension (roadmap
+  "h3+AP+n10r14 for 2018+") is DEAD unless the stream is verified.
+- **Everything built on ls_n10r14 is conditional**: the parallel loop's
+  IV book (`ms_iv_daily.csv`, SR 1.24) and `blend_robust.py` blends
+  include the suspect stream as a sleeve — their levels rest on an
+  unverified stream (their internal walk-forward consistency still
+  holds, but the absolute SR is not trustworthy).
+- Attribution claim "n10r14 positive every year 2023-2026" is likewise
+  stream-dependent — treat as unverified, not a discovery.
 
 The polygon LS champion (levdet3.0) already passed its own panel's
-scramble gate — the 2024+ sleeve is independent of this verdict. The
-n10r14 stream is a bonus (2018-24 coverage), never a dependency.
+scramble gate — the 2024+ sleeve is independent of this verdict.
 
 ## Process lessons (ops)
 
@@ -91,9 +114,9 @@ n10r14 stream is a bonus (2018-24 coverage), never a dependency.
 
 ## Pending / flagged candidates
 
-- n10_r14 8y OOS validation (`regime_gbrt_v13_oos.py`) re-launched
-  2026-08-13 — signal-scramble verdict on 8y twelve_big/twelve_liq
-  pending; results -> tools/quant/ls/results/regime_gbrt_v13/.
+- (closed) n10_r14 8y OOS validation — FAIL, see the verdict section
+  above. Optional follow-up: verify what parameters actually generated
+  ls_n10r14_daily.csv; until then treat it as unverified data.
 - **wf_champion_final (fundamental-tilt champion) — LIKELY OVERFIT,
   downgraded 2026-08-13**: momentum + value/quality rank-z tilt (SEC
   EDGAR fundamentals, 6-month lag, honest construction machinery) shows
