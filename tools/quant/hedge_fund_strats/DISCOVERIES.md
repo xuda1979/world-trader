@@ -104,6 +104,8 @@ twelvedata.
 The polygon LS champion (levdet3.0) already passed its own panel's
 scramble gate — the 2024+ sleeve is independent of this verdict.
 
+| P12 | **IV book neutrality VERIFIED** (2026-08-13): ms_iv_daily.csv beta vs SPY +0.04 (daily, 1849 days), rolling 6m -0.03..+0.26, never |β|>0.3 — the parallel book's "zero-beta" claim holds (unlike the flagship's β=0.00, which was an artifact). Contrast: h3+AP (EW) carries +0.34 beta by construction; the IV book's market-neutral legs (vol-managed L/S, RP, FX carry, n10r14) are what neutralize it. Level caveat still applies: the n10r14 sleeve is suspect (N14) | parallel session + verification |
+
 ## Process lessons (ops)
 
 - **Long validation runs must be launched with `PYTHONUNBUFFERED=1`** (or
@@ -137,6 +139,28 @@ UNSUBSTANTIATED — no PASS record exists in tools/quant/ls/results/:
   +38.4% re-costed) is its own evidence; the recent-half fragility is a
   sibling-config finding. levdet3.0's honest status remains 'watch'
   (1 factor-decay flag), SR concentrated in the last ~14 months.
+
+## FINAL STATE (2026-08-13) — deployment statement
+
+Research converged; the honest portfolio menu at 6 bps/side:
+
+1. **All-weather flagship: h3 + AP gold (EW, monthly)** — SR 0.94,
+   +10.7%/yr, MaxDD -10.1%, positive in all 4 sub-periods 2008-2026,
+   every 5y window positive (min +0.25), **low-beta +0.34** (not
+   neutral). Deployment: portfolio_spec.py, monthly rebalance, drag
+   0.42pp/yr.
+2. **Recent neutral book: 3-sleeve (h3+AP+LS) 2024+** — SR 1.15-1.20
+   daily, MaxDD -5.6%, beta +0.06. LS leg status 'watch' (N15),
+   returns concentrated 2025+; monitor via check_champion_health.py
+   (10d IC +0.036 intact).
+3. **Parallel IV book (2019+, 6 sleeves)** — SR 1.24, MaxDD -5.9%,
+   beta +0.04 verified (P12); walk-forward OOS 1.01/1.48. Caveat:
+   contains the suspect n10r14 stream (N14) — level conditional.
+4. **Everything else fails the cost hurdle** (N1-N13): stat arb, FX
+   carry as sleeve, cross-asset legs, tilt champion, n10_r14 8y.
+
+Watch items: Stooq (blocked), champion 10d IC, n10r14 stream origin
+(unverifiable). No further sleeve candidates exist in current data.
 
 ## Pending / flagged candidates
 
