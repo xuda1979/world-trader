@@ -420,6 +420,14 @@ sleeve's observable history (polygon 2y -> 8.5y).
   champion-family stream extends the flagship's recent-era robustness
   to 2018+ — pending the v13 verdict, the roadmap is h3+AP+n10r14
   (2018+) / h3+AP+LS (2024+).
+- **2023-26 attribution (current regime)**: the flagship's weakest
+  period was entirely the h3 sleeve's 2023 (-4.4%/yr; h3 2023-26 SR
+  -0.01, flat). AP carried (SR +0.72, +10.9%/yr; 2024 +15.1%, 2025
+  +20.7%) and n10r14 was positive EVERY year 2023-2026 (+2.2/+5.4/+1.9/
+  +4.6%/yr) — the champion family is the smoothest sleeve in the
+  current regime and fixes the 2023 hole (h3+AP 2023 -1.5% -> -0.3%
+  with n10). h3's 2026 is strong (+14.0%/yr): the hedge sleeve has
+  recovered.
 - `blend_robust.py` (parallel session) used this stream in positive-only
   sleeve blends on 2019+ (n=2054 days), all positive in BOTH sub-periods:
 
