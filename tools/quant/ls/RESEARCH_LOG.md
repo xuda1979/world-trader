@@ -2659,3 +2659,30 @@ volume/price data feed, and a trivial last-2-digit volume perturbation inverts i
    invert SR - that is the acceptance gate).
 3. Trade-scout / other strategies unaffected; this is specific to the polygon
    liq-turnover-driven n10_r14 family.
+
+## Update 2026-08-13 (loop) — CLOSING CLARIFICATION: fragility is SYSTEMIC, not factor-specific
+
+Follow-up to the capstone: tested whether removing the volume-driven factors
+(liq_turnover, vol_surprise, amihud) or the 2 price-divergent symbols (CMCSA 6.7%,
+HON 4.5%) fixes the cross-feed SR instability. It does NOT:
+
+| test                                   | polygon feed | twelvedata feed | gap |
+|----------------------------------------|-------------|-----------------|-----|
+| base (with vol factors)                | 0.266       | 0.040           | 0.23|
+| NO vol factors (price/vol realized only)| 0.271      | -0.325          | 0.60|
+| excl CMCSA,HON (with vol factors)      | 0.304       | 0.102           | 0.20|
+
+Removing volume factors WIDENS the gap (they were NOT the sole culprit); excluding
+the 2 price-divergent symbols narrows but does not close it (0.20 remains). Prices
+are >99% identical on 84/85 symbols; residual divergence is single-date volume
+outliers (7-9%) and 2 symbol price discrepancies.
+
+CONCLUSION (final, systemic): the n10_r14 L/S framework has NO ROBUST edge on this 2-year universe regardless of factor set or symbol exclusions. Its SR is
+unstable to ANY small cross-feed/data difference (row count, volume rounding,
+single-symbol price corner, single-date volume outlier). This is a fundamental
+property of the thin-edge, sparse-refit walk-forward on ~500 bars with a weak
+signal - not attributable to any one factor or symbol. The decommission stands.
+
+This closes the polygon n10_r14 research family. Any future attempt must use a
+genuinely longer panel (>=10y) so the factor gate is statistically meaningful and
+the point estimate is not dominated by micro data noise.
