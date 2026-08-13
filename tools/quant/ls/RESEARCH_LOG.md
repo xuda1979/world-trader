@@ -2453,3 +2453,171 @@ below and remains a valid direction once the panel is re-baselined.
   live_signal.json now honestly reports SR ~0.3 and action TRADE or HOLD.
 - OPEN: re-acquiring exact polygon history (paid plan) would let the champion
   re-baseline; without it, trust the champion at de-risked sizing only.
+
+## Update 2026-08-13 (loop) — CORRECTION: +ohlc retracted; champion true SR ~0.4
+
+### Retraction
+The factor-universe probe below (logged earlier this session) claimed
+use_ohlc_factors=True improved SR 1.005->1.131 / OOS 1.36->1.51 and reduced
+decayed-kept 4/5->3/5, and recommended enabling it in the live config. A
+controlled robustness A/B across panel states now REFUTES that claim:
+
+| variant | restored-516 SR | clean-501 SR |
+|---------|-----------------|--------------|
+| base    | 0.145           | 0.122        |
+| +ohlc   | -0.018          | -0.809       |
+
++ohlc is WORSE in both panel states (esp. -0.809 on the 501 panel). The earlier
+1.131/1.51 figures were measured on the (then-untruncated) base panel under a
+transient screening state and were NOT robust. RETRACT the recommendation to
+enable use_ohlc_factors=True; keep use_v2_factors=False (harmful) AND
+use_ohlc_factors=False (also harmful under controlled test). The screen guard
+already correctly HOLDs the ohlc_atr variant (conservative), which turns out to
+be the right call.
+
+### Champion true SR (controlled, restored panel, universe=auto, THIS is the honest number)
+| leverage | SR   | ret% | DD%   | TO   |
+|----------|------|------|-------|------|
+| lev1     | 0.372| 3.63 | -14.3 | 5.85 |
+| lev3     | 0.488| 13.64| -36.2 | 15.9 |
+
+The 1.686 headline was data-state-specific (exact accumulated 516-row panel) and
+is NOT reproducible. The strategy retains a real but MODEST edge (~0.4 Sharpe),
+not the advertised ~1.6. This is consistent with the likely_overfit /
+window-sensitivity flags. De-risk sizing expectations accordingly.
+
+### Unanswered
+- Why was SR ~1.6 stable in the 08-12 verification (SR 1.682 "reproduced") but
+  irreproducible today even though the panel extent is identical? The 08-12 run
+  predates today's data incident and used the ORIGINAL accumulated panel whose
+  leading rows (2024-07..08) differ from the twelvedata backfill in ways that
+  change early factor states -> different walk-forward -> different SR. The
+  champion's SR is therefore dependent on the precise historical price path, and
+  the margin (~1.6->0.4) is dominated by that data sensitivity, not the market.
+- Action: re-acquire exact polygon history (paid) to re-baseline, OR redesign the
+  screen to be robust to panel length (e.g., minimum-observation IC gate that
+  doesn't flip the kept set with +/-16 rows). The latter is the more robust fix.
+
+## Update 2026-08-13 (loop) — ROOT CAUSE found: the fragility is SCREEN-SELECTION, not data/model
+
+Controlled A/B isolating the SR collapse (champion cfg, universe=auto):
+
+| panel                         | screen | SR   | kept set                     |
+|-------------------------------|--------|------|------------------------------|
+| twelvedata-backfill 516 (live) | natural | 0.31-0.37 | good 5 (vol+liquidity+12-1m) |
+| clean 501 (native reach)      | natural | 0.23 | momentum-heavy fallback      |
+| clean 501 (native reach)      | FORCED good | 0.86-0.98 | good 5                  |
+| twelvedata-backfill 516 (live) | FORCED good | 0.06 | good 5                  |
+
+DIAGNOSIS (exact): the ICIR strict gate (|ICIR|>=0.3) is never passed, so the
+screen always uses the top-5-by-|ICIR| FALLBACK. That top-5 is a KNIFE-EDGE:
+- 516-row panel: [range_vol_60d .29, resid .25, vol .22, mom_12_1m .18, liq .16]
+- 501-row panel: mom_12m/rank_mom_12m/mom_12m_squared all tied at .199 crowd out
+  vol_60d (.194)/liq (.179)/mom_12_1m (.091) by a razor .005-.02 margin.
+mom_12_1m is itself LENGTH-UNSTABLE (ICIR .091 on 501 vs .176 on 516), and the
+3-identical momentum transforms are redundant crowding.
+KEY: the DATA LENGTH is not the problem (forced-good on 501 => SR 0.86-0.98). The
+entire degradation is the fragile top-5 fallback flipping to the momentum cluster.
+
+SECONDARY (panel-state) finding: the twelvedata-BACKFILLED 516 panel I constructed
+earlier is the *weakest* state for the good set (SR 0.06) vs the clean 501
+(SR 0.86-0.98). The backfill changed early factor states and HURT SR. The clean
+native-501 is the more defensible panel if confirmed on true polygon data.
+
+NEXT: (a) confirm good-pinned SR on the true polygon-native 501 fetch (in flight);
+(b) implement a SCREEN-SELECTION robustness fix (de-duplicate redundant momentum
+transforms and/or add a strength margin so the fallback does not flip on a knife
+edge); (c) if confirmed, migrate the live panel to the clean polygon-native 501.
+
+### 2026-08-13 — Failed experiment logged (reverted): redundancy-aware fallback
+Attempted to fix the knife-edge top-5 fallback by de-duplicating the
+mom_12m/rank_mom_12m/mom_12m_squared cluster (IC-series corr >0.92 skip) in
+runner.py. RESULT: HARMED on the clean 501 panel (SR 0.23 -> -0.61): de-dup
+pulled in mom_3m (SR-negative) instead of vol_60d/liq. REVERTED - do not ship.
+Lesson: the fallback screen is not trivially improvable; raw top-5-by-|ICIR|
+remains the least-overfit default. The verified positive lever is the PANEL
+state (clean native-501 + good set = SR 0.86-0.98), not a screen heuristic.
+
+## Update 2026-08-13 (loop) — DEFINITIVE FINDING: the champion is OVERFIT (panel-length explosive)
+
+Controlled experiment isolating the panel-length sensitivity (polygon-native data,
+NATURAL screen, identical factor set [range_vol_60d resid_mom_6m mom_12m
+rank_mom_12m mom_12m_squared]):
+
+| panel (only diff = 1 historical day) | SR    | OOS IC  |
+|--------------------------------------|-------|---------|
+| 500 rows (2024-08-13..2026-08-11)    | +0.486| -0.041  |
+| 501 rows (2024-08-12..2026-08-11)    | -0.321| -0.016  |
+
+ADDING ONE SINGLE TRADING DAY (2024-08-12) swings SR from +0.49 to -0.32 with the
+SAME factor set. Identical factor names, different backtest SR sign. This is an
+explosive sensitivity to one data row, driven by the walk-forward refit cadence
+(14d rebalance + 20d refit: one extra date shifts which bars are refit points and
+the OOS IC window by one bar).
+
+CONCLUSION (final): The champion n10_r14 (advertised SR 1.686) is OVERFIT. Its SR
+is not a robust property of the strategy -- it depends on the exact panel length
+and data state:
+- 516 accumulated polygon rows -> 1.686 (the original claim)
+- 500 polygon rows -> +0.49
+- 501 polygon rows -> -0.32
+- twelvedata-backfilled 516 -> 0.06-0.31
+The "likely_overfit / window_sensitivity" verdict flags were CORRECT the entire
+time. The strategy has at most a modest, panel-fragile edge (~0.3-0.5 SR on the
+best current polygon state, and that itself is ±0.8 unstable to one day).
+
+Earlier "clean-501 good-set SR 0.86-0.98" was ALSO a panel-state artifact (the
+twelvedata-built panel differed by one day), not a real robust gain. Retract that
+as a breakthrough; it was chasing the same fragility.
+
+### Why the walk-forward is this fragile
+- rebalance_freq=14 with refit_freq=20 means only ~24 refit points over 500 bars;
+  shifting the panel start by one bar re-picks several refit dates -> different OOS
+  IC alignment -> different holdings -> different SR. Sparse refit amplifies a
+  single row's influence.
+- Residualized/momentum factors have full-sample ICIR near the gate (0.2-0.3 vs
+  0.3 strict), so the top-5 fallback is a knife-edge near-tie. No factor is robust.
+
+### Operational guidance (final)
+1. DO NOT deploy capital-sized to the champion's 1.686 SR. Real expectation is
+   ~0.3-0.5 SR and it is NOT stable -- treat as speculative/paper only.
+2. The live signal's screen-guard (emits HOLD unless the exact good-5 set) is a
+   necessary but NOT sufficient protection; the good set's SR is itself ±0.8
+   sensitive.
+3. To get a genuinely robust strategy, the redesign must target the SPECIFIC
+   failure modes: (a) denser rebalance/refit cadence (less single-row leverage),
+   (b) a stronger, more separated factor gate (ICIR threshold that isn't a
+   near-tie), (c) ensemble over panel-length / bootstrapped subsamples so SR is
+   averaged, not point-estimated.
+4. Re-baseline before trusting ANY number; consider factor-level robustness (the
+   +ohlc and de-dupe attempts both FAILED under controlled A/B -- logged).
+
+### 2026-08-13 — Cadence-densification does NOT fix the fragility (negative result)
+Tested whether a denser rebalance/refit cadence (the current 14/20 vs 5/7) makes
+SR robust to the ±1-day panel swing:
+
+| rebalance/refit | SR(500) | SR(501) | stability |
+|-----------------|---------|---------|-----------|
+| 14/20 (current) | +0.402  | -0.020  | FRAGILE (+0.42) |
+| 5/7 (denser)    | -0.491  | -0.042  | FRAGILE (+0.45) |
+
+Denser cadence does NOT stabilize the ±1-day SR swing; it also cuts absolute SR
+(the 5/7 case is negative on both). CONFIRMS: the fragility is inherent to the
+sparse-full-sample-ICIR-screen + walk-forward interaction on a ~500-bar panel
+with a thin edge, not a cadence artifact. CLOSED: cadence is not the fix.
+
+## CONSOLIDATED FINAL VERDICT (2026-08-13)
+The polygon champion n10_r14 (advertised SR 1.686) is OVERFIT to its exact panel
+build. Exhaustive controlled testing this session showed:
+- ±1 historical row swings SR by ~0.8 (0.49 -> -0.32) with identical factors.
+- No reproducible panel state gives a stable SR; 0.26..0.86..1.686 all artifacts.
+- Failed robustness fixes (all logged): +ohlc factor family, redundancy-aware
+  fallback de-dup, cadence densification.
+- The 'likely_overfit / window_sensitivity' flags were correct throughout.
+
+The strategy has at most a FRAGILE ~0.3-0.5 edge on current polygon data.
+RECOMMEND: (1) do not size to 1.686; treat as speculative/paper; (2) the live
+signal's screen-guard (HOLD unless good-5) stays (harmless, precautionary);
+(3) genuine robustness requires either real long-history data (paid) for a sound
+factor gate, or an ensemble averaging SR over panel-length subsamples (not a
+point estimate); (4) re-baseline before trusting any number.
