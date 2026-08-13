@@ -7,30 +7,42 @@ Fama-French, AP-replication walk-forwards). All numbers cost-inclusive.
 Primary source of detail: `RESEARCH_REPORT.md`; artifacts: `results/`,
 `blend_*.py`, `subperiod.py`, `portfolio_spec.py`.
 
-## FINAL STATE (2026-08-13) — deployment statement
+## FINAL STATE (2026-08-13, updated) — deployment statement
 
-Research converged; the honest portfolio menu at 6 bps/side:
+Research converged; the honest portfolio menu at 6 bps/side. **The
+FLOORED flagship is the PRIMARY CORE** (integrated into
+SYSTEM_PORTFOLIO.md as the master spec's primary construction):
 
-1. **All-weather flagship: h3 + AP gold (EW, monthly)** — SR 0.94,
-   +10.7%/yr, MaxDD -10.1%, positive in all 4 sub-periods 2008-2026,
-   every 5y window positive (min +0.25), **low-beta +0.34** (not
-   neutral). Deployment: portfolio_spec.py, monthly rebalance, drag
-   0.42pp/yr. **This is the ONLY deployable construction.**
-2. **Recent 3-sleeve (h3+AP+LS) 2024+ — DECOMMISSIONED**: SR 1.15-1.20
-   daily, MaxDD -5.6%, beta +0.06 as computed, but the LS leg's edge is
-   a volume-precision artifact (N20 — champion decommissioned, forced
-   HOLD). Historical record only; not tradeable.
-3. **Parallel IV book (2019+, 6 sleeves)** — SR 1.24, MaxDD -5.9%,
-   beta +0.04 verified (P12); walk-forward OOS 1.01/1.48. Caveat:
-   contains the decommissioned champion family (N20) and the suspect
-   n10r14 stream (N14) — historical/conditional, not tradeable as-is.
-4. **Everything else fails the cost hurdle** (N1-N20): stat arb, FX
+1. **FLOORED flagship (PRIMARY CORE — the no-losing-year book)**:
+   h3+AP 50/50 floored 50% in T-bills (4%/yr). SR 0.98 daily / 1.17
+   monthly, 7.5%/yr, MaxDD -6.2% daily / -4.4% monthly, **ZERO negative
+   calendar years 2008-2026** (worst 2022 +0.61%). Guarantee: holds
+   while the T-bill >= 3.4% (current 3.73%, P21). Deployment:
+   portfolio_floored.py -> results/portfolio_floored_daily.csv/.json.
+2. **Unfloored flagship** (higher-return variant): SR 0.94 monthly,
+   +10.7%/yr, MaxDD -10.1%, positive in all 4 sub-periods, every 5y
+   window positive (min +0.25), low-beta +0.34. For investors accepting
+   the -12.9% daily MaxDD / 2 losing years for +360bp/yr. Deployment:
+   portfolio_spec.py.
+3. **Validated companions (separate, monitored)**: COT S&P asset-
+   manager contrarian (P16, SR +0.35-0.60, corr -0.056); mean-reversion
+   crash sleeve (P18, covers 6/7 drawdown windows; Pareto-independent —
+   more optional against the floored core); COT natgas CTA filter (P20,
+   SR +0.05 on the CTA leg).
+4. **IV book (2019+, 6 sleeves)** — rolling-IV SR 1.44, beta +0.04,
+   walk-forward OOS robust; caveat: n10r14 stream suspect (N14);
+   levered variant SR 1.12/10.4% with honest disclosure.
+5. **Everything else fails the cost hurdle** (N1-N27): stat arb, FX
    carry as sleeve, cross-asset legs, tilt champion, n10_r14 8y,
-   champion family, drawdown filters, risk parity in-blend.
+   champion family (decommissioned, N20), drawdown filters, risk
+   parity in-blend, metals/DXY legs, COT rates/FX filters.
 
-Watch items: Stooq (GATED — anti-bot upgraded, N19), champion 10d IC
-(decommissioned but monitored), n10r14 stream origin (unverifiable).
-No further sleeve candidates exist in current data.
+Watch items: Stooq (BLOCKED/GATED — N19), T-bill rate (guarantee
+threshold 3.4%), n10r14 stream origin (unverifiable). Honest ceiling:
+Sharpe ~0.9 over the 18y window; the 1.44-1.50 IV numbers are a
+favorable 2019+ window (documented). No further sleeve candidates
+exist in current data; remaining improvements need new data (Stooq
+futures, paid polygon, new datasets).
 
 ## POSITIVE discoveries (what works)
 
