@@ -53,8 +53,19 @@ Primary source of detail: `RESEARCH_REPORT.md`; artifacts: `results/`,
 - **Window discipline**: report full-history windows; trimmed windows
   flatter SR (N11).
 
-## Pending
+## Pending / flagged candidates
 
 - n10_r14 8y OOS validation (`regime_gbrt_v13_oos.py`) re-launched
   2026-08-13 — signal-scramble verdict on 8y twelve_big/twelve_liq
   pending; results -> tools/quant/ls/results/regime_gbrt_v13/.
+- **wf_champion_final (fundamental-tilt champion) — PROMISING, NOT
+  VALIDATED**: momentum + value/quality rank-z tilt (SEC EDGAR
+  fundamentals, 6-month lag, no construction lookahead). Realization-
+  timed monthly SR **1.18**, positive in ALL 4 sub-periods
+  (+1.13/+1.62/+0.59/+1.48), corr with h3 only **+0.095** — the best
+  single-sleeve all-weather profile found and near-uncorrelated with
+  the hedge sleeve. CAVEAT: TILT_W/TILT_MODE were likely tuned on the
+  full sample (final SR 1.41 signal-timed vs 1.05 baseline) — needs
+  walk-forward/scramble validation before joining the flagship. If it
+  holds, h3 + tilt-champion would beat h3 + AP gold on both SR and
+  correlation. `alphaportfolio_replication/run_champion_fund_tilt.py`.
