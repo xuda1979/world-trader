@@ -27,11 +27,19 @@ TBILL = 0.04 / 252  # 4% annual T-bill, daily
 
 
 def main():
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--lev", type=float, default=1.0,
+                    help="leverage (P23: x1.10 preserves zero losing years at 3 pct funding; x1.5/x2 break the guarantee)")
+    ap.add_argument("--funding", type=float, default=0.03)
+    a = ap.parse_args()
     h = load_hedge_streams()
     h3 = pd.concat([h["ls"], h["cta"], h["macro"]], axis=1).mean(axis=1)
-    ap = load_ap_gold()
-    flag = pd.concat({"h3": h3, "ap": ap}, axis=1).mean(axis=1)
+    ap_gold = load_ap_gold()
+    flag = pd.concat({"h3": h3, "ap": ap_gold}, axis=1).mean(axis=1)
     floored = 0.5 * flag + 0.5 * TBILL
+    if a.lev != 1.0:
+        floored = a.lev * floored - (a.lev - 1) * a.funding / 252
 
     out = pd.DataFrame({"floored_flag": floored})
     out.index.name = "date"
