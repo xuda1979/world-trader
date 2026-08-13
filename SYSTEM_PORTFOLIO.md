@@ -91,6 +91,11 @@ degradation — it should NOT drive automated de-risking trades (L1-L3).
   reports equity-index spec positioning z (TFF lev-funds with legacy
   non-commercial fallback, 1993+ continuous) — INFORMATIONAL only, not a
   stance input (consistent with L1/L2/L3: no actuator role).
+- **No-losing-year guarantee tripwire**: `monitor_tbill_floor.py` — checks the
+  3M T-bill (FRED tbill3m.csv) against the 3.4% floor that the floored
+  flagship's no-losing-year guarantee depends on; exit 0=healthy / 1=within
+  0.5pp buffer / 2=floor breached (page-able). Current: T-bill 3.73%, +0.33pp
+  margin, health OK (buffer watch active). Re-check monthly.
 - **Rebalance**: monthly (sleeves are monthly-cadence by construction).
 - **Costs**: all figures cost-inclusive at 6 bps/side (12 bps round-trip).
 - **Re-balance drag**: ~0.42pp/yr quantified (SR 1.20 -> 1.17 monthly).
@@ -100,6 +105,8 @@ degradation — it should NOT drive automated de-risking trades (L1-L3).
     weights + portfolio return (2008-2026)
   - `tools/quant/hedge_fund_strats/regime_adaptive_report.py` — L1/L2 evidence
   - `tools/quant/hedge_fund_strats/portfolio_health_monitor.py` — L3 + live stance
+  - `tools/quant/hedge_fund_strats/monitor_tbill_floor.py` — no-losing-year
+    guarantee tripwire (T-bill floor check)
 - **Data**: free daily (twelve_big, Polygon, FRED macro, FX, AP walk-forwards).
 
 ---

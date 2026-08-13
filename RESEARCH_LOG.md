@@ -902,3 +902,45 @@ Tripwire: T-bill drops below 3.4% (a ~9% drop) OR the un-floored flagship's
 worst-year worsens below -3.4% by the same 33bp. Re-check T-bill each fire as an
 operational monitor. (portfolio_floored card: SR 0.98 daily / 1.17 monthly,
 MaxDD -6.2%, worst year 2022 +0.61%.)
+
+## Update 2026-08-13 — bigmove stop sweep incl 10%: loose stops = "no stop"
+
+Swept stop-loss levels 1/3/5/10% (6bp one-side, no-look-ahead walk-forward, thr>=0.9):
+  stop 1% : hit 12.8% | +0.199% net/trade | aSharpe -0.12 | DD -61%
+  stop 3% : hit 15.0% | +0.076% | -0.02 | -63%
+  stop 5% : hit 16.0% | +0.051% | +0.11 | -52%
+  stop 10%: hit 16.3% | +0.034% | +0.07 | -58%   (94% held to close = ~no stop)
+
+10% stop rarely triggers in large-caps -> converges to no-stop hit-rate (~16.3%)
+but gives WORST per-trade net (lets fat-left-tail losses run). 1% stop best for
+per-trade net (+0.20%) by truncating big losses, at cost of hit-rate/Sharpe. No
+level yields economic strength or 70% precision; edge thin in all variants.
+Also answered user Sharpe question: sqrt(N)*SR = t-stat (significance), NOT an
+annualized Sharpe of 10; returns not i.i.d.; real per-trade SR ~0.1-0.2 -> realistic
+annual Sharpe ~0.3-0.8, not >=10.
+
+## Update 2026-08-13 — bigmove Sharpe optimization: VERDICT = no tradeable edge
+
+Ran full trading-rule optimization on cached OOS predictions (calendar-time
+portfolio: thr x top-K x weighting x caps). Result: BEST calendar Sharpe 0.22,
+and ZERO configs with positive annual return (best ann -3.3%, maxDD -87.5%).
+
+Definitive stat (thr>=0.9): mean net +0.065%/trade, t-stat 0.61, p=0.54 NOT
+significant; bootstrap 95% CI [-0.14%, +0.28%] includes 0; P(losing year with
+~340 iid trades) ~42%. Earlier "0.64/per-trade" and "0.63 active Sharpe" were
+artifacts of active-days-only annualization + averaging correlated same-day names.
+
+Conclusion: no trading-rule tuning can create Sharpe from a ~0.01-0.03 per-trade
+edge. Data ceiling: next-day >=5% large-cap moves are idiosyncratic news events,
+unpredictable from OHLCV. Do NOT deploy; only route to profit is richer signal
+(earnings/news/options). Artifacts: reports/BIGMOVE_SHARPE_OPTIMIZATION.md,
+bigmove_sharpe_opt.json.
+
+## Update (continue) — T-bill floor monitor integrated into operational layer + committed
+
+Integrated the parallel fires' `monitor_tbill_floor.py` (no-losing-year guarantee
+tripwire) into SYSTEM_PORTFOLIO.md operational layer: reads FRED 3m T-bill vs the
+3.4% floor, exits 0/1/2 (healthy / within 0.5pp buffer / breached). Verified it
+runs: T-bill 3.73%, +0.33pp margin, health OK (buffer watch active). This is the
+operational mechanism that makes the floored flagship's "any time in any market
+scenario" promise trackable. Committed alongside the spec update.
