@@ -114,23 +114,34 @@ scramble gate — the 2024+ sleeve is independent of this verdict.
   fine the whole time. The trimmed validator's flush=True prints + this
   lesson fix the observability.
 
-## N15 (2026-08-13) — Polygon LS champion validation status corrected: no scramble PASS
+## N15 (2026-08-13) — Polygon LS champion: OVERFIT CONFIRMED by controlled A/B
 
-The report's "scramble PASS" claim for levdet3.0/champion_n10_r14 is
-UNSUBSTANTIATED — no PASS record exists in tools/quant/ls/results/:
-- levdet3.0 & champion_n10_r14_fresh verdicts: 'watch', 1 factor-decay
-  flag; health_check: 'likely_overfit', 2 flags
-- validation_test/compare_validation.csv: val_full_38bps SR 2.27
-  ('watch') vs **val_H2_2025start SR -0.72 (likely_overfit)** — a fresh
-  2025-start run is NEGATIVE; only val_H1_2024to2026H1 (SR 0.69) ok
-- levdet3.0's own daily returns are FLAT until mid-2025 then strongly
-  positive (2025 H2 +13.3%, 2026 YTD +38.4% re-costed) — the headline
-  SR rests entirely on the last ~14 months; the deployment variant and
-  the fresh-validation run disagree about recent performance
-- Impact: the 2024+ flagship leg (h3+AP+LS) uses this leg — the blend
-  numbers stand as computed from the series, but the leg's validation
-  is 'watch', not PASS; monitor via check_champion_health.py (10d IC
-  +0.036 intact, 1d IC -0.132 adverse)
+The report's "scramble PASS" claim was UNSUBSTANTIATED (no PASS record),
+and the parallel session's controlled robustness A/B (RESEARCH_LOG.md
+"polygon champion n10_r14 is OVERFIT") now proves the advertised
+SR 1.686 is a **panel-state artifact**:
+
+- ±1 historical row (500 vs 501 dates, identical factor set) swings SR
+  ~0.8 (+0.49 to -0.32); no reproducible panel state gives stable SR.
+- **Root cause: knife-edge ICIR-fallback screen selection** — the strict
+  ICIR gate never passes, so the top-5-by-|ICIR| fallback is used, and
+  ±16 rows flips the kept set between the good factor set (SR 0.86-0.98
+  forced) and the momentum cluster (SR 0.23). The three identical
+  momentum transforms are redundant crowding on a razor margin.
+- **True edge (controlled, restored panel): lev1 SR ~0.37, lev3 SR
+  ~0.49** — a real but MODEST edge, not ~1.6. "Do not size to 1.686;
+  treat as speculative/paper" (parallel session's operational verdict).
+- The 08-12 "SR 1.682 reproduced" run used the pre-incident accumulated
+  panel whose leading rows differ from today's — SR depends on the
+  precise historical path, margin dominated by data sensitivity.
+
+**Impact on the flagship**: the 2024+ 3-sleeve (h3+AP+LS, SR 1.15-1.20)
+numbers stand as computed from the levdet3.0 series, but that series
+reflects the artifact-prone panel state — the leg is **speculative/paper
+until re-baselined** (paid polygon history or a screen-selection
+robustness fix). **h3+AP (2008+) is unaffected** — it does not depend
+on the champion. Deploy h3+AP; treat the champion sleeve as a paper
+overlay at de-risked sizing.
 - CONFIG RESOLUTION (2026-08-13): the val_H2_2025start negative belongs
   to the **rev3_n13 validation lineage** (1x, 13 names, 20d rebalance,
   refit 5d, no extra factors, 3.8 bps) — NOT the deployed levdet3.0
@@ -149,13 +160,15 @@ Research converged; the honest portfolio menu at 6 bps/side:
    every 5y window positive (min +0.25), **low-beta +0.34** (not
    neutral). Deployment: portfolio_spec.py, monthly rebalance, drag
    0.42pp/yr.
-2. **Recent neutral book: 3-sleeve (h3+AP+LS) 2024+** — SR 1.15-1.20
-   daily, MaxDD -5.6%, beta +0.06. LS leg status 'watch' (N15),
-   returns concentrated 2025+; monitor via check_champion_health.py
-   (10d IC +0.036 intact).
+2. **Recent 3-sleeve (h3+AP+LS) 2024+ — SPECULATIVE/paper**: SR 1.15-1.20
+   daily, MaxDD -5.6%, beta +0.06 as computed, but the LS leg's series
+   reflects the artifact-prone panel state (N15: true edge ~0.4-0.5,
+   not 1.6). Do not size to it; the leg is a paper overlay until
+   re-baselined (paid polygon history or screen-robustness fix).
 3. **Parallel IV book (2019+, 6 sleeves)** — SR 1.24, MaxDD -5.9%,
    beta +0.04 verified (P12); walk-forward OOS 1.01/1.48. Caveat:
-   contains the suspect n10r14 stream (N14) — level conditional.
+   contains BOTH the suspect n10r14 stream (N14) and the overfit
+   champion family — level conditional, treat as paper.
 4. **Everything else fails the cost hurdle** (N1-N13): stat arb, FX
    carry as sleeve, cross-asset legs, tilt champion, n10_r14 8y.
 
