@@ -689,3 +689,77 @@ BUT as a gate on the macro leg's TLT trend sleeve (20/200 MA, vol-scaled):
 -> CLOSED: the curve spread is macro CONTEXT (already visible in the rates
 legs), not a tradable gate. Same verdict family as all COT signals (N21).
 t10y2y.csv remains in data_fred/ as a research/monitor resource.
+
+## Update 2026-08-13 (loop) — Shiller probe blocked; routine checks green
+
+Shiller long S&P (econ.yale.edu) unreachable from this network — the
+1986-1993 S&P price gap is now CONFIRMED unfillable from reachable free
+sources (FRED daily equity indices start 2016; SPY ETF 1993; twelvedata
+free-tier ranges gated; Yahoo 403; Stooq/Shiller timeout). Legacy S&P
+positioning research remains 1993+.
+
+Routine: AP live champion gate ON (SPY 747 > 13ma 691.4, 25 holdings,
+as_of 2026-07-31); COT disagg+TFF latest 2026-08-04 (next CFTC publish
+~2026-08-14, as-of 08-11); monitor stance GO.
+
+## Update 2026-08-13 (loop) — Top-100 momentum: credit-spread gate FIXES the bad regimes
+
+Direct answer to "the top momentum strategy works well sometimes, not always —
+filter the drawdown/underperformance periods with VIX or a macro index".
+Baseline (monthly top-100 high-Sharpe, 2007-2026): SR 0.626, MaxDD -50.6%,
+split-half 0.34/0.98. Swept 36 no-lookahead filters (index lagged 1d, toggle
+cost 3.8bp one-side on traded fraction, net of monthly rebalance cost):
+
+  baseline                     SR 0.626  MaxDD -50.6%
+  credit_pct 0.85 -> 30%       SR 0.779  MaxDD -31.8%   <- BEST (BAA-AAA spread)
+  vix_abs 25 -> 30%            SR 0.739  MaxDD -32.9%
+  vix_abs 22 -> 30%            SR 0.730  MaxDD -33.1%
+  vix_pct 0.85 -> 30%          SR 0.700  MaxDD -43.4%
+  curve_inv (10y-2y<0) -> 50%  SR 0.585  MaxDD -50.6%   <- fails (curve already
+                                                          re-steepened by 2008)
+
+Winner mechanics: BAA-AAA spread >= trailing-252d p85 -> cut to 30% exposure
+(de-risk to cash). 2008: -35.2% -> -14.6%; 2009: -5.7% -> +2.4%; 2018:
+-1.5% -> +4.7%; 2020 MaxDD -32.8% -> -23.5%. Return UP (11.3% -> 11.8%);
+split-half 0.34/0.98 -> 0.50/1.12 (BOTH halves improve). Toggle cost ~0.2%/yr.
+
+Why credit spread beats VIX here: VIX gates whipsaw (204-298 toggles, give
+back return); the spread is a slow persistent systemic-stress signal. This is
+the OPPOSITE verdict of the low-beta all-weather flagship (where VIX gates
+failed — that book has no high-beta crash leg to filter).
+
+Walk-forward OOS (threshold chosen on one half, tested on the other):
+h1->h2: OOS SR 1.120 vs baseline 0.993 | h2->h1: OOS 0.504 vs 0.330.
+Same q=0.85 wins both halves independently -> NOT a sweep artifact.
+
+Deliverables: monthly_top100_momentum.py refactored (prepare/walk_forward
+with additive exposure overlay, original behavior unchanged);
+top100_momentum_regime_filter.py + .json (full sweep, per-year);
+top100_momentum_credit_wf.py (OOS check);
+reports/top100_momentum_regime_filter.md (card).
+
+## Update 2026-08-13 (loop "continue") — Crash-sleeve is Pareto-optimal-independent: NO free-lunch overlay (closing result)
+
+Tried to find a MaxDD-constrained VIX-gated overlay that keeps crash gains
+without the long-run MaxDD drag (the one remaining caveat). Swept overlay
+weights (VIX>28 in {0.10..0.30}, VIX>22 in {0.05..0.10}):
+
+  overlay cfg        fullSR  MaxDD  2020     2022-24
+  VIX>28 .20 >22 .10  1.08  -17.7%  +3.3%    +0.0%   (flagship 2020 was -2.2%)
+  VIX>28 .15 >22 .08  1.07  -16.1%  +1.9%    -0.2%
+  VIX>28 .12 >22 .06  1.07  -15.1%  +1.1%    -0.6%
+  VIX>28 .10 >22 .05  1.07  -14.4%  +0.5%    -0.8%
+  flags baseline 1.04 -12.9% -2.2% -1.6%
+
+RESULT: NO configuration dominates the static flagship on SR AND MaxDD together.
+Every increase in crash protection (2020 more positive) comes with proportional
+MaxDD cost (-14..-21%); the smallest overlay already lifts MaxDD to -14.4% for
+only +0.5% 2020 improvement. The insurance value and tail cost are INSEPARABLE.
+
+CLOSING DEPLOYMENT CONCLUSION: the static all-weather flagship (SR 1.04, MaxDD
+-12.9%) is already PARETO-OPTIMAL with respect to the crash-sleeve overlay. The
+validated mean-reversion sleeve is a deliberate RISK-REALLOCATION tool -- deploy
+it only as an explicit decision to trade some tail-risk for intra-crash gains,
+never as an expectation of better risk-adjusted returns (it cannot beat the
+flagship on both axes). Crash-sleeve research is now COMPLETE. Recommend priority
+shift back to the flagship-spec / company-system loop.
