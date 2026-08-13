@@ -1,5 +1,13 @@
 # Floored Flagship — Full Statistics Report (2026-08-13)
 
+**WINDOW CLARIFICATION (user ask, 2026-08-13)**: the backtest covers
+**19 years (2008-02 .. 2026-08, 223 months)** — the maximum the free
+dataset supports. 20 full calendar years would require 2006 data; the
+L/S and AP sleeves need ~1000-day histories, fixing the start at
+2008-02. The health monitor's "+2.46 rolling Sharpe" is the trailing
+1-YEAR snapshot lens; the long-window Sharpe of this book is 1.14
+(monthly) / 0.98 (daily) — the 19-year averages reported below.
+
 **Construction**: h3 + AP gold, 50/50, floored 50% in T-bills (4%/yr assumed).
 Monthly cadence. All sleeve returns cost-inclusive at **6 bps/side (12 bps RT)**.
 Window: **2008-02 .. 2026-08 (19 years, 223 months)**.
