@@ -64,6 +64,22 @@ Primary source of detail: `RESEARCH_REPORT.md`; artifacts: `results/`,
   the price-lag scramble; tsmom/gold/fx/pairs all FAIL — consistent with
   the sleeve audit (N3).
 
+## n10_r14 8y verdict — decision tree (contingency, documented before the verdict)
+
+The trimmed validator (`tools/quant/ls/validate_n10r14_trimmed.py`,
+twelve_big 8y, 10-scramble time-shift gate) is running. Whatever it
+returns, the flagship does NOT depend on it:
+
+| Verdict | Meaning | Portfolio impact |
+|---------|---------|------------------|
+| PASS (p<0.05) | Champion config generalizes to 8y | h3+AP+n10r14 (2018+) / h3+AP+LS (2024+) — extended champion coverage; expected SR ~0.73 monthly on 2019+ |
+| WATCH (0.05-0.10) | Marginally above the bar | Same as PASS but document as weak evidence; keep polygon LS (2024+) which passed on its own panel |
+| FAIL | 8y generalization not scramble-proof | No change: flagship stays h3+AP (2008+) / h3+AP+LS (2024+); 2018-24 gap remains h3+AP-only |
+
+The polygon LS champion (levdet3.0) already passed its own panel's
+scramble gate — the 2024+ sleeve is independent of this verdict. The
+n10r14 stream is a bonus (2018-24 coverage), never a dependency.
+
 ## Pending / flagged candidates
 
 - n10_r14 8y OOS validation (`regime_gbrt_v13_oos.py`) re-launched
