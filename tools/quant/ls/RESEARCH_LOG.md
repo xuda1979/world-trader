@@ -2716,3 +2716,29 @@ work should target (a) monthly-rebalanced factor portfolios with REAL long-histo
 datasets (CRSP/paid), (b) signals validated by walk-forward IC with strict
 multiple-horizon p-values, (c) costs validated by independent data feeds (the core
 lesson: an acceptance gate requiring SR invariance to data feed/precision).
+
+## Update 2026-08-13 (loop) — IV-book sleeve audit: n10r14 improves via VOL, not alpha
+
+Controlled audit of the OOS-validated multi-strategy IV book (run_ms_iv_book.py,
+SR 1.24 / MaxDD -5.9% / 2019-26) testing the role of the (now-decommissioned)
+n10r14 L/S sleeve, which carries the LARGEST inverse-vol weight (0.384):
+
+| config                | SR   | ret% | MaxDD% | n10r14wt |
+|-----------------------|------|------|--------|----------|
+| inverse-vol (current) | 1.240| 6.1  | -5.9   | 0.384    |
+| cap n10r14 @ 0.25     | 1.182| 6.7  | -7.1   | 0.250    |
+| cap n10r14 @ 0.20     | 1.159| 7.0  | -7.6   | 0.200    |
+| cap n10r14 @ 0.15     | 1.138| 7.2  | -8.0   | 0.150    |
+| equal-weight all 6    | 1.103| 8.3  | -9.0   | 0.167    |
+| WITHOUT n10r14        | 1.077| 7.9  | -9.3   | 0        |
+
+Finding: capping/removing n10r14 LOWERS book SR and WORSENS MaxDD. The sleeve's
+value to the book is VOLATILITY-DIVERSIFICATION, not alpha - inverse-vol weighting
+rewards its low vol with 38% weight even though its standalone predictive edge was
+proven illusory (data-precision fragility). This is defensible IF its low-vol /
+low-correlation profile persists, but is a LATENT CONCENTRATION RISK: 38% weight in
+a sleeve whose only contribution is statistical, not informational, can invert if
+its vol regime changes. RECOMMEND: keep the book (it is the healthy, OOS-validated
+strategy), but (a) monitor n10r14's rolling vol/corr vs book, and (b) consider a
+modest 0.20-0.25 weight CAP as a robustness guard (SR 1.14-1.18, still strong,
+halves the concentration) - a trade of a little SR for far less single-sleeve risk.

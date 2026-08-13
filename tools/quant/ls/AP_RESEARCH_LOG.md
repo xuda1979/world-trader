@@ -71,3 +71,10 @@ ACTION: live signal DECOMMISSIONED - forces HOLD (action: HOLD, trend_gate
 'HOLD (decommissioned: illusory edge)', zero positions). Do not trade this
 strategy until re-derived on a volume-consistent feed with an acceptance gate that
 an independent volume feed does not invert SR. Details in RESEARCH_LOG 2026-08-13.
+
+## Update 2026-08-13 (loop) — IV book sleeve audit (n10r14 = vol-diversifier, not alpha)
+The IV book's largest-weight sleeve ls_n10r14 (0.384 inverse-vol) has no standalone
+alpha (proven illusory in RESEARCH_LOG 2026-08-13), yet REMOVING/capping it LOWERS book
+SR (1.24 -> 1.08) and WORSENS MaxDD (-5.9% -> -9.3%). It adds value purely as a
+low-vol, low-correlation diversifier. Capping at 0.20-0.25 gives SR 1.14-1.18 with
+half the concentration - recommended robustness trade. Full table in RESEARCH_LOG.
