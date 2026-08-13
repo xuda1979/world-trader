@@ -869,3 +869,36 @@ The floored book is the strongest answer yet to "profitable high Sharpe ANY
 TIME in any market scenario" (worst year +0.61%, no losing years), with the
 un-floored flagship retained as the higher-return variant (+360bp/yr CAGR at
 the cost of -12.9% MaxDD / 2 losing years).
+
+## Update 2026-08-13 — bigmove stop-loss variant: 1% stop HURTS (decisive)
+
+Extended the bigmove next-day>=5% strategy with the user's intraday stop-loss
+rule (exit at next open if gap below stop, else at stop if low<stop, else next
+close; 6bp one-side = 12bp round trip; same no-look-ahead walk-forward).
+
+Key result @ probability>=0.9 (OOS 2018-2026):
+  no-stop: hit5 16.5% | +0.18% net/trade | active-day Sharpe 0.63 | DD -48%
+  stop 1%: hit5 12.8% | +0.20% net/trade | active-day Sharpe -0.12 | DD -61%
+  stop 3%: hit5 15.1% | +0.08% net/trade | active-day Sharpe -0.02 | DD -63%
+
+Mechanism (measured, thr>=0.9): 72% of all predicted-big-up trades touch -1%
+intraday; winners-touched-stop still closed +8.5% avg. The strategy earns by
+harvesting rare +5% days; a 1% stop truncates exactly that right tail, capping
+per-trade loss but also capping the big wins that drive the edge -> Sharpe and
+hit-rate worsen. Per-trade net ~flat because loser-truncation ~ winner-truncation.
+
+Decision (delegated): operational rule = probability>=0.9 with 1% stop (best
+per-trade net, caps per-trade risk), runnable via
+tools/quant/bigmove/backtest_stoploss.py. Flagged: far below 70% precision,
+weak per-trade, negative active-day Sharpe, not standalone-deployable (small
+overlay at most). Full writeup reports/BIGMOVE_STOPLOSS.md.
+
+## Update (continue) — FLOORED flagship no-losing-year GUARANTEE verified against live T-bill
+
+Verified the floored flagship's binding "any time" constraint: the no-losing-year
+guarantee holds while the 3M T-bill >= 3.4%. Current T-bill = 3.73% (2026-07),
+a 0.33pp (~10%) buffer above the floor => guarantee HEALTHY now.
+Tripwire: T-bill drops below 3.4% (a ~9% drop) OR the un-floored flagship's
+worst-year worsens below -3.4% by the same 33bp. Re-check T-bill each fire as an
+operational monitor. (portfolio_floored card: SR 0.98 daily / 1.17 monthly,
+MaxDD -6.2%, worst year 2022 +0.61%.)
