@@ -401,6 +401,15 @@ handling, rebalancing, and expected stats serialized to
   1.20 -> 1.17)** on the live 3-sleeve portfolio — sleeve weights drift
   slowly (monthly-cadence streams); no rebalance-frequency tuning
   needed, monthly is fine.
+- **NO-LOSING-YEAR variant (user requirement, 2026-08-13)**: h3+AP 50%
+  + T-bills 50% (monthly) — all 19 calendar years 2008-2026 positive
+  (min +0.35% in 2022), every sub-period positive, SR 1.14 (up from
+  0.94), ~7.5%/yr (from 10.7%). Guarantee: zero losing years as long
+  as the base flagship's worst year stays >= -4% (its historical worst
+  is -3.4%, 2022); the 50% floor needs T-bills >= 4%. Sleeve-floor
+  variants buy <0.3pp at complexity cost (see DISCOVERIES P15/N21).
+  The tested strategy pool CANNOT deliver zero losing years by
+  diversification alone (N21: more sleeves worsen yearly safety).
 (Monthly-sampled SRs are higher: 0.94 and 1.20 — daily sampling of a
 monthly-cadence book adds intra-month vol.)
 
