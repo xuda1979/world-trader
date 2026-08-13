@@ -22,7 +22,10 @@ reactive timing.
 | Optional paper overlay: Polygon LS champion (2024+, SR 0.4-0.5 true edge; overfit re-baselined) | Speculative | — | — | — | 2024+ |
 
 **FLOORED flagship** (`portfolio_floored.py` -> `results/portfolio_floored_daily.csv`/`.json`):
-- **ZERO negative calendar years** (2008-2026) — the strongest "any time" answer
+- **ZERO negative calendar years** (2008-2026) [FLAT-4% T-bill assumption — N30: on the
+  ACTUAL rate path the static 50% floor has 2022 = -0.64%; the honest guarantee
+  construction is `portfolio_floored.py --dynamic` (50%/70% by rate): 4.3%/yr, zero
+  losing years] — the strongest "any time" answer
   to the user requirement; worst year 2022 at **+0.61%**.
 - Halves MaxDD vs the un-floored flagship (-6.2% vs -12.9% daily) at a lower
   but still-solid CAGR (7.5%) and a *higher* monthly Sharpe (1.17 vs 1.0).
