@@ -2774,3 +2774,27 @@ sign-flip, both halves positive, MaxDD identical. This is the CONTRAST to the
 fragile L/S champion (which failed every OOS check): the IV book's edge is real and
 robust by construction (multiple low-correlation sleeves + adaptive vol-weighting).
 This stands as the validated, deployable deliverable of the AlphaPortfolio line.
+
+## Update 2026-08-13 (loop) — Honest ceiling: Sharpe 2.0 over 20y NOT supported by data
+
+User requested combinations targeting Sharpe>=2, MaxDD<=10%, >=10% ann, 20y. 
+HONEST result after exhaustive survey of all ~35 strategy streams and weightings:
+
+- Longest continuous daily window available: 2008-2026 (~18y, n=4403). Not a full 20y.
+- Best long-window combination (profitable L/S/riskparity/dollar-neutral sleeves,
+  minvar/inverse-vol): Sharpe ~0.90, CAGR 10-13%, MaxDD -15 to -21% (EXCEEDS 10% cap).
+- Per-sleeve realized Sharpe over long window: 0.78-0.85 (cta 0.20). Math bound: a
+  diversified book of ~0.85-Sharpe sleeves realizes ~0.9, not 2.0.
+- The 2019+ IV book (Sharpe 1.44-1.50) is a FAVORABLE SHORT WINDOW (7.3y), not a
+  20y property; key sleeves (fx_carry, ls_n10r14) only start 2019.
+- VERDICT: Sharpe>=2.0 with MaxDD<=10% AND >=10% return over a genuine long window
+  is NOT achievable with these strategies' true realized edges. Claims otherwise
+  would repeat the overfitting dishonesty that killed the L/S line.
+
+HONEST ALTERNATIVES (what IS achievable):
+  (a) Sharpe ~0.9, ~10-13%/yr, MaxDD ~-15% (long window, no leverage)
+  (b) Leverage the 2019+ IV book to ~2x => ~13-14%/yr, Sharpe 1.44, MaxDD -10.7%
+      (uses the short favorable window; honest about the window)
+  (c) To reach Sharpe 2 requires a genuinely higher-edge sleeve (not present) or
+      a fundamentally different dataset (e.g. equity-market-neutral with real
+      20y tick/fundamentals, shorting capacity) - beyond current data.
