@@ -53,6 +53,17 @@ Primary source of detail: `RESEARCH_REPORT.md`; artifacts: `results/`,
 - **Window discipline**: report full-history windows; trimmed windows
   flatter SR (N11).
 
+## Operational monitoring (2026-08-13)
+
+- Champion live-health check (`tools/quant/ls/check_champion_health.py`):
+  [OK] the champion's own 10d-horizon edge is intact — fresh live 10d IC
+  +0.036 (last 6 months). The faster 1d-horizon IC is adverse (-0.132),
+  i.e. the fast signal is decaying/regime-adverse while the deployed 10d
+  signal is healthy. No action needed on the deployment leg.
+- Reconfirms the validation gate: only LS_GBRT (champion family) passes
+  the price-lag scramble; tsmom/gold/fx/pairs all FAIL — consistent with
+  the sleeve audit (N3).
+
 ## Pending / flagged candidates
 
 - n10_r14 8y OOS validation (`regime_gbrt_v13_oos.py`) re-launched
