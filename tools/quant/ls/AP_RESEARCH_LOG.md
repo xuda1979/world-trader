@@ -57,3 +57,17 @@ Operational: do NOT size to 1.686; treat as speculative/paper until re-baselined
 on real long history (paid Polygon) or panel-length ensemble averaging. The earlier
 "n10_r14 8y OOS FAIL (p=1.000, SR -0.33, unreproducible)" commit (N14) foreshadowed
 exactly this - this session forensically confirmed it.
+
+## Update 2026-08-13 (loop) — CAPSTONE: polygon champion DECOMMISSIONED (edge illusory)
+Controlled test traced the live-516 (+0.35) vs twelvedata-516 (-0.10) SR gap to a
+SUB-BASIS-POINT volume difference: polygon reports exact share counts (float64),
+twelvedata rounds volume to nearest 100 (int64) - e.g. 44155331 vs 44155300
+(0.00007%). That rounding-level difference in the `liq_turnover` factor inverts SR
+by 0.45. The champion's edge is NOT real - it is an artifact of volume-data
+precision. All reported SRs (1.686/0.86/0.49/0.35) were precision-state artifacts;
+ensemble mean -0.36 (0% positive).
+
+ACTION: live signal DECOMMISSIONED - forces HOLD (action: HOLD, trend_gate
+'HOLD (decommissioned: illusory edge)', zero positions). Do not trade this
+strategy until re-derived on a volume-consistent feed with an acceptance gate that
+an independent volume feed does not invert SR. Details in RESEARCH_LOG 2026-08-13.

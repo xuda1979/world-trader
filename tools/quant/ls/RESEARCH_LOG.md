@@ -2621,3 +2621,41 @@ signal's screen-guard (HOLD unless good-5) stays (harmless, precautionary);
 (3) genuine robustness requires either real long-history data (paid) for a sound
 factor gate, or an ensemble averaging SR over panel-length subsamples (not a
 point estimate); (4) re-baseline before trusting any number.
+
+## Update 2026-08-13 (loop) — DEFINITIVE CAPSTONE: the edge is a SUB-BASIS-POINT artifact
+
+Traced the SR divergence between the live-516 panel (+0.35) and a twelvedata-built
+516 panel (-0.10) under IDENTICAL config (auto universe, same 516 dates 2024-07-22..
+2026-08-11, same tickers). After confirming prices match 100% and volumes match to
+float precision, the DIFFERENCE is only the last 2-3 digits of volume:
+
+  live(polygon) vol = 44155331.0   ens(twelvedata) vol = 44155300  (differ by 31/44M = 0.00007%)
+  live vol dtype = float64         ens vol dtype = int64 (twelvedata rounds to nearest 100)
+
+Polygon reports exact share counts; twelvedata rounds volume to the nearest 100.
+That SUB-BASIS-POINT (0.00007%) rounding difference in the `liq_turnover` factor
+changes the champion's Sharpe from +0.35 to -0.10 (a 0.45 swing), and across the
+ensemble of panel states averages -0.36 (0% positive).
+
+CONCLUSION (FINAL, closed): The polygon champion n10_r14 has NO real edge. Its
+entire apparent profitability is an artifact of hypersensitive `liq_turnover`
+computed from volume rounding-level noise. Every reported SR in this research
+program (1.686, 0.86, 0.49, 0.35) depended on the exact precision/state of the
+volume/price data feed, and a trivial last-2-digit volume perturbation inverts it.
+
+### Why this is the capstone
+- Explains ALL prior instability: ±1 row AND ±0.00007% volume both flip SR ~0.4-0.8.
+- `liq_turnover` (turnover-based liquidity) is a kept factor yet is pure rounding
+  noise at this scale - not a real signal.
+- Overfit verdicts (likely_overfit / window_sensitivity / 8y-OOS FAIL p=1.000) were
+  all correct; this now gives the MECHANISM.
+
+### Final operational directive
+1. DECOMMISSION the polygon champion live signal. Do not trade/size to any of its
+   reported SRs. The screen-guard HOLD is a symptom; the edge is not real.
+2. Do not deploy the live_signal_polygon strategy in any form until re-derived on
+   a data source with volume precision CONSISTENT across the universe AND
+   cross-validated against an independent volume feed (any feed change must not
+   invert SR - that is the acceptance gate).
+3. Trade-scout / other strategies unaffected; this is specific to the polygon
+   liq-turnover-driven n10_r14 family.

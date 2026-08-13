@@ -89,6 +89,51 @@ def main() -> int:
     # Never emit a tradable long/short on a degraded screen: mark the signal
     # HOLD and zero the holdings so an operator cannot act on it.
     # ------------------------------------------------------------------
+
+    # ------------------------------------------------------------------
+    # DECOMMISSION GATE (2026-08-13 CAPSTONE). RESEARCH_LOG 2026-08-13:
+    # the polygon champion's edge is PROVEN ILLUSORY - a sub-basis-point
+    # (0.00007%) volume-rounding difference (polygon exact-share-count vs
+    # twelvedata round-to-nearest-100) inverts SR from +0.35 to -0.10, and
+    # the ensemble mean is -0.36 (0% positive). `liq_turnover` is a kept
+    # factor yet is pure rounding noise; every reported SR (1.686/0.86/0.49/
+    # 0.35) was a data-precision artifact. DO NOT TRADE THIS STRATEGY until
+    # it is re-derived on a volume-consistent feed AND cross-validated such
+    # that an independent volume feed does not invert SR (the acceptance
+    # gate). Force HOLD unconditionally.
+    # ------------------------------------------------------------------
+    DECOMMISSIONED = True
+    if DECOMMISSIONED:
+        print("!!! DECOMMISSION GATE: polygon champion edge proven illusory "
+              "(sub-bp volume artifact, RESEARCH_LOG 2026-08-13). "
+              "Forcing HOLD.")
+        as_of = "unknown"
+        if holdings is not None and not holdings.empty:
+            as_of = str(holdings.index[-1].date())
+        _hold = {
+            "as_of": as_of,
+            "trend_gate": "HOLD (decommissioned: illusory edge)",
+            "kept_factors": list(screen["kept_factors"]),
+            "screen_status": "decommissioned",
+            "screen_warning": ("polygon champion edge proven illusory "
+                               "(0.00007% volume-rounding artifact inverts SR); "
+                               "strategy decommissioned until re-derived + "
+                               "cross-validated on volume-consistent feed"),
+            "gross_exposure": 0.0,
+            "net_exposure": 0.0,
+            "avg_abs_beta": 0.0,
+            "annualized_sharpe_daily_returns": m.get("sharpe"),
+            "annualized_return": m.get("annual_return"),
+            "max_drawdown": m.get("max_drawdown"),
+            "longs": [],
+            "shorts": [],
+            "action": "HOLD",
+        }
+        with open(OUT_JSON, "w") as f:
+            json.dump(_hold, f, indent=2)
+        print(f"Saved HOLD signal -> {OUT_JSON} (decommissioned, no positions)")
+        return 0
+
     GOOD_SCREEN = {"liq_turnover", "mom_12_1m", "range_vol_60d",
                    "resid_mom_6m", "vol_60d"}
     kept_now = set(screen["kept_factors"])
