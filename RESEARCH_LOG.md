@@ -763,3 +763,109 @@ it only as an explicit decision to trade some tail-risk for intra-crash gains,
 never as an expectation of better risk-adjusted returns (it cannot beat the
 flagship on both axes). Crash-sleeve research is now COMPLETE. Recommend priority
 shift back to the flagship-spec / company-system loop.
+
+## Update 2026-08-13 (loop) — DATA BOUNDARY DEFINITIVELY MAPPED (free-tier, this machine)
+
+Final route tested: Yahoo chart API via curl_cffi with chrome TLS
+impersonation -> still 403 (IP/region-level block, not fingerprinting).
+Complete free-data boundary for the remaining research gaps:
+  - S&P daily 1986-1993: UNFILLABLE (FRED daily indices 2016+, SPY 1993+,
+    twelvedata ranges gated, Yahoo 403, Stooq/Shiller timeout)
+  - Gold/silver daily pre-2007: UNFILLABLE (FRED LBMA discontinued, XAU/USD
+    free tier 2007+, GC=F 403, Stooq timeout)
+  - Real futures (Stooq): blocked (N19)
+  - FRED API: intermittent windows (works when up; wti_full/copper/dxy/
+    t10y2y landed this session)
+  - CFTC COT (disagg+TFF+legacy): WORKING, current
+  - twelvedata free: WORKING for recent 5000-row pulls (metals, SPY/TLT/GLD)
+The research frontier for "more free data" is now exhaustively documented —
+further strategy work on pre-2007 assets requires paid feeds.
+
+## Update 2026-08-13 (loop) — Top-100 momentum: LAYERED overlay crushes MaxDD to -12.6%
+
+Follow-up: credit gate alone (-31.8% MaxDD) deemed "still huge". Stacked levers
+on the monthly top-100 book (all lagged-1d, toggle costs net, de-risked cash
+earns 3m T-bill):
+
+  book only                          SR 0.626  MaxDD -50.6%
+  credit p85->0 only                 SR 0.755  MaxDD -30.0%
+  credit + SPY<200d flat + VIX>=32 flat      SR 0.796  MaxDD -24.1% (0809 win +1.6%!)
+  + vol-target 12% (5% band)         SR 0.890  MaxDD -12.6%  <- WINNER
+  + vol-target 10%                   SR 0.846  MaxDD -10.5%
+  + vol-target 15%                   SR 0.858  MaxDD -15.7%
+
+Winner (credit0+s200+v32+vt12): ann 8.7%, vol 10.0%, MaxDD -12.6% (4x better),
+Sharpe UP 0.63->0.89, ZERO negative calendar years (book had 4). 2008: -35.2%
+-> +1.6%; 2018: -1.5% -> +3.7%; 2020 MDD -32.8% -> -12.2%; 2022: -5.5% -> -3.0%.
+Price: muted bull years (2019 7.1% vs 24.6%; 2020 8.8% vs 29.4%) — the honest
+cost of the drawdown dial. Split-half 0.78/0.99 (both regimes strong).
+
+Robustness: 5% no-trade band -> 463 toggles/19y, SR unchanged (0.92);
+10% band -> 294 toggles, SR 0.94. Walk-forward (vt chosen on one half, OOS
+other): h1->h2 OOS 1.05 vs book 0.99 | h2->h1 OOS 0.64 vs book 0.33.
+Vol-targeting 10-15% transfers OOS; not a sweep artifact. Own-DD stop tested
+and redundant once vt on (dropped). Deploy: credit p85->flat, SPY<200d->flat,
+VIX>=32->flat, vt12, 5% band, cash=T-bill. Long-only, no leverage.
+
+Deliverables: top100_momentum_dd_overlay.py + .json (16-config sweep, per-year);
+top100_momentum_dd_wf.py (band + WF); reports/top100_momentum_dd_overlay.md.
+
+## Update 2026-08-13 (loop) — 90d trend top-100 tested: good raw, 252d Sharpe+overlay still best deploy
+
+"how about 90 day trend top 100": ranked the top-100 book by past-n cumulative
+return instead of past-year Sharpe (same universe/window/costs; signal is the
+only change). Raw books:
+
+  t252_sharpe (current)  SR 0.626  ann 11.3%  MaxDD -50.6%  half 0.33/0.99
+  t90_ret  (the ask)     SR 0.695  ann 12.3%  MaxDD -47.7%  half 0.54/0.87
+  t126_ret (6m)          SR 0.730  ann 13.0%  MaxDD -47.2%  half 0.61/0.86  <- best raw
+  t90_sharpe             SR 0.594  ann 10.3%  MaxDD -53.6%  half 0.37/0.87
+
+Findings: (1) return-trend beats Sharpe-trend at every horizon — the vol
+penalty in the Sharpe signal discards exactly the strong high-vol winners;
+(2) sweet spot ~6m not 3m; (3) 90d fixes the weak first half (0.33->0.54).
+
+With the layered DD overlay (credit0+s200+v32+vt12): t252_sharpe 0.890/-12.6%
+STILL wins; t126_ret 0.874/-13.3% near-tie second; t90_ret 0.786/-12.5%.
+Overlay owns drawdown control regardless of signal; the slower signal keeps
+more return under the overlay (8.7% vs 7.4%). VERDICT: keep 252d Sharpe +
+overlay as deploy; 6m return-trend is the fallback signal. Card:
+reports/top100_momentum_horizon.md; script: top100_momentum_horizon.py.
+
+## Update 2026-08-13 — bigmove: next-day >=5% return prediction — honest precision-ceiling result
+
+Developed a no-look-ahead ML pipeline to predict next-day huge returns
+(defined as next_close/today_close - 1 >= +5%; signal from close[T] only).
+Universe: 285 US large caps, twelve_big daily panel (2006-2026).
+
+Method: 49 technical features (momentum, realized vol, RSI, range/gap, volume
+ratios, per-stock vol-normalized + market-relative + stock big-move frequency),
+HistGradientBoosting (class-balanced), rolling 3y window refit quarterly.
+Out-of-sample walk-forward 2018-2026.
+
+VERDICT: 70% hit precision on next-day >=5% is NOT achievable from daily OHLCV
+alone. OOS ROC-AUC ~0.82 (real edge), but precision caps:
+  up5  : ~10% @thr0.7, ~16% @thr0.9   (base rate ~1.6%)
+  up3  : ~19% @thr0.7, ~28% @thr0.9
+  abs5 : ~19% @thr0.7, ~30% @thr0.9
+  down5: ~8%  @thr0.7, ~9%  @thr0.9
+Because a single-day >=5% large-cap move is dominated by unobservable-to-close
+idiosyncratic news. The model is a useful RISK RANKER (~10-18x lift) but not a
+70%-reliable trading signal. Reaching 70% needs earnings-calendar + news/NLP +
+options-flow data, NOT more technical features.
+Deliverable: tools/quant/bigmove/ (README.md) + reports/BIGMOVE_RESEARCH.md.
+Not deploying standalone (concentration, deep drawdowns); recommend as a
+small-risk overlay at most.
+
+## Update (continue) — FLOORED flagship integrated into company master spec
+
+Reconciled the parallel fires' floored flagship (no-losing-year book,
+portfolio_floored.py, P15/P19): added as the PRIMARY CORE in SYSTEM_PORTFOLIO.md
+Sec. 1 (SR 0.98 daily / 1.17 monthly, MaxDD -6.2% daily, ZERO negative calendar
+years 2008-26, worst 2022 +0.61%). Also added the reconciliation that the
+crash-sleeve's Pareto-independence holds even MORE strongly for the floored core
+(already -6.2% MaxDD + no losing years -> crash-sleeve even more optional).
+The floored book is the strongest answer yet to "profitable high Sharpe ANY
+TIME in any market scenario" (worst year +0.61%, no losing years), with the
+un-floored flagship retained as the higher-return variant (+360bp/yr CAGR at
+the cost of -12.9% MaxDD / 2 losing years).

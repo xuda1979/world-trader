@@ -17,8 +17,20 @@ reactive timing.
 
 | Component | Role | SR | CAGR | MaxDD | Coverage |
 |-----------|------|----|------|-------|----------|
-| **All-weather flagship** = hedge 3-stream EW (L/S 130/30 + CTA macro 21d + Global Macro, ex stat-arb) 50% + AP gold composite 50% | **Core** | **1.04** | **11.1%** | **-12.9%** | 2008-2026, n=4663 |
+| **All-weather flagship** = hedge 3-stream EW (L/S 130/30 + CTA macro 21d + Global Macro, ex stat-arb) 50% + AP gold composite 50% | Core | **1.04** | **11.1%** | **-12.9%** | 2008-2026, n=4663 |
+| **FLOORED flagship** = h3+AP 50/50 floored 50% in T-bills (4%/yr) | **Primary core (no-losing-year)** | 0.98 daily / **1.17 monthly** | 7.5% | **-6.2% daily / -4.4% monthly** | 2008-2026, n=4783 |
 | Optional paper overlay: Polygon LS champion (2024+, SR 0.4-0.5 true edge; overfit re-baselined) | Speculative | — | — | — | 2024+ |
+
+**FLOORED flagship** (`portfolio_floored.py` -> `results/portfolio_floored_daily.csv`/`.json`):
+- **ZERO negative calendar years** (2008-2026) — the strongest "any time" answer
+  to the user requirement; worst year 2022 at **+0.61%**.
+- Halves MaxDD vs the un-floored flagship (-6.2% vs -12.9% daily) at a lower
+  but still-solid CAGR (7.5%) and a *higher* monthly Sharpe (1.17 vs 1.0).
+- Guarantee: `0.5*year + 2% >= 0 iff year >= -4%`; historical worst is -3.4%
+  (2022); holds while the T-bill >= 3.4% (current 3.73%).
+- Deployable as the primary core; the un-floored flagship remains the
+  higher-return variant when the investor accepts the -12.9% MaxDD / 2 losing
+  years for +360bp/yr CAGR.
 
 **Any-scenario proof** (the "any time, long-term, any market" requirement):
 - Positive in **17 of 19 calendar years** (only 2022 -3.1%, 2023 -1.5%: the
@@ -133,6 +145,11 @@ complement that **profits specifically in those episodes** (RESEARCH_LOG.md +
 - Blended into flagship (15% rev/85% flag): turns 2020 from -2% to +8-12%, 2022-24
   from -1.6% to +4-7%. Net full-window SR ~neutral (1.03-1.07 vs 1.04) — its value
   is crash insurance, not added alpha.
+- **Re: the floored flagship (Sec. 1)** — the crash-sleeve's Pareto-independence
+  conclusion holds even more strongly: the floored core is already no-losing-year
+  with MaxDD -6.2%, so the crash-sleeve's tail cost (-19..-24% MaxDD on the
+  un-floored book; relatively worse vs a -6.2% floor) is harder to justify. For
+  the floored core the crash-sleeve is even more clearly OPTIONAL.
 
 ---
 
