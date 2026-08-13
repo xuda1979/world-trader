@@ -92,7 +92,11 @@ def load_positioning(asof):
         "extreme_long": cur > 1.5,
         "historical_note": "1993-2016: z<-1.5 preceded +5.2% fwd-13w SPY vs +0.9% "
                            "baseline (capitulation contrarian); post-2017 extremes "
-                           "were momentum-flavored — interpret in context.",
+                           "were momentum-flavored — interpret in context. Episode "
+                           "reference (legacy noncomm net % of OI): 1987 crash — specs "
+                           "~flat pre-crash, -6.3% after (exogenous, no capitulation "
+                           "setup); 1990-10 and 1994-07 bottoms — extreme -20% "
+                           "capitulation shorts; 1998/2002 — moderate shorts.",
     }
 
 

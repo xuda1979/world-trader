@@ -29,13 +29,24 @@ Standard Moreira-Muir inverse-vol scaling **DESTROYS** the crash alpha (2020
 reversal earns its money. The correct sizing raises leverage as VIX rises
 (counter-cyclical): mean-reversion alpha scales with crush volatility.
 
-## Deployment constraints (honest)
+## Deployment constraints (honest) — final, fully evidenced
 
 - **NOT a standalone high-Sharpe engine** (full SR only +0.34-0.43; MaxDD
   -45 to -61%). It is a **crash-insurance overlay**, not a core book.
-- Deploy only as a **small, VIX-gated overlay on the flagship** (e.g. 15-30%
+- **FAST-HORIZON ONLY (k<=5)**: parameter sweep (k in {3,5,8,10} x n in
+  {10..40}) shows the crash alpha exists ONLY at k=3-5; at k=8-10 the sleeve
+  goes NEGATIVE in the crashes it is meant to insure (2018 Q4 -21..-41%).
+  Within k=3/5, n is robust (not knife-edge). Deployment must LOCK k<=5.
+- Deploy only as a **small, VIX-gated overlay on the flagship** (e.g. 10-30%
   weight when VIX>25/32), with a **hard gross cap** (~1.5x) to bound its
   outside-crash tails.
+- **COUNTER-cyclical sizing, NOT vol-scaling**: Moreira-Muir destroys the crash
+  alpha (2020 +32% -> -5.6%). Raise leverage as VIX rises.
+- **Constructed-overlay tradeoff (honest)**: full 2008-2026 the overlay slightly
+  improves SR (1.04->1.06-1.07) but worsens MaxDD (-12.9% -> -19..-24%); on the
+  HOLDOUT 2023-26 stress window it adds ~2pp return at ~same MaxDD/SR. => It
+  helps in stress eras, drags long-run DD. Deploy OPPORTUNISTICALLY (stress-
+  gated, capped), NOT as a permanent core member.
 - Blended into flagship (15% rev / 85% flag): turns 2020 COVID from -2% to
   +8-12%; 2022-24 from -1.6% to +4-7%. Net full-window SR ~neutral (1.03-1.07
   vs 1.04) — its value is crash insurance, not added alpha.
