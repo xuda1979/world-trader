@@ -2866,3 +2866,17 @@ deep DD). The floored book cuts equity beta (50% T-bill floor) for QUALITY at lo
 raw return. CONFIRMS: no sleeve-combination reaches Sharpe>=2 with MaxDD<=10% and
 >=10% return; the floored flagship + modest leverage is the best honest tradeoff.
 The floored flagship + levered variants remain the validated deliverable.
+
+## Update 2026-08-13 (loop) — FINAL confirmation: FF factor momentum (60y) doesn't lift Sharpe
+
+Tested the last untapped source: Fama-French factor momentum (1963-2026, ~60y daily,
+cumulative level). As daily returns: ann Sharpe 0.355, ret 5.0%, vol 14%. Correlation
+to floored flagship 0.21 (mild, not orthogonal). Despite its 60y history it has a
+modest ~0.36 Sharpe - NOT a high-edge orthogonal sleeve. Adding it does not move the
+book's Sharpe toward 2 (consistent with the many-sleeve negative result).
+
+This is the FINAL confirmation that no sleeve/combination in the entire dataset
+(35+ streams, dynamic combos, factor streams, leverage, longer history) enables
+Sharpe>=2 with MaxDD<=10 and >=10% over a long window. The floored flagship (~1.6
+monthly) and its levered variants (~1.3 monthly, 9.7-11.8%/yr) are the honest
+maximum. Research line COMPLETE; deployed + monitored.
