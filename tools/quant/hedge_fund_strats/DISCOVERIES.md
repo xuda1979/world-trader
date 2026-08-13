@@ -112,6 +112,24 @@ scramble gate — the 2024+ sleeve is independent of this verdict.
   fine the whole time. The trimmed validator's flush=True prints + this
   lesson fix the observability.
 
+## N15 (2026-08-13) — Polygon LS champion validation status corrected: no scramble PASS
+
+The report's "scramble PASS" claim for levdet3.0/champion_n10_r14 is
+UNSUBSTANTIATED — no PASS record exists in tools/quant/ls/results/:
+- levdet3.0 & champion_n10_r14_fresh verdicts: 'watch', 1 factor-decay
+  flag; health_check: 'likely_overfit', 2 flags
+- validation_test/compare_validation.csv: val_full_38bps SR 2.27
+  ('watch') vs **val_H2_2025start SR -0.72 (likely_overfit)** — a fresh
+  2025-start run is NEGATIVE; only val_H1_2024to2026H1 (SR 0.69) ok
+- levdet3.0's own daily returns are FLAT until mid-2025 then strongly
+  positive (2025 H2 +13.3%, 2026 YTD +38.4% re-costed) — the headline
+  SR rests entirely on the last ~14 months; the deployment variant and
+  the fresh-validation run disagree about recent performance
+- Impact: the 2024+ flagship leg (h3+AP+LS) uses this leg — the blend
+  numbers stand as computed from the series, but the leg's validation
+  is 'watch', not PASS; monitor via check_champion_health.py (10d IC
+  +0.036 intact, 1d IC -0.132 adverse)
+
 ## Pending / flagged candidates
 
 - (closed) n10_r14 8y OOS validation — FAIL, see the verdict section

@@ -501,10 +501,22 @@ with a fraction of the drawdown and near-zero market beta.
 
 ## Addendum 2026-08-13 — Polygon LS champion as a daily 5th stream
 
-The validated polygon LS champion @3x (tools/quant/ls/results/
-levdet3.0/daily_returns.csv, SR 2.23 active, scramble PASS, market
-neutral beta ~0.02) integrates DAILY with this suite's blend. Equal-
-weight test on the common 514-day window (2024-07..2026-08):
+CORRECTION (2026-08-13): the "scramble PASS" claim on this leg is
+UNSUBSTANTIATED — no PASS record exists in tools/quant/ls/results.
+The honest status of levdet3.0 (and champion_n10_r14_fresh): verdict
+'watch' with 1 factor-decay flag; the validation_test split-half shows
+a fresh 2025-start run NEGATIVE (val_H2_2025start SR -0.72,
+likely_overfit) while val_full_38bps (full sample) shows SR 2.27.
+Conflict to resolve: levdet3.0's own daily returns are FLAT until
+mid-2025, then strongly positive (2025 H2 +13.3%, 2026 YTD +38.4% —
+re-costed 6 bps/side) — its headline SR rests entirely on the last
+~14 months. Use the leg with this caveat.
+
+The polygon LS champion @3x (tools/quant/ls/results/
+levdet3.0/daily_returns.csv, re-costed 3.8 -> 6 bps/side; status
+'watch' — see correction above) integrates DAILY with this suite's
+blend. Equal-weight test on the common 514-day window
+(2024-07..2026-08):
 
 | blend (daily) | SR | ret | MaxDD |
 |---------------|-----|-----|-------|
