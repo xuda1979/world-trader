@@ -66,8 +66,14 @@ cases=[
 print("="*76)
 print("ROBUST MULTI-STRATEGY — window 2019-01 .. 2026-08 (6 bps, free data)")
 print("="*76)
+print("\n[STREAM-DUMP]")
+for _k,_s in sts.items():
+    print(f"  {_k}: n={len(_s)} mean={_s.mean():.6f} std={_s.std():.5f} first={_s.index.min()} last={_s.index.max()}")
 for label,wtype,names in cases:
     ew,c,p=blend(names,wtype)
+    import numpy as _np
+    dbg = ew.std()>0 and (ew.mean()/ew.std()*_np.sqrt(252))
+    print(f"[DBG] {label} {wtype}: blended SR={dbg:.3f} len={len(ew)} sr_from_perf={p['sr'] if p else None}")
     if p is None: print(f"{label:38s} {wtype:3s}: no common data"); continue
     tri=c.where(np.triu(np.ones(c.shape),1).astype(bool)).values
     mc=np.nanmean(np.abs(tri))
