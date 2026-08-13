@@ -124,10 +124,17 @@ First access-state change since the campaign began:
 - **yfinance**: YFRateLimitError (Too Many Requests) — GLD/SLV/DBC/USO
   ETF proxies (the metals-gap fillers) unavailable this moment.
 - Impact: the real-futures CTA upgrade (and the metals gap) remains
-  blocked, but the gate is now technical (browser-grade TLS/fingerprint
-  or new anti-bot flow) rather than an IP ban. Next attempt when the
-  parallel session or a browserless TLS tool (curl-impersonate-style)
-  is available.
+  blocked, but the gate is now technical rather than an IP ban.
+- **Attempt matrix (exhausted this fire)**: urllib+PoW (challenge→
+  verify 'ok'→auth cookie→CSV returns 0 bytes, delays to 30s); full
+  browser header set (verify 403); c+n in URL (empty); repeated
+  solve-verify cycles (empty after 2 rounds); curl_cffi chrome-TLS
+  (timeout — environment transport quirk: system curl returns nothing,
+  only urllib reaches Stooq); brew has no curl-impersonate; pip blocked
+  (PEP 668) outside venv. **The gate needs a browser-grade transport
+  this environment cannot provide** — urllib is the only working
+  transport and Stooq's server-side session logic defeats it. Hand off
+  to the parallel session's infrastructure or a browserless-TLS host.
 
 ## Process lessons (ops)
 
