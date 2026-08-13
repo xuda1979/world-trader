@@ -301,6 +301,29 @@ corr ap-ls = **-0.218** — AP gold and the LS champion are net negatively
 correlated; each of the three sleeves adds. Dropping stat arb helps every
 variant (5-stream > 6-stream). `results/blend_monthly.csv`.
 
+### Weight tests (no improvement over EW)
+- Inverse-vol (h3 0.60 / AP 0.40): SR 1.14 vs 1.15 — EW stays.
+- Monthly vol-management (Moreira-Muir style) is unstable at monthly
+  frequency (extreme multipliers in calm months) — rejected.
+- h2+AP (drop the CTA leg): SR 1.16, ret +12.6% vs h3+AP's 1.15/+11.4%,
+  but MaxDD -12.5% vs -10.4% and much weaker 2018-22 (+0.64 vs +0.91).
+  The CTA leg is the crisis-era insurance (its golden period) — keep it.
+
+### Long-history sleeve audit (could anything extend the blend to 2018+?)
+Checked every daily_returns.csv with >1000 rows in tools/quant/ls/results:
+- **w8y_reval** (2018-2026, 8.4y, SR 0.31, assessment "ok", 6 bps/side):
+  scramble-untested; adding it HURTS the blend (h3+AP+w8 0.65 vs 0.75 on
+  2018-26).
+- **live_vslbl** (2018-2026, monthly SR 0.75): **FAILED its own scramble
+  gate** (33% of scrambles beat real — indistinguishable from random
+  labels) — excluded.
+- **w10y** (2016-2026): SR -0.52, likely_overfit — dead.
+- **deep_panel_champ / liquid_champ** (2021-2026): negative or weak.
+- **Stooq futures probe re-checked 2026-08-13**: still IP-blocked
+  (timeout) — no real-futures CTA upgrade available.
+Conclusion: no additional validated long-history sleeve exists; h3+AP
+(2008+) and h3+AP+LS (2024+) remain the best constructions.
+
 ## Addendum 2026-08-13 — AP gold composite as a 5th stream (cross-suite)
 
 The validated AP gold composite (alphaportfolio_replication: gold 0.2
