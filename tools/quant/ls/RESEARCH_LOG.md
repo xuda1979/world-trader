@@ -2798,3 +2798,21 @@ HONEST ALTERNATIVES (what IS achievable):
   (c) To reach Sharpe 2 requires a genuinely higher-edge sleeve (not present) or
       a fundamentally different dataset (e.g. equity-market-neutral with real
       20y tick/fundamentals, shorting capacity) - beyond current data.
+
+## Update 2026-08-13 (loop) — Delivered: levered IV book (honest return boost) ~10.5%/yr
+
+Given the user wants higher annual return and Sharpe>=2 was proven unreachable on
+real 20y data (ceiling ~0.9), delivered the honest maximization: leverage the
+validated 2019+ IV book with REALISTIC 3%/yr financing cost on the borrowed amount.
+run_ls_iv_levered.py:
+
+  x1.0: SR 1.44  CAGR 6.8%  MaxDD -5.5%   (base, unfinanced)
+  x1.5: SR 1.23  CAGR 8.7%  MaxDD -9.0%   (DD still under 10%)
+  x2.0: SR 1.12  CAGR 10.5% MaxDD -12.4%  (hits >=10% return; DD breaches 10%)
+
+Financing cost materially reduces the naive leverage scaling (x2 naive would have
+been ~14% before funding). Honest disclosure: the base Sharpe 1.44 is the 2019+
+favorable short window; the long-window (~18y) realized ceiling for these sleeves
+is ~0.9, so levered numbers rest on the disclosed 8.2y window, not a 20y property.
+Recommends 1.5x if MaxDD<=10% is a hard constraint (8.7%/yr, -9.0% DD, SR 1.23);
+x2 only if a -12% DD is acceptable for the ~10.5% return.
