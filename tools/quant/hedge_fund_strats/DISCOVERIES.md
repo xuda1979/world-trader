@@ -80,6 +80,14 @@ The polygon LS champion (levdet3.0) already passed its own panel's
 scramble gate — the 2024+ sleeve is independent of this verdict. The
 n10r14 stream is a bonus (2018-24 coverage), never a dependency.
 
+## Process lessons (ops)
+
+- **Long validation runs must be launched with `PYTHONUNBUFFERED=1`** (or
+  `python -u`): stdout redirected to a file is block-buffered, so phase
+  prints invisible for hours — the 4h "silent" v13 run was computing
+  fine the whole time. The trimmed validator's flush=True prints + this
+  lesson fix the observability.
+
 ## Pending / flagged candidates
 
 - n10_r14 8y OOS validation (`regime_gbrt_v13_oos.py`) re-launched
