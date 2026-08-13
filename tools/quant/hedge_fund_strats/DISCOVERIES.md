@@ -21,6 +21,7 @@ Primary source of detail: `RESEARCH_REPORT.md`; artifacts: `results/`,
 | P8 | **Vol management (Moreira-Muir) on L/S halves MaxDD** (-45.8% -> -26.6%) at ~same SR (0.71 vs 0.75) | `run_extras.py` |
 | P9 | **Champion-family 8.5y stream exists** (`ls_n10r14_daily.csv`, 2018-2026, daily SR +0.92) — quadruples the champion sleeve's history; 2019+ blends with it are positive in both sub-periods (SR 1.24-1.27) | `blend_robust.py` |
 | P10 | **Cost sensitivity tracks turnover** (table in report): doubling 6->12 bps RT cost L/S 0.05, stat arb 0.57 SR | `run_all.py` re-run |
+| P11 | **Multi-strategy INVERSE-VOL book is OOS-validated** (parallel loop, 2026-08-13): 6 sleeves (L/S volmanaged + Risk Parity + CTA + FX carry + AP gold + LS n10r14), inverse-vol weights, SR 1.24 / MaxDD -5.9% / n=2054 (2019-26, 6 bps). Walk-forward both directions positive AND beating EW (2019-22->23-26: SR 1.01; reverse: 1.48; EW 1.10) — not overfit. Deployable stream: `results/ms_iv_daily.csv` (`run_ms_iv_book.py`). NOTE vs flagship: 2019+ window only (mine covers 2008+, all-weather); includes FX carry (diluting in my h3+AP EW test, but low-IV-weight here); full-sample IV weights (mild selection) with the walk-forward pass as the honest guard | parallel session |
 
 ## NEGATIVE discoveries (what fails — equally valuable)
 
