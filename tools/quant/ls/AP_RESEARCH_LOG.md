@@ -43,3 +43,17 @@ is unaffected (transparent signal, verified stronger on new data).
   OR re-baselining the champion on a self-consistent long source; (c) add a
   screen-stability guard (do not emit live signal if IC screen falls back to the
   momentum-heavy set).
+
+## Update 2026-08-13 (loop) — FINAL: polygon champion is OVERFIT (consolidated)
+Controlled A/B throughout this session proved the n10_r14 champion's advertised
+SR 1.686 is NOT robust. Decisive experiment: ±1 historical row (500 vs 501
+trading dates, identical factor set) swings SR ~0.8 (+0.49 -> -0.32). No
+reproducible panel state gives a stable SR (0.26/0.49/0.86/1.686 all artifacts).
+Failed fixes (all logged, reverted): +ohlc factor family, redundancy-aware
+fallback de-dup, cadence densification. The real edge is a FRAGILE ~0.3-0.5 SR on
+current polygon data; 'likely_overfit' flags were correct. Full details in
+RESEARCH_LOG 2026-08-13 (consolidated verdict).
+Operational: do NOT size to 1.686; treat as speculative/paper until re-baselined
+on real long history (paid Polygon) or panel-length ensemble averaging. The earlier
+"n10_r14 8y OOS FAIL (p=1.000, SR -0.33, unreproducible)" commit (N14) foreshadowed
+exactly this - this session forensically confirmed it.
