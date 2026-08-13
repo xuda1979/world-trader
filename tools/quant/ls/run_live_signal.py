@@ -22,8 +22,44 @@ if ROOT not in sys.path:
 from tools.quant.ls.config import Config
 from tools.quant.ls import runner
 
-CHAMPION_CFG = os.path.join(ROOT, "tools/quant/ls/results/validation_test/tw320d4_deep_full/config.json")
+# 2026-08-13: MIGRATED to the polygon champion (n10_r14, SR 1.61 on
+# current data, scramble PASS). The twelvedata config FAILS on the
+# extended panel (SR -0.19 on 20y, +0.03 on 8y — RESEARCH_LOG
+# 2026-08-12). Backup of the old config: run_live_signal.py.bak.2026-08-13
+CHAMPION_CFG = os.path.join(ROOT, "tools/quant/ls/results/live_signal_polygon/config.json")
 OUT_JSON = os.path.join(ROOT, "tools/quant/ls/results/live_signal.json")
+SCREEN_STATE = os.path.join(ROOT, "tools/quant/ls/results/live_screen_state.json")
+
+
+def check_screen_state(kept: list, baseline_path: str = SCREEN_STATE) -> dict:
+    """Screen-stability guard: alert when the IC screen's kept factor set
+    drifts materially from the last known-good state (the 2026-08-12 panel
+    extension shrank the h21 screen from 3 factors to vol_60d only - a
+    silent live-config degradation risk). Status: ok | shrunken | changed.
+    """
+    import collections
+    kept = sorted(kept)
+    baseline = {}
+    if os.path.exists(baseline_path):
+        try:
+            with open(baseline_path) as f:
+                baseline = json.load(f)
+        except Exception:
+            baseline = {}
+    prev = sorted(baseline.get("kept_factors", []))
+    status, warning = "ok", None
+    if prev and set(kept) != set(prev):
+        if set(kept) < set(prev) and len(kept) < len(prev):
+            status = "shrunken"
+            warning = (f"IC screen factor set SHRUNK: {prev} -> {kept}. "
+                       f"Model quality may have degraded (panel/data state change?).")
+        else:
+            status = "changed"
+            warning = f"IC screen factor set changed: {prev} -> {kept}."
+    with open(baseline_path, "w") as f:
+        json.dump({"kept_factors": kept, "as_of": __import__("datetime").date.today().isoformat()},
+                  f, indent=2)
+    return {"kept_factors": kept, "screen_status": status, "screen_warning": warning}
 
 
 def main() -> int:
@@ -32,7 +68,7 @@ def main() -> int:
     d.pop("name", None)
     d.pop("out_dir", None)
     d["plot"] = False
-    d["data_dir"] = "tools/quant/data/twelvedata"
+    d["data_dir"] = "tools/quant/data/polygon"
     d["verbose"] = False
     cfg = Config(**d)
     cfg.name = "live_signal"
@@ -42,6 +78,49 @@ def main() -> int:
     result = res.get("result") or {}
     holdings = result.get("holdings")
     risk_log = result.get("risk_log")
+    screen = check_screen_state(list(res.get("kept_factors", [])))
+
+    # ------------------------------------------------------------------
+    # SCREEN-STABILITY HARD GUARD (incident 2026-08-13 hardening).
+    # The polygon champion's edge depended on the ICIR screen selecting the
+    # ORIGINAL 5-factor set [liq_turnover mom_12_1m range_vol_60d
+    # resid_mom_6m vol_60d]. When the screen degrades / falls back to a
+    # momentum-heavy set, SR collapsed to negative (RESEARCH_LOG 2026-08-13).
+    # Never emit a tradable long/short on a degraded screen: mark the signal
+    # HOLD and zero the holdings so an operator cannot act on it.
+    # ------------------------------------------------------------------
+    GOOD_SCREEN = {"liq_turnover", "mom_12_1m", "range_vol_60d",
+                   "resid_mom_6m", "vol_60d"}
+    kept_now = set(screen["kept_factors"])
+    screen_ok = len(kept_now) >= 3 and kept_now == GOOD_SCREEN
+    if not screen_ok:
+        print("!!! SCREEN-STABILITY GUARD TRIPPED: kept factors = "
+              f"{screen['kept_factors']} (expected {sorted(GOOD_SCREEN)}).")
+        print("    Emitting HOLD (flat) — refusing to act on a degraded factor screen.")
+        as_of = "unknown"
+        if holdings is not None and not holdings.empty:
+            as_of = str(holdings.index[-1].date())
+        signal = {
+            "as_of": as_of,
+            "trend_gate": "HOLD (screen-guard)",
+            "kept_factors": list(kept_now),
+            "screen_status": "guarded",
+            "screen_warning": (screen["screen_warning"]
+                               or "kept factor set differs from known-good champion set"),
+            "gross_exposure": 0.0,
+            "net_exposure": 0.0,
+            "avg_abs_beta": 0.0,
+            "annualized_sharpe_daily_returns": m.get("sharpe"),
+            "annualized_return": m.get("annual_return"),
+            "max_drawdown": m.get("max_drawdown"),
+            "longs": [],
+            "shorts": [],
+            "action": "HOLD",
+        }
+        with open(OUT_JSON, "w") as f:
+            json.dump(signal, f, indent=2)
+        print(f"Saved HOLD signal -> {OUT_JSON} (no positions)")
+        return 0
 
     if holdings is None or holdings.empty:
         print("No holdings available (no valid predictions).")
@@ -63,6 +142,10 @@ def main() -> int:
     signal = {
         "as_of": str(last_date.date()),
         "trend_gate": gate_state,
+        "action": "TRADE",
+        "kept_factors": screen["kept_factors"],
+        "screen_status": screen["screen_status"],
+        "screen_warning": screen["screen_warning"],
         "gross_exposure": float(holdings.iloc[-1].abs().sum()),
         "net_exposure": float(holdings.iloc[-1].sum()),
         "avg_abs_beta": m.get("avg_abs_beta"),
@@ -79,6 +162,9 @@ def main() -> int:
 
     print(f"=== LIVE SIGNAL — CAPM-alpha strategy (as of {signal['as_of']}) ===")
     print(f"Trend gate : {gate_state}")
+    print(f"IC screen  : kept {screen['kept_factors']} [{screen['screen_status']}]")
+    if screen["screen_warning"]:
+        print(f"  !! {screen['screen_warning']}")
     print(f"Gross      : {signal['gross_exposure']:.2f}  Net: {signal['net_exposure']:.3f}")
     print(f"Backtest   : ann. Sharpe (daily ret) {signal['annualized_sharpe_daily_returns']:.2f} | "
           f"ann. return {signal['annualized_return']*100:.1f}% | max DD {signal['max_drawdown']*100:.1f}%")
