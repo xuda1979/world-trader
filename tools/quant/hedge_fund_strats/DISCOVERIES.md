@@ -110,6 +110,29 @@ scramble gate — the 2024+ sleeve is independent of this verdict.
 
 | P13 | **Health monitor corroborates N18 independently** (parallel session, 2026-08-13): its regime-adaptive report also found fast VIX-gating and defensive rotation FAIL on the flagship — static allocation is near regime-optimal (SR 1.04, positive 17/19 calendar years). Deployable GO/CAUTION/TRIM stance monitor (`portfolio_health_monitor.py`, current stance **GO**): TRIM only on SUSTAINED degradation (21d negative SR AND -3% quarterly DD — the 2022-23 inflation soft patch is the only such event) | parallel session |
 
+## N20 (2026-08-13, CAPSTONE) — Polygon champion DECOMMISSIONED: edge is a volume-precision artifact
+
+The parallel session's controlled forensic test traced the live-516
+(+0.35) vs twelvedata-516 (-0.10) SR gap to a **sub-basis-point volume
+difference**: polygon reports exact share counts (float64), twelvedata
+rounds volume to nearest 100 (int64) — e.g. 44155331 vs 44155300
+(0.00007%). That rounding-level difference in the `liq_turnover` factor
+**inverts SR by 0.45**. Every advertised champion SR
+(1.686/0.86/0.49/0.35) was a precision-state artifact; ensemble mean
+-0.36 (0% positive).
+
+- **Operational**: run_live_signal.py has a DECOMMISSION GATE — forces
+  HOLD, zero positions, "HOLD (decommissioned: illusory edge)". The
+  champion must not be traded until re-derived on a volume-consistent
+  feed with an acceptance gate (independent feed must not invert SR).
+- **Impact on this suite**: the 2024+ 3-sleeve (h3+AP+LS, SR 1.15-1.20)
+  and the parallel IV book (SR 1.24) are historical artifacts of a
+  decommissioned leg — their recent-window numbers are NOT tradeable
+  expectations. **The deployable flagship is h3+AP alone** (2008+,
+  SR 0.94 monthly, all-weather — it never depended on the champion).
+- N14/N15 were foreshadowed exactly by this (the 8y FAIL and the
+  panel-state fragility); the volume-precision mechanism explains both.
+
 ## N19 (2026-08-13) — Stooq unblocked-but-gated; yfinance rate-limited
 
 First access-state change since the campaign began:
@@ -190,15 +213,14 @@ Research converged; the honest portfolio menu at 6 bps/side:
    every 5y window positive (min +0.25), **low-beta +0.34** (not
    neutral). Deployment: portfolio_spec.py, monthly rebalance, drag
    0.42pp/yr.
-2. **Recent 3-sleeve (h3+AP+LS) 2024+ — SPECULATIVE/paper**: SR 1.15-1.20
-   daily, MaxDD -5.6%, beta +0.06 as computed, but the LS leg's series
-   reflects the artifact-prone panel state (N15: true edge ~0.4-0.5,
-   not 1.6). Do not size to it; the leg is a paper overlay until
-   re-baselined (paid polygon history or screen-robustness fix).
+2. **Recent 3-sleeve (h3+AP+LS) 2024+ — DECOMMISSIONED**: SR 1.15-1.20
+   daily, MaxDD -5.6%, beta +0.06 as computed, but the LS leg's edge is
+   a volume-precision artifact (N20 — champion decommissioned, forced
+   HOLD). Historical record only; not tradeable.
 3. **Parallel IV book (2019+, 6 sleeves)** — SR 1.24, MaxDD -5.9%,
    beta +0.04 verified (P12); walk-forward OOS 1.01/1.48. Caveat:
-   contains BOTH the suspect n10r14 stream (N14) and the overfit
-   champion family — level conditional, treat as paper.
+   contains the decommissioned champion family (N20) and the suspect
+   n10r14 stream (N14) — historical/conditional, not tradeable as-is.
 4. **Everything else fails the cost hurdle** (N1-N13): stat arb, FX
    carry as sleeve, cross-asset legs, tilt champion, n10_r14 8y.
 
