@@ -60,15 +60,29 @@ def load_hedge_streams() -> dict:
 
 
 def load_ap_gold() -> pd.Series:
-    """AP gold composite, monthly -> daily. Already net of 6 bps one-way.
+    """AP gold composite at DAILY frequency. Already net of 6 bps one-way.
 
-    The source is a MONTHLY return series (net). To integrate at daily
-    frequency without forward-fill compounding, each month's return is
-    distributed smoothly across that month's trading days:
-        r_d = (1 + r_m)^(1/n_trading_days) - 1
-    Monthly totals are preserved exactly; no lookahead (daily returns are
-    derived from the month's already-realized total).
+    Preferred source: the AP suite's own daily audit of the champion
+    (alphaportfolio_replication/data/wf_champion_gold_opt_daily.csv) —
+    same monthly-cadence signals, honest DAILY returns of the held book
+    ("daily is the honest view; monthly sampling misses intra-month
+    drawdowns" — AP suite 2026-08-13). NOTE: this daily series is NOT
+    the daily extension of the monthly file (their monthly-compounded
+    corr is only ~0.13); use the monthly file at monthly frequency
+    (blend_monthly.py) and this file at daily frequency.
+
+    Fallback (no daily file): distribute each month's return evenly
+    across the month's trading days, preserving monthly totals. This is
+    an approximation only — it is nearly uncorrelated with the real
+    daily path.
     """
+    daily_path = os.path.join(
+        HERE, "..", "..", "..", "alphaportfolio_replication", "data",
+        "wf_champion_gold_opt_daily.csv")
+    if os.path.exists(daily_path):
+        s = pd.read_csv(daily_path, header=None, names=["d", "r"],
+                        index_col=0, parse_dates=True)["r"]
+        return s
     df = pd.read_csv(AP_GOLD, parse_dates=["ym"])
     df["ym"] = pd.to_datetime(df["ym"]).dt.to_period("M").dt.to_timestamp()
     df = df.set_index("ym")

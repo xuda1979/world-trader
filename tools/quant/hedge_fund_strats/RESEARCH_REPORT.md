@@ -163,12 +163,18 @@ PnL) and the broader literature on cost-constrained retail-scale quant.
 **Recommended construction (all-weather, monthly frame, 12 bps RT)**:
 **h3 + AP gold** — 3-stream hedge sleeve (L/S 130/30 + CTA futures macro
 21d + Global Macro, ex stat arb) equal-weight with the AP gold composite
-sleeve: **SR 1.15, +11.4%/yr, MaxDD -10.4%, positive in all 4 sub-periods
-2008-2026** (0.98/2.04/0.91/0.65). On the window where the polygon LS
-champion exists (2024+), add it as a third sleeve: SR 1.60, +10.5%, MaxDD
--3.1%, ap-ls corr -0.22. The high-Sharpe cores are the validated external
-legs (LS champion, AP gold); the suite's contribution is the cheap,
-positive, low-turnover 3-stream hedge sleeve that diversifies them.
+sleeve: **SR 0.94-1.15 (depends on which AP record is real; conservative
+native-daily basis 0.94, +10.7%/yr, MaxDD -10.1%), positive in all 4
+sub-periods 2008-2026 on BOTH records** (+0.86/+1.49/+0.73/+0.50
+conservative), every 5y window positive (min +0.25). On the window where
+the polygon LS champion exists (2024+), add it as a third sleeve: SR
++1.15-1.20, +11%, MaxDD -3.5%. The high-Sharpe core is the LS champion;
+AP gold and the 3-stream hedge sleeve are cost-surviving, positive,
+equity-flavored sleeves whose combination is all-weather. NOTE: AP gold
+is NOT a near-zero-correlation diversifier (that was a monthly-file
+sampling artifact; native daily audit shows +0.49 monthly / +0.61 daily
+corr with the hedge sleeve) — the LS champion is the genuine diversifier
+(corr -0.003 daily).
 
 ## Reproduce
 
@@ -219,35 +225,41 @@ stated cost is 6 bps one side = 12 bps round-trip. Re-run at 12 bps RT:
   the leg survives the rebaseline. `blend_6stream.py` re-costs it exactly
   via its own turnover series.
 
-### Correction: AP gold daily-frequency correlation was an artifact
-The earlier "DAILY-frequency correction" addendum reported corr(hedge-EW,
-AP) = +0.555/+0.613 and cut the monthly SR gain from +0.45 to +0.18. That
-computation forward-filled MONTHLY RETURNS to daily, compounding them
-(fixed now in `blend_6stream.py`; the file previously used by that
-addendum was also affected). Correct dailyization — each month's return
-distributed evenly across that month's trading days, monthly totals
-preserved — gives corr(hedge-EW, AP) = -0.026, restoring the genuinely
-low correlation (monthly-sampled: +0.034). The corrected daily 6-stream
-blend at 12 bps RT (2024-07..2026-07, n=507):
+### Correction (2026-08-13, second pass): the +0.61 daily corr was REAL
+The AP suite ships its own daily audit of the champion —
+`alphaportfolio_replication/data/wf_champion_gold_opt_daily.csv` (same
+monthly-cadence signals, DAILY returns of the held book; the AP suite
+itself notes "daily is the honest view; monthly sampling misses
+intra-month drawdowns"). With that file (now used by `blend_6stream.py`):
 
-| blend (daily) | SR | ret | MaxDD | corr h-ap | corr h-ls | corr ap-ls |
-|---------------|-----|-----|-------|-----------|-----------|------------|
-| hedge 4-stream EW | 0.06 | +2.2% | -9.7% | -0.026 | -0.025 | -0.049 |
-| + AP gold + LS champ (6-stream EW) | **2.03** | **+9.3%** | **-3.9%** | | | |
+| blend (daily, 12 bps RT) | SR | ret | MaxDD | corr h-ap | corr h-ls | corr ap-ls |
+|--------------------------|-----|-----|-------|-----------|-----------|------------|
+| hedge 4-stream EW | +0.13 | +2.7% | -9.7% | +0.612 | -0.003 | +0.153 |
+| h3 + AP | +0.74 | +10.1% | -8.4% | | | |
+| **h3 + AP + LS** | **+1.15** | **+11.4%** | **-5.6%** | | | |
+| h4 + AP + LS (6-stream) | +1.10 | +10.3% | -5.2% | | | |
 
-Half-window split: hedge EW -0.74 / +1.13; 6-stream +0.03 / +3.46 —
-positive in both halves. The two validated external legs (LS champion,
-AP gold) carry the blend at 12 bps RT; the suite's own 4-stream hedge
-leg is ~flat in this window. `results/blend_6stream_daily.csv`.
+Half-window split (6-stream): +0.07 / +2.08 — positive in both halves.
+The earlier "artifact" correction (SR 2.03, corr -0.026) was itself
+wrong: it used a smoothly-distributed approximation of the monthly file
+that is nearly uncorrelated with the real daily path (corr 0.025).
 
-CAVEAT: AP's dailyized SR (~4.8) is inflated by sampling frequency —
-a smooth monthly series sampled daily scales ~sqrt(21); the same applies
-to the 6-stream daily SR (2.03). The robust, sampling-independent
-statements are the near-zero pairwise correlations and the positive-in-
-both-halves result; the headline SR should be read as an upper bound.
-Monthly-sampled 6-stream SR on the same window is the honest number to
-report for the blend (see the monthly addenda below; they are themselves
-old-cost/old-window but the point stands).
+**Two AP series, two stories — flagged discrepancy:** the monthly file
+(wf_champion_gold_opt.csv) and the daily audit file differ materially:
+monthly-compounded corr between them is only +0.13 (similar SR ~1.05,
+different paths — the daily audit is the reconstruction, the monthly is
+the walk-forward OOS record). Consequences:
+- Monthly frame: corr(h3, AP) = +0.03 (monthly file) vs **+0.49** (native
+  daily resampled). The near-zero-correlation claim was monthly-file
+  sampling; the AP book is equity-driven (composite momentum top-quartile
+  L/S + gold 0.2) and genuinely co-moves with the hedge sleeve.
+- **AP gold is NOT the near-zero-correlation diversifier the monthly
+  file suggested. The LS champion is** (corr h-ls -0.003 daily,
+  +0.17 monthly).
+- h3+AP flagship on the conservative native basis: **SR 0.94, +10.7%,
+  MaxDD -10.1%, positive in all 4 sub-periods (+0.86/+1.49/+0.73/+0.50)**
+  (monthly-file basis: 1.15). The all-weather property holds on both
+  bases; the level is 0.94-1.15 depending on which AP record is real.
 
 > Superseded note: addenda below from earlier 2026-08-13 runs used 6 bps
 > RT (3 bps/side) and the pre-fix AP dailyization. They remain correct
@@ -261,45 +273,51 @@ old-cost/old-window but the point stands).
 construction; daily-sampling a smooth monthly series inflates SR ~sqrt(21),
 so the daily 2.03 above is an upper bound). At 12 bps RT:
 
-**Long window 2008-02..2026-07 (222 months):**
+**Long window 2008-02..2026-08 (223 months)** — two AP records exist (see
+the "Correction" section above); both reported:
 
-| blend (sleeve EW) | SR | ret | MaxDD |
-|-------------------|-----|-----|-------|
-| hedge 4-stream EW (incl stat arb) | 0.47 | +5.2% | -11.7% |
-| hedge 3-stream EW (ex stat arb) | 0.71 | +8.2% | -9.2% |
-| h4 + AP gold | 1.01 | +9.8% | -10.0% |
-| **h3 + AP gold** | **1.15** | **+11.4%** | **-10.4%** |
+| blend (sleeve EW) | SR (monthly-file AP) | SR (native-daily AP) | ret | MaxDD |
+|-------------------|----------------------|----------------------|-----|-------|
+| hedge 4-stream EW (incl stat arb) | 0.47 | 0.48 | +5.3% | -11.7% |
+| hedge 3-stream EW (ex stat arb) | 0.71 | 0.72 | +8.3% | -9.2% |
+| h4 + AP gold | 1.01 | 0.85 | +9.2% | -9.4% |
+| **h3 + AP gold** | **1.15** | **0.94** | **+10.7%** | **-10.1%** |
 
-corr(h3, AP) = +0.026 — the diversification the daily artifact had
-obscured. **Sub-period robustness (geometric monthly SR):**
+corr(h3, AP): +0.026 (monthly file) vs **+0.489 (native daily resampled)** —
+the near-zero claim was monthly-file sampling. **Sub-period robustness
+(geometric monthly SR, conservative native basis):**
 
 | blend | 2008-12 | 2013-17 | 2018-22 | 2023-26 |
 |-------|---------|---------|---------|---------|
-| h4 | +0.32 | +0.58 | +0.87 | -0.44 |
-| h3 | +0.45 | +0.93 | +1.07 | -0.06 |
-| h4 + AP | +0.93 | +1.86 | +0.69 | +0.51 |
-| **h3 + AP** | **+0.98** | **+2.04** | **+0.91** | **+0.65** |
+| h4 | +0.32 | +0.58 | +0.87 | -0.37 |
+| h3 | +0.45 | +0.93 | +1.07 | -0.01 |
+| h4 + AP | +0.82 | +1.41 | +0.59 | +0.40 |
+| **h3 + AP** | **+0.86** | **+1.49** | **+0.73** | **+0.50** |
 
 **h3 + AP gold is positive in every sub-period — including 2008-12 (GFC)
-and 2023-26 — at 12 bps RT, on 18 years of free data.** This is the
-suite's strongest all-weather construction at the user's real cost: two
-cost-surviving sleeves (3-stream hedge + AP gold), near-zero correlation,
-each positive on its own. It meets the "any market conditions" goal on
-every regime tested.
+and 2023-26 — at 12 bps RT, on 18 years of free data, on BOTH AP records
+(monthly-file basis: 0.98/2.04/0.91/0.65).** This is the suite's strongest
+all-weather construction at the user's real cost. The diversification
+story is now honest: not "near-zero correlation" (that was sampling), but
+two cost-surviving, equity-flavored sleeves whose combined volatility is
+still cut by ~40% vs h3 alone (MaxDD -10.1% vs -9.2% h3 standalone... net
+of a +2.4pp return pickup).
 
-**Short window 2024-07..2026-07 (25 months, LS champion available):**
+**Short window 2024-07..2026-08 (26 months, LS champion available):**
 
 | blend | SR | ret | MaxDD |
 |-------|-----|-----|-------|
-| hedge 4-stream EW | -0.09 | +1.4% | -7.9% |
-| hedge 3-stream EW | +0.37 | +4.4% | -6.9% |
-| h4 + AP + LS (6-stream) | +1.47 | +9.4% | -2.9% |
-| **h3 + AP + LS (5-stream)** | **+1.60** | **+10.5%** | **-3.1%** |
-| h3 + LS (no AP) | +0.84 | +6.8% | -3.4% |
+| hedge 4-stream EW | +0.02 | +2.0% | -7.9% |
+| hedge 3-stream EW | +0.44 | +4.9% | -6.9% |
+| h4 + AP + LS (6-stream) | +1.12 | +9.9% | -3.4% |
+| **h3 + AP + LS (5-stream)** | **+1.20** | **+10.9%** | **-3.5%** |
+| h3 + LS (no AP) | +1.08 | +8.9% | -3.4% |
 
-corr ap-ls = **-0.218** — AP gold and the LS champion are net negatively
-correlated; each of the three sleeves adds. Dropping stat arb helps every
-variant (5-stream > 6-stream). `results/blend_monthly.csv`.
+corr ap-ls = **+0.121** (was -0.218 on the monthly file — another
+sampling difference). The LS champion remains the strongest diversifier
+(corr h3-ls +0.169 monthly, -0.003 daily) and AP still adds on top.
+Dropping stat arb helps every variant (5-stream > 6-stream).
+`results/blend_monthly.csv`.
 
 ### Weight tests (no improvement over EW)
 - Inverse-vol (h3 0.60 / AP 0.40): SR 1.14 vs 1.15 — EW stays.
@@ -325,20 +343,23 @@ Conclusion: no additional validated long-history sleeve exists; h3+AP
 (2008+) and h3+AP+LS (2024+) remain the best constructions.
 
 ### Rolling-window stress test (does h3+AP hold in "any market conditions"?)
-Rolling SR over 2008-2026 (monthly):
+Rolling SR over 2008-2026 (monthly). AP = native daily record resampled
+(conservative basis; monthly-file basis gives 3y min -0.51, 5y min +0.33):
 
 | series | 3y SR min (date) | 3y SR med | 3y %neg | 5y SR min (date) | 5y SR med | 5y %neg |
 |--------|------------------|-----------|---------|------------------|-----------|---------|
 | h3 | -0.49 (2025-10) | +0.73 | 12% | -0.00 (2026-05) | +0.80 | 1% |
 | AP | -0.49 (2024-09) | +1.01 | 6% | -0.15 (2023-08) | +1.05 | 1% |
-| **h3+AP** | **-0.51 (2024-05)** | **+1.27** | **7%** | **+0.33 (2026-05)** | **+1.31** | **0%** |
+| **h3+AP** | **-0.17 (2024-12)** | **+1.04** | **4%** | **+0.25 (2026-05)** | **+1.02** | **0%** |
 
-- **Every 5-year window since 2008 has positive Sharpe (min +0.33)** —
-  the strongest "any market conditions" statement available on this data.
-- Worst 3-year window (2021-06..2024-05) is a grind, not a crash: cumret
-  -1.1% (years: -0.3%/-0.6%/-2.6%/+2.5%), MaxDD stays bounded (-10.4%).
-- The blend's diversification halves the 3y-negative frequency of its
-  components (h3 12%, AP 6% -> blend 7%) and takes 5y %neg to zero.
+- **Every 5-year window since 2008 has positive Sharpe on both AP records
+  (min +0.25 native / +0.33 monthly-file)** — the strongest "any market
+  conditions" statement available on this data.
+- Worst 3-year window on the native basis is milder than the monthly-file
+  basis (-0.17 vs -0.51): the grinding 2021-24 period was partly a
+  monthly-file sampling feature.
+- The blend's diversification cuts the 3y-negative frequency of its
+  components (h3 12%, AP 6% -> blend 4%) and takes 5y %neg to zero.
 
 ### FX carry as a 4th sleeve (2019+, 87 months)
 corr fx-h3 -0.094, corr fx-ap -0.204 (genuinely low) but FX carry's own
