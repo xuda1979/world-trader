@@ -153,15 +153,22 @@ all-weather.
 
 After 12 bps RT costs (6 bps/side) on free daily data, **only beta (L/S),
 the carry premium (risk parity), and diversification among cost-surviving
-streams (3-stream EW blend) pay**. Naive timing/alpha heuristics (reversal,
-spread z-scores, multi-factor EMN, stat arb, credit/FI spread timing)
-systematically fail to cover costs on this universe; doubling the cost
-assumption (6 -> 12 bps RT) removed the last marginal survivors (stat arb,
-macro CTA). This matches the repo's ls/ research (only factor ICs survive,
-not after-cost PnL) and the broader literature on cost-constrained
-retail-scale quant. The genuinely high-Sharpe constructions live outside
-this suite: the polygon LS champion (SR ~2.2 active) and the AP gold
-composite (SR ~1.09) — see addenda.
+streams pay**. Naive timing/alpha heuristics (reversal, spread z-scores,
+multi-factor EMN, stat arb, credit/FI spread timing) systematically fail
+to cover costs on this universe; doubling the cost assumption (6 -> 12 bps
+RT) removed the last marginal survivors (stat arb, macro CTA). This
+matches the repo's ls/ research (only factor ICs survive, not after-cost
+PnL) and the broader literature on cost-constrained retail-scale quant.
+
+**Recommended construction (all-weather, monthly frame, 12 bps RT)**:
+**h3 + AP gold** — 3-stream hedge sleeve (L/S 130/30 + CTA futures macro
+21d + Global Macro, ex stat arb) equal-weight with the AP gold composite
+sleeve: **SR 1.15, +11.4%/yr, MaxDD -10.4%, positive in all 4 sub-periods
+2008-2026** (0.98/2.04/0.91/0.65). On the window where the polygon LS
+champion exists (2024+), add it as a third sleeve: SR 1.60, +10.5%, MaxDD
+-3.1%, ap-ls corr -0.22. The high-Sharpe cores are the validated external
+legs (LS champion, AP gold); the suite's contribution is the cheap,
+positive, low-turnover 3-stream hedge sleeve that diversifies them.
 
 ## Reproduce
 
@@ -245,7 +252,54 @@ old-cost/old-window but the point stands).
 > Superseded note: addenda below from earlier 2026-08-13 runs used 6 bps
 > RT (3 bps/side) and the pre-fix AP dailyization. They remain correct
 > for their own sampling frames; the cost-corrected and AP-dailyization-
-> corrected versions are in the "Cost rebaseline" addendum above.
+> corrected versions are in the "Cost rebaseline" addendum above and the
+> monthly-frame addendum below.
+
+## Addendum 2026-08-13 — MONTHLY-FRAME blend at 12 bps RT: the all-weather answer
+
+`blend_monthly.py` — honest monthly sampling (AP gold is monthly by
+construction; daily-sampling a smooth monthly series inflates SR ~sqrt(21),
+so the daily 2.03 above is an upper bound). At 12 bps RT:
+
+**Long window 2008-02..2026-07 (222 months):**
+
+| blend (sleeve EW) | SR | ret | MaxDD |
+|-------------------|-----|-----|-------|
+| hedge 4-stream EW (incl stat arb) | 0.47 | +5.2% | -11.7% |
+| hedge 3-stream EW (ex stat arb) | 0.71 | +8.2% | -9.2% |
+| h4 + AP gold | 1.01 | +9.8% | -10.0% |
+| **h3 + AP gold** | **1.15** | **+11.4%** | **-10.4%** |
+
+corr(h3, AP) = +0.026 — the diversification the daily artifact had
+obscured. **Sub-period robustness (geometric monthly SR):**
+
+| blend | 2008-12 | 2013-17 | 2018-22 | 2023-26 |
+|-------|---------|---------|---------|---------|
+| h4 | +0.32 | +0.58 | +0.87 | -0.44 |
+| h3 | +0.45 | +0.93 | +1.07 | -0.06 |
+| h4 + AP | +0.93 | +1.86 | +0.69 | +0.51 |
+| **h3 + AP** | **+0.98** | **+2.04** | **+0.91** | **+0.65** |
+
+**h3 + AP gold is positive in every sub-period — including 2008-12 (GFC)
+and 2023-26 — at 12 bps RT, on 18 years of free data.** This is the
+suite's strongest all-weather construction at the user's real cost: two
+cost-surviving sleeves (3-stream hedge + AP gold), near-zero correlation,
+each positive on its own. It meets the "any market conditions" goal on
+every regime tested.
+
+**Short window 2024-07..2026-07 (25 months, LS champion available):**
+
+| blend | SR | ret | MaxDD |
+|-------|-----|-----|-------|
+| hedge 4-stream EW | -0.09 | +1.4% | -7.9% |
+| hedge 3-stream EW | +0.37 | +4.4% | -6.9% |
+| h4 + AP + LS (6-stream) | +1.47 | +9.4% | -2.9% |
+| **h3 + AP + LS (5-stream)** | **+1.60** | **+10.5%** | **-3.1%** |
+| h3 + LS (no AP) | +0.84 | +6.8% | -3.4% |
+
+corr ap-ls = **-0.218** — AP gold and the LS champion are net negatively
+correlated; each of the three sleeves adds. Dropping stat arb helps every
+variant (5-stream > 6-stream). `results/blend_monthly.csv`.
 
 ## Addendum 2026-08-13 — AP gold composite as a 5th stream (cross-suite)
 
