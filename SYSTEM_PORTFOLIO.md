@@ -31,6 +31,10 @@ reactive timing.
 - Deployable as the primary core; the un-floored flagship remains the
   higher-return variant when the investor accepts the -12.9% MaxDD / 2 losing
   years for +360bp/yr CAGR.
+- **P23 upgrade (guarantee-preserving)**: `portfolio_floored.py --lev 1.10`
+  (3% funding) -> 7.9%/yr, MaxDD -4.9% monthly, STILL zero losing years
+  (worst 2022 +0.35%) — the max safe leverage. x1.5/x2 break the guarantee
+  (N28) and are the return-maximizing options (9.7%/11.8% at -9.3%/-12.3% DD).
 
 **Any-scenario proof** (the "any time, long-term, any market" requirement):
 - Positive in **17 of 19 calendar years** (only 2022 -3.1%, 2023 -1.5%: the
