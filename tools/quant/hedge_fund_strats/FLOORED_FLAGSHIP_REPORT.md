@@ -1,5 +1,19 @@
 # Floored Flagship — Full Statistics Report (2026-08-13)
 
+**RATE-ASSUMPTION CORRECTION (2026-08-14, N30)**: the tables below
+use a CONSTANT 4% T-bill floor. With the ACTUAL tbill3m path
+(2008-2026), the static 50% floor earns 6.0%/yr and 2022 = -0.64%
+(A LOSING YEAR — 2022's real T-bills averaged ~1.7%, below the 3.4%
+guarantee threshold). The "19/19 years positive" claim holds only
+under the flat-4% assumption. The guarantee-preserving construction
+on actual rates is the DYNAMIC floor (50% when T-bill >= 3.4%, 70%
+below — no lookahead, level set from the month's known rate): Sharpe
+0.70, 4.2%/yr, MaxDD -2.7%, Calmar 1.59, ZERO losing years (worst
+2011 +0.70%), all sub-periods positive (+0.51/+1.00/+0.63/+0.76),
+deep floor active 79% of months (rates were <3.4% most of the
+sample). The forward guarantee (current 3.73% > 3.4%) is intact;
+deployment should use the dynamic floor for the honest guarantee.
+
 **WINDOW CLARIFICATION (user ask, 2026-08-13)**: the backtest covers
 **19 years (2008-02 .. 2026-08, 223 months)** — the maximum the free
 dataset supports. 20 full calendar years would require 2006 data; the
