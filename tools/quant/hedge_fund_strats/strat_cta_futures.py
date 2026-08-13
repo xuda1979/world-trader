@@ -36,11 +36,15 @@ FUTURES = [
 ]
 
 # FRED daily series (free, unlimited): commodities, rates, FX, equity indices.
-# gold missing — LBMA AM/PM fixes discontinued on FRED. OPT-IN metals now
-# available in data_fred/ (xau.csv, slv.csv, copx.csv — twelvedata free tier,
-# converted 2026-08-13): append "xau", "slv", "copx" to test a 17-inst leg.
-# NOT adopted by default: flagship daily MaxDD worsens -12.9% -> -15.0%
-# (monthly aggregates flat; see RESEARCH_LOG 2026-08-13 metals entry).
+# gold missing — LBMA AM/PM fixes discontinued on FRED. OPT-IN instruments
+# available in data_fred/, not adopted by default:
+#   "xau", "slv", "copx" — twelvedata metals (flagship daily MaxDD worsens
+#     -12.9% -> -15.0% -> rejected; RESEARCH_LOG 2026-08-13).
+#   "dxy" — FRED DTWEXBGS broad dollar (2006+). Leg MaxDD -46.5% -> -42.2%,
+#     flagship monthly SR +0.004, daily MaxDD flat -> below deployment-noise
+#     floor, kept opt-in (RESEARCH_LOG 2026-08-13 dxy entry).
+#   "t10y2y" — NOT usable here: the 10y-2y spread crosses zero, breaking
+#     pct-change-based signals; belongs in a macro-leg level signal instead.
 FRED = [
     "wti", "brent", "natgas", "us2y", "us10y", "us30y",
     "eur", "jpy", "gbp", "cad", "cny", "spx", "dow", "vix",
