@@ -697,3 +697,37 @@ inverse-vol tilt (concentrating the low-vol, near-independent ls_n10r14 +
 fx_carry legs) transfers out of sample. Combined with the split-half
 sub-periods (2019-22 SR 1.48, 2023-26 SR 1.01) and a genuine near-zero-beta,
 this is the most robust zero-beta multi-strategy construction in the suite.
+
+## Addendum 2026-08-13 (loop) — Are regime-adaptive DYNAMIC levers worth it? (NO for this book)
+
+Directly addressing the user requirement "dynamically adjust strategies for
+different market scenarios": we tested the candidate dynamic levers on the
+validated all-weather flagship (h3+AP, 2008-2026) with NO lookahead (VIX
+lagged 1 day). Script: `regime_adaptive_report.py` -> `results/regime_adaptive_card.json`.
+
+Baseline (static all-weather flagship): **SR 1.04, CAGR 11.1%, MaxDD -12.9%**;
+calendar-year positive in 17 of 19 years (only 2022 -3.1%, 2023 -1.5% — the
+2022-23 inflation/bond/equity shock). Positive all 4 sub-periods
+(2008 +0.96 / 2013 +1.38 / 2018 +0.90 / 2023 +0.95). This is the "any time,
+any scenario" spec — it weathered 2008, 2011, 2015, 2018Q4, 2020-crash.
+
+**L1 — VIX-gate de-risk (scale exposure down in high-vol/stress):** every
+variant HURTS. stress.3/high.7 SR 0.92, stress.5/high.8 SR 0.96,
+stress.3/high1.0 SR 0.92 — all BELOW static 1.04 at ~same MaxDD (-12.5..-13.6%
+vs -12.9%). Cause: a 1-day-lagged daily VIX gate cannot pre-empt the fast
+moves that create the drawdown, so it only gives up upside (CAGR 11.1 -> 8.9-9.5%).
+
+**L2 — switch flagship -> Risk Parity in stress:** FAILS hard. Switching to
+RP on VIX>32 drops SR to 0.90 and DOUBLES MaxDD to -23.4%. RP is a leveraged
+equity/carry book (SR 1.13 in stress but with brutal tail) — it is a WORSE
+defender than the already-low-beta flagship in the exact scenarios it would be
+called on. (Per-regime: flagship stress SR 2.67 vs RP stress SR 1.13.)
+
+**Conclusion:** for an already-low-beta (+0.34), all-weather, 4-sub-period-
+positive book, **static allocation is the regime-optimal choice**; naive
+scenario-switching (de-risk or rotate to "defensive" sleeves) is value-
+destroying on the data. The correct "dynamic" layer is a **health MONITOR**
+(edit the 2022-23 style sustained-regime flags), not an exposure gate.
+The 2022-23 soft patch is the only stretch that degraded the book,
+consistent with the project's finding that no validated sleeve beat the
+flagship through it (P1/P17: sleeve set closed).

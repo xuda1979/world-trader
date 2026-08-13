@@ -108,6 +108,25 @@ scramble gate — the 2024+ sleeve is independent of this verdict.
 | N17 | **Risk Parity does NOT join the flagship** (2026-08-13): corr +0.64 with h3, +0.59 with AP (same equity/carry flavor — not a diversifier at this scale); h3+AP+RP SR 0.89 vs h3+AP 0.94 (dilutes). The flagship's sleeve set is complete: every candidate sleeve has now been tested in-combination | `blend_monthly` extension |
 | N18 | **Drawdown filters do NOT improve the flagship (user request tested, 2026-08-13)**. Full test matrix on h3+AP monthly (base: SR 0.94, +10.7%, MaxDD -10.1%, Calmar 1.06): trailing-DD reducer (-8%/-12%) 0.93/10.7%/-10.1% (no effect — grind-type DDs); earlier DD reducer (-5%/-8%) 0.88/10.0%/-10.3%; portfolio 6/12-MA trend filter 0.82/9.4%/-10.6%; SPY 10-MA market-timing gate 0.79/9.0%/-12.3% (WORSE — kills crisis-era alpha; the flagship's best periods are equity-crisis eras); capped vol-target 12% (0.5-1.5) 0.93/13.5%/-13.5% (leverage in calm periods deepens later DDs); combinations all worse. Root cause: the flagship's drawdowns are SLOW GRINDS (2018-10..2019-12 -10.1%, 2022-01..2024-03 -7.5%), not equity crashes, and they are INHERITED from the AP sleeve (AP's own 2018-19 DD -12.3% vs h3's -8.4%; AP already carries its own built-in DD reducer). Every monthly-cadence filter exits into grind bottoms and misses V-recoveries, trading away more than it saves. **The only MaxDD reduction found in the campaign came from adding the LS champion sleeve (2024+ 3-sleeve -5.6%) — now paper (N15).** Honest answer: no free drawdown filter exists for this construction; Calmar 1.06 is the flagship's risk profile. Scaling note: MaxDD is scale-dependent, Calmar is not — constant de-leveraging (e.g. 50% size) gives ~-5% MaxDD at half the return with the same SR 0.94; the only non-proportional drawdown cuts are new alpha sleeves or the (paper) champion leg | test matrix this fire |
 
+## N19 (2026-08-13) — Stooq unblocked-but-gated; yfinance rate-limited
+
+First access-state change since the campaign began:
+- **Stooq**: the IP block (timeout) LIFTED — the PoW challenge page is
+  now served, the SHA-256 solve works, verify returns 'ok' and sets the
+  auth cookie — **but every subsequent data request returns 0 bytes**
+  (tested with delays up to 30s, full headers, c+n in URL, repeated
+  solve-verify cycles). The anti-bot changed since the 2026-06 flow:
+  the fetch script's challenge→verify→CSV sequence no longer yields
+  data. GATED state documented; retry_stooq.py now distinguishes
+  BLOCKED/GATED/DATA.
+- **yfinance**: YFRateLimitError (Too Many Requests) — GLD/SLV/DBC/USO
+  ETF proxies (the metals-gap fillers) unavailable this moment.
+- Impact: the real-futures CTA upgrade (and the metals gap) remains
+  blocked, but the gate is now technical (browser-grade TLS/fingerprint
+  or new anti-bot flow) rather than an IP ban. Next attempt when the
+  parallel session or a browserless TLS tool (curl-impersonate-style)
+  is available.
+
 ## Process lessons (ops)
 
 - **Long validation runs must be launched with `PYTHONUNBUFFERED=1`** (or

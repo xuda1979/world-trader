@@ -21,15 +21,22 @@ HERE = Path(__file__).resolve().parent
 
 
 def check_stooq() -> bool:
+    """Three states: BLOCKED (timeout), GATED (PoW challenge served —
+    IP unblocked but data gated), DATA (CSV returned)."""
     import urllib.request
     try:
         r = urllib.request.urlopen(
             urllib.request.Request("https://stooq.com/q/d/l/?s=es.f&i=d",
                                    headers={"User-Agent": "Mozilla/5.0"}),
             timeout=12)
-        return "Date,Open" in r.read(200).decode(errors="ignore")
+        body = r.read(200).decode(errors="ignore")
+        if "Date,Open" in body:
+            return "DATA"
+        if "challenge" in body.lower() or "javascript" in body.lower():
+            return "GATED"
+        return "UNKNOWN"
     except Exception:
-        return False
+        return "BLOCKED"
 
 
 def check_yahoo() -> bool:
@@ -44,9 +51,9 @@ def check_yahoo() -> bool:
 
 
 def main():
-    stooq_ok = check_stooq()
-    print(f"Stooq: {'UNBLOCKED' if stooq_ok else 'blocked'}", flush=True)
-    if stooq_ok:
+    stooq_state = check_stooq()
+    print(f"Stooq: {stooq_state}", flush=True)
+    if stooq_state == "DATA":
         print("  Fetching 21 futures...", flush=True)
         r = subprocess.run([sys.executable, str(HERE / "fetch_stooq.py"),
                             "es.f", "nq.f", "ym.f", "cl.f", "gc.f", "si.f",
