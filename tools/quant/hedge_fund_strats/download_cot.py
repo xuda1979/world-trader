@@ -136,6 +136,42 @@ def parse_tff(lines):
             continue
 
 
+def parse_legacy(lines):
+    """Parse LEGACY COT (1986-2016): non-commercial (specs) / commercial
+    (hedgers) / non-reportable split. Header present in deacot1986_2016.zip."""
+    rows = csv.reader(lines)
+    first = next(rows)
+    if first and first[0].startswith("Market and Exchange Names"):
+        col = {name: i for i, name in enumerate(first)}
+        iso_idx = col["As of Date in Form YYYY-MM-DD"]
+        code_idx = col["CFTC Contract Market Code"]
+        oi_idx = col["Open Interest (All)"]
+        nc_l, nc_s = col["Noncommercial Positions-Long (All)"], col["Noncommercial Positions-Short (All)"]
+        c_l, c_s = col["Commercial Positions-Long (All)"], col["Commercial Positions-Short (All)"]
+        nr_l, nr_s = col["Nonreportable Positions-Long (All)"], col["Nonreportable Positions-Short (All)"]
+        rows = list(rows)
+    else:
+        raise ValueError("legacy file missing header")
+    for r in rows:
+        if len(r) <= max(code_idx, nc_s):
+            continue
+        try:
+            yield {
+                "date": r[iso_idx],
+                "market": r[0],
+                "contract_code": r[code_idx].strip(),
+                "oi": float(r[oi_idx].strip()),
+                "noncomm_long": float(r[nc_l].strip()),
+                "noncomm_short": float(r[nc_s].strip()),
+                "comm_long": float(r[c_l].strip()),
+                "comm_short": float(r[c_s].strip()),
+                "nonrep_long": float(r[nr_l].strip()),
+                "nonrep_short": float(r[nr_s].strip()),
+            }
+        except (ValueError, IndexError, KeyError):
+            continue
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default=os.path.join(
@@ -220,6 +256,25 @@ def main():
         print(f"  {code} {g['market'].iloc[-1][:50]:50s} "
               f"{g['report_date'].min().date()}..{g['report_date'].max().date()} "
               f"({len(g)} wks)")
+
+    # --- legacy COT (1986-2016): the pre-disagg positioning record ---
+    lpath = fetch(f"{BASE}/deacot1986_2016.zip", zdir, "deacot1986_2016.zip")
+    lrows = []
+    with zipfile.ZipFile(lpath) as zf:
+        fname = zf.namelist()[0]
+        with zf.open(fname) as fh:
+            text = io.TextIOWrapper(fh, encoding="latin-1")
+            for row in parse_legacy(text):
+                lrows.append(row)
+    ldf = pd.DataFrame(lrows)
+    ldf["report_date"] = pd.to_datetime(ldf["date"])
+    ldf["spec_net"] = ldf["noncomm_long"] - ldf["noncomm_short"]
+    ldf = ldf.sort_values(["contract_code", "report_date"]).drop_duplicates(
+        ["contract_code", "report_date"], keep="last")
+    lout = os.path.join(args.out, "legacy_tidy.csv")
+    ldf.to_csv(lout, index=False)
+    print(f"\nsaved -> {lout}: {len(ldf)} rows, {ldf['contract_code'].nunique()} "
+          f"contracts, {ldf['report_date'].min().date()}..{ldf['report_date'].max().date()}")
 
 
 if __name__ == "__main__":

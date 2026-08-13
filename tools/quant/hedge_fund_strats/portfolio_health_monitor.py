@@ -44,6 +44,58 @@ def load_flagship():
     return f["portfolio_return"].dropna()
 
 
+def load_positioning(asof):
+    """Equity-index spec positioning lens (informational only).
+
+    TFF leveraged-fund z (2017+) with legacy non-commercial z (pre-2017)
+    fallback — 1993+ continuous. Historically (1993-2016): spec z < -1.5
+    (capitulation short) preceded +5.2% fwd-13w SPY vs +0.9% baseline
+    (n=122) — the contrarian tail; post-2017 the same extreme was
+    momentum-flavored (+0.3%..-0.6%), so the lens reports the value and
+    leaves interpretation to the operator. NOT a stance input.
+    """
+    cot = Path(__file__).resolve().parent / "data_cot"
+    z_parts = []
+    tff = cot / "tff_tidy.csv"
+    if tff.exists():
+        tdf = pd.read_csv(tff, parse_dates=["report_date"])
+        core = tdf[tdf["contract_code"].isin(["13874+", "20974+", "239742"])]
+        g = core.groupby("report_date").agg(
+            l=("lev_fund_long", "sum"), s=("lev_fund_short", "sum"), oi=("oi", "sum"))
+        g["pct"] = (g["l"] - g["s"]) / g["oi"]
+        g["z"] = ((g["pct"] - g["pct"].rolling(104, min_periods=52).mean())
+                  / g["pct"].rolling(104, min_periods=52).std())
+        z_parts.append(g["z"])
+    leg = cot / "legacy_tidy.csv"
+    if leg.exists():
+        ldf = pd.read_csv(leg, parse_dates=["report_date"])
+        sp = ldf[ldf["contract_code"].isin(["138741", "13874A"])]
+        g = sp.groupby("report_date").agg(
+            l=("noncomm_long", "sum"), s=("noncomm_short", "sum"), oi=("oi", "sum"))
+        g["pct"] = (g["l"] - g["s"]) / g["oi"]
+        g["z"] = ((g["pct"] - g["pct"].rolling(104, min_periods=52).mean())
+                  / g["pct"].rolling(104, min_periods=52).std())
+        z_parts.append(g["z"])
+    if not z_parts:
+        return {}
+    z = pd.concat(z_parts).sort_index()
+    z = z[~z.index.duplicated(keep="last")]
+    # latest value at or before asof (data is weekly, asof is daily)
+    avail = z[z.index <= pd.Timestamp(asof)]
+    if avail.empty:
+        return {}
+    cur = float(avail.iloc[-1])
+    return {
+        "equity_spec_z": round(cur, 2),
+        "asof": str(avail.index[-1].date()),
+        "extreme_short": cur < -1.5,
+        "extreme_long": cur > 1.5,
+        "historical_note": "1993-2016: z<-1.5 preceded +5.2% fwd-13w SPY vs +0.9% "
+                           "baseline (capitulation contrarian); post-2017 extremes "
+                           "were momentum-flavored — interpret in context.",
+    }
+
+
 def main():
     f = load_flagship()
     rs = (f.rolling(ROLL).mean() / f.rolling(ROLL).std() * np.sqrt(252)).dropna()
@@ -69,8 +121,10 @@ def main():
     else:
         stance = "GO"
 
+    asof_str = str(f.index[-1].date())
+    positioning = load_positioning(asof_str)
     stats = {
-        "asof": str(f.index[-1].date()),
+        "asof": asof_str,
         "last_252d_rolling_sharpe": round(cur_rs, 3),
         "last_63d_drawdown_vs_1y_high_pct": round(cur_dd63 * 100, 2),
         "persistent_neg_sharpe_21d": bool(consecutive_neg_sharpe),
@@ -85,6 +139,7 @@ def main():
         "note": "TRIM = sustained regime degradation (rs<0 for 21d AND -3% qtr dd); "
                 "this is the pull-the-lever event. CAUTION = one-off tail (likely a "
                 "fast blip that recovers). GO = normal all-weather operation.",
+        "positioning": positioning,
     }
 
     # append to history
@@ -112,6 +167,11 @@ def main():
     print(f"  flagship full-window ........ SR {stats['flagship_full_stats']['sharpe']:.2f}, "
           f"CAGR {stats['flagship_full_stats']['cagr_pct']:.1f}%, "
           f"MaxDD {stats['flagship_full_stats']['maxdd_pct']:.1f}%")
+    if stats.get("positioning"):
+        pos = stats["positioning"]
+        flag = " (EXTREME)" if (pos.get("extreme_short") or pos.get("extreme_long")) else ""
+        print(f"  equity spec positioning z ... {pos['equity_spec_z']:+.2f}{flag}"
+              f"  [asof {pos['asof']}, informational only]")
     print(f"\n  ACTION: {stance.upper()}")
     if stance == "GO":
         print("    No regime degradation detected. Hold full allocation (static = optimal).")

@@ -3,6 +3,12 @@
 **Purpose (user ask)**: a mean-reversion market-neutral strategy that profits in
 the episodes where the flagship all-weather book loses money.
 
+**VALIDATION STATUS: PASS (2026-08-13)** — signal-scramble gate (`meanrev_scramble_val.py`):
+k5_n30 real SR +0.34 vs scramble mean -0.82 (p=0.000); k3_n30 real SR +0.37 vs
+-1.34 (p=0.000). Real runs beat EVERY scramble -> the edge is real, not overfit.
+One of only a handful of sleeves to pass the project's gold-standard gate.
+It remains a crash-HEDGE overlay, not a standalone Sharpe engine.
+
 ## Result summary
 
 Short-horizon (k=3-5d) cross-sectional equity reversal (long worst / short best
@@ -39,7 +45,8 @@ reversal earns its money. The correct sizing raises leverage as VIX rises
 ## Caveats
 
 - k/n/cap/quantile choices mildly in-sample; the no-lookahead VIX gate is the
-  deployable form. No signal-scramble validation yet (watch, not validated).
+  deployable form. Validation PASS on signal-scramble (2026-08-13) — but that
+  gate tests the reversal edge itself, not the overlay/VIX-gate sizing choice.
 - Universe is twelve_big 290-name free panel; liquidity/borrow on the short
   side not fully modeled beyond 12 bps RT cost.
 
