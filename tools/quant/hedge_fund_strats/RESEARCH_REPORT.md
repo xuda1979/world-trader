@@ -383,9 +383,12 @@ handling, rebalancing, and expected stats serialized to
 `results/portfolio_weights.csv`:
 
 - 2008–2024: h3 50% + AP gold 50% (daily, cost-inclusive at 6 bps/side)
-  → daily SR 0.84, +11.1%/yr, MaxDD -12.9%
-- 2024+: h3 1/3 + AP 1/3 + LS champion 1/3 → daily SR 1.24, +12.0%/yr,
-  MaxDD -9.7%
+  → daily SR 0.83, +11.0%/yr, MaxDD -12.9%
+- 2024+: h3 1/3 + AP 1/3 + LS champion 1/3 → daily SR 1.20, +11.4%/yr,
+  MaxDD -5.6%
+- (Fixed 2026-08-13: an earlier spec version used a calendar-day grid
+  (freq='D'), whose weekend rows ffill'd returns and inflated daily SR
+  to 1.24; now on a trading-day grid and consistent with blend_6stream.)
 (Monthly-sampled SRs are higher: 0.94 and 1.20 — daily sampling of a
 monthly-cadence book adds intra-month vol.)
 

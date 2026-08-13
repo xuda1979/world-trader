@@ -75,7 +75,10 @@ def main():
 
     hedge_w = pd.Series(w_h["hedge_3stream_ew"], index=h3.index)
     ap_w = pd.Series(w_h["ap_gold"], index=ap.index)
-    ls_w = pd.Series(0.0, index=pd.date_range(ls.index.min(), ls.index.max(), freq="D"))
+    # trading-day grid only — a calendar grid (freq='D') would create
+    # weekend rows that ffill returns onto and inflate daily SR
+    grid = h3.index.union(ap.index).union(ls.index)
+    ls_w = pd.Series(0.0, index=grid)
 
     # 2024+ window: switch to 3-sleeve weights
     cut = pd.Timestamp("2024-07-01")
@@ -84,11 +87,11 @@ def main():
     ls_w.loc[ls_w.index >= cut] = w_l["ls_champion"]
 
     f = pd.concat({"h3": h3, "ap": ap, "ls": ls}, axis=1)
-    # forward-fill weights onto the daily grid; LS weight is 0 before
-    # 2024-07 so its missing returns contribute nothing (fill 0)
-    w = pd.DataFrame({"h3": hedge_w, "ap": ap_w, "ls": ls_w}).ffill()
-    w["ls"] = w["ls"].fillna(0.0)  # weight is 0 before the LS window
-    rets = f.reindex(w.index).ffill()
+    # natural concat alignment (union of trading days); LS weight is 0
+    # before its window and its missing returns contribute nothing
+    w = pd.DataFrame({"h3": hedge_w, "ap": ap_w, "ls": ls_w}).reindex(f.index).ffill()
+    w["ls"] = w["ls"].fillna(0.0)
+    rets = f.copy()
     rets["ls"] = rets["ls"].fillna(0.0)
     port = (w["h3"] * rets["h3"] + w["ap"] * rets["ap"] + w["ls"] * rets["ls"]).dropna()
 
