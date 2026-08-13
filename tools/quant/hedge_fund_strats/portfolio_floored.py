@@ -40,6 +40,10 @@ def main():
     r = floored.dropna()
     eq = (1 + r).cumprod()
     g = np.log1p(r)
+    # monthly-sampled stats (matches FLOORED_FLAGSHIP_REPORT.md convention)
+    rm = r.resample("ME").apply(lambda x: (1 + x).prod() - 1).dropna()
+    gm = np.log1p(rm)
+    eqm = (1 + rm).cumprod()
     yearly = {}
     for y in range(2008, 2027):
         sub = r.loc[str(y)]
@@ -53,6 +57,8 @@ def main():
         "sharpe_daily": round(float((g.mean() * 252 - 0.02) / (g.std() * np.sqrt(252))), 3),
         "ann_return_pct": round(float((1 + r).prod() ** (252 / len(r)) - 1) * 100, 2),
         "max_drawdown_pct": round(float((eq / eq.cummax() - 1).min()) * 100, 2),
+        "sharpe_monthly": round(float((gm.mean() * 12 - 0.02) / (gm.std() * np.sqrt(12))), 3),
+        "max_drawdown_monthly_pct": round(float((eqm / eqm.cummax() - 1).min()) * 100, 2),
         "negative_years": [y for y, v in yearly.items() if v < 0],
         "worst_year": min(yearly, key=yearly.get),
         "worst_year_pct": round(min(yearly.values()) * 100, 2),
