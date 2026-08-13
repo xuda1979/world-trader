@@ -105,6 +105,7 @@ The polygon LS champion (levdet3.0) already passed its own panel's
 scramble gate — the 2024+ sleeve is independent of this verdict.
 
 | P12 | **IV book neutrality VERIFIED** (2026-08-13): ms_iv_daily.csv beta vs SPY +0.04 (daily, 1849 days), rolling 6m -0.03..+0.26, never |β|>0.3 — the parallel book's "zero-beta" claim holds (unlike the flagship's β=0.00, which was an artifact). Contrast: h3+AP (EW) carries +0.34 beta by construction; the IV book's market-neutral legs (vol-managed L/S, RP, FX carry, n10r14) are what neutralize it. Level caveat still applies: the n10r14 sleeve is suspect (N14) | parallel session + verification |
+| N17 | **Risk Parity does NOT join the flagship** (2026-08-13): corr +0.64 with h3, +0.59 with AP (same equity/carry flavor — not a diversifier at this scale); h3+AP+RP SR 0.89 vs h3+AP 0.94 (dilutes). The flagship's sleeve set is complete: every candidate sleeve has now been tested in-combination | `blend_monthly` extension |
 
 ## Process lessons (ops)
 
