@@ -86,3 +86,9 @@ SR 1.24 -> 1.44, MaxDD -5.9% -> -5.5%, half-split 1.41/1.06 -> 1.55/1.32, and th
 n10r14 concentration de-risked 0.38 -> 0.16 weight. Robust across window choices
 (42/63/126/252 all beat old). ms_iv_daily.csv regenerated. This is the healthy,
 OOS-validated, now-de-risked multi-strategy book -- THE deliverable of the line.
+
+## Update 2026-08-13 (loop) — Walk-forward OOS CONFIRMED: IV book SR ~1.46 robust
+Strict walk-forward OOS (weights from prior data only, 63d blocks) gives SR 1.462,
+MaxDD -5.5%, both halves positive (1.57/1.36) - matching the backtest SR 1.44.
+No overfit: the OOS does not degrade. The rolling-vol IV book is the validated,
+deployable, de-risked deliverable. Contrast: the L/S champion failed every OOS check.
