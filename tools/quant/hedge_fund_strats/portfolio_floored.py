@@ -60,7 +60,8 @@ def main():
         out.index.name = "date"
         out.to_csv(os.path.join(RESULTS, "portfolio_floored_daily.csv"))
     if a.lev != 1.0:
-        floored = a.lev * floored - (a.lev - 1) * a.funding / 252
+        per_period = 12 if a.dynamic else 252  # monthly series -> /12
+        floored = a.lev * floored - (a.lev - 1) * a.funding / per_period
 
     r = floored.dropna()
     eq = (1 + r).cumprod()
