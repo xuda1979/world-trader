@@ -17,7 +17,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 # --------------------------------------------------------------------- config
-TRADING_COST_BPS = 6.0  # 6 bps round-trip (3 bps per side)
+TRADING_COST_BPS = 12.0  # 6 bps per side (12 bps round-trip) — user-stated cost
 RISK_FREE_RATE = 0.02   # 2% annual risk-free for Sharpe
 TRADING_DAYS = 252
 

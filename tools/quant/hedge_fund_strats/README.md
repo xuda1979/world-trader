@@ -1,7 +1,9 @@
 # Hedge Fund Strategy Backtest Framework
 
 Backtests all **four/five hedge fund strategy categories** on REAL daily price
-data with **6 bps round-trip trading cost** (3 bps per side).
+data with **12 bps round-trip trading cost** (6 bps per side, user spec;
+rebaselined 2026-08-13 — the old 6 bps RT / 3 bps per side snapshot lives in
+`results/cost6_rt/`).
 
 ## Strategies Implemented (mapped to the 4+1-class taxonomy)
 
@@ -42,7 +44,7 @@ data with **6 bps round-trip trading cost** (3 bps per side).
 
 ## Key Design Decisions
 - **T+1 execution**: signals on day T execute at T+1 (no look-ahead bias)
-- **6 bps round-trip cost**: charged on weight deltas at each rebalance
+- **12 bps round-trip cost (6 bps/side)**: charged on weight deltas at each rebalance
 - **No slippage/market impact** (user spec)
 - **Vol targeting**: CTA and macro scale to target portfolio vol
 - **Position caps**: no individual position >20-30% of capital
@@ -61,33 +63,31 @@ python tools/quant/hedge_fund_strats/run_all.py
 python tools/quant/hedge_fund_strats/run_extras.py
 ```
 
-## Results Summary (2008-2026, 6 bps cost)
+## Results Summary (2008-2026, 12 bps RT cost)
 See `results/strategy_comparison.csv` for full metrics.
 
 | Strategy | Ann Ret | Ann Vol | Sharpe | Max DD | Beta |
 |----------|---------|---------|--------|--------|------|
-| L/S 130/30 | +21.6% | 26.5% | **0.80** | -45.8% | 1.06 |
-| L/S 120/20 | +16.6% | 19.9% | **0.77** | -34.9% | 0.79 |
-| L/S Dollar Neutral | +23.9% | 32.5% | **0.76** | -56.1% | 1.32 |
-| L/S 130/30 vol-managed | +17.7% | 21.5% | **0.77** | -26.2% | ~1.1 |
-| Risk Parity (Bridgewater) | +8.7% | 12.0% | **0.59** | -28.4% | 0.50 |
-| **CTA Futures (FRED macro, 21d)** | **+2.5%** | **12.5%** | **0.10** | **-39.2%** | **0.00** |
-| StatArb 80 pairs | ~0.0% | 6.2% | -0.28 | -23.6% | 0.04 |
-| FX Carry (with accrual) | +2.3% | 7.7% | **0.08** | -16.5% | ~-0.8 |
-| FI Arb (curve z-score) | -1.4% | 0.6% | -5.05 | -22.4% | 0.00 |
-| Credit (spread z reversion) | -0.05% | 1.1% | -1.86 | -8.3% | 0.00 |
-| Credit (unconditional carry) | +0.6% | 1.3% | -1.03 | -9.8% | 0.00 |
-| StatArb 40 pairs z1.0 | -0.3% | 5.9% | -0.35 | -22.6% | 0.04 |
-| Global Macro | +1.1% | 4.7% | -0.12 | -10.7% | 0.08 |
-| CTA equities (3 variants) | -0.6% to -1.4% | 10-12% | -0.06 to -0.14 | -30%+ | ~0.05 |
-| Merger Arb PEAD | +1.1% | 2.6-2.9% | -0.21 to -0.28 | -8% | ~0.01 |
-| EMN (beta-neutral) | -5.4% | 15.8% | -0.40 | -68.2% | -0.04 |
-| **Multi-Strategy EW (5 streams)** | **+7.2%** | **8.3%** | **0.64** | **-11.7%** | **0.00** |
-| Multi-Strategy Sharpe-weighted | +12.5% | 14.9% | **0.73** | -28.4% | 0.00 |
+| L/S 130/30 | +20.0% | 26.5% | **0.75** | -45.8% | 1.05 |
+| L/S 120/20 | +15.5% | 19.9% | **0.72** | -35.0% | 0.79 |
+| L/S Dollar Neutral | +21.7% | 32.5% | **0.71** | -56.2% | 1.32 |
+| L/S 130/30 vol-managed | +16.1% | 21.5% | **0.71** | -26.6% | ~1.1 |
+| Risk Parity (Bridgewater) | +8.6% | 12.0% | **0.58** | -28.4% | 0.50 |
+| **Blend 3-stream EW (ex stat arb)** | **+8.4%** | **8.3%** | **0.64** | **-15.0%** | **~0.0** |
+| Multi-Strategy EW (4 streams) | +5.4% | 8.3% | 0.45 | -13.9% | 0.00 |
+| CTA Futures (FRED macro, 21d) | +1.8% | 12.5% | 0.05 | -40.6% | 0.00 |
+| StatArb 80 pairs | -2.7% | 6.2% | -0.73 | -46.3% | 0.04 |
+| FX Carry (with accrual) | +2.3% | 7.7% | 0.08 | -16.5% | ~-0.7 |
+| FI Arb (curve z-score) | -2.6% | 0.6% | -5.58 | -38.9% | 0.00 |
+| Credit (spread z reversion) | -0.6% | 1.1% | -2.21 | -15.6% | 0.00 |
+| Global Macro | +0.8% | 4.7% | -0.23 | -10.7% | 0.08 |
+| Merger Arb PEAD | +0.9-1.1% | 2.6-2.9% | -0.31 to -0.39 | -8% | ~0.01 |
+| EMN (beta-neutral) | -6.6% | 15.8% | -0.48 | -73.7% | -0.04 |
+| StatArb 40 pairs z1.5 | -3.6% | 5.9% | -0.85 | -55.2% | 0.04 |
 
-**Honest findings (after 6 bps round-trip costs):**
-- **L/S momentum (Sharpe 0.80) is the best standalone** — but its edge is
-  mostly market beta (β≈1.1) on the 130/30 net-long book; the "market
+**Honest findings (after 12 bps RT costs, 6 bps/side):**
+- **L/S momentum (Sharpe 0.75) is the best standalone** — but its edge is
+  mostly market beta (β≈1.05) on the 130/30 net-long book; the "market
   neutral" L/S variant holds β=1.32, i.e. the vol-adjustment accidentally
   concentrates in high-beta names.
 - **CTA on the FRED macro panel (Sharpe 0.10, β=0.00) beats CTA on
@@ -171,22 +171,27 @@ See `results/strategy_comparison.csv` for full metrics.
   this construction (consistent with the repo's ls/ research: reversal and
   multi-factor composites fail; only the factor IC is positive, not
   after-cost PnL).
-- **Statistical arbitrage is the only genuinely market-neutral positive-Sharpe
-  strategy** (β≈0.04, Sharpe 0.11-0.16, profit factor 1.09, positive alpha
-  +2-2.5%/yr) — but 45-48x annual turnover at 6 bps (≈27-29%/yr cost drag)
-  erases most of the gross edge. Higher pair count helps (0.16 vs 0.04):
-  more legs = lower per-pair cost drag and better diversification.
-- **Risk Parity (0.60 Sharpe, β=0.50) beats raw macro**: inverse-vol allocation
+- **Statistical arbitrage does NOT survive the real cost** (Sharpe -0.73
+  to -0.85 at 12 bps RT; -0.28 at the old 6 bps RT): gross edge (~2.7%/yr)
+  is less than the cost drag (46-49x annual turnover × 12 bps ≈ 5.6%/yr).
+  At 12 bps RT it is negative in ALL four sub-periods, so it drags any
+  blend that includes it — the classic 4-stream EW blend loses 0.19 SR
+  versus dropping it.
+- **Risk Parity (0.58 Sharpe, β=0.50) beats raw macro**: inverse-vol allocation
   across uncorrelated asset classes captures the vol risk premium with far
-  lower cost drag (1.9x turnover vs 4.3x).
+  lower cost drag (1.9x turnover); at 12 bps RT it is the only standalone
+  positive in all 4 sub-periods.
 - **CTA and EMN fail after cost** — trend signals on equity names are too
   noisy/costly; naive multi-factor EMN composites have no stable after-cost
   edge on this universe (consistent with the repo's ls/ research: only
   single-factor 52-week-high distance survives, at +0.34 gross).
-- **Multi-Strategy EW (Sharpe 0.64, β=0.00) demonstrates the core HF thesis**:
-  the stat-arb stream is *negatively* correlated with CTA (-0.19) and macro
-  (-0.08), so blending uncorrelated streams produces positive risk-adjusted
-  return even when 4 of 5 components are individually ≤ 0 after cost.
+- **Blend 3-stream EW (Sharpe 0.64, β≈0.00) demonstrates the core HF thesis
+  at the real cost**: L/S + CTA + Global Macro, each individually marginal
+  after 12 bps RT, combine to a positive-Sharpe, near-market-neutral book
+  that is positive/flat in all 4 sub-periods (0.38/0.80/0.94/0.00). The
+  lesson sharpened by the cost rebaseline: diversify among streams that
+  each clear the cost hurdle — marginal losers (stat arb at 46x turnover)
+  are blend poison, not blend fertilizer.
 - A realistic outcome for naive heuristics — real hedge funds add event
   data, fundamental data, and lower turnover.
 

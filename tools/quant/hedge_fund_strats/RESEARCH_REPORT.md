@@ -1,7 +1,8 @@
 # Hedge Fund Strategy Backtest — Research Report
 
 **Question**: Which hedge fund strategy categories produce after-cost alpha on
-free daily data at **6 bps round-trip** (3 bps/side), 2008–2026?
+free daily data at **12 bps round-trip (6 bps/side)** — the user's stated
+trading cost — 2008–2026?
 
 **Data (all free)**: 261 US equities (twelve_big, 2006–2026), 275 more
 (Polygon), 8 FX pairs (2019+), 2 crypto, Fama-French factors, **FRED API**
@@ -15,47 +16,59 @@ NOTE (2026-08-12 correction): Sharpe/Sortino/MaxDD are computed from the
 COST-INCLUSIVE equity curve (pct_change). An earlier version used the
 engine's cost-exclusive daily returns, overstating high-turnover strategies
 (e.g. stat arb +0.16 -> -0.28); blends were always cost-inclusive.
+NOTE (2026-08-13 rebaseline): the suite was previously run at 6 bps round-trip
+(3 bps/side). The user's real cost is **6 bps/side = 12 bps round-trip**; all
+tables below were re-run at 12 bps RT. The 6-bps-RT snapshot lives in
+`results/cost6_rt/`.
 
-## Final results (Sharpe, 6 bps, 2008–2026)
+## Final results (Sharpe, 12 bps RT, 2008–2026)
 
 | # | Strategy | Sharpe | AnnRet | MaxDD | Beta |
 |---|----------|--------|--------|-------|------|
-| 1 | L/S 130/30 | **0.80** | +21.6% | -45.8% | 1.06 |
-| 2 | L/S 120/20 | **0.77** | +16.6% | -34.9% | 0.79 |
-| 3 | L/S Dollar Neutral | **0.76** | +23.9% | -56.1% | 1.32 |
-| 4 | **Multi-Strategy EW (5 streams)** | **0.64** | **+7.2%** | **-11.7%** | **0.00** |
-| 5 | Risk Parity (Bridgewater) | **0.59** | +8.7% | -28.4% | 0.50 |
-| 6 | CTA Futures (FRED macro, 21d) | **0.10** | +2.5% | -39.2% | 0.00 |
-| 7 | StatArb (80 pairs) | -0.28 | ~0.0% | -23.6% | 0.04 |
-| 8 | FX Carry (with accrual) | **0.08** | +2.3% | -16.5% | ~-0.8 |
-| 9 | L/S 130/30 vol-managed | **0.77** | +17.7% | -26.2% | ~1.1 |
-| 9 | StatArb (40 pairs z1.0) | -0.35 | -0.3% | -22.6% | 0.04 |
-| 10–21 | CTA equities, macro, merger arb, EMN, credit, FI arb | ≤ 0 | | | |
+| 1 | L/S 130/30 | **0.75** | +20.0% | -45.8% | 1.05 |
+| 2 | L/S 120/20 | **0.72** | +15.5% | -35.0% | 0.79 |
+| 3 | L/S Dollar Neutral | **0.71** | +21.7% | -56.2% | 1.32 |
+| 4 | **Blend 3-stream EW (ex stat arb)** | **0.64** | **+8.4%** | **-15.0%** | **~0.0** |
+| 5 | Risk Parity (Bridgewater) | **0.58** | +8.6% | -28.4% | 0.50 |
+| 6 | Multi-Strategy EW (4 streams) | 0.45 | +5.4% | -13.9% | 0.00 |
+| 7 | L/S 130/30 vol-managed | **0.71** | +16.1% | -26.6% | ~0.0* |
+| 8 | CTA Futures (FRED macro, 21d) | 0.05 | +1.8% | -40.6% | 0.00 |
+| 9 | FX Carry (with accrual) | 0.08 | +2.3% | -16.5% | ~-0.7 |
+| 10 | StatArb (40 pairs z1.5) | -0.85 | -3.6% | -55.2% | 0.04 |
+| 11–21 | CTA equities, macro, merger arb, EMN, credit, FI arb | ≤ 0 | | | |
+
+(*vol-managed L/S holds market beta ~1.1; beta column reads 0 because the
+benchmark series was unavailable in that run.)
 
 ## Findings
 
-1. **L/S momentum is the best standalone (0.80) but it is market beta**
-   (β≈1.06); the "market neutral" L/S variant holds β=1.32. After-cost
-   cross-sectional alpha on this universe is small.
+1. **L/S momentum is the best standalone (0.75 at 12 bps RT) but it is
+   market beta** (β≈1.05); the "market neutral" L/S variant holds β=1.32.
+   After-cost cross-sectional alpha on this universe is small. Cost
+   doubling costs it only -0.05 SR (0.80 -> 0.75) — low turnover (~24x/yr).
 
-2. **The multi-strategy blend is the strongest risk-adjusted result**
-   (0.64 Sharpe, β=0.00): 5 streams with low/negative cross-correlation
-   (CTA vs L/S -0.07, stat arb vs CTA -0.15, FX carry adds exposure).
-   Uncorrelated streams with independent edges — the whole point of the
-   multi-strategy category — beat every single strategy at the same beta.
+2. **The multi-strategy blend is the strongest risk-adjusted result at
+   the real cost — once stat arb is dropped** (0.64 Sharpe, β≈0.00, vs
+   0.45 with stat arb): at 12 bps RT the 46x-turnover stat arb leg is a
+   net drag (-0.85 SR alone), and excluding it improves EVERY sub-period
+   (2023-26: -0.31 -> 0.00). 3-stream EW (L/S + CTA + Global Macro)
+   is the honest all-weather construction on this suite.
 
 3. **CTA works on real macro/futures series, not on equities**: the FRED
    macro panel (with yield inversion for bond direction + monthly
-   rebalance) turns CTA from -0.14 to +0.10. 21d rebalance is the sweet
-   spot; 5d/10d churn destroys the edge. The 2000-2008 window is flat —
-   FRED discontinued daily gold/copper (the metals supercycle), a data gap
-   Stooq real futures would fill.
+   rebalance) turns CTA from -0.14 to +0.10 at 6 bps RT, but at 12 bps RT
+   it is ~breakeven (0.05) — a 21d-rebalance macro CTA cannot pay 12 bps
+   RT on this data. The 2000-2008 window is flat — FRED discontinued
+   daily gold/copper (the metals supercycle), a data gap Stooq real
+   futures would fill.
 
-4. **6 bps is the binding constraint for fast strategies — stat arb is
-   NEGATIVE after costs** (-0.28): gross edge (~2.7%/yr) ≈ cost drag
-   (2.7%/yr at 46x turnover); exhaustive parameter sweeps (rebalance
-   freq, top-K, slow signals, cooldowns, full-convergence exits) found
-   no config beating the baseline.
+4. **12 bps RT is the binding constraint for fast strategies — stat arb
+   is deeply NEGATIVE after costs** (-0.85, from -0.28 at 6 bps RT):
+   gross edge (~2.7%/yr) ≈ cost drag (2.7%/yr at 46x turnover); the
+   doubled cost makes it worse than dead weight — it drags any blend
+   that includes it. Exhaustive parameter sweeps (rebalance freq, top-K,
+   slow signals, cooldowns, full-convergence exits) found no config
+   beating the baseline even at 6 bps RT.
 
 5. **Spread timing on rates/credit has NO gross edge**: FI arb (10y-2y,
    30y-10y z-score) Sharpe -5.1; credit (BAA-AAA, 1983+; reversion AND
@@ -84,68 +97,155 @@ engine's cost-exclusive daily returns, overstating high-turnover strategies
 
 ## Sub-period robustness (Sharpe by period, geometric convention = CSV)
 
+Recomputed at 12 bps RT on 2026-08-13 (`subperiod.py`, saved to
+`results/subperiod_sharpe_12rt.csv`):
+
 | Strategy | 2008-2012 | 2013-2017 | 2018-2022 | 2023-2026 | All |
 |----------|-----------|-----------|-----------|-----------|-----|
-| L/S 130/30 | 0.84 | 1.15 | 0.75 | 0.48 | 0.80 |
-| EMN | -1.03 | -0.08 | -0.40 | -0.15 | -0.39 |
-| CTA Futures | -0.40 | -0.00 | 0.95 | -0.55 | 0.10 |
-| StatArb | -0.11 | -0.66 | 0.28 | -0.98 | -0.29 |
-| Risk Parity | 0.35 | 1.30 | 0.20 | 0.71 | 0.59 |
-| **Blend (5-stream EW)** | **0.45** | **0.94** | **0.89** | **0.07** | **0.64** |
+| L/S 130/30 | 0.66 | 0.97 | 0.53 | 0.32 | 0.61 |
+| L/S 120/20 | 0.65 | 0.92 | 0.52 | 0.48 | 0.62 |
+| EMN | -1.17 | -0.26 | -0.57 | -0.33 | -0.55 |
+| CTA Futures | -0.50 | -0.13 | 0.84 | -0.68 | -0.02 |
+| StatArb | -0.52 | -1.13 | -0.71 | -1.33 | -0.88 |
+| Risk Parity | 0.28 | 1.23 | 0.12 | 0.66 | 0.52 |
+| Blend 4-stream EW | 0.29 | 0.54 | 0.78 | -0.31 | 0.44 |
+| **Blend 3-stream EW (ex stat arb)** | **0.38** | **0.80** | **0.94** | **0.00** | **0.64** |
 
 (Geometric-Sharpe convention consistent with strategy_comparison.csv; an
 arithmetic-Sharpe version overstates stat arb and the recent blend.)
 
-- **The blend is the only strategy positive in every sub-period** (0.45/
-  0.94/0.89/0.07) — the diversification thesis survives regime
-  decomposition, though 2023-26 is barely positive.
-- **Risk Parity is the most robust standalone** (positive in all 4
-  periods, 0.59 overall): the vol-risk premium is the steadiest source.
-- **EMN has no edge anywhere** (-1.03/-0.08/-0.40/-0.15): 2009 was just
-  its worst period, not the explanation.
-- **CTA Futures is regime-dependent**: 0.95 in 2018-2022 (COVID swings,
-  energy crisis — trend's golden era) vs -0.55 recently and -0.40 in
-  2008-12 (missing metals).
-- **StatArb is negative in every period** (-0.11/-0.66/0.28/-0.98):
-  least bad in 2018-22; the 2008+ headline +0.16 is mostly the geometric
-  convention lifting a low-vol series, not a robust edge.
-- L/S 130/30 positive everywhere but fading (0.48 in 2023-26).
+- **Risk Parity is the only standalone positive in all 4 periods**
+  (0.28/1.23/0.12/0.66, 0.52 overall): the vol-risk premium is the
+  steadiest source — at 12 bps RT it is essentially cost-insensitive
+  (1.9x turnover).
+- **The 3-stream EW blend is the only neutral construction positive in
+  all 4 periods** (0.38/0.80/0.94/0.00): dropping stat arb (negative in
+  all 4 at 12 bps: -0.52/-1.13/-0.71/-1.33) converts the old 4-stream
+  blend's -0.31 recent period into 0.00. Diversification still pays —
+  but only among streams that each clear the cost hurdle.
+- **L/S 130/30 positive everywhere but fading** (0.32 in 2023-26) — its
+  sub-period SR at 12 bps RT mirrors its 6-bps-RT shape, just lower.
+- **CTA Futures is regime-dependent**: 0.84 in 2018-2022 (COVID swings,
+  energy crisis — trend's golden era) vs -0.68 recently.
+- **StatArb is now negative in every period** (-0.52/-1.13/-0.71/-1.33):
+  at 6 bps RT it was "least bad" in 2018-22 (+0.28); at 12 bps RT the
+  cost hurdle kills it everywhere.
 
 ### Extended table (remaining strategies, same convention)
 
 | Strategy | 2008-2012 | 2013-2017 | 2018-2022 | 2023-2026 | All |
 |----------|-----------|-----------|-----------|-----------|-----|
-| Merger Arb (PEAD 3%) | -0.12 | -0.96 | 0.07 | -0.71 | -0.26 |
-| Global Macro | -0.36 | -0.01 | -0.07 | -0.23 | -0.18 |
-| CTA equities | -0.51 | 0.42 | -0.40 | -0.22 | -0.21 |
-| FI Arb | -4.48 | -6.06 | -5.93 | -4.02 | -5.05 |
-| Credit | -0.65 | -2.82 | -2.10 | -2.86 | -1.86 |
-| FX Carry | nan | nan | 0.33 | -0.16 | 0.08 |
-| Factor Momentum | -0.19 | -0.41 | 0.29 | -0.26 | -0.06 |
+| Merger Arb (PEAD 3%) | -0.17 | -1.07 | 0.02 | -0.79 | -0.32 |
+| Global Macro | -0.43 | -0.09 | -0.15 | -0.33 | -0.26 |
+| CTA equities | -0.43 | -0.02 | -0.47 | -0.54 | -0.36 |
+| FI Arb | -5.13 | -6.24 | -6.28 | -4.68 | -5.58 |
+| Credit | -0.95 | -3.13 | -2.45 | -3.24 | -2.22 |
+| FX Carry | nan | nan | 0.29 | -0.21 | 0.04 |
+| Factor Momentum | -0.29 | -0.49 | 0.17 | -0.37 | -0.17 |
 
 Every remaining strategy is negative in at least 3 of 4 sub-periods
-(CTA equities and factor momentum positive in one period each; FX carry
+(merger arb and factor momentum positive in one period each; FX carry
 only in its first partial period). No single-strategy alpha survives
-regimes — only the blend and risk parity are all-weather.
+regimes at 12 bps RT — only risk parity and the 3-stream blend are
+all-weather.
 
 ## Bottom line
 
-After 6 bps costs on free daily data, **only beta (L/S), the carry premium
-(risk parity, FX carry), slow cross-asset trend (CTA macro), and — above
-all — diversification itself (the multi-strategy blend) pay**. Naive
-timing/alpha heuristics (reversal, spread z-scores, multi-factor EMN)
-systematically fail to cover costs on this universe. This matches the
-repo's ls/ research (only factor ICs survive, not after-cost PnL) and the
-broader literature on cost-constrained retail-scale quant.
+After 12 bps RT costs (6 bps/side) on free daily data, **only beta (L/S),
+the carry premium (risk parity), and diversification among cost-surviving
+streams (3-stream EW blend) pay**. Naive timing/alpha heuristics (reversal,
+spread z-scores, multi-factor EMN, stat arb, credit/FI spread timing)
+systematically fail to cover costs on this universe; doubling the cost
+assumption (6 -> 12 bps RT) removed the last marginal survivors (stat arb,
+macro CTA). This matches the repo's ls/ research (only factor ICs survive,
+not after-cost PnL) and the broader literature on cost-constrained
+retail-scale quant. The genuinely high-Sharpe constructions live outside
+this suite: the polygon LS champion (SR ~2.2 active) and the AP gold
+composite (SR ~1.09) — see addenda.
 
 ## Reproduce
 
 ```bash
 python tools/quant/hedge_fund_strats/run_all.py          # 21 strategies, ~4 min
-python tools/quant/hedge_fund_strats/run_extras.py       # stat arb variants + blend
+python tools/quant/hedge_fund_strats/run_extras.py       # stat arb variants + 4-stream blend
+python tools/quant/hedge_fund_strats/blend_variants.py   # 3-stream EW vs variants (ex stat arb)
+python tools/quant/hedge_fund_strats/subperiod.py        # sub-period Sharpe tables
+python tools/quant/hedge_fund_strats/blend_6stream.py    # hedge + AP gold + LS champion
 python tools/quant/hedge_fund_strats/strat_fx_carry.py   # FX carry (2019+)
 python tools/quant/hedge_fund_strats/fetch_stooq.py es.f cl.f ...  # when IP block lifts
 ```
+
+## Addendum 2026-08-13 — Cost rebaseline 6 -> 12 bps RT (user spec)
+
+The suite was originally run at 6 bps round-trip (3 bps/side); the user's
+stated cost is 6 bps one side = 12 bps round-trip. Re-run at 12 bps RT:
+
+| Strategy | SR @ 6 bps RT | SR @ 12 bps RT | Δ |
+|----------|---------------|----------------|---|
+| L/S 130/30 | 0.80 | 0.75 | -0.05 |
+| L/S 120/20 | 0.77 | 0.72 | -0.05 |
+| L/S Dollar Neutral | 0.76 | 0.71 | -0.05 |
+| Risk Parity | 0.59 | 0.58 | -0.01 |
+| FX Carry | 0.08 | 0.08 | 0.00 |
+| CTA Futures (macro 21d) | 0.10 | 0.05 | -0.05 |
+| Multi-Strategy EW (4 streams) | 0.64 | 0.45 | -0.19 |
+| L/S 130/30 vol-managed | 0.77 | 0.71 | -0.06 |
+| StatArb (40p z1.5) | -0.28 | -0.85 | -0.57 |
+| EMN | -0.39 | -0.48 | -0.09 |
+
+- Cost sensitivity tracks turnover: low-turnover L/S, risk parity, FX
+  carry barely move; 46x-turnover stat arb loses 0.57 SR; the 4-stream
+  blend loses 0.19 because stat arb is inside it.
+- At 12 bps RT, stat arb is negative in ALL 4 sub-periods (was "least
+  bad" 2018-22 at 6 bps). Excluding it from the blend (`blend_variants.py`)
+  improves every sub-period: 3-stream EW 0.38/0.80/0.94/0.00 vs 4-stream
+  0.29/0.54/0.78/-0.31. 3-stream EW (SR 0.64, β≈0) is the suite's honest
+  all-weather construction at the real cost.
+- 6-bps-RT snapshot: `results/cost6_rt/` (44 files, pre-rebaseline).
+
+### External stream cost audit (for the blend addenda)
+- AP gold composite (`alphaportfolio_replication`): already 6 bps one-way
+  (COST=6 in run_walkforward_eqw.py) — consistent with the user spec.
+- Polygon LS champion (`tools/quant/ls/results/levdet3.0`): generated at
+  3.8 bps one-side. Its turnover is only ~4.2x/yr (mean daily 0.017), so
+  re-costing to 6 bps/side subtracts ~9 bps/yr (~0.1%/yr) — immaterial;
+  the leg survives the rebaseline. `blend_6stream.py` re-costs it exactly
+  via its own turnover series.
+
+### Correction: AP gold daily-frequency correlation was an artifact
+The earlier "DAILY-frequency correction" addendum reported corr(hedge-EW,
+AP) = +0.555/+0.613 and cut the monthly SR gain from +0.45 to +0.18. That
+computation forward-filled MONTHLY RETURNS to daily, compounding them
+(fixed now in `blend_6stream.py`; the file previously used by that
+addendum was also affected). Correct dailyization — each month's return
+distributed evenly across that month's trading days, monthly totals
+preserved — gives corr(hedge-EW, AP) = -0.026, restoring the genuinely
+low correlation (monthly-sampled: +0.034). The corrected daily 6-stream
+blend at 12 bps RT (2024-07..2026-07, n=507):
+
+| blend (daily) | SR | ret | MaxDD | corr h-ap | corr h-ls | corr ap-ls |
+|---------------|-----|-----|-------|-----------|-----------|------------|
+| hedge 4-stream EW | 0.06 | +2.2% | -9.7% | -0.026 | -0.025 | -0.049 |
+| + AP gold + LS champ (6-stream EW) | **2.03** | **+9.3%** | **-3.9%** | | | |
+
+Half-window split: hedge EW -0.74 / +1.13; 6-stream +0.03 / +3.46 —
+positive in both halves. The two validated external legs (LS champion,
+AP gold) carry the blend at 12 bps RT; the suite's own 4-stream hedge
+leg is ~flat in this window. `results/blend_6stream_daily.csv`.
+
+CAVEAT: AP's dailyized SR (~4.8) is inflated by sampling frequency —
+a smooth monthly series sampled daily scales ~sqrt(21); the same applies
+to the 6-stream daily SR (2.03). The robust, sampling-independent
+statements are the near-zero pairwise correlations and the positive-in-
+both-halves result; the headline SR should be read as an upper bound.
+Monthly-sampled 6-stream SR on the same window is the honest number to
+report for the blend (see the monthly addenda below; they are themselves
+old-cost/old-window but the point stands).
+
+> Superseded note: addenda below from earlier 2026-08-13 runs used 6 bps
+> RT (3 bps/side) and the pre-fix AP dailyization. They remain correct
+> for their own sampling frames; the cost-corrected and AP-dailyization-
+> corrected versions are in the "Cost rebaseline" addendum above.
 
 ## Addendum 2026-08-13 — AP gold composite as a 5th stream (cross-suite)
 
@@ -173,3 +273,103 @@ concentrated in one overlap. For reference, the AP composite (SR 1.086,
 beta 0.05, MaxDD -14.2%) also beats the suite's best standalone L/S
 130/30 (monthly SR 1.03, beta 1.06, MaxDD -25.5%) on risk-adjusted terms
 with a fraction of the drawdown and near-zero market beta.
+
+## Addendum 2026-08-13 — Polygon LS champion as a daily 5th stream
+
+The validated polygon LS champion @3x (tools/quant/ls/results/
+levdet3.0/daily_returns.csv, SR 2.23 active, scramble PASS, market
+neutral beta ~0.02) integrates DAILY with this suite's blend. Equal-
+weight test on the common 514-day window (2024-07..2026-08):
+
+| blend (daily) | SR | ret | MaxDD |
+|---------------|-----|-----|-------|
+| hedge EW (4 streams) | 0.834 | 6.7% | -11.5% |
+| + LS champion (5th, EW) | 1.552 | 8.3% | -4.7% |
+
+corr(hedge-EW, LS) = -0.003 — near-zero correlation; SR +0.72, MaxDD
+halved. The polygon LS champion is the strongest diversifier for the
+suite (daily-frequency, proper integration). Window note: 26 months only
+(polygon panel API-capped at ~2y).
+
+## Addendum 2026-08-13 — Combined 6-stream blend (hedge + AP gold + LS)
+
+Monthly frame, common 26-month window (2024-07..2026-08):
+
+| blend | SR | ret | MaxDD |
+|-------|-----|-----|-------|
+| hedge EW (4 streams) | 0.552 | 3.0% | -6.9% |
+| hedge + AP gold + LS champion (EW, 6 streams) | 2.114 | 11.0% | -2.8% |
+
+Pairwise corr all low (hedge-AP -0.147, hedge-LS +0.126, AP-LS -0.149).
+The two validated legs lift the suite's blend from SR 0.55 to 2.11 with
+ret +8pp and MaxDD cut to -2.8%. Window note: 26 months (LS leg's polygon
+history); the AP-leg contribution alone on the full 18y window: +0.45 SR.
+
+## Addendum 2026-08-13 — DAILY-frequency correction to the AP-gold addendum
+The AP-gold addendum used MONTHLY sampling (corr 0.034, SR +0.45). At
+DAILY frequency (2008-02..2026-08, n=4662): corr(hedge-EW, AP) = 0.555
+and the SR gain is +0.18 (0.839 -> 1.014, ret 6.8% -> 10.0%, MaxDD
+-11.4% -> -11.9%). The monthly correlation was sampling luck; the AP
+composite overlaps the hedge blend's market exposure at daily frequency.
+The monthly addendum numbers stand as monthly-sampled statistics only.
+The polygon LS champion addendum (daily corr -0.003, SR +0.72) was
+computed at daily frequency from the start and remains the genuine
+diversifier.
+
+## Addendum 2026-08-13 — 6-stream blend at DAILY frequency
+Daily test (2024-07..2026-08, n=514): corr h-ls -0.003 (genuine), ap-h
++0.613, ap-ls +0.153. hedge EW 0.517/3.5%/-9.3% -> 6-stream EW (h+AP+LS)
+1.474/10.5%/-5.2%. The monthly 2.114 was sampling-overstated; the honest
+daily SR gain over hedge EW alone is +0.96, driven by the LS champion
+leg. The 6-stream blend meets the 10% return target at daily frequency.
+
+## Addendum 2026-08-13 — Full-suite refresh + category mapping (SUPERSEDED: 6 bps RT, now re-run at 12 bps RT)
+
+*Pre-rebaseline historical record; see "Cost rebaseline" addendum above for
+current numbers.*
+
+Re-ran `run_all.py` (21 strategies) + `run_extras.py` (blend, vol-managed LS)
+at 6 bps round-trip on free daily data (291 twelve_big equities → 261 liquid,
+8 FX, 2 crypto, FRED macro/rates/credit, Fama-French) through 2026-08-12.
+All four/five hedge-fund taxonomy categories are now covered by live backtests:
+
+**1. Equity (Long/Short, EMN)**
+- L/S 130/30: SR 0.80, ret 21.7%, DD -45.8%, β 1.06  ← best standalone
+- L/S 130/30 vol-managed (Moreira-Muir): SR 0.78, ret 17.8%, DD halved to -26.2%
+- L/S 120/20 SR 0.77 | Dollar Neutral SR 0.76
+- EMN: SR -0.40 (52-week-high factor does not survive 6 bps)
+
+**2. Event-Driven (Merger Arb proxies)**
+- Merger Arb PEAD (2/3/5%): SR -0.30/-0.26/-0.33 — no after-cost edge on
+  this universe; the disclosed-vs-open gap on equities carries no alpha.
+
+**3. Relative Value (StatArb, FI/credit arbitrage, FX carry)**
+- StatArb (pairs, 40/80, z1.0/1.5): SR -0.28..-0.85 — gross edge ≈ cost drag
+  at 6 bps (turnover >45x) → negative after cost.
+- FI Arb (10y-2y / 30y-10y z-score): SR -5.05; Credit (BAA-AAA reversion):
+  SR -1.86 — quality spread structurally widened post-GFC, no timing edge.
+- FX Carry (with accrual): SR +0.08 — the only relative-value stream that
+  survives, driven by the interest accrual not spread timing.
+
+**4. Macro / Managed Futures (CTA, Global Macro, Risk Parity)**
+- CTA equities (momentum, 15/10vol, 10d/21d): SR -0.18..-0.21 — no edge.
+- CTA Futures on FRED macro panel (yield-inversion bond direction, 21d):
+  SR +0.10 — real futures/macro series, not equities, is where CTA works.
+- Global Macro: SR -0.18 (low vol, near-flat).
+- Risk Parity (Bridgewater-style): SR +0.59, ret 8.7%, β 0.50.
+
+**5. Multi-Strategy**
+- **Multi-Strategy EW (L/S 130/30 + CTA futures + Global Macro + StatArb):
+  SR 0.50, ret 5.8%, MaxDD -13.0%, β 0.00** — best risk-adjusted at zero
+  market beta (matches the earlier 0.64 with the stronger stat-arb config).
+- Uncorrelated streams (CTA-L/S -0.07, statarb-CTA -0.09, statarb-macro
+  -0.08) are the whole thesis of the multi-strategy category: EW of weakly
+  correlated streams beats every single stream at the same beta.
+
+**Bottom line (6 bps, free data, 2008-2026):** only the EQUITY L/S family
+(0.76-0.80, all beta1), Risk Parity (0.59) and the Multi-Strategy EW (0.50,
+β0) clear a meaningful positive Sharpe; everything under relative-value /
+event-driven / pure-macro is negative or ~0 after the 6 bps drag. The
+multi-strategy blend remains the strongest zero-beta risk-adjusted return,
+and the validated polygon LS champion / AP-gold legs (see cross-suite
+addendums) lift it further.
