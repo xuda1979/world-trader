@@ -2880,3 +2880,18 @@ This is the FINAL confirmation that no sleeve/combination in the entire dataset
 Sharpe>=2 with MaxDD<=10 and >=10% over a long window. The floored flagship (~1.6
 monthly) and its levered variants (~1.3 monthly, 9.7-11.8%/yr) are the honest
 maximum. Research line COMPLETE; deployed + monitored.
+
+### 2026-08-13 — CORRECTION: guarantee-preserving operating leverage is 1.10x, not 1.5x
+The parallel session correctly identified that only x1.10 preserves the zero-losing-
+year guarantee at 3% funding; x1.5/x2 BREAK it (leverage on the risky component
+scales the worst-year loss beyond what the 50% T-bill floor offsets). Verified:
+  base : 7.49%/yr, MaxDD -6.2%, no neg yrs
+  x1.10: 8.06%/yr, MaxDD -6.8%, no neg yrs   <-- SET AS OPERATING DEFAULT
+  x1.5 : 9.66%/yr, MaxDD -9.3%, neg Years [2022] (breaks guarantee)
+  x2.0 : 11.8%/yr, MaxDD -12.3%, negYears [2022,2023] (breaks guarantee)
+RETRACT my earlier 1.5x no-losing-year claim (it WAS 2022-negative on the native
+runner path). If the >=10% return or no-losing-year guarantee is the priority:
+  - guarantee intact + highest return => x1.10 (8.1%/yr)
+  - accept broken guarantee for >=10% => x2.0 (11.8%/yr, -12.3% DD)
+Default runner set to x1.10 (portfolio_floored.py --lev default). This is the
+correct, honest operating configuration.
