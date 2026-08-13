@@ -319,6 +319,17 @@ sampling difference). The LS champion remains the strongest diversifier
 Dropping stat arb helps every variant (5-stream > 6-stream).
 `results/blend_monthly.csv`.
 
+### Corroboration and a window-selection caveat (`blend_refined.py`)
+A parallel refined-blend script (only positive-edge streams, committed
+2026-08-13) agrees on the full window — hedge EW + AP: SR 0.98 (vs our
+0.94 native basis; it includes stat arb inside the hedge EW) — but its
+RECENT window (n=232-310 days) reports flattering SRs (hedge+AP+LS
+1.75, 6-leg 2.33) that exceed the full-history 514-day window numbers
+(1.10-1.15) by a wide margin. Cause: the shorter window starts after
+the blend's weak early period (2024-07..2025-07 was the negative half
+for the hedge sleeve). The full-history windows are the honest ones;
+SRs on the trimmed recent window are selection-biased.
+
 ### Weight tests (no improvement over EW)
 - Inverse-vol (h3 0.60 / AP 0.40): SR 1.14 vs 1.15 — EW stays.
 - Monthly vol-management (Moreira-Muir style) is unstable at monthly
