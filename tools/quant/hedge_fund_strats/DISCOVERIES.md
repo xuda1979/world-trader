@@ -182,6 +182,16 @@ rounds volume to nearest 100 (int64) — e.g. 44155331 vs 44155300
   SR 0.94 monthly, all-weather — it never depended on the champion).
 - N14/N15 were foreshadowed exactly by this (the 8y FAIL and the
   panel-state fragility); the volume-precision mechanism explains both.
+- **CLOSING CLARIFICATION (2026-08-13)**: the fragility is SYSTEMIC,
+  not factor-specific — removing the volume factors WIDENS the
+  cross-feed SR gap (0.23 -> 0.60); excluding the 2 price-divergent
+  symbols (CMCSA 6.7%, HON 4.5%) narrows it but does not close (0.20).
+  Prices are >99% identical on 84/85 symbols. The n10_r14 L/S framework
+  has NO robust edge on the 2y universe — SR is unstable to any small
+  cross-feed difference (row count, volume rounding, single-symbol
+  price corner, single-date volume outlier); a fundamental property of
+  the thin-edge sparse-refit walk-forward on ~500 bars. Decommission
+  stands; **any retry requires a >=10y panel**.
 - **Flagship immunity audit (2026-08-13)**: every h3+AP leg is
   price/macro-based — L/S (momentum/reversal), CTA (FRED macro), Global
   Macro (price), AP gold composite (momentum/reversal, price). The only
