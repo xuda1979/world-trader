@@ -129,6 +129,14 @@ UNSUBSTANTIATED — no PASS record exists in tools/quant/ls/results/:
   numbers stand as computed from the series, but the leg's validation
   is 'watch', not PASS; monitor via check_champion_health.py (10d IC
   +0.036 intact, 1d IC -0.132 adverse)
+- CONFIG RESOLUTION (2026-08-13): the val_H2_2025start negative belongs
+  to the **rev3_n13 validation lineage** (1x, 13 names, 20d rebalance,
+  refit 5d, no extra factors, 3.8 bps) — NOT the deployed levdet3.0
+  (n10_r14: 3x, 10 names, 14d rebalance, refit 20d, extra factors,
+  6 bps). The deployed leg's own series (flat to mid-2025, then +13.3%/
+  +38.4% re-costed) is its own evidence; the recent-half fragility is a
+  sibling-config finding. levdet3.0's honest status remains 'watch'
+  (1 factor-decay flag), SR concentrated in the last ~14 months.
 
 ## Pending / flagged candidates
 
