@@ -159,7 +159,8 @@ def main():
         "positioning": positioning,
     }
 
-    # append to history
+    # append to history (dedupe: same asof + stance + key numbers -> update
+    # the latest row instead of stacking identical rows from intraday fires)
     if HIST.exists():
         try:
             hist = json.load(open(HIST))
@@ -167,7 +168,13 @@ def main():
             hist = []
     else:
         hist = []
-    hist.append(stats)
+    if hist and hist[-1].get("asof") == stats["asof"] \
+            and hist[-1].get("stance") == stance \
+            and hist[-1].get("last_252d_rolling_sharpe") == stats["last_252d_rolling_sharpe"] \
+            and hist[-1].get("rolling_5y_monthly_sharpe") == stats["rolling_5y_monthly_sharpe"]:
+        hist[-1] = stats  # refresh timestamp/positioning, keep one row per state
+    else:
+        hist.append(stats)
     HIST.parent.mkdir(parents=True, exist_ok=True)
     with open(HIST, "w") as fh:
         json.dump(hist, fh, indent=2)
