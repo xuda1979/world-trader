@@ -96,7 +96,10 @@ def load_positioning(asof):
                            "reference (legacy noncomm net % of OI): 1987 crash — specs "
                            "~flat pre-crash, -6.3% after (exogenous, no capitulation "
                            "setup); 1990-10 and 1994-07 bottoms — extreme -20% "
-                           "capitulation shorts; 1998/2002 — moderate shorts.",
+                           "capitulation shorts; 1998/2002 — moderate shorts. Same "
+                           "asymmetry replicates in WTI (2001-2016): z<-1.5 -> fwd13w "
+                           "+4.9% vs +2.1% at z>1.5 — extreme short = capitulation "
+                           "buy across markets, era-dependent.",
     }
 
 
