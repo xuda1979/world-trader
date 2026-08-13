@@ -2686,3 +2686,33 @@ signal - not attributable to any one factor or symbol. The decommission stands.
 This closes the polygon n10_r14 research family. Any future attempt must use a
 genuinely longer panel (>=10y) so the factor gate is statistically meaningful and
 the point estimate is not dominated by micro data noise.
+
+## Update 2026-08-13 (loop) — FINAL NEGATIVE: no edge on long history either
+
+Tested the recommendation "use a longer panel to get a statistically meaningful
+factor gate" on genuine long, self-consistent twelvedata history (85 tickers,
+same champion config):
+
+| panel | rows  | SR    | ret% | DD%  |
+|-------|-------|-------|------|------|
+| 8y (2018-) | 2163 | -0.214 | -2.0 | -27 |
+| 10y (2016-) | ~2630| +0.038| +0.4 | -39 |
+
+Neither is meaningfully positive and they disagree in sign. Combined with the
+earlier 20y "definitively dead" result and the pre-existing "live config +0.03 on
+8y" record, this CONFIRMS: the cross-sectional factor L/S framework produces NO
+robust edge on ANY panel length on this universe. The problem is not the 2y panel -
+it is the factor set / L/S framing itself: after costs, the screen's factors
+(range_vol_60d, resid_mom_6m, vol_60d, mom variants) do not deliver a persistent
+cross-sectional premium over 8-20y.
+
+### Endpoint of this research line (final)
+The AlphaPortfolio-inspired cross-sectional factor L/S strategy family has been
+exhaustively tested and shown to have NO deployable edge under cost + data-realistic
+scrutiny, at every panel length (2y/8y/10y/20y), factor set (+ohlc, -vol, dedup),
+and cadence. The polygon champion's 1.686 was an artifact of a single data-precision
+state. Recommend: do not pursue further in this form. Future AlphaPortfolio-style
+work should target (a) monthly-rebalanced factor portfolios with REAL long-history
+datasets (CRSP/paid), (b) signals validated by walk-forward IC with strict
+multiple-horizon p-values, (c) costs validated by independent data feeds (the core
+lesson: an acceptance gate requiring SR invariance to data feed/precision).
