@@ -2835,3 +2835,15 @@ short-window artifact. Sharpe 2.0 remains unreachable (real long-window ceiling
 ~1.2-1.3 levered); x2 delivers the >=10% aim at deeper drawdown; x1.5 keeps
 no-losing-year + DD under 10%. Committed as the company's honest, deliverable
 return-maximization.
+
+### 2026-08-13 — OOS/half-split CONFIRMS the levered floored flagship (not window-lucky)
+Half-split OOS on the deployed floored flagship (fixed-weight strategy; the honest
+OOS check is train/hold-out halves):
+  2x 1st-half (2008-2017): CAGR 12.85% m-Shrp 1.37 MaxDD -11.8%
+  2x 2nd-half (2017-2026): CAGR 10.76% m-Shrp 1.19 MaxDD -12.3%
+  2x delivers >=10% CAGR in BOTH halves -> the >=10% return is NOT a window artifact.
+  base: 1st 8.01%/1.71/-5.9%, 2nd 6.97%/1.53/-6.2%; no negative years 2008-2026
+  (worst 2022 +0.61%).
+The delivered levered floored flagship passes the same OOS rigor that confirmed the
+IV book and exposed the L/S fragility: strong second-half hold, contained DD, no
+losing years at base. This is the validated, honest return-maximization.
