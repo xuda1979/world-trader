@@ -389,6 +389,11 @@ handling, rebalancing, and expected stats serialized to
 - (Fixed 2026-08-13: an earlier spec version used a calendar-day grid
   (freq='D'), whose weekend rows ffill'd returns and inflated daily SR
   to 1.24; now on a trading-day grid and consistent with blend_6stream.)
+- **Rebalancing-cost realism (2026-08-13)**: monthly sleeve rebalancing
+  back to target weights at 12 bps RT costs only **0.42pp/yr (SR
+  1.20 -> 1.17)** on the live 3-sleeve portfolio — sleeve weights drift
+  slowly (monthly-cadence streams); no rebalance-frequency tuning
+  needed, monthly is fine.
 (Monthly-sampled SRs are higher: 0.94 and 1.20 — daily sampling of a
 monthly-cadence book adds intra-month vol.)
 
