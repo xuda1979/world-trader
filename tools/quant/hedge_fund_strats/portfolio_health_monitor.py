@@ -127,6 +127,15 @@ def main():
 
     asof_str = str(f.index[-1].date())
     positioning = load_positioning(asof_str)
+    # slow-decay lens (informational): 5y rolling MONTHLY Sharpe — the
+    # rolling-window decay found 2026-08-13 (min 5y SR +0.31 in the most
+    # recent window, driven by the 2022-23 soft patch) is otherwise invisible
+    # to the daily-based stance logic.
+    fm = f.resample("MS").agg(lambda s: (1 + s).prod() - 1)
+    fivey = fm.iloc[-60:]
+    slow_sr = (fivey.mean() * 12 - 0.02) / (fivey.std() * np.sqrt(12)) \
+        if len(fivey) >= 24 else float("nan")
+
     stats = {
         "asof": asof_str,
         "last_252d_rolling_sharpe": round(cur_rs, 3),
@@ -134,6 +143,7 @@ def main():
         "persistent_neg_sharpe_21d": bool(consecutive_neg_sharpe),
         "short_term_stress_dd": bool(stress_short),
         "stance": stance,
+        "rolling_5y_monthly_sharpe": round(slow_sr, 3),
         "flagship_full_stats": {
             "sharpe": round(f.mean() / f.std() * np.sqrt(252), 3),
             "cagr_pct": round(((1 + f).prod() ** (252 / len(f)) - 1) * 100, 2),
@@ -168,6 +178,7 @@ def main():
     print(f"  stance ...................... {stance}")
     print(f"  last 252d rolling Sharpe .... {cur_rs:+.2f}  (persistent<0 for 21d: {bool(consecutive_neg_sharpe)})")
     print(f"  last 63d drawdown vs 1y hi .. {cur_dd63*100:+.2f}%  (stress bar <-3%: {stress_short})")
+    print(f"  rolling 5y monthly Sharpe ... {stats['rolling_5y_monthly_sharpe']:+.2f}  (slow-decay lens)")
     print(f"  flagship full-window ........ SR {stats['flagship_full_stats']['sharpe']:.2f}, "
           f"CAGR {stats['flagship_full_stats']['cagr_pct']:.1f}%, "
           f"MaxDD {stats['flagship_full_stats']['maxdd_pct']:.1f}%")
