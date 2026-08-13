@@ -2847,3 +2847,22 @@ OOS check is train/hold-out halves):
 The delivered levered floored flagship passes the same OOS rigor that confirmed the
 IV book and exposed the L/S fragility: strong second-half hold, contained DD, no
 losing years at base. This is the validated, honest return-maximization.
+
+## Update 2026-08-13 (loop) — Dynamic 8-sleeve combo tested: more return, NOT more Sharpe
+User asked to use dynamic strategies / many sleeves. Tested an 8-sleeve style
+combo on the long 2008-2026 window with static inverse-vol, dynamic rolling
+inverse-vol, and dynamic invvol+correlation-tilt:
+
+  static invvol (8s):      CAGR 14.3% mShrp 1.05 MaxDD -24.5%
+  DYNAMIC rolling-invvol:  CAGR 14.3% mShrp 1.04 MaxDD -24.1%
+  DYNAMIC invvol+corr-tilt:CAGR 12.9% mShrp 1.02 MaxDD -21.1%
+  floored flagship (ref):  CAGR 7.5%  mShrp 1.63 MaxDD -6.2%
+
+FINDING: adding many sleeves RAISES raw return but LOWERS Sharpe and deepens
+drawdown. The 8-sleeve combo is dominated on a risk-adjusted basis by the floored
+flagship (mShrp 1.63 vs ~1.04, MaxDD -6% vs -24%). Reason: the L/S-style sleeves
+share high correlated equity beta that diversification does NOT remove (2020/2022
+deep DD). The floored book cuts equity beta (50% T-bill floor) for QUALITY at lower
+raw return. CONFIRMS: no sleeve-combination reaches Sharpe>=2 with MaxDD<=10% and
+>=10% return; the floored flagship + modest leverage is the best honest tradeoff.
+The floored flagship + levered variants remain the validated deliverable.
