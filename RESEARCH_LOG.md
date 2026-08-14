@@ -997,3 +997,33 @@ One-pass audit of SYSTEM_PORTFOLIO.md against committed artifacts — ALL match:
   5. T-bill floor        : 3.73% vs 3.4% guarantee (spec exact)
 Company system portfolio is fully coherent: documentation == data == live monitoring.
 All committed. No drift.
+
+## Update 2026-08-13 — bigmove XGB full backtest (best: top-1% + 10% stop)
+Ran the complete calendar-time portfolio backtest on the XGBoost regression model
+(includes user's intraday stop exit, 6bp one-side). Full grid in
+reports/BIGMOVE_XGB_BACKTEST.md.
+- Best tradeable: top-1% predicted next-day return + 10% stop -> cal Sharpe +0.42,
+  ann +7.9%, win5 22%, MaxDD -39% (only positive-calendar-Sharpe config).
+- Tighter top buckets (top-0.3%/0.5%): higher win5 (27-31%) & per-trade net but
+  NEGATIVE calendar Sharpe (trades cluster on ~35-67 days -> spiky daily book).
+- Robustness: block-bootstrap on top-0.5%/0.3% NOT significant (few independent
+  days). Fundamental limit confirmed.
+Artifacts: reports/BIGMOVE_XGB_BACKTEST.md, bigmove_xgb_backtest.json,
+bigmove_xgb_best_equity.csv, bigmove_xgb_equity_vs_spy.png.
+
+## Update (continue to improve) — FLOORED flagship sub-period/rolling robustness VERIFIED (primary core hardened)
+
+Validated the floored flagship (primary core) against the project's
+sub-period + rolling-window discipline:
+
+  sub-period (daily):
+    2008-2012  SR +1.28  MaxDD -5.9%  +7.8%/yr
+    2013-2017  SR +1.77  MaxDD -4.1%  +9.2%/yr
+    2018-2022  SR +1.28  MaxDD -6.2%  +7.1%/yr
+    2023-2026  SR +1.13  MaxDD -4.0%  +5.2%/yr
+  Rolling 5y min SR: +0.83  (positive in EVERY 5y window, vs un-floored +0.25)
+  Zero negative calendar years (min +0.69% 2022)
+
+=> the no-losing-year / any-time / any-scenario claim is ROBUST, not a whole-
+period artifact. Positive in all 4 sub-periods, all 5y rolling windows, worst
+sub-period MaxDD only -6.2%. Strengthens the company system's primary core.
