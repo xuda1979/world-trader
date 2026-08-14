@@ -976,3 +976,24 @@ default (P23/N30): 8.06%/yr, SR 0.96 daily / 1.15 monthly, MaxDD -6.8% daily /
 SYSTEM_PORTFOLIO.md floored row + bullets to these committed numbers (was stale
 at 7.5%/SR1.17/MaxDD-6.2% base). Spec now matches portfolio_floored.json exactly;
 the x1.10 default is the deployable operating config (x1.5/x2 break the guarantee).
+
+## Update 2026-08-14 (loop) — overlay monitor: stance FULL, routine green
+
+Loop re-established (crontab was reinstalled overnight; new job id, same 10m
+"continue" cadence). Panel data unchanged through 2026-08-12 (no fresh rows
+yet; VIX/BAA-AAA at 08-10 as usual — FRED lag). Overlay deploy status:
+credit gate open (BAA-AAA 0.44%, trailing pct 0.12), trend open (SPY 772.8 >
+200d 704.5), VIX stop open (15.5), vol-target scale 1.00 (book 20d vol 11.9%)
+-> exposure 100%, stance FULL. Book at equity high (DD 0.0%), last 10
+sessions +3.9%. Monitor script: tools/quant/top100_momentum_overlay_status.py.
+
+## Update (continue) — FULL MASTER SPEC CONSISTENCY AUDIT: all 5 subsystems verified
+
+One-pass audit of SYSTEM_PORTFOLIO.md against committed artifacts — ALL match:
+  1. Un-floored flagship : SR 1.040 (spec 1.04), MaxDD -12.9% (spec -12.9), n=4663
+  2. Floored flagship    : SR 0.96/1.15, 8.06%, MaxDD -6.84%, worst 2022 +0.35% (spec exact)
+  3. Crash-sleeve        : k5/k3 real +0.34/+0.37 vs scramble -0.82/-1.34 p=0.0 PASS (spec exact)
+  4. Health monitor      : live GO
+  5. T-bill floor        : 3.73% vs 3.4% guarantee (spec exact)
+Company system portfolio is fully coherent: documentation == data == live monitoring.
+All committed. No drift.
