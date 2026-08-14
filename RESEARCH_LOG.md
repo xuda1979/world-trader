@@ -944,3 +944,35 @@ tripwire) into SYSTEM_PORTFOLIO.md operational layer: reads FRED 3m T-bill vs th
 runs: T-bill 3.73%, +0.33pp margin, health OK (buffer watch active). This is the
 operational mechanism that makes the floored flagship's "any time in any market
 scenario" promise trackable. Committed alongside the spec update.
+
+## Update 2026-08-13 — bigmove XGB + exogenous signals: precision up, edge still not robust
+
+Added 21 exogenous signals (Fama-French MktRF/SMB/HML/MOM, SPY market regime
+mom/vol, cross-sectional breadth, BTC/EURUSD) -> 70 feature families. Two
+XGBoost models (classifier + regressor) in no-look-ahead walk-forward.
+
+Results (OOS 2018-2026):
+- Classifier: still ~12-16% win, all thresholds NEGATIVE net (XGB-classifier
+  not the engine).
+- REGRESSION (predict next-day return) is the right framing: monotonic rank;
+  top 0.3% -> win5 31.3%, +0.42%/trade (t=1.89, p=0.059 naive) — precision more
+  than doubled vs the HGB classifier (~16%).
+- BUT date-block bootstrap: the 1,820 "top-0.3%" trades cluster on only 35
+  unique days (~52/day) => ~35 independent events; block CI [-3.8%, +1.2%] ->
+  NOT significant.
+
+Verdict: adding signals + regression genuinely improved ranking/precision
+(16%->31% win in the extreme tail) but the tradable per-trade edge is NOT
+statistically robust — extreme predictions concentrate onto a few regime days
+(few independent samples). Fundamental limit of daily-frequency big-move
+prediction. Report: reports/BIGMOVE_XGB_MORESIGNALS.md.
+
+## Update (continue) — Reconciled master spec floored card to the x1.10 operating default
+
+Parallel fires established x1.10 leverage as the floored flagship's operating
+default (P23/N30): 8.06%/yr, SR 0.96 daily / 1.15 monthly, MaxDD -6.8% daily /
+-4.9% monthly, STILL zero losing years (worst 2022 +0.35%), and validated the
+3.4% T-bill floor as near-optimal (sweep 3.0-4.5%). Recalibrated
+SYSTEM_PORTFOLIO.md floored row + bullets to these committed numbers (was stale
+at 7.5%/SR1.17/MaxDD-6.2% base). Spec now matches portfolio_floored.json exactly;
+the x1.10 default is the deployable operating config (x1.5/x2 break the guarantee).

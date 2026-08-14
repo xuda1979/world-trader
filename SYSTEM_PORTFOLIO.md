@@ -18,7 +18,7 @@ reactive timing.
 | Component | Role | SR | CAGR | MaxDD | Coverage |
 |-----------|------|----|------|-------|----------|
 | **All-weather flagship** = hedge 3-stream EW (L/S 130/30 + CTA macro 21d + Global Macro, ex stat-arb) 50% + AP gold composite 50% | Core | **1.04** | **11.1%** | **-12.9%** | 2008-2026, n=4663 |
-| **FLOORED flagship** = h3+AP 50/50 floored 50% in T-bills (4%/yr) | **Primary core (no-losing-year)** | 0.98 daily / **1.17 monthly** | 7.5% | **-6.2% daily / -4.4% monthly** | 2008-2026, n=4783 |
+| **FLOORED flagship** = h3+AP 50/50 floored 50% in T-bills; **operating default = x1.10 leverage** (P23, N30) | **Primary core (no-losing-year)** | 0.96 daily / **1.15 monthly** | **8.06%** | **-6.8% daily / -4.9% monthly** | 2008-2026, n=4783 |
 | Optional paper overlay: Polygon LS champion (2024+, SR 0.4-0.5 true edge; overfit re-baselined) | Speculative | — | — | — | 2024+ |
 
 **FLOORED flagship** (`portfolio_floored.py` -> `results/portfolio_floored_daily.csv`/`.json`):
@@ -27,17 +27,18 @@ reactive timing.
   construction is `portfolio_floored.py --dynamic` (50%/70% by rate): 4.3%/yr, zero
   losing years] — the strongest "any time" answer
   to the user requirement; worst year 2022 at **+0.61%**.
-- Halves MaxDD vs the un-floored flagship (-6.2% vs -12.9% daily) at a lower
-  but still-solid CAGR (7.5%) and a *higher* monthly Sharpe (1.17 vs 1.0).
+- Halves MaxDD vs the un-floored flagship (-6.8% vs -12.9% daily) at a lower
+  but still-solid CAGR (8.06%) and a *higher* monthly Sharpe (1.15 vs 1.0).
 - Guarantee: `0.5*year + 2% >= 0 iff year >= -4%`; historical worst is -3.4%
-  (2022); holds while the T-bill >= 3.4% (current 3.73%).
+  (2022); holds while the T-bill >= 3.4% (current 3.73%). **N30 sweep**: the
+  3.4% floor is near-optimal (3.0-4.5% all give ~4.1-4.2%/yr, zero losing years).
 - Deployable as the primary core; the un-floored flagship remains the
   higher-return variant when the investor accepts the -12.9% MaxDD / 2 losing
-  years for +360bp/yr CAGR.
-- **P23 upgrade (guarantee-preserving)**: `portfolio_floored.py --lev 1.10`
-  (3% funding) -> 7.9%/yr, MaxDD -4.9% monthly, STILL zero losing years
-  (worst 2022 +0.35%) — the max safe leverage. x1.5/x2 break the guarantee
-  (N28) and are the return-maximizing options (9.7%/11.8% at -9.3%/-12.3% DD).
+  years for ~+300bp/yr CAGR.
+- **P23 operating default = x1.10 leverage** (`portfolio_floored.py --lev 1.10`,
+  3% funding / 4%/yr T-bill) -> **8.06%/yr, SR 0.96/1.15, MaxDD -6.8% daily,
+  STILL zero losing years (worst 2022 +0.35%)** — the max safe leverage that
+  preserves the guarantee (x1.5/x2 break it, N28). This is the deployable default.
 
 **Any-scenario proof** (the "any time, long-term, any market" requirement):
 - Positive in **17 of 19 calendar years** (only 2022 -3.1%, 2023 -1.5%: the
