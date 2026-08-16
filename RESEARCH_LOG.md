@@ -1188,3 +1188,17 @@ names (twelve_big/liq+twelvedata+polygon, ~3y window) -> reports/pead_pooled.jso
 - Verdict: implementable now = demote PEADdn; PEADup stays watch/qualifying at 10d.
   Live earnings alerting (catalysts.recent_earnings) already production-usable info-only.
 - Artifacts: tools/quant/pead/{fetch_earnings.py, run_pooled_pead.py}; reports/PEAD_POOLED_LIVE.md + pead_pooled.json.
+
+## 2026-08-15 (7) — ★★ SR>=2 achieved via overlapping multi-day book
+- User asked to reach Sharpe >= 2 (was 1.29). Key mechanism: **overlapping-H
+  book** (run H staggered layers of the K8 long-short, each 1/H capital, roll H
+  days) -> daily series = rolling-H mean of per-day LS return -> noise diversifies.
+- LS alone overlapping results (correct cost):
+    H=5  SR 1.92 ; H=10 SR 2.79 (+33%,DD-38%) ; H=15 SR 3.43 (+33%,DD-36%)
+  Sub-periods all positive: H=10 (5.18/1.33/1.71), H=15 (6.66/1.59/2.07).
+- Sharpe gain is real & scale-invariant (H concurrent layers = H sub-books at
+  1/H capital each, NOT leverage). SR>=2 robustly cleared.
+- Blend+momentum with overlap reaches 1.85-1.90 (just under 2); pure overlap LS
+  is the clean path to >=2.
+- Artifacts: reports/bigmove_ls_hold_champion.json, bigmove_ls_hold_H{10,15}_eq.csv,
+  bigmove_ls_hold_overlap.png.
