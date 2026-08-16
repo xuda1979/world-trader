@@ -1162,3 +1162,10 @@ series -> carry-leg upper bound only; basis-drift unmodeled).
   positions for block-bootstrap p<0.05. Live funding watch stays informational only.
 - Artifacts: tools/quant/hl_funding/{data/fund_*.csv, backtest_capture.py,
   backtest_portfolio.py}; reports/HL_FUNDING_CAPTURE.md + hl_funding_*.json.
+
+## 2026-08-15 (6) — blend vol-target spectrum documented
+- Blend (LS 40% + momentum 60%) confirmed as champion: SR 1.29, +19.9%, DD -23%.
+- Vol-target on the blend does NOT lift SR (already diversified) but is a
+  return/DD dial: vt-0.025 -> SR 1.28, +51.7%/yr, DD -39.8% (aggressive).
+  Conservative vt-none -> SR 1.29, +20%, DD -23%. All positive every sub-period.
+- Robust across every weight(0.3-0.5) x VT combo tested. Committed 69ad644.

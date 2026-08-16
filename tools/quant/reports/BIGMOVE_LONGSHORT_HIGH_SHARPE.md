@@ -156,3 +156,23 @@ produces a **high-Sharpe, high-return, low-drawdown** strategy that is positive
 in EVERY 3-year sub-period. Vol-target on the blend / weight sweep w(ls)=0.30-0.55
 all sit at SR 1.2-1.3 (robust plateau).
 Artifacts: `bigmove_ls_mom_blend_w40.{json,csv}`, `bigmove_ls_mom_blend.png`.
+
+## Blend weight × vol-target spectrum (2026-08-15)
+The decorrelated blend is remarkably robust — SR 1.2-1.3 across ALL weight/VT
+combos tested, and every one is positive in all 3 sub-periods. Return/DD
+trade-off spectrum at w(ls)=0.40:
+
+| config | Sharpe | Ann ret | MaxDD | sub 18-20/21-23/24-26 |
+|--------|--------|---------|-------|------------------------|
+| **vt-none (headline)** | **1.29** | **+19.9%** | **−22.8%** | 1.71 / 0.74 / 1.35 |
+| vt-0.015 | 1.19 | +32.1% | −28.0% | 1.9 / 0.7 / 1.1 |
+| vt-0.020 | 1.24 | +43.0% | −35.0% | 1.9 / 0.7 / 1.1 |
+| vt-0.025 (aggressive) | 1.28 | **+51.7%** | −39.8% | 1.9 / 0.74 / 1.18 |
+
+Unlike the single-strategy case, vol-targeting does NOT lift the blend's Sharpe
+(it's already diversified); it instead converts to a return/DD dial: from
++20%/−23% (conservative, SR 1.29) up to **+52%/−40% (aggressive, SR 1.28)**.
+Both ends remain robustly profitable every sub-period. Pick per risk appetite.
+
+Champion recommendation: **w(ls)=0.40 + monthly momentum, no vol-target** for
+best Sharpe, or vt-0.025 for max return at comparable Sharpe.
