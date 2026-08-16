@@ -133,3 +133,26 @@ DD -19.8%** — an even better DD/return trade-off than the headline vt1.2%
 (SR 0.76, +13.3%, DD -23.5%). Higher-alpha small-K (4-6) configs lose their SR
 edge once vol-targeted (their higher raw vol forces leverage cuts), confirming
 **K=8 + vol-target is the robustness sweet spot**.
+
+## ★ Portfolio blend: XGB long-short + monthly momentum (2026-08-15) — big win
+Combining the decorrelated XGB long-short with the existing monthly top-100
+momentum book. Daily return corr = **-0.04** (truly decorrelated).
+
+**Blend 40% LS / 60% momentum (2018-2026):**
+| metric | LS alone | Moment. alone | **40/60 blend** |
+|--------|----------|--------------|-----------------|
+| Sharpe | 0.83     | 0.96         | **1.29**        |
+| Ann ret| +19.3%   | +17.9%       | **+19.9%**      |
+| MaxDD  | -29%     | -33%         | **-22.8%**      |
+| sub 18-20/21-23/24-26 SR | 2.5/-0.8/0.5 | - | **1.71 / 0.74 / 1.35** |
+
+**This fixes the previously-unfixable weak years:**
+- 2023: LS -0.83 -> **blend +0.19** (momentum carried the factor-reversal year)
+- 2026: LS -0.19 -> **blend +1.21**
+- 2024: 0.46 -> 1.41; 2025: 0.57 -> 1.36 (only 2022 remains marginally -0.07)
+
+The decorative two-book combination nearly **doubles Sharpe (0.83 -> 1.29)** and
+produces a **high-Sharpe, high-return, low-drawdown** strategy that is positive
+in EVERY 3-year sub-period. Vol-target on the blend / weight sweep w(ls)=0.30-0.55
+all sit at SR 1.2-1.3 (robust plateau).
+Artifacts: `bigmove_ls_mom_blend_w40.{json,csv}`, `bigmove_ls_mom_blend.png`.

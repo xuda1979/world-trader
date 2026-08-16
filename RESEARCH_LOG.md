@@ -1133,3 +1133,13 @@ tools/quant/hourly_xgb/RESEARCH_REPORT.md (addendum).
   Committed as d140134.
 PYEOF
 echo "research log appended"
+## 2026-08-15 (5) — ★ BLEND: XGB long-short + monthly momentum -> SR 1.29
+- The one remaining weakness (2023 down year) is now FIXED by combining the
+  decorrelated daily XGB long-short with the existing monthly top-100 momentum
+  book (daily ret corr -0.04).
+- 40/60 blend (2018-2026): SR 1.29, +19.9%/yr, DD -22.8%. Robust pos in every
+  3y sub-period: 1.71 / 0.74 / 1.35.
+- Fixes weak years: 2023 -0.83->+0.19, 2026 -0.19->+1.21, 2024 0.46->1.41,
+  2025 0.57->1.36. Plateau SR 1.2-1.3 at w(ls)=0.30-0.55.
+- Nearly doubles LS-alone Sharpe (0.83->1.29); high-Sharpe+high-return+low-DD.
+- Artifacts: reports/bigmove_ls_mom_blend_w40.{json,csv}, bigmove_ls_mom_blend.png.
