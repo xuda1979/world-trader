@@ -1214,3 +1214,25 @@ User flagged possible leakage on the SR>3 claim. Rigorous audit:
 => Honest SR ~1.1 (overlap) / 0.92 (blend). SR>=2 not reachable via smoothing
    or leverage (leverage doesn't change SR); needs higher IC / more names.
 Artifacts: reports/bigmove_honest_sharpe.json.
+
+## 2026-08-16 (loop) — PEAD gate already self-protecting + capacity-tier momentum IC is within-noise
+Two results this firing (both thesis-relevant, both using only reliable local panels).
+1) CLOSED the PEAD thread from the last firing: ran the pooled PEAD long/short results
+   through the production trade_qualifies gate -> ALL FOUR variants FAIL (Long fails
+   EXP_MIN=1%/trade at 0.32% & TSTAT_MIN=2.0 at 1.38; Short fails outright on negative OOS,
+   t=-2.20 @10d). CONCLUSION: the repo's existing OOS gate ALREADY correctly excludes PEAD
+   as a standalone edge on the observable large-cap universe. NO code change needed - the
+   system is self-protecting against the weak PEAD evidence. (Verifies last firing's
+   "demote PEADdn" recommendation is already enforced by the gate.)
+2) NEW capacity-tier momentum IC study (Pillar1+4): 676 names/~3y, monthly no-lookahead,
+   median-$vol terciles (large $566M/day vs small $28.5M/day), rank-IC of 252d momentum vs
+   21d/63d fwd. Result: momentum IC weakly positive in ALL tiers/horizons (+0.01..+0.03,
+   real modest Pillar-4 signal) BUT tier differences are WITHIN ~1 SE (large 0.028+-0.035 vs
+   small 0.006+-0.030 @21d) -> capacity-tier amplification NOT observable. The true micro-cap
+   sandbox ($1-5M/day) is entirely absent from free panels. STEERING: price-momentum is the
+   WRONG expression of the capacity-constrained edge (liquidity-flat here); chase structural
+   depth edges (funding/PEAD/event/basis) and acquire true micro-cap OHLC (paid tier) before
+   claiming reachable micro-cap alpha.
+- Artifacts: tools/quant/capacity/tier_ic.py; reports/CAPACITY_TIER_MOMENTUM.md + capacity_tier_ic.json.
+  (Also gated-check: no LLM key in env -> llm.available_provider()=None; GDELT returns None/429 ->
+   Pillar-2 narrative live-backtest not runnable here, consistent with the recurring data gate.)
