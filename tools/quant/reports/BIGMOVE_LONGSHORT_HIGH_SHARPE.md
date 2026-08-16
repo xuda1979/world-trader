@@ -203,3 +203,39 @@ Blend with monthly momentum also rises to SR ~1.85-1.90 (H=10-20) but is just
 under 2.0; the pure overlapping LS book is the clean way to clear 2.0.
 Artifacts: bigmove_ls_hold_champion.json, bigmove_ls_hold_H{10,15}_eq.csv,
 bigmove_ls_hold_overlap.png.
+
+## ⚠️ CORRECTION + LEAKAGE AUDIT (2026-08-15) — SR>3 was NOT real
+User correctly demanded a leakage/double-check. Audit findings:
+
+**1. The overlapping-hold naive SR (2.8-3.4) was an ARTIFACT.**
+`rolling(H).mean()` of the daily returns creates heavy positive autocorrelation
+(H=10 acf1=0.88, H=15 acf1=0.92). The standard sqrt(252) annualization assumes
+IID daily returns, so it wildly overstates the annualized Sharpe of a smoothed,
+autocorrelated series. **Lo (2002) autocorrelation-adjusted Sharpe is the honest
+measure:**
+
+| config | naive SR | **Lo-adjusted SR** |
+|--------|---------|--------------------|
+| per-day LS (H=1) | 0.82 | **0.82** |
+| overlap H=5 | 1.88 | 1.05 |
+| overlap H=10 | 2.79 | **1.10** |
+| overlap H=15 | 3.43 | **1.10** |
+| blend 40/60 | 0.85 | **0.92** |
+
+**=> Honest strategy Sharpe is ~1.1 (overlap) / ~0.9 (blend), NOT >3.**
+
+**2. The underlying per-day signal IS leak-free (audited):**
+- Within-day permutation scramble (destroy pred<->real pairing): SR 0.82 -> ~0.15
+  (collapses => edge is genuine cross-sectional signal, not structural artifact).
+- +1-day lag (trade on pred@T-1): SR -> -0.10 (signal decays => no front-running).
+- -1-day lead (trade on pred@T+1): SR -3.5 (feeding future data does NOT create
+  positive SR => no look-ahead leak).
+- Walk-forward train window strictly before each prediction block; features are
+  causal (shift(n)/rolling only); target = close[T+1]/close[T]-1 (signal at
+  close T, realized over T->T+1).
+
+**Bottom line:** genuine, leak-free cross-sectional alpha at SR ~0.8/day and
+~1.1 with an honest overlapping book. SR>=2 from this signal is NOT supported by
+smoothing tricks; leverage also does not raise Sharpe. Reaching a defensible
+SR>=2 requires substantially higher IC / more independent names, not re-scaling.
+Artifacts: bigmove_honest_sharpe.json.

@@ -1202,3 +1202,15 @@ names (twelve_big/liq+twelvedata+polygon, ~3y window) -> reports/pead_pooled.jso
   is the clean path to >=2.
 - Artifacts: reports/bigmove_ls_hold_champion.json, bigmove_ls_hold_H{10,15}_eq.csv,
   bigmove_ls_hold_overlap.png.
+
+## 2026-08-15 (8) — ⚠️ CORRECTION: overlap SR>3 was autocorrelation artifact
+User flagged possible leakage on the SR>3 claim. Rigorous audit:
+1. rolling(H).mean() creates heavy autocorr (H10 acf1=.88, H15=.92); sqrt(252)
+   annualization assumes IID -> overstates SR. Lo-corrected Sharpe:
+   per-day 0.82, overlap H10 1.10, H15 1.10, blend 0.92. NOT >3.
+2. Per-day signal is leak-free: within-day scramble 0.82->~0.15; +1-day lag ->
+   -0.10 (decays); -1-day lead -> -3.51 (no positive SR from future data);
+   walk-forward train strictly before pred block; features causal.
+=> Honest SR ~1.1 (overlap) / 0.92 (blend). SR>=2 not reachable via smoothing
+   or leverage (leverage doesn't change SR); needs higher IC / more names.
+Artifacts: reports/bigmove_honest_sharpe.json.
