@@ -1287,3 +1287,42 @@ Established the theory for how the fund should treat passive AMM LP without MEV-
 - Verdict: SR>=2 needs materially richer/independent data (earnings, options,
   NLP/news, order flow), not more tuning of the OHLCV+macro panel. Data ceiling.
 - Artifacts: reports/bigmove_ensemble_ic.json.
+
+## 2026-08-16 (/loop, 2nd firing) — AMM LVR: concentrated-liquidity (v3) range cliff derived
+Extended the AMM/LVR note to UNISWAP V3 CONCENTRATED liquidity (first firing was full-range).
+Derived + verified the concentrated LVR rate (band [Pa,Pb], liquidity L):
+    dLVR = (1/4) s2 L sqrt(P) dt        (verified: analytic vs numeric, max err ~1e-7; closed
+     form ~1e-17) with holdings x=L/sqrt(P)-L/sqrt(Pb), y=L(sqrt(P)-sqrt(Pa)).
+KEY FINDING (sizing-relevant): the LVR RATE depends only on L & sqrt(P), NOT on band width,
+but the CAPITAL required to carry L collapses as the band tightens. At s=0.3:
+    full-range  LVR/V = 1.1%/yr ; [0.5,2.0] 3.8%/yr ; [0.8,1.25] 10.7%/yr ;
+    [0.9,1.1] 23.0%/yr ; [0.99,1.01] 225.6%/yr (0.4yr bleed-out).
+=> Concentration is an LVR MULTIPLIER on capital, not a cost reducer. A tight band demands
+   ~20-200x more fee revenue per capital to break even. Range-aware break-even:
+    f*nu > (1/4) s2 sqrt(P) * V/L  with c=V/L collapsing as band tightens.
+STEERING: prefer WIDE-on-target ranges / spread liquidity thin unless fee x turnover clearly
+clears the concentrated bound with margin; vol-spike exit still applies (LVR ~ s2).
+- Also NOTE: the existing cron job job_7a2c8a4ea13d IS firing every 10min but the agent CLI is
+  NOT logged in ("Not logged in · Please run /login") -> scheduled runs are inert; manual
+  research is the working path until /login is fixed. Did NOT create a duplicate job.
+- Artifacts: reports/AMM_LVR_MATHEMATICS.md (adds Section 7); reports/_amm_lvr_cl_verify.py.
+
+## 2026-08-15 (10) — new-data-source feasibility: blocked by no network + short caches
+- Attempted to bring in richer data per recommendation. Findings:
+  * NO live network access (apif.twelvedata.com unreachable) -> all fetch-based
+    sources (news, CBOE options, Finnhub earnings, Polygon) cannot run here.
+  * Cached richer data too short: intraday 17nx3mo; earnings 625 events x 2wk
+    (Aug-2026), n=15 matched to prices (Spearman surprise->next-day 0.17,
+    directionally positive but n=15 inconclusive); polygon_v2 351nx2yr but daily
+    OHLCV (same info type).
+- Verdict: SR>=2 data ceiling persists in this sandbox; needs network + years of
+  earnings/options/news history. Documented in BIGMOVE_DATA_SOURCES.md.
+PYEOF
+git add tools/quant/reports/BIGMOVE_DATA_SOURCES.md RESEARCH_LOG.md && git commit -q -m "bigmove: new-data feasibility — blocked by no network + short caches
+
+Tried adding richer data (options/earnings/news/intraday). Verified no live
+network in env; cached richer data too short to train (intraday 17nx3mo,
+earnings 2-wk window n=15 matched, polygon_v2 daily OHLCV only). Earnings
+surprise->return Spearman 0.17 (n=15, directionally positive but inconclusive).
+SR>=2 data ceiling persists until network + years of history available.
+Artifacts: BIGMOVE_DATA_SOURCES.md." && git log --oneline -1
