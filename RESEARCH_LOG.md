@@ -1169,3 +1169,22 @@ series -> carry-leg upper bound only; basis-drift unmodeled).
   return/DD dial: vt-0.025 -> SR 1.28, +51.7%/yr, DD -39.8% (aggressive).
   Conservative vt-none -> SR 1.29, +20%, DD -23%. All positive every sub-period.
 - Robust across every weight(0.3-0.5) x VT combo tested. Committed 69ad644.
+
+## 2026-08-16 (loop) — Pooled PEAD live validation: long positive-but-sub-sig, SHORT ACTUALLY LOSES
+First live, cost-aware, OOS-split validation of the repo's POOLED cross-sectional PEAD
+(the strategic-thesis Pillar 2/4 event edge). The real engine is analysis.backtest_pead_pooled
+(Bernard/Thomas pooled method); standalone pead.py is a placeholder. Fed it 320 priced
+names (twelve_big/liq+twelvedata+polygon, ~3y window) -> reports/pead_pooled.json.
+- LONG (PEADup): ALL four samples positive (5d/10d x in/OOS). 10d: n=605, t=+1.38,
+  OOS +0.375%/event. Real but does NOT clear t>=2 bar. Promising, not proven.
+- SHORT (PEADdn): NEGATIVE at both horizons and OOS, t=-2.20 @10d (n=462, OOS -0.77%).
+  Short-side PEAD is a NET LOSER on live data (value-trap/squeeze/borrow) -> should be
+  disabled/demoted as a signal setup (de-risk action, evidence-based).
+- Edge is UNDERSTATED: free panels only price large/liquid caps where drift is weakest;
+  24/624 live earnings-event symbols have any price panel; micro-cap fetch returns empty;
+  the polygon micro-cap slice is stale (ends 2026-08-04). Small-cap drift (stronger) is
+  data-gated -> SAME paid-tier gate as CTA-futures/hourly/Hyperliquid-funding. Long-side
+  t would likely clear sig with small-cap OHLC.
+- Verdict: implementable now = demote PEADdn; PEADup stays watch/qualifying at 10d.
+  Live earnings alerting (catalysts.recent_earnings) already production-usable info-only.
+- Artifacts: tools/quant/pead/{fetch_earnings.py, run_pooled_pead.py}; reports/PEAD_POOLED_LIVE.md + pead_pooled.json.
