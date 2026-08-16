@@ -117,3 +117,19 @@ realistic limit of a daily price-based cross-sectional signal, **not** something
 no-lookahead gate can smooth out. Full-period result remains strong and robust:
 **SR 0.76, +13-21%/yr, DD -23% to -38% (vol-targeted)**.
 Artifacts: `bigmove_xgb_regime_gate.json`, code `xgb_ls_regime_gate.py`.
+
+## Decorrelation blend test (2026-08-15)
+Tested blending the XGB prediction with a short-term reversal factor (5d/20d) at
+weights 0.2/0.5 (reversal = -momentum). Result: reversal blending raises raw
+cross-sectional IC (0.0085 -> 0.015) but LOWERS long-short SR (0.70 -> 0.31-0.57)
+with deeper drawdowns (to -58%..-73%). The naive reversal signal adds correlation
+counted by IC but not monetized by the K8 book (its informative-with-noise extreme
+movers hurt the equal-weight portfolio). Combined with the earlier findings, naive
+factor blending does not improve the strategy. Rejected.
+
+## Alternative risk point (K8, balanced, vol-target 1.0%)
+Sweeping tighter vol-targets under K=8: `vt0.01` gives **SR 0.764, +11.3%/yr,
+DD -19.8%** — an even better DD/return trade-off than the headline vt1.2%
+(SR 0.76, +13.3%, DD -23.5%). Higher-alpha small-K (4-6) configs lose their SR
+edge once vol-targeted (their higher raw vol forces leverage cuts), confirming
+**K=8 + vol-target is the robustness sweet spot**.

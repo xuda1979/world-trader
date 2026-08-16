@@ -1121,3 +1121,15 @@ tools/quant/hourly_xgb/RESEARCH_REPORT.md (addendum).
   and strong: SR 0.76, +13-21%/yr, DD -23..-38% (vol-targeted).
 - Artifacts: reports/bigmove_xgb_regime_gate.json, bigmove/xgb_ls_regime_gate.py;
   report BIGMOVE_LONGSHORT_HIGH_SHARPE.md updated (yearly table + gate verdict).
+
+## 2026-08-15 (4) — post-commit improvement tests (reversal blend, tighter VT)
+- K/VT sweep: confirmed K=8+vol-target is the sweet spot. vt0.01 -> SR 0.764,
+  +11.3%, DD -19.8% (better DD/return than vt1.2%). Small-K(4-6) lose SR edge
+  under VT (high raw vol -> leverage cut).
+- Reversal-blend test (XGB + 5d/20d reversal, w=0.2/0.5): raises raw IC to
+  0.015 but LOWERS K8 long-short SR to 0.31-0.57 with deeper DD (-58..-73%).
+  Naive factor blending not monetized by equal-weight K8; rejected.
+- Strategy confirmed converged & strong: SR 0.76-0.83 (long-short K8 + VT).
+  Committed as d140134.
+PYEOF
+echo "research log appended"
