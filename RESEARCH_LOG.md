@@ -1236,3 +1236,54 @@ Two results this firing (both thesis-relevant, both using only reliable local pa
 - Artifacts: tools/quant/capacity/tier_ic.py; reports/CAPACITY_TIER_MOMENTUM.md + capacity_tier_ic.json.
   (Also gated-check: no LLM key in env -> llm.available_provider()=None; GDELT returns None/429 ->
    Pillar-2 narrative live-backtest not runnable here, consistent with the recurring data gate.)
+
+## 2026-08-16 (loop) - Cryptographic execution scan: ZK dark pools (Renegade/Penumbra) = watchlist only
+Executed the recurring "Zero-Knowledge Dark Pools" research prompt. Deliverable:
+tools/quant/reports/ZK_DARK_POOLS.md (architecture scan; NOT a backtested edge).
+- Mechanism: replace public mempool exposure with an encrypted, distributed order book kept
+  locally by traders; independent relayers run MPC to match orders anonymously without
+  decrypting them; settlement verified on-chain via zk-SNARK (proves commitments, nullifiers
+  prevent double-spend, state valid) without leaking balances/size/direction. Proof wrapped
+  inside MPC => end-to-end atomic privacy; cross at oracle mid-price => zero bid-ask spread.
+- Fund fit: latency-agnostic; medium-frequency rebalances (momentum/pairs/CTA) are exactly
+  the orders public mempool transparency punishes via front-run/sandwich.
+- Steering verdict: add to TIER-0 WATCHLIST, do NOT route live flow. Binding constraint is
+  DEPTH (dark-pool TVL/flow a small fraction of AMM/CEX), not the crypto. Feasibility probe =
+  measure on-protocol depth + all-in cost (spread+fees+impact) vs current AMM routing on 2-3
+  actually-traded pairs; proceed only if net saving >= ~5bps. Also quantify current MEV
+  exposure on live rebalances before claiming the replacement thesis.
+- Tooling note: quantum-intelligence retrieval service returned HTTP 503 (unrelated-host 404)
+  on all calls this firing, so the report is written from protocol knowledge, not RAG-fetched
+  docs; quantitative claims marked order-of-magnitude.
+
+## 2026-08-16 (/loop) — AMM LVR mathematics: derived + MC-verified; LP sizing bound
+Research task (recurring) on the mathematics of AMMs and Loss-Versus-Rebalancing.
+Established the theory for how the fund should treat passive AMM LP without MEV-latency:
+
+1) Core LVR pathwise differential (constant-product x*y=k), verified:
+     dLVR = (1/2) s2 P2 |x*'(P)| dt   =   (1/8) s2 V dt
+   - |x*'(P)| is the price-sensitivity of the target risky holding (negative-gamma gauge).
+   - Closed-form reduction (1/8 s2 V) validated exactly: at P=1,s=.3 both give 0.0225;
+     Monte Carlo over 20,000 GBM paths gives ratio LVRgeneral/LVRclosed = 1.0000.
+2) Option-theoretic frame: LP = short perpetual American continuous-installment option;
+   LVR is the option theta (continuous funding) — LVR = -theta. LP is short gamma/vol,
+   LVR linear in variance (s2), so a doubling of sigma QUADRUPLES the tax.
+3) Tradable sizing rule (the new bound): LP is in-expectation profitable IFF
+   E[f*nu] > s2/8, where f=fee rate, nu=turnover. Require >=2x margin (sigma < sqrt(8fnu)/2)
+   due to (a) vol-estimation error, (b) daily data understating intraday vol, (c) tight
+   ranges concentrating LVR. Vol-spike = kill switch (theta/gamma stop, not a yield chase).
+4) Implication aligned with fund thesis: cannot out-speed MEV bots => price OWN theta,
+   only size where fee revenue statistically exceeds the mathematical certainty of LVR.
+- Artifacts: reports/AMM_LVR_MATHEMATICS.md (full note); verification scripts saved to
+  tools/quant/reports/_amm_lvr_verify.py. No external data required (pure math).
+
+## 2026-08-15 (9) — ensemble (XGB+LGBM) negative; SR>=2 infeasible from this data
+- Installed LightGBM, ran causal walk-forward ensemble on cached 93-feat matrix.
+- Honest Lo-adj overlap10 SR: XGB 1.10 (best), LightGBM 0.87, rank-ensemble 0.55.
+  Ensemble WORSE than XGB alone (errors not independent on same features).
+- All honest levers now exhausted: overlap/K (1.10), cross-section width
+  (0.23-0.68), blend+momentum (0.92), model hyperparams/target (optimal),
+  gating (backfires), algorithm ensemble (0.55).
+- Verdict: SR>=2 needs materially richer/independent data (earnings, options,
+  NLP/news, order flow), not more tuning of the OHLCV+macro panel. Data ceiling.
+- Artifacts: reports/bigmove_ensemble_ic.json.

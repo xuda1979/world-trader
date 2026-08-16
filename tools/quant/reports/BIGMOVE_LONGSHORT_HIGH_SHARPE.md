@@ -239,3 +239,29 @@ measure:**
 smoothing tricks; leverage also does not raise Sharpe. Reaching a defensible
 SR>=2 requires substantially higher IC / more independent names, not re-scaling.
 Artifacts: bigmove_honest_sharpe.json.
+
+## Ensemble (XGB + LightGBM) — also does NOT reach SR>2 (2026-08-15)
+Installed LightGBM and ran a full causal walk-forward ensemble to try to raise
+IC by combining partially-decorrelated model errors. Honest (Lo-adj) results:
+| model | IC | honest overlap10 Lo-SR |
+|-------|-----|------------------------|
+| XGB (best) | 0.0091 | **1.10** |
+| LightGBM | 0.0080 | 0.87 |
+| rank-avg ensemble | 0.0085 | 0.55 |
+
+**Ensemble is WORSE than XGB alone** (LightGBM noise dilutes XGB's cleaner
+signal; same 93 features => errors not independent). Confirms XGB is at the
+information ceiling for this feature set.
+
+## Honest feasibility verdict on SR>=2
+After exhaustive, leak-audited testing, the strategy's GENUINE (Lo-adjusted)
+Sharpe is capped ~**1.1**, by the model's daily cross-sectional IC (~0.009).
+Levers exhausted with honest results:
+- overlap H / K sweeps: cap 1.10   | wider cross-section: 0.23-0.68
+- blend + momentum: ~0.92           | regime gating: backfires
+- model hyperparams/target: optimal | algorithm ensemble: worse (0.55)
+Leverage does NOT change Sharpe; smoothing artifacts were corrected.
+**Reaching SR>=2 requires materially richer/independent data** (earnings
+calendars, analyst revisions, options flow, NLP/news, L2 order flow), which the
+README flagged as the fundamental limit of an OHLCV+macro panel. This is a data
+ceiling, not a tuning gap. Artifacts: bigmove_ensemble_ic.json.
