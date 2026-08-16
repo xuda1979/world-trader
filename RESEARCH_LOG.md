@@ -1326,3 +1326,40 @@ earnings 2-wk window n=15 matched, polygon_v2 daily OHLCV only). Earnings
 surprise->return Spearman 0.17 (n=15, directionally positive but inconclusive).
 SR>=2 data ceiling persists until network + years of history available.
 Artifacts: BIGMOVE_DATA_SOURCES.md." && git log --oneline -1
+## 2026-08-16 (/loop, 3rd firing) — AMM LVR: funding/theta equivalence clarified + fee-breakeven table
+Three-thread progress on the AMM/LVR research note:
+1) HONEST PRECISION on the option-thesis: "LVR = option theta/funding" is correct ONLY when
+   gamma = derivative of the REPLICATING HEDGE |x*'(P)|, NOT the naive value-function V''(P).
+   V(P)=2*sqrt(kP) is convex -> naive theta = -0.5 s2 P2 V'' = 0.0675 @P1,s.3, which is 3x too big
+   and wrong-sign. Correct funding = 0.5 s2 P2 |x*'| = (1/4) s2 sqrt(kP), == LVR exactly to 1e-9
+   across P in {0.5..2.0}. VERDICT: price theta from hedge-ratio gamma, not PmL curvature, or
+   you OVERESTIMATE the drag ~3x.
+2) PRACTICAL fee-breakeven table (min fee-as-%-of-capital/yr to cancel LVR) built for
+   sigma in {10,30,50,100}% x ranges {full,[.5,2],[.8,1.25],[.9,1.1],[.99,1.01]}:
+     sigma=30%: full-range 1.1%/yr ; [.9,1.1] 23%/yr ; [.99,1.01] 226%/yr.
+     5bp-tier equiv turnover: full 22x/yr vs tight [.99,1.01] 4511x/yr (unreachable).
+     sigma=50%: [.9,1.1] = 63.9%/yr, [.99,1.01]=626%/yr -> tight+volatile = LVR death trap.
+3) PORTFOLIO STEER: LVR-minimal LPing = low-vol assets + wide/off-range liquidity. Only stable
+   pairs (10%) full-range clear realistic fee turnover (~2.5x/yr @5bp). Avoid tight bands on
+   volatile pairs (sigma^2 x range-tightness double penalty). >=2x safety margin, weekly recompute.
+- Artifacts: reports/AMM_LVR_MATHEMATICS.md (adds Sections 8-9); reports/_amm_lvr_callable.py
+  (fee-breakeven calculator), _amm_lvr_theta_verify.py (funding identity).
+- Scheduling note: identical task remains covered by job_7a2c8a4ea13d (*/10); NOT duplicated.
+
+## 2026-08-15 (11) — CORRECTED: network works; TwelveData rate-limited but earnings obtainable
+- Direct probe to api.twelvedata.com SUCCEEDED with repo key (earlier "no network"
+  was an invalid endpoint path, not a block).
+- time_series + earnings endpoints work: earned real AAPL daily + last-5-quarter
+  earnings with surprise%. Earnings data carries signal (surprise->next-day Spearman
+  0.17 on local matched n=15; directionally positive).
+- Free tier aggressively rate-limited: ~1 call/min then HTTP 403 until reset ->
+  bulk 28-name fetch impractical at this tier. Needs paid tier / key rotation.
+- Earnings pipeline in place; full 2018-2026 earnings panel requires higher tier.
+PYEOF
+git add tools/quant/reports/BIGMOVE_DATA_SOURCES.md RESEARCH_LOG.md && git commit -q -m "bigmove: corrected network finding — TwelveData works but free-tier rate-limited
+
+Direct probe to api.twelvedata.com succeeds (earlier no-network was a bad path).
+time_series + earnings endpoints return real data (AAPL last-5-qtr earnings with
+surprise%). BUT free tier ~1 call/min then 403 -> bulk cross-section fetch
+impractical. Earnings signal directionally validated (surprise->ret). Needs
+higher-tier key to build full 2018-2026 earnings panel." && git log --oneline -1
