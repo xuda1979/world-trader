@@ -1027,3 +1027,97 @@ sub-period + rolling-window discipline:
 => the no-losing-year / any-time / any-scenario claim is ROBUST, not a whole-
 period artifact. Positive in all 4 sub-periods, all 5y rolling windows, worst
 sub-period MaxDD only -6.2%. Strengthens the company system's primary core.
+
+## Update 2026-08-14/15 (loop) — COT weekly refresh integrated
+
+CFTC published the 08-11 report; downloader re-fetched the 2026 zips:
+  cot_tidy.csv: 189,735 rows (through 2026-08-11)
+  tff_tidy.csv: 39,438 rows (through 2026-08-11)
+Monitor positioning lens updated: equity spec z -0.25 -> +0.22 (spec net
+-11.4% of OI, still the structural-short era; z moved toward neutral).
+No extreme -> no interpretative change; stance GO.
+
+## 2026-08-15 — bigmove XGB next-day long-short: HIGH Sharpe/return optimization
+- Prior tail-picking (top-1%+10% stop) capped at SR 0.42, +7.9%, DD -39% (sparse/myopic).
+- Pivoted to **long-short cross-sectional** on the scaled 304-universe walk-forward cache
+  (K=8 top long / bottom short, equal-weight, daily rebalance, non-overlap guard n>=2K).
+- Corrected cost: 6bp one-side charged on BOTH legs (12bp/day). Honest vol-targeting
+  (trailing-20d realized vol, no look-ahead, leverage<=3x) halves drawdown for ~1 SR pt.
+- Results (calendar 2018-2026, all 3y sub-periods positive):
+    vt-none  : SR 0.77, +22.6%, DD -43.6%
+    vt-2.0%  : SR 0.76, +20.7%, DD -38.2%
+    vt-1.5%  : SR 0.76, +16.2%, DD -28.8%
+    vt-1.2%  : SR 0.76, +13.3%, DD -23.5%  (headline conservative)
+- vs prior best: Sharpe 0.42->0.76 (+80%), return +7.9%->+13.3% (+70%), DD -39%->-23.5% (-40%).
+- Recent 2024-26 sub-period weaker (SR ~0.28) but still positive; edge narrows, not gone.
+- Artifacts: reports/BIGMOVE_LONGSHORT_HIGH_SHARPE.md, bigmove_longshort_champion.{json,csv,png},
+  bigmove_xgb_ls_final.json. Code: bigmove/xgb_ls_*.py.
+
+## 2026-08-15 (loop) — Hourly XGB next-close model (US equities): NO edge found
+- Built hourly XGB prediction (next-hour close return) on polygon_intraday
+  5-min bars -> regular-session hourly (17 liquid names, ~6mo: 2024-12..2025-06).
+- Very rich causal features: 41 families x 17 = 697 cols (per-name return/vol/
+  MA/RSI/position, hour/dow seasonality, xs market ret/disp/vol/breadth).
+- Model: XGBoost reg; target = close(T+1)/close(T)-1 (exactly "next hour close vs now").
+- Strategy: buy at close T iff predicted next-hour close >= +2% now, liquidate at
+  close T+1; 6bps/side (12bps round-trip).
+- FINDING: walk-forward (expanding, retrain/20d) OOS IC = **-0.007 ≈ 0** -> no
+  forecastable hourly signal from bars. 2%/1.5%/1% thresholds show apparent net
+  +1.7%/+4.5%/+14% but only 8/25/59 trades clustered on 7/10/16 dates (ABBV-heavy)
+  and block-bootstrap p≈0.5 => indistinguishable from noise. Below 0.8% thresh,
+  12bps costs dominate and net collapses.
+- Root cause: +2% single-hour moves are ~2% base rate, news-driven, not
+  predictable from past bars; 6mo/17name sample far too small; 12bps RT is a huge
+  hourly-frequency hurdle.
+- VERDICT: do not trade. Need multi-year intraday history + different signal +
+  bootstrap p<0.05 before go. Artifacts: tools/quant/hourly_xgb/
+  (hourly_main.py, hourly_backtest.py, RESEARCH_REPORT.md, data/hourly_oos_frame.csv).
+
+## 2026-08-15 (2) — bigmove model-level optimization confirmed near-optimal
+- Built reusable cached 93-feature matrix (data/xgb_scaled_feats.parquet, 2.19M x 93)
+  so walk-forward hyperparam/target sweeps don't rebuild features each time.
+- Hyperparameter sweep (41-refit WF, K=8 LS objective):
+    base (depth6,lr.05,400t)  -> IC 0.0091, LS-SR 0.83, +26%
+    deeper (depth9,L2=2)      -> IC 0.0065, LS-SR -0.07 (hard overfit)
+    shallow_reg (depth4,L2=8) -> IC 0.0085, LS-SR 0.16 (underfit)
+- Target sweep (raw / vol-norm / mkt-neutral):
+    raw rn (baseline)         -> IC 0.0091, LS-SR 0.83  (best)
+    vol-normalized rn/rv5     -> IC 0.0014, LS-SR -0.02 (destroys edge)
+    market-neutral rn-mean    -> IC 0.0077, LS-SR 0.34  (worse)
+- CONCLUSION: the existing XGB model (raw next-day return target, base params)
+  is already near-optimal. Bigger capacity overfits the rare big-move tail;
+  detrending targets throw away the cross-sectional dispersion the LS edge needs.
+  High-Sharpe gains come from portfolio construction (long-short K8 + vol-target:
+  SR 0.76-0.83) NOT more model capacity. 3-seed ensemble attempt hung on large
+  matrix -> abandoned (marginal expected gain).
+- Artifacts: reports/bigmove_xgb_tune.json, bigmove_xgb_target_tune.json,
+  bigmove_xgb_ensemble.json(empty); code bigmove/xgb_tune_harness.py,
+  xgb_tune_target.py, xgb_tune_ensemble.py, build_feature_cache.py.
+
+## 2026-08-15 (loop, continuation) — hourly no-edge TRIPLE confirmed
+Extended the hourly XGB investigation to rule out alternative framings:
+1. Cross-sectional long/short (rank by predicted next-hour return, long top-K /
+   short bottom-K): per-hour cross-sectional IC = -0.031 (n=382h); K=2/4/6
+   spreads NEGATIVE before costs (-0.03..-0.06%/hr), hourly Sharpe -3..-7.
+   => even RELATIVE rankings are anti-predictive, no relative edge.
+2. Permutation/random-label null on the exact 2% rule: observed net +1.73%
+   (8 trades) at 15.2nd %ile of pure-chance null (two-sided p=0.52); gross
+   +2.71% also ~15th %ile. Profit = exactly what random picks produce.
+3. Consistent with walk-forward IC -0.007 and block-bootstrap p~0.5.
+=> No edge exists in ANY formulation (absolute or relative) at hourly freq with
+   this 6mo/17-name sample. 12bps RT cost turns everything deeply negative.
+Verdict held: do not trade. Full detail in
+tools/quant/hourly_xgb/RESEARCH_REPORT.md (addendum).
+
+## 2026-08-15 (3) — bigmove yearly robustness + regime-gate tested (negative)
+- Profiled year-by-year K8 long-short SR: strong 2018(2.0) 2019(1.6) 2020(1.6)
+  2021(1.5) 2025(0.9); weak/negative 2022(0.3) 2023(-0.66) 2026(~0). Overall
+  SR 0.73 no-VT / 0.76 VT, +20%/yr. 2023 is THE one structural down year.
+- Tested trailing-IC regime gate (20/40/60d, thr 0-0.004, no lookahead): BACKFIRES
+  -- cuts full SR to 0.44-0.59 and does not reliably fix 2023/new negative yrs.
+  Trailing-IC momentum too laggy/unstable. Rejected.
+- Conclusion: price-based cross-sectional edge is intrinsically intermittently
+  weak (2023 factor reversal); no no-lookahead gate fixes it. Strategy converged
+  and strong: SR 0.76, +13-21%/yr, DD -23..-38% (vol-targeted).
+- Artifacts: reports/bigmove_xgb_regime_gate.json, bigmove/xgb_ls_regime_gate.py;
+  report BIGMOVE_LONGSHORT_HIGH_SHARPE.md updated (yearly table + gate verdict).
