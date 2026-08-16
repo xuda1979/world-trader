@@ -1143,3 +1143,22 @@ echo "research log appended"
   2025 0.57->1.36. Plateau SR 1.2-1.3 at w(ls)=0.30-0.55.
 - Nearly doubles LS-alone Sharpe (0.83->1.29); high-Sharpe+high-return+low-DD.
 - Artifacts: reports/bigmove_ls_mom_blend_w40.{json,csv}, bigmove_ls_mom_blend.png.
+
+## 2026-08-16 (loop) — Hyperliquid funding-capture: mechanism real, edge NOT validated
+First validation backtest of the DeFi structural-arb toolkit (the strategic-thesis
+Pillar 1+3 area: capacity-constrained DEX alpha). Built a cost-aware, null-tested
+carry-leg backtest on the hyperliquid fundingHistory data actually available in this
+environment (14 coins x 500 hourly funding rows ending a fixed 2023 cutoff; NO price
+series -> carry-leg upper bound only; basis-drift unmodeled).
+- MECHANISM REAL: hourly funding lag-1 autocorr 0.67-0.91 (persists); riding extreme
+  funding to reversion mechanically collects carry. Right sandbox for a small operator.
+- DECISIVE NEGATIVE at available sample: both-direction capture net>0 on 6/14 coins,
+  but 13/14 coins p=1.000 vs random-entry null (1500 boot). The whole +19.8% total is
+  WIF alone (memecoin, 2023-12 premium regime, 70% hours above trigger) = one extreme
+  sample / multiple-testing luck, NOT a durable edge. Long-only-on-negative variant
+  (motivated by persistence asymmetry) is even weaker: 0/14 significant.
+- VERDICT: do NOT deploy. Need multi-year funding+price history (paid tier — same gate
+  blocking CTA-futures + hourly-equity paths) to measure basis-drift and get enough
+  positions for block-bootstrap p<0.05. Live funding watch stays informational only.
+- Artifacts: tools/quant/hl_funding/{data/fund_*.csv, backtest_capture.py,
+  backtest_portfolio.py}; reports/HL_FUNDING_CAPTURE.md + hl_funding_*.json.
