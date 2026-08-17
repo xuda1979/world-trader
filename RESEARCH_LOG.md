@@ -1634,3 +1634,27 @@ NEW ARTIFACT: tools/quant/bigmove/xgb_horizon_ddfilter.py (additive default-off 
 module: breadth+VIX+choppy gates; get_overlays() returns causal exposure factors);
 reports/xgb_horizons/multi_horizon_ddfilter.png (equity+DD baseline vs breadth gate);
 h21_breadth_gate_daily.csv; RESEARCH_REPORT.md addendum. Commit follows.
+
+## 2026-08-17 (/loop) — features5: +50 free features -> IC 2.45x, DD -16.6%, return preserved (overlays now dominated)
+User: "add more free data features. filter big drawdown without affecting return."
+BUILT features5.py (+50 causal features over features3): 52-week-high distance,
+realized skew/kurt/downside-vol, cross-sectional momentum percentile ranks,
+EARNINGS-date proximity (PEAD from earnings_panel), baa-aaa default spread,
+WTI/natgas/gold/silver/copper momentum, DXY+EUR/GBP/JPY/CAD/CNY FX momentum,
+CH/GB/JP/EZ/AU/CA 10y changes, US30Y/3M levels + 30Y-2Y slope, VIX 21d chg, vol trend.
+
+RESULT (20y OOS, H21, K10 survivor-in, 6bp, 13% vt):
+  70-feat : IC 0.0132 | vt SR 1.92 | ann 32.9% | DD -23.9% | Calmar 1.38
+  120-feat: IC 0.0324 | vt SR 1.92 | ann 32.4% | DD -16.6% | Calmar 1.95
+  => IC 2.45x; **DD cut -23.9%->-16.6% with return & Sharpe preserved, Calmar 1.38->1.95**.
+  Both halves positive (2.13/1.77), 67% months positive.
+
+DRAWDOWN-FILTER VERDICT on improved model: all causal DD overlays (breadth gate,
+VIXz gate, |mt20| choppy gate) are now DOMINATED - either no DD cut (VIXz/|mt20|)
+or DD cut at disproportionate return cost (breadth: DD -10~-11% but ann ~19%,
+Calmar 1.72 < 1.95 no-overlay). The 120-feature model's intrinsic drawdown beats
+every overlay tested. DEPLOYABLE = 120-feature model WITHOUT overlay.
+
+Artifacts: features5.py; xgb_multi_horizon.build_frame now uses features5 (120feat)
+by default; data/horizon_preds_20y_f5.pkl (new champion preds); RESEARCH_REPORT.md
+addendum. Commit follows.

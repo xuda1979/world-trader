@@ -13,7 +13,7 @@ ENV = dict(os.environ)
 ENV.setdefault("HZ_START", "2008-09-01")
 ENV.setdefault("TRAIN_WIN", "504")          # 2y rolling warm-up from 2006 panel
 ENV.setdefault("REFIT", "63")               # quarterly model update
-ENV.setdefault("HZ_PRED_CACHE", os.path.join(HERE, "data", "horizon_preds_20y.pkl"))
+ENV.setdefault("HZ_PRED_CACHE", os.path.join(HERE, "data", "horizon_preds_20y_f5.pkl"))
 
 
 def run(mod, label):

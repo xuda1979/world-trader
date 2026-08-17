@@ -23,7 +23,7 @@ import pandas as pd
 import xgboost as xgb
 
 from pipeline_common import load_ohlcv
-from features3 import build_features3
+from features5 import build_features5
 from features import to_xy
 
 ROOT = "/Users/daxu/software/world-trader"
@@ -50,8 +50,11 @@ def XGB_PARAMS():
 
 
 def build_frame():
+    """Shared feature matrix (120 features via features5 = features3 + 50 free
+    extras: 52w-high dist, skew/kurt, ranks, credit/commodity/FX/intl-yield,
+    earnings proximity) + forward targets + close."""
     P = load_ohlcv(); close = P["close"]
-    feats = build_features3(P)
+    feats = build_features5(P)
     ret_next = close.pct_change().shift(-1)
     X_full, _, _, meta, names = to_xy(feats, ret_next)
     X_full = X_full.replace([np.inf, -np.inf], np.nan)

@@ -27,7 +27,7 @@ COST = 0.0006
 K = 10
 VOL_TARGET_ANN = 0.13
 PRED_CACHE = os.environ.get("HZ_PRED_CACHE",
-                            os.path.join(HERE, "data", "horizon_preds.pkl"))
+                            os.path.join(HERE, "data", "horizon_preds_20y_f5.pkl"))
 
 
 def build_position_book(frame, pred, H, K=K, cost=COST):

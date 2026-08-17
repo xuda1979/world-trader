@@ -156,3 +156,51 @@ Sharpe (1.92→1.97) and Calmar (1.38→1.69)**, both 20y halves positive (1.94/
   baseline vs breadth gate), `h21_breadth_gate_daily.csv`.
 - Reproduction: `python3 xgb_horizons_run.py --book-only` then
   `python3 xgb_horizon_ddfilter.py`.
+
+# Addendum 2026-08-17 — Free-feature expansion (features5): IC 2.45x, DD -16.6% with return preserved
+
+Per "add more free data features + filter big drawdown without affecting return".
+Added **50 free features on top of the 70** (`features5.py`, all causal at close t):
+
+- **52-week-high distance** (classic momentum predictor)
+- **Realized skewness / kurtosis / downside-vol ratio** (20d)
+- **Cross-sectional percentile ranks of 20d/60d momentum** (rank-scale features
+  for the ranking task)
+- **Earnings-date proximity** (days-to-next / since-last, from the earnings
+  panel — PEAD signal)
+- **baa-aaa default spread** + 21d change
+- **Commodities**: WTI / natgas / gold / silver / copper momentum (1/5/21d)
+- **Dollar + FX cross-section**: DXY, EUR, GBP, JPY, CAD, CNY momentum (5/21d)
+- **International yields**: CH/GB/JP/EZ/AU/CA 10y 21d changes (global liquidity)
+- **US30Y + 3M levels**, 30Y-2Y long-end slope, VIX 21d change
+- **Volume trend** (20d vs 60d)
+
+## Result (20y OOS, H=21, K=10 survivor-in, 6bp, 13% vol-target)
+
+| Model | OOS IC | vt SR | ann | maxDD | Calmar |
+|---|---|---|---|---|---|
+| 70 features (features3) | 0.0132 | 1.92 | 32.9% | **-23.9%** | 1.38 |
+| **120 features (features5)** | **0.0324** | **1.92** | **32.4%** | **-16.6%** | **1.95** |
+
+- **IC 2.45x** (0.0132 → 0.0324) — the model ranks stocks far better.
+- **Drawdown cut from -23.9% to -16.6% with return and Sharpe PRESERVED**
+  (ann 32.4%, SR 1.92) and **Calmar up 1.38 → 1.95**. The added features
+  achieve the "filter big drawdown without affecting return" goal
+  *intrinsically* — better predictions simply avoid the worst whipsaw losses
+  (the old 2011-13 grind is no longer the max DD).
+- Both halves positive (08-15 SR 2.13, 16-26 SR 1.77); 67% months positive.
+
+## Drawdown-overlay verdict on the improved model
+Re-tested the causal DD overlays (breadth gate, VIXz gate, choppy-market gate)
+on the 120-feature book: **all are now dominated** — either they don't cut DD
+(VIXz, |mt20|: DD stays ~-16%, return drops) or they cut DD only at a
+disproportionate return cost (breadth gate: DD -10~-11% but ann ~19%,
+Calmar 1.72 < no-overlay 1.95). The improved model's intrinsic drawdown is
+already superior to any overlay it tested against. **Recommendation: use the
+120-feature model WITHOUT overlay** as the deployable.
+
+## Artifacts
+- `features5.py` — the 50-feature expansion (imports features3 as base).
+- `xgb_multi_horizon.py` now builds features5 by default (120 features).
+- `data/horizon_preds_20y_f5.pkl` — 20y OOS preds for the 120-feature model
+  (3 horizons, the new champion).
