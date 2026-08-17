@@ -125,3 +125,29 @@ about 1/6 of GKX's 2.45 gross EW.** The remaining gap decomposes:
 survive realistic costs at scale (their VW = 1.35).
 Free data cannot close this gap: the CRSP 30k-stock universe and the micro-cap
 tilt are not freely available at this quality.
+
+# UPDATE 2026-08-17 (v5) — more data, then the honesty filter
+
+Got MORE free data: (1) expanded EDGAR characteristics (payout, R&D/assets,
+capex/assets, leverage, current ratio, tax/assets — 12 fundamentals total),
+(2) 400 more names' price history from TwelveData free tier (8 req/min,
+background; 124/400 fetched so far), universe 657 -> 713+.
+
+CRITICAL SANITY FINDING: the raw expanded panel produced garbage (DD -1.7M) —
+the new names include penny stocks with split/data artifacts. After filtering
+to INVESTABLE names (median price >= $2, monthly |ret| sane), the honest
+results are:
+
+| Model (EW, investable universe) | gross SR | net SR |
+|---|---|---|
+| XGB | +0.06 | -0.18 |
+| MLP | +0.04 | -0.25 |
+| Ridge | +0.14 | -0.16 |
+
+vs the v3 number (XGB gross +0.44) that included sub-$2/penny/extreme-tail
+names. **The investable free-data GKX replication is ~zero net of costs.**
+The v3 "improvement" was partly illiquid-name alpha that cannot be traded at
+size (exactly GKX's micro-cap caveat, reproduced on our scale).
+
+TwelveData fetch continues in background (400 names, ~35 min); a rerun with
+the fuller investable universe will confirm whether more names help.

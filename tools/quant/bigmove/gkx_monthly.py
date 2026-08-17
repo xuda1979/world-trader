@@ -100,6 +100,12 @@ def build_monthly_panel(P, finn, earn_panel, macro):
     mret_long=mret.stack(); mret_long.index.names=["month","ticker"]
     mi=pd.MultiIndex.from_frame(df[["month","ticker"]])
     df["ret_next"]=mret_long.shift(-1).reindex(mi).to_numpy()
+    # SANITY: exclude penny stocks (median month-end close < $2, untradable at
+    # size) and extreme monthly returns (data errors / split artifacts).
+    medprice=mclose.median()
+    keep_tk=set(medprice[medprice>=2.0].index)
+    df=df[df["ticker"].isin(keep_tk)]
+    df=df[(df["ret_next"]>=-0.95)&(df["ret_next"]<=2.5)]
     return df, names
 
 def main():

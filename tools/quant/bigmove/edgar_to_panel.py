@@ -26,13 +26,20 @@ def build_edgar_chars():
     base["size"]=np.log((base["shares"]*base["mcap"]).replace(0,np.nan))
     base["bm"]=base["book_equity"]/base["mcap"].replace(0,np.nan)
     base["roe"]=base["net_income"]/base["book_equity"].replace(0,np.nan)
+    # extra GKX-style chars from extended tags
+    base["rd_a"]=base["rd"]/base["assets"].replace(0,np.nan)
+    base["capex_a"]=base["capex"]/base["assets"].replace(0,np.nan)
+    base["leverage"]=base["lt_debt"]/base["assets"].replace(0,np.nan)
+    base["cur_ratio"]=base["cur_assets"]/base["cur_liab"].replace(0,np.nan)
+    base["tax_a"]=base["tax"]/base["assets"].replace(0,np.nan)
+    base["payout"]=base["div_paid"]/base["net_income"].replace(0,np.nan)
     # investment: asset growth YoY per ticker (point-in-time-ish via period)
     base=base.sort_values(["ticker","month"])
     base["assets_12m"]=base.groupby("ticker")["assets"].shift(4)
     base["inv"]=base["assets"]/base["assets_12m"].replace(0,np.nan)-1
     base.to_parquet(os.path.join(HERE,"data","edgar_chars.parquet"))
     print("edgar chars:", base.shape)
-    for k in ["bm","size","roe","gp_a","op_a","acc","inv"]:
+    for k in ["bm","size","roe","gp_a","op_a","acc","inv","rd_a","capex_a","leverage","cur_ratio","payout"]:
         print(f"  {k}: {int(base[k].notna().sum()):,}")
     return base
 

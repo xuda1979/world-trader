@@ -1800,3 +1800,16 @@ EW. Gap: universe (657 vs 30k, no micro-caps = where their EW alpha lives),
 chars (39 vs 94), our net vs their gross, their EW is micro-cap/illiquid
 weighted (VW=1.35). Free data cannot close this; the CRSP universe is the
 edge. Commit follows.
+
+## 2026-08-17 (/loop) — More data (EDGAR chars x12, TwelveData +400 names) -> investable-filter kills the edge
+User: "try to get more data." Got: (1) 5 more EDGAR characteristics (payout,
+rd_a, capex_a, leverage, cur_ratio — 12 fundamentals total), (2) 400 more
+names' daily prices from TwelveData free tier (8 req/min background, 124/400
+done). Universe 657->713+.
+SANITY: expanded panel had garbage (DD -1.7M from penny/split artifacts) ->
+added investable filter (median price >= $2, monthly ret in [-0.95, 2.5]).
+HONEST v5 (investable): XGB EW gross SR +0.06, net -0.18 | MLP 0.04/-0.25 |
+Ridge 0.14/-0.16. The v3 +0.44 gross included sub-$2 penny/extreme-tail names
+(not investable at size) - same micro-cap caveat as GKX's own 2.45. Verdict:
+investable free-data GKX-style L/S is ~zero net of costs on large/mid caps.
+TwelveData fetch continues in background; rerun when done.

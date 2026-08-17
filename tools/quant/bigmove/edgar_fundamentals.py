@@ -17,6 +17,13 @@ TAGS={
  "gross_profit":"us-gaap:GrossProfit",
  "cfo":"us-gaap:NetCashProvidedByUsedInOperatingActivities",
  "shares":"dei:EntityCommonStockSharesOutstanding",
+ "div_paid":"us-gaap:PaymentsOfDividendsCommonStock",
+ "rd":"us-gaap:ResearchAndDevelopmentExpense",
+ "capex":"us-gaap:PaymentsToAcquirePropertyPlantAndEquipment",
+ "lt_debt":"us-gaap:LongTermDebtNoncurrent",
+ "cur_assets":"us-gaap:AssetsCurrent",
+ "cur_liab":"us-gaap:LiabilitiesCurrent",
+ "tax":"us-gaap:IncomeTaxExpenseBenefit",
 }
 
 def parse_facts(fp):
@@ -85,14 +92,17 @@ def facts_to_panel(facts_all, month_index):
             be=asof("book_equity",m); a=asof("assets",m); ni=asof("net_income",m)
             rev=asof("revenue",m); oi=asof("oper_income",m); gp=asof("gross_profit",m)
             cfo=asof("cfo",m); sh=asof("shares",m)
+            rd=asof("rd",m); capex=asof("capex",m); ltd=asof("lt_debt",m)
+            ca=asof("cur_assets",m); cl=asof("cur_liab",m); tax=asof("tax",m); dvp=asof("div_paid",m)
             if a is np.nan or a<=0: gp_a=oi_a=acc=np.nan
             else:
                 gp_a=gp/a if gp==gp else np.nan
                 oi_a=oi/a if oi==oi else np.nan
                 acc=(ni-cfo)/a if (ni==ni and cfo==cfo) else np.nan
-            rows.append((m,t,be,a,ni,rev,oi,gp,cfo,sh,gp_a,oi_a,acc))
+            rows.append((m,t,be,a,ni,rev,oi,gp,cfo,sh,rd,capex,ltd,ca,cl,tax,dvp,gp_a,oi_a,acc))
     df=pd.DataFrame(rows,columns=["month","ticker","book_equity","assets","net_income","revenue",
-        "oper_income","gross_profit","cfo","shares","gp_a","op_a","acc"])
+        "oper_income","gross_profit","cfo","shares","rd","capex","lt_debt","cur_assets","cur_liab",
+        "tax","div_paid","gp_a","op_a","acc"])
     return df
 
 if __name__=="__main__":

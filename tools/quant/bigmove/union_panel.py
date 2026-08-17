@@ -6,7 +6,7 @@ import os, glob
 import numpy as np, pandas as pd
 ROOT="/Users/daxu/software/world-trader"
 BASE=os.path.join(ROOT,"tools/quant/data")
-DIRS=["twelve_big","twelvedata","twelve_liq","polygon","polygon_v2"]
+DIRS=["twelve_big","twelvedata","twelve_liq","polygon","polygon_v2","twelve_extend"]
 ETFS={'SPY','QQQ','XLF','DIA','IWM','GLD','TLT','IEF','EWA','EWC','XLB','XLE','XLI','CIBR','EMCB'}
 def load_union():
     # find best file per symbol
