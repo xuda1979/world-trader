@@ -1727,3 +1727,26 @@ is the binding constraint: losing 30% of deepest shorts costs ~0.17 SR and
 ~6.7pp ann. HONEST deployable with borrow realism: SR ~1.7-1.8, ann ~30%,
 DD ~-18%, Calmar ~1.6-1.7 (headline ~1.9-2.0 conditional on short availability).
 Code committed with params short_unavail_frac + borrow_graded.
+
+## 2026-08-17 (/loop) — CRITICAL LEAK FOUND & FIXED: monthly XGB L/S not deployable (honest IC 0.031, net SR -0.2)
+FOUND a label-overlap leak in the walk-forward: training rows used dates < block_start,
+but a row at t has target ret_21[t] = close[t+21]/close[t], so the last 21 days of the
+train window have labels extending INTO the prediction block. Evidence: OOS IC by
+position within 63d block = 0.32 (days 0-9), 0.00 (10-20), -0.06 (21-41), 0.00 (42-62).
+Monthly refits (block=21d) made the leak cover 95% of the block -> fake IC 0.168, fake
+SR ~7. THE L/S BOOK REBALANCES AT BLOCK STARTS = THE LEAKED ROWS -> the entire SR
+1.85-1.94 champion was a leak artifact.
+
+FIX committed in xgb_multi_horizon.walkforward_predict: train only on dates <
+block_start - max(H) (no training label overlaps the prediction block).
+
+HONEST leak-free numbers (141-feat stack, quarterly, 2y win, 20y OOS):
+  H=1 IC 0.0377 | H=5 IC 0.0209 | H=21 IC 0.0307 (leak gone: block-day ICs ~0.01-0.03)
+  H21 book K10 survivor-in, 24bp/mo honest cost + ETB borrow: vt SR -0.25 (equal)
+  / -0.22 (pred), ann -4.6%, DD -66%.
+VERDICT: the monthly cross-sectional edge is REAL but SMALL (IC 0.031 ~ 0.22%/mo
+spread) and BELOW the honest 24bp/mo full-cycle cost -> net book slightly NEGATIVE.
+NOT deployable. All prior H=21 headline numbers VOID (features5/6 IC gains, DD
+filters, pred-scaled weights, borrow-realism, K=15 optimum).
+NOTE: H=1 (bigmove) work unaffected (1-day overlap negligible).
+Artifacts: data/horizon_preds_20y_f5fix.pkl (honest cache), report addendums.

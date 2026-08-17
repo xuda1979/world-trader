@@ -359,3 +359,66 @@ and ann 37.3% -> 30.6%. The honest deployable profile with borrow realism is
 **SR ~1.7-1.8, ann ~30%, maxDD ~-18%, Calmar ~1.6-1.7** — still a strong
 strategy, but the headline ~1.9-2.0 Sharpe is conditional on short availability.
 CODE: `build_position_book(..., short_unavail_frac, borrow_graded)`.
+
+# ⚠️ ADDENDUM 2026-08-17 — CRITICAL LEAK FOUND & FIXED: prior H=21 numbers invalid
+
+**The walk-forward had a label-overlap leak.** Training rows were taken from
+`dates < block_start`, but a row at date t has target ret_21[t] =
+close[t+21]/close[t], so rows in the last 21 days of the training window have
+labels that extend INTO the prediction block. The model learned the block's
+early days from those overlapping labels.
+
+EVIDENCE (position-within-block OOS IC, quarterly f5 cache):
+  block days  0-9 : IC 0.32   <- leaked
+  block days 10-20: IC 0.00   <- honest
+  block days 21-41: IC -0.06  <- honest
+  block days 42-62: IC 0.00   <- honest
+Monthly refits (REFIT=21, block=21d) made it worse: leaked fraction was 95%
+of the block => fake IC 0.168, fake SR ~7.
+
+**The honest out-of-sample IC for the 1-month cross-sectional edge is ~0**
+(0.00 to -0.06 outside the leak window). All previously reported H=21
+Sharpe/return numbers (SR 1.85-1.94, ann 30-37%, features5/6 IC gains, DD
+filters, pred-scaled weighting, borrow-realism) were computed on leaked
+predictions and ARE INVALID.
+
+FIX applied in `xgb_multi_horizon.walkforward_predict`: training rows now
+require `dates < block_start - max(H)` so no training label overlaps the
+prediction block. Re-runs in progress -> honest numbers reported in the next
+addendum. The earlier H=1 bigmove/long-short work (SR ~0.8, next-day) is
+NOT affected (H=1 => 1-day overlap, negligible).
+
+This is the honest record: the monthly cross-sectional XGB edge must be
+re-validated from the leak-free run before any deployment claim.
+
+# Addendum 2026-08-17 — HONEST numbers after leak fix: the monthly edge does NOT clear costs
+
+Leak-free re-run (train on dates < block_start - H; 141-feat stack, quarterly
+refit, 2y window, 20y OOS 2008-2026):
+
+  H=1  leak-fixed IC: 0.0377
+  H=5  leak-fixed IC: 0.0209
+  H=21 leak-fixed IC: 0.0307   (position check: block days 0-20 IC 0.012,
+                                 days 21-62 IC 0.029 -> leak GONE)
+
+HONEST H=21 book (K10 survivor-in, 6bp/side full cycle 24bp/mo + ETB 0.25%):
+  equal weights: vt SR -0.245, ann -4.6%, maxDD -65.9%
+  pred weights : vt SR -0.218, ann -4.3%, maxDD -66.1%
+
+WHY THE BOOK FLIPPED SIGN while IC stayed ~0.031: the L/S book rebalances AT
+block starts, which were exactly the leaked rows (IC 0.32 leaked -> 0.012
+honest there). The genuine rank signal (IC 0.031 => ~0.22%/month top-bottom
+decile spread) is BELOW the honest 24bp/month full-cycle cost, so the net
+book is slightly NEGATIVE. The edge exists but is too small to trade
+profitably at monthly frequency with these costs.
+
+VERDICT (honest): **the 1-month cross-sectional XGB L/S is NOT deployable.**
+All prior headline numbers (SR 1.85-1.94, ann 30-37%, features5/6 gains, DD
+filters, pred-scaled weighting, borrow-realism, K=15 optimum) were computed
+on leak-contaminated predictions and are VOID. The leak fix is committed;
+the honest profile is a small positive IC with a negative net book.
+
+NEXT (honest paths): (a) cut costs below the ~0.22%/mo edge (faster hold,
+cheaper execution) - the edge is real but thin; (b) find features that raise
+the IC materially (0.031 -> >0.06 would clear costs ~2x); (c) accept the
+edge is too small and pivot to other strategies. Do NOT deploy as-is.

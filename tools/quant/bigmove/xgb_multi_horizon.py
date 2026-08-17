@@ -23,7 +23,7 @@ import pandas as pd
 import xgboost as xgb
 
 from pipeline_common import load_ohlcv
-from features5 import build_features5
+from features6 import build_features6
 from features import to_xy
 
 ROOT = "/Users/daxu/software/world-trader"
@@ -54,7 +54,7 @@ def build_frame():
     extras: 52w-high dist, skew/kurt, ranks, credit/commodity/FX/intl-yield,
     earnings proximity) + forward targets + close."""
     P = load_ohlcv(); close = P["close"]
-    feats = build_features5(P)
+    feats = build_features6(P)
     ret_next = close.pct_change().shift(-1)
     X_full, _, _, meta, names = to_xy(feats, ret_next)
     X_full = X_full.replace([np.inf, -np.inf], np.nan)
@@ -92,7 +92,12 @@ def walkforward_predict(X_full, frame, names):
             print(f"  refit {k+1}/{len(refit)} @ {pd.Timestamp(pd_[kk]).date()} "
                   f"({time.time()-t0:.0f}s)", flush=True)
         d = pd_[kk]; dmin = d - np.timedelta64(TRAIN_WIN, "D")
-        tr = (dates < d) & (dates >= dmin)
+        # CRITICAL leak fix: train only on rows at least H days BEFORE the block,
+        # so no training label (a t->t+H forward return) overlaps the prediction
+        # block. Training on rows < d lets labels reach into the block and the
+        # model "knows" the block's early days (IC ~0.3-0.4 on block days 0-9).
+        max_h = max(HORIZONS)
+        tr = (dates < d) & (dates >= dmin) & (dates < d - np.timedelta64(max_h, "D"))
         tr_idx = np.where(tr)[0]
         fok = fin[tr_idx].sum(axis=1) > 0
         tr_idx = tr_idx[fok]
