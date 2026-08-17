@@ -1786,3 +1786,17 @@ EDGAR fetch for 626 CIKs completing in background (387/626 now) -> rerun when
 done. Artifacts: union_panel.py, edgar_fundamentals.py, edgar_to_panel.py,
 data/edgar_facts/*, data/edgar_chars.parquet, gkx_monthly_panel.parquet (v2),
 GKX_REPLICATION.md update.
+
+## 2026-08-17 (/loop) — GKX FINAL (free data): XGB EW net SR +0.21 (gross +0.43) ~ 1/6 of Gu's 2.45
+EDGAR fetch completed (600 companies). Final replication on 657-name union,
+39 chars (point-in-time bm/size/roe/gross-prof/op-prof/accruals/investment +
+technicals + Finnhub + earnings + macro), purged monthly walk-forward, decile
+L/S OOS 2009-26:
+  XGB EW: gross SR 0.43 (ann 5.0%), net +0.21 (ann 2.1%, win 54%)  <- BEST
+  MLP EW: gross 0.30, net -0.08 | Ridge EW: gross 0.15, net -0.10
+  VW negative for all (large-cap VW no edge; GKX VW 1.35 << EW 2.45 too)
+VERDICT: free-data replication lands at net SR ~+0.21, ~1/6 of GKX 2.45 gross
+EW. Gap: universe (657 vs 30k, no micro-caps = where their EW alpha lives),
+chars (39 vs 94), our net vs their gross, their EW is micro-cap/illiquid
+weighted (VW=1.35). Free data cannot close this; the CRSP universe is the
+edge. Commit follows.

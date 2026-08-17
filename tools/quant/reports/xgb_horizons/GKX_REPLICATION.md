@@ -100,3 +100,28 @@ Remaining gap: (a) historical cross-section still ~290 names (no micro-caps;
 
 Full EDGAR fetch (~626 names) completes in background; the next rerun with
 full fundamentals coverage should push the numbers further.
+
+# UPDATE 2026-08-17 (FINAL) — full EDGAR fundamentals coverage
+
+EDGAR fetch complete (600 companies). Final results (OOS 2009-2026, decile L/S,
+purged walk-forward, 657-name union, 39 characteristics incl point-in-time
+bm/size/roe/gross-prof/op-prof/accruals/investment):
+
+| Model (EW) | gross SR | net SR (24bp/mo) |
+|---|---|---|
+| **XGB** | **+0.43** (ann 5.0%) | **+0.21** (ann 2.1%, win 54%) |
+| MLP | +0.30 | -0.08 |
+| Ridge | +0.15 | -0.10 |
+
+VW versions are negative for all models (large-cap VW adds no edge; consistent
+with GKX where VW 1.35 << EW 2.45).
+
+**FINAL VERDICT (free data, best efforts): the best replicable GKX-style
+strategy is XGB equal-weighted decile L/S with net SR ~+0.21, gross ~+0.43 —
+about 1/6 of GKX's 2.45 gross EW.** The remaining gap decomposes:
+(1) universe 657 vs ~30k (no micro-cap tail, where GKX's EW alpha lives);
+(2) 39 vs 94 characteristics; (3) our numbers are net of 24bp/mo, theirs gross;
+(4) their EW 2.45 is explicitly micro-cap/illiquid-weighted and would not
+survive realistic costs at scale (their VW = 1.35).
+Free data cannot close this gap: the CRSP 30k-stock universe and the micro-cap
+tilt are not freely available at this quality.
