@@ -204,3 +204,39 @@ already superior to any overlay it tested against. **Recommendation: use the
 - `xgb_multi_horizon.py` now builds features5 by default (120 features).
 - `data/horizon_preds_20y_f5.pkl` — 20y OOS preds for the 120-feature model
   (3 horizons, the new champion).
+
+# Addendum 2026-08-17 — Strategy definition: this IS a long-short strategy
+
+For clarity — this is a **cross-sectional long-short (L/S) strategy**, the
+standard way ML return predictions are monetized:
+
+**Construction (per month / 21 trading days):**
+1. Rank all ~285 universe stocks by the XGB-predicted 21-day close-to-close return.
+2. **Long** the top K=10 predicted winners; **short** the bottom K=10 predicted losers.
+3. Equal weight each leg (1/K per name). Roughly $ market-neutral by construction
+   (equal long and short notional), held in overlapping monthly tranches,
+   marked to market daily.
+4. Costs: 6 bp per side per rebalance (12 bp round trip, monthly). Risk: 13%
+   annualized vol-target.
+
+**Why L/S:** the profit is the **spread** (winners − losers). The model does not
+need to forecast market direction — only which names outperform which. This is
+why the OOS cross-sectional IC (0.032, features5) translates into a Sharpe of
+~1.9 while an absolute-return predictor on the same data is anti-predictive
+(next-day SR -6.6, 1-week -1.9). L/S is also why the drawdown (-16.6%) is far
+tighter than any long-only momentum book would show.
+
+**Champion results (features5, 20y OOS 2008-2026, K=10 survivor-in, 6bp, vt):**
+| Horizon | vt SR | ann | maxDD | Calmar | Verdict |
+|---|---|---|---|---|---|
+| next-day H=1 | -6.6 | -67% | -100% | — | anti-signal, not traded |
+| 1-week H=5 | -1.9 | -25% | -100% | — | negative |
+| **1-month H=21 (deployable)** | **1.92** | **32.4%** | **-16.6%** | **1.95** | **long/short, long 10 / short 10** |
+
+Sub-periods (H21 vt): 08-15 SR 2.13, 16-26 SR 1.77 (both positive); 67% of
+months positive. Not beta-neutralized formally (equal-$ L/S) — the residual
+risk is market-spike-driven short-leg loss, which is what the features5 model
+removed from the worst historical episodes.
+
+**New artifacts this addendum:** `multi_horizon_book_results_f5.json` (champion
+honest-book results per horizon), `h*_book_daily_f5.csv` (daily vt series).
