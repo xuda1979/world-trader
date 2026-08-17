@@ -31,7 +31,8 @@ PRED_CACHE = os.environ.get("HZ_PRED_CACHE",
 
 
 def build_position_book(frame, pred, H, K=K, cost=COST, long_only=False,
-                        borrow_rate=0.0, weight_scheme="pred"):
+                        borrow_rate=0.0, weight_scheme="pred",
+                        short_unavail_frac=0.0, borrow_graded=False):
     """Return daily mark-to-market L/S return series with honest overlap.
     frame: date x ticker with close + fwd returns already loaded.
     pred: array of predicted forward-H return aligned to frame rows.
@@ -42,6 +43,11 @@ def build_position_book(frame, pred, H, K=K, cost=COST, long_only=False,
     weight_scheme: "equal" = 1/K each; "pred" (default) = weight proportional to
     predicted-return minus cross-sectional median within each leg (concentrates
     in the strongest signals; validated to raise Sharpe ~0.1 and return ~6pp).
+    short_unavail_frac: fraction of the DEEPEST-losers (the best shorts) that
+    cannot be borrowed (real-world: the best stocks to short usually can't be
+    sold short) -> replaced by the next-shortable names.
+    borrow_graded: if True, per-short borrow fee scales with short rank
+    (deepest losers pay most, up to 10x the base borrow_rate).
     """
     fw = frame.copy()
     fw["pred"] = pred
@@ -65,7 +71,16 @@ def build_position_book(frame, pred, H, K=K, cost=COST, long_only=False,
         if n < 2*K+2:
             continue
         longs = g["ticker"].iloc[:K].tolist()
-        shorts = [] if long_only else g["ticker"].iloc[n-K:].tolist()
+        # Short selection with borrow-availability effect: the deepest losers
+        # (best shorts) are often unavailable to borrow -> skip them and take
+        # the next-shortable names (less-extreme losers).
+        unavail = int(round(K*short_unavail_frac)) if short_unavail_frac > 0 else 0
+        shorts = []
+        if not long_only:
+            if unavail > 0 and n >= K+unavail+2:
+                shorts = g["ticker"].iloc[n-K-unavail:n-unavail].tolist()
+            else:
+                shorts = g["ticker"].iloc[n-K:].tolist()
         w = {}
         if weight_scheme == "pred":
             med = g["pred"].median()
@@ -83,8 +98,19 @@ def build_position_book(frame, pred, H, K=K, cost=COST, long_only=False,
                 w[t] = 1.0/K
             for t in shorts:
                 w[t] = -1.0/K
+        # Graded borrow fee: deepest losers (short rank 0) pay up to 10x the
+        # base rate; mildest short (rank K-1) pays the base rate. Total daily
+        # drag = sum_i(fee_i * |w_i|)/365 over short names.
+        short_fee = 0.0
+        if shorts and borrow_rate > 0:
+            if borrow_graded:
+                for rk, t in enumerate(shorts):   # rk=0 is deepest loser
+                    fee = borrow_rate*(1 + 9.0*rk/max(len(shorts)-1, 1))
+                    short_fee += fee*abs(w[t])
+            else:
+                short_fee = borrow_rate*sum(abs(w[t]) for t in shorts)
         pos[rb] = {"longs": longs, "shorts": shorts,
-                   "weights": w,
+                   "weights": w, "short_fee": short_fee,
                    "close": g.set_index("ticker")["close"].to_dict()}
 
     # simulate day by day
@@ -133,10 +159,11 @@ def build_position_book(frame, pred, H, K=K, cost=COST, long_only=False,
                     pnl += w.get(tk, -1.0/K)*dly[tk]; cnt += 1
         res[dt] = pnl/max(len(active_books),1) if active_books else 0.0
         # Borrow fee on the short leg (IBKR call rate / stock loan fee,
-        # annualized). Equal-$ book => short notional = 1, so the daily drag
-        # is borrow_rate/365 on days the short book is active.
+        # annualized). Per-book short_fee (flat or graded by short rank)
+        # converted to a daily drag /365; averaged over active books.
         if borrow_rate > 0 and not long_only:
-            res[dt] -= borrow_rate/365.0
+            total_fee = sum(pos[rb]["short_fee"] for rb in active_books)
+            res[dt] -= (total_fee/max(len(active_books),1))/365.0
     # Cost: 6bp per side per the desk convention (user-confirmed). At each
     # monthly rebalance the expiring tranche closes (long 6bp + short 6bp) and
     # the new tranche opens (long 6bp + short 6bp) => 4*cost = 24bp on unit

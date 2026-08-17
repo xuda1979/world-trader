@@ -1708,3 +1708,22 @@ ALSO (user): "update the model monthly before make predictions" -> walk-forward
 REL launched with REFIT=21 (monthly retrain on 2y window) + features6 (141
 feats, 292-name union pool incl ARM/COIN/DOCU/PLTR/SHOP/SQ/ZM) -> data/
 horizon_preds_20y_f6.pkl. Result pending (~40min). Commit of weight-scheme now.
+
+## 2026-08-17 (/loop) — Short-borrow realism: AVAILABILITY is the binding constraint, not fees
+User: "the best stocks to short usually can't be sold short. we need to model this effect."
+Added to build_position_book: short_unavail_frac (deepest losers unavailable ->
+replace with next-shortable names) + borrow_graded (per-short fee scales with
+short rank, deepest 10x base). Test on pred-scaled champion (f5 H21 K10, honest
+costs, 20y):
+  flat 0.25%: SR 1.94 ann 37.3% DD -15.8% Calmar 2.35
+  graded 0.25% base (deepest 2.5%): SR 1.91 ann 36.7%  <- fees ~free
+  graded 1% base (deepest 10%): SR 1.81 ann 34.3%
+  30% best-shorts UNAVAILABLE: SR 1.77 ann 30.6% DD -18.3% Calmar 1.67  <- big
+  30% unavail + graded: SR 1.74 ann 30.0%
+  50% unavail + graded: SR 1.71 ann 29.4%
+  30% unavail + graded 1%: SR 1.62 ann 27.7%
+FINDING: borrow FEES ~irrelevant (even 10x graded costs 0.1 SR); AVAILABILITY
+is the binding constraint: losing 30% of deepest shorts costs ~0.17 SR and
+~6.7pp ann. HONEST deployable with borrow realism: SR ~1.7-1.8, ann ~30%,
+DD ~-18%, Calmar ~1.6-1.7 (headline ~1.9-2.0 conditional on short availability).
+Code committed with params short_unavail_frac + borrow_graded.

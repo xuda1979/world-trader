@@ -329,3 +329,33 @@ CODE: `build_position_book(..., weight_scheme="pred")` — new default.
 User also asked to UPDATE THE MODEL MONTHLY before predictions: walk-forward
 now running with REFIT=21 (monthly retrain on 2y window) + features6
 (141 features, union 292-name pool) — result follows when the run completes.
+
+# Addendum 2026-08-17 — Short-borrow realism: availability (not fees) is the binding constraint
+
+User: "the best stocks to short usually can't be sold short. we need to model this effect."
+Modeled two real-world effects in `build_position_book`:
+1. **short_unavail_frac**: the deepest-losers (best shorts) cannot be borrowed ->
+   skipped and replaced by the next-shortable names (the desk would do this).
+2. **borrow_graded**: per-short borrow fee scales with short rank (deepest loser
+   pays up to 10x the base rate).
+
+Impact on the pred-scaled champion (f5 H21 K10, honest 24bp/mo costs, 20y OOS):
+
+| scenario | vt SR | ann | maxDD | Calmar |
+|---|---|---|---|---|
+| flat 0.25% (optimistic) | 1.94 | 37.3% | -15.8% | 2.35 |
+| flat 1% all shorts | 1.92 | 37.0% | -15.9% | 2.33 |
+| graded, base 0.25% (deepest 2.5%) | 1.91 | 36.7% | -15.9% | 2.30 |
+| graded, base 1% (deepest 10%) | 1.81 | 34.3% | -16.1% | 2.13 |
+| **30% best-shorts unavailable** | **1.77** | **30.6%** | **-18.3%** | **1.67** |
+| 30% unavail + graded 0.25% | 1.74 | 30.0% | -18.5% | 1.62 |
+| 50% unavail + graded 0.25% | 1.71 | 29.4% | -18.1% | 1.62 |
+| 30% unavail + graded 1% base | 1.62 | 27.7% | -19.0% | 1.46 |
+
+FINDING: **borrow FEES are nearly irrelevant (even graded 10x costs ~0.1 SR);
+short AVAILABILITY is the binding constraint.** If 30% of the deepest losers
+cannot be shorted (realistic for crowded/HTB names), Sharpe drops 1.94 -> 1.77
+and ann 37.3% -> 30.6%. The honest deployable profile with borrow realism is
+**SR ~1.7-1.8, ann ~30%, maxDD ~-18%, Calmar ~1.6-1.7** — still a strong
+strategy, but the headline ~1.9-2.0 Sharpe is conditional on short availability.
+CODE: `build_position_book(..., short_unavail_frac, borrow_graded)`.
