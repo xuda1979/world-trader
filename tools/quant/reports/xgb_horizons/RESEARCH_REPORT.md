@@ -240,3 +240,30 @@ removed from the worst historical episodes.
 
 **New artifacts this addendum:** `multi_horizon_book_results_f5.json` (champion
 honest-book results per horizon), `h*_book_daily_f5.csv` (daily vt series).
+
+# Addendum 2026-08-17 — SPY-hedge test: the bottom-K short leg is ALPHA, not a hedge
+
+User asked: "how about we only short SPY as the short positions? backtest again."
+Replaced the short leg (bottom-K predicted losers) with a SPY market short at
+equal notional (betas 0.5/0.8/1.0 tested), K=10/20, 6bp, 13% vt, 20y OOS,
+features5 model:
+
+| Config | vt SR | ann | maxDD | Calmar |
+|---|---|---|---|---|
+| **Full L/S long top10 / short bottom10** | **1.92** | **32.4%** | **-16.6%** | **1.95** |
+| long top10 / short SPY 1.0x | 1.54 | 24.5% | -19.1% | 1.28 |
+| long top10 / short SPY 0.8x | 1.60 | 25.8% | -18.3% | 1.41 |
+| long top10 / short SPY 0.5x | 1.60 | 25.7% | -18.5% | 1.39 |
+| long top20 / short SPY (0.5-1.0x) | 1.56-1.63 | ~25% | -18 to -23% | 1.05-1.44 |
+| long top10 ONLY (no hedge) | 1.50 | 23.5% | -17.7% | 1.33 |
+
+VERDICT: **keep the full long/short.** The bottom-K short leg is an alpha
+source (~0.3-0.4 Sharpe, ~7pp annual return), not just a market hedge:
+- Every SPY-hedge variant is worse on SR (1.5-1.6 vs 1.92), ann (~25% vs 32%),
+  Calmar (1.05-1.44 vs 1.95).
+- The SPY hedge does NOT reduce drawdown (DD -18 to -23% vs -16.6%): shorting
+  10 diversified losers is a better hedge than SPY (diversification + loser
+  reversal adds P&L in stress).
+- Beta (0.5-1.0x) barely matters; long-only is worst (SR 1.50).
+
+Code: `build_position_book(..., long_only=True)` added (reusable).

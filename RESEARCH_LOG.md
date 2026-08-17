@@ -1658,3 +1658,22 @@ every overlay tested. DEPLOYABLE = 120-feature model WITHOUT overlay.
 Artifacts: features5.py; xgb_multi_horizon.build_frame now uses features5 (120feat)
 by default; data/horizon_preds_20y_f5.pkl (new champion preds); RESEARCH_REPORT.md
 addendum. Commit follows.
+
+## 2026-08-17 (/loop) — SPY-hedge test: bottom-K short leg is ALPHA (keep full L/S)
+User: "how about we only short SPY as the short positions? backtest again."
+Backtested long-top-K ML picks / short SPY (equal notional, beta 0.5/0.8/1.0,
+K10/20, 6bp, 13% vt, 20y OOS, features5):
+
+  Full L/S top10/bottom10 (baseline): vt SR 1.92 ann 32.4% DD -16.6% Calmar 1.95
+  long10 / short SPY 1.0x: SR 1.54 ann 24.5% DD -19.1% Calmar 1.28
+  long10 / short SPY 0.8x: SR 1.60 ann 25.8% DD -18.3% Calmar 1.41
+  long10 / short SPY 0.5x: SR 1.60 ann 25.7% DD -18.5% Calmar 1.39
+  long20 / short SPY 0.5-1.0x: SR 1.56-1.63, DD -18~-23%
+  long-only (no hedge): SR 1.50 ann 23.5% DD -17.7% Calmar 1.33
+
+VERDICT: keep the full long/short. The bottom-K short leg is an ALPHA source
+(~0.3-0.4 SR, ~7pp ann) not a hedge: every SPY-hedge variant is worse on
+SR/ann/Calmar, and SPY hedge does NOT cut drawdown (shorting 10 diversified
+losers hedges better than SPY: diversification + loser reversal in stress).
+Beta 0.5-1.0x barely matters; long-only worst. Added long_only param to
+build_position_book (reusable). Report addendum written; commit follows.

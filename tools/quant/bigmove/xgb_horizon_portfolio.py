@@ -30,11 +30,12 @@ PRED_CACHE = os.environ.get("HZ_PRED_CACHE",
                             os.path.join(HERE, "data", "horizon_preds_20y_f5.pkl"))
 
 
-def build_position_book(frame, pred, H, K=K, cost=COST):
+def build_position_book(frame, pred, H, K=K, cost=COST, long_only=False):
     """Return daily mark-to-market L/S return series with honest overlap.
     frame: date x ticker with close + fwd returns already loaded.
     pred: array of predicted forward-H return aligned to frame rows.
     K: names per side; cost: one-side cost fraction.
+    long_only: True -> long top-K only (no short leg), for SPY-hedge variants.
     """
     fw = frame.copy()
     fw["pred"] = pred
@@ -57,7 +58,7 @@ def build_position_book(frame, pred, H, K=K, cost=COST):
         if n < 2*K+2:
             continue
         longs = g["ticker"].iloc[:K].tolist()
-        shorts = g["ticker"].iloc[n-K:].tolist()
+        shorts = [] if long_only else g["ticker"].iloc[n-K:].tolist()
         # store entry prices
         pos[rb] = {"longs": longs, "shorts": shorts,
                    "close": g.set_index("ticker")["close"].to_dict()}
