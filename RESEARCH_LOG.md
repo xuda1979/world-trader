@@ -1769,3 +1769,20 @@ data on large caps yields ~0 net Sharpe. Consistent with our leak-free IC ~0.02.
 Artifacts: tools/quant/bigmove/gkx_monthly.py + gkx_backtest.py + data/
 gkx_monthly_panel.parquet + finnhub_metrics.json + reports/xgb_horizons/
 GKX_REPLICATION.md. Commit follows.
+
+## 2026-08-17 (/loop) — GKX v2: +SEC EDGAR free fundamentals + 657-name union -> XGB EW net SR +0.18
+User: "get the free data to replicate it." Found the two missing free data
+levers: (1) SEC EDGAR companyfacts API (FREE, no key, all US public cos):
+parsed XBRL -> point-in-time quarterly fundamentals (book equity, assets, NI,
+revenue, op income, gross profit, CFO, shares) dated by FILING date ->
+GKX-style chars: bm, size, roe, gross/op profitability, accruals, investment.
+(2) Union universe 292->657 names (twelve_big+twelvedata+twelve_liq+polygon+
+polygon_v2; ~290 full-history, 657 in 2024-26).
+RESULTS (purged monthly walk-forward, decile L/S, OOS 2009-26):
+  XGB EW: gross SR +0.21->+0.44, net -0.04->+0.18 (now positive)
+  Ridge EW: -0.57->+0.11 | MLP: -0.26->-0.19
+Still ~1/5 of GKX 2.45 (their universe 30k incl micro-caps, gross, 94 chars).
+EDGAR fetch for 626 CIKs completing in background (387/626 now) -> rerun when
+done. Artifacts: union_panel.py, edgar_fundamentals.py, edgar_to_panel.py,
+data/edgar_facts/*, data/edgar_chars.parquet, gkx_monthly_panel.parquet (v2),
+GKX_REPLICATION.md update.

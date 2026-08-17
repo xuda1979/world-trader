@@ -69,3 +69,34 @@ net-of-cost large-cap monthly ML Sharpe sits around 0.5-1.0 at best.
   `data/finnhub_metrics.json` (fetched fundamentals), `gkx_results.json`.
 - Re-run: `python3 gkx_monthly.py` (needs finnhub_metrics.json) then
   `python3 gkx_backtest.py`.
+
+# UPDATE 2026-08-17 (v2) — wider universe + SEC EDGAR point-in-time fundamentals
+
+Added the two free data levers the first pass lacked:
+1. **Universe 292 -> 657 names** (union of all local panels: twelve_big +
+   twelvedata + twelve_liq + polygon + polygon_v2; ~290 names with full
+   2006-2026 history, 657 in 2024-2026).
+2. **Point-in-time fundamentals from SEC EDGAR companyfacts (FREE, no key)**:
+   parsed XBRL -> quarterly book equity, assets, net income, revenue, operating
+   income, gross profit, cash flow, shares outstanding; each value dated by its
+   FILING date (no lookahead). Built GKX-style characteristics:
+   **bm (book/market), size (log shares*price), roe, gross profitability,
+   operating profitability, accruals, investment (asset growth), payout**
+   + Finnhub PE/div-yield + 24 technicals + earnings + macro interactions
+   = 39 characteristics.
+
+Results (OOS 2009-2026, decile L/S, purged walk-forward):
+
+| Model | EW gross SR (v1 -> v2) | EW net SR (v1 -> v2) |
+|---|---|---|
+| Ridge | -0.57 -> +0.11 | -0.96 -> -0.14 |
+| **XGB** | **+0.21 -> +0.44** | **-0.04 -> +0.18** |
+| MLP | -0.26 -> -0.19 | -0.68 -> -0.56 |
+
+XGB EW net is now POSITIVE (+0.18). Still ~1/5 of GKX's 2.45 gross EW.
+Remaining gap: (a) historical cross-section still ~290 names (no micro-caps;
+657 only in 2024-2026), (b) fundamentals coverage growing (EDGAR fetch for
+626 CIKs completes in background; rerun after), (c) GKX is gross.
+
+Full EDGAR fetch (~626 names) completes in background; the next rerun with
+full fundamentals coverage should push the numbers further.
