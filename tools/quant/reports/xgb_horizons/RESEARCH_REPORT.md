@@ -267,3 +267,39 @@ source (~0.3-0.4 Sharpe, ~7pp annual return), not just a market hedge:
 - Beta (0.5-1.0x) barely matters; long-only is worst (SR 1.50).
 
 Code: `build_position_book(..., long_only=True)` added (reusable).
+
+# Addendum 2026-08-17 — Honest cost model + short borrow fee (IBKR call rate)
+
+User confirmed one-side trade cost = 6bps and asked whether the short borrow
+fee (IBKR call rate / stock loan fee) is charged. Two corrections/answers:
+
+## 1) Cost model corrected to the honest full round trip
+Previously charged 2*cost (12bp) per monthly rebalance = open-only one-way on
+both legs. With 6bp per side per the desk convention, the honest cycle at each
+monthly rebalance is: close expiring tranche (long 6bp + short 6bp) + open new
+tranche (long 6bp + short 6bp) = **4*cost = 24bp/month** (~2.9%/yr drag).
+Corrected in `build_position_book`. Impact on champion (features5, H21, K10):
+
+| Cost model | vt SR | ann | maxDD | Calmar |
+|---|---|---|---|---|
+| old (12bp/mo, open-only) | 1.92 | 32.4% | -16.6% | 1.95 |
+| **honest (24bp/mo, full cycle)** | **1.85** | **31.1%** | **-16.7%** | **1.86** |
+
+## 2) Short borrow fee (IBKR call rate / stock loan fee)
+Added `borrow_rate` (annualized) parameter charged daily on the short leg.
+The shorts are bottom-10 of the 285 US LARGE-CAP universe — all easy-to-borrow
+(ETB) liquid names; IBKR all-in ETB borrow for such names is ~0.25-1%/yr
+(call rate + small markup). Sensitivity (H21 K10, 6bp/side full cycle, 20y):
+
+| borrow/yr (IBKR) | vt SR | ann | Calmar | note |
+|---|---|---|---|---|
+| 0 | 1.85 | 31.1% | 1.86 | no fee |
+| 0.25% (ETB floor) | 1.84 | 30.9% | 1.85 | realistic large-cap |
+| 1.0% (ETB typical) | 1.82 | 30.5% | 1.82 | realistic upper |
+| 2.0% | 1.79 | 29.9% | 1.79 | stressed |
+| 5.0% (hard-to-borrow) | 1.71 | 28.2% | 1.66 | should not occur in this universe |
+
+VERDICT: **strategy is robust to both.** At realistic large-cap ETB borrow
+(0.25-1%/yr) the drag is ~0.2-0.6pp ann (SR 1.85 -> 1.82-1.84). Even HTB 5%
+keeps SR 1.71. Combined honest cost + borrow: **SR ~1.84, ann ~30.9%, maxDD
+~-16.7%, Calmar ~1.85** remains the deployable profile.

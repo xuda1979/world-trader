@@ -1677,3 +1677,16 @@ SR/ann/Calmar, and SPY hedge does NOT cut drawdown (shorting 10 diversified
 losers hedges better than SPY: diversification + loser reversal in stress).
 Beta 0.5-1.0x barely matters; long-only worst. Added long_only param to
 build_position_book (reusable). Report addendum written; commit follows.
+
+## 2026-08-17 (/loop) — Honest cost model (24bp/mo full cycle) + short borrow fee (IBKR) added
+User confirmed 6bp one-side cost and asked about the short borrow fee (IBKR call rate).
+1) COST MODEL CORRECTION: old model charged 2*cost=12bp/mo (open-only, one-way both
+   legs). Honest full cycle at monthly rebalance = close old tranche (L6+S6) + open new
+   (L6+S6) = 4*cost = 24bp/mo (~2.9%/yr). Champion H21 K10 f5: SR 1.92/ann 32.4% ->
+   SR 1.85/ann 31.1%, DD -16.7%, Calmar 1.86.
+2) BORROW FEE (borrow_rate param, daily on short leg): shorts are bottom-10 of 285
+   LARGE caps -> all easy-to-borrow; IBKR ETB ~0.25-1%/yr. Sensitivity at honest cost:
+   0.25%: SR 1.84 ann 30.9% | 1%: SR 1.82 ann 30.5% | 2%: SR 1.79 ann 29.9% |
+   5% (HTB, shouldn't occur): SR 1.71 ann 28.2%.
+   VERDICT: robust. Deployable = SR ~1.84, ann ~30.9%, DD ~-16.7%, Calmar ~1.85.
+Results json regenerated with honest cost + borrow sens. Commit follows.

@@ -30,12 +30,15 @@ PRED_CACHE = os.environ.get("HZ_PRED_CACHE",
                             os.path.join(HERE, "data", "horizon_preds_20y_f5.pkl"))
 
 
-def build_position_book(frame, pred, H, K=K, cost=COST, long_only=False):
+def build_position_book(frame, pred, H, K=K, cost=COST, long_only=False,
+                        borrow_rate=0.0):
     """Return daily mark-to-market L/S return series with honest overlap.
     frame: date x ticker with close + fwd returns already loaded.
     pred: array of predicted forward-H return aligned to frame rows.
     K: names per side; cost: one-side cost fraction.
     long_only: True -> long top-K only (no short leg), for SPY-hedge variants.
+    borrow_rate: annualized short borrow fee (IBKR call rate / stock loan fee),
+    e.g. 0.0025 = 25bp/yr for ETB large caps. Applied daily on the short leg.
     """
     fw = frame.copy()
     fw["pred"] = pred
@@ -107,14 +110,19 @@ def build_position_book(frame, pred, H, K=K, cost=COST, long_only=False):
                 if tk in dly.index:
                     pnl -= dly[tk]/K; cnt += 1
         res[dt] = pnl/max(len(active_books),1) if active_books else 0.0
-    # Cost: each rebalance opens a new 2K-notional L/S tranche; on unit equity
-    # that tranche is 1/H of the book, but we charge the full round-trip on the
-    # new tranche on its entry day. Conservative and simple: charge 2*cost on the
-    # rebalance day for each of the K longs + K shorts spread over the notional.
-    # Equivalent per-rebalance charge on unit equity = 2*cost (both legs).
+        # Borrow fee on the short leg (IBKR call rate / stock loan fee,
+        # annualized). Equal-$ book => short notional = 1, so the daily drag
+        # is borrow_rate/365 on days the short book is active.
+        if borrow_rate > 0 and not long_only:
+            res[dt] -= borrow_rate/365.0
+    # Cost: 6bp per side per the desk convention (user-confirmed). At each
+    # monthly rebalance the expiring tranche closes (long 6bp + short 6bp) and
+    # the new tranche opens (long 6bp + short 6bp) => 4*cost = 24bp on unit
+    # equity (~2.9%/yr drag at monthly frequency). This is the honest full
+    # round-trip on both legs, not just open-only.
     for rb in rebal:
         if rb in res.index and rb in pos:
-            res[rb] -= 2*cost
+            res[rb] -= 4*cost
     return res.fillna(0.0)
 
 
