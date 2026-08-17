@@ -303,3 +303,29 @@ VERDICT: **strategy is robust to both.** At realistic large-cap ETB borrow
 (0.25-1%/yr) the drag is ~0.2-0.6pp ann (SR 1.85 -> 1.82-1.84). Even HTB 5%
 keeps SR 1.71. Combined honest cost + borrow: **SR ~1.84, ann ~30.9%, maxDD
 ~-16.7%, Calmar ~1.85** remains the deployable profile.
+
+# Addendum 2026-08-17 — Portfolio optimization: prediction-scaled weights raise Sharpe (1.84 -> 1.94)
+
+User: "apply portfolio optimization techniques to improve the Sharpe ratio."
+Tested within-leg weighting schemes on the champion (features5 H21 K10
+survivor-in, honest costs 24bp/mo full cycle, ETB borrow 0.25%, 20y OOS):
+
+| scheme | vt SR | ann | maxDD | Calmar |
+|---|---|---|---|---|
+| **equal weight (1/K)** | 1.84 | 30.9% | -16.7% | 1.85 |
+| **pred-scaled (default now)** | **1.94** | **37.3%** | **-15.8%** | **2.35** |
+| inverse-vol (60d) | 1.69 | 28.0% | -18.5% | 1.51 |
+| pred x invvol | 1.87 | 35.8% | -17.1% | 2.10 |
+
+FINDING: **weighting each name by (predicted 21d return - cross-sectional
+median) within each leg, normalized per leg** raises Sharpe 1.84->1.94 AND
+annual return 30.9%->37.3% with a slightly LOWER drawdown (-16.7%->-15.8%):
+the model's predicted magnitude (not just rank) is informative, and
+concentrating on the strongest signals improves everything.
+INVERSE-VOL IS NEGATIVE (SR 1.69): the low-vol tilt hurts monthly cross-
+sectional momentum (consistent with prior momentum/vol findings). Do not
+vol-tilt this book.
+CODE: `build_position_book(..., weight_scheme="pred")` — new default.
+User also asked to UPDATE THE MODEL MONTHLY before predictions: walk-forward
+now running with REFIT=21 (monthly retrain on 2y window) + features6
+(141 features, union 292-name pool) — result follows when the run completes.

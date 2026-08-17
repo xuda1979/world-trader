@@ -1690,3 +1690,21 @@ User confirmed 6bp one-side cost and asked about the short borrow fee (IBKR call
    5% (HTB, shouldn't occur): SR 1.71 ann 28.2%.
    VERDICT: robust. Deployable = SR ~1.84, ann ~30.9%, DD ~-16.7%, Calmar ~1.85.
 Results json regenerated with honest cost + borrow sens. Commit follows.
+
+## 2026-08-17 (/loop) — Portfolio optimization: pred-scaled weights -> SR 1.94 (Sharpe up), inverse-vol negative
+User: "apply portfolio optimization techniques to improve the Sharpe ratio" /
+"we want to optimize to make the Sharpe ratio larger".
+Tested within-leg weighting on champion (f5 H21 K10 survivor-in, honest costs
+24bp/mo, ETB borrow 0.25%, 20y OOS):
+  equal weight      : vt SR 1.84 ann 30.9% DD -16.7% Calmar 1.85
+  PRED-SCALED (new) : vt SR 1.94 ann 37.3% DD -15.8% Calmar 2.35  <- WINNER
+  inverse-vol (60d) : vt SR 1.69 ann 28.0% DD -18.5% Calmar 1.51  <- negative
+  pred x invvol     : vt SR 1.87 ann 35.8% DD -17.1% Calmar 2.10
+Weight = (pred - xs median) within each leg, normalized per leg; concentrates
+in strongest signals -> Sharpe +0.1, return +6.4pp, DD slightly lower.
+Inverse-vol HURTS monthly momentum (consistent with prior findings) - don't use.
+CODE: build_position_book(..., weight_scheme='pred') now default.
+ALSO (user): "update the model monthly before make predictions" -> walk-forward
+REL launched with REFIT=21 (monthly retrain on 2y window) + features6 (141
+feats, 292-name union pool incl ARM/COIN/DOCU/PLTR/SHOP/SQ/ZM) -> data/
+horizon_preds_20y_f6.pkl. Result pending (~40min). Commit of weight-scheme now.
