@@ -422,3 +422,22 @@ NEXT (honest paths): (a) cut costs below the ~0.22%/mo edge (faster hold,
 cheaper execution) - the edge is real but thin; (b) find features that raise
 the IC materially (0.031 -> >0.06 would clear costs ~2x); (c) accept the
 edge is too small and pivot to other strategies. Do NOT deploy as-is.
+
+# Addendum 2026-08-17 — IC decomposition: the L/S-harvestable signal is IC 0.021 (real but uneconomic)
+
+Further analysis of the leak-free cache:
+  pooled IC (Spearman pred vs realized 21d ret):           0.0307
+  within-date cross-sectional IC (date-demeaned):          0.0215  <- what L/S harvests
+  per-date IC: mean 0.0175, median 0.0128, t-stat 6.5      (statistically real)
+
+The pooled IC's date-level component (market co-movement) cannot be captured
+by the market-neutral L/S book. The genuine cross-sectional signal (IC ~0.02)
+implies ~0.15-0.22%/month top-bottom decile spread — BELOW the honest
+24bp/month full-cycle cost. Net book SR ~-0.2 at any cost >= ~3bp/side.
+
+FINAL HONEST VERDICT: the daily-OHLCV monthly cross-sectional edge is real
+(t=6.5) but too thin to trade profitably with realistic costs. The strategy
+is NOT deployable. To make it deployable the IC must roughly double
+(features with analyst/news/options content, or a wider universe with deeper
+signal), or the cost must drop below ~2bp/side - neither is available with
+current free daily data.
