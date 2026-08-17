@@ -1750,3 +1750,22 @@ NOT deployable. All prior H=21 headline numbers VOID (features5/6 IC gains, DD
 filters, pred-scaled weights, borrow-realism, K=15 optimum).
 NOTE: H=1 (bigmove) work unaffected (1-day overlap negligible).
 Artifacts: data/horizon_preds_20y_f5fix.pkl (honest cache), report addendums.
+
+## 2026-08-17 (/loop) — GKX replication with FREE data: does NOT reproduce (XGB SR +0.21 gross, ~0 net)
+User: "replicate Gu's result with best efforts. Get free data for it."
+BUILT: GKX-style monthly pipeline on free data — 292 large caps (local panel),
+33 characteristics (24 technicals + 7 Finnhub-free fundamentals: size/ROE/rev
+growth/asset turnover/PE/EPS growth/div yield + earnings + macro interactions),
+purged walk-forward (train <= m-1, no label overlap), yearly refit 7y window,
+OOS 2009-2026, decile L/S EW+VW, gross+net (24bp/mo full cycle).
+RESULTS: Ridge gross SR -0.57 (net -0.96) | XGB gross +0.21 (net ~-0.04) |
+MLP -0.26 (net -0.68). vs GKX 2.45 EW / 1.35 VW GROSS.
+CONCLUSION: Gu's result does NOT replicate with free data. Gap is structural:
+(1) universe 292 large caps vs 30k stocks (their EW 2.45 lives in the micro-cap
+tail - they say so; VW is 1.35); (2) 33 chars vs 94+ point-in-time CRSP/Compustat
+fundamentals (free tier: no PB/leverage, fundamentals are current snapshots, no
+history); (3) costs (24bp/mo honest vs their gross). The data IS the edge; free
+data on large caps yields ~0 net Sharpe. Consistent with our leak-free IC ~0.02.
+Artifacts: tools/quant/bigmove/gkx_monthly.py + gkx_backtest.py + data/
+gkx_monthly_panel.parquet + finnhub_metrics.json + reports/xgb_horizons/
+GKX_REPLICATION.md. Commit follows.
