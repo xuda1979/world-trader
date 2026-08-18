@@ -194,3 +194,22 @@ Converged best free-data result: **Ridge EW decile L/S net SR ~+0.5, ann
 ~6% net, on a ~1000-name investable universe** — ~1/5 of GKX's 2.45 gross EW.
 Remaining levers: more EDGAR characteristics, model ensembling, or a paid
 universe.
+
+# UPDATE 2026-08-18 (v8) — 4 more EDGAR characteristics: Ridge EW net SR +0.54
+
+Added 4 more point-in-time characteristics from the SAME EDGAR files
+(inventory/assets, receivables/assets, cash/assets, PPE growth) -> 48 total
+(16 EDGAR fundamentals). Purged walk-forward decile L/S OOS 2009-2026:
+
+| Model | EW gross SR | EW net SR |
+|---|---|---|
+| **Ridge** | **+0.75** | **+0.54** (ann 6.7% net) |
+| XGB | +0.18 | +0.01 |
+| MLP | — | — |
+
+Ridge again improved (+0.48 -> +0.54) — every free-data lever (more names,
+more characteristics) has raised the regularized linear model's net Sharpe.
+XGB stays degraded (overfits the noisier names). VW negative for all.
+Converged trajectory: Ridge EW net SR 0.42 (1032 names) -> 0.48 (1092) ->
+0.54 (+4 chars). Next levers: more EDGAR tags (the XBRL files hold ~400),
+ensembling Ridge+XGB, or the paid universe.

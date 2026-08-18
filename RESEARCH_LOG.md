@@ -1835,3 +1835,11 @@ Ridge robust to junk names; XGB not. Quality queue nearly exhausted (batch 2
 ~40% error, sub-$2/<200 rows). CONVERGED: Ridge EW net SR ~+0.5, ann ~6% net,
 ~1000-name investable universe ~ 1/5 of GKX 2.45 gross EW. Remaining levers:
 more EDGAR chars, ensembling, paid universe. Commit follows.
+
+## 2026-08-18 (/loop) — GKX v8: +4 EDGAR chars (48 total) -> Ridge EW net SR +0.54
+Added inventory/assets, receivables/assets, cash/assets, PPE growth from the
+same EDGAR files (16 fundamentals, 48 chars total). Purged decile L/S OOS
+2009-26: Ridge EW gross 0.75 / NET +0.54 (ann 6.7% net) - new best; XGB 0.18
+gross / +0.01 net (still overfits noisy names). Trajectory: Ridge net SR
+0.42 (v6) -> 0.48 (v7) -> 0.54 (v8). Every free-data lever (names, chars)
+raises the regularized linear model. VW negative. Commit follows.
