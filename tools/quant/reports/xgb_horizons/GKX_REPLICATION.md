@@ -172,3 +172,25 @@ result so far - about 1/6 of GKX's 2.45 gross EW, and now NET positive with
 an investable (>= $2) universe. NN (MLP) is weakest at this scale (GKX's NN
 advantage needs the full 30k-stock universe).
 Second TwelveData batch (~400 more names) fetching in background; rerun after.
+
+# UPDATE 2026-08-18 (v7) — 1092-name universe: Ridge EW net SR +0.48 (ceiling approaching)
+
+Batch 2 of the TwelveData fetch added ~60 more names (rest were junk/errors —
+the quality queue is nearly exhausted) -> union 1092 names, 901 investable
+tickers. Purged walk-forward decile L/S OOS 2009-2026:
+
+| Model | EW gross SR | EW net SR |
+|---|---|---|
+| **Ridge** | **+0.69** | **+0.48** (ann 5.9% net) |
+| XGB | +0.23 | +0.06 |
+| MLP | -0.01 | ~-0.25 |
+
+Ridge improved further (v6 +0.42 -> v7 +0.48); XGB degraded (0.33 -> 0.06) —
+the greedy trees overfit the noisier new names while the regularized linear
+model is robust to them. **Ridge is the champion; the quality-name queue is
+nearly exhausted** (batch 2 was mostly junk: ~40% error rate, sub-$2 or
+<200-row histories). Further free-name expansion has diminishing returns.
+Converged best free-data result: **Ridge EW decile L/S net SR ~+0.5, ann
+~6% net, on a ~1000-name investable universe** — ~1/5 of GKX's 2.45 gross EW.
+Remaining levers: more EDGAR characteristics, model ensembling, or a paid
+universe.

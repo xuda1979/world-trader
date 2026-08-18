@@ -1824,3 +1824,14 @@ vs v5 (657 names): Ridge -0.16->+0.42, XGB -0.18->+0.33. CONFIRMED: more
 investable names = more edge. ~1/6 of GKX 2.45 gross EW, but now NET positive
 on an investable >=$2 universe. Batch 2 (~400 more names) fetching in
 background; rerun after. Commit follows.
+
+## 2026-08-18 (/loop) — GKX v7: 1092 names -> Ridge EW net SR +0.48 (converged; quality queue exhausted)
+Batch 2 TwelveData (~60 usable of 400, rest junk/errors) -> union 1092 names,
+901 investable tickers. Purged decile L/S OOS 2009-26:
+  Ridge EW: gross 0.69, NET +0.48 (ann 5.9% net)  <- best free-data result
+  XGB EW: gross 0.23, net +0.06 (degraded - greedy trees overfit noisy names)
+  MLP: -0.01
+Ridge robust to junk names; XGB not. Quality queue nearly exhausted (batch 2
+~40% error, sub-$2/<200 rows). CONVERGED: Ridge EW net SR ~+0.5, ann ~6% net,
+~1000-name investable universe ~ 1/5 of GKX 2.45 gross EW. Remaining levers:
+more EDGAR chars, ensembling, paid universe. Commit follows.
