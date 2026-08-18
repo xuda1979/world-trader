@@ -1867,3 +1867,14 @@ Free sources exhausted (EDGAR complete, TwelveData quota spent, Stooq/yfinance
 blocked); marginal names add noise not signal. Gap to GKX 2.45 = paid CRSP
 universe. SCALE-UP VERDICT: stop expanding free universe; ~900 investable
 names is the free-data ceiling. Commit follows.
+
+## 2026-08-18 (/loop) — free-data exploration EXHAUSTED: converged Ridge net SR ~0.2-0.5
+Tested every remaining free lever: (1) Finnhub industry dummies (39 industries)
++ macro interactions (credit/DXY) -> Ridge 0.23->0.15 (negative); (2) Finnhub
+analyst recs fetch rate-limited (killed after 40min); (3) TwelveData queue has
+0 EDGAR-known names left (quality pool exhausted); (4) universe-margin test:
+v9 features on cleaned universe = 0.23 vs v9's 0.54 on 901-ticker universe.
+FINAL: Ridge EW decile L/S net SR ~0.2-0.5 (~0.3 point), ann ~3-7% net, 57
+point-in-time chars, ~900-1100 investable names. All free levers tested and
+neutral-to-negative at the margin. Free-data ceiling reached. GKX 2.45 needs
+the paid universe. Commit follows.

@@ -248,3 +248,23 @@ add noise, not signal. The gap to GKX's 2.45 gross EW is the paid CRSP
 universe (30k stocks incl. micro-caps) - not reachable with free data.
 SCALE-UP VERDICT: stop expanding the free universe; the recent-window
 cross-section (~800-900 investable names) is the free-data ceiling.
+
+# UPDATE 2026-08-18 (final free-data exploration) — converged: Ridge net SR ~0.2-0.5
+
+Exhausted the remaining free-resource levers:
+1. Finnhub sector/industry (39 industries, 1097 names) + macro interactions
+   (credit z, DXY z x momentum): added -> Ridge net 0.23->0.15 (NEGATIVE).
+2. Finnhub analyst recommendations: fetch rate-limited (stuck 40min, killed).
+3. TwelveData queue: zero EDGAR-known names remain (quality pool exhausted).
+4. Universe-margin test (v13, v9 features, cleaned universe): Ridge 0.23 vs v9
+   (0.54 on a 901-ticker universe with short-history names) -> the edge
+   fluctuates 0.2-0.5 with marginal universe composition.
+
+FINAL HONEST ESTIMATE: Ridge EW decile L/S, net SR ~0.2-0.5 (point estimate
+~0.3), ann ~3-7% net, ~900-1100 investable names, 57 point-in-time
+characteristics, purged walk-forward OOS 2009-2026. Every free lever has been
+tested: names (EDGAR/TwelveData/Finnhub/polygon pools exhausted), fundamentals
+(20 EDGAR tags), technicals (30+), industries, macro interactions, analyst
+data (blocked). Marginal additions are neutral-to-negative. This IS the
+free-data ceiling for the GKX-style replication. GKX's 2.45 gross EW requires
+the paid 30k-stock CRSP/Compustat universe with micro-caps.
