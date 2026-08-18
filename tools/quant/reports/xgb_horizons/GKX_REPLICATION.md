@@ -213,3 +213,16 @@ XGB stays degraded (overfits the noisier names). VW negative for all.
 Converged trajectory: Ridge EW net SR 0.42 (1032 names) -> 0.48 (1092) ->
 0.54 (+4 chars). Next levers: more EDGAR tags (the XBRL files hold ~400),
 ensembling Ridge+XGB, or the paid universe.
+
+# UPDATE 2026-08-18 (v9) — 57 characteristics: Ridge holds net +0.54 (ceiling)
+
+Added 4 more EDGAR fundamentals (depreciation/assets, retained/equity,
+payables/assets, interest coverage) + 2 price chars (36m long-term reversal,
+dollar volume) -> 57 characteristics. Purged decile L/S OOS 2009-2026:
+  Ridge EW: gross 0.75 / net +0.54 (unchanged - at the free-data ceiling)
+  XGB EW: gross 0.25 / net +0.09 (improved slightly)
+  VW improved (Ridge VW net -0.05)
+DIMINISHING RETURNS: 9 more characteristics did not move Ridge (0.54). The
+free-data ceiling for the GKX-style Ridge EW decile L/S is ~net SR 0.54 on
+this ~1100-name investable universe. Next: model ensembling (Ridge+XGB)
+gains would be marginal; the meaningful jump needs the full CRSP universe.

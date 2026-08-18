@@ -1843,3 +1843,12 @@ same EDGAR files (16 fundamentals, 48 chars total). Purged decile L/S OOS
 gross / +0.01 net (still overfits noisy names). Trajectory: Ridge net SR
 0.42 (v6) -> 0.48 (v7) -> 0.54 (v8). Every free-data lever (names, chars)
 raises the regularized linear model. VW negative. Commit follows.
+
+## 2026-08-18 (/loop) — GKX v9: 57 chars, Ridge net SR +0.54 (free-data ceiling reached)
+Added 4 more EDGAR fundamentals (depr_a, ret_equity, pay_a, int_cov) + 2 price
+chars (ret_36 long-term reversal, dollar_vol) -> 57 characteristics. Purged
+decile L/S OOS 2009-26: Ridge EW gross 0.75/net +0.54 (unchanged); XGB
+0.25/0.09 (up); VW improved (Ridge net -0.05). DIMINISHING RETURNS confirmed:
+9 extra chars didn't move Ridge. Free-data ceiling ~net SR 0.54 for Ridge EW
+decile L/S on the ~1100-name investable universe. Next: ensembling (marginal),
+or paid universe for the real jump. Commit follows.
