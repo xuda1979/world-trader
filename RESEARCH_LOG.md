@@ -1852,3 +1852,18 @@ decile L/S OOS 2009-26: Ridge EW gross 0.75/net +0.54 (unchanged); XGB
 9 extra chars didn't move Ridge. Free-data ceiling ~net SR 0.54 for Ridge EW
 decile L/S on the ~1100-name investable universe. Next: ensembling (marginal),
 or paid universe for the real jump. Commit follows.
+
+## 2026-08-18 (/loop) — GKX scale-up attempt: universe-margin FRAGILITY (converged ~0.3-0.5)
+Attempted to scale up via remaining free sources: TwelveData batch3 (~65 names,
+mostly junk), Stooq anti-bot blocked, yfinance rate-limited. Findings:
+(1) junk names (100-500 rows) destabilize: Ridge net 0.54->0.20, XGB 0.09->0.48
+(model ranking flipped = noise overfit).
+(2) quality filter (>=1000 rows, 913 tickers): Ridge 0.23, XGB 0.00 - vs v9's
+0.54 on a nearly identical universe (901 tickers). RESULT IS FRAGILE to
+marginal universe changes.
+CONVERGED ESTIMATE: Ridge EW net SR ~0.3-0.5 (0.23-0.54 across near-identical
+configs), ann ~3-7% net, ~900-1100 investable names, 57 point-in-time chars.
+Free sources exhausted (EDGAR complete, TwelveData quota spent, Stooq/yfinance
+blocked); marginal names add noise not signal. Gap to GKX 2.45 = paid CRSP
+universe. SCALE-UP VERDICT: stop expanding free universe; ~900 investable
+names is the free-data ceiling. Commit follows.

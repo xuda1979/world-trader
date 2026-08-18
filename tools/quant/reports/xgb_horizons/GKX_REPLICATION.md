@@ -226,3 +226,25 @@ DIMINISHING RETURNS: 9 more characteristics did not move Ridge (0.54). The
 free-data ceiling for the GKX-style Ridge EW decile L/S is ~net SR 0.54 on
 this ~1100-name investable universe. Next: model ensembling (Ridge+XGB)
 gains would be marginal; the meaningful jump needs the full CRSP universe.
+
+# UPDATE 2026-08-18 (v10/scale-up attempt) — universe-margin FRAGILITY: converged estimate ~0.3-0.5
+
+Attempted to scale up the universe via the remaining free sources (TwelveData
+daily quota -> ~65 more names; batch 3 mostly junk/short-history; Stooq still
+anti-bot-blocked; yfinance still rate-limited). Findings:
+
+1. Adding the junk-tier names (100-500 row histories) DESTABILIZED the models:
+   Ridge net 0.54 -> 0.20, XGB 0.09 -> 0.48 (model ranking flipped = noise).
+2. Removing them (>=1000-row quality filter, 913 tickers) gives Ridge net 0.23,
+   XGB 0.00 - materially different from v9's 0.54 on a nearly identical universe
+   (901 vs 913 tickers). The result is FRAGILE to marginal universe changes.
+
+HONEST CONVERGED ESTIMATE: Ridge EW net SR ~0.3-0.5 (best point 0.54, but
+universe-sensitive; 0.23-0.54 range across near-identical configurations),
+ann ~3-7% net, on ~900-1100 investable names with 57 point-in-time
+characteristics. The free-data sources are exhausted (EDGAR complete,
+TwelveData quota spent, Stooq/yfinance blocked); the marginal-name expansions
+add noise, not signal. The gap to GKX's 2.45 gross EW is the paid CRSP
+universe (30k stocks incl. micro-caps) - not reachable with free data.
+SCALE-UP VERDICT: stop expanding the free universe; the recent-window
+cross-section (~800-900 investable names) is the free-data ceiling.
