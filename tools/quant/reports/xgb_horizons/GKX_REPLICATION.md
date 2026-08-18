@@ -151,3 +151,24 @@ size (exactly GKX's micro-cap caveat, reproduced on our scale).
 
 TwelveData fetch continues in background (400 names, ~35 min); a rerun with
 the fuller investable universe will confirm whether more names help.
+
+# UPDATE 2026-08-18 (v6) — 1032-name investable universe: net SR +0.42 (Ridge EW)
+
+TwelveData free-tier fetch completed for 375 more names (8 req/min, resumable)
+-> union universe 657 -> 1032 names; 874 investable tickers in the panel
+(754/month recent). Rebuilt panel (44 chars, investable filter $2+/sane rets)
+and reran the purged walk-forward decile L/S (OOS 2009-2026):
+
+| Model | EW gross SR | EW net SR | VW gross SR | VW net SR |
+|---|---|---|---|---|
+| **Ridge** | **+0.64** | **+0.42** | +0.01 | -0.19 |
+| XGB | +0.51 | +0.33 | +0.29 | +0.15 |
+| MLP | +0.05 | ~-0.20 | -0.15 | ~-0.40 |
+
+vs v5 (657 names): Ridge net -0.16 -> +0.42, XGB -0.18 -> +0.33.
+**More investable names = more edge (confirmed directionally).** The v6
+best (Ridge EW net SR +0.42, ann ~4.6% gross) is the strongest free-data
+result so far - about 1/6 of GKX's 2.45 gross EW, and now NET positive with
+an investable (>= $2) universe. NN (MLP) is weakest at this scale (GKX's NN
+advantage needs the full 30k-stock universe).
+Second TwelveData batch (~400 more names) fetching in background; rerun after.

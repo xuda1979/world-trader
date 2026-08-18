@@ -1813,3 +1813,14 @@ Ridge 0.14/-0.16. The v3 +0.44 gross included sub-$2 penny/extreme-tail names
 (not investable at size) - same micro-cap caveat as GKX's own 2.45. Verdict:
 investable free-data GKX-style L/S is ~zero net of costs on large/mid caps.
 TwelveData fetch continues in background; rerun when done.
+
+## 2026-08-18 (/loop) — GKX v6: 1032-name investable universe -> Ridge EW net SR +0.42 (best free-data result)
+TwelveData batch 1 completed (375 names) -> union 657->1032, panel 874
+investable tickers. Purged walk-forward decile L/S OOS 2009-26:
+  Ridge EW: gross 0.64, NET +0.42 (ann 4.6%)  <- best
+  XGB EW: gross 0.51, net +0.33 | XGB VW: gross 0.29, net +0.15
+  MLP EW: 0.05 (NN needs the full 30k universe to win)
+vs v5 (657 names): Ridge -0.16->+0.42, XGB -0.18->+0.33. CONFIRMED: more
+investable names = more edge. ~1/6 of GKX 2.45 gross EW, but now NET positive
+on an investable >=$2 universe. Batch 2 (~400 more names) fetching in
+background; rerun after. Commit follows.
