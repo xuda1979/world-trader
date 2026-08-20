@@ -85,6 +85,33 @@ def live_ens():
           f"LONG {list(g['ticker'].iloc[:nq])[:10]}")
 
 
+def live_1y_quarterly():
+    """The optimized 1y book (quarterly EW t=0.25, xgb_1y_opt.py): cohorts
+    formed Feb/May/Aug/Nov 2026, 3m fixed holds, slices = ret_next."""
+    df = pd.read_parquet(f"{HERE}/data/gkx_preds_xgb_1y_pit.parquet")
+    df["month"] = pd.to_datetime(df["month"])
+    print("=== LIVE 1y QUARTERLY (EW t=0.25, optimized book) ===")
+    for m0 in [pd.Timestamp("2026-02-28"), pd.Timestamp("2026-05-31"),
+               pd.Timestamp("2026-08-31")]:
+        g = df[df["month"] == m0].dropna(subset=["pred"])  # form on preds; labels realize later
+        if len(g) < 40:
+            print(f"  {m0.date()}: no book"); continue
+        g = g.sort_values("pred", ascending=False)
+        nq = max(int(len(g) * 0.1), 5)
+        longs, shorts = set(g["ticker"].iloc[:nq]), set(g["ticker"].iloc[-nq:])
+        cum = 1.0; got = 0
+        for k in range(0, 3):
+            m = m0 + pd.DateOffset(months=k) + pd.offsets.MonthEnd(0)
+            gm = df[df["month"] == m]
+            lr = gm[gm["ticker"].isin(longs)]["ret_next"].dropna()
+            sr_ = gm[gm["ticker"].isin(shorts)]["ret_next"].dropna()
+            if len(lr) < 5 or len(sr_) < 5:
+                continue
+            pnl = 1.25 * lr.mean() - 0.75 * sr_.mean() - (4 * COST if k == 0 else 0)
+            cum *= 1 + pnl; got += 1
+        print(f"  {m0.date()} ({len(longs)}L/{len(shorts)}S): {got}/3 slices, cum net {cum - 1:+.1%}")
+
+
 def next_dates():
     today = pd.Timestamp("2026-08-20")
     nxt = [m for m in pd.date_range(today, today + pd.DateOffset(months=8), freq="ME")
@@ -99,6 +126,7 @@ def main():
     print(f"=== DATA ===\n  newest price CSV: {fresh.date()} "
           f"({'STALE >2d' if (pd.Timestamp('2026-08-20') - fresh).days > 2 else 'ok'})")
     live_1y()
+    live_1y_quarterly()
     live_1m()
     live_ens()
     next_dates()
