@@ -49,6 +49,16 @@ def load_panel_with_1y_target():
     fwd12 = (mclose.shift(-H) / mclose - 1.0).stack().rename("ret_fwd12")
     fwd12.index.names = ["month", "ticker"]
     df = df.join(fwd12, on=["month", "ticker"], how="left")
+    fwd1 = (mclose.shift(-1) / mclose - 1.0).stack().rename("ret_fwd1")
+    fwd1.index.names = ["month", "ticker"]
+    df = df.join(fwd1, on=["month", "ticker"], how="left")
+    # train on the months-2..12 return (slow component; ex1st won the target
+    # test 2026-08-20: entry-month sweep 0.91-1.28, max dd -19.6% vs raw
+    # target's 0.38-1.10, dd up to -71.6%). TARGET_MODE=raw12 for the old.
+    if os.environ.get("TARGET_MODE") == "raw12":
+        df["ret_fwd12_train"] = df["ret_fwd12"]
+    else:
+        df["ret_fwd12_train"] = df["ret_fwd12"] - df["ret_fwd1"]
     # PANEL BUG FIX: the panel's ret_next was built via mret.stack().shift(-1)
     # — shift(-1) on the stacked MultiIndex shifts by ROW POSITION, scrambling
     # returns across tickers (verified: CSCO prod(1+ret_next) +105.7% vs true
@@ -83,7 +93,7 @@ def run_model(df, names, model_fn, label):
         tr = (df["month"] <= m - pd.DateOffset(months=H + 1)) & \
              (df["month"] > m - pd.DateOffset(months=TRAIN_MONTHS + H + 1))
         tr_idx = np.where(tr)[0]
-        Xtr = X.iloc[tr_idx].to_numpy(); ytr = df["ret_fwd12"].iloc[tr_idx].to_numpy()
+        Xtr = X.iloc[tr_idx].to_numpy(); ytr = df["ret_fwd12_train"].iloc[tr_idx].to_numpy()
         ok = np.isfinite(Xtr).sum(axis=1) > 0
         Xtr, ytr = Xtr[ok], ytr[ok]
         ok2 = np.isfinite(ytr); Xtr, ytr = Xtr[ok2], ytr[ok2]

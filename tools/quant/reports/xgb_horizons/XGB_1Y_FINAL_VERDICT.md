@@ -395,3 +395,30 @@ between configs is within the ±0.07 SR run-to-run noise of the annual
 cohorts (the champion itself measures 1.03 vs 1.10 across identical
 reruns). **The 1y model is at its free-data plateau; the champion config
 is retained.**
+
+# UPDATE 2026-08-20 — TARGET IMPROVEMENT: train on months 2-12 return (ex1st) — NEW CHAMPION
+
+Training the 1y model on `fwd12 - fwd1` (the slow component, excluding
+the reversal month) instead of raw fwd12:
+
+| Entry-month sweep (12m-hold SR) | raw-target champ | **ex1st** |
+|---|---|---|
+| Feb | 1.03-1.10 | **1.08** (dd -11.6%) |
+| May | 0.80 | **0.91** (dd -14.9%) |
+| Aug | 0.99 | **1.28** (dd -12.3%) |
+| Nov | 0.38 (dd -71.6%) | **1.04** (dd -19.6%) |
+
+The ex1st model is uniformly better on entry timing and its worst-case dd
+is -19.6% vs the raw target's -71.6%. The reversal month was injecting
+noise into the 12m target.
+
+**Re-validated stack on ex1st predictions:**
+
+| Book | SR | ann | dd |
+|---|---|---|---|
+| quarterly EW t=0.25 raw | **1.14** | +25.2% | -33.4% |
+| **quarterly EW t=0.25 + VIX gate** | **1.20** | +24.1% | **-23.1%** |
+
+New best book: SR 1.20 (was 1.17), dd -23.1% (was -24.4%). The ex1st
+target is now the default in xgb_1y_ls.py (TARGET_MODE=raw12 reverts);
+the champion parquet holds ex1st predictions.

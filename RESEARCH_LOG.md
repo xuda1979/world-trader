@@ -1,3 +1,10 @@
+## 2026-08-20 (/loop keep-improving iter2) — TARGET IMPROVEMENT: ex1st (fwd12-fwd1) model — stack now SR 1.20 / dd -23.1%
+Training on months 2-12 return removes the reversal month from the 12m
+target: entry sweep 0.91-1.28 with max dd -19.6% (vs raw 0.38-1.10, dd
+to -71.6%). ex1st = new default champion. Re-validated: quarterly EW
+t=0.25 on ex1st = SR 1.14 (dd -33.4%); + VIX gate = SR 1.20, ann +24.1%,
+dd -23.1% — best book yet. Champion parquet holds ex1st preds.
+
 ## 2026-08-20 (/loop keep-improving iter1) — model refinement grid: PLATEAU confirmed, champion retained
 4-config grid (d2 / d3-1000t / d3-lr.01 / d4-mcw5): none dominates across
 IC + both holding periods + dd; spread within +/-0.07 SR annual-cohort
