@@ -1,3 +1,14 @@
+## 2026-08-20 (/loop 1y-opt iter3) — RISK LADDER COMPLETE: vol-targeted combo dd -8.2% (SR 1.02); program CLOSED
+Combo vol-targeting variants: raw 1.27/19.1%/-23.1%; vol-targ 1y leg only
+1.11/11.8%/-13.5%; both legs 1.02/8.6%/-8.2% (Calmar 1.05). Deployment =
+risk ladder by drawdown budget. Optimization program closed across all
+levers; committed.
+
+## 2026-08-20 (/loop iter57) — retro n=114: stable (1m +1.1%, 3m +1.3%, 6m -1.0%)
+Chunk 49: n=114 (1m +1.1% vs -3.2%, 3m +1.3% vs +3.1%, 6m -1.0% vs
+-0.3%). Estimate stable: zero-to-weakly-positive, high variance.
+~185 candidates left.
+
 ## 2026-08-20 (/loop 1y-opt iter2) — regime gating REJECTED; VOL TARGETING = the drawdown lever (dd -36% -> -8%)
 Gated tilt by 12m market trend: 1.00 vs const 1.09 — tilt payoff is not
 trend-following, gating times badly. Vol targeting (5%/qtr, trailing-4q)

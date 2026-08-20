@@ -329,3 +329,16 @@ weights (EW wins) · MV (rejected) · tilts (const t≈0.25-0.5 optimal,
 gating rejected) · frequency (quarterly) · combo split (50/50) · vol
 targeting (dd lever). Deployment menu: raw quarterly EW t=0.25 (SR 1.09,
 dd -36%) or vol-targeted (SR 0.83, dd -8%); either + Ridge-1m 50/50.
+
+# UPDATE 2026-08-20 — final risk ladder: vol-targeted combo variants
+
+| Variant (Ridge-1m + quarterly-1y 50/50) | SR | ann | dd | Calmar |
+|---|---|---|---|---|
+| raw | 1.27 | +19.1% | -23.1% | 0.83 |
+| vol-targeted 1y leg only | 1.11 | +11.8% | -13.5% | 0.87 |
+| **both legs vol-targeted** | 1.02 | +8.6% | **-8.2%** | **1.05** |
+
+**The complete deployment menu is a risk ladder**: pick the rung by your
+drawdown budget. Optimization program CLOSED — every portfolio lever
+(weights, MV, tilts, gating, frequency, split, vol targeting, combo
+variants) tested and committed.
