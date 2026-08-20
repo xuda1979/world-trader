@@ -1,3 +1,11 @@
+## 2026-08-20 (/loop 1y-dd iter1) — VIX GATE: dd -36.2% -> -24.4% with ann UNTOUCHED (+23.7%, SR 1.17)
+Goal: filter the biggest dd without affecting ann. Diagnosis: the -36%
+hole = 2022 episode (single -27% quarter, VIX 30) + 2015 bleed (VIX 14).
+VIX gate (0.5x>22, 0x>35) shaves 2022 only: ann +24.1% -> +23.7%
+(-0.4pp), dd -36.2% -> -24.4%, SR 1.09 -> 1.17. Threshold plateau 22-25
+robust. DD time-out rejected (same dd cut, -4.6pp ann). Combo doesn't
+need the gate. XGB_1Y_FINAL_VERDICT.md updated.
+
 ## 2026-08-20 (/loop 1y-opt iter3) — RISK LADDER COMPLETE: vol-targeted combo dd -8.2% (SR 1.02); program CLOSED
 Combo vol-targeting variants: raw 1.27/19.1%/-23.1%; vol-targ 1y leg only
 1.11/11.8%/-13.5%; both legs 1.02/8.6%/-8.2% (Calmar 1.05). Deployment =

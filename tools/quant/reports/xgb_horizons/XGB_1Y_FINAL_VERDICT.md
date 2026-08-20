@@ -342,3 +342,28 @@ dd -36%) or vol-targeted (SR 0.83, dd -8%); either + Ridge-1m 50/50.
 drawdown budget. Optimization program CLOSED — every portfolio lever
 (weights, MV, tilts, gating, frequency, split, vol targeting, combo
 variants) tested and committed.
+
+# UPDATE 2026-08-20 — drawdown filter: VIX gate cuts dd 33% with ann UNTOUCHED
+
+Goal: filter the biggest drawdown without affecting annual return.
+Diagnosis: the quarterly book's -36.2% dd is two episodes — 2022 (single
+-27% quarter, VIX 30) and 2015 (slow bleed, VIX only 14). Tested three
+filter families on quarterly EW t=0.25:
+
+| Filter | SR | ann | dd |
+|---|---|---|---|
+| raw | 1.09 | +24.1% | -36.2% |
+| **VIX gate (0.5x > 22, 0x > 35)** | **1.17** | **+23.7%** | **-24.4%** |
+| VIX gate (0.5x > 25, 0x > 40) | 1.14 | +23.3% | -24.4% |
+| VIX gate (0.5x > 28, 0x > 45) | 1.10 | +23.9% | -36.2% (too loose) |
+| DD time-out (0.5x@-10%, 0x@-15%) | 0.99 | +19.5% | -24.4% |
+| VIX + DD combined | 0.90 | +14.9% | -18.9% |
+
+**The VIX gate is the answer**: exposure 0.5x when VIX > 22, 0x when >
+35 (formation-time, applied to the next quarter). It shaves the single
+worst episode (2022) while leaving all other quarters untouched — ann
++24.1% -> +23.7% (-0.4pp), dd -36.2% -> -24.4% (33% cut), SR improves
+to 1.17. Threshold plateau 22-25 = robust, not knife-edge. The DD
+time-out costs 4.6pp ann for the same dd cut — rejected. On the combo
+(Ridge-1m + quarterly-1y) the gate is unnecessary (dd already -23%;
+gate costs 1.6pp ann for -2pp dd).
