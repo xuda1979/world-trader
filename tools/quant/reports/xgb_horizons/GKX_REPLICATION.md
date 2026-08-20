@@ -268,3 +268,75 @@ tested: names (EDGAR/TwelveData/Finnhub/polygon pools exhausted), fundamentals
 data (blocked). Marginal additions are neutral-to-negative. This IS the
 free-data ceiling for the GKX-style replication. GKX's 2.45 gross EW requires
 the paid 30k-stock CRSP/Compustat universe with micro-caps.
+
+# UPDATE 2026-08-20 (v14) — CRITICAL BUG FIX: panel ret_next was scrambled; TRUE 1m results are BETTER
+
+`ret_next` was built via `mret.stack().shift(-1)` — shift on the stacked
+MultiIndex shifts by ROW POSITION, scrambling returns across tickers.
+Proof: CSCO Feb-2020..Feb-2021 prod(1+panel ret_next) = +105.7% vs true
++11.7% (raw CSV). Every v1-v13 number that trained on or booked ret_next
+is invalid. Rebuilt ret_next per-ticker (close(m+1)/close(m)-1), patched
+the panel parquet in place, rerun the full purged walk-forward decile L/S:
+
+| Model | EW gross SR | EW net SR (24bp/mo) | vs v9 contaminated |
+|---|---|---|---|
+| **Ridge** | **+0.76** (ann +13.1%) | **+0.61** (ann +9.9%) | 0.54 |
+| **XGB** | **+0.72** (ann +13.2%) | **+0.57** (ann +10.0%) | ~0.09 |
+| MLP | -0.02 | -0.23 | ~0 |
+
+**The scrambled label was SUPPRESSING the measured edge.** The true
+free-data 1m result is BETTER than the contaminated story: Ridge AND XGB
+both ~+0.6 net SR, ~10%/yr net — and XGB's 1m "weakness" (the
+Ridge-dominates narrative) was largely the bug (0.09 -> 0.57). MLP remains
+weak; VW remains ~zero (edge in the EW cross-section). New honest
+free-data ceiling for the GKX-style 1m replication: **net SR ~0.6, ann
+~10%** on ~900-1100 investable names, 57 characteristics, OOS 2009-2026.
+
+# UPDATE 2026-08-20 (v15) — UNIVERSE BUG: 292-name subset -> full 913-name panel
+
+The v14 rerun (and all my label joins) used pc.load_ohlcv() = twelve_big
+only (~292 tickers), while the panel holds 913 from the full union. The
+label joins silently restricted every backtest to the 292-name subset.
+Fixed: union_panel.load_union() (1,097 tickers), ret_next rebuilt with
+sane-tail filter (coverage 50% -> 85%).
+
+Full-universe purged walk-forward decile L/S (OOS 2009-2026):
+
+| Model | EW gross SR | EW net SR (24bp/mo) | vs v14 (292-name) |
+|---|---|---|---|
+| **Ridge** | **+1.12** (ann +17.4%) | **+0.93** (ann +14.1%, dd -28%) | 0.61 |
+| **XGB** | **+0.90** (ann +17.9%) | **+0.76** (ann +14.6%, dd -52%) | 0.57 |
+| MLP | +0.16 | -0.07 | -0.23 |
+
+The free-data GKX replication on the REAL universe: **Ridge EW net SR
++0.93, XGB +0.76, ann ~14% net** — approaching the paper's value-weighted
+1.35 gross for the first time, on free data. (Caveats unchanged: 39-57
+chars vs 94, no micro-cap tail, net costs, and the union includes the
+junk-tier names known to destabilize marginal universe changes.)
+
+# UPDATE 2026-08-20 (v16) — 1m robustness suite: RIDGE is the robust champion; XGB's edge is the illiquid tail
+
+`xgb_1m_robust.py` (no retraining, full universe, monthly decile L/S net):
+
+| Variant | XGB (d3) | Ridge |
+|---|---|---|
+| decile 24bp | 0.84 (ann +18.2%, dd -64%) | **0.93** (ann +14.1%, dd -28%) |
+| decile 48bp | 0.71 | 0.75 |
+| decile 96bp | 0.47 | 0.37 |
+| quintile 24bp | 0.62 | 0.86 (dd -23%) |
+| PIT $2 floor | 0.57 | **0.96** (improves!) |
+| $1M ADV | 0.28 | **0.91** |
+| $5M ADV | 0.19 | **0.81** |
+| $20M ADV | 0.23 | **0.79** (ann +11.6%) |
+| worst year | -41.8% (2021) | **-17.1% (2015)** |
+| 3m/6m/12m-hold decay | 0.51 / 0.18 / 0.15 | **0.70 / 0.73 / 0.65** |
+
+**Verdict**: XGB's 1m headline is mostly the small/illiquid tail — at
+capacity floors it collapses to ~0.2, and its per-year record is lumpy
+(2020 +139%, 2021 -42%). **Ridge is the robust 1m champion**: its edge
+survives the $2 floor (improves), holds at $20M ADV (0.79, ann +11.6%),
+has no disaster years (worst -17%), and its signal PERSISTS at 12m holds
+(0.65) — a slow-moving linear component the trees miss. Ridge 1m is the
+capacity-honest monthly-rebalance strategy; XGB 1m only for the
+unconstrained micro-cap book. Live book (2026-07-31, Ridge): LONG AKTS,
+MU, DDOG, VLO, TSLA... (mostly liquid names).

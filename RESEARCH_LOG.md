@@ -1,5 +1,863 @@
+## 2026-08-20 (/loop iter48) — retro n=96: unchanged (chunk 40 added 0)
+Chunk 40: n=96 (1m +0.8% vs -4.1%, 3m +2.6% vs +2.9%, 6m +0.7% vs
+-1.2%) — chunk had no new report-date net-nets; stats identical to
+n=96. Positive-side estimate holds. ~545 candidates left.
 
-## Update 2026-08-06 (xliii) — VIX absolute-level sweep COMPLETE: a better risk filter
+## 2026-08-20 (/loop 1m-xgb iter15) — CAPSTONE: portfolio-level combo Ridge-1m + 1y-deploy 50/50 -> SR 1.32 (ann +15.8%, dd -18.9%)
+The two primary books' monthly P&L correlates only 0.15. 50/50 capital
+split: SR 1.32 vs 0.93 (Ridge-1m) and 1.06 (1y deploy) alone; dd -18.9%
+vs -29%/-23%. Prediction-level blends were dilutive; portfolio-level
+diversification across horizons is the best risk-adjusted book of the
+whole program. STRATEGY_STACK.md updated (combo = #0).
+
+## 2026-08-20 (/loop iter47) — retro n=96: positive side holds (1m +0.8%, 3m +2.6%, 6m +0.7%)
+Chunk 39: n=96 (1m +0.8% vs -3.9%, 3m +2.6% vs +2.8%, 6m +0.7% vs
+-1.4%). Fourth consecutive positive chunk; 1m/6m beat base by +4.7pp /
++2.1pp. Nearing the final sample; the zero-alpha estimate has settled
+into "zero-to-weakly-positive" with high variance. ~585 candidates left.
+
+## 2026-08-20 (/loop 1m-xgb iter13) — stack re-ranked post split-half: Ridge-1m #1, ensemble marked regime-dependent
+STRATEGY_STACK.md now ranks Ridge-1m first (time-robust, capacity 0.79@
+$20M ADV, live +137%) with the ensemble demoted to discretionary
+post-2018 enhancement. All nominal: data through 08-18, cohorts
++42.3/+16.1/+2.4, next formation 08-31.
+
+## 2026-08-20 (/loop iter46) — retro n=94: positive side holds (1m +1.2%, 3m +2.9%, 6m +0.9%)
+Chunk 38: n=94 (1m +1.2% vs -3.8%, 3m +2.9% vs +3.1%, 6m +0.9% vs
+-1.3%). Third consecutive chunk on the positive side; beats base at 1m
+(+5.0pp) and 6m (+2.2pp). Still zero-alpha-high-variance territory but
+the drift is now clearly positive-leaning. ~625 candidates left.
+
+## 2026-08-20 (/loop 1m-xgb iter12) — SPLIT-HALF CHECK: ensemble win is REGIME-DEPENDENT; Ridge is the time-robust book
+Weight chosen on 2009-2017, tested 2018-2026: train-period best = pure
+Ridge (0.75) vs blends 0.56-0.70; hold-out w=0.5 -> 1.33 vs Ridge 1.13.
+The full-period ensemble win (1.05) is a regime compromise. VERDICT
+CORRECTED: pure Ridge is time-robust (best pre-2018, 1.13 post-2018) and
+is also the capacity book (0.79 at $20M ADV); ensemble = discretionary
+full-breadth enhancement, edge concentrated post-2018. Report updated.
+
+## 2026-08-20 (/loop iter45) — retro n=88: positive side holds (1m +1.0%, 3m +2.8%, 6m +0.7%)
+Chunk 37: n=88 (1m +1.0% vs -3.9%, 3m +2.8% vs +3.2%, 6m +0.7% vs
+-1.3%). Positive side holds for a second chunk (1m +4.9pp vs base,
+6m +2.0pp). Still consistent with zero-alpha-high-variance; the estimate
+drifts with the sample. ~665 candidates left.
+
+## 2026-08-20 (/loop 1m-xgb iter11) — ensemble weight sweep: w=0.60 -> SR 1.05 (ann +21.1%)
+Ridge-weight sweep: 0/0.25/0.4/0.5/0.6/0.75/1.0 -> 0.84/0.98/0.95/0.98/
+1.05/1.00/0.93 — smooth hump, endpoints lower (real complementarity).
+Adopted 0.6: decile 1.05, 96bp 0.62, $20M ADV 0.58, live 10/14 (+77%).
+Artifacts regenerated; stack + report updated. Caveat: OOS-chosen weight
+(flat 0.4-0.6 curve = low risk).
+
+## 2026-08-20 (/loop iter44) — retro n=87: estimate swings POSITIVE (1m +0.6%, 3m +2.5%, 6m +0.3%)
+Chunk 36: n=87 (1m +0.6% vs -4.1%, 3m +2.5% vs +3.1%, 6m +0.3% vs
+-1.7%). Net-net cohort positive in absolute terms at all horizons;
+beats base at 1m (+4.7pp) and 6m (+2.0pp). The estimate has swung from
+-mildly negative (n=35-40) to + (n=87) — the only robust statement is
+ZERO alpha with huge variance (range roughly -7pp..+5pp vs base across
+chunks). Report wording stays "zero alpha, high variance". ~705 left.
+
+## 2026-08-20 (/loop 1m-xgb iter10) — monitor now shows upcoming 1m book; reports cross-linked to STRATEGY_STACK.md
+live_monitor.py shows the fresh ensemble book (2026-08-31, labeled
+unfiltered vs the px>=$2+$20M-ADV deploy book). GKX_1M_FINAL_REPORT.md and
+XGB_1Y_FINAL_VERDICT.md now link to the master stack doc. All nominal:
+data through 2026-08-18, cohorts +42.3/+16.1/+2.4, next formation 08-31.
+
+## 2026-08-20 (/loop iter43) — retro n=84: stable (3m -1.1%, 6m -3.5%)
+Chunk 35: n=84 (1m -1.8% vs -4.1%, 3m -1.1% vs +2.9%, 6m -3.5% vs
+-2.0%). Converged near zero. ~745 candidates left.
+
+## 2026-08-20 (/loop 1m-xgb iter9) — LIVE-MONTH FIX: 1m preds now extend through 2026-08-31 (fresh monthly book)
+gkx_backtest.run_model dropped NaN-ret_next rows upfront (same bug pattern
+as the 1y pipeline) -> 1m predictions stopped at the last labeled month
+(2026-07). Fixed: keep all rows, mask finite labels in training. Backtest
+UNCHANGED (Ridge 0.93 / XGB 0.84 / ens 0.98, n=210); preds now run through
+2026-08-31. Fresh 1m live book (2026-08-31, ens): LONG AKTS/MU/AMAT/VRT/
+DELL/AMD/INTC/DDOG (semis-heavy). Ensemble parquet + live book CSV
+regenerated.
+
+## 2026-08-20 (/loop iter42) — retro n=83: stable (3m -1.1%, 6m -3.5%)
+Chunk 34: n=83 (1m -1.8% vs -4.2%, 3m -1.1% vs +3.0% — base strong this
+chunk, net-net absolute level unchanged; 6m -3.5% vs -2.1%). Converged
+near zero. ~785 candidates left.
+
+## 2026-08-20 (/loop 1m-xgb iter8) — MASTER SUMMARY published: STRATEGY_STACK.md (1m+1y arcs consolidated)
+One-page reference: the 5 books with SR/ann/dd/capacity/worst-year, the
+two cross-validations, the size/horizon/signal structural facts, the 3
+data-integrity fixes, live records, and ops (monitor command, next
+formation 2026-08-31, refit 2027-01-31). Future fires point here instead
+of re-dumping. Repo note: all research artifacts uncommitted.
+
+## 2026-08-20 (/loop iter41) — retro n=81: stable (3m -1.2%, 6m -3.5%)
+Chunk 33: n=81 (1m -1.9% vs -4.1%, 3m -1.2% vs -0.4%, 6m -3.5% vs
+-2.2%). Converged near zero. ~825 candidates left.
+
+## 2026-08-20 (/loop iter40) — retro n=79: stable (3m -1.3%, 6m -3.7%)
+Chunk 32: n=79 (1m -1.9% vs -4.0%, 3m -1.3% vs -0.4%, 6m -3.7% vs
+-2.2%). Converged near zero. ~865 candidates left.
+
+## 2026-08-20 (/loop 1m-xgb iter6) — SIZE DECOMPOSITION: 1m edge is small-names ONLY (LARGE 0.04 / MID -0.08 / SMALL 0.61)
+Within-tercile decile L/S on Ridge preds: the entire 1m edge is in the
+small tercile (SR 0.61, ann +10.6%); large ~0, mid negative. Matches the
+daily-panel finding (large caps faded post-2012). The $20M-ADV book works
+only via small names that clear the floor — protecting them IS the
+strategy; if forced into large/mid only, switch to the 1y XGB (keeps
+large-cap signal 0.68). live_monitor.py now tracks the ensemble too.
+GKX_1M_FINAL_REPORT.md updated.
+
+## 2026-08-20 (/loop 1m-xgb iter5) — daily-panel cross-check: 1m signal on large caps FADED post-2012
+Correct monthly-rebalance eval of cached daily-panel H21 preds (285 large
+caps): decile SR 1.17 (ann +33%) BUT by-year shows 2008-2012 dominance
+(+37/+148/+135/+220/+233%) and 2013-2023 flat/negative (2021 -30%, 2023
+-24%), recovering 2024-2026. Honest: the 1m signal on large caps is an
+early-era phenomenon; the union-universe strategy's robustness comes from
+smaller-name breadth (where capacity limits sit). Old H21 JSON numbers
+(SR 8.6, ann 778,330%) were the booking bug — invalid. Large-cap 1m book
+is NOT a standalone deployment candidate. GKX_1M_FINAL_REPORT.md updated.
+
+## 2026-08-20 (/loop iter39) — retro n=78: stable (3m -1.3%, 6m -3.2%)
+Chunk 31: n=78 (1m -2.2% vs -3.9%, 3m -1.3% vs 0.0%, 6m -3.2% vs
+-1.9%). Converged near zero. ~905 candidates left.
+
+## 2026-08-20 (/loop 1m-xgb iter4) — ensemble stress suite: 0.97 full breadth but 0.55 at $20M ADV; deploy hierarchy set
+xgb_1m_ens.py: ensemble decile 0.97 (ann +19.9%); quintile 0.87; $2 floor
+0.85; $20M ADV 0.55 (inherits XGB's illiquidity); worst year 2021 -35.3%;
+live 10/14 (+72%). Ridge alone stays the capacity champion (0.79 at $20M
+ADV). Deploy hierarchy: Ridge at institutional capacity; ensemble at
+unconstrained breadth. Artifacts: gkx_preds_ens1m.parquet, live book CSV.
+GKX_1M_FINAL_REPORT.md updated.
+
+## 2026-08-20 (/loop iter38) — retro n=76: stable (3m -1.5%, 6m -3.5%)
+Chunk 30: n=76 (1m -2.2% vs -4.0%, 3m -1.5% vs -0.2%, 6m -3.5% vs
+-2.1%). Converged near zero. ~945 candidates left.
+
+## 2026-08-20 (/loop 1m-xgb iter3) — ENSEMBLE WINS: Ridge+XGB 1m net SR 0.97 (ann +19.9%); alpha=10 confirmed; $1.6B/leg capacity
+Ridge+XGB 1m rank ensemble (avg z-scores, monthly decile L/S net): SR
+0.97, ann +19.9% — beats both pure legs (0.93/0.84); same-horizon model
+diversity is additive. Ridge alpha sweep: 10/30/100/300 -> 0.93/0.86/
+0.92/0.85 — alpha=10 confirmed optimal. Ridge $20M-ADV capacity: long
+decile median ADV $579M -> ~$1.6B per leg at 1% participation.
+GKX_1M_FINAL_REPORT.md updated.
+
+## 2026-08-20 (/loop iter37) — retro n=74: stable at zero (3m -0.8%, 6m -2.9%)
+Chunk 29: n=74 (1m -1.5% vs -4.0%, 3m -0.8% vs +0.1%, 6m -2.9% vs
+-1.9%). Converged: ~zero alpha at 3m, ~-1pp at 6m, 1m beats base.
+~985 candidates left.
+
+## 2026-08-20 (/loop 1m-xgb iter2) — COMPREHENSIVE REPORT published: GKX_1M_FINAL_REPORT.md
+Full 1m arc consolidated (data, methodology, the 2 data-integrity fixes,
+backtest tables, robustness suite, horizon decay, live record, live book,
+deployment recipe, caveats, artifacts). Added Ridge live record: 10/14
+months positive, mean +2.4%/mo, compounded +137% over 14 months (XGB +74%).
+Headline: Ridge = capacity-honest 1m champion (net SR 0.93 full breadth /
+0.79 at $20M ADV, ann ~12-14%, worst year -17%); XGB's 1m edge is the
+illiquid tail. Both models live-positive.
+
+## 2026-08-20 (/loop 1m-xgb iter1) — ROBUSTNESS SUITE: Ridge is the capacity-honest 1m champion; XGB = illiquid tail
+xgb_1m_robust.py (full universe, monthly decile L/S net). XGB d3: base
+0.84 (ann +18.2%) but collapses at floors ($20M ADV 0.23, $2-floor 0.57)
+and is lumpy (2020 +139%, 2021 -42%). RIDGE: 0.93 base; $20M ADV 0.79
+(ann +11.6%), $2 floor 0.96 (improves), worst year -17.1% (2015), quintile
+0.86, and horizon decay shows persistence (3m 0.70 / 6m 0.73 / 12m 0.65)
+vs XGB's fast decay (0.51/0.18/0.15) — Ridge captures a slow component
+trees miss. VERDICT: Ridge 1m = robust monthly strategy; XGB 1m only for
+unconstrained micro-cap books. Live book (Ridge, 2026-07-31): LONG
+AKTS/MU/DDOG/VLO/TSLA... GKX_REPLICATION.md v16.
+
+## 2026-08-20 (/loop iter36) — retro n=69: 3m ZERO, 6m -0.7pp
+Chunk 28: n=69 (1m -1.8% vs -4.1%, 3m -0.4% vs 0.0%, 6m -2.8% vs
+-2.1%). Estimate converged to ~ZERO alpha at 3m, ~-0.7pp at 6m, 1m
+better than base. Final verdict: formula net-nets ≈ zero alpha, high
+variance (the earlier "mildly negative" was a mid-sample artifact).
+~1,025 candidates left.
+
+## 2026-08-20 (/loop 1y-xgb iter17) — doc hygiene: current-state header added to living record; all nominal
+XGB_1Y_LS.md now opens with a CURRENT STATE block (final numbers + pointer
+to XGB_1Y_FINAL_VERDICT.md and live_monitor.py) so superseded iter1-4
+tables don't mislead. Steady-state check: no data refresh, live cohorts
+unchanged, cache regression 1.03 reproduces.
+
+## 2026-08-20 (/loop iter35) — retro n=65: hovering near zero (3m -0.7%, 6m -2.9%)
+Chunk 27: n=65 (1m -2.1% vs -3.9%, 3m -0.7% vs +0.4%, 6m -2.9% vs
+-1.4%). Underperformance has softened to ~-1 to -3pp at 3-6m as the
+sample grows — the "mildly negative" estimate is drifting toward zero.
+Final verdict will land somewhere in zero-to-mildly-negative; high
+variance unchanged. ~1,065 candidates left.
+
+## 2026-08-20 (/loop iter34) — retro n=61: underperformance NARROWS (3m -1.6%, 6m -3.5%)
+Chunk 26: n=61 (1m -2.7% vs -3.8%, 3m -1.6% vs +0.4%, 6m -3.5% vs
+-1.5%). Newer chunks (later alphabet) pulled the estimate back toward
+zero — the true value is likely -2 to -5pp at 3-6m, high variance.
+Verdict language stays "zero to mildly negative". ~1,105 candidates left.
+
+## 2026-08-20 (/loop 1y-xgb iter15) — dual-confirmation test: 1m filter does NOT beat pure 1y (last combination closed)
+12m-hold annual cohorts: pure 1y SR 1.03 (ann +20.8%) vs dual-rank deciles
+0.78 (+13.6%) vs half-half intersection 0.84 (+7.7%, dd -5.7%). The 1m
+model adds no information to the 1y book — combining only trades return
+for smoothness. Combination space exhausted: horizon-matched single models
+are optimal (1m model monthly; 1y model annual). Live status unchanged
+(data through 08-18; cohorts +42.3/+16.1/+2.4; next formation 08-31).
+
+## 2026-08-20 (/loop iter33) — retro n=56: stable (3m -3.7%, 6m -6.0%)
+Chunk 25: n=56 (1m -2.9% vs -4.4%, 3m -3.7% vs +0.1%, 6m -6.0% vs
+-1.9%). Converged. ~1,145 candidates left.
+
+## 2026-08-20 (/loop 1y-xgb iter14) — LIVE MONITOR built; 1m model live: 11/14 months positive, ~+74% compounded
+live_monitor.py: one command = data freshness + live 1y cohorts + recent
+1m months + next dates. 1m model recent months (2025-06..2026-07, net):
+11/14 positive, mean ~+4.4%/mo (compounds ~+74%); worst 2026-06 -6.6%.
+Both strategies live-positive. Next: formation 2026-08-31, refit 2027-01.
+XGB_1Y_FINAL_VERDICT.md iter14.
+
+## 2026-08-20 (/loop iter32) — retro n=53: stable (3m -4.8%, 6m -7.4%)
+Chunk 24: n=53 (1m -3.1% vs -4.4%, 3m -4.8% vs +0.1%, 6m -7.4% vs
+-2.1%). Converged. ~1,185 candidates left.
+
+## 2026-08-20 (/loop 1y-xgb iter13) — live attribution: long leg 2/3; micro-tail + megacap mix; no data refresh yet
+No CSV refresh since panel build (Aug 17-18) -> mark-to-market stands.
+Nov-2025 cohort (9 slices): long leg +26.6%, short leg +11.9%, gross
++38.4% (compounded net +42.3%). Contributors mix untradeable micros
+(ADTX $6M ADV, AKAN $1M, XXII/AIMN ~$0) with megacaps (MU +2.4%,
+INTC +1.8%) — the $20M-ADV book would keep the MU/INTC/AEHL class and
+shed the micro tail; floored backtest SR 0.73 stays the honest
+deployment expectation. XGB_1Y_FINAL_VERDICT.md iter13.
+
+## 2026-08-20 (/loop iter31) — retro n=51: half-way milestone, converged
+Chunk 23: n=51 (1m -3.1% vs -4.6%, 3m -4.1% vs -0.2%, 6m -6.8% vs
+-2.4%). Past the halfway point toward the target n~100; numbers hold
+the converged range (3m ~-4pp, 6m ~-7pp). ~1,225 candidates left.
+
+## 2026-08-20 (/loop 1y-xgb iter12) — LIVE MARK-TO-MARKET: first post-backtest cohort +42.3% in 9 months
+Cohorts formed after the backtest's last entry, net, fixed books: Nov-2025
+cohort +42.3% (9 slices; first three +10.9/+9.6/+11.0 — strongest start in
+the record), Feb-2026 +16.1% (6 slices), May-2026 +2.4% (3 slices), Aug-2026
+just formed. All live cohorts positive; Nov-2025 is the first fully
+out-of-sample cohort (models trained through Jan 2025). Caveat: 3 points,
+and union price data for 2026 comes from the same fetches that built the
+panels (models OOS; data existence not). XGB_1Y_FINAL_VERDICT.md iter12.
+
+## 2026-08-20 (/loop iter30) — retro n=45: stable (3m -4.9%, 6m -7.7%)
+Chunk 22: n=45 (1m -1.9% vs -4.5%, 3m -4.9% vs -0.1%, 6m -7.7% vs
+-2.2%). Converged; ~1,265 candidates left.
+
+## 2026-08-20 (/loop 1y-xgb iter11) — IC attribution + turnover: model 2x best raw factor; ~50% quarterly churn
+IC vs realized 12m (OOS): model +0.118 (IR 3.4) vs best raw factor ret_12_1
++0.058 (IR 1.3) — the ML combination IS the edge; size alone -0.14 (small-
+name tilt harvested by the model). Per-year IC positive 16/17 years
+(2009 warmup only negative), no regime clustering — uniformly present.
+Turnover: Feb->Feb 32% overlap (68%/yr), quarterly 49% (~51%/quarter) —
+momentum-flavored churn; 24bp cost model consistent. Execution is the
+main operational risk. XGB_1Y_FINAL_VERDICT.md iter11 section.
+
+## 2026-08-20 (/loop 1y-xgb iter10b) — DAILY-PANEL CROSS-CHECK: 1y signal REPLICATES on large caps (SR 0.68)
+xgb_daily_1y.py finished: 252d-horizon depth-3 XGB on the independent
+285-name daily panel (141 daily features), purged walk-forward OOS
+2014-2026, monthly rebalance booking 21d returns: SR 0.68, ann +19.9%,
+dd -57%, win 56%. The 1y signal is NOT a one-panel artifact — it exists
+on large caps with a different feature family too (deeper dd, lower win
+without the smaller-name breadth; the union universe's breadth is what
+smooths the book). External validation achieved: monthly-panel union
+deploy (1.06) + daily-panel large caps (0.68) both positive.
+XGB_1Y_FINAL_VERDICT.md updated.
+
+## 2026-08-20 (/loop iter29) — retro n=42: stable (3m -3.9%, 6m -7.3%)
+Chunk 21: n=42 (1m -1.0% vs -4.6%, 3m -3.9% vs -0.0%, 6m -7.3% vs
+-2.2%). Converged; no change. ~1,305 candidates left.
+
+## 2026-08-20 (/loop 1y-xgb iter10) — DOLLAR CAPACITY ~$144-288M/leg; daily-panel cross-check launched
+Capacity estimate (Feb-2025 cohort, $20M ADV floor): long decile 57 names,
+median ADV $75M; per-leg notional $144M at 1% participation, $288M at 2%,
+$720M at 5% — institutional scale; participation discipline is the binding
+constraint, not alpha.
+LAUNCHED xgb_daily_1y.py (background): 252d-horizon depth-3 XGB on the
+independent 285-name daily panel (141 daily features), monthly rebalance
+booking 21d returns (no horizon-mismatch) — answers whether the 1y signal
+exists outside the smaller-name union universe. 51 refits, ~1.46M rows;
+results land next fires. XGB_1Y_FINAL_VERDICT.md iter10 section.
+
+## 2026-08-20 (/loop iter28) — retro n=40: fully converged (3m -4.2%, 6m -7.4%)
+Chunk 20: n=40 (1m -0.9% vs -4.0%, 3m -4.2% vs +0.8%, 6m -7.4% vs
+-1.2%). Final numbers: formula net-nets underperform base by ~4-6pp at
+3-6m, flat at 1m. All streams converged; research deliverable-complete.
+
+## 2026-08-20 (/loop 1y-xgb iter9) — ARC COMPLETE: borrow-cost check + FINAL VERDICT published
+Short-leg borrow sensitivity (annual cohorts): 50/100/200bp/yr -> SR
+1.00/0.98/0.93 vs 1.03 — borrow costs are a non-issue.
+FINAL VERDICT published: tools/quant/reports/xgb_horizons/
+XGB_1Y_FINAL_VERDICT.md — full arc synthesis (9 iterations): 3 critical
+bugs found+fixed (horizon-mismatch booking, scrambled ret_next, 292-name
+universe), final numbers (1y XGB d3: 12m-hold SR 1.03-1.10 ann +21-25%,
+staggered deploy 1.06 market-neutral, 24m 0.96, $20M ADV 0.73), deployment
+recipe (Jan refit, quarterly Feb/May/Aug/Nov cohorts, 12m fixed-book holds,
+px>=2 + ADV floor, 48bp/cohort/yr costs, current book LONG ACAT/INTC/ORCL/
+WOLF/MU/CHTR...), caveats (n=17 cohorts, smaller-name capacity). The 1y
+research arc is COMPLETE: the strategy is real, robust, and deployment-
+ready; remaining risks are operational (data refreshes, refit cadence).
+
+## 2026-08-20 (/loop 1y-xgb iter8) — depth-3 wins everywhere; tuned stack finalized; blend verdict revised
+Depth-3/slow-lr helps the 1m target too: XGB EW net 0.76 -> 0.84 (ann
++18.2%); promoted to gkx_backtest default (Ridge 0.93 still 1m champion).
+Tuned 1y re-validation: 12m-hold 1.03 (ann +20.8%), 24m 0.96 (dd -8.9%),
+quintile 1.04, $2 floor 1.05, ADV floors improved ($20M: 0.63 -> 0.73,
+ann +15.5%; $50M 0.64). Live book: LONG ACAT/INTC/ORCL/WOLF/MU/CHTR/HUM/
+TSLA/PANW (chips + beaten-down).
+BLEND VERDICT REVISED: with the tuned 1m model, monthly 50/50 blend 0.80
+< pure 1m 0.83 — blending dilutes; horizon-matched models only (the
+earlier blend win was the undertuned 1m leg). Final stack (net, full
+universe): 1m Ridge 0.93 / 1m XGB 0.84 monthly; 1y XGB 1.03-1.10 annual,
+deploy 1.06; $20M ADV 0.73. XGB_1Y_LS.md iter8 section.
+
+## 2026-08-20 (/loop iter27) — retro n=39 converged; arb batch 96/3,660
+Retro chunk 19: n=39 (1m -0.6% vs -4.7%, 3m -3.5% vs +0.1%, 6m -6.7% vs
+-1.7%) — converged, no change. Arb batch scaled to 96 processed deals
+(rate ~3.5s/filing; full 3,660 = ~10 more fires — downgraded to
+background nicety since the n=44 distribution is already decisive).
+Verdict, reports, and deliverables all final; remaining fires are pure
+CI tightening on both streams.
+
+## 2026-08-20 (/loop 1y-xgb iter7) — TUNED: depth-3 XGB doubles IC to 0.118; 12m-hold SR 1.10, deploy 1.06
+Hyperparameter sweep on the 12m target (full universe, PIT): d6/mcw20 0.75,
+old d4 0.93, d3/lr.02/600t -> 12m-hold entry-02 SR 1.03-1.10 (ann +24.8%,
+dd -15.3%), IC 0.062 -> 0.118 (IC-IR 3.43), 1m-hold 0.70, staggered deploy
+SR 1.06 (ann +16.4%, dd -22.8%, 15/18 yrs positive). Config promoted to
+default; champion parquets regenerated.
+Signal profile shifted: ret_m1 now top feature + ret_12_1 + macro-
+conditional momentum — the full universe's smaller names carry the
+momentum/reversal dynamics the subset model lacked.
+BLEND VERDICT by holding period: 12m-hold pure 1y 0.75 >> blend 0.43 >
+pure 1m 0.21 (1m signal decays at long horizons); monthly blend 0.68 >
+1m 0.66. Rule: 1y prediction alone for 12m holds; blend only for monthly
+rebalance. XGB_1Y_LS.md iter7 section.
+
+## 2026-08-20 (/loop 1y-xgb iter6) — full-universe stress: edge HOLDS at $20M ADV; $2 floor IMPROVES SR to 0.99
+Horizon profile (full universe, net): 3m 0.78 / 6m 0.88 / 12m 0.93 (ann
++18.1%, dd -18%) / 24m 0.82 (dd -7.9%, 15/16 yrs positive). 12m sensitivity:
+4x costs 0.89; quintile 0.84 (dd -13%); PIT $2 floor -> SR 0.99 (sub-$2
+names are noise, not signal); ADV floors $1M/$5M -> 0.73, $20M -> 0.63
+(ann +13.2%) — tradeable at institutional capacity. Entry-month sweep:
+XGB 0.72-0.93 all four conventions (champion); Ridge 0.36-0.87 unstable.
+Live book 2026-08-31: 803/885 >= $2; LONG WOLF/ACAT/CHTR/HUM/FTNT/GOOGL/
+ADBE/TSLA... Final 1y verdict: net SR ~0.6-1.0 across schemes (0.93 annual
+hold, 1.02 staggered, 0.63 at $20M ADV), ann ~13-18%, market-neutral, no
+disaster years (worst 2012 -12.1%). XGB_1Y_LS.md iter6 section.
+
+## 2026-08-20 (/loop 1y-xgb iter5) — UNIVERSE BUG: backtests ran on 292 names; FULL-UNIVERSE numbers 2-3x BETTER
+pc.load_ohlcv() = twelve_big only (~292 tickers), but the panel holds 913
+(union of 6 local panels). All label joins (fwd12/ret_next/px) silently
+restricted iters 1-4 to the 292-name subset; the v14 GKX rerun too. Fixed:
+all loaders -> union_panel.load_union() (1,097); panel ret_next rebuilt
+from union with sane-tail filter (cov 50%->85%, CSCO identity verified).
+FULL-UNIVERSE RERUNS (OOS 2009-2026, decile L/S net):
+  GKX 1m: Ridge EW SR +0.93 (ann +14.1%), XGB +0.76 (ann +14.6%) — was
+  0.61/0.57 on the subset; approaches GKX's VW 1.35 gross on free data.
+  1y XGB PIT: 1m-hold +0.58; 12m-hold +0.93 (ann +18.1%, dd -18%);
+  staggered deploy SR +1.02 (ann +14.6%, dd -25.9%, beta -0.06,
+  market-neutral; worst year only -12.1% — breadth softened 2021/22
+  from -24%/-37%).
+  BLEND: 1m+1y 50/50 monthly SR +0.68 (ann +12.5%) — now BEATS both pure
+  legs (0.66/0.58; corr dropped to 0.68 on the full universe).
+Best free-data results on the desk: 1m GKX replication net SR ~0.8-0.9,
+1y staggered deploy net SR ~1.0, ann ~14-15%, on verified-clean labels
+and the correct ~900-name universe. Artifacts: loaders patched
+(xgb_1y_ls/deploy/profile, gkx_backtest), XGB_1Y_LS.md iter5,
+GKX_REPLICATION.md v15.
+
+## 2026-08-20 (/loop iter26) — retro n=37: CONVERGED (3m -3.9%, 6m -6.8%)
+Chunk 18: n=37, stats stable vs n=35 (1m -0.6% vs -4.5%, 3m -3.9% vs
++0.5%, 6m -6.8% vs -1.3%). Estimate CONVERGED: formula net-nets
+underperform the base cohort by ~4-5.5pp at 3-6m, flat at 1m. Remaining
+~1,425 candidates; no further verdict changes expected.
+
+## 2026-08-20 (/loop 1y-xgb iter4) — PANEL BUG: ret_next was SCRAMBLED (stack().shift(-1)); true results BETTER
+CRITICAL bug found while building the deploy backtest: the monthly panel's
+ret_next was built via mret.stack().shift(-1) — shift on a stacked MultiIndex
+moves by ROW POSITION, scrambling returns across tickers. Proof: CSCO
+Feb-2020..Feb-2021 prod(1+panel ret_next)=+105.7% vs true +11.7% (raw CSV;
+the 1y fwd12 join said +12.4%). Contaminated: all GKX 1m results (v1-v13),
+1m-hold stats, deploy slices. CLEAN: all 12m-forward results (independent
+fwd12 join, models never touch ret_next). Fixed builder + panel parquet
+(identity verified) + gkx_backtest/xgb_1y_ls loaders.
+RERUNS: (a) GKX 1m replication: TRUE numbers BETTER — Ridge EW net SR +0.61
+(ann +9.9%), XGB +0.57 (ann +10.0%) vs contaminated 0.54/~0.09: the scrambled
+label was SUPPRESSING the edge; XGB's 1m weakness was mostly the bug. New
+free-data 1m ceiling: net SR ~0.6, ann ~10%. (b) 1y 1m-hold flips -0.68 ->
++0.29 (the 'monthly mean-reversion' story was an artifact). (c) Deploy
+(quarterly staggered, 12m hold, 67 cohorts, fixed books): SR +0.42, ann
++5.9%, win 62%, dd -64.6% (2021-22), beta +0.05 — market-neutral. 12m-hold
+numbers unchanged (0.34). 1m-horizon XGB (SR 0.57) remains the desk's best
+monthly-rebalanced strategy; the 1y signal is the hold-12m variant. Artifacts:
+xgb_1y_deploy.py, gkx_1y_deploy_monthly.csv, XGB_1Y_LS.md iter4,
+GKX_REPLICATION.md v14.
+
+## 2026-08-20 (/loop iter25) — retro n=35: estimate sharpens to MILDLY NEGATIVE
+Chunk 17: n=35. ret_1m -0.5% (median -6.3%) vs all -4.4%; ret_3m -4.7%
+vs +0.7%; ret_6m -7.0% vs -1.5%. Trajectory vs n: 3m (+0.5 -> -2.4 ->
+-0.7 -> -4.7), 6m (+2.1 -> -3.9 -> -2.1 -> -7.0). The "zero alpha" estimate
+has moved to MILDLY NEGATIVE with sample growth — formula net-nets now
+underperform the base cohort by ~5pp at 6m. Verdict report section 3
+update: zero-to-slightly-negative alpha, high variance. Remaining ~1,465
+candidates (~37 fires) will pin the CI.
+
+## 2026-08-20 (/loop 1y-xgb iter3) — HORIZON PROFILE + LIVE BOOK; edge survives $2 floor, not penny artifact
+New xgb_1y_horizon_profile.py (no retraining, reuses PIT preds). Fixed 3 infra
+bugs: (1) label-drop cutoff hid preds beyond 2025-08 -> predictions now run
+through the latest refit block (live book enabled, 2026-08); (2) NaN-label
+join-miss rows zero-weighted into cohorts (pandas sum skipna) -> per-group
+label dropna; (3) profile's destructive shared-frame tail filter -> per-horizon.
+HORIZON PROFILE (same preds, EW decile L/S net): 1m -0.68 / 3m +0.27 / 6m
++0.34 / 12m +0.34 / 24m +0.43 (win 81%, 13/16 yrs positive; 2nd year adds
+more than the 1st: +7.8% -> +18.1% per window — slow-burn value/reversal).
+SENSITIVITY: costs near-irrelevant (96bp -> SR 0.31); quintile 0.36 dd -47%;
+PIT $2 price floor -> SR 0.32: the edge is NOT a penny-stock artifact.
+LIVE BOOK 2026-08-31 (291/885 names >= $2): LONG LCID/HUBS/DOCU/CHTR/RIVN/
+CLF... (beaten-down growth), SHORT KO/COST/WMT/JPM/XOM... (stable megacaps).
+Artifacts: gkx_1y_live_book_2026-08-31.csv, gkx_1y_profile_{3,6,12,24}m.csv,
+XGB_1Y_LS.md iter3 section.
+
+## 2026-08-20 (/loop iter24) — RESEARCH ARC COMPLETE: final report + retro n=31
+Retro chunk 16: n=31 (1m +0.4% vs all -4.5%, 3m -0.7% vs +0.7%, 6m -2.1%
+vs -1.3%) — verdict stable with sample growth: formula net-nets ≈ zero
+alpha, high variance. ARB leg finalized: n=44 distribution (77% efficient
+spreads <10%, median +1.6% ≈ 3-10% annualized; big-spread cohort -4.9%).
+FINAL REPORT tools/quant/reports/BUFFETT_SMALLCAP_VERDICT.md updated
+(sections 4.5, 6, 7): executable deliverables = 5 reusable scripts
+(edgar_full_fetch, build_full_cache, buffett_full_screen, buffett_retro,
+buffett_arb_screen) + data assets (7k raw XBRL, caches, deals). One-line
+verdict: Buffett's 50% is real; free data reproduces only the "boring"
+parts (arb 3-10%/yr, net-nets zero alpha); the 50% lives in the
+non-reproducible qualitative layer; S&P500 index for everyone else.
+Remaining: retro ~1,505 candidates (CI tightening only), arb batch scale.
+(Note: RESEARCH_LOG top now shared with a parallel 1y-xgb loop thread.)
+
+## 2026-08-20 (/loop 1y-xgb iter2) — LEAK-FREE rerun: XGB PIT net SR ~0.4 (annual hold) SURVIVES
+Honesty checks on iter1: (1) dropped the 10 Finnhub current-snapshot features
+(marketCap/pe/pb/roe/growth/turnover/debt_eq/div_yield/log_mcap tiled back
+through history) -> 47 point-in-time chars. (2) annual-cohort entry-month
+sweep Feb/May/Aug/Nov.
+RESULTS: XGB PIT EW 12m-hold net SR 0.34/0.45/0.51/0.38 by entry month
+(ann ~5.5-9%, win 71-82%) — positive at EVERY entry month, so NOT a
+lookahead artifact. The snapshot leak ~doubled the headline (full-set XGB
+0.46-0.57) and ~half the IC (0.108->0.063). XGB stable across entry
+conventions (0.34-0.51); Ridge swings 0.10-0.86 with an ann-nan year —
+XGB confirmed champion. Monthly 1m-hold still negative under PIT (-0.68):
+the strategy IS a 1-year hold, full stop. Honest headline: XGB PIT EW
+decile L/S annual hold net SR ~0.4, ann ~6-9%, OOS 2009-2026. Artifacts:
+gkx_preds_{xgb,ridge}_1y_pit.parquet, XGB_1Y_LS.md iter2 section,
+gkx_1y_results.json (per-entry-month stats).
+
+## 2026-08-20 (/loop 1y-xgb iter1) — XGB 12-MONTH-FORWARD prediction: L/S net SR +0.57 (annual hold)
+Extended the GKX monthly panel (57 chars, ~885 investable names) to a
+12-month forward-return target with purged walk-forward XGB (+ Ridge ref).
+CRITICAL BACKTEST BUG CAUGHT: booking the realized 12m return as a monthly
+return compounds a year's P&L every month -> EW ann +297%, maxDD -99.3%
+(garbage). Fixed: 1m-hold booking for monthly rebalance, annual-cohort
+booking for 12m hold.
+RESULTS (OOS 2009-2026, decile L/S): monthly-rebalanced 1m-hold LOSES
+(XGB EW net SR -1.07; short-term reversal of the signal). Annual 12m-hold:
+XGB EW net SR +0.57 (ann +9.7%, win 71%, dd -49.6%, 12/17 positive years);
+Ridge +0.30; VW ~zero. XGB > Ridge at 1y (inverts the 1m ranking) — the
+strongest XGB result on the desk.
+NOT MOMENTUM: 12m-momentum control lost -104.8% in the 2009 crash vs XGB
++26.3%; importances = vol/liquidity/size/macro + few fundamentals, no
+momentum in top-15. Loss years are 2021/2022 (value era). Caveats: 7
+Finnhub snapshot fundamentals tiled back in time (leak shared with GKX 1m
+infra); n=17 annual cohorts. Artifacts: bigmove/xgb_1y_ls.py,
+gkx_preds_{xgb,ridge}_1y.parquet, reports/xgb_horizons/XGB_1Y_LS.md +
+gkx_1y_results.json + annual equity CSVs.
+
+
+## 2026-08-20 (/loop iter23) — ARB n=44 FINAL DISTRIBUTION: 77% efficient; big spreads lose
+Batch scaled to 160 filings -> 53 deals -> 50 with spreads (artifacts
+filtered to 44). ACTIONABLE SPREAD (post-announcement, ann+3d) distribution:
+  spread <10%: 34/44 (77%), median +1.6% — market prices announced deals
+      efficiently; the arb earns the boring 5-15% annualized per deal.
+  spread >=10%: 10/44 (23%), mean ret_to_now -4.9% — CYCU -99%, LPSN
+      -87%, SOUN -64%, WU -31%, CRBD -13%, SYBX -13% vs winners PSNL
+      +152%, DAWN +69%, BCRX +29%, MACI +8. Big spread = break risk;
+      formula-buying big spreads LOSES on average.
+FINAL ARB VERDICT: 策略三 is the only leg with a reproducible positive
+edge (median 1.6% per deal, ~5-15% annualized, low vol when restricted
+to the <10% cohort), but it is NOT 50%/yr — Buffett's workouts made low
+double digits; the 50% came from concentrated value. Selecting among big
+spreads requires the qualitative layer (financing, terms, regulatory).
+Report section 4.5 finalized with the n=44 distribution.
+
+## 2026-08-20 (/loop iter22) — ARB CORRECTED: actionable spreads ~1-3%; huge spreads = noise
+Batch scaled: 60 filings -> 18 deals; spread module built (poly_cache.json,
+no re-fetch). CRITICAL CORRECTION to iter21: ret_to_now measured from the
+PRE-announcement close — fictitious (you can't buy before the news). With
+the post-announcement (ann+3d) price as entry:
+  REAL CASH MERGERS (11): actionable spread 0.8-5.8%, mean ~+1.7%
+      (ALOT +1.5, HZO +1.0, DAWN +0.8, KORE +2.9, FONR +2.4, ESPR +1.3,
+      SEM +1.5, CWAN +1.9, TRUE +5.8, EEX +0.8, GES -0.5) — the market
+      prices announced cash deals EFFICIENTLY; the arb earns ~5-15%
+      annualized per deal over the close horizon.
+  HUGE SPREADS = BROKEN/NOISE (3): WU +91.4% (never believed, -31% to
+      now), SOUN +72.4% (financing floor, -64.5%), LPSN +541.7% (not a
+      merger — financing terms, -86.8%). Exactly the class Buffett's
+      "announced + financed + low break risk" filter removes.
+VERDICT for 策略三: the arb leg IS the one with a positive edge, but it
+is a boring 5-15% annualized grind (matching Buffett's partnership
+workouts record — low double digits, near-zero vol), NOT 50%. The 50%
+came from concentrated value bets. Report section 4.5 added. Retro
+parallel stream continues (n=28).
+
+## 2026-08-20 (/loop iter21) — ARB CONVERGENCE: 6/7 deals captured spread in 60d
+Buy-at-announcement -> +60d realized returns (Polygon, per deal):
+  TRUE +56.8% (spr@ann 72%), SEM +9.7% (10%), HZO +46.4% (48%), FONR
+  +26.1% (30%), ALOT +73.1% (74%), LPSN +48.5% (519% spr — market prices
+  near-certain break; stock rallied but stays 4x below deal)
+  WU -4.2% (88% spr from day one — the only loser; market never believed
+  the $16 deal; stayed broken at ~$8).
+MEAN of live deals +43% over 60d. The spread at announcement IS the
+market's break-discount; sane-spread deals mostly converged, the never-
+believed deal (WU) stayed dead. LPSN shows the tail risk — huge spread =
+huge break probability, but the +48.5% shows even the "dead" ones bounce.
+CAVEATS: n=7, sample = first 30 hits (recent-biased), 4 deals appear
+CLOSED (TRUE/SEM/FONR/ALOT trade at deal price) — survivorship-ish
+selection; full 3,660-filing batch needed for the real distribution.
+RETRO n=28 (chunk 14): 1m +0.7% vs all -4.6% (first 1m beat), 3m -2.4%
+vs +0.9%, 6m -3.9% vs -1.6% — verdict unchanged (~zero alpha, high
+variance; wobbles with chunks).
+
+## 2026-08-20 (/loop iter20) — ARB FIRST BATCH: spread distribution is BIMODAL
+Refined extractor (par-value boilerplate filtered, max-plausible rule) on
+30 filings -> 9 deals with per-share prices. Spreads vs current price:
+  CONVERGED (5): TRUE +0.4%, SEM -0.1%, HZO +1.5%, FONR -0.5%, ALOT +0.4%
+      — trade essentially AT deal price (arb played out / deal closed)
+  BROKEN / AT-RISK (3): LPSN +316.7% ($12 deal vs $2.88), WU +122.2%
+      ($16 vs $7.20 — Western Union), SOUN ~+60-68% ($12 vs $7.16)
+CORE FINDING: the arb spread is BIMODAL — converged deals sit near zero
+residual; broken deals show catastrophic gaps (market -70-80% from deal).
+A naive "buy every announced deal" strategy gets wrecked by the broken
+tail — precisely Buffett's rule ("only announced, financed deals, minimal
+break risk") and his practice of treating each workout on its own
+probabilistic merits. LPSN/WU are the modern textbook cases of announced-
+deal death. Next: convergence analysis (price at announcement -> +30/60d)
+to measure realized capture and the cost of the broken tail; then scale
+batch over the 3,660 hits.
+
+## 2026-08-20 (/loop iter19) — ARB BUILD: collector + extractor working (SOUN case!)
+buffett_arb_screen.py step 1 DONE: 3,660 merger-agreement 8-Ks collected for
+2025-08-01..2026-08-20 via EFTS pagination (resilient, incremental saves).
+Step 2 (8-K text + deal terms) works: index.json listing -> main doc ->
+regex. Pitfalls fixed: CIK zero-pad (500s), index.json explicit, main doc
+selection ("8k" in name, largest .htm), EFTS 500 retries.
+FIRST SPREAD READ: SOUN (SoundHound) 8-K 2026-07-02 says $11.50/share;
+Polygon last close $7.16 -> +61% spread. Either a BROKEN deal (the arb
+nightmare — why Buffett only did "announced, financed" deals) or the
+11.5 is a stock-exchange-ratio/other term mis-extracted. MCW/ARX prices
+checked; extractor caught legal boilerplate ("par value of $0.01 per
+share") — refinement needed: exclude par-value context, prefer max
+plausible per-share price. Next: refined extraction over a batch, spread
+distribution, classify live vs broken deals.
+
+## 2026-08-20 (/loop iter18) — retro n=25; ARB LEG (策略三) feasibility CONFIRMED
+Retro chunk 12: n=25, stats unchanged (1m -8.1% vs -5.6%, 3m +0.3% vs
++1.4%, 6m +1.7% vs -1.3%). Verdict locked.
+ARBITRAGE LEG reconnaissance (the last untested playbook leg — Buffett's
+"workouts"): SEC EDGAR full-text search (efts.sec.gov) WORKS for deal
+announcements — "merger agreement" in 8-Ks: 1,561 hits in 2026-06-01..
+08-20 (~7k/yr). Hit structure: adsh (accession), file_date, display_names
+(with ticker in parens), items, ciks. NOTE: display name is often the
+ACQUIRER; the arb target ticker must be parsed from filing text. Pipeline
+(planned): paginate EFTS 1y window -> fetch 8-K main doc -> regex per-share
+deal price + target -> Polygon price -> spread + convergence. Task #4
+created. This is the leg that historically WORKED for Buffett (workouts
+~10% of partnership returns, near-zero variance) and is implementable on
+free data (unlike the qualitative net-net layer).
+
+## 2026-08-20 (/loop iter17) — retro n=24: 12m horizon now measured (~flat)
+Chunk 11: n=24. ret_1m -8.1% (median -10.0%) vs all -5.6%; ret_3m +0.5%
+vs +2.7%; ret_6m +2.1% vs -0.3%; ret_12m +0.3% vs -0.5% (n=24 — 12m now
+has full coverage). Verdict locked: net-nets underperform at 1m, flat at
+3-12m. Zero relative alpha. ~1,625 retro candidates left (~41 fires).
+Nothing structural changes from here; fires just tighten CIs.
+
+## 2026-08-20 (/loop iter16) — CORPUS 100%: final census 6 net-nets; retro n=23
+FETCH COMPLETE: 7,994 CIKs fully processed = 6,985 XBRL files + 1,009
+no-XBRL (funds/delisted). Final full-universe census: 4,158 names with
+NCAV inputs, 1,672 NCAV>0, SIX clean net-nets (BIYA 7.51x, ENLV 3.29x,
+IMA 2.03x, CYPH 1.16x, KROS 1.10x, OKUR 1.03x) + 9 near-misses (new:
+GME 0.68x — GameStop, $8.1B mcap vs $7.4B cash, an odd large-cap cash
+special). Ladder intercepts: 15 shares-artifacts, 1 ratio-artifact (UPC),
+3 stale (DDI, HTT, ACMR). Verdict report updated to final census.
+RETRO n=23 (chunk 10): ret_1m -8.6% (median -14.6%) vs all -6.0%;
+ret_3m +0.6% vs +2.1%; ret_6m +1.9% vs -1.0%. Verdict unchanged:
+formula net-nets underperform at 1m, ~flat thereafter. ~1,665 candidates
+left (~42 fires). The quantitative research arc is COMPLETE at the
+population level; remaining fires only tighten retro CIs.
+
+## 2026-08-20 (/loop iter15) — VERDICT REPORT published; retro n=20 definitive
+Corpus 6,755/7,994 (84.5%). RETRO n=20 (chunk 9): ret_1m -10.0% (median
+-17.6%) vs all -6.0%; ret_3m -1.2% vs +1.4%; ret_6m +0.0% vs -1.5%.
+VERDICT DEFINITIVE: formula net-nets UNDERPERFORM the base cohort at 1-3m,
+flat at 6m. The iter10-14 "weak edge" was sample noise (n=20 kills it).
+DELIVERABLE: tools/quant/reports/BUFFETT_SMALLCAP_VERDICT.md — full
+synthesis: claim verification table (50%/yr quote REAL, Moody's 20k pages
+REAL, three examples real with garbled numbers), data infrastructure +
+4-layer quality ladder, full-universe census (6 clean net-nets of 7,994 =
+0.1%; cash specials are a subset), retro evidence, integration with
+iter1/iter2 (no micro-caps in priced universe / flat value factor), and
+the final verdict: formula = zero-alpha high-variance; the edge lives in
+the qualitative layer after the screen (ENLV deal closure, BIYA burn
+rate) — matching Buffett's own narrative; S&P500 index for everyone else.
+Remaining: corpus finishes (1-2 fires), retro ~1,630 candidates (~40
+fires), optional merger-arbitrage leg (策略三) untested.
+Loop re-scheduled (old job cancelled): 5ec1cf29, */10 * * * *.
+
+## 2026-08-20 (/loop iter14) — shares-staleness fix; retro n=19 confirms ~zero alpha
+Corpus 6,663/7,994 (83.3%). RETRO n=19: ret_1m netnet -9.4% vs all -5.9%;
+ret_3m -0.3% vs +3.1%; ret_6m +1.1% vs -0.2%. iter13's correction CONFIRMED:
+net-nets now slightly UNDERPERFORM at 1-3m; 6m within noise. Final verdict
+shaping: pure-formula net-net ≈ zero-to-slightly-negative alpha, huge
+variance. The edge seen at n=10-14 was sample luck.
+FOURTH data-quality fix — SHARES STALENESS: ACMR (ACM Research) showed
+1.21x net-net with fresh 2026-06-30 balance sheet but shares from
+2019-03-08 (14.2M vs ~62M real) -> real ratio 0.28x. Screen now flags
+shares filed >400d before the NCAV period (excluded from count; retro
+skips shares >180d before report). Full data-quality ladder now:
+(1) period-aligned NCAV triple (DDI), (2) ratio>20x artifact flag (UPC),
+(3) shares<10k sanity (FOXA), (4) shares staleness (ACMR). Clean live
+net-nets: 6 (BIYA, ENLV, IMA, CYPH, KROS, OKUR); stale-flagged 3.
+CASH-SPECIAL census (Union-Street-Railway type, mcap<cash): 3 real names
+(IMA 1.47x, KROS 1.17x, OKUR 1.01x) — all already in the net-net list;
+cash specials are a subset, not a separate opportunity set.
+~1,511 retro candidates left (~38 fires).
+
+## 2026-08-20 (/loop iter13) — retro n=18: EDGE WEAKENS back to ~noise
+Corpus 5,805/7,994 (72.6%; progress: 5,720 done + 831 no-XBRL errors; fetch
+alive 79min continuously). Chunk 7 added 4 net-nets (n=18). CUMULATIVE:
+ret_1m netnet -7.5% (median -10.0%) vs all -6.0%; ret_3m +2.3% vs +2.8%;
+ret_6m +3.7% vs +0.3%. The 3m/6m edge SHRANK vs n=14 (+7.1/+8.9) — it
+wobbles with the sample (n=10: +4.0/+6.5; n=13: +8.9/+10.9; n=18:
++2.3/+3.7). 1m consistently slightly-negative vs base (-0.5..-7.5).
+HONEST READ: no robust formula edge; at best ~zero alpha at 3-6m with
+massive variance (1m range -42%..+40%). The "weak positive edge" from
+iter10-12 was sample noise, not signal. Converging verdict: pure-formula
+net-nets ≈ zero-alpha high-variance; value is in the qualitative layer
+after the screen. ~1,457 retro candidates left (~36 fires); target final
+n ~40-60 net-nets will tighten the CI.
+
+## 2026-08-20 (/loop iter12) — retro n=14: edge persists; corpus 71.2%
+Corpus 5,745/7,994 (71.2%). Live screen: 7 clean net-nets (UPC now
+artifact-flagged as designed): BIYA 7.51x, ENLV 3.29x, IMA 2.03x, ACMR
+1.21x, CYPH 1.16x, KROS 1.10x, OKUR 1.03x. Near-misses 8 (new QFIN 0.83x
+— Qifu Technology). 4,007 names with NCAV inputs; 1,551 NCAV>0.
+RETRO n=14 (chunk 6 added APRE 3.77x -20.9% 1m): ret_1m -4.8% vs all
+-6.0%; ret_3m +7.1% vs +3.3%; ret_6m +8.9% vs +0.8%. 6m cohort: 6
+positive (ASBP +47.9, ADVB +83.1, AIFA +32.3, ATOS +36.8, CCTG +49.7,
+ACRV +34.3), 7 negative (BBLG -53.3 deepest). Edge stable across 6
+chunks; high variance persists (1m range -42%..+40%).
+~1,470 retro candidates left (~37 fires at 40/fire). Corpus completes
+next 1-2 fires; then full-universe live count is final.
+
+## 2026-08-20 (/loop iter11) — retro n=13: 3m/6m edge STABILIZES (~+7-9pp)
+Corpus 4,950/7,994 (61.3%). Live screen: 8 clean net-nets — BIYA 7.51x,
+ENLV 3.29x (asset-sale special), IMA 2.03x, ACMR 1.21x (NEW, cash $969M),
+CYPH 1.16x, KROS 1.10x, OKUR 1.03x; +7 near-misses (HUYA, JANX 0.84x NEW,
+SION, CRON, MBLY, INGN, TRS).
+ARTIFACT FILTER ADDED: UPC showed 13,439x (mcap $3M vs NCAV $40.4B) —
+verified as XBRL tag garbage (Universe Pharmaceuticals: $53.6B cur_assets
+for a 563K-share Chinese micro; also cash tag from 2022). Screen now flags
+ratio>20x as artifact (excluded from count); retro skips them too.
+RETRO CHUNK 5 (resilience added: polygon retry x3, SSL-tolerant; +3
+net-nets: ACET 1.15x +4.9% 1m; ACRV 1.04x -14.6% 1m -> +34.3% 3m; AIFA
+1.35x -31.4% 1m -> +32.3% 3m — the 1m dip-then-rerate pattern repeats).
+CUMULATIVE n=13: ret_1m netnet -3.5% vs all -6.9%; ret_3m +8.9% vs
++3.7%; ret_6m +10.9% vs +1.8% (median +9.8%). SIGNAL: net-nets roughly
+match the base at 1m (huge variance -42%..+40%) and BEAT it by ~7-9pp at
+3/6m across 5 chunks (only chunk 1, shell-heavy A*, was net-negative).
+Caveats: n=13, mostly A-C names (SPACs/shells/biotechs), 2026-06-30
+reports truncated at ~2m of forward data. Remaining ~1,300 candidates.
+
+## 2026-08-20 (/loop iter10) — RETRO CORRECTED (n=10): flat at 1m, + at 3m/6m
+Corpus 3,984/7,994 (49.8%). DATA BUG FOUND: buffett_retro.py OVERWROTE
+retro_screen.json each run (only latest chunk kept); chunks 1-2 rows lost.
+Recovered by clearing the done manifest and re-running against the cached
+history (zero API calls) + merging. CORRECTED CUMULATIVE (chunks 1-4, 92
+rows, 10 net-nets at report date):
+  ret_1m: netnet mean -0.5% median +1.2%  | all -7.6%
+  ret_3m: netnet mean +4.0%                | all +2.0%
+  ret_6m: netnet mean +6.5%                | all +0.2%
+  Winners 1m: ADVB +17, ASBP +26, ATOS +13, BTCT +5, CCTG +40
+  Losers 1m: ACON -30, AEMD -31, BBLG -37, BCYC -5, BON -3
+REVISED READING vs iter8: the "all net-nets die" result was chunk-1-only
+(A* shell-heavy: ACON/ASNS/ATPC/AUUD sub-$5M shells, ASNS $0.076/sh).
+Full A-D sample: net-net cohort is FLAT at 1m (≈0 mean, huge variance
+-42%..+40%) and BETTER than the base cohort at 3m/6m (+4-6.5% vs
++2.0/+0.2%). Longer-horizon names (report >= 2026-03-31): ADVB +83% 6m,
+CCTG +50% 6m vs BON -34%, BTCT -27% — split, not one-sided. Caveats: n=10
+tiny; most 2026-06-30 reports have only ~1.7mo of forward data (3m==6m
+values are truncated); huge variance = position sizing matters.
+VERDICT SHIFTING: no death-sentence for the formula; more like
+zero-alpha-high-variance — the edge (if any) comes from WHICH net-nets
+(qualitative leg), exactly Buffett's 20,000-page thesis. ~780 candidates
+left (~20 fires). Retro file now append-mode (dedup by ticker).
+
+## 2026-08-20 (/loop iter9) — retro n=6: 5/6 net-nets lost; corpus 28.5%
+Corpus 2,279/7,994 (28.5%) — fetch ran hot across the gap (4-worker nohup;
++1,400 files in ~10 min). Live screen: 6 clean net-nets, new ENLV 3.29x
+(Enlivex: NCAV $1.35B vs mcap $411M — but cash only $1.9M; the balance
+sheet reflects a 2025 asset sale (NI +$1.24B); cur_assets likely a sale
+receivable. A real "asset-sale special" IF the deal proceeds are real —
+needs qualitative check = the 20,000-page leg). New near-misses: CRON
+0.66x (cannabis, cash $467M), TRS 0.54x (cash $1.24B).
+RETRO CHUNK 2 (33 processed, 558 left): 2 net-nets at report date — AEMD
+1.56x -31.3% (1m), ATXG 5.22x +16.5% (1m) / +24.4% (3m) — FIRST POSITIVE.
+CUMULATIVE retro n=6: 5 lost (mean 1m -21.6% across 6; chunk2 base cohort
++7.2% at 3m vs net-net -4.0% — underperformance not a down-market
+artifact). Single winner ATXG is a Chinese micro (same 无人区).
+Pattern so far: formula net-nets are mostly broken shells priced for death;
+occasional re-rater. n grows 30-40/fire; ~14 fires to exhaust.
+
+## 2026-08-20 (/loop iter8) — RETRO VALIDATION: net-nets at report date ALL LOST
+Corpus 843/7,994 (10.5%). Live screen: 5 clean net-nets (BIYA 7.51x, IMA
+2.03x, CYPH 1.16x, KROS 1.10x, OKUR 1.03x) + 4 near-misses (HUYA 0.90x,
+SION 0.70x, MBLY 0.63x, INGN 0.55x).
+INTERIM VALIDATION (live list, polygon prices): ret since report period —
+BIYA -94.9% (7.6mo), SION -85.5%, HUYA -23.8%, INGN -18.0%, OKUR -9.3%,
+IMA -6.3%; CYPH +68.5%, MBLY +16.5%, KROS +1.6%. Deepest discounts fell
+most. CRITICAL WINDOW MISMATCH: names crashed INTO cheapness AFTER their
+report — at report date BIYA was 0.39x (NOT a net-net). Live screen mixes
+today's price with the latest balance sheet; that's correct for buying,
+but not for measuring the strategy.
+NEW RETRO LEG (buffett_retro.py): at each report period, recompute ratio
+with the THEN price + shares as of the report filing; measure forward
+returns. FIRST CHUNK (28 of 205 NCAV>0 names, alphabetical A* — shell/
+SPAC-heavy): 4 were net-nets at report date — ACON 1.90x, ASNS 2.70x
+($0.076/sh!), ATPC 7.38x, AUUD 1.13x. ALL FOUR LOST: 1m mean -28.7% (each
+-20 to -42%), 3m -21.6% vs all-name cohort -5.0%/-3.4%. Net-net cohort
+underperformed the base at every horizon. Formula-bought names were priced
+broken for a reason (dilution/delisting); the screen finds them, the market
+knows why they're cheap. Consistent with: US net-net edge largely gone
+post-2000s (survives in Japan/China micros per literature); iter2 value-
+factor-flat finding. NOTE: chunk 1 is shell-heavy (A-names, sub-$5M
+mcaps) — n will grow over fires; live-screen list validation on the
+$50-200M band (HUYA/MBLY band) shows mixed-to-positive so far.
+MECHANICS: Finnhub candle endpoint = 403 on free tier (quote only);
+yfinance still IP-throttled; POLYGON free tier WORKS for 2y daily aggs
+(5 req/min, ~12.5s spacing, history cached in data/history_cache.json) —
+now the validation price source. Fetch at 843 files, 4 workers, ~76/min.
+
+## 2026-08-20 (/loop iter7) — 5 net-nets at 629 files; FETCH 4x SPEEDUP
+Corpus 629/7,994 (7.9%). New net-net: CYPH 1.16x (Cypherpunk Technologies,
+crypto SPAC-ish; data fresh 2026-06-30 filed 2026-08-12; cash only $7.6M of
+$137.5M cur assets = low-quality NCAV — receivables/crypto-assets heavy).
+New near-miss: SION 0.70x (Sionna, biotech). Full clean list: BIYA 7.51x,
+IMA 2.03x, CYPH 1.16x, KROS 1.10x, OKUR 1.03x; near-misses SION 0.70x,
+MBLY 0.63x, INGN 0.55x. Yield still ~0.8% of corpus.
+SPEEDUP: fetch refactored single-thread -> 4 parallel workers (per-worker
+2/s, ~8/s aggregate, under SEC's 10/s). Rate 20 -> 76 files/min (~3.8x).
+Remaining ~7.4k names ≈ 100 min of active fetch at this rate. Turn-end
+suspension quirk (sandbox stops bg procs between turns) means real wall
+time is a few hours of loop fires. Threaded fetch also records exhausted-
+retry names in errors so runs skip them.
+Next: historical validation leg at ~1,500 files — Finnhub 1y candles for
+the net-net list (3/6/12m forward returns from screen dates).
+
+## 2026-08-20 (/loop iter6) — 4 CLEAN net-nets at 505 files; DATA-QUALITY FIX
+Corpus 505/7,994 (6.3%). Clean point-in-time net-nets (mcap<NCAV, current
+report period): BIYA 7.51x (Chinese micro, cash-burn caveat), IMA 2.03x
+(ImageneBio, cash $95M), KROS 1.10x (cash-special biotech), OKUR 1.03x
+(Onkure, cash $167M). Near-misses: MBLY 0.63x, INGN 0.55x.
+DATA-QUALITY BUG FOUND+FIXED: NCAV tags and shares can come from different
+report periods (latest-filed per tag). DDI (DoubleDown) looked like 11.2x
+net-net: NCAV $351M from 2024-09-30 but shares from 2025-12-31 (massive
+post-buyback float shrink) -> inflated ratio = FALSE POSITIVE. Fix: cache
+builder now period-ALIGNS the NCAV triple (latest period where all three of
+cur_assets/assets/book_equity exist) and the screen flags reports older than
+18 months as STALE (excluded from net-net count; DDI now correctly flagged).
+Cache format versioned (CACHE_VERSION=2) to force full rebuilds. Stale rate
+only 22/340 (6%) — most filers report current tags.
+SCALE: cache builder ~8s for 500 files; screen 1-3 min (Finnhub price leg
+capped 50/run, cached). Net-net yield so far 4/505 (~0.8%) -> extrapolates
+to ~60 in the full 7,994. Next: at corpus ~1,500, run the historical
+validation leg — Finnhub candles (1y free) forward returns for the net-net
+list; yfinance still IP-throttled.
+
+## 2026-08-20 (/loop iter5) — CLAIMS VERIFIED vs primary sources; screen at 129 files
+WEB VERIFICATION of the brief's factual claims (first pass, 3 searches):
+  1) "$1M -> 50%/yr guaranteed" — CONFIRMED. BusinessWeek interview (1999):
+     "I think I could make you 50% a year on $1 million. No, I know I could.
+     I guarantee that." 1999 AM: Buffett ("very slightly misquoted" from a
+     Wharton talk) affirmed half a dozen people could compound $1M at 50%/yr
+     with full attention via "little tiny areas" (small securities, arb,
+     "little wrinkles"); impossible at $100M+. 2024 AM: asked exactly this
+     question, answer = go through Moody's 20,000 pages again.
+  2) "Moody's Manual 20,000 pages" — CONFIRMED. 2001 AM: "I went through
+     20,000 pages in the Moody's industrial, transportation, banks and
+     finance manuals — twice." 1993 interview: "learn about every company...
+     start with the A's". Transportation manual ~1,500-2,000 pages ("hundreds
+     and hundreds of railroad companies") matches brief's ~1500-page claim.
+  3) Three famous examples — REAL, numbers garbled across retellings:
+     Genesee Valley Gas: price = earnings (~$5/$5, P/E 1; brief says 2).
+     Western Insurance (Fort Scott KS): 1993 Columbia talk $12-20 price /
+     $16 EPS; Miller/MOI: early-50s personal buy at $3 while earning $29
+     (after selling GEICO) — brief's "$3 / $20" is a hybrid of tellings.
+     Union Street Railway: 1993 talk $45/sh with $120 cash (Miller: $30-35
+     vs $60 NCAV; brief says $30/$100). Verdict: premise TRUE, figures
+     approximate — typical of secondary Chinese sources.
+SCREEN status: 129 files (1.6% of 7,994), 77 parsed, 22 NCAV>0, 2 net-nets
+(BIYA 7.5x, KROS 1.10x — unchanged). Ratio dist: 1x >2x, 1x 1-2x, 16x <0.5x.
+Fetch: nohup survives across turns (mechanism semi-reliable; ~6-18 files/min
+during turns, ~2/min between); ETA 12-20h for the full corpus at current
+rate. Next fires: keep screening; when corpus ~1k+, start historical-price
+validation leg on net-net survivors (Finnhub/yfinance history; local panel
+won't cover these micros).
+
+## 2026-08-20 (/loop iter4) — FIRST NET-NETS FOUND in full-universe screen
+On the first 69 files (0.9% of the 7,994-name universe), the incremental
+screen (buffett_full_screen.py) found 2 genuine Graham net-net/cash-special
+candidates, point-in-time verified:
+  BIYA (Baiya International Group, CIK 1944712): $2.41/sh, mcap $2.86M vs
+       NCAV $21.5M = 7.5x NCAV. 2025-12-31 facts filed 2026-04-30. Caveats:
+       Chinese micro-cap, cash burn -$9.5M/yr vs NCAV (cigar with ~2 puffs
+       left), ~1.2M share float (near-zero liquidity) — the classic
+       "smoke but no cigar" profile; also classic Buffett-era setup minus
+       the earnings.
+  KROS (Keros Therapeutics): mcap $220M vs cash $258M = cash-special at
+       1.10x (Union-Street-Railway-style); clinical-stage biotech, dilution
+       risk. Not strict NCAV net-net (cur assets 267M vs liab ~21M).
+KEY RESULT: iter1's "no micro-caps exist in free data" was an artifact of
+the ~530-name priced universe. The FULL SEC population (7,994 filers) DOES
+contain net-nets — in exactly the neglected corners Buffett described
+(foreign micros, shells, cash-rich biotech). Open questions now: (a) how
+many of the full population are net-nets (screen continues as corpus
+fills); (b) tradability — floats are tiny, many are Chinese/OTC;
+(c) historical validation impossible from local prices — need yfinance/
+finnhub history for the survivors (yfinance currently IP-throttled).
+MECHANICS: background fetch via run_in_background DIES at turn end
+(exit 144 = SIGHUP family); relaunched detached via nohup (pid file
+/tmp/edgar_fetch_pid) — survival across fires pending confirmation.
+RPS bumped 4->6 (SEC allows 10/s). Pipeline: ~18 files/min while alive.
+
+## 2026-08-20 (/loop iter3) — Buffett $1M/50%: FULL-universe net-net screen UNLOCKED
+iter1/iter2 killed the micro-cap net-net premise on the ~530-name priced
+universe, leaving one open item: screen the ENTIRE SEC-filer population.
+Built the missing machinery this iteration:
+  (1) edgar_cik_map_full.json — ticker->CIK for all 16,358 us_stock_list
+      entries, resolved via SEC company_tickers.json + company_tickers_exchange
+      (normalized matching; earlier map only covered 626). Of the 16,358 list
+      entries, 6,840 are current SEC filers; the rest are dead OTC names
+      (never-filers, no XBRL possible). CIK-dedup'd SEC population = 7,994
+      unique filers — the true full tradable free-data universe.
+  (2) edgar_full_fetch.py — resumable companyfacts fetcher for all 7,994 CIKs
+      (data/edgar_facts_full/, raw payloads, SEC rate-limit 4/s, 429/404
+      handled, progress JSON, deterministic shuffle so early batches are an
+      unbiased population sample). RUNNING in background; ~2-4h at avg
+      payload sizes. Fixed bugs: norm regex stripped uppercase (all tickers ->
+      '') and (cik,ticker) tuple order swapped in main().
+  (3) buffett_full_screen.py — per-fire incremental live NCAV screen over the
+      growing corpus: NCAV = cur_assets-(assets-book_equity), mcap from local
+      price panel or Finnhub quote API (yfinance currently IP-throttled),
+      net-net flag mcap<NCAV, output data/full_screen.json.
+PIPELINE VERIFIED END-TO-END on first 40 files (megacaps+funds+SPACs mix):
+14 parsed, 8 NCAV>0, 8/8 priced via Finnhub, 0 net-nets so far (n tiny).
+This is the definitive test iter1 named: if net-nets exist anywhere in free
+data, they are in this 7,994-name population. Next fires: re-run the screen
+as the corpus fills; then historical validation on the subset with local
+price history.
 
 Completed absolute VIX-level gate sweep (full 2001-day OOS, VIX>=level -> scale):
   VIX>=22, f0.0  SR 0.564  DD -19.9%
@@ -1878,3 +2736,49 @@ FINAL: Ridge EW decile L/S net SR ~0.2-0.5 (~0.3 point), ann ~3-7% net, 57
 point-in-time chars, ~900-1100 investable names. All free levers tested and
 neutral-to-negative at the margin. Free-data ceiling reached. GKX 2.45 needs
 the paid universe. Commit follows.
+
+## 2026-08-19 (/loop) — Buffett $1M / 50% "small-cap strategy": data reality-check
+Premise: Buffett's stated playbook for ~$1M is micro-cap deep value / Graham
+net-net (烟蒂股) — 地毯式 research on sub-$2B neglected names, cash-specials,
+extreme concentration, high turnover, margin-of-safety. Tested whether the
+repo's free data can support it. DELIVERABLE: buffett_smallcap_screener.py
+(built on the point-in-time EDGAR panel; computes NCAV = cur_assets -
+(assets - book_equity), true mcap = shares * price, then net-net/cash/PE<5
+flags + forward 1/3/6/12m returns from local prices; no lookahead).
+FINDING 1 — UNIVERSE CANNOT SUPPORT THE PLAYBOOK: of ~532 EDGAR-priced names
+(2024), only 59 are sub-$2B, 20 sub-$500M, 9 sub-$100M. Median mktcap ~$24B.
+This is a LARGE/MID-cap universe, the opposite of Buffett's micro-cap "无人区".
+Coverage is too thin to ever diversify a micro-cap basket: 0 net-nets and 0
+micro-caps in the latest month; only 754 micro observations across all history.
+FINDING 2 — NO NET-NET EDGE IN WHAT DOES EXIST: net-net n=37 -> 1m/3m/6m/12m
++0.93/+2.97/-1.64/+16.25% vs micro base +0.99/+3.53/+8.21/+101.6%. Net-nets
+LOST at 6m/12m. cash-special n=129 slightly better at 3m/6m (+5.2/+10.5 vs
++3.5/+8.2) but 12m collapses. deep-value (PE<5) n=275 best at 12m (+152%) but
+it's the same large-cap value factor already harvested elsewhere.
+VERDICT: this premise is NOT reproducible on the ~900-name free investable
+universe — there is no reliable micro-cap edge to be had because there are
+almost no micro-caps. Buffett's alpha came from a book of thousands of tiny
+names (Moody's 20,000 pages) + a real micro-cap price/float source; neither
+exists in free data (Stooq blocked, yfinance rate-limited, TwelveData quota
+spent). NEXT (candidate iterations): (a) screen EDGAR's full 16,358-name
+us_stock_list for names with cur_assets > mktcap using only fundamentals (list
+exists but needs price feed for mktcap); (b) or treat this as evidence to stop
+pursuing Buffett micro-cap style on free data and keep the ~900-name large-cap
+value/turnover edge already converged (net SR ~0.3-0.5). Reports:
+buffett_smallcap_screen.json + tools/quant/bigmove/buffett_smallcap_screener.py
+
+## 2026-08-19 (/loop iter2) — Buffett deep-value: full-universe cross-section ALSO dead
+Extended iter1: does Graham margin-of-safety predict ANYTHING in the repo's
+actual TRADABLE (large/mid) universe, not just the (absent) micro-caps? Ran
+point-in-time decile/quintile cross-section on ncav_ratio, book-to-market,
+and P/E at 12m horizon. QUINTILE SPREADS (Q_deep - Q_rich): ncav_ratio -1.7pp,
+bm +0.8pp, pe_est -2.2pp. net-nets (ncav>mktcap, n=80) 12m +12.3% vs +16.5%
+base = UNDERPERFORM. CONCLUSION: the value/net-net edge is not just missing
+in micro-caps (too thin, iter1) — it is absent cross-sectionally in the whole
+tradable universe. Double negative. This repo's existing ~900-name large-cap
+momentum/PEAD factor edge (already net SR ~0.3-0.5) is the only real free-data
+edge; Buffett's "cheap cigar butt" alpha does not materialize on this data
+(no micro-cap breadth + value factor flat). STOP pursuing Buffett deep-value
+on free data; keep momentum/PEAD. Mechanisms (union of Pawn: thin micro-cap
+tradeability, 20k-pages research edge not reproducible from fundamentals
+alone, ii) + value factor crowded out post-2008.

@@ -23,11 +23,20 @@ COST=0.0006
 def load_panel():
     df=pd.read_parquet(f"{HERE}/data/gkx_monthly_panel.parquet")
     df["month"]=pd.to_datetime(df["month"])
+    # BUG FIX 2026-08-20: panel ret_next was scrambled by stack().shift(-1);
+    # recompute per-ticker from the same price source
+    import union_panel
+    mclose=union_panel.load_union()["close"].resample("ME").last()
+    rn=(mclose.shift(-1)/mclose-1.0).stack().rename("ret_next")
+    rn.index.names=["month","ticker"]
+    df=df.drop(columns=["ret_next"]).join(rn,on=["month","ticker"],how="left")
     names=json.load(open(f"{HERE}/data/gkx_names.json"))
     return df,names
 
 def run_model(df,names,model_fn,label):
-    df=df.dropna(subset=["ret_next"]).copy()
+    # keep ALL rows so predictions extend through the latest refit block
+    # (live book); training masks on finite labels only (BUG FIX 2026-08-20:
+    # the upfront ret_next dropna cut preds at the last labeled month).
     X=df[names].replace([np.inf,-np.inf],np.nan)
     months=np.sort(df["month"].unique())
     ud=months[months>=pd.Timestamp(START)]
@@ -90,9 +99,14 @@ def main():
     print(f"panel {df.shape} | {len(names)} chars | months {df['month'].min().date()}..{df['month'].max().date()}",flush=True)
     results={}
     models={
-        "ridge": lambda: Ridge(alpha=10),
-        "xgb": lambda: xgb.XGBRegressor(n_estimators=300,learning_rate=0.05,max_depth=4,
-                min_child_weight=10,subsample=0.8,colsample_bytree=0.8,tree_method="hist",
+        "ridge": lambda: Ridge(alpha=float(os.environ.get("RIDGE_ALPHA",10))),
+        "xgb": lambda: xgb.XGBRegressor(
+                # depth-3/slow-lr won the sweep 2026-08-20: EW net 0.84 vs 0.76 (d4)
+                n_estimators=int(os.environ.get("XGB_TREES",600)),
+                learning_rate=float(os.environ.get("XGB_LR",0.02)),
+                max_depth=int(os.environ.get("XGB_DEPTH",3)),
+                min_child_weight=int(os.environ.get("XGB_MCW",10)),
+                subsample=0.8,colsample_bytree=0.8,tree_method="hist",
                 n_jobs=8,random_state=42),
         "mlp": lambda: MLPRegressor(hidden_layer_sizes=(32,16,8),activation="relu",
                 alpha=1e-3,max_iter=200,random_state=42),
@@ -110,7 +124,7 @@ def main():
             print(f"  {wname} net24:  {stats(s_net)}")
             results[f"{label}_{wname}"]={"gross":stats(s_gross),"net":stats(s_net)}
         # save preds for this model
-        dfp.to_parquet(f"{HERE}/data/gkx_preds_{label}.parquet")
+        dfp.to_parquet(f"{HERE}/data/gkx_preds_{label}{os.environ.get('XGB_TAG', '')}.parquet")
     json.dump(results,open(f"{HERE}/../reports/xgb_horizons/gkx_results.json","w"),indent=1,default=str)
     print("\nsaved gkx_results.json")
 

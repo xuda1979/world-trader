@@ -30,6 +30,8 @@ def build_monthly_panel(P, finn, earn_panel, macro):
     for lag,cols in [(1,"m1"),(3,"m3"),(6,"m6"),(12,"m12")]:
         F[f"ret_{cols}"]=mclose.pct_change(lag)
     F["ret_12_1"]=F["ret_m12"]-F["ret_m1"]
+    F["ret_36"]=mclose.pct_change(36)  # long-term reversal (GKX characteristic)
+    F["dollar_vol"]=(P["vol"]*close).resample("ME").mean()  # dollar volume
     # vol from daily within month
     dret=close.pct_change()
     mvol=dret.resample("ME").std()
@@ -79,13 +81,19 @@ def build_monthly_panel(P, finn, earn_panel, macro):
         surp[s]=sv.reindex(mclose.index,method='ffill')
         dnext[s]=mclose.index.to_series().map(lambda dt: min([(d-dt).days for d in ts if d>dt],default=np.nan))
     F["earn_surp"]=surp; F["earn_dnext"]=dnext
-    # macro state + interactions
+    # macro state + interactions (GKX-style: characteristics x macro states)
     vixz=macro["vixz"].reindex(mclose.index); mk3=macro["mkt3"].reindex(mclose.index)
+    cred=macro["credit"].reindex(mclose.index); dxy=macro["dxy"].reindex(mclose.index)
     F["vix_z"]=pd.DataFrame({s:vixz for s in close.columns},index=mclose.index)
     F["mkt_ret_3m"]=pd.DataFrame({s:mk3 for s in close.columns},index=mclose.index)
+    F["credit_z"]=pd.DataFrame({s:cred for s in close.columns},index=mclose.index)
+    F["dxy_z"]=pd.DataFrame({s:dxy for s in close.columns},index=mclose.index)
     F["ret_12_x_vix"]=F["ret_m12"].mul(vixz,axis=0)
     F["ret_6_x_mkt"]=F["ret_m6"].mul(mk3,axis=0)
     F["vol_x_vix"]=F["vol_m3"].mul(vixz,axis=0)
+    F["ret_12_x_credit"]=F["ret_m12"].mul(cred,axis=0)
+    F["vol_x_credit"]=F["vol_m3"].mul(cred,axis=0)
+    F["ret_6_x_dxy"]=F["ret_m6"].mul(dxy,axis=0)
     # log size
     F["log_mcap"]=np.log(F["marketCap"].replace(0,np.nan))
     # stack into long frame
@@ -95,11 +103,13 @@ def build_monthly_panel(P, finn, earn_panel, macro):
     df=pd.concat(parts,axis=1)
     df.index.names=["month","ticker"]
     df=df.reset_index()
-    df["ret_next"]=mret.stack().shift(-1).reindex(pd.MultiIndex.from_frame(df[["month","ticker"]])).to_numpy() if False else None
-    # forward next-month return
-    mret_long=mret.stack(); mret_long.index.names=["month","ticker"]
-    mi=pd.MultiIndex.from_frame(df[["month","ticker"]])
-    df["ret_next"]=mret_long.shift(-1).reindex(mi).to_numpy()
+    # forward next-month return (BUG FIX 2026-08-20: mret.stack().shift(-1)
+    # shifted by ROW POSITION, scrambling returns across tickers — verified
+    # CSCO prod(1+ret_next) +105.7% vs true +11.7%. Shift on the wide frame
+    # instead: ret_next(m) = close(m+1)/close(m)-1 per ticker.)
+    rn=(mclose.shift(-1)/mclose-1.0).stack().rename("ret_next")
+    rn.index.names=["month","ticker"]
+    df=df.join(rn,on=["month","ticker"],how="left")
     # SANITY: exclude penny stocks (median month-end close < $2, untradable at
     # size) and extreme monthly returns (data errors / split artifacts).
     medprice=mclose.median()
