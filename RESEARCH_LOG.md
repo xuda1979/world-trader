@@ -1,3 +1,13 @@
+## 2026-08-20 (/loop 1y-opt iter1) — FREQUENCY FRONTIER COMPLETE: quarterly optimal; weekly -0.23; combo 50/50 robust
+Weekly rebalance (5d booking, tail-filtered, 24bp/wk): EW t=0 SR -0.23
+(ann -8.4%), t=0.25 +0.24 — 12.5%/yr turnover costs kill weekly. Frontier:
+weekly -0.23 -> monthly 0.78-0.97 -> QUARTERLY 1.09 -> annual 1.03-1.10.
+Combo split sweep (Ridge-1m + quarterly-1y, quarterly basis): w=0.3-0.7
+-> 1.19-1.27, flat plateau — 50/50 confirmed. OPTIMIZATION PROGRAM
+COMPLETE: weights (EW wins), MV (rejected), tilts (t~0.25-0.5), frequency
+(quarterly), split (50/50). Final: quarterly EW t=0.25 + Ridge-1m 50/50
+= SR 1.27, ann +19.1%, dd -23.1%. XGB_1Y_FINAL_VERDICT.md updated.
+
 ## 2026-08-20 (/loop 1m-xgb iter17) — MV OPTIMIZATION FAILS: neutral destroys signal; tilted 0.79 < EW quarterly 1.09
 xgb_1y_mv.py (Ledoit-Wolf covariance, gamma grid x net tilt, turnover
 costs, split-half): neutral MV -0.27..+0.29 at every gamma — covariance

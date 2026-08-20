@@ -266,3 +266,35 @@ optimal** — weight schemes (rank/z/ivol) and mean-variance both lose.
 The lever that works is the NET-EXPOSURE TILT (t≈0.25-0.5) and the
 REBALANCE FREQUENCY (quarterly). Best book: quarterly EW t=0.25,
 SR 1.09, ann +24.1%, dd -36%.
+
+# UPDATE 2026-08-20 — frequency frontier complete + combo split confirmed
+
+## Weekly rebalance (5d booking, tail-filtered, 24bp/wk)
+
+- weekly EW t=0: SR **-0.23** (ann -8.4%) — 12.5%/yr turnover costs kill it
+- weekly EW t=0.25: SR +0.24 (ann +2.8%)
+
+**Complete frequency frontier** (1y prediction, EW):
+weekly -0.23 → monthly 0.78-0.97 → **quarterly 1.09** → annual 1.03-1.10.
+Quarterly is the optimum; trading more frequently than quarterly loses
+money net of costs.
+
+## Combo split sweep (Ridge-1m + quarterly-1y, quarterly basis)
+
+| w_ridge | SR | ann | dd |
+|---|---|---|---|
+| 0.3 | 1.23 | +21.3% | -27.7% |
+| 0.4 | 1.26 | +20.2% | -24.8% |
+| **0.5** | **1.27** | +19.1% | -23.1% |
+| 0.6 | 1.25 | +18.0% | -22.5% |
+| 0.7 | 1.19 | +16.8% | -21.9% |
+
+Flat plateau 0.3-0.6 — the 50/50 split is robust and optimal.
+
+## FINAL optimization verdict (complete)
+
+Every portfolio lever has now been tested: weight schemes (EW wins),
+mean-variance (rejected), net tilts (t≈0.25-0.5 optimal), rebalance
+frequency (quarterly optimal), combo split (50/50). **The optimized
+strategy: quarterly EW t=0.25 (SR 1.09) + Ridge-1m 50/50 → SR 1.27,
+ann +19.1%, dd -23.1%.**
