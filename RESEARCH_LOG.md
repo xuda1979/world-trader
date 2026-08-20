@@ -1,3 +1,11 @@
+## 2026-08-20 (/loop keep-improving iter6) — formation card 2026-08-31: VIX 15.5 -> FULL exposure (1.0x)
+Operational deliverable: quarterly EW t=0.25 book for the Aug-31
+formation — 803 names px>=2, 80L/80S. Gate: VIX 15.5 (as of 08-10, the
+latest in vix.csv) -> tier 1.0x. LONG: ACAT/WOLF/ORCL/CHTR/MU/HPE/PINS/
+HUM/TSLA/META/ZS... SHORT: junk-ADR tail (deploy applies \$20M ADV floor).
+formation_card_2026-08-31.csv saved. Note: re-check VIX at formation
+time (data lags ~10 days).
+
 ## 2026-08-20 (/loop keep-improving iter5) — two-target ensemble rejected; tag-aware parquet saves fixed
 raw12 retrained properly (two prior bg runs failed on cwd). ex1st+raw12
 pred corr 0.966 -> blend = dilution on all books. ex1st sole champion.
