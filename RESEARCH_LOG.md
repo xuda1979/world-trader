@@ -1,3 +1,9 @@
+## 2026-08-21 (/loop keep-improving iter13) — PIT risk ladders recomputed; stack fully consistent
+Both combos' vol-targeted rungs on PIT legs: defensive 1.15/0.91/0.89
+(dd to -10.8%); aggressive 1.21/1.09/0.93 (dd to -11.4%). All docs now
+PIT-honest across backtests, ladders, live, and cards. Plateau declared:
+remaining fires are pure monitoring.
+
 ## 2026-08-21 (/loop keep-improving iter12) — PIT live records: ensemble +78% > XGB +72% > Ridge +21% (leak was most of +137%)
 Final PIT consistency pass: docs' live sections updated. The leaky Ridge's
 +137% live was largely the snapshot leak; honest live leader = ensemble

@@ -13,13 +13,16 @@
 | 3 | 1y ex1st, 12m-hold annual | 1.08 (sweep 0.91-1.28) | +20-23% | -12-20% | |
 | 4 | 1y ex1st, 24m-hold | ~0.96 | ~+14% | ~-9% | |
 
-## Combo risk ladder (vol targeting)
+## Combo risk ladders (vol targeting, PIT legs)
 
-| Variant | SR | ann | dd |
-|---|---|---|---|
-| raw 50/50 | 1.15 | +17.2% | -25.8% |
-| vol-targeted 1y leg | 1.11 | +12.3% | -14.2% |
-| both legs vol-targeted | 1.01 | +9.1% | -8.9% |
+| Combo | Variant | SR | ann | dd |
+|---|---|---|---|---|
+| defensive (Ridge 50/50) | raw | 1.15 | +17.2% | -25.8% |
+| defensive | vol-targ 1y leg | 0.91 | +10.0% | -14.9% |
+| defensive | both vol-targ | 0.89 | +7.4% | -10.8% |
+| aggressive (ens 40/60) | raw | **1.21** | +23.4% | -35.9% |
+| aggressive | vol-targ 1y leg | 1.09 | +14.8% | -26.9% |
+| aggressive | both vol-targ | 0.93 | +9.1% | **-11.4%** |
 
 ## Model
 
