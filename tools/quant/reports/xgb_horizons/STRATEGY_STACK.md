@@ -7,9 +7,9 @@
 
 | # | Book | SR | ann | dd | Capacity |
 |---|---|---|---|---|---|
-| 0 | **Ridge-1m + quarterly-ex1st 50/50 combo** | **1.30** | +19.7% | -25.1% | both legs |
+| 0 | **Ridge-1m (PIT) + quarterly-ex1st 50/50 combo** | **1.15** | +17.2% | -25.8% | both legs |
 | 1 | **quarterly ex1st EW t=0.25 + VIX gate** | **1.20** | +24.1% | -23.1% | ~$144-288M/leg |
-| 2 | **Ridge-1m monthly** | 0.93 | +14.1% | -28.5% | **0.79 @ $20M ADV, ~$1.6B/leg** |
+| 2 | **Ridge-1m monthly (PIT)** | 0.61 | +8.7% | -27.7% | **0.62 @ $20M ADV** |
 | 3 | 1y ex1st, 12m-hold annual | 1.08 (sweep 0.91-1.28) | +20-23% | -12-20% | |
 | 4 | 1y ex1st, 24m-hold | ~0.96 | ~+14% | ~-9% | |
 
@@ -17,7 +17,7 @@
 
 | Variant | SR | ann | dd |
 |---|---|---|---|
-| raw 50/50 | 1.30 | +19.7% | -25.1% |
+| raw 50/50 | 1.15 | +17.2% | -25.8% |
 | vol-targeted 1y leg | 1.11 | +12.3% | -14.2% |
 | both legs vol-targeted | 1.01 | +9.1% | -8.9% |
 
@@ -27,9 +27,10 @@
   on the **ex1st target** (`fwd12 − fwd1` — the slow component; reversal
   month excluded). The ex1st transform was the biggest single improvement:
   entry-month sweep 0.38-1.10 (dd to -71.6%) → 0.91-1.28 (dd max -19.6%).
-- **1m champion**: Ridge (alpha 10), monthly, purged walk-forward. XGB-1m
-  (0.84) and the Ridge+XGB ensemble (1.05, regime-dependent) are
-  secondary; Ridge is time-robust (split-half) and capacity-safe.
+- **1m champion (PIT, 2026-08-21)**: Ridge+XGB ensemble 0.95 (ann +19.5%).
+  Single models: XGB 0.73, Ridge 0.61 (0.62 @ $20M ADV) — the Finnhub
+  snapshot leak had inflated Ridge to 0.93; on PIT features the ranking
+  flips. The quarterly ex1st book (1.20) is the best standalone book.
 - **Drawdown filter**: VIX gate at formation — 0.5x exposure VIX>22, 0x
   VIX>35 — cuts the quarterly book's dd -36%→-23% with ann untouched.
   Rejected for Ridge-1m (vol regimes interleave its gains/losses).
