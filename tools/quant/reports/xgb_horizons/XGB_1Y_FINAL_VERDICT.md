@@ -469,3 +469,13 @@ regenerated). Verdict: at 19-33% coverage the growth chars add
 uniformity to the annual book but dilute the quarterly deployed book;
 not worth the added complexity. `xgb_1y_features2.py` kept as the
 documented experiment.
+
+# UPDATE 2026-08-20 — two-target ensemble (ex1st + raw12): REJECTED (0.966 pred corr = dilution)
+
+Retrained the raw12 model (IC 0.118, 1m-hold 0.70) and blended its ranks
+with ex1st (pred corr 0.966): the blend sits BETWEEN the two on every
+book (12m 1.03, quarterly 1.06, 1m-hold 0.67) — pure dilution. The two
+targets encode nearly the same cross-sectional ranking, so there is no
+diversification to harvest. ex1st remains the sole champion.
+Also fixed: xgb_1y_ls.py now writes tag-aware parquet files (XGB_TAG) —
+variant runs can no longer clobber the champion predictions.

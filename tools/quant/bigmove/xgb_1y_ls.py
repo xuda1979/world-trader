@@ -234,10 +234,11 @@ def main():
                     "sr_range": [min(srs), max(srs)] if srs else None,
                     "ic": ic,
                 }
+            tag = os.environ.get("XGB_TAG", "")
             if fname == "full":
-                dfp.to_parquet(f"{HERE}/data/gkx_preds_{label}_1y.parquet")
+                dfp.to_parquet(f"{HERE}/data/gkx_preds_{label}_1y{tag}.parquet")
             else:
-                dfp.to_parquet(f"{HERE}/data/gkx_preds_{label}_1y_pit.parquet")
+                dfp.to_parquet(f"{HERE}/data/gkx_preds_{label}_1y_pit{tag}.parquet")
     tag = os.environ.get("XGB_TAG", "")
     json.dump(results, open(os.path.join(OUT, f"gkx_1y_results{tag}.json"), "w"), indent=1, default=str)
     print(f"\nsaved -> {OUT}/gkx_1y_results{tag}.json")

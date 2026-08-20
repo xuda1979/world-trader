@@ -1,3 +1,25 @@
+## 2026-08-20 (/loop keep-improving iter5) — two-target ensemble rejected; tag-aware parquet saves fixed
+raw12 retrained properly (two prior bg runs failed on cwd). ex1st+raw12
+pred corr 0.966 -> blend = dilution on all books. ex1st sole champion.
+Infra: XGB_TAG now suffixes the parquet saves (variants can't clobber
+the champion). Live check on ex1st: 12m cohorts +31.6/+19.0/+2.4,
+quarterly +19.7/+9.2.
+
+## 2026-08-20 (/loop iter61) — RETRO STREAM EXHAUSTED: FINAL n=123 — zero alpha
+The retrospective stream is COMPLETE: all 1,478 candidates processed
+(1,905 in done manifest incl. skips); FINAL sample 123 net-nets at
+report date. FINAL numbers:
+  ret_1m  +1.6% (median -2.6%) vs all -3.3%  (+4.9pp)
+  ret_3m  +1.2% (median -1.1%) vs all +3.0%  (-1.8pp)
+  ret_6m  -1.1% (median -3.2%) vs all -0.4%  (-0.7pp)
+  ret_12m -3.6% (median -2.4%) vs all -0.3%  (-3.3pp)
+FINAL VERDICT: formula net-nets ≈ ZERO alpha, high variance; medians
+slightly negative at every horizon; 1m slightly better than base, 3-12m
+slightly worse. Nothing to harvest without the qualitative layer.
+Verdict report updated to the final table. ALL STREAMS NOW EXHAUSTED:
+corpus 100% (7,994), census 6 net-nets, arb n=44, retro n=123. Research
+complete; only the optional arb batch scale (3,500 filings) remains.
+
 ## 2026-08-20 (/loop keep-improving iter4) — 9 PIT EDGAR growth features tested and REJECTED for deployed book
 Added PIT growth/margin chars (rev_g_1y/3y, ni/cfo_g_1y, margin+d1y,
 omargin_d1y, debt_d1y, inv_3y; coverage 19-33%) -> f2 model: annual sweep
