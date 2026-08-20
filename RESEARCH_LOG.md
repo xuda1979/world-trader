@@ -1,4 +1,10 @@
-## 2026-08-20 (/loop keep-improving iter7) — Ridge-1m card 2026-08-31: 592 names @ \$20M ADV, 59L/59S
+## 2026-08-20 (/loop keep-improving iter8) — STRATEGY_STACK.md refreshed to ex1st era (combo 1.30 / gated quarterly 1.20)
+Master reference updated: ex1st champion model, VIX-gated quarterly book
+(1.20/+24.1%/-23.1%), combo (1.30/+19.7%/-25.1%), vol-targeted ladder
+(1.11/1.01), live records on ex1st preds, both formation cards, MU/TSLA/
+VRT overlap note. Stack doc is now the single current source.
+
+## 2026-08-20 (/loop keep-improving iter7) — Ridge-1m card 2026-08-31: 592 names @ $20M ADV, 59L/59S
 Combo's second leg carded: LONG DDOG/MU/TSLA/PANW/PLTR/ARM/AMD/AAPL/AVGO,
 SHORT BIIB/MDT/ABT/PAYX/AIG/TGT/MGM (quality tech vs healthcare/staples).
 Overlap note: MU/TSLA/VRT long in BOTH legs -> combo concentration to
