@@ -270,3 +270,14 @@ corr(ex1st-quarterly, ensemble-1m) = 0.40 (vs 0.21 for Ridge) — the
 ensemble shares more of the 1y book's small-name risk, hence the deeper
 dd. Choice = return vs drawdown budget. Aggressive combined card
 (241 names, 79 overlaps capped) saved as combo_card_agg_2026-08-31.csv.
+
+# UPDATE 2026-08-21 — PIT live records
+
+| Book (PIT, 14 live months) | positive | compounded |
+|---|---|---|
+| ensemble | 10/14 | **+78%** |
+| XGB | 10/14 | +72% |
+| Ridge | 8/14 | +21% |
+
+The pre-PIT Ridge's +137% live record was largely the snapshot leak;
+the honest live leader is the ensemble.

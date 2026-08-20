@@ -53,7 +53,7 @@
 
 - 1y 12m-hold cohorts: **+31.6% / +19.0% / +2.4%** cum net
 - 1y quarterly (EW t=0.25): **+19.7% / +9.2%** (Feb/May-2026, full term)
-- Ridge-1m: 10/14 months positive, **+137%** compounded (14 mo)
+- 1m PIT live (14 mo): ensemble **+78%**, XGB +72%, Ridge +21% (10/14, 10/14, 8/14 positive) — the pre-PIT Ridge's +137% was largely the snapshot leak
 
 ## Deployment (formation cards issued 2026-08-31)
 

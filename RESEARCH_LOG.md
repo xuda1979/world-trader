@@ -1,3 +1,15 @@
+## 2026-08-21 (/loop keep-improving iter12) — PIT live records: ensemble +78% > XGB +72% > Ridge +21% (leak was most of +137%)
+Final PIT consistency pass: docs' live sections updated. The leaky Ridge's
++137% live was largely the snapshot leak; honest live leader = ensemble
+(+78%, 10/14). Everything (backtests, live, cards, docs) now PIT-honest.
+
+## 2026-08-21 (/loop iter66) — optional arb tail continues: 151 deals
+The only remaining optional stream (arb batch scale to the full 3,660
+filings) continues: 151 deals processed (of 116 last close; ~35/fire at
+the ~3.5s/filing rate — the tail will take ~20-30 more fires at this
+pace). The n=88 distribution is already decisive; this is data-asset
+completion, not new science. All core research streams remain closed.
+
 ## 2026-08-21 (/loop keep-improving iter11) — combo menu finalized: defensive 1.15 (Ridge) vs aggressive 1.21 (ensemble, 40/60)
 PIT cascades complete: ensemble-leg combo w=0.4 -> SR 1.21, ann +23.4%,
 dd -35.9% (corr 0.40) vs Ridge-leg 1.15/-25.8% (corr 0.21). Two-tier
