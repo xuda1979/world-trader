@@ -298,3 +298,34 @@ mean-variance (rejected), net tilts (t≈0.25-0.5 optimal), rebalance
 frequency (quarterly optimal), combo split (50/50). **The optimized
 strategy: quarterly EW t=0.25 (SR 1.09) + Ridge-1m 50/50 → SR 1.27,
 ann +19.1%, dd -23.1%.**
+
+# UPDATE 2026-08-20 — regime gating rejected; vol targeting = the drawdown lever
+
+## Regime-gated tilt (quarterly EW, tilt set by 12m market trend)
+
+| Rule | SR | ann | dd |
+|---|---|---|---|
+| const t=0.25 | **1.09** | +24.1% | -36.2% |
+| gated: t=0.5 up / t=0 down | 1.00 | +24.3% | -48.4% |
+| gated: t=0.5 up / t=-0.5 down | 0.73 | +17.7% | -49.8% |
+
+The tilt's payoff is NOT trend-following — gating by market trend times
+badly (tilting after up-years catches tops). Constant tilt wins.
+
+## Volatility targeting (quarterly EW t=0.25, 5%/qtr target, trailing-4q scaling)
+
+| | SR | ann | dd | Calmar |
+|---|---|---|---|---|
+| raw | 1.09 | +24.1% | -36.2% | 0.67 |
+| **vol-targeted** | 0.83 | +10.0% | **-7.9%** | **1.27** |
+
+**Vol targeting is the drawdown lever**: it cuts maxDD by ~4.5x for
+~0.26 SR — the risk-budgeted deployment choice (Calmar nearly doubles).
+With modest leverage it recovers the ann with still-better dd than raw.
+
+## FINAL optimization program (now complete across 7 levers)
+
+weights (EW wins) · MV (rejected) · tilts (const t≈0.25-0.5 optimal,
+gating rejected) · frequency (quarterly) · combo split (50/50) · vol
+targeting (dd lever). Deployment menu: raw quarterly EW t=0.25 (SR 1.09,
+dd -36%) or vol-targeted (SR 0.83, dd -8%); either + Ridge-1m 50/50.

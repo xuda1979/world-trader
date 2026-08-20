@@ -1,3 +1,15 @@
+## 2026-08-20 (/loop 1y-opt iter2) — regime gating REJECTED; VOL TARGETING = the drawdown lever (dd -36% -> -8%)
+Gated tilt by 12m market trend: 1.00 vs const 1.09 — tilt payoff is not
+trend-following, gating times badly. Vol targeting (5%/qtr, trailing-4q)
+on quarterly EW t=0.25: SR 0.83, ann +10.0%, dd -7.9% (Calmar 1.27 vs
+0.67 raw) — the risk-budgeted deployment choice. Optimization program
+complete across 7 levers. XGB_1Y_FINAL_VERDICT.md updated.
+
+## 2026-08-20 (/loop iter56) — retro n=113: stable (1m +1.1%, 3m +1.4%, 6m -1.0%)
+Chunk 48: n=113 (1m +1.1% vs -3.2%, 3m +1.4% vs +3.0%, 6m -1.0% vs
+-0.5%). Estimate stable: zero-to-weakly-positive, high variance.
+~225 candidates left.
+
 ## 2026-08-20 (/loop 1y-opt iter1) — FREQUENCY FRONTIER COMPLETE: quarterly optimal; weekly -0.23; combo 50/50 robust
 Weekly rebalance (5d booking, tail-filtered, 24bp/wk): EW t=0 SR -0.23
 (ann -8.4%), t=0.25 +0.24 — 12.5%/yr turnover costs kill weekly. Frontier:
