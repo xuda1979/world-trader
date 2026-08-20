@@ -1,3 +1,16 @@
+## 2026-08-20 (/loop keep-improving iter1) — model refinement grid: PLATEAU confirmed, champion retained
+4-config grid (d2 / d3-1000t / d3-lr.01 / d4-mcw5): none dominates across
+IC + both holding periods + dd; spread within +/-0.07 SR annual-cohort
+noise. d2 best IC (0.132) but worse dd; d3-lr.01 best 1m-hold (0.75).
+Champion (d3/lr.02/600t) retained — 1y model at its free-data plateau.
+Also rejected: VIX gate on Ridge-1m (gains/losses interleave in vol
+regimes; gate costs ann, saves no dd).
+
+## 2026-08-20 (/loop iter58) — retro n=118: stable (1m +1.1%, 3m +1.1%, 6m -1.4%)
+Chunk 50: n=118 (1m +1.1% vs -3.2%, 3m +1.1% vs +3.2%, 6m -1.4% vs
+-0.2%). Estimate stable: zero-to-weakly-positive, high variance.
+~145 candidates left.
+
 ## 2026-08-20 (/loop 1y-dd iter1) — VIX GATE: dd -36.2% -> -24.4% with ann UNTOUCHED (+23.7%, SR 1.17)
 Goal: filter the biggest dd without affecting ann. Diagnosis: the -36%
 hole = 2022 episode (single -27% quarter, VIX 30) + 2015 bleed (VIX 14).

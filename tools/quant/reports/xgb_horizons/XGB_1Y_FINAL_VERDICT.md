@@ -379,3 +379,19 @@ recovery as much as the loss. The VIX gate is specific to the 1y
 quarterly book (a single avoidable 2022 quarter); monthly books need a
 different tool or none. Next: 1y model hyperparameter refinement grid
 (d2 / d3-1000t / d3-lr.01 / d4-mcw5) in background.
+
+# UPDATE 2026-08-20 — model refinement grid: PLATEAU confirmed (champion retained)
+
+| Config | IC (IR) | 1m-hold SR | 12m-hold SR | dd |
+|---|---|---|---|---|
+| **champion d3/lr.02/600t** | 0.118 (3.43) | 0.70 | 1.03-1.10 | -15% |
+| d2/600t | **0.132 (3.96)** | 0.68 | 1.06 | -25.5% |
+| d3/1000t | 0.110 | 0.64 | 0.96 | -16.5% |
+| d3/lr.01/1200t | 0.121 | **0.75** | 0.98 | -17.7% |
+| d4/mcw5 | 0.108 | 0.73 | 1.06 | -15.7% |
+
+No config dominates across IC / both holding periods / dd; the spread
+between configs is within the ±0.07 SR run-to-run noise of the annual
+cohorts (the champion itself measures 1.03 vs 1.10 across identical
+reruns). **The 1y model is at its free-data plateau; the champion config
+is retained.**
