@@ -232,3 +232,27 @@ reinforces the capacity story: Ridge is also the $20M-ADV book (0.79 vs
 ensemble 0.58). The ensemble remains a discretionary full-breadth
 enhancement, with the understanding that its edge over Ridge is
 concentrated in the post-2018 regime.
+
+# UPDATE 2026-08-21 — PIT FEATURE SET for the 1m models: the snapshot leak inflated Ridge by ~0.3 SR
+
+The 1m champions were trained on all 57 chars, INCLUDING the 10 Finnhub
+current-snapshot features (the same lookahead-flavored leak the 1y model
+dropped). Retrained on the 47-char PIT set (FEAT_SET=pit in
+gkx_backtest.py):
+
+| Model | full-57 net SR | **PIT-47 net SR** |
+|---|---|---|
+| Ridge | 0.93 (+14.1%) | **0.61 (+8.7%)** |
+| XGB d3 | 0.84 (+18.2%) | **0.73 (+14.7%)** |
+| **Ridge+XGB ensemble** | 1.05 | **0.95 (+19.5%)** |
+
+- The snapshot leak inflated Ridge by ~0.32 SR; the model ranking FLIPS
+  (XGB > Ridge on PIT).
+- Ridge PIT stays capacity-robust: 0.62 @ $20M ADV (worst year -19.6%),
+  but is more cost-sensitive (0.06 at 96bp).
+- **The ensemble retains its edge on PIT: 0.95** — the honest 1m book.
+- Combo with the PIT Ridge leg: SR 1.15 (ann +17.2%, dd -25.8%) vs 1.30
+  leaky — the leak contributed ~0.15 there too; corr 0.21 (diversification
+  intact). The quarterly ex1st 1.20 is now the best standalone book.
+- All 1m artifacts (preds parquets, ensemble, formation card) now hold
+  PIT predictions.

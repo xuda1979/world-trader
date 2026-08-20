@@ -1,3 +1,39 @@
+## 2026-08-21 (/loop keep-improving iter10) — 1m models retrained on PIT: leak inflated Ridge 0.93->0.61; ensemble 0.95 = honest 1m book
+The 1m champions still trained on the 10 Finnhub snapshot features (the
+known leak). PIT retrain: Ridge 0.61 (0.62 @ \$20M ADV), XGB 0.73,
+ensemble 0.95 — ranking flips, leak was ~0.3 SR on Ridge. Combo PIT:
+1.15 (ann +17.2%, dd -25.8%, corr 0.21). Quarterly ex1st 1.20 now best
+standalone. All 1m artifacts + formation card regenerated on PIT preds.
+GKX_1M_FINAL_REPORT.md updated.
+
+## 2026-08-20 (/loop iter63) — RESEARCH CLOSED: deliverables verified, loop has nothing left
+Final verification pass — all deliverables intact:
+  Report: tools/quant/reports/BUFFETT_SMALLCAP_VERDICT.md (9.2KB)
+  5 scripts: edgar_full_fetch / build_full_cache / buffett_full_screen /
+             buffett_retro / buffett_arb_screen ✓
+  Data: 6,985 raw XBRL, retro 1,478 names (123 net-nets), 116 arb deals,
+        6 live net-nets
+EVERY research stream is exhausted (corpus 100%, census final, retro
+n=123 final, arb n=88 final, claims verified). The /loop brief has no
+remaining actionable work — subsequent fires are no-ops. Recommend
+cancelling job 5ec1cf29 (CronDelete). Definitive one-liner: Buffett's
+50% is real but lives in the non-reproducible qualitative layer; free
+data yields zero-alpha net-nets and a boring 3-10%/yr arb; S&P500 index
+for everyone else.
+
+## 2026-08-20 (/loop iter62) — ARB FINAL n=88: verdict STRENGTHENED at 2x sample
+Arb scaled to 105 deals (116 filings processed of 3,660; polygon prices
+backfilled for all). FINAL distribution (n=88 computable):
+  spread <10%: 65 (74%), median +1.8% — efficient pricing, boring 5-15%
+      annualized arb (ret mean +42.3% pre-announcement drift, not arb)
+  spread >=10%: 23, ret mean -17.0% — big spreads LOSE (worse than the
+      n=44 estimate of -4.9%; CYCU -99, LPSN -87, SOUN -64, WU -31)
+Verdict strengthened: the big-spread cohort is a losing bet on average;
+arb alpha lives in the qualitative selection (financing/terms/regulatory)
+— the only reproducible leg remains the boring <10% cohort. ALL STREAMS
+NOW EXHAUSTED (corpus 100%, census 6, retro n=123 final, arb n=88 final).
+Report section 4.5 updated to the final numbers. Research complete.
+
 ## 2026-08-20 (/loop keep-improving iter9) — combined combo card: 259 names, 13 double-longs capped
 Merged both Aug-31 legs: 19 overlaps — 13 names long in BOTH legs (MU/HUM/
 AMD/LLY/OKTA/GOOGL/TSLA/PANW/AMAT/GXO/META/JBL/DELL) at 2x intended

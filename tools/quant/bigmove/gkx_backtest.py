@@ -31,6 +31,11 @@ def load_panel():
     rn.index.names=["month","ticker"]
     df=df.drop(columns=["ret_next"]).join(rn,on=["month","ticker"],how="left")
     names=json.load(open(f"{HERE}/data/gkx_names.json"))
+    if os.environ.get("FEAT_SET")=="pit":
+        # drop the 10 Finnhub current-snapshot features (lookahead-flavored)
+        SNAP=["marketCap","pe","pb","roe","rev_growth","eps_growth",
+              "asset_turn","debt_eq","div_yield","log_mcap"]
+        names=[n for n in names if n not in SNAP]
     return df,names
 
 def run_model(df,names,model_fn,label):
