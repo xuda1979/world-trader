@@ -24,6 +24,9 @@ FRAC = 0.1
 def load():
     df = pd.read_parquet(f"{HERE}/data/gkx_preds_xgb_1y_pit.parquet")
     df["month"] = pd.to_datetime(df["month"])
+    for col in ("px_m", "ret_fwd3"):
+        if col in df.columns:
+            df = df.drop(columns=[col])
     mclose = union_panel.load_union()["close"].resample("ME").last()
     px = mclose.stack().rename("px_m")
     px.index.names = ["month", "ticker"]

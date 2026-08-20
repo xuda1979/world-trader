@@ -1,3 +1,15 @@
+## 2026-08-20 (/loop keep-improving iter4) — 9 PIT EDGAR growth features tested and REJECTED for deployed book
+Added PIT growth/margin chars (rev_g_1y/3y, ni/cfo_g_1y, margin+d1y,
+omargin_d1y, debt_d1y, inv_3y; coverage 19-33%) -> f2 model: annual sweep
+more uniform (1.00-1.17) but deployed quarterly+VIX book WEAKER (1.10 vs
+1.20). Reverted panel to 57 chars, ex1st parquet regenerated. Also fixed
+ret_fwd3 column-overlap in xgb_1y_opt.load (parquet now carries fwd3).
+
+## 2026-08-20 (/loop iter60) — retro n=123: stable (1m +1.6%, 3m +1.2%, 6m -1.1%)
+Chunk 52: n=123 (1m +1.6% vs -3.2%, 3m +1.2% vs +3.1%, 6m -1.1% vs
+-0.1%). Estimate stable: zero-to-weakly-positive, high variance.
+~65 candidates left (≈2 fires to exhaust).
+
 ## 2026-08-20 (/loop keep-improving iter3) — ex1st re-validated: combo 1.30; target space mapped (ex3m rejected)
 VIX 22/35 confirmed on ex1st (1.20/+24.1%/-23.1%). Combo with ex1st leg:
 SR 1.30, ann +19.7%, dd -25.1% (was 1.27). ex3m (fwd12-fwd3) tested:

@@ -451,3 +451,21 @@ further (3 months) over-excludes.
 |---|---|---|---|
 | quarterly EW t=0.25 + VIX gate | 1.20 | +24.1% | -23.1% |
 | combo 50/50 (Ridge-1m + quarterly-ex1st) | **1.30** | +19.7% | -25.1% |
+
+# UPDATE 2026-08-20 — EDGAR growth features (9 new PIT chars): tested, REJECTED for the deployed book
+
+Added 9 point-in-time EDGAR growth/margin features (rev_g_1y/3y, ni_g_1y,
+cfo_g_1y, margin + d1y, omargin_d1y, debt_d1y, inv_3y — coverage 19-33%,
+restoring the growth features lost with the Finnhub leak) and retrained
+the ex1st model:
+
+- Annual 12m-hold sweep: more uniform (1.00-1.17, dd max -21.3%) vs
+  ex1st (0.91-1.28, dd max -19.6%) — a wash on the annual book.
+- **Deployed quarterly book: weaker** — EW t=0.25 + VIX gate SR 1.10
+  (ann +22.0%, dd -24.5%) vs ex1st's 1.20 (+24.1%, -23.1%).
+
+The features were removed (panel reverted to 57 chars, ex1st parquet
+regenerated). Verdict: at 19-33% coverage the growth chars add
+uniformity to the annual book but dilute the quarterly deployed book;
+not worth the added complexity. `xgb_1y_features2.py` kept as the
+documented experiment.
