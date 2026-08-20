@@ -1,3 +1,15 @@
+## 2026-08-20 (/loop keep-improving iter3) — ex1st re-validated: combo 1.30; target space mapped (ex3m rejected)
+VIX 22/35 confirmed on ex1st (1.20/+24.1%/-23.1%). Combo with ex1st leg:
+SR 1.30, ann +19.7%, dd -25.1% (was 1.27). ex3m (fwd12-fwd3) tested:
+entry sweep 0.87-1.08, IC 0.118, 1m-hold 0.49 — more uniform but lower
+peaks; ex1st stands. Target space mapped: raw12 < ex3m ~ ex1st. Final
+stack: quarterly ex1st + VIX gate 1.20; combo 1.30.
+
+## 2026-08-20 (/loop iter59) — retro n=121: stable (1m +1.7%, 3m +1.3%, 6m -1.1%)
+Chunk 51: n=121 (1m +1.7% vs -3.1%, 3m +1.3% vs +3.1%, 6m -1.1% vs
+-0.2%). Estimate stable: zero-to-weakly-positive, high variance.
+~105 candidates left (≈3 fires to exhaust).
+
 ## 2026-08-20 (/loop keep-improving iter2) — TARGET IMPROVEMENT: ex1st (fwd12-fwd1) model — stack now SR 1.20 / dd -23.1%
 Training on months 2-12 return removes the reversal month from the 12m
 target: entry sweep 0.91-1.28 with max dd -19.6% (vs raw 0.38-1.10, dd

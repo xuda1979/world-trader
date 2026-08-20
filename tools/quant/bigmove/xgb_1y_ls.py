@@ -52,11 +52,16 @@ def load_panel_with_1y_target():
     fwd1 = (mclose.shift(-1) / mclose - 1.0).stack().rename("ret_fwd1")
     fwd1.index.names = ["month", "ticker"]
     df = df.join(fwd1, on=["month", "ticker"], how="left")
+    fwd3 = (mclose.shift(-3) / mclose - 1.0).stack().rename("ret_fwd3")
+    fwd3.index.names = ["month", "ticker"]
+    df = df.join(fwd3, on=["month", "ticker"], how="left")
     # train on the months-2..12 return (slow component; ex1st won the target
     # test 2026-08-20: entry-month sweep 0.91-1.28, max dd -19.6% vs raw
     # target's 0.38-1.10, dd up to -71.6%). TARGET_MODE=raw12 for the old.
     if os.environ.get("TARGET_MODE") == "raw12":
         df["ret_fwd12_train"] = df["ret_fwd12"]
+    elif os.environ.get("TARGET_MODE") == "ex3m":
+        df["ret_fwd12_train"] = df["ret_fwd12"] - df["ret_fwd3"]
     else:
         df["ret_fwd12_train"] = df["ret_fwd12"] - df["ret_fwd1"]
     # PANEL BUG FIX: the panel's ret_next was built via mret.stack().shift(-1)

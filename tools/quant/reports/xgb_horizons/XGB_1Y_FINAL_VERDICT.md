@@ -422,3 +422,32 @@ noise into the 12m target.
 New best book: SR 1.20 (was 1.17), dd -23.1% (was -24.4%). The ex1st
 target is now the default in xgb_1y_ls.py (TARGET_MODE=raw12 reverts);
 the champion parquet holds ex1st predictions.
+
+# UPDATE 2026-08-20 — ex1st re-validation + target space mapped
+
+## Re-validation on ex1st predictions
+
+- VIX threshold sweep: 22/35 still optimal (SR 1.20, ann +24.1%, dd
+  -23.1%); plateau 22-28.
+- **Combo (Ridge-1m + quarterly-ex1st 50/50): SR 1.30, ann +19.7%, dd
+  -25.1%** (was 1.27) — the ex1st leg lifts the combo. Gating the 1y leg
+  inside the combo is neutral (within noise).
+
+## Target space mapped: ex3m (fwd12-fwd3) tested — ex1st stands
+
+| Target | IC | entry sweep (SR) | 1m-hold |
+|---|---|---|---|
+| raw12 | 0.118 | 0.38-1.10 (dd to -71.6%) | 0.70 |
+| **ex1st (fwd12-fwd1)** | **0.124** | **0.91-1.28 (dd max -19.6%)** | **0.64** |
+| ex3m (fwd12-fwd3) | 0.118 | 0.87-1.08 (dd max -22.4%) | 0.49 |
+
+ex3m is more uniform but loses peak SR, IC and the 1m-hold book; ex1st
+remains champion. The reversal-month exclusion is the right cut — going
+further (3 months) over-excludes.
+
+## Final stack (ex1st era)
+
+| Book | SR | ann | dd |
+|---|---|---|---|
+| quarterly EW t=0.25 + VIX gate | 1.20 | +24.1% | -23.1% |
+| combo 50/50 (Ridge-1m + quarterly-ex1st) | **1.30** | +19.7% | -25.1% |
