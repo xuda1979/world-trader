@@ -1,3 +1,37 @@
+## 2026-08-20 (/loop 1m-xgb iter17) — MV OPTIMIZATION FAILS: neutral destroys signal; tilted 0.79 < EW quarterly 1.09
+xgb_1y_mv.py (Ledoit-Wolf covariance, gamma grid x net tilt, turnover
+costs, split-half): neutral MV -0.27..+0.29 at every gamma — covariance
+sizing fights the rank signal; best tilted (g=0.1/net=1) full 0.79 but
+test-holdout only 0.54 (fit 1.64 -> classic overfit degradation) vs EW
+quarterly t=0.25 = 1.09. VERDICT: equal-weight tilts are optimal for this
+strategy; the working levers are net tilt (t~0.25-0.5) and frequency
+(quarterly). DeMiguel 1/N confirmed on our signal.
+
+## 2026-08-20 (/loop iter55) — retro n=112: stable (1m +1.2%, 3m +1.4%, 6m -1.0%)
+Chunk 47: n=112 (1m +1.2% vs -3.3%, 3m +1.4% vs +3.0%, 6m -1.0% vs
+-0.6%). Estimate stable: zero-to-weakly-positive, high variance.
+~265 candidates left.
+
+## 2026-08-20 (/loop iter54) — retro n=111: stable (1m +1.0%, 3m +1.3%, 6m -0.9%)
+Chunk 46: n=111 (1m +1.0% vs -3.4%, 3m +1.3% vs +3.1%, 6m -0.9% vs
+-0.5%). Estimate stable: zero-to-weakly-positive, high variance.
+~305 candidates left.
+
+## 2026-08-20 (/loop iter53) — retro n=109: stable (1m +0.6%, 3m +1.2%, 6m -1.0%)
+Chunk 45: n=109 (1m +0.6% vs -3.5%, 3m +1.2% vs +3.1%, 6m -1.0% vs
+-0.6%). Estimate stable: zero-to-weakly-positive, high variance.
+~345 candidates left.
+
+## 2026-08-20 (/loop iter52) — retro n=108: stable (1m +0.6%, 3m +1.3%, 6m -0.9%)
+Chunk 44: n=108 (1m +0.6% vs -3.7%, 3m +1.3% vs +3.0%, 6m -0.9% vs
+-0.5%). Estimate stable: zero-to-weakly-positive, high variance.
+~385 candidates left.
+
+## 2026-08-20 (/loop iter51) — retro n=105: stable (1m +0.2%, 3m +2.0%, 6m +0.2%)
+Chunk 43: n=105 (1m +0.2% vs -3.8%, 3m +2.0% vs +3.0%, 6m +0.2% vs
+-0.6%). Estimate stable: zero-to-weakly-positive, high variance.
+~425 candidates left.
+
 ## 2026-08-20 (/loop 1m-xgb iter16) — PORTFOLIO OPTIMIZATION of 1y strategy: quarterly EW t=0.25 SR 1.09; EW beats rank/z/ivol
 xgb_1y_opt.py (champion preds, correct booking): weight schemes — EW wins
 (0.78 vs rank 0.50 / ivol 0.43 / z 0.16); tilts raise return with book

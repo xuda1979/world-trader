@@ -237,3 +237,32 @@ systematically defensive vs SPY over the sample):
 - Tilts up to t=0.5 raise return, then degrade (t=1.0: dd -82%).
 - Combo: quarterly EW t=0.25 + Ridge-1m 50/50 — corr 0.17 → **SR 1.27,
   ann +19.1%, dd -23.1%** (quarterly basis): the more-frequent capstone.
+
+# UPDATE 2026-08-20 — mean-variance optimization: DOES NOT beat equal weights (`xgb_1y_mv.py`)
+
+Full MV optimization (Ledoit-Wolf shrunk 60m rolling covariance,
+w = inv(Sigma + gamma*I)·mu on the 1y prediction, |w|<=2%, gross 2.0,
+net-exposure target t, turnover costs 6bp·sum|dw|, split-half validated):
+
+| gamma, net | fit SR 09-17 | test SR 18-26 | full SR |
+|---|---|---|---|
+| 0.1, 0.0 | +0.29 | +0.08 | 0.13 |
+| 1.0, 0.0 | -0.08 | -0.20 | -0.17 |
+| 10.0, 0.0 | -0.27 | -0.24 | -0.23 |
+| **0.1, 1.0 (best on fit)** | 1.64 | **0.54** | 0.79 |
+| 1.0, 1.0 | 1.55 | 0.43 | 0.67 |
+
+- **Neutral MV fails at every risk aversion** — covariance-based
+  neutralization fights the model's cross-sectional edge (the 1y signal
+  is a rank signal; sizing it by inverse-covariance noise destroys it).
+- The tilted MV (long-biased) works but **underperforms the simple EW
+  tilt books**: full 0.79 (ann +21.7%, dd -58%) vs quarterly EW t=0.25
+  SR 1.09; fit-period MV Sharpes (up to 1.64) degrade to 0.54 in the
+  hold-out — classic DeMiguel "1/N beats optimization" result.
+
+**FINAL VERDICT on portfolio optimization** (two independent passes,
+heuristic + classical): for this strategy, **equal-weight tilts are
+optimal** — weight schemes (rank/z/ivol) and mean-variance both lose.
+The lever that works is the NET-EXPOSURE TILT (t≈0.25-0.5) and the
+REBALANCE FREQUENCY (quarterly). Best book: quarterly EW t=0.25,
+SR 1.09, ann +24.1%, dd -36%.
