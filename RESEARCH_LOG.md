@@ -1,8 +1,14 @@
+## 2026-08-20 (/loop keep-improving iter7) — Ridge-1m card 2026-08-31: 592 names @ \$20M ADV, 59L/59S
+Combo's second leg carded: LONG DDOG/MU/TSLA/PANW/PLTR/ARM/AMD/AAPL/AVGO,
+SHORT BIIB/MDT/ABT/PAYX/AIG/TGT/MGM (quality tech vs healthcare/staples).
+Overlap note: MU/TSLA/VRT long in BOTH legs -> combo concentration to
+monitor. formation_card_ridge1m_2026-08-31.csv saved.
+
 ## 2026-08-20 (/loop keep-improving iter6) — formation card 2026-08-31: VIX 15.5 -> FULL exposure (1.0x)
 Operational deliverable: quarterly EW t=0.25 book for the Aug-31
 formation — 803 names px>=2, 80L/80S. Gate: VIX 15.5 (as of 08-10, the
 latest in vix.csv) -> tier 1.0x. LONG: ACAT/WOLF/ORCL/CHTR/MU/HPE/PINS/
-HUM/TSLA/META/ZS... SHORT: junk-ADR tail (deploy applies \$20M ADV floor).
+HUM/TSLA/META/ZS... SHORT: junk-ADR tail (deploy applies $20M ADV floor).
 formation_card_2026-08-31.csv saved. Note: re-check VIX at formation
 time (data lags ~10 days).
 
