@@ -1,3 +1,10 @@
+## 2026-08-20 (/loop keep-improving iter9) — combined combo card: 259 names, 13 double-longs capped
+Merged both Aug-31 legs: 19 overlaps — 13 names long in BOTH legs (MU/HUM/
+AMD/LLY/OKTA/GOOGL/TSLA/PANW/AMAT/GXO/META/JBL/DELL) at 2x intended
+weight, capped to single-leg; 6 cross-leg conflicts net out. Final card
+with w_capped saved (combo_card_2026-08-31.csv). Deployment artifacts
+complete.
+
 ## 2026-08-20 (/loop keep-improving iter8) — STRATEGY_STACK.md refreshed to ex1st era (combo 1.30 / gated quarterly 1.20)
 Master reference updated: ex1st champion model, VIX-gated quarterly book
 (1.20/+24.1%/-23.1%), combo (1.30/+19.7%/-25.1%), vol-targeted ladder
