@@ -113,7 +113,7 @@ def live_1y_quarterly():
 
 
 def next_dates():
-    today = pd.Timestamp("2026-08-20")
+    today = pd.Timestamp.now().normalize()
     nxt = [m for m in pd.date_range(today, today + pd.DateOffset(months=8), freq="ME")
            if m.month in (2, 5, 8, 11)][:2]
     refit = pd.Timestamp("2027-01-31")
@@ -124,7 +124,7 @@ def next_dates():
 def main():
     fresh = data_freshness()
     print(f"=== DATA ===\n  newest price CSV: {fresh.date()} "
-          f"({'STALE >2d' if (pd.Timestamp('2026-08-20') - fresh).days > 2 else 'ok'})")
+          f"({'STALE >2d' if (pd.Timestamp.now().normalize() - fresh).days > 2 else 'ok'})")
     live_1y()
     live_1y_quarterly()
     live_1m()
