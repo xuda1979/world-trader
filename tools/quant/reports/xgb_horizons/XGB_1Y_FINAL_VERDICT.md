@@ -367,3 +367,15 @@ to 1.17. Threshold plateau 22-25 = robust, not knife-edge. The DD
 time-out costs 4.6pp ann for the same dd cut — rejected. On the combo
 (Ridge-1m + quarterly-1y) the gate is unnecessary (dd already -23%;
 gate costs 1.6pp ann for -2pp dd).
+
+# UPDATE 2026-08-20 — VIX gate on Ridge-1m: REJECTED (gains and losses interleave in vol regimes)
+
+Tested the VIX gate (0.5x/0x exposure tiers) on the Ridge-1m monthly book:
+raw 0.93/+14.1%/-28.5%; best gate (0.5x>28, 0x>45) 1.02/+14.7%/-26.9%;
+tighter gates cost ann without cutting dd (0.5x>22: dd -28.9%, ann -2.7pp).
+Ridge-1m's losses are monthly streaks whose recoveries (2020-03 +30%,
+2022-12 +33%) occur in the SAME high-VIX regimes — the gate cuts the
+recovery as much as the loss. The VIX gate is specific to the 1y
+quarterly book (a single avoidable 2022 quarter); monthly books need a
+different tool or none. Next: 1y model hyperparameter refinement grid
+(d2 / d3-1000t / d3-lr.01 / d4-mcw5) in background.
