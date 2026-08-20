@@ -1,6 +1,12 @@
+## 2026-08-21 (/loop keep-improving iter11) — combo menu finalized: defensive 1.15 (Ridge) vs aggressive 1.21 (ensemble, 40/60)
+PIT cascades complete: ensemble-leg combo w=0.4 -> SR 1.21, ann +23.4%,
+dd -35.9% (corr 0.40) vs Ridge-leg 1.15/-25.8% (corr 0.21). Two-tier
+menu by drawdown budget; aggressive combined card issued (241 names,
+79 overlaps capped). All legs now PIT-honest.
+
 ## 2026-08-21 (/loop keep-improving iter10) — 1m models retrained on PIT: leak inflated Ridge 0.93->0.61; ensemble 0.95 = honest 1m book
 The 1m champions still trained on the 10 Finnhub snapshot features (the
-known leak). PIT retrain: Ridge 0.61 (0.62 @ \$20M ADV), XGB 0.73,
+known leak). PIT retrain: Ridge 0.61 (0.62 @ $20M ADV), XGB 0.73,
 ensemble 0.95 — ranking flips, leak was ~0.3 SR on Ridge. Combo PIT:
 1.15 (ann +17.2%, dd -25.8%, corr 0.21). Quarterly ex1st 1.20 now best
 standalone. All 1m artifacts + formation card regenerated on PIT preds.

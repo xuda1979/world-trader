@@ -256,3 +256,17 @@ gkx_backtest.py):
   intact). The quarterly ex1st 1.20 is now the best standalone book.
 - All 1m artifacts (preds parquets, ensemble, formation card) now hold
   PIT predictions.
+
+# UPDATE 2026-08-21 — combo menu finalized on PIT legs
+
+Two honest combos (quarterly basis, both legs PIT):
+
+| Combo | split | SR | ann | dd |
+|---|---|---|---|---|
+| **Defensive**: Ridge-1m + quarterly-ex1st | 50/50 | 1.15 | +17.2% | -25.8% |
+| **Aggressive**: ensemble-1m + quarterly-ex1st | 40/60 | **1.21** | +23.4% | -35.9% |
+
+corr(ex1st-quarterly, ensemble-1m) = 0.40 (vs 0.21 for Ridge) — the
+ensemble shares more of the 1y book's small-name risk, hence the deeper
+dd. Choice = return vs drawdown budget. Aggressive combined card
+(241 names, 79 overlaps capped) saved as combo_card_agg_2026-08-31.csv.
