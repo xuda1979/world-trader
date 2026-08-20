@@ -202,3 +202,38 @@ beyond the labeled backtest window): 11/14 positive, mean ~+4.4%/mo
 Status snapshot (2026-08-20): data fresh through 2026-08-18; 1y cohorts
 +42.3%/+16.1%/+2.4%/just-formed; next formation 2026-08-31, next refit
 2027-01-31.
+
+# UPDATE 2026-08-20 — portfolio optimization: weights, tilts, frequency (`xgb_1y_opt.py`)
+
+Optimized the portfolio layer of the 1y XGB strategy on the champion
+predictions (correct booking: return horizon == rebalance period; 24bp/mo
+gross; px>=2):
+
+## Weight schemes (monthly, neutral): EW wins
+EW 0.78 > rank 0.50 > ivol 0.43 > z 0.16 — prediction magnitudes are not
+calibrated enough to weight by; equal weight remains best.
+
+## Net-long tilts (beta stays ~-0.10 regardless — the books add
+book-specific risk, not market exposure; the selected names are
+systematically defensive vs SPY over the sample):
+
+| Config | SR | ann | dd | beta |
+|---|---|---|---|---|
+| monthly EW t=0 | 0.78 | +14.6% | -40% | -0.11 |
+| monthly EW t=0.25 | 0.96 | +20.5% | -48% | -0.11 |
+| **monthly EW t=0.5** | **0.97** | +25.4% | -61% | -0.11 |
+| monthly EW t=1.0 (long-only) | 0.87 | +32.1% | -82% | -0.10 |
+| **quarterly EW t=0** | 0.94 | +18.0% | -30% | -0.07 |
+| **quarterly EW t=0.25** | **1.09** | +24.1% | -36% | -0.08 |
+| quarterly EW t=0.5 | 1.08 | +29.3% | -51% | -0.09 |
+| monthly EW t=0.5 @ $20M ADV | 0.94 | +26.0% | -72% | -0.13 |
+
+## Verdict
+
+- **Quarterly EW t=0.25 is the best more-frequent book** (SR 1.09, ann
+  +24.1%, dd -36%, win 75%, 4x/yr turnover): matches the annual 12m-hold
+  SR with 3x the turnover and more drawdown; monthly adds turnover
+  without improving risk-adjusted return (t=0.5: 0.97/-61%).
+- Tilts up to t=0.5 raise return, then degrade (t=1.0: dd -82%).
+- Combo: quarterly EW t=0.25 + Ridge-1m 50/50 — corr 0.17 → **SR 1.27,
+  ann +19.1%, dd -23.1%** (quarterly basis): the more-frequent capstone.

@@ -1,3 +1,23 @@
+## 2026-08-20 (/loop 1m-xgb iter16) — PORTFOLIO OPTIMIZATION of 1y strategy: quarterly EW t=0.25 SR 1.09; EW beats rank/z/ivol
+xgb_1y_opt.py (champion preds, correct booking): weight schemes — EW wins
+(0.78 vs rank 0.50 / ivol 0.43 / z 0.16); tilts raise return with book
+risk not beta (beta ~-0.10 even long-only — the names are defensive vs
+SPY). Best frequent book: QUARTERLY EW t=0.25 -> SR 1.09, ann +24.1%, dd
+-36%, win 75% (monthly t=0.5: 0.97/-61%). Quarterly+tilt combo with
+Ridge-1m (corr 0.17): SR 1.27, ann +19.1%, dd -23.1% — the more-frequent
+capstone. $20M ADV monthly t=0.5: 0.94/26%/-72% holds. XGB_1Y_FINAL_
+VERDICT.md updated.
+
+## 2026-08-20 (/loop iter50) — retro n=102: crosses 100, positive side holds
+Chunk 42: n=102 (1m +0.2% vs -3.9%, 3m +2.5% vs +3.1%, 6m +0.7% vs
+-0.9%). n crosses 100; estimate stable: zero-to-weakly-positive alpha,
+high variance (1m/6m beat base ~+2-4pp). ~465 candidates left.
+
+## 2026-08-20 (/loop iter49) — retro n=98: positive side holds (1m +0.7%, 3m +2.7%, 6m +0.8%)
+Chunk 41: n=98 (1m +0.7% vs -4.0%, 3m +2.7% vs +3.0%, 6m +0.8% vs
+-1.1%). Positive-side estimate holds (~+4.7pp 1m, +1.9pp 6m vs base).
+~505 candidates left.
+
 ## 2026-08-20 (/loop iter48) — retro n=96: unchanged (chunk 40 added 0)
 Chunk 40: n=96 (1m +0.8% vs -4.1%, 3m +2.6% vs +2.9%, 6m +0.7% vs
 -1.2%) — chunk had no new report-date net-nets; stats identical to
