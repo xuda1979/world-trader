@@ -3191,3 +3191,38 @@ market crashes (2020/2022) from losses to gains/trimmed losses, at ~neutral
 full-window Sharpe. Deploy MR only stress-gated at small size (0.3-0.5x
 de-risked capital) as a crash overlay, never standalone.
 Artifact: tools/quant/reports/xgb_horizons/xgb_1y_longonly_vix_mr.json
+
+## 2026-08-23 (/loop iter2) — RECONCILE: why long-only is worse than the L/S champion
+User (rightly) pushed back: the repo had ALREADY converged a far stronger
+L/S stack (ex1st champion: quarterly EW t=0.25 + VIX gate -> SR 1.20, ann
++24.1%, dd -23.1%; combo 1.15/1.21). My previous long-only test was worse
+(lower ann, bigger dd, poorer SR). Root-caused with a leg-level decomposition
+(correct quarterly ret_fwd3 booking, EW, px>=2, 2009-):
+
+  champion t=0.25 L/S : SR 1.14  ann +25.3%  dd -33.4%
+  long-only  t=1.0    : SR 0.93  ann +36.1%  dd -73.0%
+  (leg contribution)  long leg 1.25x: SR 0.95 ann +24.8% dd -51.3%
+                       short leg -0.75x: SR 0.02 ann -0.9%  dd -56.4%
+
+WHY THE SHORT LEG MATTERS (the answer): the SHORT leg itself makes ~zero
+return (ann -0.9%), but it is the DRAWDOWN HEDGE. Long-only has HIGHER ann
+(+36.1% vs +25.3% -- beta pays in a bull-heavy window) but carries the full
+-73% market/beta tail. The t=0.25 short hedge costs ~11pp ann but CUTS the
+drawdown by ~40pp (-73% -> -33%), which is what lifts Sharpe 0.93->1.14 and
+Calmar ~0.5->0.76. So the "market neural mean-reversion" idea the user asked
+about is ALREADY implemented as the short leg of the L/S construction plus
+the VIX gate at formation -- not a separate MR sleeve on top of a bare
+long-only book. Long-only is not an upgrade; it removes the hedge.
+
+ALSO CORRECTED: my earlier long-only numbers (SR 0.80/ann +16.3%/dd -55.4%)
+were themselves MIS-SPECIFIED -- I booked the monthly ret_next on the 1-YEAR
+signal (the horizon-mismatch backtest bug this repo's logs repeatedly warn
+about). Booked correctly (quarterly ret_fwd3) the long-only book is
+SR 0.93/ann +36.1%/dd -73.0%. So the long leg is far stronger than my first
+pass suggested, but it is unhedged and un-investable as-is.
+
+CONCLUSION: keep the L/S stack (ex1st ex1st + VIX gate = the deployed master;
+STRATEGY_STACK.md). The short leg = market-neutral-ish CRASH HEDGE (low-cost
+dd reducer); the VIX gate trims the non-crash factor tail. If the user wants
+a long-only book it must keep SOME hedge/tilt (e.g. t>=0.5 -> dd -47%, SR
+1.09) and the VIX gate; a pure t=1.0 -73% dd book is not deployable.
