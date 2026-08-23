@@ -3252,3 +3252,24 @@ as re-weighting guidance, not a fresh OOS claim. Robust plateau makes it
 safe: any 0.6-0.75 works.
 Artifact: tools/quant/bigmove/xgb_combo_weight_sweep.py +
 tools/quant/reports/xgb_horizons/gkx_combo_legs_monthly.csv
+
+## 2026-08-23 (/loop, revised prompt) — explicit current/1yr/expected-return format
+- User refined the task: each report must list CURRENT price, PREDICTED
+  ONE-YEAR-LATER price, and EXPECTED RETURN (not an ambiguous target).
+- report renderer now opens every report with a "1. Expected return
+  (current -> predicted 1-yr price)" table (Current | Predicted 12-mo |
+  Expected return), then scenarios; sections renumbered to 9. Docs
+  (INDEX.md / TOP_PICKS.md) relabeled with explicit "Current price |
+  Predicted 1-yr price | ExpRet" columns.
+- New helper `tools/wt/agent/print_expected_returns.py` prints the whole
+  top-20 as a clean Current | Pred-1yr | ExpRet | Rating table.
+- INCIDENT (handled honestly): mid-session the LLM API key (DEEPSEEK_API_KEY,
+  used as ANTHROPIC_API_KEY) became unavailable in the shell, so a --force
+  batch regenerated all 20 reports as DATA-ONLY shells (3 LLM nodes failed:
+  "no LLM provider configured"). Detected via the error strings,
+  CONFIRMED all 20 had no judge, DELETED the broken 8/23 shells, and kept
+  the intact 8/22 full-debate set. Reports re-rendered to the new format
+  deterministically from the intact JSONs (no LLM needed) -> 20/20 md
+  updated, 0 data loss. This is why fresh 8/23 LLM debates are NOT present:
+  the key isn't persisted anywhere in the repo/env; restore the key to get
+  the next daily refresh.
