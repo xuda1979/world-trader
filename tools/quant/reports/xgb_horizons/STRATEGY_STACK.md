@@ -70,6 +70,25 @@ own churn is negligible (~8bp/yr) because vol-scaled exposure moves slowly —
 honest monthly-churn model: SR 1.576, ann +24.6%, dd -27.5% (vs 1.582
 no-cost). The Sharpe gain is real, not a cost artifact.
 
+**NEW — alt-data DXY stack (2026-08-23): the best drawdown filter.** User asked
+for NEW signals / alternative data. Standalone macro gates FAIL (credit
+BAA-AAA/BAA-10y z, t10y2y inversion, gold-12m, breadth<0.4/0.5 all cost ann
+and barely cut dd — they lag the drawdown or mis-time the recovery). The
+winner is **stacking a DXY dollar/liquidity-stress gate on top of vol-target**:
+
+| Config | SR | ann | dd |
+|---|---|---|---|
+| raw combo | 1.447 | +24.1% | -38.6% |
+| vol-targ win12@0.14 | 1.576 | +24.6% | -27.5% |
+| **vol-targ + DXY z>1.5→0.7** | **1.630** | **+24.1%** | **-24.1%** |
+
+DXY spikes mark dollar/liquidity-deleveraging stress that lags the book's own
+trailing vol, so it adds orthogonal signal on top of vol-target; unlike
+gold/VIX it does NOT stay elevated during recoveries. Robust across z
+1.3-2.0 (SR 1.59-1.63), gates ~20% of months spread across years (~6 in
+2022). Deploy: vol-targ win12@0.14 AS the base + LIGHT DXY-z>1.5 de-risk to
+0.7 on top. Artifacts: `xgb_combo_dd_dxy_stack.py`.
+
 ## Model
 
 - **1y champion**: XGB depth-3 / lr .02 / 600 trees, 47 PIT chars, trained

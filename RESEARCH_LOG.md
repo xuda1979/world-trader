@@ -3336,3 +3336,28 @@ exchange for SR 1.63 and dd -24%. Vol-targeting captures the book's own
 high-vol reward months (scales up) while cutting the tail -- the mechanism
 that lets it improve BOTH ann and SR together (macro-gates can't, they
 withdraw to cash in the recovery).
+
+## 2026-08-23 (/loop lower-dd iter4) — ALT-DATA: DXY dollar-stress gate ON TOP of vol-target = new champion dd filter
+User pivot: can NEW signals / alternative data (not just VIX/vol) filter the
+big drawdown? Tested macro/alternative series on the combo (monthly 2009-26,
+all net of 6 bps incl overlay churn).
+NEGATIVE (standalone): credit BAA-AAA/BAA-10y z-scores, t10y2y inversion,
+gold-12m, breadth<0.4/0.5 ALL fail standalone -- they either lag the equity
+drawdowns (credit/curve: cost 1-4pp ann, dd ~unchanged) or mis-time the
+recovery (gold/breadth: halve ann like VIX-level/MR-gates). DXY alone is the
+best macro single (SR 1.54) but still < vol-targ.
+BREAKTHROUGH (STACK): DXY-z>1.5->0.7 gate ON TOP of vol-targ win12@0.14
+strictly dominates both the raw combo and vol-targ alone:
+  raw combo           : SR 1.447  ann +24.15%  dd -38.6%
+  vol-targ win12@0.14 : SR 1.576  ann +24.62%  dd -27.5%
+  + DXY z>1.5 ->0.7   : SR 1.630  ann +24.10%  dd -24.1%   <-- NEW champion
+Robust: zt 1.3-2.0 -> SR 1.59-1.63 (plateau, not knife-edge). Gates ~20% of
+months spread across years (esp. 2022=6mo); not a single-episode overfit.
+MECHANISM: DXY spikes mark dollar/liquidity-deleveraging stress that hits an
+equity L/S book but lags the book's OWN trailing vol -- so it adds orthogonal
+signal on top of vol-target. Unlike gold/VIX, DXY does NOT stay elevated
+during equity recoveries, so it trims the dollar-driven tail without giving
+back the recovery.
+VERDICT: keep vol-targ win12@0.14 AS the base dd filter, add a LIGHTER DXY-z
+gate (z>1.5, de-risk to 0.7) on top. Best 6-bps result so far for
+"cut dd, keep ann, improve SR".
