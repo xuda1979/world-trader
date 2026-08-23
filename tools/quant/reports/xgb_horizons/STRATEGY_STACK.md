@@ -24,6 +24,24 @@
 | aggressive | vol-targ 1y leg | 1.09 | +14.8% | -26.9% |
 | aggressive | both vol-targ | 0.93 | +9.1% | **-11.4%** |
 
+## Combo weight (2026-08-23 — re-optimized)
+
+Swept on actual monthly legs (1y-ex1st SR 1.30/ann +25.4%/Calmar 0.71 vs
+1m-ens SR 0.95/ann +19.5%/Calmar 0.33, corr 0.26). **Optimal is w1y ~0.65-0.70**
+(≈2:1 1y:1m), i.e. the deployed 50/50 underweights the higher-Calmar 1y leg:
+
+| w1y (weight on 1y ex1st) | SR | ann | dd |
+|---|---|---|---|
+| 0.40 | 1.34 | +22.7% | -46.9% |
+| 0.50 (current defensive) | 1.41 | +23.3% | -43.7% |
+| **0.65 (recommended)** | **1.45** | +24.1% | -38.6% |
+| 0.70 | 1.44 | +24.4% | -37.1% |
+| 1.00 (pure 1y) | 1.30 | +25.4% | -35.6% |
+
+Robust plateau 0.60-0.75 (all ~1.44). Honesty: blend weight is in-sample
+guidance (champion legs already chosen), not a fresh OOS claim. Move toward
+a ~2/3 1y / 1/3 1m split on reallocation.
+
 ## Model
 
 - **1y champion**: XGB depth-3 / lr .02 / 600 trees, 47 PIT chars, trained

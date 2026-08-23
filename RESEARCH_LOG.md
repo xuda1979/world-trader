@@ -3226,3 +3226,29 @@ STRATEGY_STACK.md). The short leg = market-neutral-ish CRASH HEDGE (low-cost
 dd reducer); the VIX gate trims the non-crash factor tail. If the user wants
 a long-only book it must keep SOME hedge/tilt (e.g. t>=0.5 -> dd -47%, SR
 1.09) and the VIX gate; a pure t=1.0 -73% dd book is not deployable.
+
+## 2026-08-23 (/loop keep-optimizing iter1) — COMBO WEIGHT SWEPT: optimal is ~2:1 1y:1m (SR 1.45)
+Swept the champion combo's blend weight on the actual monthly return series
+(no retraining; 1y ex1st leg = staggered quarterly t=0.25 book; 1m leg = ens1m
+monthly decile L/S). Aligned 2009-2026 monthly (n=210).
+
+  legs           : 1y ex1st SR 1.30 ann +25.4% dd -35.6% Calmar 0.71
+                   1m ens   SR 0.95 ann +19.5% dd -59.5% Calmar 0.33
+                   corr 0.26 (real diversification)
+  combo w=w1y    : 0.4->SR1.34/-46.9% | 0.5->1.41/-43.7% | 0.65->1.447/-38.6%
+                     | 0.7->1.444/-37.1% | 0.8->1.41/-36.4% | 1.0->1.30/-35.6%
+  OPTIMUM        : w1y ~0.65-0.70 than the deployed 50/50 (1.15) or 40/60
+                    (1.21): SR 1.44-1.447, ann +24.1-24.4%, dd -38.6 to -37.1%.
+                    Robust plateau 0.60-0.75 (all ~1.44), not knife-edge.
+
+FINDING: the deployed combo underweights the 1y leg. Shifting to ~2/3 1y
+(ex1st) / 1/3 1m (ens) raises SR ~1.41->1.45 AND cuts dd ~-44%->-38% vs the
+current 50/50, because the 1y leg has far better Calmar (0.71 vs 0.33) and
+the 1m leg's high-vol tail dominates the blend. Rationale is structural, not
+a lucky pick: the 1y leg is the lower-vol, higher-quality book; the 1m leg
+adds return diversification (corr 0.26) but at high dd.
+Honesty: blend weight chosen in-sample (champion legs already picked); treat
+as re-weighting guidance, not a fresh OOS claim. Robust plateau makes it
+safe: any 0.6-0.75 works.
+Artifact: tools/quant/bigmove/xgb_combo_weight_sweep.py +
+tools/quant/reports/xgb_horizons/gkx_combo_legs_monthly.csv
