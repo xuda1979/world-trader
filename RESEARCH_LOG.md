@@ -3315,3 +3315,26 @@ User reminder: trade cost is 6 bps. Verified:
    => the vol-target Sharpe improvement (1.447->~1.55-1.58) is REAL, not a
    cost-accounting artifact. Vol-scaled exposure is smooth -> low churn.
 Artifact note: /tmp/vt_cost.py (turnover-cost check).
+
+## 2026-08-23 (/loop lower-dd iter3) — VOL-TARGET IS STRICTLY-DOMINANT: ann & SR BOTH rise, dd cut 11pp
+User asked (stricter): filter the champion drawdown with best efforts WITHOUT
+lowering annual return AND without lowering Sharpe. Clean result on the combo
+(monthly 2009-2026, all net of 6 bps incl. overlay churn cost):
+
+  BASE:                SR 1.447   ann +24.15%   dd -38.6%
+  vol-targ win12 @0.14 SR 1.576   ann +24.62%   dd -27.5%
+    -> SR +0.13 (UP), ann +0.47pp (UP), dd CUT 11.1pp
+  => STRICTLY DOMINANT: does NOT lower ann or Sharpe, both RISE, dd cut 11pp.
+  Best-effort alternative (accept a hair of ann for more dd cut + higher SR):
+  vol-targ win9 @0.13  SR 1.630 (Δ+0.183) ann -0.49pp dd -24.3% (cut 14.4pp)
+
+A fine grid found NO config that needs to sacrifice the exact win12@0.14
+Pareto point on the ann/SR frontier: it is the recommended deployment. The
+strict "no lowering" ask is met by win12@0.14 precisely (ann +24.6%, SR
+1.576, dd -27.5%); win9@0.13 only if a -0.5pp ann cost is tolerable in
+exchange for SR 1.63 and dd -24%. Vol-targeting captures the book's own
+high-vol reward months (scales up) while cutting the tail -- the mechanism
+that lets it improve BOTH ann and SR together (macro-gates can't, they
+withdraw to cash in the recovery).
+PYEOF
+echo "logged dominant finding"
