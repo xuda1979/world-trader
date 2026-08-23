@@ -3336,5 +3336,3 @@ exchange for SR 1.63 and dd -24%. Vol-targeting captures the book's own
 high-vol reward months (scales up) while cutting the tail -- the mechanism
 that lets it improve BOTH ann and SR together (macro-gates can't, they
 withdraw to cash in the recovery).
-PYEOF
-echo "logged dominant finding"
