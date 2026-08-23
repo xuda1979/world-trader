@@ -3300,3 +3300,18 @@ Tested on the champion combo's monthly return series (2009-2026):
   per-leg vol-targ in STRATEGY_STACK (which ran both legs at ~5-6% -> ann +8-
   9%). The higher target is what preserves ann while still cutting the tail.
 Artifact: tools/quant/bigmove/xgb_combo_dd_filters.py (sweep)
+
+## 2026-08-23 (/loop lower-dd iter2) — 6 BPS COST CHECK: vol-target survives; drag ~8bp/yr
+User reminder: trade cost is 6 bps. Verified:
+1. The combo legs ALREADY net 6 bps/side (COST=0.0006): 1y ex1st book
+   applies 4*COST at formation/exit (24bp full cycle), 1m ens book applies
+   4*COST monthly. So base SR 1.447 is already net of book-level 6bps costs.
+2. The vol-targeting OVERLAY's own turnover cost (6bps/side on the exposure
+   rescale, gross ~2x) is NEGLIGIBLE because vol-scaled exposure moves slowly:
+     monthly-churn drag ~0.0068%/mo (~8bp/yr). Honest (B) model:
+       SR 1.576 (vs 1.582 no-cost), ann +24.6%, dd -27.5%  -- UNCHANGED.
+     quarterly-churn (C): SR 1.481, dd -28.7% (drag 0.0051%/mo)
+     threshold-churn (D, 22 rebalances): SR 1.549, ann +25.1%, dd -30.8%
+   => the vol-target Sharpe improvement (1.447->~1.55-1.58) is REAL, not a
+   cost-accounting artifact. Vol-scaled exposure is smooth -> low churn.
+Artifact note: /tmp/vt_cost.py (turnover-cost check).

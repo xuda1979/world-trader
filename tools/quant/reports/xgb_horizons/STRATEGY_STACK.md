@@ -64,6 +64,12 @@ to cash). This is whole-combo vol-targeting at ~0.14, NOT the per-leg 5-6%
 variant in the ladders above (which cut ann to single digits). Recommended:
 vol-target the blended combo, rolling 12m, ann target 0.14, cap 1.5x.
 
+**6 bps cost check (2026-08-23):** all numbers are net of the 6 bps/side book
+costs (COST=0.0006, applied full-cycle in each leg). The vol-target overlay's
+own churn is negligible (~8bp/yr) because vol-scaled exposure moves slowly —
+honest monthly-churn model: SR 1.576, ann +24.6%, dd -27.5% (vs 1.582
+no-cost). The Sharpe gain is real, not a cost artifact.
+
 ## Model
 
 - **1y champion**: XGB depth-3 / lr .02 / 600 trees, 47 PIT chars, trained
