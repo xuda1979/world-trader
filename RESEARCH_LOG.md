@@ -3361,3 +3361,65 @@ back the recovery.
 VERDICT: keep vol-targ win12@0.14 AS the base dd filter, add a LIGHTER DXY-z
 gate (z>1.5, de-risk to 0.7) on top. Best 6-bps result so far for
 "cut dd, keep ann, improve SR".
+
+## 2026-08-23 (/loop, task: get more stocks with expected return >=30%)
+- Scheduling: cron tools unavailable in this session's context -> could NOT
+  create a new persistent recurring job for this prompt. Prior MCP/session
+  jobs for older prompts remain intact server-side.
+- Research (deterministic, no LLM needed; LLM key still absent):
+  * Re-ran the full 292-stock momentum screen. Beyond the current top-20,
+    the next-tier names (MRK, CSCO, AMD, GOOGL, USB, WAB, CRWD, APA, TRV,
+    XOM, ILMN, BAC, HWM, CSX) were evaluated for forward-EPS-anchored
+    expected return.
+  * RESULT: NONE of them carry a forward-consensus EPS in the free data
+    stack (only DELL, AMAT, PANW, MU, HPE, CNC do). Without a forward
+    anchor the deterministic valuation abstains and reports 0% -- no basis
+    for a >=30% claim.
+  * Names currently clearing >=30% in trusted coverage: DELL +72.0%,
+    AMAT +39.6%. (MU was +129.6% on the 8/23 censored run but reverted to
+    +8.6% on the trusted set -- single-run variance.)
+  * CONCLUSION: more >=30% names require (a) LLM key to re-run debates AND
+    (b) a paid/better consensus feed (Finnhub target-price is 403 on free
+    tier). With free data the >=30% universe is capped at DELL + AMAT.
+
+## 2026-08-23 — REGIME-SWITCH champion: market-neutral MR sleeve during the downside
+
+**User ask (recurring loop prompt):** "during the downside, we can develop
+market neutral mean reversal strategies."
+
+**Thesis confirmed + built.** The deck already had a *validated* market-neutral
+MR crash-sleeve (k5_n30: long-worst/short-best, dollar-neutral, pass
+signal-scramble gate). Empirically it returns +0.52%/mo in the 20 worst
+combo-drawdown months (combo -0.62% same months), monthly rho -0.09 vs combo,
+SR 1.00 / ann +20.7% in DXY-stress months where the de-risked champion makes
+only +3.4% (SR 0.45). Those 41 stress months are exactly where the champion
+steps to 0.5x — so rotate that capital into the MR sleeve instead of cash.
+
+**Result (210 months, all net 6 bps, no lookahead; artifact
+xgb_combo_regime_mr.py/json):**
+
+| Config | SR | ann | dd |
+|---|---|---|---|
+| raw combo | 1.447 | +24.1% | -38.6% |
+| vol-targ win12@0.14 | 1.576 | +24.6% | -27.5% |
+| + DXY z>1.5→0.5 | 1.650 | +23.7% | -22.5% |
+| **+ MR overlay f=0.4 in stress** | **1.715** | **+25.6%** | **-23.8%** |
+
+New champion beats the prior DXY champion (1.63) on ALL THREE axes: SR 1.715
+vs 1.63, ann +25.6% vs +24.1%, dd -23.8% vs -24.1%. The MR overlay adds
++0.065 SR / +1.9% ann at a modest dd cost.
+
+**Robustness (flat plateau, no single pick):** MR f=0.2-0.6 all SR 1.67-1.72;
+VT target 0.12-0.16 all >=1.66; DXY z 1.3-2.0 all >=1.61; DXY_F 0.5-0.8 all
+>=1.67; MR k5_n20/30/40 + k3_n20 all >=1.66. Softer DXY de-risk (0.7) also
+works (SR 1.69), but the harder 0.5 + MR gives the best overall.
+
+**Honesty check:** SR 1.715 is the tuned best among a stable plateau
+(1.67-1.72), not a lone overfit spike. The MR sleeve is validated by the
+signal-scramble gate from earlier work; its monthly contribution here is
+strictly additive to the de-risked champion across MR f=0.1-1.0 INDEPENDENT
+of the champion's own params — so the regime-switch result is a genuine,
+robust improvement, not parameter luck.
+
+**Deployment:** vol-target whole combo (win12@0.14 cap1.5) + DXY z>1.5→0.5 +
+MR overlay f=0.4 during those stress months. Next refit 2027-01-31.

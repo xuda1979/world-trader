@@ -89,6 +89,33 @@ gold/VIX it does NOT stay elevated during recoveries. Robust across z
 2022). Deploy: vol-targ win12@0.14 AS the base + LIGHT DXY-z>1.5 de-risk to
 0.7 on top. Artifacts: `xgb_combo_dd_dxy_stack.py`.
 
+**NEW — regime-switch, market-neutral MR during the downside (2026-08-23):
+the new champion.** User asked to develop market-neutral mean-reversal
+strategies for the downside. The deck had a validated MR crash-sleeve (k5_n30,
+long-worst/short-best, dollar-neutral, 6bp net, passes signal-scramble). This
+deploys it as an OVERLAY activated only in DXY-stress months (the same gate
+that de-risks the champion to 0.5x), so drawdown-window capital is rotated
+into an uncorrelated (rho -0.09) market-neutral source instead of parked in
+cash. Artifact: `xgb_combo_regime_mr.py`, `xgb_combo_regime_mr.json`.
+
+| Config | SR | ann | dd |
+|---|---|---|---|
+| raw combo | 1.447 | +24.1% | -38.6% |
+| vol-targ win12@0.14 | 1.576 | +24.6% | -27.5% |
+| + DXY z>1.5→0.5 (de-risked) | 1.650 | +23.7% | -22.5% |
+| **+ MR overlay f=0.4 in stress** | **1.715** | **+25.6%** | **-23.8%** |
+
+The whole point, in numbers: in the 41 DXY-stress months the de-risked
+champion makes only +3.4%/yr (SR 0.45) because it steps to 0.5x; the MR
+sleeve in those SAME months earns +20.7%/yr (SR 1.00) while staying
+dollar-neutral. Rotating into it fills the de-risk gap and lifts SR above the
+champion on every frontier. Robust across MR f=0.2-0.6 (SR 1.67-1.72), VT
+target 0.12-0.16, DXY z 1.3-2.0, and MR k5_n20/30/40 + k3_n20 (all >=1.66).
+DXY_F=0.5 (de-risk harder) + MR overlay beats the old DXY_F=0.7 champion
+(1.63) on all three axes: SR 1.715 vs 1.63, ann +25.6% vs +24.1%, dd -23.8%
+vs -24.1%. The MR overlay adds +0.065 SR / +1.9% ann at a modest dd cost.
+Deploy: vol-targ whole combo + DXY z>1.5→0.5 + MR overlay f=0.4 in stress.
+
 ## Model
 
 - **1y champion**: XGB depth-3 / lr .02 / 600 trees, 47 PIT chars, trained
