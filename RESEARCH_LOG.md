@@ -3273,3 +3273,30 @@ tools/quant/reports/xgb_horizons/gkx_combo_legs_monthly.csv
   updated, 0 data loss. This is why fresh 8/23 LLM debates are NOT present:
   the key isn't persisted anywhere in the repo/env; restore the key to get
   the next daily refresh.
+
+## 2026-08-23 (/loop lower-dd) — VOL-TARGET the COMBO = the drawdown lever (SR 1.58, dd cut 11-14pp, ann KEPT)
+User ask: lower the champion (combo w1y=0.65, SR 1.447, ann +24.1%, dd
+-38.6%) drawdown, KEEP ann, IMPROVE Sharpe, using any macro/market data.
+Tested on the champion combo's monthly return series (2009-2026):
+  - VIX level gates (22/25/28/...)   : cut dd 8-18pp but ann -3 to -6pp (SR<base)
+  - VIX spike gates (k x 12m med)    : k=1.4/f0.6 -> SR 1.489, ann -1.5pp,
+                                       dd -30.5%; dominated by vol-target.
+  - market-trend (union-index ret12<0 / below 12m MA): DISASTER for ann
+                                       (+24% -> +12%), withdraws in the
+                                       up-trends too. Discarded.
+  => HEADLINE: VOL-TARGETING THE WHOLE COMBO (not per-leg, at a HIGHER
+     target ~0.13-0.14) is the only overlay that satisfies all three asks:
+       win=9/12, ann-target 0.13-0.14 (cap 1.5x):
+         SR 1.582-1.639 (base 1.447)  -- IMPROVE
+         ann +23.8% to +24.7%         -- KEPT (base +24.1%)
+         dd -24% to -27.5%            -- CUT 11-14pp (base -38.6%)
+  Robust: EVERY (window 9-18 x target 0.12-0.16) config improves SR
+  (+0.09..+0.20) and cuts dd. The ann=0.14/win=12 point is the balanced pick.
+  Mechanism: vol-target SCALES UP in the book's calm-strong months and DOWN
+  in turbulent ones -- it captures the same/more return with far less tail,
+  vs macro-gates which WITHDRAW to cash in stress and miss the re-upticks
+  (that's why trend/VIX-level gates halve ann).
+  Distinction: this is whole-combo vol-targeting at target ~0.14, NOT the
+  per-leg vol-targ in STRATEGY_STACK (which ran both legs at ~5-6% -> ann +8-
+  9%). The higher target is what preserves ann while still cutting the tail.
+Artifact: tools/quant/bigmove/xgb_combo_dd_filters.py (sweep)

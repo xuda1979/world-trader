@@ -42,6 +42,28 @@ Robust plateau 0.60-0.75 (all ~1.44). Honesty: blend weight is in-sample
 guidance (champion legs already chosen), not a fresh OOS claim. Move toward
 a ~2/3 1y / 1/3 1m split on reallocation.
 
+## Drawdown overlay (2026-08-23) — VOL-TARGET the WHOLE combo at ~0.13-0.14
+
+User ask: lower dd, KEEP ann, improve SR. Tested on the champion combo
+(monthly, 2009-2026). VIX level/spike gates and market-trend filters all
+cost return (trend/VIX-level halve ann by pulling to cash during re-upticks).
+**Vol-targeting the whole combo (rolling 9-12m, ann target ~0.13-0.14, cap
+1.5x) is the winner -- it satisfies all three:**
+
+| Config | SR | ann | dd |
+|---|---|---|---|
+| champion combo (unfiltered) | 1.447 | +24.1% | -38.6% |
+| **vol-targ win12 @ 0.14** | **1.582** | **+24.7%** | **-27.5%** |
+| vol-targ win9 @ 0.13 | 1.639 | +23.8% | -24.2% |
+| vol-targ win12 @ 0.16 | 1.552 | +26.6% | -30.9% |
+
+Robust: EVERY (window 9-18 × target 0.12-0.16) improves SR (+0.09..+0.20) and
+cuts dd. Mechanism: scales UP in calm-strong months, DOWN in turbulent --
+captures same/more ann with far less tail (unlike macro-gates that withdraw
+to cash). This is whole-combo vol-targeting at ~0.14, NOT the per-leg 5-6%
+variant in the ladders above (which cut ann to single digits). Recommended:
+vol-target the blended combo, rolling 12m, ann target 0.14, cap 1.5x.
+
 ## Model
 
 - **1y champion**: XGB depth-3 / lr .02 / 600 trees, 47 PIT chars, trained
