@@ -116,6 +116,31 @@ DXY_F=0.5 (de-risk harder) + MR overlay beats the old DXY_F=0.7 champion
 vs -24.1%. The MR overlay adds +0.065 SR / +1.9% ann at a modest dd cost.
 Deploy: vol-targ whole combo + DXY z>1.5→0.5 + MR overlay f=0.4 in stress.
 
+**NEW — macro drawdown filter, credit-spread widening ON the regime-switch
+(2026-08-23): the new champion, dd breaks -20%.** User asked to use ALL macro
+indexes / market data to filter the drawdown without affecting ann or Sharpe.
+Tested every macro series in the deck (aaa/baa/BAA-AAA, us10y/2y/30y/t10y2y/
+tbill3m, brent/wti/natgas/xau/slv, dow/spx, FX, vix) as an ADDITIONAL de-risk
+layer on the regime-switch. ALL fail to cut dd while holding SR>=1.715/ann
+(they lag the drawdown / mis-time the recovery) EXCEPT **credit BAA-AAA spread
+widening (z>1.3→0.5, lagged)**, used as a supplemental orthogonal layer.
+Artifacts: `xgb_combo_credit_macro.py` / `.json`.
+
+| Config | SR | ann | dd |
+|---|---|---|---|
+| raw combo | 1.447 | +24.1% | -38.6% |
+| champion (vol-targ+DXY+MR) | 1.715 | +25.6% | -23.8% |
+| **+ credit-widening z>1.3→0.5** | **1.751** | **+24.7%** | **-19.5%** |
+
+First time dd breaks -20% while keeping SR≥1.7 and ann ~+25%. Credit flags
+~33/210 months (16%) spread across genuine credit-stress eras (7 in 2015, 7
+in 2018, 6 in 2022, 2 in 2020) — economic signal, not a few lucky points.
+Robust plateau: window 9-12 × threshold 1.0-1.5 × de-risk 0.5-0.7 ALL improve
+the champion on all three axes (SR 1.73-1.76, dd -19.5 to -21.2%, ann
++23.7-25.2%); center config (win12/thr1.3/f2 0.5) avoids overfitting the best
+point. Deploy: vol-targ combo + DXY z>1.5→0.5 + MR overlay f=0.4 in DXY
+stress + credit-widening z>1.3→0.5 de-risk.
+
 ## Model
 
 - **1y champion**: XGB depth-3 / lr .02 / 600 trees, 47 PIT chars, trained

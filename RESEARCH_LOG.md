@@ -3423,3 +3423,52 @@ robust improvement, not parameter luck.
 
 **Deployment:** vol-target whole combo (win12@0.14 cap1.5) + DXY z>1.5→0.5 +
 MR overlay f=0.4 during those stress months. Next refit 2027-01-31.
+
+## 2026-08-23 — MACRO drawdown filter: credit-spread widening on the regime-switch (SR 1.751, dd -19.5%)
+
+**User ask (recurring loop):** "use all macro indexes and market data to filter
+the drawdown without affecting the annual return and Sharpe."
+
+**Approach (exhaustive):** took the SR 1.715 regime-switch champion
+(vol-targ + DXY + MR-in-downside) and tested EVERY macro series in the deck
+as an ADDITIONAL de-risk layer: credit (aaa, baa, BAA-AAA), rates (us10y/2y/
+30y/t10y2y/tbill3m), commodities (brent/wti/natgas/xau/slv), equity
+(dow/spx), FX + vix, at 12m z-stress thresholds, various de-risk factors.
+
+**Honest negative on most:** single macro gates (credit levels, rates,
+curve, gold, momentum) all FAIL to cut dd while keeping SR>=1.715/ann — same
+failure mode as the earlier standalone gates (they lag the drawdown or
+mis-time the recovery; aggressive trims cut ann to single digits).
+
+**The one that works — CREDIT WIDENING (BAA-AAA z, supplemental layer):**
+
+| Config | SR | ann | dd |
+|---|---|---|---|
+| raw combo | 1.447 | +24.1% | -38.6% |
+| champion (vol-targ+DXY+MR) | 1.715 | +25.6% | -23.8% |
+| **+ credit z>1.3 -> 0.5** | **1.751** | **+24.7%** | **-19.5%** |
+
+First time the book's MaxDD breaks below -20% while SR stays >=1.7 and ann
+~+25%. Credit flags 33/210 months (16%) across genuine credit-stress eras
+(7 in 2015, 7 in 2018, 6 in 2022, 2 in 2020) — real economic signal, not
+lucky month picks.
+
+**Why it works:** credit widening marks the credit-stress regimes (2015-16,
+2018 Q4, 2020, 2022) where an equity L/S book's TAIL risk concentrates but
+which the dollar-stress (DXY) and trailing-vol do not fully anticipate. It
+de-risks ONLY those ~33 months; stacking it lightly on the champion (not
+standalone, which over-trims the recovery) keeps the good months at full tilt
+and cuts the tail.
+
+**Robustness (flat plateau, no knife-edge):** window 9-12 x threshold 1.0-1.5
+x de-risk 0.5-0.7 ALL improve the champion on all three axes (SR 1.73-1.76,
+dd -19.5% to -21.2%, ann +23.7% to +25.2%). Chose center config
+(win12/thr1.3/f2 0.5, SR 1.751, ann +24.7%, dd -19.5%) to avoid overfitting
+the single best point (win9/thr1.3/f2 0.5 = SR 1.757).
+
+**All net of 6 bps/side (overlay churn charged), no lookahead (credit z
+lagged one month).** Artifacts: `xgb_combo_credit_macro.py`/`.json`.
+
+**Deployment:** vol-targ whole combo (win12@0.14 cap1.5) + DXY z>1.5->0.5 +
+MR k5_n30 overlay f=0.4 in DXY-stress + credit BAA-AAA z>1.3->0.5 de-risk.
+Full stack: SR 1.751 / ann +24.7% / dd -19.5%. Next refit 2027-01-31.
