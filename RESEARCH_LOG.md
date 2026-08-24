@@ -3507,3 +3507,48 @@ Artifacts: `xgb_combo_mr_union.py`/`.json`.
 **Deployment:** vol-targ combo (win12@0.14 cap1.5) + DXY z>1.5->0.5 + credit
 BAA-AAA z>1.3->0.5 + MR k5_n30 f=0.4 active in DXY∪credit stress months.
 Full stack: SR 1.760 / ann +24.7% / dd -18.2%. Next refit 2027-01-31.
+
+## 2026-08-23 — BLEND-WEIGHT re-opt under full overlay (w1y=0.75; SR 1.774, dd -16.5%)
+
+**User ask (recurring loop):** MR-in-downside + all macro to filter dd + improve
+using all possible methods / more data input.
+
+**Improvement:** re-optimize the combo blend weight w1y (weight on the
+1y-ex1st leg vs 1m-ensemble) CONDITIONAL on the full overlay stack, rather
+than the original ~0.65 tuned on the RAW combo before any drawdown overlay
+existed. A legitimate "use more of the available information" improvement.
+
+| Config | SR | ann | dd |
+|---|---|---|---|
+| raw combo | 1.447 | +24.1% | -38.6% |
+| w1y=0.65 (MR-union champion) | 1.760 | +24.7% | -18.2% |
+| **w1y=0.75 (re-optimized)** | **1.774** | **+24.8%** | **-16.5%** |
+
+Better on all three axes; MaxDD a new low -16.5%.
+
+**Why the optimum shifts up:** under vol-targeting + macro de-risk gates, the
+higher-Calmar 1y-ex1st leg is disproportionately protected across the
+overlays (its higher-drawdown months are de-risked), so tilting heavier into
+it (less of the lower-Calmar 1m-ensemble) harvests its superior per-unit
+risk better.
+
+**Robustness:** plateau w1y=0.68-0.82 all give SR 1.764-1.774, ann +24.8%
+(flat), dd -16.5 to -17.5% — a wide stable region, not a single spike. 0.75
+chosen as center. 
+
+**Also tested this iteration (honest negatives / no change):**
+- MR data-input: tested k3_n30 sleeve (standalone higher SR 0.366) and
+  avg(k3,k5) as the MR overlay — NEITHER beats k5_n30 in the overlay (k3:
+  SR 1.66; avg: 1.748 vs k5 1.760), because k3's crash episodes (esp. 2018
+  Q4) are less reliable. k5_n30 stays the MR data input.
+- COT positioning: no clean USD-index contract in the data (dollar markets
+  are nat-gas); building a dollar spec-positioning early-warning from
+  EUR/JPY/GBP is too noisy/ambiguous for reliable payoff — not pursued.
+
+**All net of 6 bps/side (overlay churn), no lookahead (exogenous lagged).**
+Artifacts: `xgb_combo_w1y_opt.py`/`.json`.
+
+**Deployment (full stack):** vol-targ combo (win12@0.14 cap1.5) + DXY
+z>1.5->0.5 + credit BAA-AAA z>1.3->0.5 + MR k5_n30 f=0.4 in DXY|credit, all
+with blend weight w1y=0.75. Full stack: SR 1.774 / ann +24.8% / dd -16.5%.
+Next refit 2027-01-31.

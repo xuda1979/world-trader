@@ -163,6 +163,28 @@ its drawdown premium — pulls the tail lower at zero ann cost. The full plateau
 months. Full stack below in "Drawdown overlay" progression. Deploy: vol-targ
 combo + DXY z>1.5→0.5 + credit z>1.3→0.5 + MR k5_n30 f=0.4 in DXY∪credit.
 
+**NEW — blend-weight re-opt under the FULL overlay stack (2026-08-23): the
+new champion, w1y=0.75 → SR 1.774 / dd -16.5%.** The w1y blend weight was
+tuned to ~0.65 on the RAW combo before any drawdown overlay existed. This
+re-optimizes it conditional on the full stack (vol-targ + DXY + credit +
+MR-union), a legitimate "use more of the available info" improvement.
+Artifacts: `xgb_combo_w1y_opt.py`/`.json`.
+
+| Config | SR | ann | dd |
+|---|---|---|---|
+| raw combo | 1.447 | +24.1% | -38.6% |
+| w1y=0.65 (MR-union champion) | 1.760 | +24.7% | -18.2% |
+| **w1y=0.75 (re-optimized)** | **1.774** | **+24.8%** | **-16.5%** |
+
+Better on all three axes; MaxDD now a new low -16.5%. Why the optimum shifts
+up: under vol-targeting + the macro de-risk gates, the higher-Calmar 1y-ex1st
+leg is disproportionately protected, so tilting heavier into it (less
+lower-Calmar 1m-ensemble) harvests its superior per-unit risk better. Robust
+plateau w1y=0.68-0.82 all SR 1.764-1.774 / ann +24.8% / dd -16.5 to -17.5%
+(not a spike); 0.75 chosen as center, over the raw-combo-tuned 0.65. Full
+stack: vol-targ win12@0.14 cap1.5 + DXY z>1.5→0.5 + credit z>1.3→0.5 +
+MR k5_n30 f=0.4 in DXY∪credit. Net of 6 bps, no lookahead.
+
 ## Model
 
 - **1y champion**: XGB depth-3 / lr .02 / 600 trees, 47 PIT chars, trained
