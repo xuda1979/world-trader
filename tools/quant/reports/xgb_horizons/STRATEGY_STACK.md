@@ -141,6 +141,28 @@ the champion on all three axes (SR 1.73-1.76, dd -19.5 to -21.2%, ann
 point. Deploy: vol-targ combo + DXY z>1.5→0.5 + MR overlay f=0.4 in DXY
 stress + credit-widening z>1.3→0.5 de-risk.
 
+**NEW — MR-in-downside with a UNION activation gate (2026-08-23): the new
+champion, SR 1.760 / dd -18.2%.** Refinement of the credit-macro champion:
+broaden the market-neutral MR sleeve's activation from DXY-stress ONLY to
+**DXY OR credit-widening** (the union of the two downside/stress signals),
+keeping all other params identical. Artifacts: `xgb_combo_mr_union.py`/`.json`.
+
+| Config | SR | ann | dd |
+|---|---|---|---|
+| raw combo | 1.447 | +24.1% | -38.6% |
+| champion (vol-targ+DXY+credit+MR-on-DXY) | 1.751 | +24.7% | -19.5% |
+| **MR on DXY∪credit** | **1.760** | **+24.7%** | **-18.2%** |
+
+Strictly dominates the credit champion (same ann +24.7%, +0.009 SR, -1.3pp
+dd). The MR sleeve pays in BOTH dollar-stress and credit-stress downside
+months (+1.05%/mo across the 33 credit-stress months); activating it on the
+union adds 19 credit-only months (not already covered by DXY) where MR earns
+its drawdown premium — pulls the tail lower at zero ann cost. The full plateau
+(credit win9-12 × thr1.0-1.5 × f2 0.5-0.7 × MR f0.3-0.5) all give SR 1.76-1.78
+/ dd -17.8 to -19.2% — robust region, not a lone pick. MR active 60/210
+months. Full stack below in "Drawdown overlay" progression. Deploy: vol-targ
+combo + DXY z>1.5→0.5 + credit z>1.3→0.5 + MR k5_n30 f=0.4 in DXY∪credit.
+
 ## Model
 
 - **1y champion**: XGB depth-3 / lr .02 / 600 trees, 47 PIT chars, trained

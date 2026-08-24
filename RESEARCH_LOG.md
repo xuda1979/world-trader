@@ -3472,3 +3472,38 @@ lagged one month).** Artifacts: `xgb_combo_credit_macro.py`/`.json`.
 **Deployment:** vol-targ whole combo (win12@0.14 cap1.5) + DXY z>1.5->0.5 +
 MR k5_n30 overlay f=0.4 in DXY-stress + credit BAA-AAA z>1.3->0.5 de-risk.
 Full stack: SR 1.751 / ann +24.7% / dd -19.5%. Next refit 2027-01-31.
+
+## 2026-08-23 — MR-in-downside, UNION activation gate (SR 1.760, dd -18.2%)
+
+**Refinement** of the credit-macro champion (SR 1.751 / ann +24.7% / dd
+-19.5%). User's recurring loop directive (MR during downside + all macro data
+to filter drawdown).
+
+**The one change:** broaden the market-neutral MR k5_n30 sleeve's ACTIVATION
+gate from DXY-stress ONLY to **DXY OR credit-widening** (the union of the two
+validated downside/stress signals). All other params identical to the prior
+champion — this isolates exactly the MR-union contribution.
+
+| Config | SR | ann | dd |
+|---|---|---|---|
+| champion (MR on DXY only) | 1.751 | +24.7% | -19.5% |
+| **MR on DXY ∪ credit** | **1.760** | **+24.7%** | **-18.2%** |
+
+Strictly dominates: same ann +24.7%, +0.009 SR, -1.3pp dd. Why: the MR
+sleeve pays in BOTH dollar-stress AND credit-stress downside months
+(+1.05%/mo across the 33 credit-stress months); activating on the union adds
+19 credit-only months (not already covered by DXY) where MR earns its
+drawdown premium, pulling the tail lower at zero ann cost. MR active 60/210
+months (union of 41 dollar- + 33 credit-stress).
+
+**Robustness:** full plateau credit win9-12 x thr1.0-1.5 x f2 0.5-0.7 x MR
+f0.3-0.5 all give SR 1.76-1.78 / dd -17.8 to -19.2% / ann +24.5-25.9% — a
+robust region, not a lone overfit pick. Chose the minimal-change config (same
+champion params, only MR activation broadened) for clean attribution.
+
+**All net of 6 bps/side (overlay churn), no lookahead (exogenous lagged).**
+Artifacts: `xgb_combo_mr_union.py`/`.json`.
+
+**Deployment:** vol-targ combo (win12@0.14 cap1.5) + DXY z>1.5->0.5 + credit
+BAA-AAA z>1.3->0.5 + MR k5_n30 f=0.4 active in DXY∪credit stress months.
+Full stack: SR 1.760 / ann +24.7% / dd -18.2%. Next refit 2027-01-31.
