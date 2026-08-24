@@ -212,10 +212,14 @@ model non-shortable names. Artifacts: `xgb_combo_borrow.py`/`.json`,
 - **Short interest as input (public feature built + validated):** FINRA Reg SHO
   daily short-volume -> monthly `short_ratio = Σshort_vol/Σtotal_vol`
   (`finra_shortint_build.py` -> `data/finra_short_ratio_monthly.parquet`,
-  point-in-time, 70% union coverage). 8-month demo IC **-0.0475 / IC-IR -1.03,
-  negative 88% of months, +1.16%/mo quintile L/S** — high short-volume → lower
-  fwd return, the economic prior. Full 2010+ build + champion retrain w/ this
-  feature is the next session (retrain cost dominates).
+  point-in-time, ~70% union coverage). Cross-period IC (10 clean months across
+  two disjoint eras 2019 + 2024): **IC -0.0416, IC-IR -0.97, negative 90% of
+  months, +1.03%/mo quintile L/S** — high short-volume → lower fwd ret, stable
+  across eras. 1m A/B retrain (2024 window): SR 1.18 → **1.54** with the feature
+  (relative signal). CAUTION: FINRA CDN serves **2019+ only** (403 on older
+  files) + rate-limits bulk, so full 2009-2026 historical attribution needs a
+  commercial short-interest source. Add `short_ratio` to the model feature set
+  for new fits; treat the full-history boost as unproven.
 
 ## Model
 

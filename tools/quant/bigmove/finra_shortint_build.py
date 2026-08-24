@@ -33,20 +33,49 @@ BASE = "https://cdn.finra.org/equity/regsho/daily/CNMSshvol{}.txt"
 HDR = {"User-Agent": "Mozilla/5.0"}
 
 
+import time
+
+MAX_ATTEMPTS = 5          # per file retries before giving up
+SLEEP = 1.2               # polite inter-request delay (docs: FINRA CDN throttles)
+BACKOFF = 3.0             # base backoff on transient errors (grows x2 per attempt)
+MAX_CONSEC_FAIL = 40      # after this many graded failures in a row, take a long pause
+LONG_PAUSE = 60.0
+
+
 def download_days(days):
     os.makedirs(DATA, exist_ok=True)
+    # months already fully fetched stay skipped (resume across interrupted runs)
+    have = {fn[:-4] for fn in os.listdir(DATA) if fn.endswith(".csv")}
+    todo = [d for d in days if f"{d:%Y%m%d}" not in have]
     n_new = 0
-    for d in days:
+    consec_fail = 0
+    for i, d in enumerate(todo):
+        if i % 60 == 0:
+            print(f"  ...{len(todo)-i} left, {len(os.listdir(DATA))} files local", flush=True)
         fn = os.path.join(DATA, f"{d:%Y%m%d}.csv")
-        if os.path.exists(fn):
-            continue
         u = BASE.format(f"{d:%Y%m%d}")
-        try:
-            r = urllib.request.urlopen(urllib.request.Request(u, headers=HDR), timeout=25)
-            open(fn, "wb").write(r.read())
-            n_new += 1
-        except Exception as e:
-            print(f"  skip {d:%Y%m%d}: {type(e).__name__}")
+        ok = False
+        for att in range(1, MAX_ATTEMPTS + 1):
+            try:
+                r = urllib.request.urlopen(urllib.request.Request(u, headers=HDR), timeout=20)
+                data = r.read()
+                if len(data) < 50000:      # truncated / empty response
+                    raise ValueError("short body")
+                open(fn, "wb").write(data)
+                ok = True
+                consec_fail = 0
+                n_new += 1
+                break
+            except Exception as e:
+                time.sleep(BACKOFF * att)
+        if not ok:
+            consec_fail += 1
+            print(f"  fail {d:%Y%m%d} after {MAX_ATTEMPTS} tries", flush=True)
+            if consec_fail >= MAX_CONSEC_FAIL:
+                print(f"  {MAX_CONSEC_FAIL} consecutive failures; pausing {LONG_PAUSE}s (throttle)", flush=True)
+                time.sleep(LONG_PAUSE)
+                consec_fail = 0
+        time.sleep(SLEEP)
     return n_new
 
 
@@ -89,8 +118,9 @@ def main():
         un = union_panel.load_union()
         uni = set(un["close"].columns)
         last = ratio[ratio.month == ratio.month.max()]
-        cov = last["ticker"].isin(uni).mean()
-        print(f"last-month ticker overlap with union universe: {cov:.0%}")
+        ov = last["ticker"].isin(uni)
+        print(f"last-month union coverage: {ov.sum()}/{len(uni)} union names "
+              f"({ov.sum()/max(len(uni),1):.0%}); FINRA symbols {len(last)}")
 
 
 if __name__ == "__main__":

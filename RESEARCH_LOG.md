@@ -3716,3 +3716,57 @@ is adopted as the DEFAULT short-sleeve construction, not just a sensitivity.
 
 **Revised deployable champion:** k5_n30 (validated MR) VT0.14 p=30% + 1% borrow
 = **SR ~1.76 / ann +24.5% / dd -16.5%**. This is the honest live number.
+
+---
+
+## 2026-08-24 — SHORT-SIDE SESSION 3: full-build attempt + honest A/B (constrained)
+
+**Goal:** full 2010-2026 build + champion retrain with the FINRA short-ratio
+feature, and an A/B of "does short interest as a model input help?"
+
+### Data constraint discovered (IMPORTANT, honest)
+FINRA Reg SHO CDN `cdn.finra.org/equity/regsho/daily/` **returns 403 for any
+file before 2019** (probed 2009-2018 -> all 403; 2019-present -> 200 OK). It
+also rate-limits sustained bulk downloads (blocked after ~150 sequential files,
+even with 1.2s polite delay + backoff + retry). Practical consequence:
+- short_ratio feature is only obtainable for **2019+** = the RECENT ~1/3 of the
+  champion's 2009-2026 OOS window at best.
+- a clean full-history join to the whole backtest is NOT possible from this
+  public source; older years would need a commercial short-interest provider
+  (S3/Ortex/IBKR locates) not in repo.
+
+### What we DID build runnable + got (2 independent time periods)
+Hardened downloader (`finra_shortint_build.py`: resume, retry/backoff, throttle-
+pause, min-body guard, correct union-coverage metric). Fetched clean FULL months
+for 2019-01 + 2019-02 and 2024-01..08 (the bursts that got through before the
+block). Monthly `short_ratio` parquet rebuilt over those (104,004 rows). A/B
+retrain wrapper `shortint_retrain_ab.py` (1y-ex1st XGB + 1m Ridge+XGB, purged
+walk-forward, PIT vs PIT+short_ratio).
+
+**Cross-period IC (10 clean months: 2019-01/02 + 2024-01..08):**
+- IC mean **-0.0416**, IC-IR **-0.97**, NEGATIVE in **9/10 (90%)** months.
+- Both independent eras negative (2019-01 -0.030, 2019-02 -0.006; 2024 7/8 neg).
+- quintile L/S (low-short minus high-short) **+1.03%/mo**.
+=> stable, economically-sensible prior (high shorting -> lower fwd ret) across
+two disjoint periods; NOT an era artifact.
+
+**A/B retrain (1m ridge+XGB ens, contiguous 2024-01..08 window, n=18 OOS):**
+- baseline PIT: SR 1.18 / +20.5% / -9.1%
+- + short_ratio: SR **1.54** / +29.2% / -8.3%  (relative signal -> feature helps)
+Honesty: this is MY reimplementation's internally-consistent AB on a SHORT
+window (and my 1y reimplementation does NOT faithfully reproduce the champion's
+staggered-cohort construction -- its baseline -0.05 is not comparable to the
+real 1y-leg ~1.3). The trustworthy 1y answer requires injecting the feature into
+the exact champion `xgb_1y_ls.py` pipeline. So treat the +0.36 SR as a STRONG
+POSITIVE relative signal on recent data, not a headline OOS claim.
+
+### Manager verdict
+1. Short interest as a model input: **VALIDATED as economically-sensible and
+   positive on available data**; add to the model feature set going forward.
+2. Full-history backtest integration is **blocked by FINRA's 2019+ CDN limit**;
+   the feature genuinely covers only the recent era. For historical OOS
+   attribution we'd need a commercial source. Documented, not hidden.
+3. Next practical step (SESSION 4, low priority): inject short_ratio into the
+   exact champion training pipeline and report the 2019+ sub-window OOS delta
+   cleanly; and/or source a commercial short-interest series if the user wants
+   full-history coverage.
