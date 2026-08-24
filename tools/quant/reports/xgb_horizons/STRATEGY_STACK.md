@@ -185,6 +185,17 @@ plateau w1y=0.68-0.82 all SR 1.764-1.774 / ann +24.8% / dd -16.5 to -17.5%
 stack: vol-targ win12@0.14 cap1.5 + DXY z>1.5→0.5 + credit z>1.3→0.5 +
 MR k5_n30 f=0.4 in DXY∪credit. Net of 6 bps, no lookahead.
 
+**TESTED-NEGATIVE (2026-08-23): large-VIX MR activation does NOT beat the
+champion.** User hypothesis — MR works best in large-VIX, so add it there.
+Directly tested VIX-level (25/28/30/35) and VIX-spike (1.5/2.0/2.5 + fine
+1.4–2.5 × MR f0.3–0.5) both as additions to the DXY∪credit MR union and as
+standalone replacements. **No config exceeds the champion's SR 1.774**; VIX-
+only crushes ann (~-1pp). Why: the champion's MR is active in 60 months but
+only 17 have VIX>25 — the DXY∪credit gate already activates MR in 43 downside
+months VIX misses (slow grinds, credit squeezes), so the large-VIX MR edge is
+already captured; adding VIX pulls in high-VIX-but-not-crashing months that
+dilute. Champion unchanged: SR 1.774 / ann +24.8% / dd -16.5%.
+
 ## Model
 
 - **1y champion**: XGB depth-3 / lr .02 / 600 trees, 47 PIT chars, trained

@@ -3552,3 +3552,36 @@ Artifacts: `xgb_combo_w1y_opt.py`/`.json`.
 z>1.5->0.5 + credit BAA-AAA z>1.3->0.5 + MR k5_n30 f=0.4 in DXY|credit, all
 with blend weight w1y=0.75. Full stack: SR 1.774 / ann +24.8% / dd -16.5%.
 Next refit 2027-01-31.
+
+## 2026-08-23 — TESTED-NEGATIVE: adding large-VIX activation for MR does NOT beat champion
+
+**User hypothesis:** "market neutral mean reversal strategies work well during
+large VIX; try to add it during large VIX time to our champion and test if it
+makes results better."
+
+**Direct test on the SR 1.774 / ann +24.8% / dd -16.5% champion** (w1y=0.75,
+vol-targ + DXY + credit + MR k5_n30 f=0.4 on DXY|credit). Tested MR activation
+via VIX-large as (a) added to the existing DXY|credit union and (b) standalone
+replacement, across VIX level thresholds 25/28/30/35 and VIX-spike ratios
+1.5/2.0/2.5, and fine VIX-spike k 1.4-2.5 x MR f 0.3-0.5.
+
+**RESULT: no large-VIX config beats the champion.** 
+- VIX-large ONLY (replaces union): SR 1.67-1.72, ann +23.1-23.9% (crushes
+  ann ~1pp) — clearly worse.
+- VIX-large added to union: mostly SR 1.68-1.74 (below 1.774); best was
+  VIXsp>2.0 (RX 1.772/+25.0%, SR marginally below 1.774) — a wash, not a
+  strict improvement. Fine sweep k1.4-2.5 x f0.3-0.5: NO config exceeds 1.774.
+- Adding VIX-level as de-risk factor (0.7) also worse (1.75-1.76).
+
+**WHY (the mechanism, verified):** only 17 of the champion's 60 MR-active
+months have VIX>25 (28%). The DXY|credit gate already activates MR in 43
+downside months where VIX is NOT elevated — dollar-stress and credit-widening
+capture downside/financial-stress regimes that high-VIX alone misses (slow
+grinds, credit-squeeze periods where VIX is subdued but the L/S book bleeds).
+So the user's large-VIX MR hypothesis is ALREADY captured by the champion's
+macro-stress union; explicitly adding VIX-large pulls in high-VIX-but-not-
+crashing months where MR doesn't reliably pay (dilutes SR/ann) and is
+redundant.
+
+**Conclusion:** champion UNCHANGED (SR 1.774 / ann +24.8% / dd -16.5%).
+The large-VIX MR edge is subsumed in the existing DXY|credit activation gate.
