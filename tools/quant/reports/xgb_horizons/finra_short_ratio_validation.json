@@ -1,0 +1,16 @@
+{
+  "feature": "finra_short_ratio_monthly",
+  "source": "FINRA Reg SHO daily (short_vol/total_vol) -> monthly short intensity, point-in-time",
+  "build": "finra_shortint_build.py (SHORT_START/SHORT_END env to extend window; baseline footer-row + month-end normalized)",
+  "coverage": {
+    "months": "2024-01..2024-08 (partial demo, full build 2010+)",
+    "obs": 86855,
+    "union_ticker_overlap_pct": 0.7
+  },
+  "validation_obs8mo": {
+    "ic_mean": -0.0475,
+    "ic_ir": -1.03,
+    "neg_sign_share": 0.88,
+    "quintile_ls_monthly": 0.0116
+  }
+}

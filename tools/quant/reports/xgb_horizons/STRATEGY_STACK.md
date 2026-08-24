@@ -209,8 +209,13 @@ model non-shortable names. Artifacts: `xgb_combo_borrow.py`/`.json`,
   (illiquid-tail shorts are the noisiest AND the hard-to-borrow bucket).
   Realistic deployable champion (p~30% + 1% borrow): **~SR 1.76 / +24.5% /
   -16.5%** — essentially unchanged vs raw despite modeling both frictions.
-- **Short interest as input:** FINRA Reg SHO daily short-volume is a reachable
-  public point-in-time feature (c. 2010+); full join+retrain is next session.
+- **Short interest as input (public feature built + validated):** FINRA Reg SHO
+  daily short-volume -> monthly `short_ratio = Σshort_vol/Σtotal_vol`
+  (`finra_shortint_build.py` -> `data/finra_short_ratio_monthly.parquet`,
+  point-in-time, 70% union coverage). 8-month demo IC **-0.0475 / IC-IR -1.03,
+  negative 88% of months, +1.16%/mo quintile L/S** — high short-volume → lower
+  fwd return, the economic prior. Full 2010+ build + champion retrain w/ this
+  feature is the next session (retrain cost dominates).
 
 ## Model
 

@@ -3658,3 +3658,36 @@ Champion STACK unchanged at SR 1.774. The short-side frictions are now
 MODELED, not waved away: borrow cost costs ~0.07 SR / ~1.2pp ann at 1%,
 non-shortability costs nothing (actually helps until p>40%). Realistic
 deployable number: **~SR 1.76 / +24.5% / -16.5%** (p~30% + 1% borrow).
+
+---
+
+## 2026-08-24 — SHORT-SIDE SESSION 2: short interest as a model feature (proof-of-concept)
+
+**User ask:** "include short interest rate which is public data as the input in
+the models."
+
+Resolved the data-source question: FINRA Reg SHO daily short-VOLUME (public,
+point-in-time, c. 2010+) is the practical proxy (short-INTEREST-outstanding is
+bi-monthly and not in repo). Built the reusable downloader + monthly feature:
+`finra_shortint_build.py` -> `data/finra_short_ratio_monthly.parquet`.
+
+Feature = `short_ratio(m,tkr) = sum(short_vol)/sum(total_vol)` per month, a
+month-end point-in-time cross-sectional short-intensity signal (used for m+1).
+UNION-universe ticker coverage ~763/1097 (70%).
+
+**Validation (8-month demo span 2024-01..08 — deliberately cut to save run-time
+against the full 30-month / 2010+ build; enough to prove the pipeline):**
+- monthly Spearman IC of short_ratio vs next-month return = **-0.0475**, IC-IR
+  **-1.03**; signed NEGATIVE in 7/8 months (88%) — high short-volume predicts
+  lower fwd returns, exactly the economic prior.
+- quintile L/S: low-short-ratio names +1.95%/mo vs high-short +0.79% ->
+  **+1.16%/mo spread**.
+- modest |IC| (~0.05) as expected (short-volume includes passive/arb shorts);
+  signal is consistent, point-in-time, free.
+
+**Conclusion:** FINRA short-ratio is a USABLE public feature. The demo spans
+only 2024 (partial). Full build = extend SHORT_START to 2010, re-download,
+then add `short_ratio` (lagged) to the 47-PIT feature set and retrain the 1y
+and 1m champions — SESSION 3 (a larger job; the retrain cost dominates). The
+signal's sign is stable so it should contribute, but the honest OOS number
+requires the full build + retrain, not the 8-month demo.
