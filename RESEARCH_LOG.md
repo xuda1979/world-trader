@@ -3691,3 +3691,28 @@ then add `short_ratio` (lagged) to the 47-PIT feature set and retrain the 1y
 and 1m champions — SESSION 3 (a larger job; the retrain cost dominates). The
 signal's sign is stable so it should contribute, but the honest OOS number
 requires the full build + retrain, not the 8-month demo.
+
+---
+
+## 2026-08-24 — NON-SHORTABLE ROBUSTNESS (p=30%) — clean PASS, adopt as default
+
+Manager directive (Agent B standup): confirm the SR lift from the short-liquidity
+p=30% constraint is not a p-sampling artifact. `xgb_combo_nonshortable_robust.py`
+-> `xgb_combo_nonshortable_robust.json` sweeps 4 MR variants (k5_n20/k3_n30/
+k5_n30/k5_n40) x 3 vol-targets (0.12/0.14/0.16) at p=0 vs p=0.30, with 1% borrow.
+
+**RESULT: p=30% improves SR in 100% of the 12 cells.** Delta SR +0.056..+0.066
+(mean +0.060), ann +0.8..+1.2pp higher, dd equal or lower in every cell.
+
+| MR x VT | p=0 SR | p=30% SR | ΔSR |
+|---|---|---|---|
+| k5_n30 VT0.14 (champion) | 1.701 | 1.760 | +0.059 |
+| k5_n40 VT0.12 (best) | 1.705 | 1.771 | +0.066 |
+| k3_n30 VT0.12 (worst cell) | 1.589 | 1.651 | +0.062 |
+
+The lift is uniform and monotonically positive -> NOT a sampling artifact.
+The short-liquidity constraint (drop least-liquid 30% of each month's shorts)
+is adopted as the DEFAULT short-sleeve construction, not just a sensitivity.
+
+**Revised deployable champion:** k5_n30 (validated MR) VT0.14 p=30% + 1% borrow
+= **SR ~1.76 / ann +24.5% / dd -16.5%**. This is the honest live number.
