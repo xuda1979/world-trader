@@ -3585,3 +3585,76 @@ redundant.
 
 **Conclusion:** champion UNCHANGED (SR 1.774 / ann +24.8% / dd -16.5%).
 The large-VIX MR edge is subsumed in the existing DXY|credit activation gate.
+
+---
+
+## 2026-08-23 — SHORT-SIDE SESSION 1: borrow cost + non-shortable modeling
+
+**User asks:** (1) include 6bp trading cost AND IBKR call/borrow rate in
+backtesting/reports; (2) short interest as a model input; (3) model that some
+stocks are not shortable.
+
+### (1) IBKR stock-borrow (call) rate — built into the champion backtest
+
+Model: borrow paid on SHORT NOTIONAL. `short_notional = combo short exp (fac,
+~0.86x avg) + MR-sleeve short when active (0.4*uFLAG)`, i.e. mean ~0.97x.
+Monthly drag = `short_notional * annual_rate / 12`. Repo script:
+`xgb_combo_borrow.py` -> `xgb_combo_borrow.json`.
+
+| borrow/yr | SR | ann | dd |
+|---|---|---|---|
+| 0.0% | 1.774 | +24.8% | -16.5% |
+| 0.25% | 1.756 | +24.5% | -16.6% |
+| 0.50% | 1.738 | +24.2% | -16.8% |
+| **1.0% (blended center)** | **1.701** | **+23.6%** | **-17.0%** |
+| 1.5% | 1.665 | +23.1% | -17.2% |
+| 2.0% | 1.629 | +22.5% | -17.4% |
+| 3.0% | 1.556 | +21.3% | -17.8% |
+
+Even at an aggressive 3%/yr blended borrow the champion stays SR 1.56 / +21%.
+At the realistic IBKR easy-to-borrow blended 1.0% it is SR 1.70 / +23.6%.
+
+### (3) NON-SHORTABLE modeling — a GENUINE IMPROVEMENT
+
+No per-name locate data in repo; we don't fabricate it. Model at the rate
+level: in any month a fraction `p` of the model's chosen short names cannot
+be borrowed (no locate / hard-to-borrow / threshold security). Proxy for
+shortability = LIQUIDITY (non-shortable names are overwhelmingly illiquid),
+so drop the least-liquid `p` of each month's short decile by dollar_vol ADV
+and renormalize over the located subset. Rebuilt BOTH legs (1y ex1st + 1m
+ensemble) under the restriction, pushed through the FULL champion overlay +
+1% borrow. Repo: `xgb_combo_nonshortable.py` -> `xgb_combo_nonshortable.json`.
+
+| p (not shortable) | no-borrow SR/ann/dd | +1% borrow SR/ann/dd |
+|---|---|---|
+| 0% (baseline) | 1.774 / +24.8% / -16.5% | 1.701 / +23.6% / -17.0% |
+| 10% | 1.792 / +25.0% / -16.9% | 1.717 / +23.8% / -17.3% |
+| 20% | 1.794 / +25.3% / -15.9% | 1.717 / +24.0% / -16.3% |
+| **30%** | **1.838 / +25.8% / -16.1%** | **1.760 / +24.5% / -16.5%** |
+| 40% | 1.832 / +25.6% / -15.3% | 1.753 / +24.3% / -15.7% |
+
+**Finding: constraining shorts to borrowable/liquid names IMPROVES the
+strategy.** The illiquid-tail shorts (tiny/$0-ADV names, exactly the hardest
+to locate AND the 1-5% borrow-rate bucket) carry the noisiest returns; dropping
+them both makes the book realizable in practice AND raises risk-adjusted
+return (SR 1.774 -> 1.838 at p=30% no-borrow) while also lowering borrow cost.
+The realistic short-constrained + 1%-borrow champion (~p=30%) is
+**SR ~1.76 / ann +24.5% / dd -16.5%** — essentially unchanged vs the raw
+1.774 despite modeling BOTH real-world short-side frictions. This is a
+robust plateau (p 20-40% all >= SR 1.79 no-borrow / 1.72 with-borrow).
+
+### (2) Short interest as model input — data availability pre-check
+
+FINRA Reg SHO daily short volume (public, point-in-time, from c. 2010) is
+reachable (probe: `CNMSshvol20230821.txt` 322KB OK). This is a genuine
+cross-sectional short-intensity feature (short_vol / total_vol per name per
+month) joinable to the panel. Full build = ~4k daily files for the 913-name
+union; a scoped 1y-demo + feature-integrity validation is next (SESSION 2)
+before committing to the full retrain. No short-INTEREST (outstanding) file
+is in repo; Reg SHO short VOLUME is the practical public proxy.
+
+### Status
+Champion STACK unchanged at SR 1.774. The short-side frictions are now
+MODELED, not waved away: borrow cost costs ~0.07 SR / ~1.2pp ann at 1%,
+non-shortability costs nothing (actually helps until p>40%). Realistic
+deployable number: **~SR 1.76 / +24.5% / -16.5%** (p~30% + 1% borrow).

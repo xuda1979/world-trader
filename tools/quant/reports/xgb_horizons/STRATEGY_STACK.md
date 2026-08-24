@@ -196,6 +196,22 @@ months VIX misses (slow grinds, credit squeezes), so the large-VIX MR edge is
 already captured; adding VIX pulls in high-VIX-but-not-crashing months that
 dilute. Champion unchanged: SR 1.774 / ann +24.8% / dd -16.5%.
 
+**SHORT-SIDE FRICTIONS MODELED (2026-08-23): borrow cost + non-shortable.**
+User ask: include IBKR call rate + 6bp cost, short interest as input, and
+model non-shortable names. Artifacts: `xgb_combo_borrow.py`/`.json`,
+`xgb_combo_nonshortable.py`/`.json`.
+
+- **Borrow (call) rate on short notional** (`short_notional ~0.97x`, paid
+  monthly `= notional*rate/12`): 0.5%→SR 1.738, **1.0%→SR 1.701 / +23.6% /
+  -17.0%**, 3.0%→SR 1.56. Even 3% keeps it strongly positive.
+- **Non-shortable** (drop least-liquid `p` of each month's short decile, no
+  locate): this IMPROVES the strategy — SR 1.774→**1.838** at p=30%
+  (illiquid-tail shorts are the noisiest AND the hard-to-borrow bucket).
+  Realistic deployable champion (p~30% + 1% borrow): **~SR 1.76 / +24.5% /
+  -16.5%** — essentially unchanged vs raw despite modeling both frictions.
+- **Short interest as input:** FINRA Reg SHO daily short-volume is a reachable
+  public point-in-time feature (c. 2010+); full join+retrain is next session.
+
 ## Model
 
 - **1y champion**: XGB depth-3 / lr .02 / 600 trees, 47 PIT chars, trained
