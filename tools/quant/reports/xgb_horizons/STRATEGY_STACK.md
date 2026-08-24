@@ -1,5 +1,10 @@
 # ML Long/Short Strategy Stack — Master Summary (ex1st era)
 
+**📘 AUTHORITATIVE CONSOLIDATED REPORT: `FINAL_RESEARCH_REPORT.md` (2026-08-24)**
+This file is the working iteration log; the single full research report with
+the entire arc (champion, overlays, all short-side frictions + short-interest
+feature, deployable champion, caveats, artifacts) lives there.
+
 **Date:** 2026-08-20 · **Status:** research complete, live-positive, deployment cards issued
 **Full details:** `GKX_1M_FINAL_REPORT.md` (1m arc) · `XGB_1Y_FINAL_VERDICT.md` (1y arc)
 
