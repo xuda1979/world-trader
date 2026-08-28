@@ -115,3 +115,4 @@ VIX/trend-conditioned variants, xs panel versions, SPY 33-year proxy.
   coordinator test: tilt existing long-equity sleeves toward ROM/paycheck windows.
 - Data gaps noted: no FOMC dates file (pre-FOMC drift untested); EXT panel unusable for
   calendar work (bad ticks; 63 dup-date rows fixed).
+ROUND r1 DONE
