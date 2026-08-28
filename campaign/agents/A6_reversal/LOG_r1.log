@@ -1,0 +1,29 @@
+=== agent A6_reversal round r1 start Fri Aug 28 20:52:42 CST 2026 ===
+Warning: no stdin data received in 3s, proceeding without it. If piping from a slow command, redirect stdin explicitly: < /dev/null to skip, or wait longer.
+Round r1 complete. Summary of the run:
+
+## A6_reversal Round r1 — Results
+
+**0/7 ideas passed all gates. Nothing saved to sleeves/ (per honesty contract).**
+
+### What was tried (with numbers)
+
+| Idea | Best config | Net SR | Killed by |
+|---|---|---|---|
+| 1. Weekly xs reversal L/S | k=10, ivol-filter, 5d cadence | 0.17 | 337bps/yr cost drag; short side gross SR −0.22 |
+| 1b. Long-only reversal | k=10 decile-20, 5d cadence, vol-tgt | **0.63** (H1 0.51/H2 0.76) | gate d: 3 neg yrs, 2008 −5.6%, 2022 −5.3% (just past −5% floor) |
+| 2. Residual momentum | long tercile + MA150 confirm-10 gate | **1.03 raw / 0.97 vol-tgt** (H1 0.79/H2 1.21) | gate d: 2022 −12.9% (Jan pre-exit + Dec bear-rally trap) |
+| 3. Mom+rev blend | 70/30 | 1.06 | 2022 −13.2% |
+| 4. Idio-vol-managed mom | + MA gate | 1.01 | 2022 −12.1% |
+| 5. Pair (mom 65% + rev 35%) | vol-tgt legs | 0.88 | 2022 −8.2% |
+| 7. Plain 12m momentum (control) | long tercile | 0.74 | 2008 −19.7% |
+| 8. EXT-panel reversal | naive k=5 | 3.5 → **FAKE** | stale $0.01 OTC quotes (AIAD/AKTS); with honest filters SR ≈ 0.00 |
+
+### Key honest findings
+1. **Reversal here is long-side-only**: shorting recent winners loses money gross in the big-cap panel — the classic L/S form can't survive costs.
+2. **Gated residual momentum is the round's best asset** (SR ~1.0, both halves >0.7) but no trailing-data regime gate I tested (MA, hysteresis, DM, credit-OAS [only covers 2023+], strat-DD-cut, hinges, confirm-lags) fixed 2022 without killing the SR. Handed to coordinator: blend with a 2022-positive sleeve.
+3. **twelve_extend panel is a landmine** for reversal work — documented loudly so other agents don't chase SR 3.5 artifacts.
+4. Harness bugs found: shared `closes()` crashes on duplicate dates; `ff_mom()` fails to parse — worked around locally (shared lib untouched per contract).
+
+Artifacts: `campaign/agents/A6_reversal/{FINDINGS.md, LOG.md, lib6.py, idea1_reversal.py, idea234_engine.py}`, plus two verified repro scripts `campaign/scripts/a6_idea1_lo_reversal.py` and `a6_idea2_residmom_gated.py`. FINDINGS.md ends with `ROUND r1 DONE`. ~30 tool calls used.
+=== agent A6_reversal round r1 end Fri Aug 28 21:20:25 CST 2026 exit 0 ===

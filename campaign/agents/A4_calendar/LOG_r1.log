@@ -1,0 +1,23 @@
+=== agent A4_calendar round r1 start Fri Aug 28 20:52:42 CST 2026 ===
+Warning: no stdin data received in 3s, proceeding without it. If piping from a slow command, redirect stdin explicitly: < /dev/null to skip, or wait longer.
+Round r1 complete for A4_calendar. Summary:
+
+**Setup (~7 calls):** Read brief/charter, fixed a duplicate-date row in `QSR.csv` (which was breaking the shared `closes()` loader) and 63 dup-date files in the EXT panel, then built `campaign/scripts/a4_calendar_lib.py` — SPY proxy 1993–2026 (spy_early + panel SPY), T+1 execution with 6bps/side, expanding-window vol targeting, charter-compliant scramble test (circular shifts by multiples of 5/21 days), and a gate checker.
+
+**17 ideas tested, 0 passed all gates — nothing saved to the sleeve library** (per the honesty contract). Key numbers:
+
+| Idea | Best SR (net) | Why it failed |
+|---|---|---|
+| 1. TOM SPY (9-cell grid) | 0.43 | (a) full SR < 0.6 |
+| 2. Holidays (298 pre/297 post events) | −0.09 | edge +9bp gross, gone after costs |
+| 3. Halloween / avoid-Sept | 0.62 | (d) 7 neg years, worst −31.6% |
+| 4. xs TOM big-cap panel | **negative −2bp/day** (t=−4) | TOM days are *worse* in large caps — direction reversed |
+| 4b/c. xs ROM-long (avoid TOM) | 0.35–0.41, scramble p=0.04 | real effect, but SR < 0.6 |
+| 15. Paycheck window (dom 24–3) | 0.49, H1/H2=0.48/0.53, p=0.02, decades 0.49/0.34/0.65 | strongest find; fails (a) and 9 neg years |
+| 16. pay\|noSep composite | 0.64 ✓(a) | (d) 5 neg years, worst −19.8% |
+| 17. VIX/MA200-conditioned pay | 0.22–0.31 | conditioning kills, not helps |
+
+**Verdict (brutally honest):** calendar effects are real on SPY (paycheck window t=3.5 gross) but long/cash calendar books inherit equity beta and cannot clear the yearly gate + SR 0.6 simultaneously. The xs surprise: TOM premium is *negative* in modern large caps. Deliverable to coordinator: calendar windows (ROM, paycheck) are candidate **tilt overlays** for existing long-equity sleeves, not standalone sleeves. Data gaps flagged: no FOMC dates file (pre-FOMC drift untested), EXT panel unusable for calendar work (bad ticks).
+
+`FINDINGS.md` written with all numbers; last line is exactly `ROUND r1 DONE`; findings + lib committed (`c582e59`, `041ae4b`). ~32 tool calls used of 100.
+=== agent A4_calendar round r1 end Fri Aug 28 21:05:52 CST 2026 exit 0 ===

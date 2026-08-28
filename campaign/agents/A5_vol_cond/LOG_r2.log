@@ -1,0 +1,25 @@
+=== agent A5_vol_cond round r2 start Fri Aug 28 21:25:58 CST 2026 ===
+Round r2 complete. Summary of what was done and found:
+
+## Verdict: 1 sleeve SAVED (vs 0 in r1)
+
+**A5_r2_contango_rateshock** — saved to `campaign/agents/A5_vol_cond/sleeves/` with meta + reproducible script (`campaign/scripts/a5_r2_rate_shock_contango.py`, byte-verified identical to the validated pipeline after catching and fixing a NaN-warmup divergence during save).
+
+**Rule:** Long SPY while VIX/VIX3M < 1.02 (hysteresis exit +0.05); exposure → 0 when us10y > 2.75% **and** rising > +25bps over 150d (lag-1d); 10% expanding trailing-only vol target; T+1; 6bps/side.
+
+**All gates:**
+- (a) FULL SR = **1.02** (ann 9.0%, vol 8.8%) ✓
+- (b) Plateau: all 27 grid cells SR 0.805–1.019; mult axis monotone 0.86→1.02 (endpoint, not spike; two far corners flagged honestly in .meta) ✓
+- (c) H1 = 0.94 / H2 = 1.10 ✓
+- (d) 2 negative years only: 2011 −0.16%, 2022 −1.87% (2022 fixed from r1's −20.8%) ✓
+- (e) Signal-scramble p = 0.000 (200 perms, costs re-applied) ✓
+- Correlation: |corr| ≤ 0.14 to 28/42 library sleeves; 0.03 to XGB1y_deploy ✓
+
+**Charter ideas rejected honestly:**
+- **Idea 1 (halve, mult=0.5):** SR 0.98, 2022 → −8.1%, but gate d fails on count (3 neg yrs). mult=0 was the fix — grid was monotone toward it.
+- **Idea 2 (VIX3M-MM at 6-7% vt):** vol target is pure scale — SR 0.74 at every vt, always 4 neg yrs. + rate-shock cond still leaves 2015 negative. FAIL.
+- **Idea 3 (XGB1y mixes):** every charter member has 2022 < 0, so no convex combination can pass gate d — confirmed empirically (3-4 neg yrs, worst −12 to −16%). Also flagged: **XGB1y_deploy evals at SR 4.32** — coordinator should audit before blending. Bonus finding: the positional scramble gate spuriously fails blends (p 0.44–1.0 on real members) — needs a blend-aware variant.
+- **Idea 4 (continuous monthly z-score):** best z(252, 0.25) SR 0.85, plateau OK, but continuous scaling keeps full 2022 exposure (−18%) — rates bears are persistent-contango grind-downs, not TS inversions. Binary switch wins.
+
+FINDINGS.md updated with numbered details, structural diagnosis, and r3 recommendations; last line is exactly `ROUND r2 DONE`. ~33 tool calls used.
+=== agent A5_vol_cond round r2 end Fri Aug 28 21:51:24 CST 2026 exit 0 ===

@@ -1,0 +1,25 @@
+=== agent A5_vol_cond round r1 start Fri Aug 28 20:52:41 CST 2026 ===
+Warning: no stdin data received in 3s, proceeding without it. If piping from a slow command, redirect stdin explicitly: < /dev/null to skip, or wait longer.
+Round r1 complete for **A5_vol_cond**. Summary:
+
+## Result: 0 sleeves saved — 9 ideas tried, all honestly failed at least one gate
+
+**Data constraints found:** vix3m starts 2009-09 (contango family = 17y, not 20y), `hy_oas` only 2023+, FRED `spx` only 2016+ → used SPY from the twelve_big panel.
+
+**Ideas & outcomes:**
+| # | Idea | Best numbers | Failed gate |
+|---|------|-------------|-------------|
+| 1 | Contango carry (vix<vix3m, hysteresis) | SR 0.72, H1 0.52/H2 0.95, scramble p=0.000, plateau OK | (d): 3 neg yrs, 2022 -15.4% |
+| 2 | Moreira-Muir realized-vol (SPY) | SR 0.51–0.59 | (a)+(d) |
+| 3 | dxy + credit regime gate | SR 0.45 best, 12 neg yrs | all |
+| 4 | Break-glass event overlay | SR 0.29–0.41; short-during-spike -0.33 (T+1 misses crash) | (a) |
+| 5 | Contango + MA filter | SR 0.37–0.43 (whipsaw) | all |
+| 6 | Contango + VIX-level cap | SR 0.45–0.72, ≥4 neg yrs | (d) |
+| 7 | Contango + MS_EW blend | SR 0.71, 4 neg yrs | (d) |
+| 8 | VIX3M implied-vol MM on SPY | **SR 0.75, H1 0.81/H2 0.70** — best solo | (d) by count (4 neg yrs) |
+| 9 | MM blends w/ library | w=0.3+SharpeW: SR 0.90, passes a/c/d/e — **rejected**: corr 0.88–0.98 to library, and w=0 attribution shows the signal adds only +0.02 SR | honesty contract |
+
+**Key diagnosis:** the term-structure signal is real (scramble p=0.000, plateau, trivial costs) but gate (d) (≤2 negative years) is structurally incompatible with any long-equity sleeve at 10% vol — only 3/40 library sleeves pass it solo. 2018/2022 grinding bears happen *during* contango, which is the family's fundamental blind spot. FINDINGS.md includes 4 concrete r2 recommendations (continuous z-scaling, rates-shock conditioner, blend with ls_n10r14 2008+ version, gate-d reform proposal to coordinator).
+
+Methodological fix made mid-round: replaced a degenerate scramble implementation with proper signal-permutation scrambling *before* any accept/reject decision. Scripts saved under `campaign/scripts/a5_*.py`; FINDINGS.md ends with `ROUND r1 DONE`. ~22 tool calls used.
+=== agent A5_vol_cond round r1 end Fri Aug 28 21:12:30 CST 2026 exit 0 ===

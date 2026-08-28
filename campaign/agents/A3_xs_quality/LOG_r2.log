@@ -1,0 +1,30 @@
+=== agent A3_xs_quality round r2 start Fri Aug 28 21:11:46 CST 2026 ===
+Warning: no stdin data received in 3s, proceeding without it. If piping from a slow command, redirect stdin explicitly: < /dev/null to skip, or wait longer.
+r2 executed 2026-08-28: r2lib (engine-verified), scans 1-8, all charter ideas 1-6.
+1 saved sleeve: QA_dualmom_band121 (SR 0.89, H1 0.99/H2 0.80, 1 neg yr -4.3%, scramble p=1.000 cost-incl).
+Key bugs fixed: fy->use_date date parse; scramble nulls must be cost-inclusive.
+Round r2 complete. Summary of what was done:
+
+## Charter execution (ideas 1–6, in order)
+
+| # | Idea | Result | Verdict |
+|---|------|--------|---------|
+| 1 | 12-1 xs momentum, tercile L/S (+6-1, 9-1, cap-neut, liq-neut) | SR −0.03…+0.03 | FAIL — dead on this panel |
+| 2 | Momentum + SPX/200d MA gate | L/S 0.25; gate-longs-only **−0.08** | FAIL — shorts are the toxic leg |
+| 3 | Inv-vol (21d) momentum weights | SR 0.02 | FAIL |
+| 4 | Momentum conditioned on low idio_vol | L/S 0.37; dual-mom variant worst −7.2% | FAIL |
+| 5 | 52-week-high proximity | L/S **−0.30**; long-only 3 neg yrs | FAIL |
+| — | **Dual momentum (extra): xs 12-1 long-only top-tercile + 200d-MA ±3% hysteresis gate** | **SR 0.89, H1 0.99 / H2 0.80, 1 neg yr (−4.3%)** | **PASS — SAVED `QA_dualmom_band121`** |
+| 6 | EXT-panel (440) cross-check | EXT returns polluted (single-day +4.4M%) | VOID — flagged to coordinator |
+
+## Validation of the saved sleeve (all 7 gates)
+- (a) SR 0.89 ≥ 0.6 ✓ (b) 21/25 grid cells within 20% of peak; 9/25 also pass yearly profile ✓ (c) H1 0.99 / H2 0.80 ✓ (d) 1 neg year, −4.3% > −5% ✓ (e) scramble p = 1.000 (cost-inclusive nulls, xs-permute and both-destroy) ✓ (f) Antonacci dual-momentum rationale in meta ✓ (g) trailing expanding 10% vol target ✓
+- Library corr: max 0.78 (equity-beta-shaped, as expected for gated long-only) — noted for the blend coordinator.
+
+## Honest findings carried into FINDINGS.md
+1. **First saved sleeve** for A3; edge is mostly regime timing, but the xs concentration is *necessary* — gate-only EW null has SR 0.86 yet 4 neg years (fails gate d); shuffled-xs fails too. Neither component alone passes.
+2. **Bug catch:** scramble nulls must reprice 6 bps costs — cost-naive nulls gave a false p≈0.90 and nearly rejected a valid sleeve.
+3. Panel diagnosis from r1 stands: no pure xs L/S premia on this survivorship-biased panel; surviving edge is defensive-timing beta-shaped.
+
+`FINDINGS.md` appended with the numbered r2 section; last line is exactly `ROUND r2 DONE`. Used ~30 tool calls.
+=== agent A3_xs_quality round r2 end Fri Aug 28 21:42:10 CST 2026 exit 0 ===

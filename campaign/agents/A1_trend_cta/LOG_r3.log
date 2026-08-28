@@ -1,0 +1,15 @@
+=== agent A1_trend_cta round r3 start Fri Aug 28 22:14:12 CST 2026 ===
+**Round r3 complete.** Summary:
+
+## Charter execution (in order)
+
+**1. Vol-of-vol seasoned CTA — FAIL.** Best honest config (leg-level vov(21,252) filter + monthly rechecks + T-bill accrual on filtered capital): SR 0.75, H1 0.45, 4 neg years, 2012 -15.3%. Diagnosis: the 2012-2013 whipsaw years the charter targets occur at *below-median* vol-of-vol (slow grind, not vol expansion), so the chop filter is structurally blind to them. Not saved.
+
+**2. Carry-trend combos.** Gold carry-trend standalone SR 0.78 but 5 neg years (fails d alone). Crude-brent spread: **caught myself rebuilding A2's exact lookahead under a different name** — `pos.shift(1)` earning `spr(t)-spr(t-1)` still books the pre-publication move (SR 1.71; collapses to 0.41 with one more lag day, which localizes the edge to the unownable print→publish interval). True attainable = SR 0.41, matching A2. The Apr-2020 negative-print exclusion proved to be a premium, not an artifact (costs +1.3 SR in *both* honest and lookahead builds), scramble p=0.0000 — retained.
+
+**3. Natgas winter — standalone FAIL** (SR 0.47, 4 neg years), retained as member. Caveat logged: FRED series is back-adjusted; true futures-roll seasonality unverifiable with free data.
+
+**4. SAVED: `A1_carry_seasonal_v2`** — EW ⅓ of the three near-orthogonal members (pairwise corr 0.00-0.03), single trailing 8% book vol target → realized 10.1%. Official eval: **SR 0.82, H1 0.57/H2 1.01, 0/19 negative years** (2012 +0.0%, 2013 +0.4% — exactly the charter's whipsaw years), MaxDD -12.7% with no calendar-year loss. All 7 gates pass: plateau min ratio 0.90 over 14 neighbors; scramble 500 draws rotating all three members' position vectors through identical pipelines (identity-check enforced): null mean 0.22, **p=0.0000**. Corr to library 0.02-0.05, to my saved r2 mix 0.32. Credit_z120_1986 mix (idea 4) tested: passes numerically but dominated — not saved.
+
+**Key finding for the campaign:** three standalone-failing members (SR 0.41/0.47/0.78) blended into the strongest sleeve of my three rounds — gate-d's per-sleeve yearly test is anti-diversification when applied pre-blend. FINDINGS.md appended, last line `ROUND r3 DONE`. ~25 tool calls used.
+=== agent A1_trend_cta round r3 end Fri Aug 28 22:36:49 CST 2026 exit 0 ===

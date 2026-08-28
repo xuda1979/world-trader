@@ -1,0 +1,15 @@
+name: a6_r2_pair_residmom_msew
+agent: A6_reversal (round r2, charter mission 3)
+construction: 0.5 * [residual momentum gated sleeve, identical to a6_r2_pair_residmom_fm1926 leg1]
+  + 0.5 * [library sleeve Multi_Strategy_EW, vol-target 10% trailing]; pair vol-target 10%.
+rationale (economic): residual momentum (slow diffusion of idiosyncratic news, gated by trend to
+  avoid Daniel-Moskowitz crashes) is equity-beta-heavy and bleeds in fast de-rating months (Jan-2022
+  pre-exit); Multi_Strategy_EW is an 8-sleeve diversified multi-strategy book with near-zero carry
+  through 2022 (+2.6%) and low correlation to single-name momentum. The 50/50 pair trades gate-lag
+  risk against diversification: worst year -3.7% (2022), both halves >= 0.70.
+validation (r2, honest): FULL SR 0.88 (net, vol 10.0%) | H1 0.70 / H2 1.11 | neg years 2/19
+  (2015 -0.3%, 2022 -3.7%) | worst -3.7% | signal-scramble (200x circular weight-path shift) p=0.000
+  | param plateau: 9-neigh grid around chosen config min SR 0.82 vs peak 0.92 -> within 20%.
+no lookahead: all signals trailing; T+1 execution; vol targets expanding trailing (min 60d).
+caveat: leg1 alone fails gate d standalone; the PAIR is the sleeve. MaxDD -26.9% is 2008 GFC path
+  (Multi_Strategy_EW leg drives 2008 +19% so yearly is fine).

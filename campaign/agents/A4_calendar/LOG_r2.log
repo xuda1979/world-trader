@@ -6,3 +6,18 @@ r2 run 3: idea2 qend/TOY grids + idea4 VIX-pctl defensive (all fail)
 r2 run 4: idea3 composite grid; TOY deep-dive (plateau, yearly attribution)
 r2 run 5: TOY x flatSep composite gates; n=1000 scrambles; generality on LS120/L_S130
 verdict: 0/4 saved; FINDINGS r2 appended
+Round r2 complete. Summary of execution:
+
+## Charter execution (in order)
+
+**Item 1 — paycheck × ROM tilt on LIB:L_S_130_30: FAIL.** Full 4×4 weight grid + vol-target: best SR=0.74 (H1 0.74/H2 0.74, 1 negYr, worst −3.1%). Honest decomposition killed it: **the paycheck tilt is a no-op (ΔSR = 0.00)** — all improvement comes from the vol-target wrapper (+0.03) and September de-lever (+0.03). And September de-lever fails gate (e): day-roll scramble p=0.155, month-permutation null p=0.25 (de-levering Feb/Mar beats Sep in-sample — lucky month, not calendar truth).
+
+**Item 2 — quarter-end / turn-of-year: FAIL (one real sub-effect found).** Quarter-end tilt dead (scr p=0.43–0.61). But the **TOY bump (Dec20–Jan10 ×1.25 on L_S_130_30_volmanaged) is real**: TOY-window mean +21.5bp/day vs +6.5bp out, scramble p(1000)=**0.044**, plateau across 8 window variants (SR 0.80–0.83), monotone in weight. Yet it fails gate (d) (4 negYrs) and is corr 0.97 to the base (near-duplicate).
+
+**Item 3 — composite weekly overlay: FAIL, borderline.** TOY × flat-Sep composite: SR=0.89, H1 0.88/H2 0.89, negYr=2, worst −2.0% — passes a/c/d but **scramble p(1000)=0.088 fails** (n=1000 settled it after 200-draw noise), and generality fails on L_S_120_20 (p=0.156) and plain L_S_130_30 (p=0.194).
+
+**Item 4 — VIX-pctl October-defensive pivot: FAIL.** Lagged-VIX-percentile de-lever **lowers** SR at every threshold (0.64–0.70 vs 0.71 baseline), scr p=0.20–0.97. The L/S book is net-short-crash, so VIX spikes coincide with its best days — hypothesis cleanly rejected.
+
+## Verdict
+**0 sleeves saved** (sleeves/ dir empty — nothing passed all gates). Nothing was seed-shopped or gate-negotiated; the two near-misses are documented with exact p-values. FINDINGS.md now ends with `ROUND r2 DONE`, committed as `1b2a8a9`. Structural takeaway for the coordinator: calendar tilts on equity L/S sleeves deliver +0.00–0.09 SR at corr ≥0.92 to the base — they can't be new sleeves under the blend's corr target; the only r1+r2 effect surviving honest scrambling is TOY, best used as a micro-tilt inside equity sleeve construction, not a standalone book.
+=== agent A4_calendar round r2 end Fri Aug 28 21:27:10 CST 2026 exit 0 ===

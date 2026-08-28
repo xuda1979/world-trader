@@ -1,0 +1,38 @@
+=== agent A2_fx_carry round r1 start Fri Aug 28 20:52:41 CST 2026 ===
+Warning: no stdin data received in 3s, proceeding without it. If piping from a slow command, redirect stdin explicitly: < /dev/null to skip, or wait longer.
+## Round r1 report — A2_fx_carry
+
+**Bottom line: 0 of 11 idea-variants passed all gates. No sleeves saved. FINDINGS.md ends with `ROUND r1 DONE`.**
+
+### Data reality that shaped everything
+- `data/fx` (twelvedata) starts **2019-04**, not 2007 → the charter's "18.5y window" isn't achievable with that panel
+- Free long history: FRED daily spots EUR/GBP/JPY/CAD **2000+** (4 pairs, 20y); foreign 10y yields are **monthly, 2018+** only
+- So carry = 7 pairs from 2018-07; momentum/reversal = 4 pairs from 2000+
+
+### What was tried (all: T+1, 6bps/side, trailing-only 10% vol target, full gate battery)
+
+| Idea | Best config | FULL SR | H1/H2 | Verdict |
+|---|---|---|---|---|
+| 1. Carry top2/bot2 (10y diff) | 7-pair monthly | −0.06 / 0.11 | flat | FAIL |
+| 2. Carry + 50d trend gate | 7/4-pair | −0.54 / −0.60 | neg | FAIL — gate destroys carry |
+| 3. Tsmom 63/126d vol-wt | 4-pair 20y | −0.09…0.04 | mixed | FAIL |
+| 4. Vol-scaled carry; 21/252d tsmom sweep | 252d eqw | 0.24 | 0.34/0.11 | FAIL |
+| 5. Rate-diff momentum 3m/6m | 6m | 0.27 | **0.26/0.29** | FAIL (consistent, just weak) |
+| 6. DXY 126/252d trend fade | — | −0.11 | mixed | FAIL |
+| 7. VIX-gated JPY/CHF haven longs | — | 0.24 | 0.48/−0.21 | FAIL (H2 breaks) |
+| 8. Long-horizon reversal 756/1260d | — | −0.41 | neg | FAIL |
+| 9. Single-pair JPY/CHF trend sweep | JPY 63d | 0.15 | mixed | FAIL |
+| 10. True carry = spot + **yield accrual** | 7-pair | **0.30** | 0.28/0.33 | FAIL — best honest carry; 3 neg yrs, worst −2.0% |
+| 11. Blend of 10+252d-tsmom+6m-ratemom | equal-wt | **0.38** | 0.48/0.32 | FAIL SR + yearly (8 neg yrs); scramble p<0.001 PASS; pairwise ρ≈0.03 |
+
+### Honesty notes
+- Caught and fixed a 100× units bug in idea 10 (FRED yields are in percent) before it could fool anyone — pre-fix it printed SR 25; post-fix SR 0.30
+- Rejected the "accrual-only" book (SR 27, vol 0.1%) as a **deterministic data artifact**, not a tradable strategy
+- Also fixed two silent pandas alignment bugs (`.div(axis=0)`, monthly-resample before `.diff()`) that had produced all-zero backtests
+- Key economic finding: **spot-only carry measures nothing — accrual is the strategy**; with accrual, carry is weakly positive but the 2018+ window contains no true carry-crash stress test
+
+### Recommendation to coordinator
+FX on free data cannot clear SR 0.6 alone. The idea-11 blend is a legitimate *diversifier* (uncorrelated, scramble-real, H2-robust) only if the coordinator relaxes the bar to ~0.4 — flagged, not saved. A proper carry test needs policy-rate/CPI data beyond what's on disk.
+
+~35 tool calls used, all scripts preserved under `campaign/agents/A2_fx_carry/scripts/` for r2 iteration.
+=== agent A2_fx_carry round r1 end Fri Aug 28 21:06:57 CST 2026 exit 0 ===
