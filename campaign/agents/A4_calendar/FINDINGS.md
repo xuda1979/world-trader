@@ -116,3 +116,62 @@ VIX/trend-conditioned variants, xs panel versions, SPY 33-year proxy.
 - Data gaps noted: no FOMC dates file (pre-FOMC drift untested); EXT panel unusable for
   calendar work (bad ticks; 63 dup-date rows fixed).
 ROUND r1 DONE
+
+## Round r2 (2026-08-28) — overlays/tilts on existing sleeves (charter r2)
+
+METHOD NOTE (honesty): base CSVs already net 6bps; a tilt w_t (decided at close t from
+data<=t) multiplies ret_{t+1} and pays 6bps on |Δw| at t+1; vol-target wrapper uses
+expanding trailing-only stats (min 60d). Scramble = mask day-roll (200-1000 draws, seed 7),
+which destroys calendar alignment while preserving up-day fraction — the correct test for
+overlays. Additional guard: |corr| to base < 0.95 (else the "sleeve" is a near-duplicate
+of the base and adds nothing to a blend targeting mean |corr| < 0.15).
+
+### Idea 18: paycheck x ROM tilt on LIB:L_S_130_30 (charter item 1) — FAIL
+Full grid (w_pay 0.5-1.25 x Sep-delever 0-1.0, all VT-10%): best SR=0.74 (H1 0.74/H2 0.74,
+1 negYr worst -3.1%). Decomposition: base raw SR=0.85 -> VT-only 0.71; paycheck tilt DeltaSR=0.00
+(0.71->0.71 at w_pay=1.0 AND at 0.75/1.25); flat-Sep only +0.03 (0.71->0.74). The paycheck
+component is a NO-OP on this sleeve (r1's SPY pay-edge does not transfer to L/S book).
+Sep-delever passes a,c,d but FAILS (e): day-roll scramble p=0.155; month-permutation null
+p=0.25 (de-levering Feb gives 0.79, Mar 0.78 — better than Sep's 0.74 in-sample). September
+specialness NOT established on L_S_130_30. Do not save.
+
+### Idea 19: quarter-end / turn-of-year windows (charter item 2) — FAIL (one real sub-effect)
+qend tilt (last ~4 + first ~4 days of quarter): SR 0.69-0.70, scramble p=0.43-0.61 — dead.
+TOY bump (Dec20-Jan10 x1.25) on LIB:L_S_130_30_volmanaged: SR 0.80->0.82, TOY-window mean
++21.5bp/day vs +6.5bp out-of-window, neg in only 3/18 years; scramble p(1000)=0.044 (REAL);
+plateau across 8 window variants SR 0.80-0.83 (no spike); monotone in weight (x1.1:0.81 ...
+x2.0:0.87). BUT negYr=4 fails (d) and corr-to-base ~0.97 (near-duplicate). Same bump on plain
+L_S_130_30: scramble p=0.135 fails (e). The TOY effect is real but cannot clear ALL gates on
+any base tested. Do not save.
+
+### Idea 20: composite weekly overlay (charter item 3) — FAIL (borderline, rejected)
+Best composite (TOY x1.25 x flat-Sep 0.25 on volmanaged): SR=0.89, H1=0.88/H2=0.89,
+negYr=2 (2015, 2016), worst -2.0%, dd small — passes (a),(c),(d) — but scramble p(1000)=0.088
+FAILS (e); p is seed/sample-size fragile (0.055-0.110 across 200-draw seeds). Generality
+fails: same composite on L_S_120_20 p=0.156, plain L_S_130_30 p=0.194. Composite of two
+weak masks = weaker evidence, not more. Do not save.
+
+### Idea 21: "October crash-season defensive" pivot (charter item 4) — FAIL
+Lagged-VIX-pctile (252d trailing rank of prior-day VIX, strictly <=t) de-lever of Sep-Oct on
+L_S_130_30: SR DROPS below VT-only baseline at every threshold (0.64-0.70 vs 0.71; thr=0.9
+w=0 is worst 0.64), scramble p=0.50-0.97. All-year VIX-pctl defensive: best cell thr=0.9
+w=0.5 SR=0.73 but 3 negYr + p=0.20. High-VIX conditioning destroys value on this L/S book
+(it is net-short-crash, so VIX spikes coincide with its best days). Hypothesis rejected.
+
+## ROUND r2 VERDICT (A4_calendar)
+4 charter items tested, 0 sleeves saved — no overlay/tilt passed ALL gates. Two near-misses:
+  * TOY bump (real by scramble p=0.044, plateaued) fails yearly gate + near-duplicate corr 0.97
+  * TOY x flatSep composite (SR 0.89, 2 negYr, worst -2.0%) fails scramble p=0.088 @n=1000
+Structural conclusions for the coordinator:
+  1. Calendar tilts on L/S equity sleeves add +0.00 to +0.09 SR at corr>=0.92 to the base —
+     they are NOT new sleeves and would not diversify the blend (mean |corr| target 0.15).
+     The library equity sleeves are already the better vehicle; calendar timing is a
+     refinement, not a source of independent return.
+  2. Only calendar effect that survived honest scramble testing in r1+r2: turn-of-year
+     (Dec20-Jan10). Everything else (paycheck, Sep, quarter-end, holiday, weekday, Halloween)
+     is either absent post-2006 in large caps or indistinguishable from random-window de-lever.
+  3. FOMC dates still unavailable on disk (pre-FOMC drift untested; needs a dates source).
+  4. Suggest: treat TOY-strength as a candidate micro-tilt inside the coordinator's equity
+     sleeve construction (not as a separate sleeve), and stop allocating calendar ideas to
+     standalone/overlay equity books.
+ROUND r2 DONE
