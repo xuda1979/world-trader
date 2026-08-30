@@ -1,0 +1,19 @@
+=== agent A5_vol_cond round r6 start Sun Aug 30 13:44:42 CST 2026 ===
+Round r6 complete. **0 sleeves saved — all 4 charter ideas honestly rejected.** Summary:
+
+## Idea-by-idea verdicts (charter gates: SR≥0.7, halves≥0.35, ≤3 negYr, worst>−8%, scramble<0.05)
+
+1. **Term-premium timing** (long 10y synth TR dur 7.5 when t10y2y>0 AND us10y<MA, monthly) — **FAIL a/c/d**. 18-cell grid (MA 126/252/504 × daily/weekly/monthly × slope on/off): SR 0.14–0.40, 8–14 negative years, worst −13 to −23%. Third independent kill of FRED-yield bond timing (after r3/r5).
+
+2. **VIX-level term premium** (vix vs 252d mean gate on SPX, 2000+) — **FAIL a/d, and fails decorrelation too**: best cell (ma504 below) SR 0.37 only, corr **0.52 to the saved contango champion** — it's the same slow vol-regime gate on the same equity premium. I extended the window as chartered by splicing FRED `spy_early` (1993–2005) with twelve_big SPY (seam return nulled).
+
+3. **Overnight premium** — **FAIL by cost arithmetic, decisively**. Twelvedata SPY has clean OHLC from 2006, so no SKIP was needed. Gross overnight leg is real (+2.50 bp/d, SR 0.53) but requires a full 12 bp/d round trip = 30.2%/yr cost vs 6.3%/yr gross → net **−23.9%/yr**. No conditional day-type (weekday, VIX level, post-down-day) exceeds 12 bp/d gross.
+
+4. **Credit carry bands** — **FAIL a/d; the charter's directional premise is inverted**: all "long-when-wide" entry bands score −1.03 to +0.13; only always-long carry is positive (SR 0.43, but 12 neg yrs, worst −26.1%).
+
+## 🚨 Coordinator alert (major side-find)
+All **four library Credit_\* sleeves are degenerate**: ann vol 0.84–1.16%, SR −0.41 to −0.49, yearly returns ≈0.00. Same conversion-bug class as r2's XGB1y_deploy (SR 4.32). The charter's "A1 found 0.53" was measured on the broken series; on my DV01-neutral synth the same signal scores ~0. They should be pulled from the blend pool.
+
+## QA held
+r6-lib rebuild of the r4 champion byte-matches the saved CSV (max|diff| 1e-16), scramble-real==eval asserted, one display-only bug in my own idea-1 script flagged in FINDINGS (gates used correct daily SR). FINDINGS.md appended with the numbered entry; last line is exactly `ROUND r6 DONE`.
+=== agent A5_vol_cond round r6 end Sun Aug 30 14:07:22 CST 2026 exit 0 ===

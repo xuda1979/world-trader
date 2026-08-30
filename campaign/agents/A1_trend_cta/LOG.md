@@ -33,3 +33,12 @@
 - Idea 4 mixes: +Credit_z120_1986 EW1/4: SR 0.73 H1 0.41 (passes a/c/d numerically but weaker; credit standalone SR≈0 2008+ H2 -0.69; not saved); 30/20/20/30: 0.68 FAIL-ish; 4th member vov-CTA: SR 0.98 but 2012 -7.5% FAIL d. Not saved.
 - Charter 1 (vov CTA) FAILED — verdict: vov chop filter does not fix slow-grind whipsaw (2012-2013).
 - SAVED: sleeves/A1_carry_seasonal_v2.csv (+meta, + scripts/a1_carry_seasonal.py). Corr to library 0.02-0.05, corr to A1_mix 0.32.
+# r5 (2026-08-30): 4 charter ideas + hybrid tested (gold-vt20 0.75, carry-book-vt15 0.74 corr1.0-to-saved,
+# seasonal-asymmetric 0.92 fails yearly+corr, UST2-LF PHANTOM-CARRY artifact 1.55->0.53 honest, hybrid 0.98 fails corr 0.53).
+# 0 sleeves saved. NEW artifact class documented (unfunded leverage on TR books). Repro: scripts/r5_charter.py
+
+## r6 (2026-08-30) — charter r6, 4 ideas, 1 SAVED (A1_infl_breadth_mom)
+- idea1 curve carry 2s10s/10y30y zmom/mr/vt/long-only, zwin{126,252,378}xzth{.75,1,1.25}: SR -0.72..-0.01, all FAIL (2022 -50% on 2s10s).
+- idea2 infl breadth quad publag vt10: SR 1.15 H1 .94/H2 1.32 negyr1 -0.7% p=0.0000 corr .299 -> SAVED. vt15 1.09; no-publag 1.23 VOID; trio-no-slv 0.73 FAIL.
+- idea3 vov SPY standalone: SR 0.46 FAIL.
+- idea4 profit-take 2/3xATR: SR -0.02/+0.02 vs base 0.54 FAIL (hypothesis refuted; first impl had persist-position bug, fixed then killed).

@@ -1,0 +1,18 @@
+=== agent A3_xs_quality round r6 start Sun Aug 30 13:44:21 CST 2026 ===
+Round r6 complete. **Verdict: all 4 charter families tested, 0 sleeves saved — every failure documented with full gate evidence.**
+
+## Summary of what happened
+
+**Infrastructure (before any verdicts):** Built `r6lib.py` general-rebalance backtester and **verified it against the campaign-verified r2lib** (corr 1.000, maxdiff 0.0, exact repro of saved dualmom SR 0.89/H1 0.99/H2 0.80). The cross-check caught a stale-position bug in v1 (invested month-ends only registered → positions never went flat; first divergence 2007-12-03 with 79 phantom names). Fixed and documented before any gate was scored.
+
+**The four charter ideas (gates: SR≥0.7, halves≥0.35, ≤3 negYr, worst>−8%, circ-shift scramble p<0.05, plateau, corr<0.35 to champion):**
+
+1. **Daily weekday momentum** — Long-only top-Q: SR 0.85, H1 1.15/H2 0.74, 2 negYr, worst −6.3% — passes all performance gates but **corr 0.641 to champion / 0.704 to my own dualmom** → the equity-beta trap again. L/S tercile: SR −0.28 (short leg still toxic on this panel). Beta-hedged salvage: best SR 0.58 at corr 0.362, worst −12.9%. **FAIL — no β kills corr while keeping SR.**
+2. **Beta-rotation (bottom-beta quintile + MA gate)** — base SR 0.58; frac-40% variant passes performance (0.73) but corr 0.517/0.712. **FAIL — same gated-equity exposure as dualmom.**
+3. **Volume-shock reversal event book** — the one genuinely orthogonal family (corr 0.20–0.37). Best cell corrected construction: SR 0.685, corr 0.344, H1 0.57/H2 0.81, 3 negYr, worst −6.9%, plateau clean (6/6 neighbors 0.67–0.70) — **but circular-shift scramble FAILS: real 0.685 vs null95 0.772, p=0.185**. The drift premium isn't shock-specific enough. Also documented a construction discrepancy honestly (loop 0.72/corr 0.3508 vs corrected 0.685/0.3439; verified pandas iloc 2-array == numpy pairwise-outer) — **fails under either**.
+4. **Dispersion regime retiming** — charter rule (high dispersion → carry dualmom) **destroys** the sleeve: 0.89→0.56. Inverse rule: SR 0.70 but corr-to-old 0.734 and no ≥0.1 SR improvement — fails both charter pass-as-new conditions. **Fails cleanly in both directions.**
+
+**Key finding for the campaign:** this is the first round where corr is the binding gate, not SR — every long-only panel construction carries 0.43–0.73 corr to the champion. A corr≤0.35 mission sleeve won't come from price/volume-only signals on this survivorship-biased panel; it needs a different asset class.
+
+FINDINGS.md appended (numbered per-idea entries + conclusions), LOG.md updated, last line is exactly `ROUND r6 DONE`. Used ~24 tool calls of the ~100 budget.
+=== agent A3_xs_quality round r6 end Sun Aug 30 14:26:05 CST 2026 exit 0 ===

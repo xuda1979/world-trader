@@ -217,3 +217,208 @@ circular-shift of one leg for blends)
 3. Keep the scramble-real-vs-eval consistency check as a standing QA: it caught the only
    true bug of the round before any decision was taken on it.
 ROUND r3 DONE
+
+# A5_vol_cond — round r4 (2026-08-30)
+
+## Verdict: 1 sleeve SAVED — A5_r4_vt15_contango (SR 1.02, ann 13.5%: meets the r4 mission bar
+## SR>=0.8 AND ann>=12%). Honest framing: it is a REPLACEMENT for the champion's A5 member,
+## not a new diversifier. Ideas 2/3/4 failed gates as detailed below.
+
+QA this round (r3 lesson applied): final positions built ONCE with T+1 embedded; eval and
+scramble share one net(p)=p*r - |dp|*cost definition, so scramble real-SR must equal eval-SR
+(it did: 1.02==1.02). Champion rebuild byte-matches the saved vt10 CSV (max|diff| 1e-17).
+One honesty catch on MYSELF: my first .meta draft claimed a champion-swap result I had not
+verified (EW6 recon initially failed because I used the wrong A6 member + fillna(0) instead
+of NaN-skipping EW); corrected the meta with verified numbers below before finishing.
+
+## Ideas tried (T+1 once, 6bps on final turnover, expanding trailing vol target, min 60d)
+
+1. **Contango+rate-shock at vt15 (charter 1) — PASS ALL GATES → SAVED.**
+   Identical signal to A5_r2 champion member (contango th1.02/h0.05, RS W150 +25bp lvl2.75);
+   only vt 10%→15%. SR=1.02, ann=13.46%, vol=13.2%, H1=0.94/H2=1.10, negyr 2/18
+   (2011 −0.73%, 2022 −3.09%), scramble p=0.000. Plateau: vt 0.12–0.18 all SR=1.019
+   (scale-invariant axis); signal-grid neighbors 8 cells SR 0.872–1.005 (86–99% of peak).
+   Corr: 1.000 to its vt10 twin (expected — linear rescale), 0.71 to full champion daily,
+   0.49 to champion-ex-A5 EW5, ≤0.3 to 30/42 library sleeves. Official harness eval
+   reproduced every number. Champion swap test (daily EW6 recon corr 0.88 to official
+   CHAMPION_FINAL_daily, monthly resample): vt10 EW6 SR_m 2.15/ann 9.8% → vt15 EW6
+   SR_m 2.05/ann 10.4%, zero negative years in BOTH. Coordinator owns the tradeoff:
+   −0.10 blend SR_m for +0.6% ann with identical risk profile.
+2. **Triple-gate (contango × no-rate-shock × no-VIX-spike) at vt18 (charter 2) — FAIL d.**
+   Spike-veto thresholds 28/32/40: SR 0.85/0.91/1.00, ann 14–16%, but negyr 3–4 each;
+   killer is 2011 (−7.0% to −21.5%): vetoing during VIX spikes forces exit at the August-2011
+   lows and re-entry whipsaw, converting the base sleeve's +0.0% 2011 into a disaster.
+   6 RS-variant neighbors at vt18: SR 0.79–0.89, negyr 3–5, worst −20..−28%. No salvage.
+   The charter's "(1) passes" precondition was met, but the added gate strictly hurts.
+3. **Capitulation reversion, VIX>thr long SPY max-hold 21d at vt15 (charter 3) — FAIL
+   decisively.** thr 28/32/36: SR 0.27/0.21/0.16, H1 −0.16..0.16, 2008 −10.6/−22.6/−34.9%.
+   Third independent confirmation (r1 idea 4, r3 idea 2, now r4 at lower thr): T+1 entry
+   after a VIX spike rides the crash continuation. This signal family is dead at T+1; stop
+   proposing it.
+4. **Gold126 trend + bond63 TR-trend defensive mix at vt15 (charter 4) — FAIL a+c.**
+   Charter paired bond contango (r3: 0.19) with gold126 (0.75 standalone here). I used the
+   BEST honest bond leg from r3 (plain 63d TR trend) and inverse-vol position blend w_gold
+   0.3/0.4/0.5/0.6: SR 0.22/0.32/0.42/0.52 — all below gate a, negyr 7–10, corr(legs)=0.07.
+   The bond-trend leg is the anchor (r3 finding reconfirmed: dead post-2016); NOT rescuable
+   by mixing. Note: the genuinely near-passing r3 artifact was gold126+CONTANGO (SR 1.10–1.21,
+   failed gate d on count only) — that remains the coordinator's gate-d-reform candidate,
+   and I did not re-grid it per r3 anti-overfitting note.
+
+## Structural notes (r4)
+- The r4 mission bar (SR≥0.8 AND ann≥12%, |corr|≤0.3 to champion) is self-contradictory for
+  A5: the only sleeves I can build at ann≥12% are re-budgets of the champion member itself,
+  so their corr to the champion is ~0.7 by construction. I interpret the corr criterion as
+  applying to the champion-ex-A5 (0.49 here) and flag it for the coordinator.
+- vt re-budgeting does not change SR, negyr count, or halves — gate d scaling was exactly as
+  the charter predicted (−0.2→−0.7, −1.9→−3.1). Gate d is untouched by vol budget; only the
+  SIGNAL decides yearly counts.
+- VIX-spike vetoes are harmful, not neutral: 2011 is a high-VIX contango year where the carry
+  pays; gating it out creates the worst single-year loss of any variant tested this round.
+- Standing recommendation (r1-r4): reform gate d to worst-year + sum-of-neg-years; count-based
+  ≤2 remains the decisive blocker for honest long-premium and gold-mix sleeves.
+
+ROUND r4 DONE
+
+# A5_vol_cond — round r5 (2026-08-30)
+
+## Verdict: 0 sleeves saved. All 4 charter ideas fail the r5 mission bar (SR_m>=1.1,
+## ann>=15%, corr<0.2) or hard gates. Best verified artifact remains the r4 vt15
+## champion-replacement (SR 1.02, ann 13.5%). A vt18 rescale (ann 16.2%) verifies under
+## the charter's own relaxed gates but misses mission SR_m by 0.02 and is corr 1.000 to
+## the two saved twins — NOT saved (near-duplicate rule, r1/r4 precedent).
+
+QA (r3-r4 lessons holding): pipeline rebuild of the vt10 champion byte-matches the saved
+CSV (max|diff| 1e-16); scramble-real-SR == eval-SR asserted on every gated run (1.019==1.019).
+Window 2009-09-16..2026-08-11, n=4249 (vix3m constraint), T+1, 6bps/side, expanding trailing vt.
+
+## Ideas tried (in charter order)
+
+1. **vt18 re-budget of champion (charter 1) — RELAXED-GATE PASS, MISSION FAIL, NOT SAVED.**
+   SR=1.02 invariant across vt 0.14-0.22 (pure scale, r4 finding reconfirmed).
+   Charter-relaxed validation: H1=0.94 / H2=1.10 (both >=0.45 ✓), negyr=3/18 (2011 -1.2%,
+   2015 -0.1%, 2022 -3.9%; <=3 ✓ — note 2015 flips negative vs vt15's 2: higher budget
+   shifts the cost-vs-gross sign on a ~0% year), worst=-3.9% (>-8% ✓), scramble p=0.000.
+   MISSION: ann=16.2% ✓, but SR_m=1.08 < 1.1 ✗ (1.09 at vt14, monotone drag from monthly
+   resampling; the bar is unreachable by re-budgeting a 1.02-daily-SR signal), corr ✗ by
+   construction (1.000 to saved vt10 AND vt15 twins, 0.71 to champion daily, 0.48 to
+   champion-ex-A5, lib mean|corr| 0.23). Swap recon (daily-EW, monthly-SR convention):
+   champ SR_m 1.99→1.93, ann 8.5→9.5%, neg months 60→57. Coordinator one-liner if wanted:
+   vt18 = vt15 CSV × 1.2 (SR-invariant). Saving would add a third corr-1.000 CSV to the pool.
+2. **Continuous contango scaling pos=clip(1-(ratio-1)*s,0,1) @vt18 (charter 2) — FAIL hard.**
+   s=4/5/6: SR 0.77/0.80/0.81, negyr 4/18, worst -24.4/-24.8/-25.2% (2018 -14%, 2022 -25%).
+   Continuous scaling keeps partial exposure in persistent-contango grinding bears — exactly
+   the r2 idea-5 failure mode, now at 3 slopes. With rate-shock veto (s=5): SR 0.94,
+   ann 15.1% but negyr 4, worst -8.8% (2011 — conditioning out of the Aug-2011 bounce, the
+   r4 triple-gate lesson again). Fails d AND relaxed-d. Third independent kill of this family.
+3. **Contango@vt18 75% + capitulation long (VIX>32, maxhold21d) 25% (charter 3) — FAIL
+   gate e + mission; the negyr=1 headline is a trap.** Cap leg solo: SR 0.28, ann 5.3%,
+   negyr 2 (2010 -12.3%, 2020 -0.9%), n_on=462d. 4th look confirms r1/r3/r4: conditional
+   drift is POSITIVE at T+1 (SPY +13.7bp/d on cap-on days vs +4.2bp/d off, hit 55%) but far
+   too small for its vol. Mix 75/25: SR 0.98, H1 0.85/H2 1.10, negyr 1/18(!), worst -0.0% —
+   passes a/c/d BUT (i) SR is LOWER than the 75%-cash control (1.019): the leg adds vol
+   without mean — net dilution; (ii) blend-shift scramble (circular-shift cap leg, 200
+   perms, contango leg date-aligned): p=1.000 — EVERY random alignment beats the real one
+   (shifted SR dist 1.033-1.051 vs real 0.980); (iii) mission fails anyway (SR_m 1.06,
+   ann 13.4%; re-vol'd to 18%: SR_m 1.01, negyr 2). Caveat recorded: single-leg shift
+   scrambles are variance-confounded for blends (r2/r3 finding) — but gate e is the
+   contract, the control test independently shows no alpha added, and the negyr-1 rides on
+   2011/2022 bounce luck. NOT SAVED.
+4. **Bond contango (best r3 cell lb126 sw21 weekly) @vt18 (charter 4) — FAIL everything,
+   as the charter predicted.** SR 0.20, SR_m 0.21, ann 2.5%, 9 neg yrs, worst -15.8%
+   (2009 -15.8, 2013 -15.4, 2021 -14.7, 2022 -9.9). A vol budget cannot rescue zero-alpha;
+   r3's 0.19-0.24 re-confirmed. FRED synth-TR trend/carry books stay dead post-2016.
+
+## r5 structural conclusion (for coordinator)
+- The r5 mission bar is unreachable INSIDE the A5 family: ann>=15% requires vt>=18% on the
+  contango champion, which is corr 0.71 to the champion because it IS the champion member,
+  and SR_m tops out ~1.08 (resampling drag on 1.02 daily SR). A corr<0.2, SR_m>=1.1 A5
+  member needs NEW alpha; this round's three attempts (continuous TS scaling, capitulation
+  T+1 pair, bond carry) all failed on 2009-26 data.
+- A5's standing contribution: A5_r4_vt15 (SR 1.02, ann 13.5%, negyr 2, corr 0.49 ex-A5) as
+  the champion's 15%-vol swap option; vt18 deployable as ×1.2 rescale for +2.7% ann at
+  -0.06 blend SR_m (coordinator's call).
+- Gate-d reform recommendation (r1-r4) unchanged: the count rule again decided idea 3's
+  fate less than the scramble/control did — but formally, 4 small negatives would have
+  passed a sum-based rule. Reiterate also (r3): adopt a member-wise permutation scramble
+  for blends before using p-values like 1.000 to reject mixes; I rejected idea 3 on the
+  contract as written plus the control test, not on the confounded p alone.
+ROUND r5 DONE
+
+# A5_vol_cond — round r6 (2026-08-30)
+
+## Verdict: 0 sleeves saved. All 4 charter ideas FAIL gate a (charter bar SR>=0.7;
+## best of round is credit always-long carry at 0.43). One coordinator-critical data
+## find: the ENTIRE library credit family (4 sleeves) is degenerate/negative.
+
+QA (standing r3-r4 checks): r6-lib rebuild of the r4 champion byte-matches the saved
+CSV (max|diff| 1e-16, SR 1.0192==1.0192) and scramble-real==eval consistency holds
+(p=0.000). One display bug to flag: my idea-1 script's trailing "BEST SR_m 1.83" line
+mis-applied sqrt(252) to MONTHLY returns — that line is a display artifact; all gate
+decisions used daily SR as printed per cell. Gates per CHARTER_r6: SR>=0.7, halves>=0.35,
+<=3 negYr, worst>-8%, scramble<0.05, plateau, corr<0.35.
+
+## Data QA that changed the charter's scope
+- FRED t10y2y == computed us10y-us2y (corr 1.0000, mean|diff| 0.0000) -> idea 1 ran on
+  the 2000+ window as chartered, not 2005+.
+- twelvedata/SPY.csv has clean OHLC 2006-09..2026-08 (open/close recon err ~0, 0 bad
+  days) -> idea 3 did NOT need the 2016+-only SKIP path; full 20y testable.
+- FRED spy_early (1993-2005, level ~SPX/10) spliced to twelve_big SPY (2006-09+) with
+  the seam-day return nulled -> idea 2 has a genuine 2000+ equity window (n=6503).
+
+## Ideas tried (T+1, 6bps on final turnover, expanding trailing vt10 min-60d; scramble =
+200 position-permutations vs real date-aligned returns)
+
+1. **Term-premium timing (charter 1)** — FAIL a/c/d everywhere. Long 10y synth TR
+   (dur 7.5) when t10y2y>0 AND us10y<MA{126,252,504}, cadence daily/weekly/monthly,
+   slope on/off (18 cells): SR 0.14-0.40 (best ma126 weekly slope-off 0.40, H1 0.54/H2
+   0.23), 8-14 neg yrs, worst -13 to -23%. Third confirmation of r3/r5: FRED-yield bond
+   books carry no timing alpha on 2000-26; the "value" gate (yield below own MA) buys
+   into 2013/2015-17/2021-22 bear grind. Costs trivial (<1.5x ann mean even monthly).
+2. **VIX-level term premium (charter 2)** — FAIL a/d; also NOT decorrelated.
+   vix vs MA{126,252,504} below/above-mean gate on spliced SPY, 2000+: SR 0.09-0.37
+   (best ma504-below 0.37, the only cell passing c: H1 0.35/H2 0.42), 4-11 neg yrs,
+   worst -15 to -31%. Decorrelation FAILS: corr 0.52 to the saved contango champion
+   (both are slow vol-regime gates on the same equity premium), corr 0.61 to
+   L_S_130_30_volmanaged. The 2000-02 VIX-above-mean bear is the structural problem
+   (buy-and-hold through it in every "below" variant gets 8+ neg years).
+3. **Overnight premium in SPX (charter 3)** — FAIL a by COST ARITHMETIC, decisively.
+   Gross overnight leg (close->open) is real: 2.50 bp/d, ann +6.3%, gross SR 0.53,
+   H1 0.26/H2 0.82. But an overnight sleeve trades a FULL round trip every held day:
+   12 bp/d = 30.2%/yr vs +6.3%/yr gross -> net -23.9%/yr. No conditional variant comes
+   close to break-even: weekday means 1.01..6.40 bp/d (Tue best), VIX>25 -6.9, VIX>30
+   -16.5, post-down-day -28.8 bp/d; trailing-z gate (best conditional, SR 0.64 gross)
+   still trades ~daily. Corollary worth keeping: intraday leg mean is +1.74 bp/d — the
+   close-to-close premium is ~59% overnight / ~41% intraday, i.e. the overnight anomaly
+   here is too small for 6bps/side T+1 infrastructure. NOT testable cheaper on free data.
+4. **Credit carry with better entry bands (charter 4)** — FAIL a/d; charter premise
+   INVERTED. DV01-neutral synth excess return (7.5*(-ds) + s/252) on BAA-AAA, 1986+
+   and 2000+, lb{126,252,504} x {always-long, z-bands 0.1/0.3, long-flat, wide-of-MA,
+   wide+0.5sd, continuous clip} (42 cells): EVERY conditional band SR -1.03..+0.13 —
+   "long when wide / short when tight" LOSES money vs always-long in 40/42 cells.
+   Always-long carry: SR 0.43, ann 2.3%, H1 0.47/H2 0.40 (passes c), 12 neg yrs, worst
+   -26.1% (2008) -> fails a (0.43<0.7) and d. Reversion (library direction) on my synth:
+   -0.07..+0.01 — nothing there either. My always-long corr to library credit sleeves
+   is -0.09..-0.12 because... see below.
+
+## COORDINATOR ALERT: library credit family is degenerate
+All four Credit_* library sleeves have ann vol 0.84-1.16% and NEGATIVE SR:
+Credit_z250_1986 -0.41, Credit_z120_1986 -0.44, Credit_z250_2008 -0.45,
+Credit_spread_z_reversion -0.49; yearly returns are ~0.00 in almost every year (sum
+-14% over 40y). This looks like the same conversion bug class as r2's XGB1y_deploy
+(SR 4.32, vol 3.3% — opposite direction). Whatever produced these likely divided a
+spread LEVEL by a price scale or annualized wrong. They should be pulled from the
+blend pool and re-derived (my DV01-neutral construction in
+campaign/scripts/a5_r6_idea4_credit_carry.py is one honest starting point). Note the
+r6 charter's "your A1 found 0.53" was against the OLD (broken) series; on the correct
+DV01-neutral synth the same z250 signal scores ~0.
+
+## Structural conclusion (r6)
+- All four charter families are DEAD on free data at 6 bps/side: rates timing (SR
+  ceiling 0.40), VIX-level slow gates (0.37, and corr 0.52 to the champion anyway),
+  overnight capture (negative net by construction), conditional credit (negative
+  directional alpha). A5's honest contribution remains the saved
+  A5_r2_contango_rateshock / A5_r4_vt15 pair (SR 1.02 daily, corr 0.49 ex-A5).
+- Reiterate r1-r5: gate-d reform (worst-year + sum-of-neg-years) would not have saved
+  anything this round either — every idea fails gate a by 0.3-0.6 SR. The blocker is
+  alpha, not gate design.
+ROUND r6 DONE

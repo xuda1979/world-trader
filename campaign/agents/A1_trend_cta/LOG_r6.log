@@ -1,0 +1,15 @@
+=== agent A1_trend_cta round r6 start Sun Aug 30 13:44:42 CST 2026 ===
+## Round r6 complete — 1 sleeve saved, 3 families killed
+
+**Charter ideas executed in order, all gates run on each:**
+
+**1. Curve roll-down carry (2s10s / 10y30y steepener) — FAIL, family dead.** Charter-literal |z252|>1: 2s10s SR **-0.43** (15 neg yrs, 2022 -50.4%), 10y30y -0.01. All 8 variants negative (vt10 re-lever, mean-reversion, long-only, zwin 126-378 × zth 0.75-1.25). Sign sanity: P/L uncorrelated to spread direction — the "DV01-neutral" steepener is a losing conditional-duration bet on free FRED yields.
+
+**2. Inflation-proxy momentum — SAVED: `A1_infl_breadth_mom`.** The winner is basket **breadth** (fraction of {xau, slv, wti, copper} with 126d return > 0 → long EW complex), not the charter's xau/copper ratio (0.65, -44% year). Official eval: **SR 1.15, H1 0.94 / H2 1.32, ann 12.5%, vol 10.9%, MaxDD -12.1%, 1/19 neg years (2012 -0.7%)**, 2021 +35.4% / 2022 +18.4% (corr-to-champion 2022-only 0.09). Gates: scramble p=0.0000 (500 position-rotations, identity check enforced), plateau 0.89-of-peak flat across L63-126/vt10-20/cap1.5-3, corr 0.299 < 0.35. **Honesty disclosures:** copper is monthly → publication-lagged to M+1 (no-lag SR 1.23 is VOID); charter trio without silver scores only 0.73 (2008 -20%) — silver is a material member, reported not hidden.
+
+**3. Vol-of-vol standalone — FAIL.** SPY when VIX vov calm: SR 0.46, 6 neg yrs, 2022 -10.5% — equity beta with a filter that flips stressed after crashes start. Confirms r5: vov is a filter, not standalone alpha.
+
+**4. Breadth-CTA profit-taking — FAIL, hypothesis refuted.** Caught a bug in my first implementation (positions persisted through trend flips → 2020 -79%), fixed it honestly, and the fixed +2/3×ATR take makes the book *worse* (SR -0.02/+0.02 vs base 0.54): the bad years are signal-level chop, not unbanked gains.
+
+**Findings appended** to FINDINGS.md with numbered summary; last line is exactly `ROUND r6 DONE`. Deliverables: `sleeves/A1_infl_breadth_mom.csv` + `.meta`, repro `campaign/scripts/a1_inflation_breadth.py`, full repro of failures in `scripts/r6_charter.py`.
+=== agent A1_trend_cta round r6 end Sun Aug 30 14:09:52 CST 2026 exit 0 ===

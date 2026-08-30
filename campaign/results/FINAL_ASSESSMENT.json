@@ -1,0 +1,28 @@
+{
+ "status": "ACHIEVED: SR>=2 net (SR_m=2.03, 2008-2026, 6bps/side). NOT JOINTLY ACHIEVABLE: SR>=2 AND ret>=20% AND MaxDD<5% with honest free-data sleeves.",
+ "best_SR_system": {
+  "name": "CHAMPION-6",
+  "window": "2008-01..2026-08",
+  "monthly_SR": 2.03,
+  "ann_ret_pct": 8.8,
+  "monthly_MaxDD_pct": -3.5,
+  "daily_MaxDD_pct": -4.7,
+  "cost": "6bps/side embedded",
+  "neg_years": "0/19"
+ },
+ "best_return_near_SR2": {
+  "L": 2.0,
+  "ann_pct": 15.4,
+  "SR_m": 1.83,
+  "daily_MaxDD_pct": -9.7
+ },
+ "why_joint_infeasible": "MaxDD scales approx linearly with return. 20% ann needs ~2.3-2.5x vol over champion (8.8%->20%): daily MaxDD -> -9.7 to -12% at honest T-bill financing, far over 5%. A 5% DD cap at the ~8.6% vol needed for 20% ret requires DD/vol ~0.20, 4-5x better tail efficiency than any diversified real-sleeve portfolio (best ~0.4-0.8). Manufacturing SR>=2 + 20% + 5% DD jointly requires either unhedged leverage (blows DD) or parametric/lookahead vol-smoothing (dishonest).",
+ "sleeves": {
+  "XGB1y": "XGB 1y monthly L/S PIT book",
+  "MrbPEAD": "Merger-arb PEAD composite",
+  "A1_mix": "Breadth-CTA + multi-strat mix",
+  "A5_10": "SPX contango carry with rate-shock veto",
+  "A6_pair_fm": "Gated resid-mom + FactorMom pair",
+  "A1_carry": "Crude-Brent z-fade + natgas + gold trend"
+ }
+}

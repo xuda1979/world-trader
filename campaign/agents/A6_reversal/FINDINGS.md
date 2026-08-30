@@ -194,3 +194,180 @@ Infra: r3_lib.py (champion reproduction, fixed circular-shift scramble, gates); 
 still degenerate upstream — do not use it for gate e.
 Nothing saved to sleeves/ per honesty contract.
 ROUND r3 DONE
+
+# ROUND r4 SUMMARY (appended 2026-08-30)
+Directive: sleeve SR>=0.8 AND ann>=12%, |corr|<=0.3 to champion (6-sleeve EW, monthly SR 2.03;
+CHAMPION_FINAL_daily). Protocol as r1-r3 + charter targets; corr gate measured monthly (corrD daily
+also reported). All runs reproducible: campaign/scripts/a6_r4_momentum_budgets.py (verified).
+
+1. Idea 1 — a6_r2_pair_residmom_fm1926 re-budgeted at vt15 (charter "fast win"). **FAIL (corr only).**
+   The re-budget itself scales beautifully: SR 0.92 (was 0.91), ann 14.5% (was 9.5%), H1 0.93/H2 0.91,
+   1 neg year (2016 -1.3%), plateau w_rm 0.4-0.6 all SR 0.84-0.98. Killed ONLY by |corr| to champion
+   = +0.58 monthly / +0.78 daily (gate <=0.3). Root cause is tautological: A6_pair_fm is one of the
+   champion's 6 legs, so this sleeve is 1/6 of the champion itself — it can never be decorrelated
+   from it. Control at vt10 reproduces the saved sleeve (SR 0.91) and fails the same corr gate +
+   ann>=12%: the saved r2 sleeve was always champion-internal, its corr gate never checked vs the
+   final champion (it passed when measured vs the r2-era champion proxy).
+
+2. Idea 2 — rm + FactorMom_1926 + QA_dualmom TRIPLE mix at vt15. **FAIL (corr only).**
+   SR 0.90, ann 13.0%, H1 0.87/H2 0.92, 1 neg year (2022 -1.5%) — everything passes except
+   corrM +0.60 / corrD +0.81. Leg corr: rm-qa +0.85 (both equity momentum LO), rm-fm 0.09,
+   qa-fm 0.10. Weight grid 0.2-0.5 per leg: corrM 0.56-0.61 always fails; only side-failure is
+   0.5/0.25/0.25 (2022 exactly -5.0% not > -5%). DECOMPOSITION (the round's key numbers): corr of
+   the triple to champion legs = A6_pair_fm +0.87, A5_contango +0.56, A1_mix +0.52, XGB -0.17,
+   MA -0.03. Exhaustive simplex search (0.1 steps): min |corrM| = +0.26 achieved ONLY at
+   (rm,qa)=(0,0), fm=1 — i.e., no positive weight on rm or qa keeps the gate. rm-only +0.63,
+   qa-only +0.55.
+
+3. Idea 3 — momentum-on-momentum meta-timing (charter: expand rm book when own trailing 12m SR>0.5,
+   shrink to 25%) at vt15. **FAIL (gate d + corr).** IMPLEMENTATION BUG CAUGHT FIRST: my first run
+   used DAILY mean/std (no *sqrt(252)) for the trailing SR -> values ~0.06 never crossed any
+   threshold -> the "timing" was a constant 0.25 multiplier and the three thresholds returned
+   byte-identical results (classic stuck-signal tell; shrink=0.0 zeroing everything confirmed it).
+   With annualized trailing SR (median 1.02, 69% of days at full size): SR 0.81-0.89, ann
+   15-17.4%, H1 0.68-0.78 / H2 1.10-1.22, but 2022 -10.0 to -10.9% (gate d; trailing SR was still
+   high after the good 2021, so the meta-signal is by construction blind to the crash — same
+   structural lag as every r1/r2 regime gate) and corrM 0.46-0.54. Meta-timing on fm-only (the
+   corr-legal leg) is a no-op for year counts (fm's neg years are pre-2007 history at vt15 vs its
+   1932-2026 record) and fm-only standalone fails full SR (0.45) + gate d anyway.
+
+4. Scramble (gate e) on the near-misses — infra notes for the campaign, run BEFORE any save would
+   have been attempted, since all candidates were already dead on the corr gate:
+   (a) all-legs-rolled circular-shift null (each leg independently shifted, costs+VT repriced):
+   p=0.920 triple / p=0.155 pair / p=0.970 triple-meta — WARNING: rolling a 1926+ library leg's
+   returns shifts Depression-era draws INTO the 2007+ eval window (verified: a shift of 5155 maps
+   eval-start into 1943) and destroys inter-leg diversification, making the null uninterpretable
+   for multi-leg mixes; do not reuse this variant blindly.
+   (b) precedent-consistent null (roll ONLY the equity leg's weight path vs returns, library legs
+   at true timing — the r2/r3 methodology): pair@vt15 p=0.005, triple p=0.205, CONTROL saved
+   pair@vt10 p=0.005 (r2 reported 0.000 under slightly different seed/path handling — the saved
+   sleeve's timing edge is thin-but-real vs a 1-in-200 bar, worth the coordinator knowing).
+5. Infra: r4_lib.py (rm-leg cache, full_gates with charter thresholds + champion corr, composite
+   scramble); composite_sr had a pd.DataFrame(list-of-series) transposition bug (fixed via
+   pd.concat axis=1) caught when the scramble crashed on RangeIndex-vs-str comparison.
+VERDICT r4: 0/3 charter ideas saved. The momentum family cannot contribute a NEW sleeve under the
+|corr|<=0.3 gate because the champion already contains 2-3 equity-momentum books (A6_pair_fm
+directly; A1_mix/A5_contango at +0.5). The charter's own arithmetic (three momentum-family legs,
+corr 0.4-0.6 among themselves, "decorrelated from non-momentum champion legs") is empirically
+false: the mix inherits corrM ~0.6 through its overlap with A6_pair_fm and the A1/A5 equity beta.
+RECOMMENDATION to coordinator (not a sleeve): the correct venue for these returns is champion-level
+re-budgeting — e.g. re-vt the champion's A6_pair_fm leg at vt15 (its pair@vt15 numbers are
+station-grade: SR 0.92, ann 14.5%, 1 neg year) or replace the leg with the vt15 pair — which raises
+champion ann at unchanged structure; that decision lives at blend level, where the corr gate is
+measured against the OUTSIDE world, not against a book that is itself a leg. Also flagged: QA_dualmom
+(A3) is corr +0.85 to my rm leg — A3/A6 look like one economic family for blend-diversification
+purposes; the library's "40 sleeves" count overstates true independence.
+ROUND r4 DONE
+
+# ROUND r5 SUMMARY (appended 2026-08-30)
+Directive (CHARTER_r5): one sleeve SR_m>=1.1, ann>=15%, corr<0.2 to champion (relaxed gate d:
+negYr<=3, worst>-8%). Protocol r1-r4: twelve_big + library legs, 6bps/side, T+1, trailing
+expanding VT, gates a-g. Reproducible: campaign/scripts/a6_r5_charter.py (verified run below).
+
+1. Idea 1 — rm+FactorMom_1926 pair re-budgeted vt18 (charter "fast win", predicted SR~0.92
+   ret~17.5%). **FAIL on corr ONLY — every other gate passes, including STRICT gate d.**
+   SR 0.92, ann 17.3%, vol 18.9%, H1 0.92/H2 0.91, negYr 2 {2016 -1.6, 2022 -0.1}, worst -1.6%
+   (passes even the un-relaxed gate: <=2 neg yrs, worst > -5%). Scramble p=0.005 (rm path rolled,
+   fm true-timed, 200x, costs+VT repriced). Plateau: 25-pt grid w_rm 0.4-0.6 x vt 14.4-21.6%,
+   chosen SR 0.92 vs peak 0.98, neighbor-min 0.83, 24/24 neighbors within 20% of peak — the best
+   plateau of any A6 candidate ever. Killed by corrM +0.58 / corrD +0.78 to champ5 and +0.54/+0.67
+   to the 6-leg CHAMPION_FINAL (gate <0.35). Tautology confirmed with new evidence: corr to the
+   champion EXCLUDING A6_pair_fm (the outside world) is only +0.24 — this sleeve IS 1/6 of the
+   champion. NOT SAVED per contract; correct venue is champion-level re-budgeting (raise the
+   champion's own A6_pair_fm leg to vt18: +~8pp champion ann at unchanged structure/legs).
+
+2. Idea 2 — pair@vt15 + own-trailing-12m-SR meta-timing (expand when SR12>thr, shrink to shr).
+   **FAIL (corr + gate d + ann).** thr=0.5/shr=0.25: SR 0.81, ann 11.0% (<12), H2 0.70, NEW third
+   neg year 2023 -2.9%, corrM 0.55. thr=0.25/0.5 and thr=0/0.5: SR 0.89/0.92, ann 12.1/12.6,
+   but 3 neg yrs {2016, 2022, 2023} and corrM 0.57/0.49-0.57. Meta-timing inherits the underlying
+   corr (0.55-0.57 vs 0.54 base) while degrading SR — it only re-times an already-correlated book,
+   and its own trailing SR is structurally blind to regime turns (r4 finding replicated at the
+   pair level; 2023 is the new victim: good 2022-hedge year -> full size -> chop).
+
+3. Idea 3 — FactorMom_1926 @vt15 + MA gate (self-gate on own equity curve / SPX gate / DM126).
+   **FAIL gate a — and LOOKAHEAD TRAP #4 caught in my own first pass.** Same-day gate application
+   (state(t) x r(t)) showed SR 1.39-1.48 with 2 neg years — mirage: the "gate" peeks at today's
+   library return. Honest form (decide at t on data <=t, hold (t,t+1], +6bps per one-side flip):
+   self-MA100 SR 0.07, MA150 0.08, MA200 0.03, hysteresis 0.19-0.24 — FactorMom_1926 spends most
+   of 2007-2026 below its own MA, and the expanding-VT then amplifies whipsaw losses after flat
+   stretches (2023 -21%, 2026 -14-18% on gated variants vs ungated -15.2/-5.7). Ungated fm@vt15
+   2007+ is SR 0.35 (H1 0.37/H2 0.33), 6 neg yrs; SPX-MA/DM gates 0.30-0.50 with corr 0.33-0.37.
+   fm-alone cannot be a sleeve in the 2007+ eval window; its pre-2007 history cannot rescue SR
+   without the pair structure (idea 1), which is corr-blocked.
+
+Infra: r5 used r4_cache legs + r3_lib champion reproduction; corr measured to BOTH champ5 (r3
+5-leg) and CHAMPION_FINAL (6-leg, from campaign/results/CHAMPION_FINAL_daily.csv) — recommend
+always reporting the 6-leg corr going forward. All runs logged in LOG_r5.log.
+
+VERDICT r5: 0/3 saved. Round-terminal statement for the A6 momentum/reversal family: the family
+contains ONE economically distinct book (gated resid-mom + FactorMom pair). It is station-grade
+at vt15-vt18 (SR 0.92, ann 14.5-17.3%, <=2 neg years, plateau 24/24, scramble 0.005-0.01) and it
+is ALREADY IN the champion — no re-weighting, re-budgeting, meta-timing, or gating of it can
+produce a sleeve that is simultaneously high-SR and decorrelated from a champion that contains it.
+Corr-gate arithmetic: min corrM of any rm-containing mix is +0.26 (r4 simplex), now +0.24 for the
+pair; the <0.3/<0.35 gates are unreachable by construction. RECOMMENDATION to coordinator
+(repeat, now with vt18 numbers): swap/re-budget the champion's A6_pair_fm leg to the vt18 pair —
+champion-level action, not a new sleeve. A6 has no remaining saveable ideas in this family;
+future rounds should look elsewhere (or be explicitly tasked with champion-internal optimization).
+ROUND r5 DONE
+
+# ROUND r6 SUMMARY (appended 2026-08-30) — NEW-FAMILY directive
+Charter: 4 ideas outside the closed reversal/momentum family. Gates r6: SR>=0.7, halves>=0.35,
+<=3 negYr, worst>-8%, scramble<0.05, plateau, corr<0.35. Protocol r1-r5 (twelve_big + hygiene
+price>=$5 & $2M 126d-median dollar-vol, 6bps/side, T+1, trailing expanding VT, corrM to 6-leg
+CHAMPION_FINAL). All runs reproducible: campaign/scripts/a6_r6_new_families.py (+ r6_lib.py,
+r6_idea1_pairs/2_lelag/3_52whigh/4_drift.py).
+
+1. Idea 1 — Pair-trading lite (charter 1). Top-40 same-cluster pairs (corr-clustering proxy —
+   NO sector metadata exists anywhere in the repo; buffett_sectors.json is a boolean map, so
+   same-sector == high-126d-corr, greedy top-40, max 2 pairs/name, monthly refresh), spread
+   z-score on trailing 252d (and 126d), |z|>2 enter / 0 exit, dollar-neutral. 7 configs
+   (topn 20/40 x zwin 126/252 x z 1.5/2/2.5 x exit 0/0.5): **SR 0.15-0.33 net, worst year
+   -8.0 to -23.4%, negYr 6-11** — ALL FAIL gate a (0.7) and gate d. Corr is tiny (+-0.02)
+   and H2>H1 — the signal is economically DEAD, not mis-sized. Turnover ~1100bps/day.
+   Cross-check: library StatArb_40pairs/z10/z15 on this universe are themselves SR -0.46/-0.09 —
+   independent confirmation this panel has no pair-convergence premium at daily frequency.
+
+2. Idea 2 — Lead-lag mega->small (charter 2). Big = top-50 by trailing 126d median dollar-vol,
+   small = bottom-50 of hygiene-OK names; mega-move at (t-hold..t-1] gates a long small-cap book
+   (liquidity-ranked or 126d corr-to-mega ranked), T+1. 9 configs: longwin h1 SR -0.06, h5 0.39;
+   both-side h1 -0.77 (17 neg yrs); reverse (shorting post-mega-up smalls) -0.71 to -0.79 — the
+   LAGGED edge is a small beta-trend effect, not 1d lead-lag. Best variant (corr-ranked, h10):
+   SR 0.62, ann 10.1%, H1 0.38/H2 0.87, negYr 3 {2015 -19.4, 2018 -11.7, 2022 -6.8}, corrM6
+   +0.36 — FAILS worst-year by 11pp and corr gate; and at h10 it has degenerated into a
+   small-cap trend follower (signal sum over 10d ≈ market momentum), not a lead-lag book.
+   VERDICT: no exploitable 1d lead-lag between mega- and small-caps here.
+
+3. Idea 3 — 52w-high momentum (charter 3, r1 idea 5 rerun). CR = close/252d-high, top tercile,
+   MA150 gate, VT15, monthly + weekly, EW + inv-vol, +/- mom>0 screen: 7 configs, **SR -0.27 to
+   0.17, worst -27 to -32%** (2014 -29%, 2025 -11 to -16% recurring). ALL FAIL gate a and d by
+   wide margins. The 52w-high anomaly is absent in this 298 mega-cap panel at monthly cadence —
+   consistent with r1 (plain 12m momentum SR 0.74 but 2008 -19.7%) — proximity-to-high adds
+   nothing and the MA150 gate saves nothing (2022 -7.1 to -8.7%, 2014 crashes are idiosyncratic
+   book concentration).
+
+4. Idea 4 — Earnings-drift proxy (charter 4). Annual fundamentals (7451 rows, fy 2009-2027, 501
+   symbols) have NO filing dates -> PIT handled conservatively (available at FY-end + 182d).
+   Names with revenue growth > 0/10/20% yoy AND near 252d high (CR>0.95), cap 40 deepest,
+   monthly, MA150-gated and ungated: **SR -0.23 to 0.26, worst -17.8 to -31.8%** — ALL FAIL.
+   The g>10% & CR>0.95 variant is IDENTICAL to g>10% alone (the 52w-high filter is implied by
+   revenue growth here), and the no-fundamental control (CR-only) scores 0.23 — the fundamental
+   overlay adds nothing on top of an already-dead signal. CAVEAT for future users of this file:
+   it appears to be CURRENT constituents (501 symbols incl. names not in twelve_big) ->
+   survivorship bias makes these numbers optimistic, not pessimistic; a real drift sleeve would
+   need point-in-time fundamentals with filing dates (this round's crude proxy is dead either way
+   — gross SR 0.55).
+
+Post-mortem (gross-vs-net on each idea's best config): pairs gross 0.61/net 0.36 (drag 1.8%/yr),
+lead-lag 0.65/0.42 (2.6%), 52wh 0.48/0.16 (0.7%), drift 0.55/0.26 (0.6%). Even GROSS, no idea
+reaches the 0.7 gate — the killer is the PREMIUM (or its absence), not costs. Scramble/plateau
+gates were therefore never reached on any candidate (all dead at gate a, like 22/22 configs).
+
+Honest scorecard r6: 0/4 ideas saved; A6 has now exhausted its two assigned families
+(reversal/momentum r1-r5, new-family r6) with 40+ ideas tested and 2 sleeves saved (both r2
+pairs, both champion-internal). Recommendation to coordinator: A6 has no remaining in-house
+families; if a further round is commissioned it should import an external-family mandate
+(e.g. options-implied skew, FX carry within the 8-pair free set, or seasonality-by-name), or
+accept champion-internal optimization tasks explicitly (r4/r5 recommendation stands: re-budget
+the champion's A6_pair_fm leg to vt18, +~8pp champion ann at unchanged structure).
+ROUND r6 DONE

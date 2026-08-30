@@ -1,0 +1,33 @@
+=== agent A4_calendar round r4 start Sun Aug 30 12:34:08 CST 2026 ===
+[r4 2026-08-30] A4_calendar round 4 executed per CHARTER_r4.md
+- Fixed year-end wrap bug in window mask (Nov-Jan window was empty under AND).
+- Idea 22 (TOY concentration, 27-cell grid, 1993-2026): best SR 0.48 (10/25-1/15), 10 negYr,
+  worst -24.5%, dd -61%, honest scramble p=0.070 -> FAIL a,d,e. Winter 2008-09 = -43%/-0.5%.
+- Idea 23 (union TOY+pay+ROM, +/- MA200): best union+MA200 SR 0.52, 13 negYr worst -51.7%,
+  p=0.464 -> FAIL a,d,e. MA200 conditioning strictly destroys SR on all windows.
+- Idea 24 (fallback tilt on OFFICIAL champion): TOY x1.25-2.0 mSR 2.01 vs base 2.00, p=0.147-0.183,
+  corr 0.98-1.00, TOY edge on champion only +0.6bp/day (r2's +21.5bp does not transfer);
+  paycheck edge absent (3.1 vs 3.4bp out), every pay tilt lowers SR -> FAIL charter bar (2.05).
+- INTEGRITY: lib scramble_p is degenerate (rolls return stream vs itself; p=0 on pure noise);
+  r1 p-values void (nothing was saved off them); r4 uses mask-roll scramble, 1000 draws.
+- 0 sleeves saved. ROUND r4 DONE
+Round r4 executed per charter — all 3 ideas tested, **0 sleeves saved** (correctly — every one failed multiple gates). FINDINGS.md appended with numbered summary, last line is exactly `ROUND r4 DONE`.
+
+## What was run
+
+**Idea 22 — TOY-levered SPX concentration (charter 1): FAIL**
+27-cell grid (3 window starts × 3 ends × 3 VT), 1993-2026, T+1, 6bps on |Δpos| incl. vol-target churn, trailing-only VT. Best cell SR **0.48** (10/25–1/15, ann 12.7% ✓) but 10 negYr, worst −24.5%, MaxDD −61%, scramble p=0.070. Charter-specified Nov1–Jan15: SR 0.43, 11 negYr worst −43%. The charter's 2008 worry was **confirmed**: winter 2008-09 returned −43.0%/−0.5%. Fails (a), (d), (e).
+
+**Idea 23 — composite union TOY∪paycheck∪ROM ±MA200 (charter 2): FAIL**
+Union+MA200 best case: SR 0.52, H1/H2 0.49/0.56, but 13 negYr worst −51.7%, **scramble p=0.464** — union timing indistinguishable from a random ~40%-of-days long book. MA200 conditioning strictly destroyed SR on every window (e.g. paycheck 0.48→0.19).
+
+**Idea 24 — fallback tilt on the OFFICIAL champion (charter 3): FAIL the bar**
+TOY ×1.25–2.0 on `CHAMPION_FINAL_daily.csv`: monthly SR 2.01 vs base 2.00 (Δ ≤ +0.01), Δann ≤ +0.45%, scramble p=0.147–0.183, corr 0.98–1.00 (near-duplicate). Critically, the r2 TOY edge (+21.5bp/day on L_S_130_30_volmanaged) **does not transfer**: champion TOY-window mean is only +0.6bp/day over out-of-window. Paycheck edge is *absent* (3.1bp in vs 3.4bp out) — every pay tilt lowered SR.
+
+## Two honesty fixes worth flagging
+1. **Year-end wrap bug**: my first window mask used `AND` on month-day codes → Nov–Jan window was literally empty; caught via all-zero output, fixed before any conclusions.
+2. **Degenerate scramble in the shared lib**: `a4_calendar_lib.scramble_p` (used in r1) rolls the *return stream* against itself — SR is float-identical, and it returns p=0.0 on pure noise (verified). R1's scramble p-values are void; nothing was ever saved off them (sleeves dir is empty after 4 rounds), and I documented this in FINDINGS. All r4 p-values roll the **mask** against fixed returns and rebuild the full T+1+cost+VT pipeline.
+
+## Bottom line for the coordinator (in FINDINGS)
+Calendar timing cannot survive equity winters standalone (best-ever SR 0.48–0.52), the TOY premium is real but tiny and base-dependent, trend conditioning always destroys it, and overlay tilts deliver ΔSR ≤ +0.01 at corr ≈ 1.0. Recommendation stands: stop allocating calendar ideas; blend improvement must come from new sleeves or weights, not calendar overlays.
+=== agent A4_calendar round r4 end Sun Aug 30 12:46:33 CST 2026 exit 0 ===

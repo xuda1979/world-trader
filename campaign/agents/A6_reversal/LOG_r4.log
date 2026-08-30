@@ -1,0 +1,15 @@
+=== agent A6_reversal round r4 start Sun Aug 30 12:34:08 CST 2026 ===
+**Round r4 complete. 0/3 charter ideas passed all gates — nothing saved, per the honesty contract.**
+
+## Execution summary
+
+**Idea 1 — vt15 re-budget of `a6_r2_pair_residmom_fm1926` (charter "fast win") → FAIL (corr gate only).** The re-budget itself worked exactly as hoped: SR 0.92, ann 14.5% (up from 9.5%), H1 0.93/H2 0.91, 1 neg year (2016 −1.3%), plateau clean across w∈0.4–0.6. But |corr| to champion = **+0.58 monthly / +0.78 daily** vs the ≤0.3 gate. Tautological kill: `A6_pair_fm` is *itself* 1/6 of the champion — the sleeve can never be decorrelated from a book that contains it.
+
+**Idea 2 — rm + FactorMom_1926 + QA_dualmom triple at vt15 → FAIL (corr gate only).** SR 0.90, ann 13.0%, 1 neg year (2022 −1.5%); corrM +0.60 across the whole weight grid. Decomposition: corr to champion legs = A6_pair_fm **+0.87**, A5_contango +0.56, A1_mix +0.52. Exhaustive simplex search: min |corrM| = **+0.26, reachable only at fm=100%** — and fm-only standalone fails full SR (0.45) and gate d. The charter's premise ("decorrelated from non-momentum champion legs") is empirically false.
+
+**Idea 3 — meta-timing rm by its own trailing 12m SR → FAIL (gate d + corr).** Caught an implementation bug first (daily-vs-annualized trailing SR — the signal never flipped and thresholds gave byte-identical outputs). Fixed version: SR 0.81–0.89, ann 15–17.4%, but 2022 still −10.0 to −10.9% (trailing SR is blind by construction to a crash starting 10 days into the year) and corrM 0.46–0.54.
+
+**Bonus findings for the campaign:** (a) the all-legs-rolled scramble null is uninterpretable for multi-leg mixes — rolling the 1926+ fm series shifts Depression-era returns into the eval window (verified: shift 5155 → 1943); (b) under the precedent-consistent null, the saved pair's timing edge is p=0.005 (not 0.000 as r2 reported) — thin but real; (c) QA_dualmom (A3) is corr **+0.85** to my rm leg — A3/A6 are one economic family, so the library's "40 sleeves" overstates true independence; (d) the correct venue for these returns is champion-level leg re-budgeting (the vt15 pair's station-grade numbers), not a new sleeve.
+
+Artifacts: reproducible `campaign/scripts/a6_r4_momentum_budgets.py` (verified), `r4_lib.py` (incl. one `pd.DataFrame`-transposition bug fixed), FINDINGS.md appended with numbered summary, LOG.md updated, sleeves/ untouched (still only the two r2 saves, both re-verified by the harness). Last line of FINDINGS.md is exactly `ROUND r4 DONE`.
+=== agent A6_reversal round r4 end Sun Aug 30 12:50:32 CST 2026 exit 0 ===

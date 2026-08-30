@@ -1,0 +1,39 @@
+A1_infl_breadth_mom — inflation-proxy breadth momentum (A1 r6, SAVED 2026-08-30)
+Window 2008-01-03..2026-07-01, n=4825.
+
+ECONOMIC RATIONALE: The xau/slv/wti/copper basket is a broad real-asset complex; its
+trend breadth is a slow inflation-regime indicator. When a majority of hard-asset
+markets are in uptrends, the equal-weight complex earns an inflation-risk-premium and
+momentum drift that equities/bonds do not pay (book is +35.4% in 2021 and +18.4% in
+2022 — the stagflation years when bond/equity books bled — and +2.1% in 2008). Majority
+breadth (>1/2 of legs up) is far more robust than any single-asset trend or pair ratio
+(xau/copper ratio trend standalone SR 0.65 with a -44% year; copper alone is too thin;
+the 3-leg charter trio without silver scores only 0.67).
+
+CONSTRUCTION: signal_t = 1{ #{126d return > 0} over {xau,slv,wti,copper} > 0.5 };
+ret = equal-weight basket daily return; funding rf + lev*(ret - rf) (honest, no phantom
+carry); T+1 execution (lev at t earns t+1 excess); cost 6bps x |dlev| one-side, charged t+1;
+vol-target 10% ann via expanding(min 60d) std SHIFT(1) (trailing-only), leverage cap 2.
+Copper is FRED monthly, publication-lagged to next month start (no-lag variant SR 1.23
+is VOID — lookahead class; disclosed in FINDINGS r3/r6).
+
+PARAMS: L=126d, thr=0.5, vt=10%, cap=2.0, members={xau,slv,wti,cop}, rf=tbill3m/252.
+Repro: campaign/scripts/a1_inflation_breadth.py (seed 20260828 for scramble).
+
+VALIDATION (r6 charter bars: SR>=0.7, halves>=0.35, <=3 negYr, worst>-8%,
+scramble<0.05, plateau, corr<0.35 to champion):
+a) FULL SR = 1.15 net (official eval.py confirms), ann 12.5%, vol 10.9%, MaxDD -12.1%. PASS
+b) plateau: chosen 1.146 = 0.89 of grid peak 1.28 (L84 vt15 trio+slv variant); flat region
+   L{63,84,126} x thr0.5 x vt{10,15,20} x cap{1.5,2,3}: SR 1.01-1.28; NO isolated spike.
+   Honest notes: decays to 0.83-0.85 at L=189-252 and to 0.93 at thr0.75 (all-agree is too
+   restrictive); silver is a material member (trio-without-slv 0.67). PASS with notes.
+c) halves: H1=0.94, H2=1.32. PASS
+d) yearly: 1/19 neg years (2012 -0.69%). PASS
+e) scramble: 500 draws rotating the position vector through the IDENTICAL honest pipeline
+   (same returns/costs/vt machinery), seed 20260828; identity check enforced (pipeline SR
+   1.1476 == stats SR 1.1456 at rounding); real 1.15 vs null mean 0.12 / p95 0.54: p=0.0000. PASS
+f) rationale above. PASS
+g) realized vol 10.9% via trailing-only expanding target. PASS
+corr: champion 0.299 (2022-only 0.09); library mean |corr| 0.085 over 42 sleeves;
+max library corr AP_gold 0.256; my own sleeves: A1_carry 0.179, A1_mix 0.34 (within bar,
+different signal: majority-breadth of 4 legs vs single-leg trend/carry/seasonality).

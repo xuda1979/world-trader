@@ -112,3 +112,129 @@ trailing expanding vol-target 10%.
    the surviving sleeve earns via regime-timed long-only exposure, i.e., partial beta —
    blend coordinator should treat it as a defensive-timing overlay, not pure alpha.
 ROUND r2 DONE
+
+# A3_xs_quality — FINDINGS (round r4, 2026-08-30) vt15 budget + charter families
+
+Environment: same panel/engine (T+1, 6bps one-side); new r4lib.py (weights builder,
+vol-target FIXED back to r1 convention: trim to active window THEN trailing expanding vt —
+first r4 run forgot trim and showed vt10 SR 0.85 vs true 0.89; corrected before any verdicts).
+Mission bar: SR>=0.8 ann>=12% |corr|<=0.3 to CHAMPION_FINAL; halves both >=0.4 at vt15.
+
+## Idea 0 — QA_dualmom re-vol 10%->15% (charter fast win) — FAIL
+- vt10 repro exact (SR 0.89, H1 0.99/H2 0.80, worst -4.3%) then vt grid: SR stays 0.89,
+  but worst year scales LINEARLY: vt11.5% -4.9%, vt12.5% -5.3%, **vt15% -6.4% (2022)**
+  => gate (d) fail. Max vt passing gate(d) = 11.6% (ann 11.2%, worst -4.9%) — but that is
+  a 0.997-corr near-duplicate of the saved sleeve; NOT saved (duplicate rule).
+- Charter's "ret->~14% SR stays" was arithmetically true but gate-blind: -4.3% x 1.5 = -6.4%.
+
+## Idea 1 — 12-1 momentum LONG-ONLY top-quintile, MA gate, vt15 — FAIL
+- Charter cell (12-1, top 15%, MA150): SR 0.99, H1 1.12/H2 0.83, 1 neg yr BUT worst **-8.6%**
+  => gate (d) fail. 54-cell grid (lb/skip/frac/MA win): SR range 0.90-0.99, halves always pass,
+  yet worst-year spans -2.2%..-12.7% across adjacent cells — yearly-gate pass/fail is a param
+  lottery (gate-shopping gw200 cells that pass would be dishonest; rejected whole family).
+- ALL cells corr 0.63-0.68 to champion => breaches |corr|<=0.3 mission cap regardless.
+
+## Idea 2 — Statistical sector-momentum, top-2 clusters, gated, vt15 — FAIL (near miss, rejected honestly)
+- Charter said reuse A1 clustering; VERIFIED A1 dirs contain no clustering code (only
+  cta_gated_program_v1.py macro-CTA) => rebuilt minimal PIT version: monthly hierarchical
+  clustering (average linkage) of trailing-252d return correlations, K clusters, top-K by mean
+  252-42 momentum, positive-momentum members equal-weight, FF-MA200/3% gate.
+- Base cell K12/TOP2: SR 0.78, 7 neg yrs => fail. 12-cell scan (K 8/12/20 x TOPK 2/4 x
+  126-21/252-42): best **K20/TOP2/252-42: SR 1.10, H1 1.32/H2 0.88, 1 neg yr (-1.7% 2021),
+  ann 17.5%, vol 15.8%, maxDD -28%, scramble p=0.995 (200 reps cost-incl)** — passes ALL
+  standard gates a-f. Rejected ONLY on: (i) corr to champion **0.395 > 0.3 mission cap**;
+  (ii) corr **0.604 to my own QA_dualmom_band121** — same gated long-only equity exposure;
+  (iii) NO plateau in K (K8: 3-5 neg yrs; K12: 2-7; only K=20, my grid edge, works).
+  Yearly profile suspiciously pristine (2009 +56% ... worst any year -1.7%) — regime-gated
+  momentum post-2008 on survivorship-biased panel; would not trust OOS.
+
+## Idea 3 — Earnings-momentum proxy (6-1 mom conditioned on fresh PIT fundamentals) — FAIL
+- Freshness mask (FY filed within 14 or 24 months, avail Jul-1 y+1): 0/8 cells pass.
+  Best: SR 0.87, H1 1.17/**H2 0.61**, 4 neg yrs, worst **-13.3%**, corr 0.64-0.67.
+- Diagnosis: fresh24 ~= fresh14 results nearly identical => the fundamentals-availability
+  conditioning is INERT on this panel (coverage too uniform among current constituents);
+  the signal is just momentum, and momentum LO inherits the same deep drawdown years.
+
+## r4 conclusions
+1. vt15 breaks gate (d) for every member of my gated-long-only family (2022 loss -4.3% at
+   vt10 scales to -6.4..-8.6%); the r4 ann>=12% + worst-year>-5% combo is infeasible for
+   this family at ANY vt — ann and tail scale together linearly.
+2. The mission |corr|<=0.3 cap is the binding constraint, not SR: every gated long-only
+   equity variant lands 0.37-0.68 vs CHAMPION_FINAL. A3 cannot add a mission-compliant
+   sleeve from price-only panel signals; next round should go short-side/overlay/conditioned
+   or accept duplicate status.
+3. Honest retraction discipline: caught my own vol-target trim bug in run #1 of the round
+   (vt10 SR 0.85 vs true 0.89) before any verdict was recorded; all r4 numbers use corrected
+   pipeline (r4lib.sret).
+4. Idea2-K20 documented as best near-miss (script + numbers above) for coordinator interest;
+   NOT saved per mission corr cap + duplicate-vs-own-sleeve + no-plateau grounds.
+ROUND r4 DONE
+
+# A3_xs_quality — FINDINGS (round r6, 2026-08-30) NEW-FAMILY directive
+
+Environment: same panel (298 names, 2006-09..2026-08); new r6lib.py general-rebalance
+backtester (any rb dates, T+1, 6bps on both legs, trailing expanding vt10) — VERIFIED
+identical to r2lib on the saved dualmom construction (corr 1.000, maxdiff 0.0, SR 0.89/H1
+0.99/H2 0.80 repro exact). Charter gates: SR>=0.7, halves>=0.35, <=3 negYr, worst>-8%,
+circular-shift scramble p<0.05, plateau, corr<0.35 to CHAMPION_FINAL.
+
+**Infra bug caught before any verdict: r6lib v1 held STALE positions through gate-off
+periods (only invested month-ends registered as rebalance dates). Cross-check vs verified
+r2lib diverged on 2007-12-03 (79 phantom names); fixed by writing a Wt row (zeros=flat)
+at EVERY rebalance date. All r6 numbers use the verified pipeline.**
+
+## Idea 1 — Daily seasonal momentum (trailing-2y same-weekday mean excess ret, weekly reb) — FAIL
+- Long-only top-Q: SR **0.85** (LO 20%: H1 1.15/H2 0.74, 2 negYr, worst -6.3%) — passes all
+  charter PERFORMANCE gates but **corr_champ 0.641 / corr_old 0.704 >> 0.35** => same
+  equity-beta trap as r4 (a long-only xs tilt on this panel IS the market).
+- L/S tercile: SR **-0.28**, 12 negYr (short leg shorts future megacaps — r1 lesson re-confirmed).
+- Beta-hedge salvage (long book - beta x FF-mkt, hedge costs billed): beta=1.0 SR 0.25,
+  beta=0.8 SR 0.58 (corr 0.362, worst -12.9% fail), beta=1.2 negative. NO beta gives both
+  SR>=0.7 and corr<=0.35; the seasonal tilt alone has no standalone edge.
+
+## Idea 2 — Beta-rotation (monthly long bottom-beta-quintile, FF-mkt MA200 gate) — FAIL
+- Base (b252, gate 200/3%, Q20): SR 0.58, H2 0.34 fail, corr_champ 0.45, corr_old 0.613.
+- Ungated: SR 0.48, worst -17.2%. Resid-beta (SMB/HML-stripped): identical 0.58.
+- frac=0.40 variant passes r6 performance gates (SR 0.73, H1 1.0/H2 0.47, 3 negYr, worst
+  -5.9%) but **corr_champ 0.517, corr_old 0.712** => FAIL. Bottom-beta-tilt is again just
+  equity exposure with the same gate as my saved sleeve (corr to dualmom 0.61-0.71).
+
+## Idea 3 — Volume-shock reversal event book (down>3% on >3x vol, long 5d) — FAIL (closest)
+- Best low-corr family: corr_champ 0.20-0.37, corr_old 0.34-0.45 — structurally different
+  from everything in the library, as the charter hoped.
+- Grid (drop 2-5% x vx 2-3 x hold 5-15d x K 5-10): SR peaks 0.72 at (2%, 2.5x, 10d, K5),
+  corr 0.351 — and SR/corr move TOGETHER: every cell with corr<0.35 has SR<=0.65.
+- Full battery on best cell, CORRECTED construction (numpy pairwise-outer scatter; SR 0.685,
+  corr_champ 0.3439): H1 0.57/H2 0.81 pass, 3 negYr pass, worst -6.9% pass, plateau GOOD
+  (6/6 neighbors SR 0.67-0.70 within 20% — no spike), BUT **circular-shift scramble FAILS:
+  real 0.685 vs null95 0.772, p=0.185 >> 0.05** — event timing indistinguishable from a
+  shifted event mask; the drift premium the book harvests is not shock-conditional enough.
+- CONSTRUCTION CAVEAT (documented for honesty): original loop builder printed SR 0.72/
+  corr 0.3508 for the same params; minimal-semantics test (pandas iloc 2-array setitem ==
+  numpy pairwise-outer) supports the corrected 0.685/0.3439; either way corr sits ON the
+  0.35 boundary and scramble fails (p would be ~0.15-0.25 at SR 0.72 vs same nulls).
+  Verdict FAIL under both constructions; cell would be boundary-gate-shopping anyway.
+
+## Idea 4 — Dispersion regime retiming of QA_dualmom (21d xs-std vs trailing median) — FAIL
+- Charter rule (high dispersion => carry dualmom): SR 0.89 -> **0.56** (69 days on, worst
+  -6.9%) — destroys the sleeve; high xs dispersion is NOT when dualmom works here.
+- Inverse (low dispersion on): SR 0.70, H1 0.72/H2 0.71, 2 negYr, worst -4.8% — but
+  **corr to OLD dualmom 0.734 > 0.7 charter cap** and SR did NOT improve >= 0.1 (0.70 < 0.89).
+  Fails both charter pass-as-new conditions. q60/q75/q90 quantile variants: SR 0.16-0.39.
+
+## r6 conclusions
+1. FOUR new families, ZERO saves — first round where the binding gate is corr, not SR:
+   every long-only xs construction on this panel carries 0.43-0.73 corr to champion /
+   0.61-0.73 to my own dualmom (r4 conclusion #2 re-confirmed on 3 fresh families).
+2. The one genuinely orthogonal family (volume-shock events, corr 0.20-0.37) has real but
+   too-weak timing: SR 0.685 fails circular-shift scramble at p=0.185. The event book's
+   average drift premium exists but is not shock-specific on this panel.
+3. Charter's dispersion idea is cleanly falsified: dispersion retiming REMOVES alpha from
+   the gated-momentum sleeve here (0.89 -> 0.56 under the charter rule).
+4. Advice to coordinator: A3's contribution remains QA_dualmom_band121 alone; a corr<=0.35
+   mission sleeve will not come from price/volume-only panel signals — needs a different
+   asset class (carry/CTA/credit) or fundamental PIT universe (r1/r4 conclusions stand).
+5. Infra lessons persisted in r6lib.py docstring: (a) every rebalance date needs an explicit
+   Wt row (zeros=flat) else stale positions; (b) pandas iloc 2-array setitem == numpy
+   pairwise-outer (verified) — use the explicit numpy form in hot loops for clarity.
+ROUND r6 DONE

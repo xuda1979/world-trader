@@ -1,0 +1,24 @@
+=== agent A4_calendar round r6 start Sun Aug 30 13:44:21 CST 2026 ===
+r6 runs: campaign/scripts/a4_r6_charter.py {1|2|3} (logs LOG_r6_idea{1,2,3}.log)
+Idea 25 overnight-TOM: ovr +1.7bp t=1.1 gross; net SR all <= -0.64; scr 0.92-0.98 -> FAIL
+Idea 26 opex wk+after: SR 0.08, 16 negYr worst -51%, scr p 0.93 -> FAIL
+Idea 27 TOY Dec20-Jan10 vt15: SR 0.32, 14 negYr worst -19.4%, scr p 0.107 -> FAIL (relaxed d too)
+Sleeves saved: none (nothing cleared all gates). FINDINGS.md appended; ROUND r6 DONE.
+**ROUND r6 complete** — all 3 charter ideas executed in order, all gates run, **0 sleeves saved** (nothing cleared all gates; honest negative results documented).
+
+## Summary
+
+**Idea 25 — Overnight×TOM intersection (charter 1): FAIL (hypothesis refuted)**
+- Tested the charter's premise directly: overnight premium on the 298-name panel is **absent gross** — EW overnight +1.7bp/day (t=1.1, noise); intraday leg is the positive one (+3.0bp/day, t=2.2), opposite of the classic literature. TOM intersection shows no concentration (in-window 1.4bp vs out 1.7bp).
+- Net of 12bps/night (6 close + 6 open), every cell SR −0.6 to −1.5; even the most favorable accounting (one round trip per month = 1.44%/yr cost vs 0.67%/yr max gross) is −0.77%/yr. Scramble p=0.92–0.98. Key deliverable: A2's charter premise ("if A2's overnight SR is real…") is moot — it isn't real on this data.
+
+**Idea 26 — Opex-week effect (charter 2): FAIL**
+- SPY 33y proxy, 6 window variants + VT plateau: in-window +2.0bp/day (t=1.1) vs out +6.1bp — opex weeks **underperform**. Charter cell: SR=0.08, 16/34 negYr, worst −51% (2008), scramble p=0.93. 2008+ subwindow SR=0.04.
+
+**Idea 27 — TOY Dec20-Jan10 standalone vt15 (charter 3): FAIL even with relaxed gates**
+- The TOY bump replicates (+9.9bp/day in-window, t=2.0, vs +3.8 out) but the standalone book: SR=0.32, **14 negYr (needs ≤3), worst −19.4% in 2016 (needs >−8%)**, scramble p=0.107. Plateau is low (0.19–0.32), confirming the effect is real but too tiny (+~1.3%/yr raw) to survive its own bad years.
+
+**6-round structural conclusion for the coordinator** (in FINDINGS.md): no calendar family tested (TOM/paycheck/holiday/Halloween/weekday/quarter-end/opex/TOY/overnight) produces a sleeve passing all gates; only TOY bump and ROM-avoidance are robust micro-tilts worth +0.3–1.3%/yr, suitable inside existing sleeves — never standalone.
+
+Integrity: r4's honest mask-roll scramble + T+1+cost+VT pipeline reused unchanged; logs in `LOG_r6.log` + per-idea logs; script at `campaign/scripts/a4_r6_charter.py`. FINDINGS.md ends exactly with `ROUND r6 DONE`. (~13 tool calls used.)
+=== agent A4_calendar round r6 end Sun Aug 30 13:57:28 CST 2026 exit 0 ===

@@ -192,3 +192,144 @@ ROUND r2 DONE
   1 beyond the publication lag, then verify by lag-sensitivity (edge should decay smoothly, not cliff).
 
 ROUND r3 DONE
+
+## r5 results (2026-08-30) — THE decisive round: 4 charter ideas, 0 sleeves saved, 1 artifact family killed
+Bar per CHARTER_r5: SR>=0.9, halves>=0.45, <=3 neg yrs, worst>-8%, scramble<0.05, plateau, corr<0.35 to champion;
+vol budget <=20%; negYears<=3 / worst>-8% relaxed gates. All mechanics: T+1, 6bps one-side x |dw|,
+trailing expanding vol target (min60d, lag1), 2008-01-03+ window. Repro: agents/A1_trend_cta/scripts/r5_charter.py.
+
+1. GOLD TREND AT VT20 (charter 1) — FAIL. 16 configs (L{126,189,252,315} x dual-confirm {none,63,84,126}).
+   Best 126d single-gate: SR 0.75, H1 0.60/H2 0.88, ann 16.7% — but 7 neg yrs, worst -13.0% (vol budget scales
+   losses past -8%). The charter's "SR 0.78@vt10" number was my r3 gold carry-trend with tbill accrual on flat;
+   pure price trend is 0.55-0.75 and the dual 63/252 confirm makes it WORSE (r1 finding replicates: 0.42 at vt20,
+   worst -39.9%). Verdict: gold trend ret~14-16% is reachable but whipsaw years scale up 1:1 with vol. Not saved.
+
+2. A1_CARRY MEMBERS AT MEMBER-VT20, BOOK VT15 (charter 2) — FAIL. Rebuilt my r3 book with member vt 0.20:
+   members cbz 0.41 / natgas-winter 0.42 / gold 0.68; BOOK SR 0.74, H1 0.54/H2 0.89, ann 14.0%, 2 neg yrs,
+   worst -1.3% — beautiful risk profile, but SR<0.9 AND corr 1.00 to my already-saved A1_carry_seasonal_v2
+   (same three members at member-vt10/book-vt8): it is a RE-LEVER, not a new sleeve. Not saved (would double-count).
+
+3. SEASONAL-ASYMMETRIC TREND (charter 3) — FAIL, closest miss. 5-leg long/flat: metals H2-only (xau,slv L126),
+   energy H1-only (wti,natgas L126), + xau all-year (L252&84); member vt20 cap2, book vt20 cap2.
+   SR 0.92, H1 0.54/H2 1.20, ann 21.3%, SRm 0.94, scramble p=0.0050 (200 draws, member-rotation through
+   identical pipeline, seed 20260828). BUT 4 neg yrs (2012 -4.1, 2016 -5.9, 2017 -0.4, 2024 -24.5 vs charter
+   bar <=3) and worst -11.4% < -8%. Attribution: slv H2 and wti H1 whipsaw legs drag 2012/2016/2017;
+   2024 loss is natgas-winter leg + slv. AND corr 0.46 to champion (>0.35 bar, metals H2 = same premium as
+   my saved A1_carry gold leg). Month-timing note: empirical trend-positive months only PARTIALLY match the
+   charter's prior (metals also positive in H1 months 1,2,4,5; natgas H1 is real). Not saved.
+
+4. UST2-LF378 REBUILD AT VT15-20 (charter 4) — FAIL, and the family is an ARTIFACT. === ROUND'S HEADLINE ===
+   The famous A2 r2 "SR 1.45 / H1 1.50 / H2 1.45" (and my first r5 build at SR 1.55, ann 14.8%, SRm 1.57,
+   3 soft neg yrs, corr -0.00, lag-robust +0/+1/+2/+5/+21, scramble p=0.026) all share ONE accounting flaw:
+   UNFUNDED LEVERAGE. Mechanics `L*pos*TR + (1-pos)*rf` charges funding only on the FLAT fraction, so when
+   vol-targeting pegs leverage at cap, the book earns (L-1)*rf phantom carry on the WHOLE notional
+   (cap3/A2: +2.8%/yr avg but +5-8%/yr in 2023-25; my first cap8 build: +9.8%/yr, i.e. +35%/yr in 2023-25).
+   Honest futures accounting rf + L*(TR - rf) with leverage sized on trailing EXCESS vol:
+   SR 0.53, H1 0.48/H2 0.60, ann 5.1%, 7 neg yrs, worst -7.8%; D-robustness D=1.5/2.0: 0.60/0.38.
+   TRUE timing edge (excess return vs cash): SR 0.39, ann excess 0.46% — the 252d-trend gate is real but tiny;
+   pre-2022 the 2y carry (y-rf) did the heavy lifting at any leverage. Scramble p=0.026 passes only because
+   rotated books enjoy the same phantom. IDEA 4 DEAD, and A2's r2 #23b / r4 vt-lesson numbers are void.
+   NOTE the honest excess-SR regime result: excess ann +0.46% pre-2022 avg vs 2023-25 ~+4%/yr — the edge is
+   post-ZIRP regime, too short to certify at <0.05 with 19y of book.
+
+5. HYBRID (book2 50/50 book3, book vt15 cap3) — BEST NUMERICS, FAILS ONE GATE. SR 0.98, H1 0.77/H2 1.15,
+   ann 18.4%, vol 18.8%, SRm 1.10, MaxDD -19.5%, 3 neg yrs (-3.4/-1.0/-1.0), plateau 0.91-1.00 across
+   w2 0.30-0.70 (chosen 0.50 = 98% of neighborhood peak), worst -3.4%. Fails ONLY corr<0.35: 0.53 to
+   champion (0.46 from seasonal book metals-H2 premium, rest from trend/energy legs correlated with the
+   champion's breadth-CTA and my A1_mix CTA legs). Also book2's 1.00 corr to my saved sleeve means half the
+   hybrid is a re-lever of an existing member of the champion. Charter's "SR_m>=1.1, ann>=15%, corr<0.2"
+   stretch: SRm 1.10 ann 18.4% achieved, corr never below 0.43 in any weighting. NOT SAVED.
+
+### r5 lessons for the campaign (important for every agent + coordinator)
+1. **NEW ARTIFACT CLASS — phantom/unfunded carry.** Any sleeve that (i) trades a TOTAL-RETURN series,
+   (ii) holds leverage L from vol-targeting, and (iii) accrues cash yield only on the un-invested fraction
+   inflates SR by roughly (L-1)*rf/vol. It inflates MOST at exactly the high-rate/high-leverage years
+   (2023-25) that decide recent halves. Audit rule: recompute every levered sleeve as
+   `rf + sum_j L_j*(leg_j ret - rf)`; if SR drops >0.2, the sleeve is a funding artifact. Voided: A2 UST2-LF378
+   (1.45->0.53 honest 1x-equivalent), and any "levered bond trend" build. UST/AAA/BAA synth TR books across
+   the library deserve the same audit.
+2. My saved r3 sleeve A1_carry_seasonal_v2 shares the class at BENIGN scale (book lev ~1.0 by construction,
+   phantom +0.42%/yr): honest-accounting rebuild = SR 0.77 vs 0.82, still 2 neg yrs worst -0.4%,
+   corr(old,honest)=1.0000. All gates still pass. No action needed beyond this disclosure; future sleeves
+   of mine use excess-return accounting.
+3. vt-cap interacts with phantom carry: raising cap RAISES phantom (cap8 +9.8%/yr at cap-bound). Any charter
+   granting "vol budget up to 20%" must PRE-SCRIBE the funding convention, else it grants a free ~rf*excess-L
+   subsidy on books that hit the cap.
+4. Charter r5's implicit joint bar (SRm>=1.1 ann>=15% corr<0.2 for the frontier gap) remains unmet by my
+   families: everything with ann>=15% on free macro data carries corr 0.45-0.55 to the champion (trend legs
+   are already IN the champion via A1_mix breadth-CTA and A1_carry). Frontier gap should be hunted in
+   genuinely orthogonal sources (new asset classes, new signal families), not vol-budget scaling of known ones.
+5. Scramble p-values for seasonal books are easy to pass (p=0.005) while failing calendar-year gates —
+   gate-d style yearly checks bind before gate-e for long/flat commodity books. For future rounds: consider
+   requiring BOTH negyr<=3 AND worst>-8% at the member level BEFORE blending (my r3 lesson generalized).
+
+ROUND r5 DONE
+
+## r6 results (2026-08-30) — NEW-FAMILY charter: 1 sleeve SAVED, 3 families killed cleanly
+Bars (CHARTER_r6): SR>=0.7, halves>=0.35, <=3 negYr, worst>-8%, scramble<0.05, plateau,
+corr<0.35 to champion. All runs: honest funding rf + L*(leg-rf), T+1, 6bps one-side x |dlev|,
+trailing-only expanding vt (min60d, shift1). Repro: agents/A1_trend_cta/scripts/r6_charter.py,
+campaign/scripts/a1_inflation_breadth.py. Log: LOG_r6.log.
+
+1. CURVE ROLL-DOWN CARRY (charter 1) — FAIL, family dead in every variant. 2s10s steepener
+   when |z252|>1 (charter literal): SR -0.43 [2005-06+], 15 neg yrs, 2022 -50.4% — the
+   "DV01-neutral" steepener still loses exactly when the Fed hikes (bear steepening); 10y30y:
+   SR -0.01 (roll-down premium never beats the z-timing losses). Variants all negative:
+   vt10 re-lever 2s10s -0.33, mean-reversion-when-extreme -0.24, long-only-when-z>1 -0.42,
+   zwin 126/378 x zth 0.75/1.25 plateau probe: best mean SR -0.17. Sign sanity: book P/L
+   uncorrelated to spread direction (-0.00), i.e. timing adds nothing on top of a structurally
+   negative book. Curve z-timing on 2s10s/10y30y is NOT a roll-down-carry harvest on free FRED
+   yields; it's a losing conditional-duration bet. NOT SAVED.
+
+2. INFLATION-PROXY MOMENTUM (charter 2) — SAVED: **A1_infl_breadth_mom**.
+   The winner is NOT the charter's ratio but basket BREADTH: frac of {xau, slv, wti, copper}
+   with positive 126d return > 0.5 -> long the EW complex (honest rf + lev*(ret-rf)), vt10
+   cap2, T+1, copper pub-lagged. 2008-01-03..2026-07-01 (n=4825): **SR 1.15, H1 0.94 /
+   H2 1.32, ann 12.5%, vol 10.9%, MaxDD -12.1%, 1/19 neg years (2012 -0.7%)**; pays exactly
+   where champion is weak: 2021 +35.4%, 2022 +18.4% (corr 2022-only 0.09), 2008 +2.1%.
+   Gates: a PASS; b PASS 0.89-of-peak, flat L{63-126}xvt{10-20}xcap{1.5-3} (honest notes:
+   decays L>=189 0.83, thr0.75 0.93, trio-without-slv 0.67); c PASS; d PASS; e PASS
+   (500 position-rotations through identical pipeline, identity check OK, seed 20260828:
+   real 1.15 vs null mean 0.12/p95 0.54, p=0.0000); f/g PASS. corr champion 0.299 (<0.35),
+   AP_gold 0.256 max in library, mean |corr| 0.085 over 42. HONESTY DISCLOSURES:
+   (i) copper is MONTHLY; month-M average stamped M+1 = publication lag. The NO-lag variant
+   (stale data knowable same-day) scores SR 1.23 / H2 1.49 and is VOID — same lookahead
+   family as r3 crude-brent lesson; I save the lagged 1.15. (ii) The charter-literal trio
+   xau+wti+cop (no slv) scores only 0.73 with 2008 -20.0% (FAILS worst>-8%): silver's
+   inclusion (breadth vote + lower vol book) is what makes the 4-leg book pass — reported,
+   not hidden. (iii) The r5 lesson applied: excess-return accounting from the start, so no
+   phantom-carry audit needed (book lev avg ~1.1).
+
+3. CROSS-ASSET VOL-OF-VOL TIMING standalone (charter 3) — FAIL. SPY long when VIX 21d
+   vol-of-vol < 252d median (calm regime), cash else, tbill accrual when flat: SR 0.46,
+   H1 0.44/H2 0.48, 6 neg yrs, 2022 -10.5% — it is just SPX beta with a vol filter that
+   gets whipsawed at regime turns (signal flips to stressed exactly after crashes begin:
+   2008 -6.5% while "protected"). vt15 honest-lever version 0.43, 2022 -15.2%; stressed-side
+   variant identical (0.46). Net of the book being 60% cash it still carries equity-tail
+   correlation — fails gate-a/economics bar (SR 0.46<0.7) and adds no orthogonal source.
+   Confirmed r5's finding: vov is a good FILTER on an existing book, not a standalone alpha.
+
+4. BREADTH-CTA ASYMMETRY / per-leg profit-taking (charter 4) — FAIL, hypothesis REFUTED.
+   My first implementation had a real bug (position persisted when trend flipped off, exit
+   only via profit-take -> 2020 -79%); fixed version (exit on trend flip OR +k*ATR, re-enter
+   on fresh signal) is HONEST and makes the book WORSE, not better: PT 2xATR SR -0.02
+   (12 neg yrs, 2022 -11.7%), PT 3xATR +0.02, vs base no-PT SR 0.54 (6 neg yrs). Profit-taking
+   converts winning 2022 trend legs into early-exited whipsaw; the breadth-CTA's bad years
+   (2012/2013/2023) are chop at the SIGNAL level, not failure to bank gains. Charter idea dead
+   on this dataset.
+
+### r6 lessons
+1. Basket breadth > ratio > single-asset for slow macro regime signals: 1.15 vs 0.65 vs
+   0.55-0.98 on the same underlying data. Majority-vote kills single-asset whipsaw years.
+2. Third instance of the stale-print lookahead family (r3 crude-brent, r6 copper): any
+   non-daily source must be stamped at publication date, and the honest/laggy vs void/fresh
+   delta should be REPORTED (here 1.15 vs 1.23 — edge survives, credibility intact).
+3. Charter ideas that sound like risk-management (profit-take after +2 ATR) can be pure
+   alpha-destruction on trend books (-0.56 SR vs base): always test the "improvement" against
+   the plain book before adopting.
+4. Real corr to champion 0.299 close to the 0.35 bar: the book's 2021-22 block is its
+   diversification value (champion +12.8/+0.5 vs sleeve +35.4/+18.4); blenders should
+   down-weight this sleeve in equity-calm years and use it for the inflation-regime gap.
+   Saved files: sleeves/A1_infl_breadth_mom.csv + .meta; repro campaign/scripts/a1_inflation_breadth.py.
+
+ROUND r6 DONE

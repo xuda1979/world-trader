@@ -136,3 +136,85 @@ Repro: scripts/idea20b_wtibrent_honest.py. **No sleeves saved this round — not
 4. Gold 126d trend (0.54) and equity-index COT-fade (0.54) are near-miss diversifiers if the bar ever
    relaxes; not saved per contract.
 ROUND r2b DONE
+
+# Round r4 (2026-08-30) — return-tilted charter (SR>=0.8 + ann>=12% + |corr|<=0.3 to champion)
+
+**Setup:** new honest mechanics lib `scripts/r4_lib.py` (decision-date convention, T+1 via
+`px.pct_change().shift(-1)`, 6bps/side on |Δpos| turnover, trailing expanding vol-target min60d lag1,
+gates hard-coded to charter r4: full SR≥0.8, halves≥0.4, ≤2 neg yrs, worst yr >−6%, ann≥12%,
+corr≤0.3 to `CHAMPION_FINAL_daily.csv`). Vol budget raised to 15–20% where noted (allowed by charter).
+
+| # | idea (charter item) | best FULL SR | corr→champ | failing gate(s) | verdict |
+|---|---------------------|--------------|------------|------------------|---------|
+| 26 | (1) XAU/SLV/CU 126d trend + reinvested carry, vt15; 22 configs (lb 63–252, L/S & long/flat) + 3-asset blend | 0.72 XAU-lf126 (plateau 0.49–0.72, all lb<0.8) | 0.02 | full SR (all 23 configs <0.8) | FAIL — **carry construction impossible on free data**: FRED xau/slv are spot series (no futures/lease/storage terms), copper is monthly-only; only drift+trend is implementable |
+| 27 | (2) SPY long when VIX<thr (lag1/lag2), flat above; thr 20/22/25/28 ± 126/252d trend gate; vt20 | 0.52 (VIX<25+tr252) | −0.01 | full SR (all 12 <0.8) | FAIL — regime filter alone can't hit 0.8; corr ≈ 0 while active but too little edge |
+| 28 | (3) FF monthly best-factor timing, lb 126/252/378, 2x, vt10/20 | 0.65 (lb252-vt20) | **0.51** | full SR AND corr>0.3 | FAIL — timing works-ish but it's equity-beta-in-disguise (corr 0.45–0.57); return-tilt cancels the diversification |
+| 29 | (4) BTC 63d trend vt20 | — | — | n=1001 daily rows (2.8y) < 1500 minimum | **SKIP honestly** (charter pre-declared skip; padded via weekly? still only ~145 obs) |
+| 30 | (5) 2s10s DV01-neutral z-book: fade z756, mom 63/252, always-flat/steep; vt15 | −0.53 fade / −1.77 mom63 / 1.04 steep-always | −0.04 | SR<0 or **yearly 8 neg yrs worst −25.6%** | FAIL — only the unconditional steepener "works": pure secular term-premium bet 2005-2020, no signal, crashes 2022 (same verdict as r2 #22) |
+| 30 | (mine) A2 RETURN blend vt15: EW(ratesLF378, XAU-lf126, CU-lf3m) | 0.86 | 0.02 | **yearly 11 neg yrs worst −14.7%** | FAIL — SR clears 0.8, yearly gate kills it |
+| 31 | 4-way + FF252 (dilute corr), 2007+ live window | 0.78 | 0.44 | full SR AND corr | FAIL — adding FF buys corr 0.44 without reaching 0.8 |
+| — | UST2-LF378 (r2's SR 1.45 best) at vt15/vt20 | 1.45 | 0.00 | yearly 5 neg yrs; ann 5.8% | FAIL + **see vt-cap lesson below** |
+
+### Lessons (r4)
+1. **`util.vol_target` clip(0,3) makes "raise the vol budget" a silent no-op for low-vol books.**
+   UST2-LF378 net vol ≈ 4% → required leverage 3.75–5.0x exceeds the cap → vt10/15/20 produce
+   IDENTICAL series (SR 1.45, ann 5.8%). Any charter that grants "2x vol budget" must also grant a
+   leverage-cap override, or the grant is void. I did NOT override the shared cap (contract: don't
+   modify shared lib; local override = nonstandard mechanics); documented instead. De-capped linear
+   scaling would give ann ≈ 11.6% — still below the 12% bar AND still 5 neg yrs → fails regardless.
+2. **Charter r4's bar (SR≥0.8 + ann≥12% + corr≤0.3) is jointly hard for A2's asset classes on free
+   data:** the only books with SR≥0.8 available to me (UST2-LF, steepener) fail the yearly gate or are
+   unconditional secular bets; the only genuinely low-corr books (metals, SPX-VIX regime) top out at
+   SR 0.5–0.7; the only 12%+ books (FF timing) carry equity-beta corr 0.45–0.57.
+3. Free-data carry remains unbuildable for metals (spot-only FRED series) — r1's FX conclusion
+   generalizes: without futures-curve or deposit-rate data, "reinvested carry" is not implementable,
+   only drift/trend proxies.
+4. corr-to-champion is itself a binding design constraint: champion is 50%+ equity-factor driven
+   (XGB1y + Merger-Arb-PEAD), so any return-tilted equity/factor book auto-fails the ≤0.3 test.
+
+**Sleeves saved: 0.** Nothing cleared all charter gates. Best honest near-misses for future rounds:
+A2-RETURN-blend SR 0.86 corr 0.02 (needs yearly-gate relief — see r2 note #6: it has 11 neg yrs,
+too many even for the relaxed ≤4 rule), UST2-LF378 SR 1.45 (needs ≤5-soft-neg-yr rule), both
+scramble-ready if the coordinator re-calibrates gate (d).
+Scripts: r4_lib.py, idea26_metals_carry.py, idea27_spx_vix.py, idea28_ff_factortime.py,
+idea29_curve_z.py, idea30_return_book.py, idea31_blend4way.py.
+ROUND r4 DONE
+
+# Round r6 (2026-08-30) — overnight/intraday split charter (idea 32-35)
+
+**Setup:** built ON/ID decomposition for the full 298-panel (ON_t = open_{t+1}/close_t−1, ID_t = close_t/open_t−1,
+booking (1+on_t)(1+id_{t+1})−1 = c2c exactly; max daily EW residual 6e-3). Panel clean: 5005 tradable nights
+2006-09→2026-08, ~271 names/day, zero inf/zero prices; only legit corporate-action gaps (AIG/GM 2009, SOFI 2021),
+winsorized at |on|<50%. Costs per charter: 12bp/d for every held overnight day (6bp close t + 6bp open t+1).
+
+**Core economics (the whole story):** gross EW overnight premium = **4.7bp/day**; cost = **12bp/day**. Even the
+best year in 20y (2021: 8.5bp/d) < daily cost. Best possible single day is irrelevant; the family is cost-dead.
+
+| # | idea | gross | net (12bp/d) | verdict |
+|---|------|-------|--------------|---------|
+| 32 | (1) always-on ON EW, vt10 | +4.7bp/d SR 0.32 | **SR −0.50**, all 21 yrs neg, H2 −1.69 | FAIL — breakeven cost ≈2.3bp/side vs mandated 6bp |
+| 33 | (2) ON ∩ TOM (7 windows, e.g. last3+first2) | last-td ON 8.6bp/d gross | best SR −0.64 (last1td) | FAIL — TOM concentration (~2x mid-month) is real but far too small vs 12bp/d |
+| 34 | (3) intraday-only book | **+3.1bp/d gross, POSITIVE in all four 5y windows** (SR −1.43 net) | — | FAIL net; **logged as regime finding:** the classic "all equity return is overnight" claim is FALSE in this panel post-2012: ID contributes ~half the gross premium but ~1/3 the variance |
+| 35 | extra: XS tilt by trailing 252d mean ON (top-20, 9 configs) | PIT-honest SR 0.08 | SR 0.08, H2 negative everywhere | FAIL — and a **trap of the round**: unshifted signal scores SR 1.34 because ON_t sits inside its own trailing window (21.8 vs 12.6bp/d). Oracle full-sample top-30 = 13bp/d gross ≈ exactly the cost hurdle |
+
+**Gates:** all of a–f fail at the first gate (FULL SR<0.6) for every config; scramble moot; corr-to-champion
+measured on least-bad variant = 0.001 (the family IS orthogonal — there is just no return to diversify).
+
+## Honest conclusions (r6)
+1. **The overnight family is un-investable at campaign costs, by an order of magnitude.** 12bp/d daily round
+   trip = 30%/yr hurdle vs a 4.7bp/d (≈12%/yr raw, ≈5.4% risk-adjusted-hurdle-free) premium. It would need
+   ~1bp/side costs to clear zero, ~0.4bp/side to reach SR 0.6 — not a 6bps-world strategy. Negative result is
+   the deliverable, per charter.
+2. **Charter premise partly wrong for this data:** the documented large-cap overnight premium (1980-2020) is
+   mostly a 1980-2000s result plus gross-only accounting; net of realistic retail/inst costs it evaporates.
+   Meanwhile the intraday leg is gross-POSITIVE in every 5y window since 2007 (+3.5/+4.5/+1.6/+2.7 bp/d) —
+   mildly contradicts the "intraday is negative" prior; if costs ever fall to ~1bp/side, intraday-MR books,
+   not overnight books, are the first family to become viable. Neither clears at 6bp/side.
+3. **Lookahead trap of the round (generalizes):** rolling-mean-of-overnight-return signals must shift(1) —
+   ON_t is the last observation of its own trailing window, so an unshifted ranking harvests ON_t itself
+   (SR 1.34 vs 0.08 honest). Same family as r2b's EIA publication-lag catch: whenever signal window and
+   return window overlap on the same bar, the backtest silently buys the return it just measured.
+4. Corr to champion 0.001 confirms the orthogonality promise — but SR −0.50 means nothing to blend.
+
+**Sleeves saved: 0** (nothing cleared even the FULL-SR gate; scripts idea32-35 + r6_lib.py reproducible).
+ROUND r6 DONE
