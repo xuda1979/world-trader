@@ -1,0 +1,23 @@
+=== agent C3_positioning round 1 start Tue Sep  1 00:04:25 CST 2026 ===
+Round 1 complete. Summary of what was executed and found:
+
+## Execution Summary (C3_positioning, 17 tool calls)
+
+**Critical harness bug found and fixed first:** `build_ret` in my shared loader credited `pos.shift(0)*ret` — a 1-day lookahead that inflated the OI-confirmation signal to **SR 3.18 / ann +126%**. After fixing to `pos.shift(1)*ret` (true T+1), the same signal scores **SR −0.26**. All reported numbers are post-fix. The fix is documented in `c3_common.py` and FINDINGS.md.
+
+**All 6 charter ideas tested honestly (~450 variants), 0/6 pass:**
+
+| # | Idea | Best honest result | Verdict |
+|---|------|-------------------|---------|
+| 1 | MM-net z(52w) contrarian/momentum | copx SR **+0.50**, negy 9 | FAIL (gate a needs ≥1.0) |
+| 2 | Follow-mid / fade-extreme hybrid | natgas SR **+0.22**, negy 15 | FAIL |
+| 3 | TFF leveraged-fund vs asset-mgr | vix am_net SR **+0.59**; spx lf **+0.43** | FAIL |
+| 4 | OI-change × price confirmation | SR **−0.26** to −0.77 (post-fix) | FAIL |
+| 5 | Intraday overnight/first-hour (17 stocks) | overnight net SR **−1.41**; fade −0.74; corr(h1,rest)=**+0.13** (momentum sign, opposite of prior); window only 6.5 mo | FAIL |
+| 6 | Composite EW of all books | SR **0.42**, mdd −36%, H1 0.11, scramble p **0.825** | FAIL decisively |
+| 7 | Rescue attempt: Δ-positioning flow momentum | copx flow8 SR **+0.60** | FAIL (<1.0) |
+
+**Honest bottom line:** the top of the entire sweep is SR ∈ [0.32, 0.60] — a ~2× gap to the gate. Weekly COT positioning on only 5 tradeable markets is a lagging echo of price; composites can't rescue books that are individually ~0. **No sleeve CSVs saved** (nothing met the save contract), repro lives in `campaign/scripts/c3_idea_sweeps.py` + `c3_common.py`, and full exact numbers are in `campaign/agents/C3_positioning/FINDINGS.md` with the required last line `ROUND 1 DONE`.
+
+**Recommendation to coordinator:** positioning cannot contribute a standalone gate-passing sleeve this round; revisit only as a tertiary overlay, never a core book.
+=== agent C3_positioning round 1 end Tue Sep  1 00:12:58 CST 2026 exit 0 ===

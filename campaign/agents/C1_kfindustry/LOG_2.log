@@ -1,0 +1,26 @@
+=== agent C1_kfindustry round 2 start Tue Sep  1 00:36:34 CST 2026 ===
+Round 2 execution complete. Summary of what was done:
+
+## C1_kfindustry Round 2 — Results
+
+**Setup**: All 7 CHARTER_2 ideas executed in order against the 2008-09..2026-08 window, T+1 execution, 6bps/side costs, VT 10% trailing expanding (clip 3.0), full gate suite incl. scramble 200x and |corr|<0.15 vs COORD_FINAL blend. Scripts saved as `campaign/scripts/c1r2_*.py`.
+
+**Verdict table (best cell per idea, net SR after VT):**
+
+| # | Idea | Best net SR | Killer gates | Verdict |
+|---|------|------------|--------------|---------|
+| 1 | 48-ind vol-sorted rotation (12 cells) | **-0.19** | all negative; sign-flip +0.57 fails corr (+0.19) & H1 | FAIL |
+| 2 | Dispersion timing | +0.51 | SR, H2, negy 5, worst -9.3%, corrB 0.27 | FAIL |
+| 3 | SMB sign-timing (ME deciles) | +0.38 | negy 6, worst -21.1% | FAIL |
+| 4 | Momentum-decile TS books | +0.50 | corrB +0.33, negy 6 | FAIL |
+| 5 | 6-leg 2x3 factor-mom + RS-vs-mkt (13 cells) | +0.20 | negy 8-11, SR | FAIL |
+| 6 | Vol-management overlays (Moreira-Muir) | +0.40 (VM Mom63) | SR 0.40 << 1.0; VM SMB/HML negative | FAIL |
+| 7 | 49-ind + sv25 regime gating | +0.72 | negy 4, worst -16.8% | FAIL |
+| — | Composite of best 4 legs | +0.79 | SR<1.0, negy 3, worst -8.4% | FAIL |
+
+**Key findings (exact numbers in FINDINGS.md):**
+- Post-2008 low-vol industries *underperform* high-vol in KF data (all 12 vol-sort cells negative) — the defensive premium is inverted at industry level.
+- Dispersion z does predict fwd-21d industry returns (+0.136 corr at lag 21) but the direct book only reaches SR 0.51 with corrB 0.27.
+- Best artifact: sv25 small-value spread sign-timing gated by market-vol<75pct — SR **0.72**, corrB **0.00**, scramble p 1.0, H1 0.80/H2 0.63. Genuinely real and decorrelated, but fails SR>=1.0, negy<=2 (4 neg yrs), worst-yr -16.8%.
+- **Nothing saved** (no sleeve passed all gates) — honest per contract. FINDINGS.md updated with all numbers and ends with exact `ROUND 2 DONE` (verified byte-exact). Recommendation logged: coordinator should stop assigning this domain for alpha mining; sv25 family is only useful as a tiny low-corrB diversifier.
+=== agent C1_kfindustry round 2 end Tue Sep  1 00:43:27 CST 2026 exit 0 ===

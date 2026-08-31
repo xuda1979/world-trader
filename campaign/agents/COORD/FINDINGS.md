@@ -14,3 +14,14 @@
 - Contango SPX carry (A5 recipe repro): solo SR_m 0.70 but 2022 -20.8% -> fails gates;
   as blend component REDUCES core4 blend SR (1.66 -> 1.53). Not saved. Honest verdict:
   real signal, but long-equity-beta books don't add to this blend.
+
+## GOAL100 coordinator honest log (2026-09-01)
+- Spread sweep (19 pairs, exact brwt recipe): only brent/wti passes (corr 0.76 to brwt = same trade). natgas/wti 0.65, others <0.7 or negative. No new engine.
+- WTI-Brent SPOT reversion: SR 2.58 but corr 0.764 to brwt — same trade, not additive. Saved for reference only.
+- Crack spreads (HO-WTI, Jet-WTI, HO-Brent, Jet-HO): reversion real but MaxDD -14..-20%, SR <= 1.14; FAIL DD/worst-yr gates.
+- Level z-reversion (xau, slv, copx, dxy, spx, EM-FX): all fail (SR <= 0.57). Dead family on daily cash data.
+- 2s10s hold-until-exit / breakeven reversion / 2s10s30s curvature w/ exit: sign-flip artifacts; family weak. (C2's fly construction remains the only rates winner.)
+- NFCI 4w -> SPX inv: SR 1.07 but isolated spike (lb13 0.48, lb26 0.50) — param-plateau FAIL. Not saved.
+- KF OP/INV spread momentum: WITHOUT T+1 shift SR 2.3-2.8 (!); WITH proper shift(1): SR 0.14-1.68, H2<=0.38, negy 9-19. LOOKAHEAD ARTIFACT — the quick test's `sig*spread` uses day-t info in day-t position. Not saved. (Vol-target via expanding net std also would have been contaminated.) Lesson repeated: always shift(1) or use shift(-1) returns.
+- Day-of-year/month calibrars (TOM, month-of-year, storage Thursday) on NG/WTI/Brent/SPX/XAU/SLV/COPX: all fail. Weekday effect remains natgas-only (Fri t=-4.2, Mon t=+4.7; calendar-scramble p=0.016 on the honest rebuild).
+- RRP: FRED series unavailable (HTML error page); WALCL weekly since 2003 — thin. Skipped honestly.

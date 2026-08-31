@@ -1,0 +1,19 @@
+=== agent C2_ratescurve round 1 start Tue Sep  1 00:04:25 CST 2026 ===
+Round 1 complete. All charter ideas executed; artifacts verified; last line of FINDINGS.md is exactly `ROUND 1 DONE`.
+
+## Numbered summary (also in FINDINGS.md)
+
+| # | Idea | Numbers | Verdict |
+|---|------|---------|---------|
+| 1 | Curve reversal (2s10s/5s30s/3m10y) | corr(z, next-day Δ) ≈ ±0.02; actually momentum: corr(z, fwd 21d) +0.132; best backtest SR 0.27 | **REJECTED** (gate a) |
+| 2 | Inversion-gated steepener / level-anchored duration | SR 0.01 (inv gate), -0.30 (near-inv); best level fade SR 0.25, mdd -33% | **REJECTED** |
+| 3 | Breakeven (T10YIE/BE10) z-reversion | corr(z, next Δ) +0.035; dBE vs dTIE corr 1.000 (redundant); best SR 0.02 | **REJECTED** |
+| 4 | Real-vs-nominal DFII10 trend | best SR 0.31 (w504), 8 neg years | **REJECTED** |
+| 5 | Global 10y momentum | intl 10y data are monthly 2018+ only (103 rows) | **INFEASIBLE** (data gap, logged honestly) |
+| 6 | Credit (hy_oas/baa-aaa) z-reversion | hy_oas starts 2023 (786 rows); baa-aaa SR -0.93/-0.25/-0.11 | **REJECTED** |
+| 7 | 3M-1M bill spread reversion | real signal (corr -0.155); best SR **0.98**, H1 0.98/H2 0.98, worst yr -2.2% | **NEAR MISS** — fails gate a by 0.02, not saved per honesty contract |
+| 8 | Extra flies | 1s2s5s SR 0.53 (degrades ensemble); 3s7s10s impossible (no DGS3/DGS7 files) | **DROPPED** |
+| ★ | **UST butterfly reversion, 2 flies (2s5s10s + 5s10s30s), w75, \|z\|>1, dur-neutral** | **SR 1.85, ann 14.8%, mdd -10.6%, H1 1.80/H2 2.02, 1 neg yr (2021 -4.0%), scramble p=0.000, plateau 0.90, corr vs blend 0.017, OOS 2017+ SR 2.09** | **SAVED: `C2_fly2AB_75` — ALL GATES PASS** |
+
+**Key wins:** the saved sleeve is a genuine new-domain engine (pure curve-shape reversion): +42.7% in 2008, **+7.6% in the 2022 bond crash**, corr 0.017 vs COORD blend — exactly the decorrelated high-SR block the campaign needs. Two honest findings for the coordinator: (1) `gates.py scramble_pval` permutes PnL (preserves mean/std → degenerate p=1.0); I implemented proper signal-permutation scrambling for my gates; (2) duration-neutral wing sizing (0.62/0.38) beat both 50/50 (SR 1.26) and DV01-matched sizing (SR 0.46) — construction, not signal, was the binding constraint.
+=== agent C2_ratescurve round 1 end Tue Sep  1 00:27:12 CST 2026 exit 0 ===

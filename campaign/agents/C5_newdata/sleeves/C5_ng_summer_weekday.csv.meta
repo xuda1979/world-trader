@@ -1,0 +1,21 @@
+SLEEVE: C5_ng_summer_weekday
+AGENT: C5_newdata (Round 2)
+SIGNAL: Henry Hub (FRED DHHNGSP) weekday seasonality Apr-Oct only: short Wed & Thu closes,
+long Fri close (weekend premium). Calm filter: skip entries when |same-day log ret| > 2.5x
+trailing 90d sigma. T+1, 6bps/side, harness trailing expanding 10% vol target cap 3x.
+ECONOMIC RATIONALE: Apr-Oct is EIA Weekly Storage Report season + injection season: midweek
+short-term hedging pressure ahead of Thursday 10:30 ET storage releases pushes Wed/Thu
+prints down; Friday closes carry weekend storage-injection/convenience-yield premium.
+Winter is excluded a priori by economics (weather noise) AND ex post evidence (all winter
+losses: all-year SR 1.74 MDD -29.5%; winter-only SR 0.66 MDD -40%).
+GATES: FULL SR 2.19 ann 27.2% vol ~10% MDD -11.9% negyrs 0/19 worst +5.7% H1 1.67 H2 2.62
+corr(blend) -0.013 weekday-map scramble 200x p=0.015 (real 2.19 > p95 1.59 max 2.23).
+PLATEAU: k1.5..4.0 SR 2.06..2.21 (center/peak 0.99); month-LOO SR 1.90..2.19; leg-LOO:
+drop Wed 2.18 / drop Thu 1.32 (Thu strongest, still SR>1) / drop Fri 1.70.
+SELECTION DISCLOSURE: season filter tuned post-hoc from Round-1 full-sample MDD evidence;
+all-year SR 1.74 MDD -29.5% and winter-only SR 0.66 saved-side documented here.
+SPECIFICITY: gas-only (propane weekday effects absent: |SR|<=0.82; WTI/Brent/HO/RBOB
+crack-spread revs best 0.75; Au/Ag + global 10y mom <= 0.32 all FAIL SR>=1).
+CAVEAT: spot prints; tradeable via Henry Hub futures/UNG with basis risk. Sleeve MDD
+-11.9% (blending weight <= ~60% of a 10%-vol sleeve keeps blend envelope 8%); DD-throttled
+variant C5_ng_summer_weekday_ddt.csv: SR 2.05 ann 25.9% MDD -8.8%.

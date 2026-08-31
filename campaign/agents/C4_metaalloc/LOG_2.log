@@ -1,0 +1,17 @@
+=== agent C4_metaalloc round 2 start Tue Sep  1 01:15:18 CST 2026 ===
+Round 2 complete. Summary of what was done (~30 tool calls):
+
+## Verdict: **1 SUCCESS (delivered), 3 FAILs (documented with numbers)**
+
+**Setup (validated first):** Reconstructed the new 16-pool (14 GOAL80 sleeves + `C5_ng_weekday_prem` + `C5_ng_summer_weekday`) and reproduced the recorded champion with my round-1 engine: ann 47.1% SR 5.17 DD -7.8%, OOS 51.8%/-7.8% — matches the coordinator's 48.2/5.13/-7.8. **Defect flagged:** the coordinator's own saved repro `coord_goal100_v2.py` does NOT reproduce its champion CSV (SR ~2.1 vs 5.16).
+
+**Charter items:**
+1. **IS-grid (144 configs) with frozen rule** (max IS SR s.t. IS MaxDD≤8% AND every calendar-year DD≤8%, IS=2008-09..2023) → **SUCCESS, delivered as `C4_construct_v2`**: tgt .11, thr .03, fr .5, lb 126. Single OOS reveal: **FULL ann 55.5% SR 5.40 MaxDD -7.8%, 0/19 neg years, worst year +6.5%; OOS 17-26 ann 60.5% DD -7.8%** (subwindows -7.8%/-6.8%). Beats champion +8.4pp ann at equal DD, beats GOAL80-fixed throttle OOS by +11.3pp. Saved CSV+meta+repro script (byte-verified).
+2. **Per-sleeve throttles on new pool** — FAIL/no-op: all thresholds IS2 SR 5.35–5.39 ≈ baseline 5.385; joint softer-blend variant strictly dominated (reveal 39.3%/-7.9%). First pass had a real bug (constant-/16 vs live-count division) — **caught via control reproducing baseline exactly**, fixed before logging any numbers.
+3. **Trailing-corr weights** — FAIL on DD rule: γ>0 raises SR (+0.11–0.17) but breaches the 8% wall everywhere (best IS-compliant-free reveal: 56.8%/-8.9% full, -8.9% OOS).
+4. **2023-in-IS sensitivity** — CLEAN: argmax identical at IS ends 2016/2019/2022/2023; grid-edge verified (tgt .12-.15 breach IS DD before OOS).
+
+**Gates on deliverable:** halves 5.00/5.78, yearly 0 neg > +6.5%, scramble p=1.0 (permutation degenerate as documented + circular-shift), vol-target compliant; corr 0.978 to champion → `corr_ok_secondary` (construction overlay → recommend **replacement** of champion construction, not additive sleeve).
+
+FINDINGS.md appended with full numbered detail; last line is exactly `ROUND 2 DONE`.
+=== agent C4_metaalloc round 2 end Tue Sep  1 01:38:57 CST 2026 exit 0 ===
