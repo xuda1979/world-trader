@@ -25,3 +25,7 @@
 - KF OP/INV spread momentum: WITHOUT T+1 shift SR 2.3-2.8 (!); WITH proper shift(1): SR 0.14-1.68, H2<=0.38, negy 9-19. LOOKAHEAD ARTIFACT — the quick test's `sig*spread` uses day-t info in day-t position. Not saved. (Vol-target via expanding net std also would have been contaminated.) Lesson repeated: always shift(1) or use shift(-1) returns.
 - Day-of-year/month calibrars (TOM, month-of-year, storage Thursday) on NG/WTI/Brent/SPX/XAU/SLV/COPX: all fail. Weekday effect remains natgas-only (Fri t=-4.2, Mon t=+4.7; calendar-scramble p=0.016 on the honest rebuild).
 - RRP: FRED series unavailable (HTML error page); WALCL weekly since 2003 — thin. Skipped honestly.
+- Pre-FOMC drift book (SPX, 119 meetings parsed from federalreserve.gov, 2008-2026): raw 2-day
+  FOMC-window return 0.29%/meeting (~2.3%/yr ann-equivalent, t=2.48 vs non-FOMC t=1.17);
+  book SR 0.67, -28% DD, 3 neg yrs — FAIL. The Lucca-Moench effect has regime-decayed post-2011.
+- FOMC dates saved to tools/quant/data/newdata/fomc_dates.csv (2008-2027, some recent gaps noted).

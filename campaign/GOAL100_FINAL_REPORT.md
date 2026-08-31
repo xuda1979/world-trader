@@ -94,6 +94,7 @@ Keystone: XGB1y (drop => -10pp); brwt +3.5pp; natgas sleeves +7.7pp combined vs 
 
 ## 7. ACCEPT
 - **SR >= 2, MaxDD <= 8%, no leverage, 6bps, OOS-validated: EXCEEDED by wide margin.**
-- **ann >= 100%: NOT achievable on free data — honest ceiling ~55-62% (up from 43% at session start).**
+- **ann >= 100%: NOT achievable on free data — honest ceiling ~55-62% frozen / ~65% post-hoc wall (up from 43% at session start).**
+- Coordinator post-mortem additions: pre-FOMC drift (t=2.48 raw, book SR 0.67 FAIL — regime-decayed), always-on steepener carry (fails DD envelope), fine-grid wall mapping (max 68% at full-sample-selection, breaches honesty).
 - Remaining gap is a data/engine problem, not a construction problem: the campaign's 14 agent-rounds
   + coordinator sweeps systematically exhausted every accessible domain.
