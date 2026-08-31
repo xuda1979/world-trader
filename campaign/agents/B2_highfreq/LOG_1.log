@@ -1,0 +1,35 @@
+=== agent B2_highfreq round 1 start Mon Aug 31 17:11:49 CST 2026 ===
+I've completed Round 1 for B2_highfreq. Let me do a final summary of what was accomplished.
+
+## Round 1 Complete — B2_highfreq
+
+**Executed the charter ideas in order**, building signals, backtesting T+1 with 6bps/side, and running ALL gates honestly for each.
+
+### Ideas tested:
+
+1. **Equity cross-sectional reversal** (Idea 1) — Best net SR 0.51 after costs/vol-target. **FAILED** full-SR gate (0.6). Gross too thin (~0.76) relative to 6bps turnover on a broad 298-name book)Skip.
+
+2. **Volume-shock reversal** (Idea 2) — Net SR negative after costs. **FAILED** (cost grind on high-turnover names).
+
+3. **Pair/stat-arb reversion** (Idea 3) — Tested 4 cointegrated pairs. XAU/SLV, EUR/DXY, US10y-2y all negative/weak. But **Brent-WTI log-spread mean-reversion is exceptional**.
+
+4. **Seasonal/weekday** — not pursued (reversal/stat-arb dominated).
+
+5. **Cross-asset short reversal** (Idea 5) — 13-asset liquid universe, strong positive.
+
+### Two sleeves SAVED (all gates pass):
+
+| Sleeve | SR | H1/H2 | Neg yrs | Worst yr | Scramble | Corr |
+|--------|-----|-------|---------|----------|----------|------|
+| **brwt_spread_rev15** (Brent-WTI stat-arb) | **2.50** | 2.83/2.24 | 0/19 | +5.8% | p<0.001 | — |
+| **crossasset_rev_L8** (cross-asset reversal) | **1.17** | 1.42/1.00 | 2/19 | -4.6% | p<0.001 | — |
+
+- Both pass: full-SR≥0.6, halves≥0.3, ≤2 neg years each >-5%, signal-scramble 200x, trailing vol-target ~10%, cost-robust (both stay strong at 8-20bps).
+- Mean pairwise |corr| = **0.068** (target <0.15) — genuinely de-correlated.
+- `brwt_spread_rev15` even hits the charter's aggressive MaxDD≤8% (-6.56%), with every one of 19 years net-positive.
+- Repro scripts saved to `campaign/scripts/`, sleeves+meta in `campaign/agents/B2_highfreq/sleeves/`, findings logged.
+
+FINDINGS.md ends with exactly the required **ROUND 1 DONE**.
+
+Deliverables complete — 2 validated, low-correlation, high-SR sleeves contributing meaningfully toward the campaign's SR≥2 blend target.
+=== agent B2_highfreq round 1 end Mon Aug 31 17:38:26 CST 2026 exit 0 ===

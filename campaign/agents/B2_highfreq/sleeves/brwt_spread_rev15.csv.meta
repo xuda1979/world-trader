@@ -1,0 +1,13 @@
+SLEEVE: brwt_spread_rev15
+AGENT: B2_highfreq
+SIGNAL: Pair/stat-arb MEAN-REVERSION on the log(Brent/WTI) crude-oil spread. Signal: z-score of the trailing 15-day log-spread vs its own rolling mean; long the spread when z<-1.5 (WTI rich/Brent cheap, expect spread to rise), short when z>+1.5. Position at t, P&L from spread change at T+1, 6bps/side on actual turnover, trailing 10% ann vol-target.
+PARAMS: lookback=15, buy_z=1.5, universe=Brent(wti_full/brent)&WTI, min_start=2008-01-01
+RATIONAL E: Brent and WTI are the two global benchmark crude grades whose prices are pinned together by inter-continental transport/storage arbitrage; deviations in their log-spread are transient and strongly mean-revert (convergence traders fade the gap). A z-score-triggered long/short of the spread is a classic low-risk, fast-rotating stat-arb that harvests this convergence without taking outright crude-beta (dollar-hedged). Every single year 2008-2026 net-positive confirms persistence.
+VALIDATION:
+  FULL SR=2.50 ann=22.0% vol=8.8% MaxDD=-6.56% (2008-03..2026-07, n=4560d)
+  H1 SR=2.83  H2 SR=2.24  (both >>0.3)
+  NEG YEARS: 0/19, worst year +5.78% (all years positive)
+  SIGNAL-SCRAMBLE (shuffle positions vs returns, 200x): real SR=2.50, p=0.0000 (<0.05)
+  PLATEAU: broad ridge lb=10..30 & buy_z=1.0..2.0 -> SR 1.66..3.05, not an isolated spike
+  COST SENSITIVITY: 6bps SR=2.50 | 8bps 2.47 | 10bps 2.43 | 20bps 2.26 (economically robust)
+FILE: campaign/scripts/backtest_brwt_spread_rev15.py (repro)
