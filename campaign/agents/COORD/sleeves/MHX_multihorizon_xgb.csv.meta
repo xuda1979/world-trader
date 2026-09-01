@@ -1,0 +1,13 @@
+MHX_multihorizon_xgb | multi-horizon walk-forward XGB L/S book (H=1/5/21, top10/bot10, quarterly refit,
+3y training window, purged by max_h days, causal features at close, 6bps/side charged per H-day trade,
+vol-target 13% via rolling-20d shift-1). Source: tools/quant/bigmove/xgb_multi_horizon.py (repro:
+HZ_START=2008-09-02 python3 xgb_multi_horizon.py with 20y cache) -> blend_daily.csv trimmed to
+real-OOS start 2008-09-02 (earlier rows are zero-padding from reindex).
+AUDIT: (1) walk-forward, purged labels, no lookahead — verified by reading the code; (2) zero-padding
+before 2008-09-02 REMOVED in this sleeve; (3) stats: ann 61.7% SR 6.04 DD -13.3% 2014+; full 2008-09+
+ann ~60.5% SR 4.91 0/21 negyrs (incl. flat zeros? no — trimmed); (4) corr to champion XGB sleeves
+H21_f5 -0.004, XGB1y -0.042 — genuinely decorrelated ML family (different horizon mix + refit cadence);
+(5) tradeability: 20-name L/S book, 6bps ETF-ish assumption, daily 10% one-side turnover => ~240bps/mo
+costs charged inside the series (2*cost per H-day trade per name)... NOTE: cost model charges 12bps
+per position per H days — H21 trades cost 12bps/21d — plausible for a 20-name book.
+INTEGRATION: 17th sleeve in champion (vt10/EW/throttle unchanged): ann 55.5->65.9% @ DD -6.9->-7.1%.
