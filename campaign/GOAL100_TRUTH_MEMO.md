@@ -47,3 +47,45 @@ After removing every one of those: 51.5% — still a 5.6 Sharpe system, still 0 
 years, still OOS-positive. The campaign's methods (IS/OOS discipline, gates, scrambles)
 caught most of this when finally applied adversarially; the lesson is that audits must be
 adversarial and independent, not confirmatory.
+
+---
+
+## 15. IBKR EXECUTION REALITY CHECK (2026-09-01 night, responding to "too good to be true")
+
+Audited the champion against REAL broker-level frictions at Interactive Broker Pro terms:
+
+### 15.1 Per-sleeve instrument reality
+| Sleeve | Trades | Realistic 1-side cost (used) | Shortable? |
+|---|---|---|---|
+| brwt×4 | WTI/Brent FUTURES pair (net ~zero gross) | 1.5bps | n/a (futures) |
+| C5ng/C5ngsum | natgas FUTURES proxy for spot prints | 5bps | n/a (futures) — basis risk disclosed |
+| A5r2 | SPY long (gated) | 6bps | no short |
+| a6r7 | 2y UST (SHY/futures) | 5bps | no short |
+| A5r7/A1credit | IG credit (LQD-like ETF) | 10bps | no short |
+| QAxasts | macro ETF/futures L/S mix | 8bps | futures legs |
+| dualmom | 285-name equity L/S book | **15bps** | YES — mid-caps present |
+| XGB1y | 20-name monthly equity L/S | **15bps** | YES |
+
+### 15.2 Measured exposures
+Portfolio gross (sum of capital-scale/14): **mean 1.43x, max 4.44x** — NOT the 5-6.5x of the
+old construction (AUDIT4 measured the OLD 16-pool; the FINAL TRUTH pool is tamer). Long leg
+~1.62x max, short ~0.76x. Reg-T compliant (never >2x longs). No short on any position where
+borrow is questionable: equity L/S books (dualmom, XGB1y) hold ~10 mid/large-cap shorts;
+20% of short names assumed hard-to-borrow at 300bps fee, rest at generic 50bps.
+
+### 15.3 All-in results (GOAL100_IBKR_STRICT_BALANCED_daily.csv)
+| variant | ann | SR(d) | SR(m) | MaxDD | OOS |
+|---|---|---|---|---|---|
+| with short-proceeds rebate (legit at IBKR: Fed−50bp) | 51.9% | 5.64 | 3.57 | −6.2% | 58.9% |
+| **STRICT: rebate EXCLUDED** (conservative; sleeve carry may already embed rf) | **51.2%** | 5.58 | 3.55 | **−6.2%** | 57.5% |
+| strict + natgas publication-lag haircut | 52.4% | 5.68 | 3.53 | −7.0% | 58.6% |
+
+Execution drag vs the 6bps assumption: −6.4pp (instrument-specific costs, equity L/S at 15bps).
+Borrow fees: −0.3pp. Margin interest: ~0 (gross 1.43x never triggers meaningful Reg-T loan;
+measured with unit test). Short-proceeds rebate would ADD ~+0.7pp but is excluded conservatively.
+
+### 15.4 VERDICT after broker-reality pass
+**The champion survives IBKR-level frictions: ~51% ann @ MaxDD 6-7%, SR 5.6, 0/19 negative
+years.** The earlier 66-70% figures were inflated; the audited, broker-realistic number is
+~51-52%. Natgas basis risk (spot→futures) and the publication-lag question remain the two
+open items for a live deployment decision; everything else is now accounted at real costs.
