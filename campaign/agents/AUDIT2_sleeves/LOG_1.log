@@ -1,0 +1,19 @@
+=== audit agent AUDIT2_sleeves start Tue Sep  1 13:59:06 CST 2026 ===
+Audit complete. **FINDINGS.md** written to `campaign/agents/AUDIT2_sleeves/FINDINGS.md` (last line exactly `AUDIT DONE`).
+
+## Summary of the forensic audit (all 16 pool sleeves examined, 12 charter sleeves + 4 extra)
+
+**What passed cleanly:**
+- **13/16 sleeves reproduce IDENTICAL from raw data** (max diff ≤1e-16): A5r7, A5r2, a6r7, A1credit, QAxasts, dualmom, carryv2, brwt, C5ng, C5ngsum, B3momhml — and XGB1y is byte-exact vs its monthly source (cum-total diff 7e-13)
+- **Every coordinator zero-run explained by strategy design** — a6r7's 461d (378-obs trend gate negative 2021-10-15→2023-09-22, replayed day-by-day), A5r2/A5r4's 112d (rate-shock veto: US10y +215bp/150d >2.75%), dualmom's 250d (FF-market MA band, gate 0 at every month-end), A5r7's nine ≥100d runs (z-hysteresis exits/re-entries all verified), brwt's 33d (max|z|=1.471<1.5), C5ngsum (18 consecutive winters = Apr–Oct filter). **No missing-data zero-runs.**
+- Champion `--verify`: all 3 configs identical (9.99e-17)
+
+**What failed:**
+1. **A1inf — FAIL (real leak, inflates):** signal at close t is paired with the t−1→t return. Fix (sig.shift(1)): SR 1.15→**0.64**, neg years 1→**5**. Champion impact −0.1 SR.
+2. **H21_f5 — FLAG (mechanical day-0 entry, contrarian/favorable):** tranche earns day-0 MTM; −17.8% of cum PnL sits on 216 rebalance days (t=−5.3). Zeroing day-0 *raises* SR 1.92→2.36.
+3. **H21_f5/H21_br — provenance UNVERIFIED:** no committed code+cache state reproduces the CSVs (best corr 0.685 / 0.904); h21_br's file predates the first git commit of its producer.
+4. **A5r4** = duplicate of A5r2 (corr 1.000) despite meta saying "REPLACES, not a new diversifier" — pool is 15 effective sleeves, not 16.
+5. Conventions noted: unshifted expanding vol-target in B2/C5 sleeves (+0.03–0.10 SR), undisclosed; mean champion gross 4.03× NAV with financing uncharged (disclosed, ≈13.6%/yr equivalent); 6 sleeves silently die mid-2026 (+~5pp 2026-YTD headline effect); B3momhml is a self-declared "NOT gate-passing" reference yet sits in the pool.
+
+**Bottom line:** champion assembly is deterministic and mechanically clean; no zero-run is unexplained; but **A1inf must be re-gated or removed**, and the two H21 books have non-frozen provenance plus a same-day-entry artifact (favorable direction, so results are conservative, not inflated).
+=== audit agent AUDIT2_sleeves end Tue Sep  1 15:23:46 CST 2026 exit 0 ===
