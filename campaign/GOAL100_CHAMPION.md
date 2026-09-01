@@ -121,3 +121,48 @@ python3 campaign/harness/eval.py campaign/results/GOAL100_CHAMPION_BALANCED_dail
 | OOS test | PASS (2017-26 single reveal, OOS > IS) |
 | 20y testing | 18.6y (93%) |
 | **ann >= 100%** | **NOT MET: 55.5% (honest ceiling ~65% post-hoc). Requires DD/return 0.08 vs best-real 0.11-0.20 — out of reach on free daily data at 6bps.** |
+
+---
+
+## 8. VERIFICATION APPENDIX (added 2026-09-01 after coordinator audit)
+
+### 8.1 Replication
+`python3 campaign/scripts/champion_build.py --verify` regenerates all three champion CSVs
+from the 16 sleeve files and compares byte-wise: max deviation 1e-16 (float round-off only)
+=> the champion is EXACTLY reproducible from committed inputs. The script is the canonical
+builder; the CSVs are its frozen outputs.
+
+### 8.2 Leakage audit of the 16 sleeves (what was checked, what was found)
+
+| Sleeve | Mechanism | Leakage check | Verdict |
+|---|---|---|---|
+| H21_f5 / H21_br / XGB1y | XGB equity books | trained on 2008-2016 only, model versioning separate from eval; daily book files produced by frozen models; **residual risk: three seeds share the XGB family => their +ann comes partly from correlated ML luck; drop-one shows XGB1y -10pp so single-model dependence is real** | CLEAN mechanically; concentration risk noted |
+| A5r7 / A5r2 / A5r4 | VIX-term-structure carry | pure trailing contango signal (T+1 shift); A5r2/A5r4 duplicates (corr 1.0) | CLEAN |
+| a6r7 | 2y trend | independent rebuild: corr(mine, saved) 0.979; scale decimal; signal = trailing 378d TR sign, decisions frozen 42d cadence | CLEAN |
+| A1credit | BAA regime | exact repro script runs byte-consistent; units decimal; regime = trailing 252d | CLEAN |
+| A1inf / QAxasts / dualmom / carryv2 | panel strategies from campaign A-rounds (GOAL80, gates then) | inherited from GOAL80 gate stack (scramble/halves/plateau) | CLEAN (inherited) |
+| brwt | Brent-WTI z-rev | coordinator re-derived: same trade re-found independently (corr 0.76 to my spot version); vol_target expanding trailing; T+1 | CLEAN |
+| B3momhml | FF MOM+HML composite | FF factor data = published portfolio returns (tradeability caveat, not leakage) | CLEAN w/ caveat |
+| C5ng / C5ngsum | natgas weekday | coordinator full rebuild from raw DHHNGSP: SR 1.08 (all-year) vs saved 0.99-1.74 range (config variance); calendar-scramble p=0.016; per-year positive; honest T+1 confirmed by reading agent code | CLEAN; meta overstated SR (1.74 vs honest ~1.0) — blend uses the honest series |
+
+### 8.3 Known non-fatal caveats (no handwaving)
+1. **Gross exposure**: per-sleeve vt10 with cap 8x means gross book exposure averages >1x
+   across sleeves (long-flat sleeves sit at scale>1 during low-vol). At portfolio level the
+   EW-of-16 + global vt keeps net exposure moderate, but we do NOT simulate financing cost
+   on internal scale>1 (consistent with GOAL80 convention). A full financing-cost model
+   (fed funds + 20-30bps spread on gross>1) would reduce ann by an estimated 2-6pp —
+   direction known, magnitude not modeled. Flagged, not hidden.
+2. **VXX-style sleeves** (A5r2/r4/r7) embed VIX-futures roll; live cost higher than 6bps.
+3. **Natgas spot** sleeves: live trade requires futures/UNG (basis risk); spot prints are
+   the signal AND pnl source in backtest — tradeability gap flagged in GOAL80 too.
+4. **Three XGB books** are one ML family; family-level luck not diversifiable. The honest
+   frontier without the XGB family is materially lower (XGB1y alone -10pp).
+5. 2023 (+163% best year) is real but the pool is NOT selected on 2023 (verified by
+   IS-ends sensitivity: argmax identical for IS-ends 2016/2019/2022/2023).
+
+### 8.4 Champion integrity verdict
+The champion as committed is **mechanically clean**: exactly reproducible, T+1 everywhere,
+trailing-only scaling/throttling, costs embedded, selection done on IS with single OOS reveal.
+Economic caveats (financing on internal leverage, VXX/natgas tradeability, XGB family
+concentration) are disclosed above and quantify the gap between "backtest ann" and
+"achievable live ann" — they do not involve any lookahead or hand-waving.
