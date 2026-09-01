@@ -214,3 +214,43 @@ move <0.5pp.
   = -0.4pp ann only (6bps not load-bearing); bootstrap SR CI [4.36,5.53], P(SR<2)=0.000;
   scramble p=0.000; upgrade grid FAILS honest IS->OOS rule (IS surface flat, argmax
   breaches OOS DD) => v1 confirmed.
+
+---
+
+## 10. CHAMPION_V2 (2026-09-01 late) — +MHX 17th sleeve
+
+### 10.1 The new sleeve
+`campaign/agents/COORD/sleeves/MHX_multihorizon_xgb.csv` — multi-horizon walk-forward XGB
+L/S book (H=1/5/21 days, top-10/bottom-10 of a 285-name panel, quarterly refit on a 3y
+training window, labels purged by max-horizon, causal features at close, 6bps/side inside,
+vt13 rolling-20d shift-1). Built by tools/quant/bigmove/xgb_multi_horizon.py (20y cache
+horizon_preds_20y_f5/f6.pkl). Trimmed to its real OOS start 2008-09-02 (the published
+blend_daily.csv had zero-padding before that — removed here; caught in audit).
+
+### 10.2 CHAMPION_V2 numbers (17-pool; construction otherwise identical to V1)
+| | BALANCED | SAFE | AGGRESSIVE |
+|---|---|---|---|
+| ann | **66.0%** | ~58% | ~73% |
+| SR daily | **6.21** | | |
+| SR monthly | **4.33** (bootstrap CI [3.85,4.94]) | | |
+| MaxDD | **-7.1%** | | |
+| per-year DD max | -6.4% (2025) | | |
+| neg years | 0/19 (worst +12.0%) | | |
+| OOS17+ | **69.7% ann, SR 6.48** | | |
+
+Files: campaign/results/GOAL100_CHAMPION_V2_{BALANCED,SAFE,AGGRESSIVE}_daily.csv.
+
+### 10.3 Understanding the SR (no hand-waving)
+The blend's SR 6.2 is a DIVERSIFICATION result: 17 individually-gated vt10 sleeves with
+avg pairwise corr ~0.05. Arithmetic: avg standalone SR ~1.7 x sqrt(17/(1+16*0.05)) ~ 5-6.
+The circular-shift scramble at blend level gives p=1.0 (shuffled realignments score as high)
+— this does NOT indicate leakage; it reflects that vt10+EW mechanically manufactures high
+SR from any set of low-corr streams. What carries the alpha is each sleeve's standalone
+validated edge (all 17 passed signal-level scrambles, plateaus, halves, yearly gates) plus
+genuinely low correlations (MHX vs H21_f5: -0.004; vs XGB1y: -0.042).
+
+### 10.4 Path to 100%: remaining gap
+V2 at DD -7.1% => vol ~10.6%. 100% ann at SR 6.2 needs only ~16% vol, but the DD/vol floor
+(~0.65 measured across all constructions) caps 8% DD at ~12.3% vol => ~76% ann ceiling at
+current SR. To close the gap honestly: either 8-10 MORE decorrelated validated sleeves (the
+17-pool took ~6 agent-rounds to grow by 1) or engines with better standalone DD/return.
