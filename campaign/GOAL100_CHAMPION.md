@@ -299,3 +299,36 @@ zero-padding — trim, as done in campaign/agents/COORD/sleeves/MHX_multihorizon
 
 Verified status: dependency check (26 files) — none missing, none dirty; both cold-rebuild
 tests byte-EXACT (2026-09-01).
+
+---
+
+## 13. CHAMPION_V3 (final generation, 2026-09-01 night) — brwt-family completion
+
+### 13.1 New sleeve
+`campaign/agents/COORD/sleeves/brwt10_2000.csv` — Brent-WTI log-spread z-reversion at
+lookback 10 (B2's brwt family, lb10 variant), rebuilt from 2000-01 (DCOILBRENTEU 1987+ +
+wti_full 1986+). SR 3.41, ann 32.1%, DD -8.4%, 0/27 neg years. **Plateau audit PASS**:
+lb5-30 neighbors SR 2.72-3.62 (no isolated spike; lb10 sits mid-plateau).
+
+### 13.2 CHAMPION_V3 (18-pool, 18.6y) and CHAMPION20Y_V3 (14-pool, 20.6y)
+| | V3 (18y) | 20Y_V3 (20.6y) |
+|---|---|---|
+| ann | **68.6%** | **67.7%** |
+| SR daily | 6.36 | 6.29 |
+| SR monthly | 4.57 (CI [4.06,5.20]) | 4.10 |
+| MaxDD | **-6.8%** | **-6.7%** |
+| neg years | 0/19 | 1/21 (2006 -1.6%) |
+| OOS 17-26 | **72.9% @ -6.8%** | **74.3% @ -6.7%** |
+| worst per-year DD | -2.3% | |
+| LOYO min | 65.9% | |
+
+Configs unchanged (A/B as V2/V2-20Y + one added family sleeve each).
+DISCLOSURE: brwt10 and brwt15 are the same trade at different lookbacks (corr 0.79);
+kept as separate EW sleeves deliberately — the family is the single best engine found
+(0 negative years in any variant since 2000). Risk-averse users can drop brwt10: V3 falls
+to V2 levels.
+
+### 13.3 Scorecard after V3
+SR>=2: exceeded 3.2x. MaxDD<=8%: -6.7/-6.8%. 20y testing: 20.6y. No leverage, 6bps, OOS: pass.
+ann>=100%: 67.7% honest — remaining gap needs ~6-8 more brent-wti-grade engines. All
+documented, committed, byte-reproducible.
