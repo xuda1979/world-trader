@@ -1,0 +1,21 @@
+=== agent E1_20yspan round 1 start Tue Sep  1 10:50:00 CST 2026 ===
+E1 round 1 artifacts:
+Tue Sep  1 11:20:41 CST 2026
+Round 1 complete. Summary of what was executed:
+
+## Mission accomplished: GOAL100_CHAMPION20Y upgraded — 47.0% ann @ -7.95% MDD (19.9y span), beating the coordinator's 39.5% @ -7.1%
+
+**Root-cause audit of sleeve truncations (all arbitrary cuts, not data bounds):**
+- C5ng/C5ngsum: `net[net.index>='2008-01-01']` — data floor is actually **1997-01**
+- a6r7: `START="2007-01-01"` constant — DGS2 exists from **1976**
+- brwt: `min_start='2008-01-01'` — brent floor is **2000-01** (verified no older brent anywhere on disk)
+- A1inf: FRED xau floor 2007-12 was binding → **GLD twelvedata (2006-09)** swap fixes it
+- QAxasts: panel floor 2006-09 + MA189 warmup → honest from **2007-02**
+- XGB1y/dualmom: genuinely data-bound (purged WF training / 252d warmup) — not extendable
+
+**7 sleeves saved** (all gates, corr to blend 0.16–0.29 → corr_ok_secondary where >0.15), headlined by E1_brwt_2000 (SR 2.73, 0/26 neg yrs, position-shift scramble p=0.0000) and E1_C5ng_summer (SR 2.08, 1998+, IS 1.81/OOS 2.54). One honest disclosure: a6r7-1990 has 4/35 neg years (all > −4.1%).
+
+**Champion build** (champion_build.py construction, IS/OOS discipline — (TGT,THR,FR) grid ranked on IS<2017 only, plateau 4.64–4.82): `GOAL100_CHAMPION20Y_E1_BALANCED_daily.csv` = 46.99% ann, SR 5.12, MDD −7.95%, 1/21 neg years (2006 −1.4%), OOS 52.6% ann — dominates incumbent on all axes (+7.5pp ann, +2.1y span, −0.85pp DD).
+
+**Key honesty finding flagged:** the incumbent pool's B3momhml member is the FF-reference series *without costs* (its own meta says "no-cost-here"). Costed variant included: **34.9% @ −7.2%** — the no-cost convention is worth ~12pp/yr and is an inherited flaw the coordinator should adjudicate. The 100% ann goal was NOT reached: the H21 ML keystones are worth ~16pp and remain 2008-bound; the span-ann trade-off (18.0y/55.5% vs 19.9y/47.0%) is now exactly quantified in FINDINGS.md.
+=== agent E1_20yspan round 1 end Tue Sep  1 11:21:01 CST 2026 exit 0 ===

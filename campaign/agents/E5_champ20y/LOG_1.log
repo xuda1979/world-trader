@@ -1,0 +1,16 @@
+=== agent E5_champ20y round 1 start Tue Sep  1 10:50:00 CST 2026 ===
+=== agent E5_champ20y round 1 end Tue Sep  1 11:00:34 CST 2026 — v1 CONFIRMED, no v2, frontier candidate logged ===
+**E5_champ20y ROUND 1 COMPLETE.** All 7 charter tasks executed in 11 tool calls:
+
+| # | Task | Result |
+|---|---|---|
+| 1 | Independent 12-pool rebuild | **BYTE-MATCH** all 3 series (max diff 1.0e-16, n=5131) — SAFE 35.6%/4.86/-6.4, AGGRESSIVE 43.3%/4.92/-7.8, BALANCED 39.5%/4.91/-7.1, 0 neg yrs, OOS 44.9% |
+| 2 | Sub-period DD audit | **0 flags**: worst fixed-3y window -6.3%, worst rolling-3y -7.1% (BAL, trough 2022-05), 0/20 calendar years with DD<-8% or negative return |
+| 3 | Cost stress | 6→8→10bps: BAL 39.5/-7.1 → 39.1/-7.3 → 38.8/-7.5 — **robust**; AGGRESSIVE only breaches -8% at 8bps+ |
+| 4 | Bootstrap (1000× 21d) | BAL SR 95% CI **[4.36, 5.53]**, P(SR<2)=0.000; ann [41.5%, 56.0%] |
+| 5 | Position-permutation scramble (200×) | real SR 4.86/4.92/4.91, all **p=0.000** — edge is in the positions, not path luck |
+| 6 | Upgrade grid {(0.07–0.09)×(0.03–0.045)} | **FAILS honest IS→OOS rule**: IS SR surface flat (4.38–4.44, unrankable); strict IS-argmax vt.090/thr.040 breaches OOS DD (-8.6%). Honest frontier point vt.085/thr.035 combo (42.2%@-7.3%, OOS 48.1%) logged but **not adopted** (requires OOS-peeking). **v1 CONFIRMED, no v2** |
+| 7 | 20y vs 18.6y | CHAMPION20Y = 20.36 trading-yrs (2007-01→2026-08), 39.5%/4.91/-7.1%/0neg — the only vehicle satisfying 20-year testing; the 18.6y champion's 55.5% headline is sample-start (drops 2007), not engine quality |
+
+Full tables with exact numbers in `campaign/agents/E5_champ20y/FINDINGS.md` (last line exactly `ROUND 1 DONE`); one-shot repro at `campaign/scripts/E5_champ20y_validate.py`; work products under `campaign/agents/E5_champ20y/work/`.
+=== agent E5_champ20y round 1 end Tue Sep  1 11:00:48 CST 2026 exit 0 ===

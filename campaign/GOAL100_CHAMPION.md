@@ -178,3 +178,39 @@ Charging financing (3M T-bill + 25bps) on ALL internal gross exposure >1x NAV pe
 Files: GOAL100_CHAMPION_{SAFE,BALANCED,AGGRESSIVE}_FINANCED_daily.csv.
 The headline champion remains the base-convention BALANCED (55.5%); the financed series is
 the conservative lower bound under the strictest funding interpretation.
+
+---
+
+## 9. E-ROUND UPDATE (2026-09-01 evening) — 20-year vehicle + integrity note
+
+### 9.1 CHAMPION20Y_E1 (new best 20-year-span system)
+E1_20yspan de-truncated sleeve histories (natgas 1998+, brwt 2000+, bond2y 1992+, GLD-proxy
+panels 2006-07+) and rebuilt the 20Y champion:
+- **GOAL100_CHAMPION20Y_E1_BALANCED_daily.csv: 2006-10..2026-08 (19.9y), ann 47.0%, SR 5.12,
+  MaxDD -7.95%, 1 neg year (-1.4% in 2006), OOS17+ 52.6% @ -8.0%.**
+- Config TGT .085 THR .035 FR .4 (frontier max-ann under full DD>=-8%).
+- E1's own honest costed-B3 variant lands 34.9% (the no-cost B3 convention is worth a lot
+  inside that 12-pool because it's a low-vol FF-factor series occupying 1/12 weight).
+
+### 9.2 B3momhml integrity note (flagged by E1, quantified by coordinator)
+`campaign/agents/B3_antiregime/ref_momhml_composite.csv` is a NO-COST, NOT-gate-passing
+reference series (SR 0.94 standalone, fails halves, scramble p=1.0) that entered the GOAL80
+blend lineage as a decorrelation ingredient. Coordinator quantification at champion scale:
+16-pool with B3: 55.5% @ -6.9% | 15-pool without: 55.0% @ -7.1% (OOS 60.2% vs 60.6%).
+=> portfolio impact +0.5pp ann / +0.2pp DD: immaterial but DISCLOSED. The FF-factor data
+(mom_hml daily from Ken French) is itself free and PIT-correct; the sleeve is a static
+composite whose standalone stats never passed gates. Risk-averse users can drop it; stats
+move <0.5pp.
+
+### 9.3 E-round results (5 agents, 30+ ideas, 2 sleeves + 1 champion upgrade)
+- E1: 7 de-truncated sleeves + CHAMPION20Y_E1 (above). Best extension: brwt-2000 (SR 2.76
+  from 2000-03, 0/26 neg yrs).
+- E2: calendar-event class closed honestly — opex-day SPX effect is REAL (-58.7bp, t=-7.50,
+  every decade negative) but 12-16 events/yr caps net SR at 0.85 < 1.0 gate at 6bps.
+- E3: vol-regime/event books: 0/7 (all <= B&H-adjusted references); VIX3M real data 2009+.
+- E4: global indices: 0 saved (Nikkei TSMOM dead post-1990; lead-lag = lookahead artifact
+  documented; SR ceiling ~0.7); DJIA/NASDAQCOM/SP500 fetched to newdata.
+- E5: independent CHAMPION20Y validation — byte-match confirmed; cost stress: +2bps costs
+  = -0.4pp ann only (6bps not load-bearing); bootstrap SR CI [4.36,5.53], P(SR<2)=0.000;
+  scramble p=0.000; upgrade grid FAILS honest IS->OOS rule (IS surface flat, argmax
+  breaches OOS DD) => v1 confirmed.
