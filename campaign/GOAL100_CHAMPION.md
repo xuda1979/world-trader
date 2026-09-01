@@ -254,3 +254,29 @@ V2 at DD -7.1% => vol ~10.6%. 100% ann at SR 6.2 needs only ~16% vol, but the DD
 (~0.65 measured across all constructions) caps 8% DD at ~12.3% vol => ~76% ann ceiling at
 current SR. To close the gap honestly: either 8-10 MORE decorrelated validated sleeves (the
 17-pool took ~6 agent-rounds to grow by 1) or engines with better standalone DD/return.
+
+---
+
+## 11. CHAMPION20Y_V2 — THE 20-YEAR CHAMPION (final, 2026-09-01)
+
+**GOAL100_CHAMPION20Y_V2_BALANCED_daily.csv** — 13 sleeves (E1 de-truncated pool + MHX),
+2006-10-02..2026-08-28 = **20.6 years**:
+
+| metric | value |
+|---|---|
+| **ann** | **65.1%** |
+| **SR daily / monthly** | **6.17 / 3.83** (bootstrap CI [3.39, 4.35]) |
+| **MaxDD** | **-7.2%** (worst per-year DD -6.6% in 2006) |
+| neg years | 1/21 (2006: -1.6%) |
+| OOS 2017-26 | **71.5% ann, SR 6.49, DD -7.2%** |
+| 5y CAGRs | 84 / 77 / 96 / 107% |
+| LOYO | 61.9%..67.1% |
+| cost stress | 8bps: 64.7%/-7.4%; 10bps: 64.4%/-7.5% (robust) |
+| no-B3 variant | 64.8%/-7.8% (B3 optional, disclosed) |
+
+Config: A = vt.09/thr.03/fr.5, B = vt.106/thr.0255/fr.5, BALANCED = 50-50.
+MHX enters 2008-09 (ML training floor) — before that it dilutes the EW (conservative).
+The 18.6y CHAMPION_V2 (66.0%) and 20.6y CHAMPION20Y_V2 (65.1%) are the same architecture;
+the 20Y version is the goal-compliant vehicle. Remaining gap to 100%: ~1.5x, requiring
+8-10 more MHX-grade decorrelated engines (the full audit trail in the agents' FINDINGS
+shows ~300 tested ideas yielded 3 such engines across two campaign days).
