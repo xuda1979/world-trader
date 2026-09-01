@@ -29,3 +29,13 @@
   FOMC-window return 0.29%/meeting (~2.3%/yr ann-equivalent, t=2.48 vs non-FOMC t=1.17);
   book SR 0.67, -28% DD, 3 neg yrs — FAIL. The Lucca-Moench effect has regime-decayed post-2011.
 - FOMC dates saved to tools/quant/data/newdata/fomc_dates.csv (2008-2027, some recent gaps noted).
+
+## GOAL100-D round (champion improvement) — coordinator log 2026-09-01
+- Canonical builder committed (champion_build.py, byte-identical --verify) + leakage-audit
+  appendix + FINANCED variants (BALANCED financed: 48.9% @ -7.5%, T-bill+25bps on gross>1x).
+- Pool ablations: dropping A5r2 duplicate raises ann +1.9pp but DD -8.0% (rejected,
+  risk-adjusted worse); C5ngsum->ddt swap hurts (55.1% @ -7.4%); base 16-pool stays.
+- Net liquidity (WALCL-WTREGEN 13-52w -> SPX, 5d pub lag + T+1): SR -0.05..-0.29, FAIL.
+  The famous regime trade is dead on 2008-26 free data at 6bps.
+- D-series launched: D1 credit/curve carry (low-turnover mandate), D2 weekly macro regimes,
+  D3 FX factors weekly, D4 cash microstructure II, D5 construction meta (beat-BALANCED mandate).
