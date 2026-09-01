@@ -280,3 +280,22 @@ The 18.6y CHAMPION_V2 (66.0%) and 20.6y CHAMPION20Y_V2 (65.1%) are the same arch
 the 20Y version is the goal-compliant vehicle. Remaining gap to 100%: ~1.5x, requiring
 8-10 more MHX-grade decorrelated engines (the full audit trail in the agents' FINDINGS
 shows ~300 tested ideas yielded 3 such engines across two campaign days).
+
+---
+
+## 12. REPLICATION RUNBOOK (final, 2026-09-01)
+
+Cold-replication from a fresh clone:
+1. `git clone <this repo>` — all 33 dependency files (17+13 sleeves, scripts, docs) are committed.
+2. `python3 campaign/scripts/champion_build.py --verify` → all 3 V1 champion CSVs IDENTICAL (dev < 1e-16).
+3. `python3 campaign/scripts/champion20y_build.py --verify` → all 3 CHAMPION20Y_V2 CSVs IDENTICAL (dev < 1e-16).
+4. `python3 campaign/harness/eval.py campaign/results/GOAL100_CHAMPION_V2_BALANCED_daily.csv` → ann 66.0% SR 6.21 DD -7.1%.
+5. `python3 campaign/harness/eval.py campaign/results/GOAL100_CHAMPION20Y_V2_BALANCED_daily.csv` → ann 65.1% SR 6.17 DD -7.2%.
+
+MHX deeper repro (regenerates the ML sleeve from raw prices, ~1h CPU):
+`cd tools/quant/bigmove && HZ_START=2008-09-02 python3 xgb_multi_horizon.py`
+(cache: data/horizon_preds_20y_f5.pkl; blend_daily.csv rows before 2008-09-02 are
+zero-padding — trim, as done in campaign/agents/COORD/sleeves/MHX_multihorizon_xgb.csv).
+
+Verified status: dependency check (26 files) — none missing, none dirty; both cold-rebuild
+tests byte-EXACT (2026-09-01).
