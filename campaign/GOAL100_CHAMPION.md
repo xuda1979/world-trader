@@ -166,3 +166,15 @@ trailing-only scaling/throttling, costs embedded, selection done on IS with sing
 Economic caveats (financing on internal leverage, VXX/natgas tradeability, XGB family
 concentration) are disclosed above and quantify the gap between "backtest ann" and
 "achievable live ann" — they do not involve any lookahead or hand-waving.
+
+### 8.5 FINANCED VARIANT (2026-09-01, post-appendix addendum)
+Charging financing (3M T-bill + 25bps) on ALL internal gross exposure >1x NAV per sleeve:
+| Variant | base ann | financed ann | financed DD |
+|---|---|---|---|
+| SAFE A | 48.5% | 43.2% | -7.3% |
+| AGGRESSIVE B | 62.4% | 54.6% | -8.3% (breaches 8% by 0.3) |
+| **BALANCED** | 55.5% | **48.9% @ -7.5%, SR 4.69, OOS 49.4%** | |
+
+Files: GOAL100_CHAMPION_{SAFE,BALANCED,AGGRESSIVE}_FINANCED_daily.csv.
+The headline champion remains the base-convention BALANCED (55.5%); the financed series is
+the conservative lower bound under the strictest funding interpretation.
