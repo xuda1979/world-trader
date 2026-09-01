@@ -332,3 +332,25 @@ to V2 levels.
 SR>=2: exceeded 3.2x. MaxDD<=8%: -6.7/-6.8%. 20y testing: 20.6y. No leverage, 6bps, OOS: pass.
 ann>=100%: 67.7% honest — remaining gap needs ~6-8 more brent-wti-grade engines. All
 documented, committed, byte-reproducible.
+
+---
+
+## 14. CHAMPION_V4 (final, 2026-09-01) — brwt lookback-ensemble family
+
+Adding lb5/lb7 variants of the brwt family (each independently plateau-passing, SR 2.7-3.6,
+0 neg yrs). Marginal analysis: 3 slots +1.2pp, 4 slots +0.3pp, 5 slots NEGATIVE — stopped at 4.
+Equivalent single-sleeve alternative: brwt_ens (5-lookback EW, SR 3.27) gives 68.9% at 1 slot —
+V4's extra +1.2pp comes from deeper family weighting; both disclosed.
+
+### CHAMPION_V4 (21-pool, 18.6y) — files GOAL100_CHAMPION_V4_*
+ann **70.1%**, SR 6.25 / monthly **4.77** (CI [4.23,5.41]), MaxDD **-6.4%**, 0/19 neg yrs
+(worst +8.6%), OOS17+ **75.4% @ -6.4%**, worst per-year DD -2.0%, LOYO min 67.5%.
+
+### CHAMPION20Y_V4 (16-pool, 20.6y) — files GOAL100_CHAMPION20Y_V4_*
+ann **68.7%**, SR 6.29 / monthly 4.26 (CI [3.77,4.80]), MaxDD **-6.0%**, 1/21 neg yrs
+(2006 -1.8%), OOS17+ **75.6% @ -6.0%**.
+
+Family disclosure: brwt lookbacks occupy 4/21 slots (19%) in V4, 3/16 (19%) in 20Y_V4.
+The brwt family remains the single best engine of the campaign (Brent-WTI storage spread
+mean-reversion). Build scripts: champion_build.py / champion20y_build.py pools updated in
+the JSONs; sleeve files all committed.
