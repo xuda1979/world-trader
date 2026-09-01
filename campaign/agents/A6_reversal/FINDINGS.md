@@ -371,3 +371,60 @@ families; if a further round is commissioned it should import an external-family
 accept champion-internal optimization tasks explicitly (r4/r5 recommendation stands: re-budget
 the champion's A6_pair_fm leg to vt18, +~8pp champion ann at unchanged structure).
 ROUND r6 DONE
+
+# ROUND r7 SUMMARY (appended 2026-08-31) — NEW FREE-DATA engines
+Charter: 4 missions on data_fred_new/ + data_fred (DGS2/DGS10/DGS30/T10Y2Y spot rates, WTI/Brent/
+gold/silver/copper/natgas, VIX/DXY), SR>=1.0 mission bar, corr<0.25 to 6-leg CHAMPION_FINAL, gates
+a-g per brief. Protocol r1-r6 (T+1, 6bps/side, trailing expanding VT; VT12 for macro books per
+charter, VT15/18 for equity book). All runs reproducible: scripts/r7_lib.py + r7_idea*.py.
+
+1. Bond rate-trend (charter 1) — synthetic total returns TR=-D*dy+y/252 (par approx), 3/6/12m+
+   trend, LF and L/S, 36-config sweep then k-refine. **10y/30y: DEAD** (SR 0.0-0.46, 8-12 neg yrs;
+   2013/2023-25 whipsaw — charter's prior finding replicated with the better carry handle). **2y:
+   SAVED a6_r7_bond2y_trend — the round's winner and A6's first non-equity engine.** 2yLF k378
+   cad42 VT12: SR 1.43, ann 9.3% (cap binds; cap10 disclosure SR 1.52/ann 14.6%), H1 1.14 / H2 1.81,
+   negYr 2/20 {2014 -0.5, 2021 -4.1}, worst -4.1%, scramble p=0.005, plateau 12-pt grid SR
+   1.31-1.43 with gate-d holding at every point, corr6=-0.00 (corrD +0.02). Control decomposition:
+   always-long 2y = SR 1.15 both-halves-equal but 2022 -18.9% — the trend overlay's single
+   in-window action (flat Nov-2021..Sep-2023, i.e. reading the Fed hiking cycle correctly) IS the
+   alpha on top of term premium. Two honesty catches en route: (i) first standalone repro script
+   diverged (missing /100 on yields + synthetic-bday vs FRED-dates calendar changed the effective
+   lookback) — caught by routine repro check, fixed; CSV now byte-reproduced by
+   campaign/scripts/a6_r7_bond2y_trend.py; (ii) CALENDAR CHOICE flips the neg-year COUNT at the
+   margin (FRED-dates canonical: 2 negYr; bday-ffill variant: 4 small negYr, worst -2.9%) — SR is
+   robust to calendar, gate-d count is not; disclosed in meta.
+
+2. Term-structure carry (charter 2) — DV01-neutral 2s10s/10s30s books on synthetic TRs, trend/
+   carry/trend-carry, L/S and LF, + static flattener/steepener controls. **FAIL gate d.**
+   2s10s carry-LF best: SR 1.16 (static flattener control 0.88 -> real signal), corr6=-0.04, but
+   5 small neg years (worst -2.8%); L/S form SR 1.05, 6 negYr, worst -7.3% (2013 taper). All curve
+   TREND books are gross-negative-to-flat (2010s/2020s bull-steepening 180-degrees). The blend with
+   the 2y trend (0.5/0.5) hits SR 1.69 / corr -0.02 but 5 negYr remain — carry books are
+   low-vol bleeders; <=2-neg-yr gate is structurally out of reach for standalone bond carry.
+   NOT SAVED (documented as coordinator blend-ingredient candidate).
+
+3. Commodity xs momentum (charter 3) — WTI/Brent/gold/silver/copper/natgas, top2/bot2, k 21-252,
+   cad 5/21, L/S and LO, TSMOM control. **DEAD: SR -0.27..+0.29, worst years -20 to -46%, LO-best
+   k126 corr 0.34 (also corr-fail).** 6 spot series with a monthly copper proxy is too few names,
+   and SPOT prices lack the roll-yield channel that drives real commodity-futures momentum; classic
+   xs momentum does not exist here. NOT SAVED.
+
+4. Resid-mom + VIX/DXY regime filter (charter 4) — honest re-test of the r4/r5-closed family with
+   new macro vetoes. **FAIL gate b.** Veto VIX>28 @vt15 nominally passes a/c/d/corr (SR 0.62, 1
+   negYr, corr6 +0.21, corrD +0.22) — closest an rm-variant has ever come to full pass — but the
+   plateau kills it: thr-grid SR 0.42/0.53/0.62/0.42/0.48, neighbor-min 0.42 < 0.8*peak 0.50;
+   VIX>28 is an isolated spike. DXY vetoes and VIX-pctile vetoes all fail gate a+corr together.
+   The rm family remains champion-internal and unsaveable under honest gates.
+
+Infra lessons r7: (a) ALWAYS write the repro script the same day and diff it against the research
+build — the two divergences above would have shipped a wrong sleeve; (b) for monthly-ffilled data
+(copper) never let the proxy enter ranking decisions silently; (c) corr6 for the saved sleeve by
+leg: XGB +0.04, MA -0.15, A1 +0.07, A5 -0.10, pair_fm -0.02 — cleanest correlation profile of any
+A6 candidate ever.
+
+Honest scorecard r7: 1/4 saved (mission bar SR>=1.0 met on the saved sleeve at 1.43 with corr 0.00;
+mission-2 candidate at SR 1.16 fails gate d only). CHAMPION-LEVEL NOTE for coordinator: 7-leg EW
+(6 champion legs + a6_r7_bond2y_trend at 1/7 each) = SR_m 2.05 vs 1.89 for the 6-leg, negYr 2,
+worst year -0.9% — the new engine's -0.15 worst leg-corr and 2021-22 independence is additive where
+r4/r5 momentum re-budgets were not.
+ROUND r7 DONE

@@ -333,3 +333,83 @@ campaign/scripts/a1_inflation_breadth.py. Log: LOG_r6.log.
    Saved files: sleeves/A1_infl_breadth_mom.csv + .meta; repro campaign/scripts/a1_inflation_breadth.py.
 
 ROUND r6 DONE
+
+## r7 results (2026-08-31) — NEW-FRED-DATA charter: 1 sleeve SAVED (A1_credit_regime_mom), 4 missions + 6 extended probes run
+Bars (CHARTER_r7): SR>=1.0, |corr|<0.25 to champion; + campaign gates (halves>=0.3/0.35,
+<=3 negYr, worst>-8%, plateau, scramble<0.05). All runs: honest excess-return funding
+rf + L*(leg-rf) from the first line (r5 lesson), T+1, 6bps one-side x |dsize|, trailing
+expanding vt (min60d, shift1). Repro: agents/A1_trend_cta/scripts/r7_charter.py +
+campaign/scripts/a1_credit_regime.py. Log: LOG_r7.log.
+
+1. CROSS-ASSET CARRY-TREND (mission 1) — FAIL, 24 configs. Charter's 1990+ promise does
+   not survive honest mechanics: 4/5-leg books (wti, brent, tr10-dur7.5, 2s10s-slope, +xau)
+   L{dual 63/126/252 variants} x carry-gate x window: SR -0.41..+0.05, worst year -60%.
+   ROOT CAUSE 1 (bug, fixed): I computed the bond trend on YIELDS and applied it to bond
+   PRICE TR — the r1 flip-invariance artifact, instance #2. After fixing, still ~0.
+   ROOT CAUSE 2 (economic): free spot WTI/Brent have NO carry/roll term, and spot-oil
+   252d trend SR 1990+ is ~0 (-0.05..+0.08); slope-trend decays post-2008 (0.38->-0.02).
+   The only real 1990+ trend engines in the new data: bond price TR (0.63-0.66, but
+   H2 0.11-0.42) and USDJPY 252d (0.54 90+, 0.32 08+). Charter's "gold daily 1990+"
+   does not exist (GOLDAMGBD absent; xau starts 2007-12).
+
+2. YIELD MOMENTUM (mission 2) — FAIL. ymom (DGS10 vs 63/252d mean => long/short TR):
+   SR 0.26-0.31 90+, H2 ~0 post-08, 6-15 neg years. smom (slope momentum steepener,
+   DV01-neutral): L252 SR 0.27 90+/0.30 08+ but 10-19 neg years, worst -11%. Yield-level
+   timing books remain structurally bad-risk on free data (confirms r6 curve result).
+
+3. ENERGY SEASONALITY (mission 3) — partially REAL but below bar. Winter (Nov-Feb)
+   long-only, vol-sized, 33y windows: wti SR 0.47, brent 0.51, propane 0.34 (new series,
+   corr to natgas-winter only 0.17), natgas 0.14 08+. Blends (2-4 members incl. champion's
+   natgas leg) top out at SR 0.36 08+/0.42 93+ with 4-11 neg years. Directionally
+   confirmed, magnitude far under SR 1.0; not saved (natgas-winter already in champion
+   via A1_carry, and wti/brent/propane variants alone can't carry a sleeve).
+
+4. VIX-CARRY RISK APPETITE (mission 4) — FAIL. DFF-VIX raw>0 is DEGENERATE (VIX in vol
+   points, DFF in %; spread>0 essentially never fires => book is pure cash, "SR 12.6" is
+   a no-position artifact). z-normalized regime books: SPY DFF-VIX z>0 SR 0.74 but
+   H1 0.29/H2 1.15 (FAIL halves), TED z<0 0.61, SPY mixed 0.46-0.74 — equity-beta with a
+   vol filter, confirms r6 vov finding. NOT SAVED.
+
+5. EXTENDED PROBES (new-data sweep beyond charter): BAML IG/HY OAS series start 2023
+   only (dead); FX carry dead on disk (charter's 1990+ foreign-yield premise FALSE:
+   jp10y/ez10y/gb10y all start 2018; the 2018+ "carry SR 0.63" is too short to certify);
+   palladium monthly momentum (PALLFNFINDEXM, pub-lagged 1m): SR 0.57, 11-16 neg yrs FAIL;
+   IG-carry always-in (DAAA dur7): SR 1.11 90+ but standing-premium book => would fail
+   the position-rotation scramble by construction (r1 BookB lesson), and corr to champion
+   is only -0.03 for a premium I can't distinguish from exposure. Not saved on principle.
+
+6. WINNER — CREDIT-REGIME MOMENTUM: SAVED **A1_credit_regime_mom**. Long BAA-index synth
+   TR (dur 7, FRED DBAA 1990+ daily) when BAA yield FELL over trailing 252d (tightening
+   regime momentum), flat+rf else. 1990-03..2026-08 (n=9503, 17y longer than campaign
+   default): **SR 1.44 net (official eval 1.44), H1 2.05 / H2 0.91, ann 11.2%, vol 7.8%,
+   MaxDD -22.0%, 3/37 neg years (2013 -1.9, 2018 -3.1, 2021 -3.0)**; 2008 +2.9%, 2022 +4.3%.
+   Gates: a PASS; b PASS (L {126:1.40, 189:1.36, 252:1.44, 315:1.25, 378:1.25, 504:1.16},
+   chosen=peak, all >=0.81; vt 8-12% identical); c PASS (08+ subwindow halves 1.01/0.81);
+   d PASS; e PASS (500 np.roll position-rotations through IDENTICAL pipeline incl. rf
+   accrual + costs, seed 20260828, identity check: real 1.436 vs null mean 0.926/p95 1.153,
+   **p=0.012** — time-in-market 57%, genuine timing not standing premium); f/g PASS.
+   Lag robustness +1/+2/+3/+5d: 1.43/1.44/1.43/1.43 (no stale-print cliff; DBAA is a
+   daily H.15 print). corr to CHAMPION_FINAL daily = **-0.01**; max|corr| vs 42-sleeve
+   library = 0.192 (L_S_Dollar_Neutral). Charter bar SR>=1.0, |corr|<0.25: MET.
+   HONESTY INCIDENT (disclosed in .meta): first save shipped member-size cap 2.0 while
+   every validated run used cap 1.0 (spec mismatch) — cap-2.0 variant SR 1.21 but 10 neg
+   years worst -7.9% FAILS gate d. Caught because I re-ran ALL gates on the SAVED CSV;
+   script fixed to cap 1.0; saved artifact now = validated config byte-for-byte.
+
+### r7 lessons
+1. Charter premise-audit BEFORE building: "1990+ gold daily", "1990+ FX yields", and
+   "DFF-VIX spread" are all false/degenerate on the actual disk data (gold 2007+, foreign
+   10y 2018+, DFF-VIX mixes units). Half a round's budget went to data that couldn't exist.
+2. Flip-invariance bug class recurs whenever a yield and its price-TR both appear
+   (r1 instance #1, r7 instance #2). Standing audit rule: for every leg, print
+   sign(position) vs sign(trend-of-traded-series) mismatch rate; >5% = bug.
+3. Credit-spread MOMENTUM (long tighteners only) is the clean new-data alpha: it passes
+   scramble where always-in credit carry (SR 1.11) cannot — the gate is what converts an
+   untestable premium into testable timing. Free-data credit books remain tradeable at
+   1x, no phantom-carry risk by construction.
+4. Off-cycle negative years of the saved sleeve (2013 taper, 2018, 2021) are all
+   "spread widens slowly while trend gate still long" — a future improvement is a
+   widening-speed exit, but that is a new parameter and was NOT tuned this round.
+Saved files: sleeves/A1_credit_regime_mom.csv + .meta; repro campaign/scripts/a1_credit_regime.py.
+
+ROUND r7 DONE

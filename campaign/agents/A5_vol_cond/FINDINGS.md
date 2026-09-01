@@ -422,3 +422,82 @@ DV01-neutral synth the same z250 signal scores ~0.
   anything this round either — every idea fails gate a by 0.3-0.6 SR. The blocker is
   alpha, not gate design.
 ROUND r6 DONE
+
+# A5_vol_cond — ROUND r7 (2026-08-31): new FRED 1990+ data (data_fred_new/)
+
+Data notes: VIXCLS/DGS10/T10Y2Y/DAAA/DBAA 1990+, TEDRATE 1990-01..2022-01 (treated
+as 0 after, honestly flagged). Equity leg = spliced FRED spy_early + twelve_big SPY
+(1993+, ex-div pre-2006). Gates = BRIEF strict (a SR>=0.6, b plateau, c halves>=0.3,
+d <=2 negYr each >-5%, e scramble 200x signal-perm vs real returns T+1-costed,
+g trailing vt10). Charter mission bar SR>=1.0, corr<0.25.
+
+## Ideas tried (in charter order)
+
+1. **VIX term-structure 1990-style (charter 1)** — FAIL a/d + decorrelation.
+   54-cell grid (smooth{1,5,21} x lb{126,252,504} x th x hyst) on spliced SPY:
+   best SR=0.56 (s5/lb252/th0.25/hyst0.25), 10 neg yrs, worst -17.4% (2001);
+   1995 (44%) shows the 90s tailwind but 2000-02 grind bears eat it (gate holds
+   equity into rising-VIX early bears). Corr 0.62 to own contango champion, 0.65
+   to L_S_130_30_volmanaged. Fourth independent confirmation (r1/r6/r7): slow
+   VIX-level gates on equity are dead and NOT decorrelated. Never close to 0.6.
+2. **Rate-shock tilts on DGS10 1990+ (charter 2)** — FAIL. A) Bond timing
+   (yield<MA gate, dur-7.5 synth TR): best ma504/hyst0.25 SR=0.52, H1=0.79 BUT
+   H2=0.30, 5 neg yrs, worst -26.9%; on 2000+ only SR=0.46. Confirms r5/r6:
+   any DGS10 timing alpha is pre-2000 (secular bull) and gone since. B) Equity
+   tilt (long SPY unless 21d dY10-z > c): best c=1.5/lb504 SR=0.65 passes a/c
+   but FAILS d hard (4 neg yrs, worst -20.4%); always-long ref SR=0.59 -> the
+   tilt adds ~nothing, it IS vol-targeted SPY. Rejected.
+3. **Credit spread 1990+ (charter 3)** — FIRST REAL ALPHA, with a caveat.
+   Charter's "wide -> long IG value book" is INVERTED on 1990-2026: every
+   wide-gated cell SR<=0.13; the TIGHT-gated book (long when DAAA-DBAA
+   z(252d)<0.5, exit >0.75) on AA carry (dur-7 synth TR) gives SR=1.05,
+   H1=1.58/H2=0.61, scram p=0.000, corr 0.21/-0.10 — but FAILS d (7 small neg
+   yrs: 1994 -5.4, 2013 -4.6, 2018 -1.5, 2021 -1.8, 2022 -6.4, 2024 -1.2, 1999
+   -2.7 — all rate-selloff years). Economic read: tight spread = calm credit =
+   carry accrues; wide spread = crisis continues (no value catch). 50/50 blend
+   with DV01-neutral pure-spread carry cut negyr to 4, worst -3.5%.
+4. **Vol-terror regime (charter 4, TED+VIX)** — FAIL solo. Best vix>35/ted>0.5
+   SR=0.64 vs always-long vt10 SPY ref 0.59; 8-10 neg yrs. TED discontinued
+   2022 (regime becomes VIX-only after). As overlay on sleeve 3 it does ~nothing
+   (SR 1.05 unchanged, still 7 neg yrs) because sleeve 3 is already flat in
+   crises. Rejected; TED leg contributes nothing on this data.
+5. **Dual gate (carry x DGS10 trend)** — FAIL: rate-MA gate kills the carry
+   (best SR 0.67, 6 neg yrs, -10.2%): 2003/2009-2020 carry earned precisely in
+   rate-trend-up phases. Trend gate is the wrong instrument.
+6. **DV01-neutral pure spread carry solo** — FAIL a/d: always-long SR=0.42,
+   best gated 0.72 but H1=0.32, 11 neg yrs. Good decorrelation (0.18 max) but
+   too weak alone; kept as blend ingredient only.
+7. **Targeted rate-shock hedge — LOOKAHEAD TRAP, documented** — first draft
+   scored SR=2.30 (1 neg yr!) using same-day 21d dY10 flag on same-day return:
+   HALF-DAY LOOKAHEAD. Discarded. Honest shift(1) version: SR=1.13 solo,
+   fixes most but not all neg yrs (4 left). The 2.30 vs 1.13 gap is a warning
+   for every agent conditioning return overlays on same-day macro prints.
+8. **FINAL SAVED: A5_r7_credit_composite** — single tight-spread hysteresis
+   signal (lb252 th0.5 hyst0.25) on composite return
+   0.1*TR_AA + 0.6*TR_SPR + 0.3*(TR_AA - hedge*TR_UST), hedge=1[21d dY10
+   z(504d)>0.75] shift(1), T+1, 6bps, vt10 expanding min60 clip2.
+   n=9163 (1990-01..2026-08): SR=1.51 ann=4.8% vol=3.2% MaxDD -7.9%,
+   H1=1.69 H2=1.35, negyr 2/37 (2018 -1.5%, 2022 -2.8%), scram p=0.000,
+   max |corr| to 42-sleeve library 0.13, to own sleeves -0.11.
+   Plateau: th{.25,.5,.75}->1.40/1.51/1.52; lb{126,252,504}->1.22/1.51/1.30;
+   c{.5,.75,1,1.25}->1.56/1.51/1.50/1.48; lbz{252,504,1260}->1.49/1.51/1.48;
+   weight neighborhood >=1.45 (96% of peak); chosen cell not the peak.
+   Weakest neighbor (lb126, 1.22) still 81% of peak — no isolated spike.
+   Charter bar (SR>=1.0, corr<0.25): MET. Saved to
+   campaign/agents/A5_vol_cond/sleeves/A5_r7_credit_composite.{csv,csv.meta};
+   repro campaign/scripts/a5_r7_final_credit_composite.py; verified with
+   campaign/harness/eval.py.
+   CAVEATS (honest): pre-2006- leg is a synth yield-derived TR (constant dur,
+   no bid/overhead), i.e. a modeled book like the library's rate sleeves; 1990s
+   H1 strength partly reflects the 90s rate bull (1991-1995 yrs 9-14%); vol is
+   3.2% not 10% because the gate+clip rarely runs full-on (sleeve is small in
+   size terms — blend weight should reflect that).
+
+## Round summary
+- SAVED: 1 sleeve (A5_r7_credit_composite, SR 1.51 full-window 1990+, all 7 gates).
+- Charter ideas 1/2/4 dead (again: VIX/rate timing have no post-2000 alpha);
+  charter 3 delivered only after inverting its direction, de-rating it, hedging
+  rate beta T+1-honestly, and blending with the DV01-neutral leg.
+- For coordinator: candidate for blend pool — corr <0.15 to library, both halves
+  strong; consider SIZE-normalized blending (ann vol 3.2%).
+ROUND r7 DONE

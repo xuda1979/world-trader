@@ -24,3 +24,12 @@ All 4 charter ideas FAIL gate a (full SR>=0.7) — none reach even gross SR 0.7.
 Decomposition: gross SRs 0.48-0.65 → the killer is the PREMIUM, not costs (drag 0.6-2.6%/yr).
 Scripts: campaign/scripts/a6_r6_new_families.py (all 4 ideas, reproducible; verifies FINDINGS r6).
 Details in FINDINGS.md r6. Nothing saved to sleeves/.
+
+# r7 (2026-08-31) — new free-data engines
+- r7_lib.py, r7_idea1_bondtrend.py (36-cfg sweep), r7_idea1b_2y_refine.py, r7_idea1c_save.py
+  (plateau+scramble), r7_idea1d_control.py (always-long control), r7_idea1e_calendar.py
+  (calendar forensics), r7_idea2_curve.py, r7_idea2b_carry.py (+fix idx bug), r7_idea2c_blend.py,
+  r7_idea3_commod.py, r7_idea4_regime.py (+fix import), r7_idea4b_save.py (plateau fail).
+- SAVED: sleeves/a6_r7_bond2y_trend.csv (+meta) — SR 1.43, negYr 2, corr6 -0.00, scramble 0.005.
+- Repro: campaign/scripts/a6_r7_bond2y_trend.py (byte-verified after 2 divergence fixes).
+- Eval harness verified; champion 7-leg blend SR_m 2.05 (vs 1.89).

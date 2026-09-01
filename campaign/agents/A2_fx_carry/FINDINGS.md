@@ -218,3 +218,54 @@ measured on least-bad variant = 0.001 (the family IS orthogonal — there is jus
 
 **Sleeves saved: 0** (nothing cleared even the FULL-SR gate; scripts idea32-35 + r6_lib.py reproducible).
 ROUND r6 DONE
+
+# Round r7 (2026-08-31) — charter r7: new free FX+macro data (data_fred_new, 1990-2026)
+
+**Data audit first (drove everything again):** data_fred_new delivers long US rates (DGS1/2/10, DFF, DTB3,
+1990+ daily) + DEXJPUS (1990+), DEXUSEU (1999+), DTWEXBGS (2006+). BUT foreign yields on disk (jp/ez/gb/ca10y)
+remain MONTHLY and start 2018 — so the charter's headline "1999-2026 carry with real 20y history" is **infeasible
+honestly**: no foreign short/policy rates exist anywhere on disk pre-2018. All carry tests therefore have a
+2018+ live window (8.5y), disclosed on every result. Momentum and dollar tests DO get the full 1990/1999/2006+ history.
+
+| # | idea (charter item) | window | best FULL SR (net, vt10) | verdict |
+|---|---------------------|--------|--------------------------|---------|
+| 36 | (1) carry top/bot + accrual, rebal sweep W/M/Q × top/bot ∈ {1,2},{4,0} | 4 pairs 2018+ | **0.88** (W top1/bot2), **0.85** (W top1/bot1) | family PASSes brief gates; charter bar 1.0 NOT met |
+| 36b | (1) JPY-only long-history carry proxies (short JPY earn US rate, DFF regime, VIX gate) | 1990+ | 0.35 (16 neg yrs) | FAIL — US-rate-only "carry" is not carry |
+| 37 | (2) JPY momentum 1990+, lb 21–504, W/M | 36y | 0.39 (252d W) | FAIL — 36y honest history confirms r1: FX tsmom dead net of 6bps |
+| 38 | (2) FX4 (JPY90+/EUR99+/GBP,CAD00+) momentum lb 63/126/252 × D/W/M, vol-wt | 1990+ | 0.31 (best of 12) | FAIL everywhere, 14–22 neg yrs |
+| 39 | (3) dollar-fade FX basket (long EUR/GBP/CAD short JPY on DTWEXBGS z) z 63/126/252 | 2006+ | −0.48..−0.78 | FAIL badly — fading USD strength in FX is a loser, not a diversifier |
+| 39/41 | (3) dollar-fade → SPY timing (long SPY when dollar z<0) | 2016+ | 1.19 (lb315) z | initially passed → **promoted to 20y honest test** |
+| 41b | (3) same on SPY panel 2006+ w/ 1d pub lag (H.10 prints next morning) | 2006-26 | 0.70 (lb315), H1=0.26, p=0.05 | **FAIL — the 2016+ SR 1.19 was a regime artifact**; 20y window has 2008 −8.7%, 2011 −6.5%, 2016 −3.8%; halves gate kills |
+| 42 | (4) carry-trend blend: zero/halve carry where 63–126d trend disagrees | 2018+ | gate −0.05..0.37; continuous 0.70 | FAIL — trend gate DESTROYS carry (always-on 0.85), same as r1 idea 2 |
+| 43 | (1) carry robustness: 5 US-rate proxies (DGS1/2/DFF/DTB3/DGS10) all identical SR 0.85; rule-blend W/M/Q 0.77 | 2018+ | 0.85 | plateau genuine (rebal rule, rate proxy, top/bot size) |
+
+**SAVED (1 sleeve): `A2_fx_carry_W11_accrual.csv`** — FX carry L/S weekly top1/bot1 by (foreign10y − US2y)
+rank, + daily accrual ydiff/100/252, pairs JPY/EUR/GBP/CAD, live window 2018-02..2026-08, T+1, 6bps/side, vt10.
+Official eval: SR 0.82, ann 7.9%, H1 0.45/H2 1.19, 2/9 neg yrs (worst −5.0%), maxDD −16.4%.
+Gates: full ✓ (0.82≥0.6), plateau ✓ (0.61–0.88 across rebal/size; 5 rate proxies identical), halves ✓,
+yearly ✓ (2 soft), scramble ✓ (pre-specified arbiter n=1000 seed7 pre-vt p=0.042; robustness 500×3 seeds
+0.030–0.054), corr ✓ (champion 0.067, max library 0.10), rationale ✓ (UIP violation; accrual = true carry;
+book = short-JPY 0.74 + long-GBP 0.45). **Charter-r7 mission bar SR≥1.0 NOT met — saved under campaign-brief
+gates with that failure disclosed in .meta.** Honest caveats in meta: 8.5y window only (no 2008 carry-crash
+test; book is short JPY so a 2008-style unwind is the tail risk), scramble marginal, costs trivial
+(1.4bp/d→~5bp/yr turnover) so 6bps-cost honesty is untested by construction.
+
+## Honest conclusions (r7)
+1. **The longer US/FX history (1990+) refutes, not rescues, the FX families.** JPY 36y momentum best 0.39;
+   FX4 book best 0.31; dollar-fade FX deeply negative. r1's negative verdicts were not small-sample artifacts —
+   FX momentum/carry on free spot data is just weak net of 6bps at daily-weekly frequency.
+2. **What changed in r7 is the accrual framing + weekly rebal:** true carry (rate accrual) on the 4-pair book
+   is the first A2 candidate ever to clear ALL campaign-brief gates. But it survives with zero margin at the
+   charter bar (0.85 vs 1.0) and its scramble p hovers at 0.03–0.05 — treat as a conditional diversifier
+   (corr 0.067 to champion), not a core sleeve.
+3. **Regime-artifact caught by expanding the window (same lesson as r2b #21 in reverse):** dollar→SPY timing
+   was SR 1.19 with 0 neg years on 2016+, and 0.70/H1 0.26/3 neg yrs on 2006+. Any new-data sleeve that starts
+   where the data starts must be re-tested on the longest overlapping window of ALL needed series before
+   believing it.
+4. **Data infra gap worth a coordinator ask:** 3-6mo LIBOR/deposit or policy rates (monthly, 2000s) for
+   JPY/EUR/GBP/CAD would make 20y true carry testable — the only A2 family with a plausible prior.
+5. Alignment bug of the round (repeat of r1 #4): `DataFrame * Series` aligns on COLUMNS not rows — accrual
+   must use `.mul(s, axis=0)`. It silently produced n=0 (this time it failed loud, caught in 1 run).
+
+Scripts: r7_lib.py + idea36–44 (all reproducible; idea44 rebuilds+resaves the sleeve and meta).
+ROUND r7 DONE

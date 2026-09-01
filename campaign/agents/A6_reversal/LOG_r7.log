@@ -1,0 +1,22 @@
+=== agent A6_reversal round r7 start Mon Aug 31 14:42:50 CST 2026 ===
+**Round r7 complete.** Summary of the campaign:
+
+## Verdict: 1 of 4 charter missions saved
+
+**✅ SAVED — `a6_r7_bond2y_trend`** (charter 1, bond rate-trend): synthetic 2y Treasury total return (dur 1.9 + carry), long when trailing 378-obs mean TR > 0, frozen at 42-obs cadence, VT12.
+- **SR 1.43** net (H1 1.14 / H2 1.81), neg years 2/20 {2014 −0.5%, 2021 −4.1%}, worst −4.1%
+- Scramble p=0.005; plateau 12/12 points SR 1.31–1.43 with gate d holding everywhere
+- **corr to champion = −0.00** (worst leg-corr −0.15) — A6's first genuinely de-correlated, non-equity engine
+- Economics proven by control: always-long 2y is SR 1.15 but 2022 = −18.9%; the trend filter's one in-window action (flat Nov-2021→Sep-2023 = correctly reading the Fed hiking cycle) is the alpha
+- Two honesty catches: (i) my first standalone repro script diverged (missing /100 on yields + synthetic-vs-FRED calendar changing effective lookback) — caught by routine repro check and fixed; (ii) the neg-year *count* is calendar-sensitive (2 vs 4) even though SR is robust — disclosed in the meta.
+
+**❌ Idea 2** (2s10s DV01-neutral carry): SR 1.16 LF, real signal vs static control (0.88), corr −0.04 — but 5 tiny neg years (low-vol bleeder profile) → structural gate-d fail. Blend with the 2y trend hits SR 1.69 but still 5 negYr. Documented for the coordinator as a blend ingredient.
+
+**❌ Idea 3** (commodity xs momentum, 6 spot series): dead — SR −0.27…+0.29, worst years −20…−46%. Spot prices lack the roll-yield channel; 6 names is too thin.
+
+**❌ Idea 4** (resid-mom + VIX/DXY veto): VIX>28 veto nominally passed a/c/d/corr (SR 0.62, corr +0.21) — closest any rm variant has come — but died on the plateau (neighbor-min 0.42 < 0.8×peak 0.50; isolated spike). rm family stays closed.
+
+**Coordinator note:** 7-leg champion EW (adding the bond sleeve at 1/7) = **SR_m 2.05 vs 1.89**, negYr 2, worst year −0.9%.
+
+FINDINGS.md appended with the numbered summary; last line is exactly `ROUND r7 DONE`. Used ~25 tool calls.
+=== agent A6_reversal round r7 end Mon Aug 31 15:09:44 CST 2026 exit 0 ===

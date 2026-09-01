@@ -1,0 +1,20 @@
+=== agent A5_vol_cond round r7 start Mon Aug 31 14:41:15 CST 2026 ===
+Round r7 complete. ~22 tool calls used.
+
+## Result: 1 sleeve saved (first A5 save since r4), 8 ideas tested
+
+**SAVED: `A5_r7_credit_composite`** — IG credit composite on the new FRED 1990+ data (DAAA/DBAA/DGS10), n=9163 (1990-01..2026-08):
+- **SR 1.51** (charter bar was 1.0; BRIEF gate 0.6), ann 4.8%, vol 3.2%, MaxDD -7.9%
+- Halves H1=1.69 / H2=1.35; **2 negative years in 37** (2018 -1.5%, 2022 -2.8%), both > -5%
+- Signal-scramble 200× p=0.000; plateau clean on all 5 param dims (worst neighbor 81% of peak; chosen cell deliberately not the peak)
+- Corr: max 0.13 to 42-sleeve library, -0.11 to my own contango sleeves → genuine diversifier
+
+**Charter verdicts:**
+1. VIX z-gate 1990-style — FAIL (SR 0.56, 10 neg yrs, corr 0.62-0.65 to equity sleeves; 4th confirmation slow VIX gates are dead)
+2. DGS10 rate-shock tilts — FAIL (bond timing SR 0.52 with H2=0.30; alpha is pre-2000 only)
+3. Credit spread — **alpha found, but charter direction INVERTED**: "long when wide" scores ≤0.13 everywhere; "long when tight" (calm-regime carry) is the real signal
+4. TED+VIX vol-terror — FAIL solo (0.64 vs 0.59 B&H ref); TED contributes nothing
+5-7. Dual gates/overlays — fail or destructive; **caught a lookahead trap in idea 7** (same-day macro flag on same-day return: fake SR 2.30 → honest shift(1) SR 1.13), documented for the campaign
+
+The saved sleeve = one tight-spread hysteresis signal × composite return (0.1·AA carry + 0.6·DV01-neutral spread carry + 0.3·rate-shock-hedged AA carry, hedge flag T+1-shifted), fully reproducible in `campaign/scripts/a5_r7_final_credit_composite.py`, verified through `harness/eval.py`. FINDINGS.md appended with the numbered summary and last line is exactly `ROUND r7 DONE`.
+=== agent A5_vol_cond round r7 end Mon Aug 31 15:00:05 CST 2026 exit 0 ===

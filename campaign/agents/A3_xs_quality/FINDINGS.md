@@ -238,3 +238,81 @@ at EVERY rebalance date. All r6 numbers use the verified pipeline.**
    Wt row (zeros=flat) else stale positions; (b) pandas iloc 2-array setitem == numpy
    pairwise-outer (verified) — use the explicit numpy form in hot loops for clarity.
 ROUND r6 DONE
+
+# A3_xs_quality — FINDINGS (round r7, 2026-08-31) NEW FREE DATA (FRED 1990+) engines
+
+Environment: pivot away from equity panel per r4/r6 corr conclusion. New r7lib.py wraps the
+r6-verified backtester (r6lib.wback_rb, explicit Wt row at every rb date) with CUSTOM return
+panels (FRED macro series instead of 298-name equity panel). Same conventions: T+1, 6bps
+one-side on both legs, trailing expanding vt10 after trim, cost-inclusive circular-shift
+scramble (200 reps, k>=21d). Charter gates: SR>=0.6, halves>=0.3, <=2 negYr, worst>-5%,
+scramble p<0.05, corr<0.25 to CHAMPION_FINAL and own dualmom; charter aspiration SR>=1.0.
+New data staged honestly: FRED is reachable from this box (no ad-hoc caching needed); only
+agent-dir addition = r7_data/DHHNGSP.csv (charter's natgas 1997+; local natgas csv was
+2000+; NOT ultimately used by the saved sleeve).
+
+## Idea 1 — Commodity 126d z-score reversion (WTI/Brent/gold/natgas, weekly) — FAIL
+- 9-cell grid (lb 63/126/252 x zcap 1.5/2/3): SR **-0.21..-0.29**, H1,H2 both negative,
+  8-10 negYr, worst -35%..-58%. Sign-flip (commodity momentum) only +0.26. Per-asset MR
+  attribution: WTI -0.31, Brent -0.23, gold -0.24, natgas -0.08 — reversion is negative in
+  EVERY leg 2008-2026; commodity price-level z-MR is a dead (losing) premium here, and the
+  documentation-versus-data gap is on the data's side (no term-structure signal in spot px).
+- r4/r6 pattern holds: when a family fails, it fails in every cell — no gate-shopping.
+
+## Idea 2 — Rate-curve value (10y yield rolling z; long cheap/short rich) — FAIL
+- Chartered z rule, lb 126/252/504/1008 (value & anti sign), synth dur-8.5 bond TR:
+  SR **-0.19..+0.17**, no sign or horizon works. MA-gated long bond (anti-z=momentum):
+  best SR 0.41 but H2 -0.07, worst -11.5%. 2s10s steepener/flattener z: |SR|<=0.21.
+  Bond yield-level "value" has no standalone edge 1990-2026 at any testable horizon.
+
+## Idea 3 — Credit-cycle rotation (DAAA-DBAA pct -> AAA-proxy vs flat) — FAIL
+- 24-cell grid (lb 252-2016 x pct-thr 0.7/0.8/0.9): best SR **0.25**, H2 ~0.1, 7-10 negYr.
+  Diagnostic: always-long AAA-proxy (dur12, vt10) alone = SR 0.33, 9 negYr — the gate is
+  INERT (worse than pure carry). Credit-spread percentile timing adds nothing net.
+
+## Idea 4 — Inflation-sensitive (CPI YoY accel -> long commodity basket) — FAIL
+- Chartered rule (CPI lag-2m PIT, monthly): SR 0.53 but H1 0.22, 8 negYr, worst -9.4%.
+  Refinement (+126d/63d per-commodity trend filter) DEGRADES to 0.13-0.19. Inflation
+  momentum alone doesn't clear halves; intersecting with trend kills what little there was.
+
+## Idea 5 — Cross-asset momentum breadth — FORKED: charter version FAIL, refactor PASS — **SAVED**
+- Charter version (long SPX when breadth>=3/5 of oil/gold/bond/USD/VIX uptrends):
+  SR 0.59-0.77, H1 -0.51..-0.06 (breadth flips too late for SPX), corr 0.28-0.41 => fail.
+- FORK (documented deviation, same data/family): instead of gating SPX, hold the 5 legs
+  directly, each with own Sign(px-MA) rule, EW 20%/leg, weekly Wed.
+  (a) breadth-gated EW basket: SR 0.82, worst -2.4%, but corr_champ -0.35 (>0.25 cap) —
+      the breadth gate loads the sleeve anti-champion; not saved.
+  (b) per-leg TSMOM, maw scan 42..378: SR 0.83-1.10, 7/9 cells within 20% of peak,
+      corr_champ 0.033, corr_old 0.031, lib_corr_max 0.175 (43 sleeves).
+- SAVED **QA_xasts_tsmom189** (maw=189): FULL SR **1.06**, H1 **0.97** / H2 **1.14**,
+  1 neg year (2009 -3.6%), ann 12.1% @ vol 11.4%, maxDD -13.4%, 2008-2026 (4679 d).
+  Gates: (a-e) PASS incl. circular-shift scramble **p=0.000** (real 1.06 vs null95 0.40);
+  (b) plateau 7/9..9/9 cells within 20% of peak across maw 42-378, maw=189 mid-plateau
+  (157:0.97, 252:1.10); (f) rationale = cross-asset TSMOM (Moskowitz-Ooi-Pedersen);
+  (g) vt10 trailing expanding. Harness eval confirms all numbers.
+- HONEST ATTRIBUTION (disclosed in .meta): leg-drop battery shows the VIX-regime leg
+  carries nearly all the edge — VIX-leg alone SR 1.08 (H1 0.92/H2 1.24, worst yr 2009
+  -4.1%), drop-VIXS SR 0.25, drop any other leg 1.04-1.10. This is really a **VIX
+  swing/regime engine** (short spot-VIX below MA189, long above) diversified by 4 weak
+  TSMOM legs, NOT a broad 5-asset TSMOM. Two caveats disclosed in meta: synthetic
+  spot-VIX return has no roll carry (conservative on the short side vs VIX futures);
+  crash-gap risk is bounded by the MA flip (worst year -3.6%). If the coordinator
+  distrusts the VIX leg, drop this sleeve — the 4-leg no-VIX book is NOT saved.
+- Repro: campaign/scripts/QA_xasts_tsmom189.py; CSV+meta in sleeves/. First A3 sleeve
+  with corr to champion ~0.03 (r4/r6 conclusion "no low-corr sleeve from panel signals"
+  resolved by switching asset class, as predicted).
+
+## r7 conclusions
+1. FRED macro timing engines are mostly DEAD here: commodity spot z-MR negative in every
+   leg; bond yield-value dead at 4 horizons both signs; credit-spread percentile gate
+   inert vs always-long carry; CPI-momentum fails halves. Only cross-asset TSMOM works,
+   and its edge is concentrated in the VIX-regime leg.
+2. FIRST low-corr save: QA_xasts_tsmom189 (SR 1.06, corr_champ 0.033, lib max 0.175,
+   scramble p=0.000). Corner-cutting disclosure: it is a VIX-regime engine in TSMOM
+   clothing; blend coordinator should size it as its own diversifier, not "more TSMOM".
+3. Charter deviations documented: Idea 5 forked from "gate SPX" to "hold the legs" after
+   the charter version failed H1 by construction (breadth MA lag); saved variant passes
+   the full contract, the charter version does not.
+4. r4/r6 lessons re-validated on macro data: failing families fail everywhere in their
+   grid; sign-flips and leg-drops are cheap honesty checks that change verdicts.
+ROUND r7 DONE
