@@ -109,7 +109,7 @@ open items for a live deployment decision; everything else is now accounted at r
 **GOAL100_STRICTTRADE_BALANCED_daily.csv** — 12 sleeves, excludes the 2 paper-credit sleeves,
 NYSE calendar, realistic execution (futures 1.5-5bps, equity L/S 15bps) + borrow fees:
 - **ann 49.4%, SR 5.24 daily / 3.46 monthly (bootstrap CI [3.02,4.01]), MaxDD -6.1%,**
-  **0/19 negative years, worst year +20.7%... wait worst 20.7% is BEST; worst NEGATIVE year 0 (none).**
+  **0/19 negative years, 0/19 negative years; worst (lowest) calendar year +20.7% (2026 partial), best 151.1% (2023)**
   **3y-subwindow DDs all ≤ -6.1%; LOYO 46.7-51.0%; OOS 2017+ 55.9% @ -6.1%**
 - span 2008-03..2026-07 = 17.9y (the vt warmup trims to 2008-03; full pool data from 2006-10)
 - This is the number YOU can bet today: every sleeve tradeable, every leg client-verified.
