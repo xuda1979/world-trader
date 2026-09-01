@@ -1,1 +1,23 @@
 === agent D3_fxfactor round 1 start Tue Sep  1 09:59:45 CST 2026 ===
+Round 1 complete. Summary of execution:
+
+## D3_fxfactor Round 1 — Final Report
+
+**Setup (2 calls exploration + shared lib)**: Built `d3lib.py` with a verified DEX panel (13 currencies, USD-per-local orientation checked against known 2026 levels), T+1 execution + FRED noon-rate publication lag (1d daily, 31d monthly), 6bps/side costs, weekly signal holding, trailing vt10% (expanding, min 60d, clip 3.0), and the full gate suite incl. 200x scramble and decorrelation vs the COORD_FINAL blend.
+
+**Results — all 5 charter ideas REJECTED (0 sleeves saved, per honesty contract)**:
+
+| # | Idea | Best net SR | Fatal gates |
+|---|------|------------|-------------|
+| 1 | 10y rate-diff momentum books (us−jp/ez/gb/ca, L3/L12m) | +0.43 | SR≥1.0, scramble (p 0.075–1.0), worst-yr −8%; monthly data only 2018+ |
+| 2 | EM vs DM relative trend (L21–126, ±reversal) | +0.01 | SR, negy (10–19 neg yrs) |
+| 3 | VIX dollar-smile gate (20/30, 17/25, long-only) | −0.52 | SR, worst-yr, mdd to −84% |
+| 4 | Extreme-move z mean-reversion (L21/63) | −0.51 | SR, worst-yr −27% (crash-continuation) |
+| 5 | Cross-sectional momentum/reversal ranks | −0.05 | SR (momentum is *negative* at all horizons) |
+
+**Quality control**: caught and fixed a column-alignment bug in Idea 2's first run (positions keyed to nonexistent 'EM'/'DM' columns → zero-gross cost-drag artifacts); all reported numbers are from corrected reruns. Ran a harness sanity check (DTWEX dollar trend → SR 0.10, matches known weak spot-FX economics) to prove the pipeline isn't broken.
+
+**Economic post-mortem**: FRED noon rates are spot-only — the FX carry premium (the dominant FX risk premium) is structurally unharvestable from this data, capping any DEX-based book at gross SR < 0.3. Documented pivot advice in FINDINGS.md (forward-rate/carry data needed, or abandon FX-spot domain).
+
+`FINDINGS.md` written with all exact numbers, numbered summary appended, last line is exactly `ROUND 1 DONE`. ~14 tool calls used.
+=== agent D3_fxfactor round 1 end Tue Sep  1 10:10:50 CST 2026 exit 0 ===

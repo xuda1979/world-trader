@@ -98,3 +98,31 @@ Keystone: XGB1y (drop => -10pp); brwt +3.5pp; natgas sleeves +7.7pp combined vs 
 - Coordinator post-mortem additions: pre-FOMC drift (t=2.48 raw, book SR 0.67 FAIL — regime-decayed), always-on steepener carry (fails DD envelope), fine-grid wall mapping (max 68% at full-sample-selection, breaches honesty).
 - Remaining gap is a data/engine problem, not a construction problem: the campaign's 14 agent-rounds
   + coordinator sweeps systematically exhausted every accessible domain.
+
+
+---
+
+## 8. D-ROUND (champion improvement, 5 agents, 2026-09-01) — INCUMBENT CONFIRMED
+
+5 fresh agents (D1 credit-curve carry, D2 weekly macro regimes, D3 weekly FX factors,
+D4 cash-market microstructure II, D5 construction meta) attacked the champion from new
+angles under the same honesty contract:
+
+| Agent | Ideas tested | Saved | Key result |
+|---|---|---|---|
+| D1 | 5+ (BAA-AAA quality timing, throttled steepener carry, belly carry, IG-vs-rates div, real-rate mom) | 0 | Throttled steepener carry reaches SR 2.15-2.40 corr -0.045 but 8-9 neg yrs in EVERY config — yearly-DD gate binding; gate d is the structural constraint for rates-carry |
+| D2 | 5 (claims regime, net liquidity, CFNAI gate, M2-gold, composite) | 0 | No macro level-gate times rate/equity/gold carry on free data at honest lags; claims->gold timing has sig_p 0.005 but no pre-2013 activation |
+| D3 | 4+ (rate-diff momentum, EM/DM relative, dollar-smile gate, extreme-move reversion) | 0 | All fail; FX weekly factors dead |
+| D4 | 7 (FOMC x natgas/gold, HO seasonality, jet, Cu/Au ratio, retail-gas crack, bid-week) | 0 | Best honest SR 0.53 << 1.0 gate |
+| D5 | 6 (FR grid, dual throttle, per-sleeve vt, 17th sleeve, champion-of-champions, 1000x block bootstrap) | 0 | **BAL_fr0.6 candidate (55.7%) DELETED after bootstrap P(better)=0.35 — noise. Champion is at a local plateau ~55-56%; meta-tuning exhausted.** |
+
+Champion ablations (coordinator): dropping the A5r2 duplicate raises ann +1.9pp but widens
+DD to -8.0% (risk-adjusted worse — rejected); C5ngsum->ddt swap hurts. Financing stress test:
+charging T-bill+25bps on internal gross>1x gives BALANCED 48.9% @ -7.5% (committed as
+GOAL100_CHAMPION_BALANCED_FINANCED_daily.csv — the conservative lower bound).
+
+**FINAL STATE: champion BALANCED 55.5% ann / SR 5.24 / MaxDD -6.9% / 0-19 neg years /
+OOS17+ 60.2%, byte-reproducible via campaign/scripts/champion_build.py --verify.**
+Every improvement attempt (10 agent-ideas + 4 coordinator families) failed honest gates;
+the system is at the honest free-data frontier for this sleeve pool. Further progress
+requires new decorrelated engines that no accessible free daily data source provides.

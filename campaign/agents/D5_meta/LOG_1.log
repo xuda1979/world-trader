@@ -1,1 +1,22 @@
 === agent D5_meta round 1 start Tue Sep  1 09:59:45 CST 2026 ===
+Round 1 complete. Summary of what was done (~14 tool calls):
+
+**Setup**: Built `wb.py` — a generalized `construct()` (stacked throttles, per-sleeve vt grids) verified byte-identical to the committed champions (max dev ~1e-16), preserving per-sleeve turnover costs.
+
+**All 6 charter ideas executed in order, IS-frozen / single-OOS-reveal:**
+
+| # | Idea | Result | Verdict |
+|---|---|---|---|
+| 1 | FR grid {0.4–0.6} | IS SR flat 4.78–4.80, IS ann prefers fr=0.6 (B: 56.4 vs 56.2); OOS 68.1 vs 67.8 | noise |
+| 2 | Dual throttle (lb126+lb252) | IS-best B .05/.07 → OOS DD **−9.7%** (alt −10.4%) | REJECT (DD gate) |
+| 3 | Per-sleeve vt (def12/agg9) | all variants IS-worse (B: 55.3–56.0 ann vs 56.2, DD worse) | REJECT on IS |
+| 4 | 17th sleeve C5ngsum_ddt | IS SR collapses 4.79→4.39; replace-variant fails both-ann-and-DD rule | REJECT |
+| 5 | Champion-of-champions (IS DD≤6.5%) | selects the **incumbent BAL_fr0.5 itself** — self-consistent | incumbent stands |
+| 6 | 1000× 21d block bootstrap | OOS SR diff −0.012, 90% CI [−0.0035,+0.0013], **P(new≤old)=0.654** | NULL |
+
+**Final verdict: NO DELIVERY.** The BAL_fr0.6 candidate (55.7% ann, SR 5.24, DD −7.2%) was honestly discarded after the bootstrap showed its gain is noise — its CSV was deleted so it can't pollute future blends. The incumbent BALANCED (55.5% ann, SR 5.24, DD −6.9%) survives unchanged.
+
+Key honest takeaway written into FINDINGS.md: the 16-sleeve pool is at a **local plateau ~55–56% ann** — meta-tuning is exhausted; reaching 100% requires new decorrelated high-SR sleeves from new data domains, not champion-construction tweaks.
+
+`FINDINGS.md` written with full IS/OOS tables and exact numbers; last line is `ROUND 1 DONE`.
+=== agent D5_meta round 1 end Tue Sep  1 10:06:54 CST 2026 exit 0 ===
