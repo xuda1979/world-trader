@@ -40,13 +40,17 @@ for name,path in SLEEVES.items():
         rows.append((name,"CSV_ERR","","","","","")); continue
     r08=r[r.index>='2008-09-01'].dropna()
     sr=r08.mean()/r08.std()*np.sqrt(252) if len(r08)>10 and r08.std()>0 else 0
-    mid=r.iloc[1:-1]; z=(mid==0); zruns=[]
+    mid=r.iloc[1:-1]; z=mid.eq(0.0); zruns=[]
+    # FIX 2026-09-02: previous expression `(mid==0)` + `~z.shift(1).fillna(False)`
+    # promoted bool->object (shift introduces NaN), so `~` yielded -1/-2 and every
+    # interior zero-run collapsed to length 1 — zRuns was silently vacuous (always 0)
+    # in every audit that used it. shift(fill_value=False) keeps dtype bool.
     if z.any():
-        groups=(z & ~z.shift(1).fillna(False)).cumsum()
+        groups=(z & ~z.shift(1, fill_value=False)).cumsum()
         cnt=z.groupby(groups).sum()
         for k,v in cnt.items():
             if v>=20:
-                di=mid.index.iloc[int(k)-1] if int(k)-1<len(mid.index) else None
+                di=mid.index[int(k)-1] if int(k)-1<len(mid.index) else None
                 zruns.append((str(di.date()) if di is not None else "?",int(v)))
     ac1=r08.autocorr(1)
     mx=r08.abs().max()*100

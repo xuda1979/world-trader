@@ -1,0 +1,33 @@
+=== HUNT_FXMICRO start Wed Sep  2 15:57:57 CST 2026 ===
+=== HUNT_FXMICRO complete Wed Sep  2 2026 ===
+Read: CHARTER, LOOP_L16/FINDINGS, LOOP_XGB1YFLAT/FINDINGS, A2_fx_carry r1-r7, D3_fxfactor, standup.
+Verified data (weekend rows stale, EUR_USD/GBP_USD open staleness, monthly-only intl yields).
+Ran: G1 Parkinson range (0/24), G2 OC reversal (0/46), G3 carry accrual (best 0.23),
+G4 execution bounds (breakeven 8.72bp vs 6bp mandated; open-exec flips best engine negative),
+G5 cross z-reversion (near-miss FXMR3 SR 1.87 corr 0.008 — FAILED scramble p=0.61-0.85,
+saved with disclosure for VET_HONESTY). All flatten gates pass (ac1<0, uq>0.95).
+Marginal test: FXMR3 w=0.20 -> SR_d 4.23 but ann 37.3%; w=0.70 for SR 5.0 -> ann 24.6%.
+Verdict: charter families REJECTED; confirms LOOP_L16 infeasibility. FINDINGS.md written.
+All charter work is complete. Deliverables are in place under `campaign/agents/loop_team/HUNT_FXMICRO/` (FINDINGS.md, LOG_1.log, 5 scripts, 5 grid CSVs, 1 disclosed candidate sleeve + meta). Nothing outside my directory was modified.
+
+## Executive summary
+
+**Data verified first (skepticism paid off):**
+- Common tradable window for the 8 pairs: **2019-06-12 → 2026-08-05 = 1862 weekdays (7.15y)**
+- Weekend rows are stale artifacts (Sat |close−Fri| median 2.3bp vs 25.5bp daily) → dropped
+- **EUR_USD (57%) and GBP_USD (26%) of days have |close−open|<5bp** — "open" is a stale prior quote on exactly the pairs most FX strategies would lean on
+- No FX forwards/deposit rates/vol surfaces anywhere on disk; foreign 10y yields are monthly-only → carry accrual is a PIT month-lagged proxy at best
+
+**Charter engines — all REJECTED with exact numbers:**
+| Family | Best result | Verdict |
+|---|---|---|
+| G1 Parkinson range-vol | SR −0.02 (0/24 configs) | no spot VRP harvest survives 6bps |
+| G2 open-close reversal | SR −0.29 (0/46; controls negative) | dead; daily FX is continuation-tilted |
+| G3 carry via rate diffs | SR 0.23 weekly (accrual, PIT) | fails; H2 0.03, scramble p 0.66-0.98 |
+| G4 execution-edge bounds | breakeven 8.72bp/side vs 6 mandated; open-exec flips best engine to −8.7bp/d | close-print artifact |
+
+**The one near-miss (found off-charter, honestly failed):** GBP/NZD-led cross z-reversion block — SR **1.87**, MaxDD −3.69%, corr to HONEST11-L16 **−0.008**, flatten gate PASS — but **scramble gate FAILS: p=0.61–0.85** (200×, seeds 0–9), p=0.095 iid-2000×, **p=0.50 block-bootstrap**; top-50 days = 79% of PnL. Saved as `FXMR3_42z2_daily.csv` with failure disclosure for VET_HONESTY, per contract not a pass.
+
+**Marginal-value answer to the loop's core question:** blending vt-scaled FXMR3 at w=0.05→0.20 lifts SR_d only 3.92→4.23 while **cutting ann 42.4%→37.3%**; extrapolating, w=0.70 for SR 5.0 → ann ~24.6%. FX microstructure is a risk-reducer, not a return engine here — it confirms LOOP_L16's verdict that Ann≥80% + SR≥5 + lev≤1.6 stays infeasible. No UNVERIFIED items remain; every number above was computed and reloaded from saved CSVs.
+
+HUNT_FXMICRO DONE
