@@ -59,3 +59,24 @@ Corrective actions still required (next loop iterations):
    <8% distinct daily values in a daily blend is a RED FLAG (see sweep in /tmp).
 3. SR>=5 target is NOT met by the honest champion. Path forward = genuinely new decorrelated
    DAILY engines (the current DD headroom: honest MaxDD ~5% vs 7% wall is ample).
+
+---
+
+## /loop ITER 2 (2026-09-02) — honest return/DD/leverage lever discovered; SR is scale-invariant
+Canonical builder frozen: `campaign/scripts/honest11_build.py` (reproduces HONEST11 byte-for-byte,
+max|diff| 9.9e-17) — fixes the "builder not committed" provenance hole. 11 real sleeves.
+
+**Ann >=80% AND MaxDD <=7% ARE jointly achievable and COMMITTED (HONEST11X804):**
+TGT 0.11/0.14 -> ann(geo) 80.5%, MaxDD -6.73% (worst 3y-subwindow also -6.73%), 0/19 neg yrs,
+OOS17+ 67.3%. Single global scalar; full broker costs + borrow already in construction.
+
+**BUT the honest cost = ~2.5-3x GROSS LEVERAGE** (decorrelated blend realized vol ~5.3% << 10%
+per-sleeve target, so the global vt applies a large scale). "Weights sum to 1" is normalized-only.
+
+**SR is scale-INVARIANT ~4.2 (daily) / 4.0-4.2 (monthly).** Raising vol target does NOT raise SR.
+So SR>=5 is NOT reachable by scaling; only new decorrelated high-SR DAILY engines would help, and
+that search remains hard (FX spot/carry, EM/DM factors, global indices, gold-silver all failed).
+
+Current trustworthy frontier (HONEST11, 11 real sleeves, no flattening artifact):
+  - Unlevered-ish (~1.4x gross): 47.9% ann, SR 4.19, MaxDD -4.85%
+  - Disclosed-leverage 80.5% ann (HONEST11X804, ~2.5x): MaxDD -6.73%, 0/19 neg yrs
