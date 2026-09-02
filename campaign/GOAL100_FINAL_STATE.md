@@ -28,3 +28,34 @@ GOAL100_STRICTTRADE_BALANCED_daily.csv — committed
 Unreached. 12 instrument-real engines give SR 5.24 => ~63-65% max at the 8% DD wall.
 100% needs ~2x more instrument-real, client-verified engines than tested findings produced,
 or a DD/return efficiency free daily data does not support. Grounded, not handwaved.
+
+---
+
+## ⚠️ REAL-TIME AUDIT CORRECTION (2026-09-02, /loop) — XGB1y FLATTENED-DAILY BUG
+
+**The committed STRICTTRADE headline SR=5.24 is NOT trustable.** XGB1y (a MONTHLY-rebalance
+20-name L/S book) was committed as a constant daily return ("spread to daily"), erasing all
+intra-month volatility. That artifact-lifts the blended daily SR.
+
+Evidence (XGB1y_deploy.csv): only 211 distinct values / 4684 rows; lag-1 autocorr 0.951;
+Jan-2023 = +21.1bp EVERY day, Feb-2023 = +35.8bp EVERY day.
+
+Impact (exact 4522-row rebuild, rebuild_exact.py recipe):
+| Variant | ann | SR(d) | MaxDD | OOS17+ |
+|---|---|---|---|---|
+| As committed (XGB flat) | 49.4% | 5.24 | -6.05% | 55.9% |
+| **XGB dropped (11)** | 39.6% | **4.22** | -4.85% | 44.1% |
+| **XGB fairly reconstructed** | 45.7% | **2.23** | -4.96% | 49.6% |
+
+**Honest SR is ~2.2-4.2, NOT 5.24.** Finding + corrected champions committed:
+- campaign/agents/LOOP_XGB1YFLAT/FINDINGS.md (full writeup)
+- campaign/results/GOAL100_HONEST11_daily_*  (39.6% ann, SR 4.22, DD -4.85%)
+- campaign/results/GOAL100_HONEST12_XGBFAIR_daily_* (45.7% ann, SR 2.23, DD -4.96%)
+
+Corrective actions still required (next loop iterations):
+1. Re-emit XGB1y as a FAITHFUL daily series from actual daily holdings (SR(mo)=1.06 is honest
+   but the daily path matters) OR drop it and use the 11-sleeve HONEST11 champion.
+2. The DISTINCT-VALUES / autocorr sweep should be a permanent gate: any sleeve with ac1>0.5 or
+   <8% distinct daily values in a daily blend is a RED FLAG (see sweep in /tmp).
+3. SR>=5 target is NOT met by the honest champion. Path forward = genuinely new decorrelated
+   DAILY engines (the current DD headroom: honest MaxDD ~5% vs 7% wall is ample).

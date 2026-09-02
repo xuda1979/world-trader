@@ -50,7 +50,14 @@ for name,path in SLEEVES.items():
                 zruns.append((str(di.date()) if di is not None else "?",int(v)))
     ac1=r08.autocorr(1)
     mx=r08.abs().max()*100
-    flag="OK" if (sr>=0.6 and mx<25) else "FLAG"
+    # FLATTENING BUG GATE (added 2026-09-02 /loop after XGB1y finding):
+    # a faithful DAILY series of held positions moves every day. If a sleeve has very few
+    # distinct daily values (monthly PnL flattened into identical daily rows) or high lag-1
+    # autocorr, its daily SR is inflated and its MaxDD understated in a daily blend.
+    uniqr=r08.round(10).nunique()/len(r08) if len(r08)>0 else 0
+    flatten = (ac1>0.5) or (uniqr<0.08)
+    flo = f" ac1>0.5" if ac1>0.5 else (f" uniqR={uniqr:.2f}<0.08" if uniqr<0.08 else "")
+    flag="OK" if (sr>=0.6 and mx<25 and not flatten) else ("FLAT-BUG"+flo if flatten else "FLAG")
     rows.append((name,round(sr,2),round(float(ac1),3) if ac1==ac1 else 0,round(float(mx),1),len(zruns),str(zruns[:2]),flag))
 pd.set_option("display.width",220); pd.set_option("display.max_colwidth",50)
 for r in rows: print(f"{r[0]:11s} SR={r[1]:>5} ac1={r[2]:>6} max|d|%={r[3]:>6} zRuns={r[4]:>2d} {r[5][:46]:46s} {r[6]}")
