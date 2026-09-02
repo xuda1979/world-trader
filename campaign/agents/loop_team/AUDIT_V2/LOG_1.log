@@ -1,0 +1,23 @@
+=== AUDIT_V2 start Wed Sep  2 20:10:21 CST 2026 ===
+Audit complete. FINDINGS.md is written (170 lines, ends exactly with `AUDIT_V2 DONE`), all rebuild code preserved in `AUDIT_V2/scratch/` (22 scripts, no imports from the coordinator's or other agents' code).
+
+## AUDIT_V2 Summary — GOAL100_HONEST13V2
+
+**VERDICT: NOT ADMISSIBLE AS COMMITTED — provenance hole, though no inflation found in any quoted number.**
+
+### What verified (exact numbers)
+- **Headlines reproduce**: BAL ann 43.83% / SR_d 3.905 / SR_m 3.993 / MaxDD −4.96% / 0/19 neg (2008+, worst +13.92%) / OOS17-arith 40.82% — all match the commit claims under the 2008-03-31..end slice. BAL == (SAFE+AGGR)/2 to 1.0e-16.
+- **diescrack_L40Z20**: SR 1.0066, corr +0.0516, H1 0.926/H2 1.118, 1 neg yr (−0.50%) — rebuilt from raw FRED to max|diff| 2.2e-5. ✓
+- **CFX4**: SR 1.9106, SR_m 1.9410, MDD −9.26%, **top-50d = 73.9% of PnL (74% claim exact)**, battery scrub50 +0.600, LOYO-min 1.537, 2025+ start-cut 0.392 (weak, disclosed). ✓
+- **Scramble gate IS degenerate as written**: literal permutation p = 0.555/0.530 (can never fail a positive-SR series); position-lag circular scramble p = 0.0000 on both sleeves (after fixing my own composite-aggregation bug — per-book is the correct test). ✓
+- **Leverage honest**: my reconstruction gives mean 3.449x / p95 7.177x / max 10.615x vs claimed 3.45/7.18/10.75; 278 days (5.8%) exceed 2× the mean; ≤1.6x fails every year (min 2.09x).
+- **Dilution check**: slot sweep 0→0.5 gives SR_d 4.002→4.024 (flat), SR_m monotone decreasing from slot 0; no weight reaches SR_d≥5 or ann≥80 at DD≤7. Slot 0.10 defensible, not cherry-picked.
+- Sweeps clean: flatten (ac1 −0.064, uniqR 0.9998), T+1 probes, block-boot SR 90% CI [3.501, 4.330] (excludes 5), 13-way leave-one-out all keep 0/19.
+
+### The hole (charter item 1)
+- Commit 05c62cf contains **only the 3 CSVs — no builder** (predicted by charter, confirmed).
+- ~30 recipe variants tested; best max|diff| **1.59e-2**; 0/4989 rows <1e-12; only 2.9% <1e-6.
+- Measured effective new-sleeve weights ≈0.0233/0.0247 per-unit match **neither** 0.10/12.2=0.82% nor the charter's "4.55% each" (the charter's own two numbers are mutually inconsistent).
+- V2 also silently changes the 11-pool federal-holiday convention vs the committed FIX builder (97 fed rows kept at cost-only ~−5.2bp, smeared chunks dropped) — conservative (~−0.08%/yr) but undisclosed and uncommitted.
+
+**Remediation required**: commit a parameterized `honest13_build.py` + `--verify` reproducing the CSVs ≤1e-12; until then HONEST11FIX (independently byte-verified at 1e-16) must remain champion of record. Goal scoreboard unchanged on every variant tested.
