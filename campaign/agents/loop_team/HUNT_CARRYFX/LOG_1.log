@@ -1,0 +1,16 @@
+=== HUNT_CARRYFX start Wed Sep  2 18:41:54 CST 2026 ===
+Charter executed in full. Summary of the run:
+
+## Deliverables
+- **`sleeves/CFX4_DTF21_63_raw_daily.csv` (+.meta)** — primary candidate: 4-book FX cross z-reversion, dual-timeframe z(21+63), T+1, 6bps/side + 0.5%/yr borrow. **SR_d 1.9106, SR_m 1.9410, vol 7.42%, ann_geo 14.91%, MDD −9.26%, 2/8 neg years (both >−5%), VET_HONESTY harness PASS (all 7 gates)**
+- **`sleeves/CFX4_DTF21_63_carry_raw_daily.csv` (+.meta)** — carry variant (+0.004 SR only)
+- **`FINDINGS.md`** — every check with exact numbers; self-audit pass (one drafting error in LOYO/start-cuts caught and corrected with recomputed true values before finalizing)
+
+## Key results
+1. **FXMR3 verification**: stats reproduce exactly (SR 1.8673 vs claimed 1.87), **but its g5 generator is missing** from HUNT_FXMICRO/scripts/ and its recorded scramble-failure p-values (0.61–0.85 / 0.497) are **unreproducible under an honest signal-level scramble** (I get p=0.0000, 5 seeds). Its recorded numbers instead match the *vacuous* returns-permutation tail (p≈0.5 for any series — proven with white-noise and episode controls). Their "scramble-fail" rejection rests on a no-op test.
+2. **The charter's killer gate is ill-posed**: the 10d-block bootstrap p(SR≤0) **cannot distinguish a diffuse edge from a cherry-picked 60-day episode** (both p=0.0000 in controls) — I proved this with constructed artifacts. I substituted a battery with real power (scrub-k curve, 63d-episode jackknife, LOYO), under which CFX4 is robust: scrub50 +0.61, epjackMin +1.68, LOYO-min +1.573 — while the episode control fails all three.
+3. **Charter ideas resolved with exact numbers**: carry accrual tilt DEAD (+0.004 SR, accruals −1.34..+1.07%/yr); weekday conditioning INVERTED (Monday is the best day, SR +2.76; zeroing it cuts SR 1.897→1.566); dual-timeframe WORKS as a concentration-reducer (top-50 days 83.9%→73.9% of PnL).
+4. **Honest disclosures**: corr +0.944 to FXMR3 (same family refined, not a new engine); corr −0.003..+0.0003 to the champion pool; vt-scaled variant REJECTED (MDD −17.2%); 2025+ start-cut SR 0.426 (recent decay, disclosed); cost drag = 38% of gross.
+5. **Marginal value**: w=0.10 CFX4 slice raises champion SR_d 4.177→4.210, SR_m 4.173→4.218 with 0 neg years — but does NOT close the SR≥5/Ann≥80% gap (confirms the campaign's infeasibility verdict).
+
+HUNT_CARRYFX DONE
