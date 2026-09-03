@@ -53,3 +53,30 @@ def test_scramble_positive_signal_survives():
     sig = np.sign(np.convolve(ret, np.ones(5) / 5, mode='same'))
     p, real = G.scramble_positions(sig, ret, n=100, block=20)
     assert real > 0
+
+
+def test_scramble_baseline_is_real_book_sr():
+    """VERIFY_BEST §4c regression: baseline must be the real BOOK's SR, not raw returns.
+    A strong real book must have low p; a destroyed book must have p >= 0.5."""
+    rng = np.random.default_rng(21)
+    n = 900
+    ret = rng.normal(0, 0.01, n)
+    # strong timing signal: sig = sign of smoothed returns -> real book positive SR
+    sig = np.sign(np.convolve(ret, np.ones(5) / 5, mode='same'))
+    p, real = G.scramble_positions(sig, ret, n=60, block=20)
+    # real book SR must be the baseline (positive, and p low because scrambling destroys timing)
+    assert real == G.sharpe_d(pd.Series(sig * ret))
+    assert real > 0
+    assert p < 0.05, f"strong book should pass position-lag scramble, got p={p}"
+
+
+def test_scramble_destroyed_book_fails():
+    """Random positions unrelated to returns must NOT pass (p should be high)."""
+    rng = np.random.default_rng(22)
+    n = 900
+    ret = rng.normal(0, 0.01, n)
+    # noise book: sig independent of returns -> real book SR ~0, scrambled ~0
+    sig = rng.normal(0, 1, n)
+    p, real = G.scramble_positions(sig, ret, n=60, block=20)
+    # a noise book has no timing to destroy => p not near 0; require p > 0.1 (or baseline ~0)
+    assert p > 0.1, f"noise book should not spuriously pass, got p={p}"

@@ -70,7 +70,9 @@ def scramble_positions(sig, r, side=0, n=200, block=10, rng=None):
     [block, len-block]; returns fraction of scrambled-book SR >= real SR. Returns (p, real_sr)."""
     rng = rng or np.random.default_rng(0)
     sig = np.asarray(sig, dtype=float); r = np.asarray(r, dtype=float)
-    real_sr = sharpe_d(pd.Series(r))
+    # FIX (VERIFY_BEST §4c): baseline must be the REAL BOOK's SR (positions x returns),
+    # NOT the raw-return SR (which would accept a destroyed book and spuriously fail real ones).
+    real_sr = sharpe_d(pd.Series(sig * r))
     T = len(r)
     lo, hi = block, T - block
     if hi <= lo:
