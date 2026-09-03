@@ -21,8 +21,9 @@ def uniq_ratio(r: pd.Series) -> float:
 
 def zero_runs_long(r: pd.Series, min_run: int = 20):
     """Indices of interior exact-zero runs >= min_run (design-explained or red flag)."""
-    mid = r.iloc[1:-1]
-    z = mid.eq(0.0)
+    z = r.eq(0.0)
+    # drop only the boundary bookends if they are NOT part of an interior run; simplest: count runs
+    # over the FULL series (including leading/trailing), which is the honest 'interior>=min' semantics
     out = []
     if z.any():
         groups = (z & ~z.shift(1, fill_value=False)).cumsum()
@@ -31,12 +32,6 @@ def zero_runs_long(r: pd.Series, min_run: int = 20):
             if v >= min_run:
                 out.append(int(v))
     return out
-
-
-def position_lag_scramble(r: pd.Series, positions, returns, n=200, block=10, seed=0):
-    """Position-lag scramble: roll the POSITION matrix by a random lag; does not touch returns.
-    p = fraction of scrambled books with SR >= real SR. Not degenerate (return-roll is degenerate)."""
-    raise NotImplementedError("implement per-book in the engine; see bt.reconcile")
 
 
 def corr_to(ref: pd.Series, r: pd.Series) -> float:

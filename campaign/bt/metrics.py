@@ -8,7 +8,12 @@ ANN_M = 12.0
 
 
 def ann_geo(r: pd.Series) -> float:
-    return float((1 + r).prod() ** (1.0 / len(r) * ANN) - 1) if len(r) else np.nan
+    if not len(r):
+        return np.nan
+    prod = (1 + r).prod()
+    if not np.isfinite(prod) or prod <= 0:
+        return np.nan  # ruin guard: negative/zero product => undefined geometric ann
+    return float(prod ** (1.0 / len(r) * ANN) - 1)
 
 
 def ann_arith(r: pd.Series) -> float:

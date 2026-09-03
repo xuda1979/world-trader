@@ -56,12 +56,12 @@ def test_cap_leverage_identity_below_bound():
     assert np.allclose(wc.values, w.values)
 
 
-def test_cost_turnover_half_turn():
+def test_cost_turnover_one_side():
     idx = pd.date_range('2020-01-01', periods=2, freq='B')
     w = pd.DataFrame({'a': [0.0, 1.0]}, index=idx)
     c = E.cost_turnover(w)
-    # day1 |dw|=1.0 *0.5 = 0.5 -> 0.5*6.4e-4
-    assert np.allclose(c.iloc[1], 0.5 * 6.4e-4)
+    # ONE-SIDE |dw|=1.0 -> 1.0*6.4e-4 (no 0.5; matches champion reb = |dw|*bps, AUDIT_FRAMEWORK A1)
+    assert np.allclose(c.iloc[1], 1.0 * 6.4e-4)
 
 
 def test_margin_cost_zero_below_one():

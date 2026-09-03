@@ -21,7 +21,7 @@ def sleeve(signal: pd.Series, returns: pd.DataFrame, target: float = 0.10,
     sig = signal.reindex(returns.index).fillna(0.0)
     pos = lag_signal(sig)
     scale = vol_target_scale(returns.iloc[:, 0]).fillna(1.0)
-    w = pos * scale
+    w = (pos * scale).fillna(0.0)
     w = w.to_frame('w') if isinstance(w, pd.Series) else w
     # cap leverage on the single-name path
     from bt.engine import cap_leverage
@@ -41,7 +41,7 @@ def book(weights: pd.DataFrame, returns: pd.DataFrame, cost_bps: float = 6.4,
     vol scaling is the caller's job; here just position = lag(weights), net of costs etc.
     NOTE: this is a lightweight runner; for precise champion construction use the dedicated
     builders. Returns net daily return series."""
-    w = weights.reindex(returns.index).fillna(0.0).shift(1)
+    w = weights.reindex(returns.index).fillna(0.0).shift(1).fillna(0.0)
     from bt.engine import cap_leverage
     wc = cap_leverage(w, max_lev=max_lev)
     r = (wc * returns.fillna(0.0)).sum(axis=1)

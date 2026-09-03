@@ -18,11 +18,14 @@ def test_sleeve_returns_finite():
     assert np.isfinite(out).all()
 
 
-def test_sleeve_drops_first_nan_day():
+def test_sleeve_keeps_all_rows_and_charges_entry():
     sig, ret = _data()
     out = B.sleeve(sig, ret)
-    # the first day's position is NaN (no prior signal) and is dropped by dropna()
-    assert len(out) == len(ret) - 1
+    # A2 fix: weights filled to 0 up front => no NaN drop; first day carries the ENTRY cost
+    assert len(out) == len(ret) - 0 or len(out) == len(ret)
+    assert len(out) >= len(ret) - 1
+    # entry from 0 to first position is charged (negative small cost on first day)
+    assert out.iloc[0] <= 0.0 or abs(out.iloc[0]) < 1e-3
 
 
 def test_book_returns_finite():

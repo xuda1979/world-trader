@@ -6,13 +6,16 @@ import pandas as pd
 
 
 def max_abs_diff(a: pd.Series, b: pd.Series) -> float:
-    j = pd.concat([a.rename('a'), b.rename('b')], axis=1, join='inner').dropna()
-    return float((j.a - j.b).abs().max()) if len(j) else np.nan
+    j = pd.concat([a.rename('a'), b.rename('b')], axis=1, join='inner')
+    # fail-closed: if ANY NaN is present in either series within the comparison, report inf
+    if j.isna().any().any():
+        return np.inf
+    return float((j.a - j.b).abs().max()) if len(j) else np.inf
 
 
 def repro_ok(a: pd.Series, b: pd.Series, tol: float = 1e-12) -> bool:
     d = max_abs_diff(a, b)
-    return d == d and d < tol
+    return bool(d < tol)  # inf fails; NaN fails (inf) too
 
 
 def ledgers_reproduce(ledger: pd.DataFrame, champion: pd.Series,
@@ -23,9 +26,14 @@ def ledgers_reproduce(ledger: pd.DataFrame, champion: pd.Series,
     d = pd.to_datetime(ledger['date'])
     net = ledger[pnl_col].fillna(0.0) - ledger[cost_col].fillna(0.0)
     daily = pd.Series(net.values, index=pd.Index(d)).groupby(level=0).sum()
-    j = pd.concat([daily.rename('ledger'), champion.rename('champ')], axis=1, join='inner').dropna()
-    md = float((j.ledger - j.champ).abs().max()) if len(j) else np.nan
-    return dict(ok=bool(md == md and md < tol), max_diff=md, n=len(j))
+    j = pd.concat([daily.rename('ledger'), champion.rename('champ')], axis=1, join='inner')
+    if len(j) != len(champion):
+        # coverage hole: ledger must span every champion day
+        return dict(ok=False, max_diff=float('inf'), n=len(j))
+    if j.isna().any().any():
+        return dict(ok=False, max_diff=float('inf'), n=len(j))
+    md = float((j.ledger - j.champ).abs().max())
+    return dict(ok=bool(md < tol), max_diff=md, n=len(j))
 
 
 def turnover_reconciles(ledger: pd.DataFrame, pos_path: pd.DataFrame,
@@ -33,7 +41,13 @@ def turnover_reconciles(ledger: pd.DataFrame, pos_path: pd.DataFrame,
     """Per-sleeve sum|qty| == pos_path.diff().abs() charged turnover."""
     led = ledger.groupby(ledger['sleeve'])[qty_col].sum()
     pos = pos_path.diff().abs().sum(axis=0)
-    j = pd.concat([led.rename('led'), pos.rename('pos')], axis=1).dropna()
-    rel = (j.led - j.pos).abs() / j.pos.abs().replace(0, np.nan)
-    ok = bool((rel.fillna(0) <= tol).all())
-    return dict(ok=ok, max_rel=float(rel.fillna(0).max()), n=len(j))
+    j = pd.concat([led.rename('led'), pos.rename('pos')], axis=1).fillna(0.0)
+    # fail-closed: any |led - pos| > tol, OR a nonzero ledger qty on a zero pos turnover, => FAIL
+    diff = (j.led - j.pos).abs()
+    pos_zero_nled_nonzero = (j.pos == 0) & (j.led != 0)
+    if pos_zero_nled_nonzero.any():
+        return dict(ok=False, max_rel=float('inf'), n=len(j))
+    denom = j.pos.abs().replace(0.0, np.nan)
+    rel = (diff / denom).fillna(0.0)
+    ok = bool((rel <= tol).all())
+    return dict(ok=ok, max_rel=float(rel.max()) if len(rel) else 0.0, n=len(j))

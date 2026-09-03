@@ -34,3 +34,25 @@ python3 -m pytest campaign/bt/tests/ -q
 ## Ownership
 Coordinator: daxu (main session). If you find a bug, add a failing test first (TDD), fix, verify RED
 →GREEN, and record in your FINDINGS.md + this file.
+
+## AUDIT_FRAMEWORK verdict (2026-09-03, iter7 adversarial audit — READ-ONLY audit, 10 bugs found)
+Adversarial audit of engine/metrics/gates/reconcile/backtest: 10 confirmed bugs (regression tests in
+`campaign/agents/loop_team/AUDIT_FRAMEWORK/tests_audit_bt.py`, class TestAuditRED — all 10 RED vs
+current code, 9 GREEN behavior locks pass). HEADLINES:
+1. **COST MISMATCH (blocking)**: `cost_turnover` charges `0.5*|dw|*6.4bps` = 3.2bps per unit |dw|;
+   committed champion reb stream charges `|dw|*6.0bps` and TRADE_RECORD_STANDARD min is `|dw|*6.4bps`
+   one-side. Framework undercharges 1.875x vs champion reb stream -> PnL from bt cannot reconcile.
+2. **Entry trade never charged** in `backtest.sleeve()` AND `backtest.book()`: weights row0 is NaN
+   (from shift), `diff()` -> NaN -> entry (0->w) costs 0. Verified: book() first net 0.0 vs -2.56e-4.
+3. `vol_target_scale`: row0 all-NaN (docstring claims NaN-free); `window` param is DEAD (verified
+   max|s(window=10)-s(window=200)|=0.0 on non-NaN rows).
+4. `metrics.ann_geo`: ruin day r<-1 can return FALSE POSITIVE ann (+432% on [1%, -200%, 1%]).
+5. `reconcile` fails OPEN: `turnover_reconciles` passes when pos_path turnover is 0 but ledger qty>0
+   (rel NaN -> filled 0); `ledgers_reproduce` passes with partial date coverage (join='inner' drops
+   missing champion days); `repro_ok` ignores mismatches hidden in NaN rows.
+6. `cap_leverage` strict bound violated by 2.2204e-16 on a deterministic input (float overshoot);
+   `margin_cost(max_lev=...)` param is dead; `borrow_cost` docstring says 0.5x but code charges 1.0x
+   short notional (code matches champion; docstring wrong).
+7. `gates.zero_runs_long` miscounts leading/trailing runs by 1 (drops first/last row: 25-run -> 24).
+`backtest.py` appeared mid-audit (uncommitted at session start). Fixes belong to a bt-owner wave;
+do NOT trust bt cost/borrow defaults until #1/#2 are fixed and re-reconciled to the champion.
