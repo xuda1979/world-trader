@@ -52,7 +52,14 @@ rows = [
  ("credit-OAS momentum on real HYG/LQD (baa-aaa/T10YIE)","dead","best 0.27; credit cycle priced or beta-dominated","HUNT_CROSSASSET2"),
  ("BAML OAS daily as 2008+ signal","blocked","data starts 2023-09 (793 rows)","HUNT_CROSSASSET2"),
  ("xs short-term reversal on twelve_liq (raw+volnorm, ON/IC)","dead","sign-inverted as EQMOM; best zero-cost SR 0.27, full-engine best net -0.07..-2.47","HUNT_LIQREV"),
- ("overnight/intraday decomposition harvesting (twelve_big)","dead","ON-mom t+5.0 next-day-ON real but unownable at 6.4bps; honest RT SR 0.73/-0.82 vs paper 2.13; cc books SR<=0.28; weekday/IC/ONIC dead","HUNT_OVNIGHT"),
+ ("overnight/intraday decomposition harvesting (twelve_big)","dead","ON-mom t+5.0 next-day-ON real but unownable at 6.4bps; honest RT SR 0.73/-0.82 vs paper 2.13; cc books SR<=0.28; weekday/IC/ONIC dead","HUNT_OVNIGHT"), ("overnight/intraday decomposition harvesting (twelve_big)","dead","ON-mom t+5.0 next-day-ON real but unownable at 6.4bps; honest RT SR 0.73/-0.82 vs paper 2.13; cc books SR<=0.28; weekday/IC/ONIC dead","HUNT_OVNIGHT"),
+ # iter7.5
+ ("VXV/VIX term-structure overlay on champion","dead","whitened: max real dSR -0.292 (31 variants); quintile means all-positive; satellite A SR 0.612 but 4/19 neg + poslag p 0.08 = drift not timing","HUNT_VXV_TERM"),
+ ("GVZ/OVX gold/oil vol regime timing (overlay + IAU/USO satellite)","dead","overlay dSR -1.27..-3.6; USO roll-decay MDD -98%; control beats regime; 0 pass of 16","HUNT_VXV_TERM"),
+ ("SPDR sector z-reversion full universe (incl XLK/XLU/XLV)","dead","hardened negative: honest full-turnover cost cuts SEC3 0.667->0.18-0.26 (was 2.13x cost undercharge); all-105 EW negative; yearly-gate failure intrinsic (12/19 neg)","HUNT_SECTOR_FULL"),
+ ("crypto long-only TSMOM satellite","dead","own-span SR 1.11 but 4/10 neg yrs, H2 0.21, poslag p 0.083-0.13; padding 2008+ fails annual; blend dSR +0.063<<materiality; 2025-26 SR -0.23 (adoption drift)","HUNT_CRYPTO_SAT"),
+ ("SEC3 sector trio (original params)","dead","cost-undercharge artifact: 0.667 quoted on 3.0bps/side (2.13x under); honest 6.4bps/side gives 0.18-0.26","HUNT_SECTOR_FULL"),
+
 ]
 df = pd.DataFrame(rows, columns=["idea","status","evidence","source"])
 df.to_csv("campaign/results/DEAD_IDEAS.csv", index=False)
