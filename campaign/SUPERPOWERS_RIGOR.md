@@ -51,3 +51,10 @@ For EVERY sleeve/engine/blotter/claim delivered:
 - [ ] Gates: SR,T+1,6.4bps/side,borrow,H1/H2,poslag-scramble p,corr,ac1,uniqR,neg-yr — each with number
 - [ ] Data premise lint: confirm span/columns fail-closed at charter-write time
 
+
+## HARD USER BOUNDARY (never violated)
+- **NEVER automate, control, launch, or touch the user's browser** — no browser tools, no browser
+  automation, no scraping via a browser. This is a permanent directive from the user ("don't touch my
+  browser forever"). All data acquisition MUST use direct HTTP APIs (urllib/requests to REST/JSON/CSV
+  endpoints) — which is NOT browser automation and is the only permitted path. Do not install, invoke,
+  or reference any browser-controlling tool/skill in ANY agent or coordinator action.
