@@ -11,7 +11,8 @@ Improvement over the committed RAW-EW13@1.6x (28.89% ann / SR 3.88 / MDD -4.25%)
 
 Construction (byte-reproducible):
   sleeve i net daily ret  ->  NAV  ->  NAV-drift weight (row-normalized) * relw_i /
-  sum(w) -> gross exactly 1.6 daily. Costs: 6.4bps one-side turnover (0.5*|dW|), margin
+  sum(w) -> gross exactly 1.6 daily. Costs: 6.4bps one-side turnover (FULL |dW| per
+  TRADE_RECORD_STANDARD; audit A1 — no 0.5 half-turn undercharge), margin
   4.5%/yr on (1.6-1). Borrow is already inside the sleeve net files (per TRADE_RECORD_STANDARD).
 
 Usage: python3 campaign/scripts/rawew13v2_build.py [--verify]
@@ -68,7 +69,10 @@ def build():
     d2 = d2.div(d2.sum(axis=1), axis=0) * len(NAMES)
     Wg = d2 * (GEAR / len(NAMES))
     port = (df.fillna(0).values * Wg.values).sum(axis=1)
-    to = (Wg.diff().abs().sum(axis=1) * 0.5).fillna(0.0)
+    # One-side turnover = FULL |dW| (TRADE_RECORD_STANDARD: qty_notional=|position change|).
+    # No 0.5 half-turn factor (audit A1: 0.5x was a BLOCKING undercharge 41.7% of champion cost
+    # rate). Charged at full BPS=6.4 one-side on all turnover.
+    to = (Wg.diff().abs().sum(axis=1)).fillna(0.0)
     net = (pd.Series(port, index=df.index)
            - to * BPS/1e4
            - np.maximum(GEAR-1, 0)*RATE/252)

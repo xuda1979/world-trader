@@ -48,7 +48,7 @@ def test_margin_charged():
     d2 = d2.div(d2.sum(axis=1), axis=0) * k
     Wg = d2 * (1.6 / k)
     port = (dfr.fillna(0).values * Wg.values).sum(axis=1)
-    to2 = (Wg.diff().abs().sum(axis=1) * 0.5).fillna(0)
+    to2 = (Wg.diff().abs().sum(axis=1)).fillna(0)  # FULL |dW| one-side (audit A1, no 0.5)
     no_margin = pd.Series(port, index=dfr.index) - to2 * 6.4/1e4  # no margin term
     with_margin = pd.Series(port, index=dfr.index) - to2 * 6.4/1e4 - (1.6-1)*0.045/252
     assert no_margin.mean() > with_margin.mean(), "margin must be a real, positive drag"
@@ -92,3 +92,23 @@ def test_sr_and_ann_improve_over_prior_champion():
     now = M.report(net); prev = M.report(old)
     assert now['ann_geo'] > prev['ann_geo'] * 1.30, "weighted champion must beat EW by >=30% in ann"
     assert now['neg_years'] == 0 and prev['neg_years'] == 0
+
+def test_turnover_cost_is_full_one_side_dw_not_half():
+    """Regression: TRADE_RECORD_STANDARD requires FULL |dW| traded notional at 6.4bps one-side,
+    NOT the old 0.5 half-turn (audit A1 flagged 0.5x as a blocking undercharge). The champion
+    builder must charge full |dW|. Verified by comparing the net series charged at full |dW|
+    vs one charged at 0.5|dW|: they must differ (the current builder must match full-|dW|)."""
+    b = _builder(); net, relw, gross, to, df = b.build()
+    # `to` returned by the builder is the FULL one-side |dW| (post-fix). Sanity: reconstruct.
+    k = len(relw)
+    nav = (1 + df.fillna(0)).cumprod()
+    d2 = nav.div(nav.mean(axis=1), axis=0).mul(relw, axis=1)
+    d2 = d2.div(d2.sum(axis=1), axis=0) * k
+    Wg = d2 * (1.6 / k)
+    to_full = Wg.diff().abs().sum(axis=1).fillna(0.0)
+    # builder's `to` must equal FULL |dW| (not 0.5x): compare on overlapping rows
+    j = pd.concat([to.rename('t'), to_full.rename('tf')], axis=1, join='inner').dropna()
+    if len(j) > 0:
+        ratio = (j.tf / j.t.replace(0.0, np.nan)).median()
+        assert not np.isnan(ratio) and abs(ratio - 1.0) < 1e-6, \
+            f"builder turnover must be FULL |dW| (ratio={ratio}), not half-turn"
