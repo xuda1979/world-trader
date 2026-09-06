@@ -43,7 +43,10 @@ def max_dd(r: pd.Series) -> float:
 def neg_years(r: pd.Series) -> tuple:
     if len(r) == 0:
         return (0, np.nan)
-    yr = r.groupby(r.index.year).apply(lambda x: (1 + x).prod() - 1)
+    yr = r.groupby(r.index.year).apply(lambda x: (1 + x).prod(min_count=1) - 1)
+    # fail-closed (AUDIT_FWBUGS R1): a NaN/inf year return (whole missing year, ruined
+    # product) must COUNT as a negative year, not silently pass the gate.
+    yr = yr.where(np.isfinite(yr), -1.0)
     neg = int((yr < 0).sum())
     return (neg, float(yr.min()) if len(yr) else np.nan)
 

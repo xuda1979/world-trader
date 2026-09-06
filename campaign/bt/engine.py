@@ -66,7 +66,11 @@ def cost_turnover(weights: pd.DataFrame, cost_bps: float = COST_BPS) -> pd.Serie
     and the standard (cost_bps on ALL turnover). A caller wanting a 0.5 half-turn should not use
     this for champion-format cost books."""
     w = weights.fillna(0.0)
-    one_side = w.diff().abs().sum(axis=1)
+    # day-1 establishment (0 -> w0) is real traded notional: seed the previous row with zeros
+    # so diff covers it (AUDIT_FWBUGS R1: NaN first row silently undercharged entry turnover).
+    prev = w.shift(1)
+    prev.iloc[0] = 0.0
+    one_side = (w - prev).abs().sum(axis=1)
     return one_side * cost_bps / 1e4
 
 

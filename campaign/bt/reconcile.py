@@ -40,7 +40,11 @@ def turnover_reconciles(ledger: pd.DataFrame, pos_path: pd.DataFrame,
                         qty_col: str = 'qty_notional', tol: float = 1e-8) -> dict:
     """Per-sleeve sum|qty| == pos_path.diff().abs() charged turnover."""
     led = ledger.groupby(ledger['sleeve'])[qty_col].sum()
-    pos = pos_path.diff().abs().sum(axis=0)
+    # day-1 entry is real traded notional: seed prev row with zeros so diff covers it
+    # (must match engine.cost_turnover charging semantics, AUDIT_FWBUGS R1).
+    prev = pos_path.shift(1)
+    prev.iloc[0] = 0.0
+    pos = (pos_path - prev).abs().sum(axis=0)
     j = pd.concat([led.rename('led'), pos.rename('pos')], axis=1).fillna(0.0)
     # fail-closed: any |led - pos| > tol, OR a nonzero ledger qty on a zero pos turnover, => FAIL
     diff = (j.led - j.pos).abs()

@@ -17,8 +17,8 @@ CFNAI gates,dead,no lift,SKILL_ALPHAAGM
 calendar-seasonal equity book,dead,perm-SR p0.258 > real 0.365 (fail),SKILL_ALPHAAGM
 fx deposit-rate carry (blocked),blocked,need PIT deposit rates (not on disk),SKILL_ALPHAAGM
 China A-share (cn),blocked,only ~1.6y span-insufficient,SKILL_ALPHAAGM
-NKY calendars,dead,no daily span on disk,SKILL_ALPHAAGM
-propane,blocked,data missing,SKILL_ALPHAAGM
+NKY calendars,data-acquired,"newdata/NIKKEI225.csv found on disk: 20166 daily rows 1949-05-16..2026-08-31 (77y) — span blocker cleared, ready for hunt",SKILL_ALPHAAGM
+propane,data-acquired,DPROPANEMBTX daily 1992+ n=8559 lint PASS (more_fred/) — ready for hunt; old DPROPANEMTXCF id was invalid,SKILL_ALPHAAGM
 TIPS breakeven tradable,blocked,no tradable instrument span,SKILL_ALPHAAGM
 SR-lift vol/timing overlay (60+ variants),dead,"champion whitened, max dSR+0.035<0.15, scramble p0.085-0.115",HUNT_VOLOVERLAY
 big-cap xs short-term reversal (twelve_big lb5/10/21),dead,"sign-inverted post-2008, SR -0.24..-0.02",SKILL_ALPHAAGB_B
@@ -55,3 +55,11 @@ TFF trader-category z/diff/fade on proxies,dead,"156 variants, 0>=0.3 SR; best 0
 PD/SOMA/FIMA auction-flow shares as equity gates,dead,best 0.54/4neg = drift (B&H 0.77 same span); blend dSR<0 all weights,HUNT_PDA
 global LT-yield synchrony/US-lead equity gates,dead,0.584 = 18%-exposure flat-until-2022 drift; blend dSR +0.004 immaterial; uslead 11neg,HUNT_GLOBALRATES
 "COT positioning extremes fade (commodity futures, crowded-long->short)",dead,"fade SR -0.58..-1.15 all configs; follow(SR -0.65..-0.81); raw corr +0.12..+0.22 same-period CONTAMINATION artifact (proper next-week corr +0.03 gold, SR ceiling ~0.2 << 1.0 gate); delta-follow corr decomposed to +0.03 forward. Both directions dead.",HUNT_COT_ITER11 (coordinator)
+EIA L48 storage surprise/5y-band/WoW-injection on natgas (L48 only),dead,"naive engines best SR 0.29 (WoW-follow g=10), all scramble p>=0.24; signal fully priced by publication (Wed 10:30 ET). REGIONAL storage + crude prod/imports/supplied remain UNTESTED affordances (13 series certified+linted, tools/quant/data/eia_weekly/)",HUNT_EIA_STORAGE
+vol-surface risk-off gates / standalone vol-timing (VVIX/SKEW/VIX-TS/GVZ/OVX),dead,"167 variants, best SR 0.78<1.0 gate (SKEW flip q0.98, ann 8.1%, worstYr -7.8%, 3 neg yrs); scramble-real but economically too small; overlays on CHAMP only reduce it (best: VVIXtrim SR +0.19, ann -6.7pts)",HUNT_VOL2
+"2s10s treasury steepener (duration-balanced, FRED CMT synth TR)",dead,"a-priori k=21 SR -0.11 (H2 -1.45, 31 neg yrs); scan-best k=126 SR 1.12 but H1/H2 1.96/0.11, signal dead post-2008 (SR_08+ -0.22), corr a6r7 0.216>0.15; naive/sym variants -0.82/-2.50",HUNT_TREASFUT
+TIPS real-yield level reversion (DFII10/20),dead,"all N{63,126,252,504} x th{0.5,1,1.5} SR in [-0.30,-0.09] every cell negative; 20y 0.05; long-only -0.06 (worst -36.7%); real yields tread, no reversion edge",HUNT_TREASFUT
+2s10s30s butterfly mean-reversion,dead,"chosen N504/t1.0 SR -0.78 (H2 -1.00, 33 neg yrs); full 4x4 scan SR all in [-2.05,-0.54]; reversion loses everywhere",HUNT_TREASFUT
+"US-DE-CA-JP 10y yield-spread carry (monthly, lag0/lag1)",dead,best US-JP pair 0.48; blend lag0 SR 0.77 ann 1.2% << 1.0 gate; corrChamp 0.319-0.328 > 0.15; 13 neg yrs at lag1,HUNT_TREASFUT
+"COT positioning cross-section/fade/mirror (9 markets, 1wk)",dead,"24/24 configs FAIL: best sw-follow lb12 SR 0.287 (halves -0.14/+0.58 fail), scramble p 0.10-0.88 never<0.05, negyr 4-12; signs unstable across mirrors; lookahead-control flips sign (+0.031->-0.220) = noise; only passes decorrelation (|corr|<=0.052)",HUNT_COT2
+international equity cross-momentum/carry (US-DE-CA-JP),dead,6/6 main + 14/14 ext configs fail; best raw SR 0.15 carry w/ 9 neg yrs; best pos-SR family (EXT-B LO 0.68) is passive-beta (loses to static 50/50); no champion-eligible candidate,HUNT_INTERNATIONAL2

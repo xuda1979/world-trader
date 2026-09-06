@@ -63,8 +63,12 @@ def build():
     isr = df[df.index < IS_END]
     SR = pd.Series({n: is_sr(isr[n]) for n in NAMES})
     relw = np.maximum(SR, 0.0)**P
-    # NAV-drift weights * relw, row-normalized to sum K, scaled to gross
-    nav = (1 + df.fillna(0)).cumprod()
+    # NAV-drift weights * relw, row-normalized to sum K, scaled to gross.
+    # T+1 CAUSAL (AUDIT_CHAMP2 R1 re-emit wave, coordinator-approved): weights at day t are
+    # formed from NAV through day t-1 ONLY (nav.shift(1)). The prior construction used
+    # nav_t = cumprod(1+r)_t which contains r_t, letting day-t weights earn on day-t returns
+    # (same-day leak, corr(dW_t,r_t)=0.78; honest ann 39.85% vs leaked 40.84%).
+    nav = (1 + df.fillna(0)).cumprod().shift(1).fillna(1.0)
     d2 = nav.div(nav.mean(axis=1), axis=0).mul(relw, axis=1)
     d2 = d2.div(d2.sum(axis=1), axis=0) * len(NAMES)
     Wg = d2 * (GEAR / len(NAMES))
@@ -103,7 +107,9 @@ def main():
     print(f"weights:  max|committed-built|={wr:.3e} {'IDENTICAL' if wr < 1e-12 else 'DIFF'}")
     # gross / leverage audit
     print(f"gross mean {gross.mean():.6f} max {gross.max():.12f} days>1.6 {int((gross>1.6+1e-9).sum())}")
-    print(f"turnover {to.mean()*252*BPS/1e4*100:.4f} bps/yr  margin {np.maximum(GEAR-1,0)*RATE*100:.2f}%/yr")
+    # turnover in bp/yr: mean|dW|/day * 252 * 6.4bp (AUDIT_CHAMP2: prior print was
+    # percent/yr mislabeled 'bps/yr' -- 0.0494 shown where true figure is 4.935bp/yr)
+    print(f"turnover {to.mean()*252*BPS:.4f} bp/yr  margin {np.maximum(GEAR-1,0)*RATE*100:.2f}%/yr")
 
 if __name__ == "__main__":
     main()

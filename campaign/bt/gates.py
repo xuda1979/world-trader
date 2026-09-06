@@ -4,8 +4,10 @@ import numpy as np
 import pandas as pd
 from bt.metrics import sharpe_d, half_split, neg_years
 
-# campaign-standard acceptance thresholds
-DEFAULTS = dict(sr_min=0.6, h_min=0.3, neg_max=2, neg_floor=-0.05,
+# campaign-standard acceptance thresholds — aligned to GATES_CONTRACT.md (AUDIT_GATES2 R1:
+# were 0.6/0.3, i.e. LOOSER than the contract's SR>=1.0 / halves>=0.5, so gates.run() could
+# declare 'pass' on a sleeve that is NOT champion-eligible under the contract).
+DEFAULTS = dict(sr_min=1.0, h_min=0.5, neg_max=2, neg_floor=-0.05,
                 corr_max=0.15, ac1_max=0.5, uniq_min=0.08, p_max=0.05)
 
 
@@ -39,6 +41,31 @@ def corr_to(ref: pd.Series, r: pd.Series) -> float:
     return float(j.r.corr(j.s)) if len(j) > 2 else np.nan
 
 
+def plateau_ok(grid: dict, chosen, tol: float = 0.2) -> tuple:
+    """Contract gate b): the chosen param must sit on a PLATEAU, not a spike.
+
+    grid: {param_value: sr_at_that_param}. ALL of the chosen point's adjacent neighbors must
+    have SR >= (1-tol) * peak SR, where peak = max over the grid. A single-spike grid (both
+    neighbors far below peak) AND a half-spike (one strong + one collapsed neighbor) are
+    rejected (AUDIT_GATES2 R1: neighbor_frac=0.5 let a one-sided cliff pass with neighbor SR
+    0.08 vs peak 2.50). At a grid edge only the available neighbors count.
+    Returns (ok: bool, info: dict with neighbor details)."""
+    if not grid or chosen not in grid:
+        return (False, dict(reason='chosen_param_not_in_grid'))
+    keys = sorted(grid)
+    i = keys.index(chosen)
+    nb = [k for k in (keys[i - 1] if i > 0 else None, keys[i + 1] if i + 1 < len(keys) else None)
+          if k is not None]
+    peak = max(grid.values())
+    if peak <= 0:
+        return (False, dict(reason='nonpositive_peak', peak=peak))
+    good = [k for k in nb if grid[k] >= (1.0 - tol) * peak]
+    ok = bool(nb) and len(good) == len(nb)
+    return (ok, dict(neighbors={k: grid[k] for k in nb}, peak=peak,
+                     threshold=(1.0 - tol) * peak, good_neighbors=good,
+                     edge=(len(nb) < 2)))
+
+
 def run(r: pd.Series, ref=None, **kw) -> dict:
     """Outer acceptance gate. Returns per-gate result dict + a boolean PASS (all True).
     The position-lag scramble is NOT computed here (needs positions); call separately via
@@ -53,7 +80,9 @@ def run(r: pd.Series, ref=None, **kw) -> dict:
         ac1=lag1_autocorr(r), ac1_ok=lag1_autocorr(r) < p['ac1_max'],
         uniq=uniq_ratio(r), uniq_ok=uniq_ratio(r) >= p['uniq_min'],
         corr=(corr_to(ref, r) if ref is not None else np.nan),
-        corr_ok=(abs(corr_to(ref, r)) < p['corr_max'] if ref is not None else True),
+        # AUDIT_GATES2 R1: ref=None used to set corr_ok=True (fail-OPEN) — a sleeve evaluated
+        # without the champion ref sailed through decorrelation unchecked. Fail closed.
+        corr_ok=(bool(abs(corr_to(ref, r)) < p['corr_max']) if ref is not None else False),
         zruns=zero_runs_long(r),
     )
     res['pass'] = all(res[k + '_ok'] for k in ['sr', 'halves', 'neg', 'ac1', 'uniq', 'corr'])

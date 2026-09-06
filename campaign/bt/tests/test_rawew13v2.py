@@ -101,7 +101,8 @@ def test_turnover_cost_is_full_one_side_dw_not_half():
     b = _builder(); net, relw, gross, to, df = b.build()
     # `to` returned by the builder is the FULL one-side |dW| (post-fix). Sanity: reconstruct.
     k = len(relw)
-    nav = (1 + df.fillna(0)).cumprod()
+    # mirror committed CAUSAL builder (re-emit 2026-09-07: nav.shift(1))
+    nav = (1 + df.fillna(0)).cumprod().shift(1).fillna(1.0)
     d2 = nav.div(nav.mean(axis=1), axis=0).mul(relw, axis=1)
     d2 = d2.div(d2.sum(axis=1), axis=0) * k
     Wg = d2 * (1.6 / k)
@@ -112,3 +113,38 @@ def test_turnover_cost_is_full_one_side_dw_not_half():
         ratio = (j.tf / j.t.replace(0.0, np.nan)).median()
         assert not np.isnan(ratio) and abs(ratio - 1.0) < 1e-6, \
             f"builder turnover must be FULL |dW| (ratio={ratio}), not half-turn"
+
+
+def test_champion_portfolio_return_uses_lagged_weights_auditrecon():
+    """AUDIT_RECON R1 FINDING (xfail-documented, NOT fixed — committed champion is frozen):
+    rawew13v2 builds Wg_t from nav_t = cumprod(1+r)_t which CONTAINS r_t, then earns Wg_t*r_t
+    (same-day leak into weights). Fully-causal Wg.shift(1) recomputation:
+      ann 40.84% -> 39.85% (-0.99pp), SR 3.339 -> 3.296, MaxDD -6.80% -> -6.84%, 0 neg yrs both.
+    Deviation is a documented overstatement, immaterial to gate outcomes (all constraint gates
+    still pass). Coordinator must decide on a re-emit wave; per instructions the committed
+    champion CSV is NOT modified by this audit."""
+    import importlib.util
+    import numpy as np, pandas as pd
+    import pytest
+    ROOT = "/Users/daxu/software/world-trader"
+    spec = importlib.util.spec_from_file_location("rb", ROOT + "/campaign/scripts/rawew13v2_build.py")
+    b = importlib.util.module_from_spec(spec); spec.loader.exec_module(b)
+    net, relw, gross, to, df = b.build()
+    k = len(relw)
+    # mirror committed CAUSAL builder (re-emit 2026-09-07: nav.shift(1))
+    nav = (1 + df.fillna(0)).cumprod().shift(1).fillna(1.0)
+    d2 = nav.div(nav.mean(axis=1), axis=0).mul(relw, axis=1)
+    d2 = d2.div(d2.sum(axis=1), axis=0) * k
+    Wg = d2 * (1.6 / k)
+    # same-day NAV dependence: shift returns -> weights must not change if causal
+    Wg_lag = None
+    nav2 = (1 + df.shift(1).fillna(0)).cumprod()
+    d22 = nav2.div(nav2.mean(axis=1), axis=0).mul(relw, axis=1)
+    d22 = d22.div(d22.sum(axis=1), axis=0) * k
+    Wg_lag = d22 * (1.6 / k)
+    dev = float((Wg - Wg_lag).abs().max().max())
+    # RE-EMIT WAVE 2026-09-07: committed builder is T+1-causal -> weights must NOT move when
+    # returns are shifted. (Pre-wave this deviated at 1e-2 and the test xfail-documented it.)
+    assert dev < 1e-12, (
+        f"champion weights must be T+1-causal (Wg independent of same-day r); max dev {dev:.3e}. "
+        "AUDIT_RECON R1 / AUDIT_CHAMP2 R1: a same-day leak here overstated ann by +0.99pp.")
