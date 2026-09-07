@@ -15,23 +15,32 @@ def wback_rb(Wt, rets, rb_dates):
     """Target weights read at rb_dates (signal day t), effective t+1, hold to next rb.
     NOTE: a Wt row must exist for EVERY rb_date (zeros = flat); an rbd with no row
     holds stale positions (r6lib v1 bug, caught by r2lib cross-check 2007-12-03).
-    Cost 6bps * 0.5*|dw| charged at t+1. Returns net series + daily weight df."""
+    Cost FULL |dw| x 6.4bps one-side charged at t+1 (TRADE_RECORD_STANDARD; CAMP_COST R2
+    costfix 2026-09-07: was 0.5*|dw| x 6.0bps half-turn, an undercharge).
+    Returns net series + daily weight df."""
+    return wback_rb_core(Wt, rets, rb_dates, full_dw=True, bps=6.4)
+
+
+def wback_rb_core(Wt, rets, rb_dates, full_dw=True, bps=6.4):
+    """Parametrized core of wback_rb. full_dw=True, bps=6.4 = standard convention;
+    full_dw=False, bps=6.0 reproduces the legacy half-turn (byte-recon only)."""
     idx=rets.index; T=len(idx); cols=list(rets.columns)
     vals=Wt.reindex(columns=cols)
     w=np.zeros((T,len(cols))); turn=np.zeros(T)
     rpos={d:i for i,d in enumerate(idx)}
     rd=sorted({rpos[d] for d in rb_dates if d in rpos})
     prev=np.zeros(len(cols)); curw=prev; rdi=0
+    factor=1.0 if full_dw else 0.5
     for i in range(T):
         if rdi<len(rd) and rd[rdi]==i:
             neww=vals.loc[idx[i]].fillna(0.0).values
             if i+1<T:
-                turn[i+1]=0.5*np.abs(neww-prev).sum()
+                turn[i+1]=factor*np.abs(neww-prev).sum()
                 curw=neww; prev=neww
             rdi+=1
         if i+1<T: w[i+1]=curw
     gross=(pd.DataFrame(w,index=idx,columns=cols)*rets.fillna(0.0)).sum(axis=1)
-    net=gross-pd.Series(turn,index=idx)*COST/1e4
+    net=gross-pd.Series(turn,index=idx)*bps/1e4
     return net, pd.DataFrame(w,index=idx,columns=cols)
 
 def sret(net,start,target=0.10):

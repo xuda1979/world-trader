@@ -23,9 +23,12 @@ ROOT = "/Users/daxu/software/world-trader"
 
 POOL = {
  "brwt15":"campaign/agents/E1_20yspan/sleeves/E1_brwt_spread_rev15_2000.csv",
- "brwt10":"campaign/agents/COORD/sleeves/brwt10_2000.csv",
- "brwt7" :"campaign/agents/COORD/sleeves/brwt7.csv",
- "brwt5" :"campaign/agents/COORD/sleeves/brwt5.csv",
+ # brwt10/7/5: CAMP_COST R3 costfix re-emit (FULL|dW|@6.4bps). The legacy COORD/sleeves
+ # bytes charge half@6.0 (undercharge ~150-190bps/yr on this flip-heavy family);
+ # test_camp_cost_r2's gate enforces this swap fail-closed.
+ "brwt10":"campaign/agents/chief/coord/CAMP_COST/sleeves/brwt10_2000__costfix.csv",
+ "brwt7" :"campaign/agents/chief/coord/CAMP_COST/sleeves/brwt7__costfix.csv",
+ "brwt5" :"campaign/agents/chief/coord/CAMP_COST/sleeves/brwt5__costfix.csv",
  "C5ng"  :"campaign/agents/E1_20yspan/sleeves/E1_C5ng_weekday_prem.csv",
  "C5ngsum":"campaign/agents/E1_20yspan/sleeves/E1_C5ng_summer_weekday.csv",
  "A5r2"  :"campaign/agents/A5_vol_cond/sleeves/A5_r2_contango_rateshock.csv",

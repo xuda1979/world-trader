@@ -48,8 +48,10 @@ for t in MES:
     for s in row.index[-nl:]:
         W.loc[t, s] = 1.0 / nl
 
-# T+1 backtest with 6bps one-side costs (identical mechanics to engine.backtest,
-# verified: max daily diff 0.0)
+# T+1 backtest with FULL |dW| one-side costs at the 6.4bps standard (TRADE_RECORD_STANDARD;
+# CAMP_COST R2 costfix 2026-09-07: was 0.5*(neww-prev).abs().sum() at COST=6.0 half-turn,
+# an undercharge). Mechanics otherwise identical to engine.backtest (verified max daily diff 0.0)
+COST_STD = 6.4
 idx = rets.index
 mes = [d for d in MES]
 w = pd.DataFrame(0.0, index=idx, columns=rets.columns)
@@ -60,11 +62,11 @@ for i, t in enumerate(mes):
     neww = W.loc[t]
     p = pos_of[t]
     if p + 1 < len(idx):
-        turn.iloc[p + 1] = 0.5 * (neww - prev).abs().sum()
+        turn.iloc[p + 1] = (neww - prev).abs().sum()
         nxt_p = pos_of[mes[i + 1]] + 1 if i + 1 < len(mes) else len(idx)
         w.iloc[p + 1: nxt_p] = neww.values
         prev = neww
-net = (w * rets.fillna(0.0)).sum(axis=1) - turn * COST / 1e4
+net = (w * rets.fillna(0.0)).sum(axis=1) - turn * COST_STD / 1e4
 
 nz = w.abs().sum(axis=1)
 start = nz[nz > 0].index[0]
