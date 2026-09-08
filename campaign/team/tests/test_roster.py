@@ -46,11 +46,11 @@ def test_audit_cluster_has_5_agents():
     assert len(audit) == 5, f"need exactly 5 QA/audit agents, have {audit}"
 
 
-def test_research_cluster_has_8_agents():
-    # 8 orthogonal research families (basis/calendar/meta + vol/credit/carry/reversal/statarb)
-    # = best shot at the >=2 more SR>=1.5, corr<0.1 engines the honest frontier needs.
+def test_research_cluster_has_10_agents():
+    # 10 orthogonal research families (basis/calendar/meta + vol/credit/carry/reversal/statarb +
+    # fxstyle on the new 508-pair FX + altdata) = best shot at the >=2 more SR>=1.5, corr<0.1 engines.
     res = [n for n in _charter_names() if n.startswith("RES_")]
-    assert len(res) >= 8, f"need >=8 research agents, have {len(res)}: {res}"
+    assert len(res) >= 10, f"need >=10 research agents, have {len(res)}: {res}"
 
 
 def test_every_agent_has_charter_and_workdir():

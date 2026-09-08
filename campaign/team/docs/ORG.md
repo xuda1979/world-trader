@@ -1,4 +1,4 @@
-# RESEARCH TEAM ORG — 25 agents (10 data, 2 infra, 5 audit/QA, 8 research)
+# RESEARCH TEAM ORG — 27 agents (10 data, 2 infra, 5 audit/QA, 10 research)
 
 > Maintained under campaign/team (ai-devops + superpowers rigor). Every agent is SELF-CONTAINED
 > (own dir), short-file, TDD-tested, and chartered. Launch via campaign/team/scripts/launch.sh
@@ -37,6 +37,8 @@ Coordinator = main session = **Accountable (A)** for everything below.
 | 15 | RES_CARRY | research: FX/commodity carry | R | Coordinator | multi-pair FX carry/deep carry (beyond CFX4) |
 | 16 | RES_REVERSAL | research: short-horizon cross-sectional reversal | R | Coordinator | reversal on wide equity panels (champion is momentum-heavy) |
 | 17 | RES_STATARB | research: relative-value/stat-arb | R | Coordinator | pairs/sector-relative mean-reversion on big panels |
+| 26 | RES_FXSTYLE | research: cross-sectional FX factors | R | Coordinator | FX carry/momentum on NEW 508-pair fx_hist (1999+), decorrelated to equity |
+| 27 | RES_ALTDATA | research: alt/regime engine | R | Coordinator | alt-regime / DeFi-TVL / fear-greed signal from NEW altlib data (fail-closed short spans) |
 
 ## Role clusters (the 10 data agents)
 - Pipeline (1-5): DATA_PULL, DATA_ORGANIZE, DATA_CLEAN, DATA_MERGE, DATA_MAESTRO.
@@ -54,12 +56,13 @@ Coordinator = main session = **Accountable (A)** for everything below.
 - Together = the user's "0 bugs, 0 data leakage is acceptable" gate on any champion before it's quoted.
 
 ## Research cluster (beat the champion)
-- RES_* (10-17) each hunt a DIFFERENT domain family so results are decorrelated. Champion of
+- RES_* (13-17, 26-27) each hunt a DIFFERENT domain family so results are decorrelated. Champion of
   record: campaign/results/GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv (ann 37.195% / SR 3.181 /
   MDD -6.69%). A new engine must beat a champion-+sleeve blend's frontier.
 - FIRST STEP is ALWAYS the decorrelation-first filter (lib/corr_gate.py, |corr|<0.15 to champion)
-  before any backtest (item 2). 8 research agents = 8 orthogonal families = best shot at the
-  >=2 more SR>=1.5, corr<0.1 engines the honest frontier needs (docs/TARGET_DECISION.md).
+  before any backtest (item 2). 10 research agents = 10 orthogonal families (incl. RES_FXSTYLE on
+  the NEW 508-pair FX history and RES_ALTDATA on alt data) = best shot at the >=2 more SR>=1.5,
+  corr<0.1 engines the honest frontier needs (docs/TARGET_DECISION.md).
 
 ## Extending the team (bump count here and in README + test_roster + launch.sh batch)
 
