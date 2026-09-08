@@ -30,9 +30,9 @@ def test_at_least_10_agents():
     assert len(_charter_names()) >= 10, "team must have >= 10 agents"
 
 
-def test_at_least_5_data_agents():
+def test_at_least_10_data_agents():
     data = [n for n in _charter_names() if n.startswith("DATA_")]
-    assert len(data) >= 5, f"need >=5 data agents, have {len(data)}"
+    assert len(data) >= 10, f"need >=10 data agents (5 pipeline + 5 new-source), have {len(data)}"
 
 
 def test_quality_and_test_agents_present():
