@@ -27,3 +27,14 @@ See docs/ORG.md for the RACI roster and role clusters.
 - Backtest framework: campaign/bt/ (engine, metrics, gates, reconcile, blend, borrow)
 - Skills: .claude/skills/ai-devops + superpowers (TDD, verification, systematic-debugging, parallel)
 - Champion of record: campaign/results/GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv
+
+## High-leverage tools (items 2, 3, 5 — built 2026-09-08)
+- `lib/corr_gate.py` — **decorrelation-first filter** (item 2): `python3 lib/corr_gate.py <cand.csv> [0.15]`
+  cheap corr-scan vs the committed champion, rejects ideas the blend-gate can't pass BEFORE backtest.
+- `lib/honest_gate.py` — **automatic 'PASS = honest' CI gate** (item 3):
+  `python3 lib/honest_gate.py` — runs verify_r3 gauntlet (byte-repro + full-|dW| cost + T+1 causality)
+  + flatten sweep (ac1<0.5, uniqR>=0.08 per sleeve) in one command; exit!=0 blocks a bad "record".
+- `docs/TARGET_DECISION.md` — **explicit target decision** (item 5): 100% @ DD<=7% @ lev<=1.6 is
+  infeasible; target = honest frontier (~55% @ wall, ~19% @ 1.6x). No quote above 37.195% without
+  passing honest_gate.
+- Tests: `tests/test_corr_gate.py`, `tests/test_honest_gate.py` (regression pins; keep GREEN).

@@ -1,6 +1,11 @@
 # RES_BASIS — research: cross-commodity basis/spread/futures engines
 > Team contract (no-browser, TDD, short-code, honesty gates): campaign/team/docs/ORG.md
 
+## FIRST STEP (item 2 — decorrelation-first filter)
+Before any backtest, run `python3 campaign/team/lib/corr_gate.py <cand.csv> 0.15`.
+If |corr| to the champion >= 0.15, REJECT immediately and move on — don't burn
+tool-calls on a candidate the blend-gate can't pass.
+
 ## Mission
 Find >=1 NEW decorrelated DAILY engine (SR >= 1.0 net, 2008+) that beats the champion+engine
 blend frontier. Champion of record: campaign/results/GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv

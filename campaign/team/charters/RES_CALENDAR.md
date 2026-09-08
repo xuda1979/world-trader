@@ -1,6 +1,11 @@
 # RES_CALENDAR — research: calendar/macro-seasonal/event engines
 > Team contract (no-browser, TDD, short-code, honesty gates): campaign/team/docs/ORG.md
 
+## FIRST STEP (item 2 — decorrelation-first filter)
+Before any backtest, run `python3 campaign/team/lib/corr_gate.py <cand.csv> 0.15`.
+If |corr| to the champion >= 0.15, REJECT immediately and move on — don't burn
+tool-calls on a candidate the blend-gate can't pass.
+
 ## Mission
 Find >=1 NEW decorrelated DAILY engine from calendar/macro-seasonal effects (the natgas C5ng/C5ngsum
 weekday-premium + summer family is the champion's best calendar prior). Champion matches RES_BASIS.
