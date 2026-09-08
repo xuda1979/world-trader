@@ -1,4 +1,4 @@
-# RESEARCH TEAM ORG — 12 agents, 5 roles (RACI)
+# RESEARCH TEAM ORG — 17 agents, 5 roles (RACI)
 
 > Maintained under campaign/team (ai-devops + superpowers rigor). Every agent is SELF-CONTAINED
 > (own dir), short-file, TDD-tested, and chartered. Launch via campaign/team/scripts/launch.sh
@@ -21,9 +21,14 @@ Coordinator = main session = **Accountable (A)** for everything below.
 | 7 | INFRA_REFACTOR | maintainability/extensibility | R | Coordinator | split >120-line modules, extract reusable libs, add tiny-interface boundaries |
 | 8 | QA_TESTS | tests for ALL code | R | Coordinator | TDD for every backtest/builder; run campaign/bt/tests + team/tests; RED->GREEN proof |
 | 9 | QA_AUDIT | adversarial audit | R | Coordinator | independent re-derive of champion, honeypot bugs, fail-closed checks |
-| 10 | RES_BASIS | research engine hunt: springs/basis/futures | R | Coordinator | build decorrelated SR>=1.0 sleeve -> beat champion |
-| 11 | RES_CALENDAR | research engine hunt: calendars/macro-seasonal | R | Coordinator | build decorrelated SR>=1.0 sleeve -> beat champion |
-| 12 | RES_META | research engine hunt: cross-asset/meta | R | Coordinator | build decorrelated SR>=1.0 sleeve -> beat champion |
+| 10 | RES_BASIS | research engine hunt: basis/futures | R | Coordinator | decorrelated SR>=1.0 sleeve -> beat champion |
+| 11 | RES_CALENDAR | research engine hunt: calendars/macro-seasonal | R | Coordinator | decorrelated SR>=1.0 sleeve -> beat champion |
+| 12 | RES_META | research engine hunt: cross-asset/meta | R | Coordinator | decorrelated SR>=1.0 sleeve -> beat champion |
+| 13 | RES_VOL | research: volatility/options-implied | R | Coordinator | VIX 9d/3m/6m term-slope + vol-of-vol engines (new CBOE data) |
+| 14 | RES_CREDIT | research: credit spreads/surveys | R | Coordinator | HY/LQD OAS + credit-regime engines (decorrelated to equity mom) |
+| 15 | RES_CARRY | research: FX/commodity carry | R | Coordinator | multi-pair FX carry/deep carry (beyond CFX4) |
+| 16 | RES_REVERSAL | research: short-horizon cross-sectional reversal | R | Coordinator | reversal on wide equity panels (champion is momentum-heavy) |
+| 17 | RES_STATARB | research: relative-value/stat-arb | R | Coordinator | pairs/sector-relative mean-reversion on big panels |
 
 ## Role clusters (the 5 data agents)
 - DATA_PULL (1), DATA_ORGANIZE (2), DATA_CLEAN (3), DATA_MERGE (4), DATA_MAESTRO (5).
@@ -35,9 +40,14 @@ Coordinator = main session = **Accountable (A)** for everything below.
 - QA_TESTS (8) owns all tests; QA_AUDIT (9) independently re-verifies every accepted sleeve.
 
 ## Research cluster (beat the champion)
-- RES_* (10-12) each hunt a DIFFERENT domain family so results are decorrelated. Champion of
+- RES_* (10-17) each hunt a DIFFERENT domain family so results are decorrelated. Champion of
   record: campaign/results/GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv (ann 37.195% / SR 3.181 /
   MDD -6.69%). A new engine must beat a champion-+sleeve blend's frontier.
+- FIRST STEP is ALWAYS the decorrelation-first filter (lib/corr_gate.py, |corr|<0.15 to champion)
+  before any backtest (item 2). 8 research agents = 8 orthogonal families = best shot at the
+  >=2 more SR>=1.5, corr<0.1 engines the honest frontier needs (docs/TARGET_DECISION.md).
+
+## Extending the team (bump count here and in README + test_roster + launch.sh batch)
 
 ## Where deliverables live (canonical)
 - Charter: campaign/team/charters/<AGENT>.md

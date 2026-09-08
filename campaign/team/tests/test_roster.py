@@ -40,6 +40,13 @@ def test_quality_and_test_agents_present():
     assert len(qa) >= 4, "need infra/test agents, have {0}".format(qa)
 
 
+def test_research_cluster_has_8_agents():
+    # 8 orthogonal research families (basis/calendar/meta + vol/credit/carry/reversal/statarb)
+    # = best shot at the >=2 more SR>=1.5, corr<0.1 engines the honest frontier needs.
+    res = [n for n in _charter_names() if n.startswith("RES_")]
+    assert len(res) >= 8, f"need >=8 research agents, have {len(res)}: {res}"
+
+
 def test_every_agent_has_charter_and_workdir():
     for name in _charter_names():
         assert os.path.isfile(f"{TEAM}/charters/{name}.md"), name
