@@ -38,3 +38,12 @@ See docs/ORG.md for the RACI roster and role clusters.
   infeasible; target = honest frontier (~55% @ wall, ~19% @ 1.6x). No quote above 37.195% without
   passing honest_gate.
 - Tests: `tests/test_corr_gate.py`, `tests/test_honest_gate.py` (regression pins; keep GREEN).
+
+## Company-strategy hardenings (STRATEGY.md + pipeline tooling)
+- `docs/STRATEGY.md` — operating doctrine: 3 value levers (data > decorr-first > honest-CI), the
+  pipeline-order process, and the "Definition of done" any new record must meet.
+- `lib/pipeline_guard.py` — CI gate that enforces "one backtest path" (flags bespoke metric scripts
+  that don't route through campaign/bt/), the champion-publish gate, and decorr-first. Fail-closed.
+- `scripts/run_sequence.sh` — runs the team IN ORDER (data->research->infra/QA->accept) with
+  <=5 batches, so research consumes what data produces and QA audits after.
+- Tests: `tests/test_pipeline_guard.py` (4) — bt_only flag, champion-publish pass, decorr-first.
