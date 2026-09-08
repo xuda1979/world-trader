@@ -1,4 +1,4 @@
-# RESEARCH TEAM ORG — 17 agents, 5 roles (RACI)
+# RESEARCH TEAM ORG — 20 agents (5 data, 2 infra, 5 audit/QA, 8 research)
 
 > Maintained under campaign/team (ai-devops + superpowers rigor). Every agent is SELF-CONTAINED
 > (own dir), short-file, TDD-tested, and chartered. Launch via campaign/team/scripts/launch.sh
@@ -21,6 +21,9 @@ Coordinator = main session = **Accountable (A)** for everything below.
 | 7 | INFRA_REFACTOR | maintainability/extensibility | R | Coordinator | split >120-line modules, extract reusable libs, add tiny-interface boundaries |
 | 8 | QA_TESTS | tests for ALL code | R | Coordinator | TDD for every backtest/builder; run campaign/bt/tests + team/tests; RED->GREEN proof |
 | 9 | QA_AUDIT | adversarial audit | R | Coordinator | independent re-derive of champion, honeypot bugs, fail-closed checks |
+| 18 | QA_LEAK | 0-DATA-LEAKAGE audit | R | Coordinator | T+1 causality / lookahead / same-day-leak / survivorship — prove clean or find bug |
+| 19 | QA_CONSTRUCT | construction & cost audit | R | Coordinator | costs FULL-|dW|@6.4, leverage cap, margin, borrow, weights-IS, sleeve integrity — 0 bugs |
+| 20 | QA_STAT | statistical-validity audit | R | Coordinator | flatten/ac1/uniq, 200x scramble, halves, OOS>=IS, mutation/fuzz robustness — 0 bugs |
 | 10 | RES_BASIS | research engine hunt: basis/futures | R | Coordinator | decorrelated SR>=1.0 sleeve -> beat champion |
 | 11 | RES_CALENDAR | research engine hunt: calendars/macro-seasonal | R | Coordinator | decorrelated SR>=1.0 sleeve -> beat champion |
 | 12 | RES_META | research engine hunt: cross-asset/meta | R | Coordinator | decorrelated SR>=1.0 sleeve -> beat champion |
@@ -35,9 +38,13 @@ Coordinator = main session = **Accountable (A)** for everything below.
 - Interlock: MAESTRO sets roadmap -> PULL fetches -> CLEAN lints -> ORGANIZE lands canonical
   -> MERGE builds panels. Every dataset gets a manifest that MAESTRO reviews.
 
-## Quality cluster (project clean + tests)
-- INFRA_STRUCTURE (6), INFRA_REFACTOR (7) keep files/functions/classes short and dirs canonical.
-- QA_TESTS (8) owns all tests; QA_AUDIT (9) independently re-verifies every accepted sleeve.
+## Audit/test cluster (5 agents — the 0-bugs / 0-data-leakage gate)
+- QA_TESTS (8): owns ALL tests; runs campaign/bt/tests + team/tests; TDD regression pins.
+- QA_AUDIT (9): independent byte-repro re-derivation of the champion; honeypot/fail-closed audit.
+- QA_LEAK (18): **0 data leakage** — T+1 causality, same-day leak, lookahead, survivorship (corr(dW_t,r_t)~0).
+- QA_CONSTRUCT (19): **0 bugs** in construction/cost — FULL-|dW|@6.4bps, leverage cap, margin, borrow, IS-weights, sleeve integrity.
+- QA_STAT (20): **0 bugs** in statistics — flatten/ac1/uniq, 200x scramble, halves, OOS>=IS, mutation/fuzz.
+- Together = the user's "0 bugs, 0 data leakage is acceptable" gate on any champion before it's quoted.
 
 ## Research cluster (beat the champion)
 - RES_* (10-17) each hunt a DIFFERENT domain family so results are decorrelated. Champion of

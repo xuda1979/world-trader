@@ -37,7 +37,13 @@ def test_at_least_5_data_agents():
 
 def test_quality_and_test_agents_present():
     qa = [n for n in _charter_names() if n.startswith(("INFRA_", "QA_"))]
-    assert len(qa) >= 4, "need infra/test agents, have {0}".format(qa)
+    assert len(qa) >= 6, "need infra+test agents, have {0}".format(qa)
+
+
+def test_audit_cluster_has_5_agents():
+    # 5 testing/audit agents = the 0-bugs / 0-data-leakage gate: TESTS, AUDIT, LEAK, CONSTRUCT, STAT
+    audit = [n for n in _charter_names() if n.startswith("QA_")]
+    assert len(audit) == 5, f"need exactly 5 QA/audit agents, have {audit}"
 
 
 def test_research_cluster_has_8_agents():

@@ -8,6 +8,7 @@ TEAM="/Users/daxu/software/world-trader/campaign/team"
 now=$(date +%s)
 for AGENT in DATA_PULL DATA_ORGANIZE DATA_CLEAN DATA_MERGE DATA_MAESTRO \
              INFRA_STRUCTURE INFRA_REFACTOR QA_TESTS QA_AUDIT \
+             QA_LEAK QA_CONSTRUCT QA_STAT \
              RES_BASIS RES_CALENDAR RES_META RES_VOL RES_CREDIT \
              RES_CARRY RES_REVERSAL RES_STATARB; do
   F="$TEAM/agents/$AGENT/FINDINGS.md"; LOG="$TEAM/agents/$AGENT/LOG.log"
