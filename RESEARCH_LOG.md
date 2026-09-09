@@ -3770,3 +3770,69 @@ POSITIVE relative signal on recent data, not a headline OOS claim.
    exact champion training pipeline and report the 2019+ sub-window OOS delta
    cleanly; and/or source a commercial short-interest series if the user wants
    full-history coverage.
+
+## 2026-08-25 — SHORT_RATIO MULTI-SOURCE UNBLOCK (user: "many free short_ratio to download/crawl")
+
+Manager standup correction (user input): the earlier conclusion that full-history
+short_ratio was "blocked (FINRA 2019+ only)" conflated two different limits:
+(1) FINRA's daily short-VOLUME file only reaching ~2019, and (2) the feature
+having been built from a SINGLE source (FINRA). Broader free short-interest data
+exists (SEC/SRO bi-monthly short-interest settlement files, exchange SRO feeds,
+etc.) — the model just never tried another source.
+
+Built `tools/quant/bigmove/short_ratio_multi.py `: a pluggable MULTI-SOURCE free
+crawler that emits the SAME `[month, ticker, short_ratio]` parquet contract the
+champion pipeline and shortint_retrain_ab already join on (PIT: month-ratio
+computed from month-end data, lagged-1-month by consumer — no lookahead).
+Adapters:
+  - finra_repsho : FINRA Reg SHO daily short-volume -> monthly ratio (drop-in of
+    the existing builder, ~2010+)
+  - sec_bimonthly: SEC/SRO bi-monthly short-interest OUTSTANDING (full-history
+    capable; reads local export or SEC_BASE feed; ratio = interest/shares_out or
+    days-to-cover proxy)
+  - EXTEND point for more free sources.
+Merge does source-priority dedup (highest-priority/non-null wins per month+ticker)
+and prints an honest per-source month-coverage report. Verified: merge logic
+correctly spans disjoint eras (SEC 2016 + FINRA 2019 synthetic test passed);
+empty (all-sources-blocked) path doesn't crash.
+
+Environment caveat: this sandbox's egress is WAF-blocked for cdn.finra.org (307 ->
+error.waf.finra.org on ALL files, even 2019+ that the prior log fetched OK) and most
+aggregate short-interest sites 403/paywall; SEC EDGAR + Polygon aggregates reach.
+So a full-history fetch must be run from an unblocked network (or a working
+SEC/SRO endpoint). Deliverable removes the single-source blocker architecturally;
+next team step is to point the sec_bimonthly adapter at a live reachable feed and
+build/fetch the full 2010-2026 series, then re-run shortint_retrain_ab + the
+champion 2019+ sub-window OOS delta cleanly.
+
+## 2026-09-09 — ITER14 NEW-DATA RESEARCH + DATA-FRESHNESS (coordinator direct research)
+Champion: RAW-EW13v2 weighted @1.6x, ann 37.20% / SR 3.181 / MDD -6.69% / 0 neg yrs (UNCHANGED).
+/loop: "add more data, then research to improve the champion using 5+ agents leveraging new data."
+
+### Data
+- Verified NEW fx_hist (554 pairs, 1999+, daily close) and altlib (DeFi TVL/activity, fear-greed).
+- **Corrected DATA_COVERAGE**: FRED BAML OAS (BAMLH0A0HYM2/BAMLC0A0CM/BAMLEMHBHYCRPIOAS) current
+  vintage serves ONLY 793 obs 2023-09-11..2026-09-07 (checked api key AND fredgraph.csv on
+  2026-09-09) — NOT the ~7400/1996+ the coverage doc assumed. Long credit level data = Moody's
+  BAA/AAA/BAA10Y (1983-1986+, 10k+ rows), used in the credit test.
+- RAWEW15 refresh extends costfix sleeve tails (brwt10/7/5->2026-08-28, diescrack->2026-08-24).
+
+### 6-agent research (all honest REJECT; numbers in each agent FINDINGS)
+- RES_FXSTYLE: cross-sectional FX momentum on new fx_hist, 28 majors, grid lb{126,189,252}/skip21/
+  nl-ns{3-5}/hold{10,21} => peak SR 0.419, dd -25..-64%. REJECT (<1.5 bar).
+- RES_ALTDATA: altlib all start 2014-2018, none 2008+ => fail-closed REJECT on span (charter rule).
+- RES_VOL: re-ran run_hunt_r2 (20 books) => all fail; best W_9dlead_long SR 0.70. REJECT (confirms
+  HUNT_VOL2 R1/R2 dead, A5 contango only vol in champion).
+- RES_CREDIT: (i)BAA-AAA spread MR/momentum (LQD/HYG, lb{63,126,252}) all negative, dd -54..-71%.
+  (ii) prior agent's 2s10s slope 5d-change MR = SR 1.062 per-unit battery, ALL honesty gates pass
+  but < charter SR>=1.5; deep-history twin collapses to SR 0.118 (regime-specific). REJECT both.
+- RES_REVERSAL: prior A6_r1 + C1 already dead (daily reversal cost-negative SR -1.13; best 0.7 fails
+  gate). REJECT.
+- RES_CARRY: FX-family oracle-ceiling SR 0.18-0.52 << 1.0 (DEAD_IDEAS 96). REJECT.
+
+### Champion outcome
+No new decorated sleeve clears SR>=1.5. The ONE validated champion improvement = RAWEW15
+data-refresh adoption: ann 37.49% / SR 3.195 / MDD -6.69% / 0 neg, verify_champion exit 0 (all ok),
+8/8 R7 TDD green, rows<=2026-08-10 byte-identical, weights identical, pure freshness (only 2026
+differs +0.054pp). Recommend adopting RAWEW15 as refreshed champion of record.
+Full writeup: campaign/GOAL100_ITER14_NEWDATA_RESEARCH.md. Dead-idea count now ~103.
