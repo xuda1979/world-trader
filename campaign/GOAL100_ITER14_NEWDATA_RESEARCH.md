@@ -128,3 +128,43 @@ Every apparent improvement is either (a) a cost-undercharged ancestor (HT_TAIL/H
 invalid), or (b) below the IS-SR hurdle (FF2/HF/credit/FX, SR<2, tiny/dilutive), or (c) a genuine
 edge (CFX4) that is 2019+ only and unextendable. Raising Sharpe requires NEW genuinely-decorrelated
 SR>2 honest sleeves — which no dataset on disk provides. This RESOLVES the question with evidence.
+
+---
+
+## SUPPLEMENT 3 — "ALL KINDS OF METHODS" scan (2026-09-09, continued)
+Expanding beyond "add sleeves" to every other honest improvement method. Results:
+
+### Method A — Walk-forward refit cadence (walkforward_champ.py, honest T+1 trailing refits)
+| cadence  | ann    | SR   | MaxDD |
+|----------|--------|------|-------|
+| frozen   | 37.22% | 3.18 | -6.69% |
+| yearly   | 37.97% | 3.19 | -6.72% |
+| quarterly| 37.67% | 3.18 | -6.74% |
+| monthly  | 38.09% | 3.18 | -6.89% |
+OOS(2017+) similar: frozen 40.67% vs monthly 40.78%. => Walk-forward REFIT raises ANN ~+0.8pp
+(year-to-year / monthly) but leaves SR FLAT (3.18-3.19). Not a Sharpe lever; a modest return lever.
+Monthly has slightly worse MaxDD (-6.89%). Honest, no leakage; a defensible ann improvement but NOT
+Sharpe.
+
+### Method B — Cost/turnover optimization (consolidate the 5 brwt sleeves @ corr 0.85-0.91)
+Measured champion turnover: TOTAL one-side |dW| over 18y = 16 (=0.8/yr, =5.26bp/yr actual cost).
+The book is ALREADY extremely cost-efficient (0.8 turns/yr). The 4 brwt trend sleeves together
+account for 50% of that tiny turnover. Consolidating them into one composite sleeve would save at
+most ~2.6bp/yr — NEGLIGIBLE. => Cost optimization is not a lever; the champion is already
+turnover-minimal (frozen weights + NAV-drift).
+
+### Method C — RAWEW15 data-refresh adoption (the finished, verified improvement)
+The single cleanest honest improvement now adoptable: RAWEW15 (fresh sleeve tails) = ann 37.49% /
+SR 3.195 / MDD -6.69% / 0 neg yrs, verify_champion exit 0 (all ok), 8/8 R7 TDD green, byte-identical
+prefix <=2026-08-10, weights identical. It only ADDS recent return; a strict, honest freshness win.
+RECOMMENDED for adoption as the refreshed champion of record (or in-place sleeve refresh).
+
+### Synthesis
+The champion sits at the honest frontier: SR 3.18 / ann 37.2%. Every legitimate improvement method
+is small or non-Sharpe:
+- new decorrelated sleeves -> negligible (IS-SR hurdle too high)
+- HT_TAIL/HONEST11 -> cost-inflated (invalid)
+- walk-forward refit -> +0.8pp ann, SR flat
+- turnover/cost optimization -> already minimal
+- RAWEW15 refresh -> +0.3pp ann (the concrete adoptable win)
+Raising SR meaningfully still needs a genuinely decorrelated SR>2 honest sleeve (not on disk).
