@@ -47,3 +47,42 @@ the ~1.8-2.5x gap. The refresh keeps data current; the research keeps the "no fr
 - ADOPT RAWEW15 as refreshed champion (freshness) with the R7 charter + full verify log.
 - Keep fx_hist in the data roadmap (it is a real long-history matrix worth future FX-regime work,
   even though standalone FX momentum fails the standalone-SR bar here).
+
+---
+
+## SUPPLEMENT: CAN WE RAISE THE CHAMPION'S SHARPE BY ADDING SLEEVES? (direct answer)
+Short answer: **YES for one specific sleeve — CFX4 — and NO for the 6 new-data engines.** The
+blocker is a DATA-COVERAGE artifact, not alpha.
+
+### Why new-data engines do NOT raise Sharpe
+The champion (SR 3.18) is a NAV-drift, IS-SR^0.55-weighted book dominated by the 5 mutually-
+correlated brwt trend sleeves (SR 2.3-3.0, corr 0.85-0.91). For a NEW sleeve to lift the blend
+SR under this weighting it needs **IS-window SR comparable to the book AND low correlation** — an
+extremely high bar. Verified with real numbers:
+  - credit 2s10s sleeve (corr -0.02 to champion, full SR 0.92, IS SR 0.56): blend 3.181->3.178 (dilutes).
+  - FX xsmom (IS SR ~0.25): dilutes.
+  - vol (SR 0.70), alt (no 2008+ span), reversal/carry (dead): all far below.
+The credit case is the decisive one: even a genuinely decorrelated (corr -0.02) sleeve with
+positive SR leaves the blend flat, because its IS SR is too low to earn weight against the
+brwt-dominated book.
+
+### CFX4 IS the Sharpe lever (currently zero-weighted by accident)
+CFX4 (FX 4-book cross z-reversion) has full-window SR 1.91, corr just 0.05 to the champion, and
+is NET of 6.4bps+borrow. BUT the champion builder weights sleeves by IS-window (<2017) SR; CFX4's
+history starts 2019-09-10, so is_sr=0 -> relw=0.00. It sits in the pool unused despite being the
+single best diversifier.
+Champion+CFX4 constant-mix on the 2019+ overlap (margin repriced once):
+  w=1.00 champion:  SR 2.53  ann 35.8%  gross 1.6
+  w=0.70:           SR 2.89  ann 29.4%  gross 1.42
+  w=0.50:           SR 3.08  ann 25.2%  gross 1.30
+=> Sharpe RISES ~2.5 -> ~3.1 as CFX4 is blended in; ann FALLS (de-lever/return dilution).
+This is the risk-adjusted-return vs raw-return tradeoff: CFX4 materially improves Sharpe (your
+metric) but is lower-return than the brwt core.
+
+### Actionable proposals to raise champion Sharpe
+1. **Extend CFX4's history pre-2017** (needs pre-2019 FX closes for the same 4-book z-rev; the new
+   fx_hist data goes back to 1999 and could reconstruct it) -> then the IS solver gives CFX4 real
+   weight and the champion Sharpe rises in-sample AND out.
+2. **Explicit CFX4 upweight / constant-mix overlay** at ~20-40% on the 2019+OS deployment to capture
+   the Sharpe gain now (accepting lower ann).
+Both are honest, numbers-backed and actionable next steps.
