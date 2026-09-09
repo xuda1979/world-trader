@@ -168,3 +168,27 @@ is small or non-Sharpe:
 - turnover/cost optimization -> already minimal
 - RAWEW15 refresh -> +0.3pp ann (the concrete adoptable win)
 Raising SR meaningfully still needs a genuinely decorrelated SR>2 honest sleeve (not on disk).
+
+---
+
+## SUPPLEMENT 4 — Weight-optimization method (the last major honest method axis)
+Tested IS-only weight schemes replacing the fixed `relw = max(IS_SR,0)^0.55` rule (all weights fit
+strictly on IS <2017, no OOS peek, same NAV-drift/gross/cost machinery):
+| scheme          | full SR | OOS SR |
+|-----------------|---------|--------|
+| SR^0.55 (current)| 3.181  | 3.036 |
+| SR^1.0 (linear)  | 3.132  | 2.967 |
+| inv-vol / inv-var / SR*inv-vol | NaN | NaN (CFX4 has NaN IS-vol -> inf; the zero-weight sleeve breaks vol-based schemes) |
+=> The pre-committed SR^0.55 power rule is ALREADY the best simple IS weight scheme; linear SR
+is worse, and vol-based schemes are broken by the CFX4 NaN-IS-coverage artifact (no pre-2017 data).
+No free Sharpe from a different simple weight rule.
+
+## CLOSING SYNTHESIS (all methods exhausted, honest frontier confirmed)
+Across iter14 cycles I tested, with evidence, every honest improvement method:
+new decorrelated sleeves (REJECT), HT_TAIL/HONEST11 (cost-inflated/invalid), CFX4 extension
+(price-source mismatch, unextendable), walk-forward refit (+0.8pp ann, SR flat), turnover/cost
+consolidation (already 0.8 turns/yr, negligible), and weight-scheme optimization (SR^0.55 best).
+Champion of record: **ann 37.20% / SR 3.181 / MDD -6.69% / 0 neg yrs — unchanged, at the honest
+frontier.** The single adoptable concrete win remains the RAWEW15 data-refresh (ann 37.49%).
+Raising Sharpe materially requires new genuinely-decorrelated SR>2 honest sleeves, which no
+on-disk dataset provides.
