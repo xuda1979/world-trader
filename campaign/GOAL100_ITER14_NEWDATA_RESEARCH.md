@@ -86,3 +86,45 @@ metric) but is lower-return than the brwt core.
 2. **Explicit CFX4 upweight / constant-mix overlay** at ~20-40% on the 2019+OS deployment to capture
    the Sharpe gain now (accepting lower ann).
 Both are honest, numbers-backed and actionable next steps.
+
+---
+
+## SUPPLEMENT 2 — RESOLVED: WHY ON-DISK SLEEVES CANNOT LEGITIMATELY RAISE SHARPE
+Following up the CFX4 finding with a full scan of every genuine net-return sleeve on disk
+(excluding positions/weights/signal ladders), the "add a sleeve to raise Sharpe" question is
+now CONCLUSIVELY answered. All apparent wins are either cost-inflated or below the hurdle.
+
+### 1. The BIG apparent win (HT_TAIL SR 4.72) is INVALID — cost-undercharged ancestor
+Scanning all net sleeves, the highest-SR candidate is HUNT_TAIL (SR 4.72, ann 45%, 2008+).
+Adding it to the champion's 13-sleeve pool lifts the blend to SR 3.985 / ann 48.5% (IS 3.81,
+OOS 4.16 — no overfit). BUT this is an ARTIFACT:
+- HT_TAIL is the tail-boosted **HONEST11** portfolio — the same lineage the RAWEW champion
+  SUPERSEDED specifically for construction defects.
+- Its cost line (g9_final.py): `tw = (|dW|*0.5).sum(); r_out -= (tw+dsc)*6e-4` = **HALF-turn × 6.0bps**
+  **undercharge**. The honest convention is **full |dW| × 6.4bps** (audit A1: the half-turn×6.0
+  was a BLOCKING defect undercharging 41.7% of the honest cost rate; RAWEW fixed it).
+- HT_TAIL undercharges ~2.13x on a high-turnover levered book -> its SR 4.72 is NOT comparable
+  to the champion's honest 3.18. This is why the project's RAWEW champion (37.2%) and the
+  HONEST11 family (45-60%) differ — the gap IS the defect, not a real Sharpe edge.
+=> Do NOT adopt HT_TAIL. Any "Sharpe boost" from it is cost-dishonest.
+
+### 2. Genuinely honest decorrelated sleeves (FF2_DUALGATE SR1.03 corr0.02; HF_mom_cheap SR0.92
+corr-0.04; both 2008+ long span) give only TINY lifts: blend SR 3.181->3.191 (+0.01). Reason:
+the champion's IS-SR hurdle (~2+) is so high that a decorrelated sleeve at IS SR~1.0 earns only
+a small weight and adds almost nothing. More decorrelation alone is NOT enough — the sleeve must
+also clear the book's alpha hurdle, and none on disk does (other than cost-inflated HT_TAIL).
+
+### 3. CFX4 (SR 1.91, corr 0.05) — the only genuine stand-alone l ever, but limited & cannot extend
+- Blend lifts SR 2.53->3.08 on the 2019+ overlap, but lowers ann (de-lever), and it's 2019+ only.
+- **Cannot be extended pre-2017 via fx_hist**: price-source mismatch confirmed — my faithful
+  rebuild reproduces committed CFX4 EXACTLY on `tools/quant/data/fx/` (SR 1.911, corr 1.0000,
+  maxdiff 9.97e-17) but is SR -0.84 on `fx_hist` (daily-return corr between sources only 0.53).
+  The z-reversion edge is PRICE-SOURCE-SPECIFIC (fx_hist is a different vendor); consistent with
+  the project's twelvedata-vs-polygon price-source finding.
+
+### Verdict
+The champion's full-window Sharpe CANNOT be legitimately raised by adding any on-disk sleeve.
+Every apparent improvement is either (a) a cost-undercharged ancestor (HT_TAIL/HONEST11 family,
+invalid), or (b) below the IS-SR hurdle (FF2/HF/credit/FX, SR<2, tiny/dilutive), or (c) a genuine
+edge (CFX4) that is 2019+ only and unextendable. Raising Sharpe requires NEW genuinely-decorrelated
+SR>2 honest sleeves — which no dataset on disk provides. This RESOLVES the question with evidence.
