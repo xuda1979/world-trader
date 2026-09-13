@@ -68,28 +68,14 @@ def test_committed_net_matches_full_not_half():
 
 
 def test_no_builder_in_champion_pool_undercharges():
-    """CAMP_COST R1: every builder that EMITS a sleeve feeding the committed champion
-    (rawew13v2_build POOL/NEW paths) must not contain a 0.5*|dW| cost line. Dualmom's
-    generator QA_dualmom_band121.py DOES (0.5x monthly reb) — quantified: ~24bps/yr on the
-    dualmom sleeve book; champion-level impact ~0.1bps/yr (slot share 6.4%). Flagged, not
-    gating, because the committed sleeve CSV is frozen history; coordinator informed."""
+    """CAMP_COST R1 found dualmom's generator charging 0.5*|dW| monthly reb; R2 (2026-09-07)
+    fixed it to FULL |dW| @ 6.4bps and re-emitted the sleeve. This test now pins the FIX:
+    the generator must charge full |dW| at the 6.4 standard, and the 0.5 half-turn must
+    never reappear (the R1 test asserted the offender pattern existed; that pin is inverted)."""
     import os
     ROOT = "/Users/daxu/software/world-trader"
-    import importlib.util
-    spec = importlib.util.spec_from_file_location("rb", os.path.join(ROOT, "campaign/scripts/rawew13v2_build.py"))
-    b = importlib.util.module_from_spec(spec); spec.loader.exec_module(b)
-    for name, rel in b.PATHS.items():
-        # generators of pool sleeves live in various agent dirs; scan only campaign/scripts ones
-        gen = None
-        cand = {
-            "dualmom": "QA_dualmom_band121.py",
-            "A5r2": "a5_r2_rate_shock_contango.py",
-        }
-        pass
-    # the committed champion itself must match FULL |dW| charging (existing test covers);
-    # here: assert the KNOWN offender list is exactly the documented set
-    offenders = {"QA_dualmom_band121.py": "0.5x monthly-reb turnover inside sleeve (~24bps/yr sleeve-level)"}
-    known = ["campaign/scripts/QA_dualmom_band121.py"]
-    for f in known:
-        src = open(os.path.join(ROOT, f)).read()
-        assert "0.5 * (neww - prev).abs().sum()" in src, f"{f} expected 0.5x pattern (audit drift?)"
+    src = open(os.path.join(ROOT, "campaign/scripts/QA_dualmom_band121.py")).read()
+    assert "0.5 * (neww - prev).abs().sum()" not in src, (
+        "dualmom generator regressed to 0.5 half-turn (R1 offender, fixed in R2)")
+    assert "(neww - prev).abs().sum()" in src, "dualmom must charge FULL |dW|"
+    assert "COST_STD = 6.4" in src, "dualmom must charge the 6.4bps TRADE_RECORD_STANDARD rate"

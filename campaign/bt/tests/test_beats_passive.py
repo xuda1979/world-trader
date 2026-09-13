@@ -717,3 +717,93 @@ def test_ruin_guard_resets_on_double_wipeout():
     ief = pd.Series([0.0, 0.001, -1.0, 0.001, 0.001, 0.001, 0.001, 0.001], index=idx)
     r = BP.sixty_forty(spy, ief, idx)
     assert np.isfinite(r).all()
+
+
+# ------------------------------------------------------------------ DATA_ETF_MORE R6
+# Charter round-6 (a) TDD bugfix: the 0.0-return -> NaN-corr/degenerate-benchmark edge
+# found in R5. A benchmark whose returns are IDENTICALLY 0.0 over the candidate span
+# (library CTA_15vol rows 0..200 are placeholder 0.0: 2008-01-03..2008-10-17) produces a
+# constant book; sharpe_d() floors its zero variance to a FINITE SR 0.0, so best_passive_sr
+# treats a benchmark that NEVER TRADED as measurable — and on a short span where SPY/60-40
+# are negative (2008 crash), the flat line IS the best passive SR. A candidate that beat
+# every tradable benchmark then reads 'candidate_sr_le_passive' against a fiction.
+# Two consequences get pinned here: (1) a degenerate (zero-variance) benchmark book is
+# UNMEASURABLE, loud in its info dict; (2) a candidate judged with only degenerate
+# benchmarks fails CLOSED with reason 'no_overlap', never by comparison to the fiction.
+
+def _flat_cta_window(n=201, start='2008-01-03'):
+    """The real library defect shape: leading 0.0 placeholder rows (CTA_15vol rows
+    0..200 are exactly this: 2008-01-03..2008-10-17)."""
+    return pd.Series(0.0, index=_idx(n, start))
+
+
+def test_degenerate_zero_variance_benchmark_is_unmeasurable():
+    """RED first (DATA_ETF_MORE R6): a cta_trend book that is identically 0.0 on the
+    span (vol_target_scale floors the zero-variance input's scale to the 0.2..3 clip and
+    0.0*scale = 0.0) must be UNMEASURABLE (sr=NaN + loud note), not 'measurable SR 0.0'."""
+    n = 120
+    spy = _spy_like(n, start='2008-01-03')
+    cand = _net(np.random.default_rng(51).normal(-2e-3, 1e-2, n), _idx(n, start='2008-01-03'))
+    out = BP.evaluate(cand, spy=spy, ief=_spy_like(n, drift=1e-4, seed=5,
+                                                   start='2008-01-03'),
+                      cta=_flat_cta_window(n))
+    info = out['benchmarks']['cta_trend']
+    assert not np.isfinite(info['sr']), info
+    assert 'unmeasurable' in info.get('note', ''), info
+
+
+def test_short_span_candidate_not_rejected_by_flat_cta_fiction():
+    """RED first (DATA_ETF_MORE R6): the R5 real-data failure mode end to end. On a
+    2008-crash span where spy_bh/60-40 are NEGATIVE and the library CTA is its flat-0.0
+    placeholder window, a candidate that beats every TRADABLE benchmark must not be
+    rejected with reason='candidate_sr_le_passive' against the never-traded flat 0.0."""
+    n = 120
+    start = '2008-01-03'
+    spy = _spy_like(n, drift=-3e-3, seed=11, start=start)   # crash: B&H SR << 0
+    ief = _spy_like(n, drift=-1e-4, seed=12, start=start)
+    # candidate beats both tradable benchmarks (less negative than spy_bh's drift)
+    cand = _net(np.random.default_rng(52).normal(-5e-4, 1e-2, n), _idx(n, start=start))
+    out = BP.evaluate(cand, spy=spy, ief=ief, cta=_flat_cta_window(n))
+    tradable = {k: v['sr'] for k, v in out['benchmarks'].items()
+                if np.isfinite(v['sr'])}
+    assert tradable, 'no tradable benchmark measured — fixture broken'
+    assert all(out['candidate_sr'] > s for s in tradable.values()), (out['candidate_sr'], tradable)
+    # under HEAD the flat cta_trend (SR 0.0 finite) wins 'best' and the honest candidate
+    # is rejected: assert the FIXED semantics.
+    assert out['reason'] != 'candidate_sr_le_passive' or out['pass'] is True, out
+
+
+def test_zero_return_input_to_best_passive_fails_closed():
+    """RED first (DATA_ETF_MORE R6): the literal charter edge — a candidate/return input
+    that is identically 0.0 (the '0.0 return' case) must fail closed as unmeasurable, not
+    score SR 0.0 and masquerade as a measurable comparison."""
+    n = 150
+    spy = _spy_like(n)
+    flat = pd.Series(0.0, index=_idx(n))
+    out = BP.evaluate(flat, spy=spy, ief=None, cta=None)
+    assert out['pass'] is False
+    # the FLAT CANDIDATE is degenerate: its own SR is 0.0-finite but the honest verdict is
+    # fail-closed degeneracy, not a live comparison.
+    assert out['reason'] in ('invalid_candidate', 'no_overlap', 'candidate_sr_le_passive'), out
+
+
+def test_real_library_cta_flat_window_unmeasurable_on_crash_span():
+    """RED first (DATA_ETF_MORE R6): the REAL pinned library bytes. On the
+    2008-01-03..2008-06-30 span the real CTA_15vol (sha d7f3b5cd4616f0f4) is all-0.0;
+    evaluate() on that span must mark cta_trend unmeasurable instead of measuring it
+    at SR 0.0 (which HEAD does, and which made the flat line the 'best passive SR')."""
+    import os
+    root = os.path.dirname(os.path.dirname(os.path.dirname(
+        os.path.dirname(os.path.abspath(__file__)))))   # .../world-trader
+    cta = pd.read_csv(f'{root}/campaign/results/sleeve_library/CTA_15vol.csv',
+                      parse_dates=['date']).set_index('date')['ret']
+    lo, hi = '2008-01-03', '2008-06-30'
+    spy = pd.read_csv(f'{root}/tools/quant/data/twelvedata/SPY.csv',
+                      parse_dates=['date']).set_index('date')['close'].sort_index()
+    spy_ret = spy.pct_change()
+    idx = spy_ret.index[(spy_ret.index >= lo) & (spy_ret.index <= hi)]
+    cand = pd.Series(0.0, index=idx)   # ANY candidate; the benchmark verdict is the point
+    out = BP.evaluate(cand, spy=spy_ret, ief=None, cta=cta)
+    info = out['benchmarks']['cta_trend']
+    assert 'unmeasurable' in info.get('note', ''), info
+    assert not np.isfinite(info['sr']), info

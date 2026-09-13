@@ -37,3 +37,15 @@ def test_turnover_reconciles():
     led = pd.DataFrame(rows)
     r = R.turnover_reconciles(led, pos)
     assert r['ok'] is True
+
+
+def test_max_abs_diff_nan_fails_closed():
+    """AUDIT_FWBUGS R2(b) mutation M27: no round-1 test pinned the NaN fail-closed path of
+    max_abs_diff, so deleting the NaN->inf guard passed the whole file. A NaN in either
+    series makes the comparison unmeasurable -> must return inf (which repro_ok rejects)."""
+    idx = pd.date_range('2020-01-01', periods=3, freq='B')
+    a = pd.Series([0.01, 0.02, 0.03], index=idx)
+    b = pd.Series([0.01, np.nan, 0.03], index=idx)
+    d = R.max_abs_diff(a, b)
+    assert np.isinf(d), f"NaN in comparison must be inf, got {d}"
+    assert not R.repro_ok(a, b), "repro_ok must reject a NaN-poisoned comparison"

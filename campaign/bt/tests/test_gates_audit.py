@@ -232,10 +232,19 @@ def test_audit_composite_strong_sleeve_passes():
     # gate (each year > -5%) needs enough drift headroom that sample noise in one 252d year
     # cannot produce a -10% year on a sleeve whose TRUE yearly edge is ~+22%.
     draws = rng.normal(0, 0.01, n)
-    draws -= draws.mean()
-    r = pd.Series(draws + 0.0013, index=_idx(n))
+    # AUDIT_GATES2 R2: run() enforces the scramble gate fail-closed, so this composite
+    # control must supply REAL timing positions. AR(1) raw + lagged 5d-mean sign gives a
+    # genuinely timed book; r stays the PER-UNIT return stream (engine builds sig*r itself).
+    eps = draws
+    raw = np.empty(n)
+    raw[0] = eps[0]
+    for t in range(1, n):
+        raw[t] = 0.55 * raw[t - 1] + eps[t]
+    sig = np.sign(pd.Series(raw).rolling(5).mean().shift(1).fillna(0.0).values)
+    r = pd.Series(raw, index=_idx(n))
     ref = pd.Series(rng.normal(0, 0.01, n), index=r.index)
-    g = G.run(r, ref=ref)
+    g = G.run(r, ref=ref, sig=sig, scramble_n=200)
+    assert g['scr_ok'] is True, f"timed strong sleeve failed enforced scramble: scr_p={g['scr_p']}"
     assert g['pass'] is True, {k: v for k, v in g.items() if not str(k).endswith('ok')}
 
 

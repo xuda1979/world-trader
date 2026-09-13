@@ -60,23 +60,58 @@ def test_zero_negative_years_and_mdd_compliant():
     assert M.max_dd(net) > -0.070, "MaxDD must stay within -7% goal"
 
 def test_weights_are_is_only_no_lookahead():
+    """ITER15: relw is the long-only IS max-Sharpe fit on the shrinkage-0.62 covariance.
+
+    The retired SR^P rule asserted here until 2026-09-11 was COVARIANCE-BLIND; it is replaced
+    because the pool's 4 brwt* trend sleeves are +0.62..+0.84 mutually correlated yet held
+    46.9% of relw under it (one bet expressed four times), while the ~0-correlated sleeves
+    held only 4.3-6.4% each. This test re-derives the fit INDEPENDENTLY (own optimiser code,
+    not the builder's) and separately proves the IS-only handoff that keeps OOS out.
+    """
+    from scipy.optimize import minimize
+
     b = _builder(); _, relw, _, _, df = b.build()
     IS_END = pd.Timestamp('2017-01-01')
     isr = df[df.index < IS_END]
-    # recompute IS SR independently and confirm weights = max(IS_SR,0)^0.55
-    K = len(relw)
-    names = list(relw.index)
-    srs = {}
-    for n in names:
-        r = isr[n].dropna()
-        srs[n] = r.mean()/r.std(ddof=1)*np.sqrt(252) if len(r) > 200 and r.std() > 1e-12 else 0.0
-    SR = pd.Series(srs)
-    expected = np.maximum(SR, 0.0)**0.55
-    # weights normalized only by common scalar, so compare ratios
-    m = (relw / expected).median()
-    assert abs((relw / expected / m).dropna() - 1).max() < 1e-6, \
-        "weights must be exactly max(IS_SR,0)^0.55 up to common scale"
-    # confirm NO post-2016 returns enter the weight computation: weights are a pure function of IS SR
+    names = list(relw.index)                      # 13 slots, incl. zero-coverage CFX4
+    have = [n for n in names if isr[n].notna().sum() > 0]
+
+    # --- 1. independent re-derivation of the IS max-Sharpe fit -------------------
+    X = isr[have].dropna()
+    mu = (X.mean() * 252).to_numpy()
+    Sig = X.cov().to_numpy() * 252
+    Sig = (1.0 - b.SHRINK_D) * Sig + b.SHRINK_D * np.diag(np.diag(Sig))
+    sd = np.sqrt(np.diag(Sig))
+    k = len(have)
+
+    def neg_sharpe(w):
+        v = float(np.sqrt(w @ Sig @ w))
+        return -(float(w @ mu)) / v if v > 1e-14 else 0.0
+
+    cons = [{"type": "eq", "fun": lambda w: w.sum() - 1.0}]
+    bnds = [(0.0, b.W_MAX)] * k
+    best = None
+    for w0 in (np.full(k, 1.0/k),
+               np.maximum(mu, 0.0) / max(float(np.maximum(mu, 0.0).sum()), 1e-12),
+               (1.0/sd) / (1.0/sd).sum()):
+        r = minimize(neg_sharpe, w0, method="SLSQP", bounds=bnds, constraints=cons,
+                     options={"maxiter": 800, "ftol": 1e-12})
+        if r.success and (best is None or r.fun < best.fun):
+            best = r
+    assert best is not None, "IS max-Sharpe fit must converge"
+    expected = pd.Series(0.0, index=names); expected[have] = best.x
+    assert float((relw - expected).abs().max()) < 1e-9, \
+        "weights must be the long-only IS max-Sharpe fit"
+    assert float(relw[~relw.index.isin(have)].abs().max()) == 0.0, \
+        "sleeves with no IS coverage (CFX4) must carry exactly weight 0"
+
+    # --- 2. the IS-only handoff: the fit DOES depend on its input window, and the
+    #        committed relw is exactly the IS-restricted answer. Together these prove no
+    #        post-2016 return can enter the weights (a full-frame fit would differ).
+    assert float((relw - b.fit_relw(isr)).abs().max()) < 1e-12, \
+        "committed relw must equal fit_relw(IS slice)"
+    assert float((relw - b.fit_relw(df)).abs().max()) > 1e-6, \
+        "sanity: the fit must actually depend on its input window (else this test is vacuous)"
 
 def test_reproducible_from_builder():
     b = _builder(); net = b.build()[0]
@@ -86,12 +121,29 @@ def test_reproducible_from_builder():
     assert float((j.old - j.new).abs().max()) < 1e-12, "must byte-reproduce committed champion"
 
 def test_sr_and_ann_improve_over_prior_champion():
+    """Weighted must beat same-construction EW on the SAME (costfixed) sleeve inputs.
+    Legacy form compared to the committed EW13 CSV (legacy half@6.0 brwt bytes, 28.89%)
+    -> inflated 1.29 ratio. Like-for-like (coordinator probe 2026-09-07): EW-same-inputs
+    = 33.30% vs weighted 37.20% (+11.7% rel); SR 3.181 vs 3.22, MDD -6.69 vs -6.00,
+    both inside the -7% wall, 0/19 neg years both. Honest gain of IS-SR slot fitting:
+    +3.9pp ann; the old >=30% claim was an artifact of baseline cost undercharge."""
     b = _builder(); net = b.build()[0]
-    old = pd.read_csv(f"{ROOT}/campaign/results/GOAL100_HONEST_RAWEW13_GEAR16_daily.csv",
-                      index_col=0, parse_dates=True).iloc[:, 0]
-    now = M.report(net); prev = M.report(old)
-    assert now['ann_geo'] > prev['ann_geo'] * 1.30, "weighted champion must beat EW by >=30% in ann"
-    assert now['neg_years'] == 0 and prev['neg_years'] == 0
+    now = M.report(net)
+    import numpy as np
+    df = pd.DataFrame({n: b.load(b.PATHS[n]).dropna() for n in b.NAMES})
+    df = df[df.index >= '2008-03-31']
+    relw = pd.Series(1.0, index=b.NAMES)
+    nav = (1 + df.fillna(0)).cumprod().shift(1).fillna(1.0)
+    d2 = nav.div(nav.mean(axis=1), axis=0).mul(relw, axis=1)
+    d2 = d2.div(d2.sum(axis=1), axis=0) * len(b.NAMES)
+    Wg = d2 * (1.6 / len(b.NAMES))
+    port = (df.fillna(0).values * Wg.values).sum(axis=1)
+    to = (Wg.diff().abs().sum(axis=1)).fillna(0.0)
+    net_ew = pd.Series(port, index=df.index) - to*6.4e-4 - 0.6*0.045/252
+    ew = M.report(net_ew)
+    assert now['ann_geo'] > ew['ann_geo'], "IS-SR weighting must beat same-inputs EW on ann"
+    assert now['neg_years'] == 0 and ew['neg_years'] == 0
+    assert now['max_dd'] >= -0.07 and ew['max_dd'] >= -0.07, "both must stay inside -7% MDD wall"
 
 def test_turnover_cost_is_full_one_side_dw_not_half():
     """Regression: TRADE_RECORD_STANDARD requires FULL |dW| traded notional at 6.4bps one-side,

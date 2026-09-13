@@ -1,0 +1,1429 @@
+{
+ "agent": "CAMP_SHORT",
+ "round": 3,
+ "generated": "2026-09-07",
+ "artifact": "campaign/results/CAMP_SHORT_LIBRARY_BORROW_CENSUS.json",
+ "method": {
+  "top30": "SR_d recomputed from each sleeve_library CSV; top-30 by SR",
+  "validation": "generator-of-record re-run; library CSV must equal rebuilt equity-curve pct_change on the inner join, tol 2e-4 (float/CSV round-trip); dual cost-era 6/12bps (rebaseline 2026-08-13)",
+  "tier_delta": "delta_ann_pp = (tier_rate - base_borrow_ann) * mean_short_frac",
+  "base_rates": {
+   "all suite books": 0.0,
+   "ls_n10r14_2018": "measured (DFF-150bps+25bps ETB)",
+   "CMDTrot_h2": 0.005,
+   "CRX1030": "funding (see note)"
+  },
+  "fail_closed": "any sleeve whose short leg fails byte-validation is SHORT_LEG_UNKNOWN -> NOT_INTEGRABLE (loud)"
+ },
+ "champion_reemit": {
+  "reemit_detected": true,
+  "champion_sha256_at_run": "ee03f5c096aabb6d080b3d7d2c0a4349bd89a6be63212e0fe31a549049ea757d",
+  "reemit_timeline": [
+   {
+    "stage": "R2 pin (01:49 commit 8f98da1)",
+    "ann_pct": 39.851,
+    "sr_d": 3.296,
+    "mdd_pct": -6.84,
+    "note": "committed champion my R2(b) ladder was pinned to"
+   },
+   {
+    "stage": "worktree re-emit (10:59:48, during R3)",
+    "ann_pct": 39.6873,
+    "sr_d": 3.289,
+    "mdd_pct": -6.79,
+    "note": "4 input sleeves regenerated (brwt15/QAxasts/dualmom/diescrack); max|head-worktree| 9.94e-4"
+   },
+   {
+    "stage": "COMMITTED re-emit (14:27:09 commit b268e52, during R3)",
+    "ann_pct": 37.1954,
+    "sr_d": 3.181,
+    "mdd_pct": -6.69,
+    "note": "costfix re-emit: full |dW|@6.4bps on all 13 sleeves, brwt10/7/5 swapped to CAMP_COST costfix CSVs; 0/19 neg years preserved"
+   },
+   {
+    "stage": "ITER15/RAWEW15 re-emit (2026-09-11, current)",
+    "ann_pct": 38.1145,
+    "sr_d": 3.2358,
+    "mdd_pct": -6.56,
+    "note": "ITER15 correlation-aware minsharpe weight rule on RAWEW15-refreshed sleeves; construction/costs/gross unchanged; 0/19 neg years"
+   }
+  ],
+  "head_commit": "current working tree (ITER15 re-emit)",
+  "head_ann_pct": 38.1145,
+  "head_sr_d": 3.2358,
+  "head_mdd_pct": -6.56,
+  "worktree_matches_head": false,
+  "ladder_rerun": {
+   "artifact": "work_r3/cache/champ_ladder_new.json",
+   "rebuild_vs_committed_max_abs_diff": 1e-16,
+   "realistic_T2_050_200_800_delta_pp": -0.02,
+   "bound_T2_050_200_800_delta_pp": -2.15,
+   "gate_moves": "NO \u2014 0/19 neg years and MDD > -7% at every rung of both ladders",
+   "conclusion": "champion borrow sensitivity stays ~0 under the ITER15/RAWEW15 champion; R2 ops-runbook headroom numbers carry over within 0.04pp"
+  },
+  "note": "the champion was re-emitted after R3 (ITER15 weight-rule change, 2026-09-11). The census is here re-recorded against the CURRENT champion of record (sha ee03f5c096aabb6d\u2026); borrow-gate verdicts are unchanged. This block is informational \u2014 the census run does not mutate the champion."
+ },
+ "sleeves": {
+  "XGB1y_deploy": {
+   "is_intake": false,
+   "sr_d": 4.319,
+   "measurement": "MEASURED",
+   "instrument_class": "EQUITY_LS_BOOK",
+   "renet": {
+    "ok": true,
+    "max_diff": 1.0,
+    "mode": "activity_coverage",
+    "n_joined": 210,
+    "coverage": 1.0
+   },
+   "short_notional": {
+    "mean_frac": 1.0,
+    "max_frac": 1.0,
+    "frac_days_short": 1.0
+   },
+   "borrow_applies": true,
+   "base_borrow_ann": 0.0,
+   "ladder": {
+    "0.5%": {
+     "delta_ann_pp": 0.5,
+     "drag_ann_pp": 0.5,
+     "worst_day_delta_bp": 0.1984
+    },
+    "2%": {
+     "delta_ann_pp": 2.0,
+     "drag_ann_pp": 2.0,
+     "worst_day_delta_bp": 0.7937
+    },
+    "8%": {
+     "delta_ann_pp": 8.0,
+     "drag_ann_pp": 8.0,
+     "worst_day_delta_bp": 3.1746
+    }
+   },
+   "verdict": "INTEGRATION_RISK",
+   "fail_closed_reason": null,
+   "note": "bottom-decile-by-prediction monthly L/S (67 quarterly cohorts, 12m hold): |short|/NAV = 1.0 every live month (validated 100.0% of published rows). ZERO borrow charged (24bp trade cost only). Published DAILY csv = documented flattened spread of this book.",
+   "generator": "tools/quant/bigmove/xgb_1y_deploy.py"
+  },
+  "AP_gold": {
+   "is_intake": false,
+   "sr_d": 0.941,
+   "measurement": "SHORT_LEG_UNKNOWN",
+   "instrument_class": "",
+   "renet": null,
+   "short_notional": {
+    "mean_frac": null,
+    "max_frac": null,
+    "frac_days_short": null
+   },
+   "borrow_applies": false,
+   "base_borrow_ann": 0.0,
+   "ladder": {
+    "0.5%": {
+     "delta_ann_pp": 0.0
+    },
+    "2%": {
+     "delta_ann_pp": 0.0
+    },
+    "8%": {
+     "delta_ann_pp": 0.0
+    }
+   },
+   "verdict": "NOT_INTEGRABLE",
+   "fail_closed_reason": "no reconstruction attempt recorded",
+   "note": "",
+   "generator": ""
+  },
+  "ls_n10r14_2018": {
+   "is_intake": false,
+   "sr_d": 0.924,
+   "measurement": "STRUCTURAL",
+   "instrument_class": "CALLRATE_FINANCED",
+   "renet": {
+    "ok": false,
+    "max_diff": null,
+    "mode": "byte_renet",
+    "n_joined": 1851
+   },
+   "short_notional": {
+    "mean_frac": 0.428274,
+    "max_frac": 0.5,
+    "frac_days_short": 0.856548
+   },
+   "borrow_applies": true,
+   "base_borrow_ann": 0.013973,
+   "ladder": {
+    "0.5%": {
+     "delta_ann_pp": -0.384309,
+     "drag_ann_pp": 0.214137,
+     "worst_day_delta_bp": -0.0
+    },
+    "2%": {
+     "delta_ann_pp": 0.258102,
+     "drag_ann_pp": 0.856548,
+     "worst_day_delta_bp": 0.1196
+    },
+    "8%": {
+     "delta_ann_pp": 2.827746,
+     "drag_ann_pp": 3.426192,
+     "worst_day_delta_bp": 1.3101
+    }
+   },
+   "verdict": "INTEGRATION_RISK",
+   "fail_closed_reason": null,
+   "note": "n10/n10 long/short at gross 1.0 -> |short|/NAV = 0.5 on live days (structural from cfg: n_long=10, n_short=10, gross_leverage=1.0). The generator ALREADY charges (DFF - 150bps rebate) + 25bps ETB borrow on this notional (tools/quant/ls/backtest.py:104-141, config short_borrow_apply=True, use_call_rate_financing=True).",
+   "generator": "tools/quant/ls/regime_gbrt_v13_oos.py + backtest.py (cfg)"
+  },
+  "Multi_Strategy_SharpeW": {
+   "is_intake": false,
+   "sr_d": 0.867,
+   "measurement": "SHORT_LEG_UNKNOWN",
+   "instrument_class": "",
+   "renet": null,
+   "short_notional": {
+    "mean_frac": null,
+    "max_frac": null,
+    "frac_days_short": null
+   },
+   "borrow_applies": false,
+   "base_borrow_ann": 0.0,
+   "ladder": {
+    "0.5%": {
+     "delta_ann_pp": 0.0
+    },
+    "2%": {
+     "delta_ann_pp": 0.0
+    },
+    "8%": {
+     "delta_ann_pp": 0.0
+    }
+   },
+   "verdict": "NOT_INTEGRABLE",
+   "fail_closed_reason": "no reconstruction attempt recorded",
+   "note": "",
+   "generator": ""
+  },
+  "L_S_Market_Neutral": {
+   "is_intake": false,
+   "sr_d": 0.867,
+   "measurement": "SHORT_LEG_UNKNOWN",
+   "instrument_class": "EQUITY_LS_BOOK",
+   "renet": {
+    "ok": false,
+    "max_diff": 0.007566220544710678,
+    "mode": "byte_renet",
+    "n_joined": 4680
+   },
+   "short_notional": {
+    "mean_frac": 0.0,
+    "max_frac": 0.0,
+    "frac_days_short": 0.0
+   },
+   "borrow_applies": false,
+   "base_borrow_ann": 0.0,
+   "ladder": {
+    "0.5%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "2%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "8%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    }
+   },
+   "verdict": "NOT_INTEGRABLE",
+   "fail_closed_reason": "SHORT_LEG_UNKNOWN: short leg cannot be integrated (fail-closed)",
+   "note": "re-net failed md=7.57e-03 \u2014 fail-closed (short stream PROVISIONAL, not used for gates)",
+   "generator": "hedge_fund_strats/strat_ls_equity"
+  },
+  "L_S_120_20": {
+   "is_intake": false,
+   "sr_d": 0.825,
+   "measurement": "MEASURED",
+   "instrument_class": "EQUITY_LS_BOOK",
+   "renet": {
+    "ok": true,
+    "max_diff": 5.386316392907986e-16,
+    "mode": "byte_renet",
+    "n_joined": 4683
+   },
+   "short_notional": {
+    "mean_frac": 0.0,
+    "max_frac": 0.0,
+    "frac_days_short": 0.0
+   },
+   "borrow_applies": false,
+   "base_borrow_ann": 0.0,
+   "ladder": {
+    "0.5%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "2%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "8%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    }
+   },
+   "verdict": "INTEGRATION_OK",
+   "fail_closed_reason": null,
+   "note": "SHORT LEG FLIPPED LONG by the generator ('* -1' at strat_ls_equity.py:134): measured mean |short| = 0.000000; the book is long-only at gross 1.2. Zero borrow due, but the 'L/S' label is false and intended short notional was added to the long side. (validated at 12bps era)",
+   "generator": "hedge_fund_strats/strat_ls_equity.run_long_short_equity"
+  },
+  "L_S_130_30": {
+   "is_intake": false,
+   "sr_d": 0.822,
+   "measurement": "MEASURED",
+   "instrument_class": "EQUITY_LS_BOOK",
+   "renet": {
+    "ok": true,
+    "max_diff": 5.204170427930421e-16,
+    "mode": "byte_renet",
+    "n_joined": 4683
+   },
+   "short_notional": {
+    "mean_frac": 0.0,
+    "max_frac": 0.0,
+    "frac_days_short": 0.0
+   },
+   "borrow_applies": false,
+   "base_borrow_ann": 0.0,
+   "ladder": {
+    "0.5%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "2%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "8%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    }
+   },
+   "verdict": "INTEGRATION_OK",
+   "fail_closed_reason": null,
+   "note": "SHORT LEG FLIPPED LONG by the generator ('* -1' at strat_ls_equity.py:134): measured mean |short| = 0.000000; the book is long-only at gross 1.6. Zero borrow due, but the 'L/S' label is false and intended short notional was added to the long side. (validated at 12bps era)",
+   "generator": "hedge_fund_strats/strat_ls_equity.run_long_short_equity"
+  },
+  "L_S_Dollar_Neutral": {
+   "is_intake": false,
+   "sr_d": 0.813,
+   "measurement": "MEASURED",
+   "instrument_class": "EQUITY_LS_BOOK",
+   "renet": {
+    "ok": true,
+    "max_diff": 5.169475958410885e-16,
+    "mode": "byte_renet",
+    "n_joined": 4682
+   },
+   "short_notional": {
+    "mean_frac": 0.0,
+    "max_frac": 0.0,
+    "frac_days_short": 0.0
+   },
+   "borrow_applies": false,
+   "base_borrow_ann": 0.0,
+   "ladder": {
+    "0.5%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "2%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "8%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    }
+   },
+   "verdict": "INTEGRATION_OK",
+   "fail_closed_reason": null,
+   "note": "SHORT LEG FLIPPED LONG by the generator ('* -1' at strat_ls_equity.py:134): measured mean |short| = 0.000000; the book is long-only at gross 2.0. Zero borrow due, but the 'L/S' label is false and intended short notional was added to the long side. (validated at 12bps era)",
+   "generator": "hedge_fund_strats/strat_ls_equity.run_long_short_equity"
+  },
+  "L_S_130_30_volmanaged": {
+   "is_intake": false,
+   "sr_d": 0.805,
+   "measurement": "MEASURED",
+   "instrument_class": "EQUITY_LS_BOOK",
+   "renet": {
+    "ok": true,
+    "max_diff": 2.6367796834847468e-15,
+    "mode": "byte_renet",
+    "n_joined": 4408
+   },
+   "short_notional": {
+    "mean_frac": 0.0,
+    "max_frac": 0.0,
+    "frac_days_short": 0.0
+   },
+   "borrow_applies": false,
+   "base_borrow_ann": 0.0,
+   "ladder": {
+    "0.5%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "2%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "8%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    }
+   },
+   "verdict": "INTEGRATION_OK",
+   "fail_closed_reason": null,
+   "note": "vol-managed rescale of the flip-bug long-only 130/30; mean |short| = 0.000000",
+   "generator": "hedge_fund_strats/run_extras.run_vol_managed_ls"
+  },
+  "Risk_Parity_Bridgewater": {
+   "is_intake": false,
+   "sr_d": 0.748,
+   "measurement": "STRUCTURAL",
+   "instrument_class": "LONG_ONLY",
+   "renet": {
+    "ok": false,
+    "max_diff": null,
+    "mode": "byte_renet",
+    "n_joined": null
+   },
+   "short_notional": {
+    "mean_frac": 0.0,
+    "max_frac": 0.0,
+    "frac_days_short": 0.0
+   },
+   "borrow_applies": false,
+   "base_borrow_ann": 0.0,
+   "ladder": {
+    "0.5%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "2%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "8%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    }
+   },
+   "verdict": "INTEGRATION_OK",
+   "fail_closed_reason": null,
+   "note": "inverse-vol LONG-ONLY weights, clip(0,3) scale \u2014 cannot hold a short",
+   "generator": "hedge_fund_strats/strat_global_macro.run_bridgewater_style"
+  },
+  "Multi_Strategy_EW": {
+   "is_intake": false,
+   "sr_d": 0.697,
+   "measurement": "SHORT_LEG_UNKNOWN",
+   "instrument_class": "",
+   "renet": null,
+   "short_notional": {
+    "mean_frac": null,
+    "max_frac": null,
+    "frac_days_short": null
+   },
+   "borrow_applies": false,
+   "base_borrow_ann": 0.0,
+   "ladder": {
+    "0.5%": {
+     "delta_ann_pp": 0.0
+    },
+    "2%": {
+     "delta_ann_pp": 0.0
+    },
+    "8%": {
+     "delta_ann_pp": 0.0
+    }
+   },
+   "verdict": "NOT_INTEGRABLE",
+   "fail_closed_reason": "no reconstruction attempt recorded",
+   "note": "",
+   "generator": ""
+  },
+  "Merger_Arb_PEAD": {
+   "is_intake": false,
+   "sr_d": 0.455,
+   "measurement": "MEASURED",
+   "instrument_class": "EQUITY_EVENT",
+   "renet": {
+    "ok": true,
+    "max_diff": 6.132247487578013e-16,
+    "mode": "byte_renet",
+    "n_joined": 4683
+   },
+   "short_notional": {
+    "mean_frac": 0.412254,
+    "max_frac": 1.0,
+    "frac_days_short": 0.928693
+   },
+   "borrow_applies": true,
+   "base_borrow_ann": 0.0,
+   "ladder": {
+    "0.5%": {
+     "delta_ann_pp": 0.206127,
+     "drag_ann_pp": 0.206127,
+     "worst_day_delta_bp": 0.1984
+    },
+    "2%": {
+     "delta_ann_pp": 0.824509,
+     "drag_ann_pp": 0.824509,
+     "worst_day_delta_bp": 0.7937
+    },
+    "8%": {
+     "delta_ann_pp": 3.298036,
+     "drag_ann_pp": 3.298036,
+     "worst_day_delta_bp": 3.1746
+    }
+   },
+   "verdict": "INTEGRATION_RISK",
+   "fail_closed_reason": null,
+   "note": "event proxy: shorts = adverse-surprise/convergence names at 1/n notional; mean |short| = 0.4123. ZERO borrow charged (validated at 6bps era).",
+   "generator": "hedge_fund_strats/strat_merger_arb (proxy)"
+  },
+  "Merger_Arb_PEAD_3pct": {
+   "is_intake": false,
+   "sr_d": 0.405,
+   "measurement": "MEASURED",
+   "instrument_class": "EQUITY_EVENT",
+   "renet": {
+    "ok": true,
+    "max_diff": 7.625735980176795e-16,
+    "mode": "byte_renet",
+    "n_joined": 4683
+   },
+   "short_notional": {
+    "mean_frac": 0.412254,
+    "max_frac": 1.0,
+    "frac_days_short": 0.928693
+   },
+   "borrow_applies": true,
+   "base_borrow_ann": 0.0,
+   "ladder": {
+    "0.5%": {
+     "delta_ann_pp": 0.206127,
+     "drag_ann_pp": 0.206127,
+     "worst_day_delta_bp": 0.1984
+    },
+    "2%": {
+     "delta_ann_pp": 0.824509,
+     "drag_ann_pp": 0.824509,
+     "worst_day_delta_bp": 0.7937
+    },
+    "8%": {
+     "delta_ann_pp": 3.298036,
+     "drag_ann_pp": 3.298036,
+     "worst_day_delta_bp": 3.1746
+    }
+   },
+   "verdict": "INTEGRATION_RISK",
+   "fail_closed_reason": null,
+   "note": "event proxy: shorts = adverse-surprise/convergence names at 1/n notional; mean |short| = 0.4123. ZERO borrow charged (validated at 12bps era).",
+   "generator": "hedge_fund_strats/strat_merger_arb (proxy)"
+  },
+  "Merger_Arb_PEAD_5pct": {
+   "is_intake": false,
+   "sr_d": 0.392,
+   "measurement": "MEASURED",
+   "instrument_class": "EQUITY_EVENT",
+   "renet": {
+    "ok": true,
+    "max_diff": 6.930220286527344e-16,
+    "mode": "byte_renet",
+    "n_joined": 4683
+   },
+   "short_notional": {
+    "mean_frac": 0.402519,
+    "max_frac": 1.0,
+    "frac_days_short": 0.948975
+   },
+   "borrow_applies": true,
+   "base_borrow_ann": 0.0,
+   "ladder": {
+    "0.5%": {
+     "delta_ann_pp": 0.20126,
+     "drag_ann_pp": 0.20126,
+     "worst_day_delta_bp": 0.1984
+    },
+    "2%": {
+     "delta_ann_pp": 0.805038,
+     "drag_ann_pp": 0.805038,
+     "worst_day_delta_bp": 0.7937
+    },
+    "8%": {
+     "delta_ann_pp": 3.220154,
+     "drag_ann_pp": 3.220154,
+     "worst_day_delta_bp": 3.1746
+    }
+   },
+   "verdict": "INTEGRATION_RISK",
+   "fail_closed_reason": null,
+   "note": "event proxy: shorts = adverse-surprise/convergence names at 1/n notional; mean |short| = 0.4025. ZERO borrow charged (validated at 12bps era).",
+   "generator": "hedge_fund_strats/strat_merger_arb (proxy)"
+  },
+  "FactorMom_1926": {
+   "is_intake": false,
+   "sr_d": 0.375,
+   "measurement": "STRUCTURAL",
+   "instrument_class": "FACTOR_SYNTH",
+   "renet": {
+    "ok": false,
+    "max_diff": null,
+    "mode": "byte_renet",
+    "n_joined": null
+   },
+   "short_notional": {
+    "mean_frac": 0.0,
+    "max_frac": 0.0,
+    "frac_days_short": 0.0
+   },
+   "borrow_applies": false,
+   "base_borrow_ann": 0.0,
+   "ladder": {
+    "0.5%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "2%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "8%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    }
+   },
+   "verdict": "INTEGRATION_OK",
+   "fail_closed_reason": null,
+   "note": "legs are Fama-French factor portfolios \u2014 no stock-loan market",
+   "generator": "hedge_fund_strats/strat_factor_momentum.run_factor_momentum"
+  },
+  "FactorMom_1963": {
+   "is_intake": false,
+   "sr_d": 0.355,
+   "measurement": "STRUCTURAL",
+   "instrument_class": "FACTOR_SYNTH",
+   "renet": {
+    "ok": false,
+    "max_diff": null,
+    "mode": "byte_renet",
+    "n_joined": null
+   },
+   "short_notional": {
+    "mean_frac": 0.0,
+    "max_frac": 0.0,
+    "frac_days_short": 0.0
+   },
+   "borrow_applies": false,
+   "base_borrow_ann": 0.0,
+   "ladder": {
+    "0.5%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "2%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "8%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    }
+   },
+   "verdict": "INTEGRATION_OK",
+   "fail_closed_reason": null,
+   "note": "legs are Fama-French factor portfolios \u2014 no stock-loan market",
+   "generator": "hedge_fund_strats/strat_factor_momentum.run_factor_momentum"
+  },
+  "Merger_Arb_PEAD_2pct": {
+   "is_intake": false,
+   "sr_d": 0.334,
+   "measurement": "MEASURED",
+   "instrument_class": "EQUITY_EVENT",
+   "renet": {
+    "ok": true,
+    "max_diff": 6.370771965524824e-16,
+    "mode": "byte_renet",
+    "n_joined": 4683
+   },
+   "short_notional": {
+    "mean_frac": 0.42263,
+    "max_frac": 1.0,
+    "frac_days_short": 0.907344
+   },
+   "borrow_applies": true,
+   "base_borrow_ann": 0.0,
+   "ladder": {
+    "0.5%": {
+     "delta_ann_pp": 0.211315,
+     "drag_ann_pp": 0.211315,
+     "worst_day_delta_bp": 0.1984
+    },
+    "2%": {
+     "delta_ann_pp": 0.84526,
+     "drag_ann_pp": 0.84526,
+     "worst_day_delta_bp": 0.7937
+    },
+    "8%": {
+     "delta_ann_pp": 3.381042,
+     "drag_ann_pp": 3.381042,
+     "worst_day_delta_bp": 3.1746
+    }
+   },
+   "verdict": "INTEGRATION_RISK",
+   "fail_closed_reason": null,
+   "note": "event proxy: shorts = adverse-surprise/convergence names at 1/n notional; mean |short| = 0.4226. ZERO borrow charged (validated at 12bps era).",
+   "generator": "hedge_fund_strats/strat_merger_arb (proxy)"
+  },
+  "CTA_Futures_multi_21d": {
+   "is_intake": false,
+   "sr_d": 0.263,
+   "measurement": "STRUCTURAL",
+   "instrument_class": "FUTURES_MACRO_SYNTH",
+   "renet": {
+    "ok": false,
+    "max_diff": null,
+    "mode": "byte_renet",
+    "n_joined": null
+   },
+   "short_notional": {
+    "mean_frac": 0.0,
+    "max_frac": 0.0,
+    "frac_days_short": 0.0
+   },
+   "borrow_applies": false,
+   "base_borrow_ann": 0.0,
+   "ladder": {
+    "0.5%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "2%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "8%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    }
+   },
+   "verdict": "INTEGRATION_OK",
+   "fail_closed_reason": null,
+   "note": "real futures/macro instruments (Stooq/FRED) \u2014 no stock-loan market; short = inverted-rate legs, margin-financed",
+   "generator": "strat_cta_futures __main__ multi/21d"
+  },
+  "CTA_Futures_macro_21d": {
+   "is_intake": false,
+   "sr_d": 0.205,
+   "measurement": "STRUCTURAL",
+   "instrument_class": "FUTURES_MACRO_SYNTH",
+   "renet": {
+    "ok": false,
+    "max_diff": null,
+    "mode": "byte_renet",
+    "n_joined": null
+   },
+   "short_notional": {
+    "mean_frac": 0.0,
+    "max_frac": 0.0,
+    "frac_days_short": 0.0
+   },
+   "borrow_applies": false,
+   "base_borrow_ann": 0.0,
+   "ladder": {
+    "0.5%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "2%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "8%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    }
+   },
+   "verdict": "INTEGRATION_OK",
+   "fail_closed_reason": null,
+   "note": "real futures/macro instruments (Stooq/FRED) \u2014 no stock-loan market; short = inverted-rate legs, margin-financed",
+   "generator": "run_all 5b multi/21d (real futures panel)"
+  },
+  "Global_Macro": {
+   "is_intake": false,
+   "sr_d": 0.198,
+   "measurement": "MEASURED",
+   "instrument_class": "MIXED_MULTIASSET",
+   "renet": {
+    "ok": true,
+    "max_diff": 6.010816844259637e-16,
+    "mode": "byte_renet",
+    "n_joined": 4683
+   },
+   "short_notional": {
+    "mean_frac": 0.404817,
+    "max_frac": 0.490421,
+    "frac_days_short": 0.898591
+   },
+   "borrow_applies": true,
+   "base_borrow_ann": 0.0,
+   "ladder": {
+    "0.5%": {
+     "delta_ann_pp": 0.202409,
+     "drag_ann_pp": 0.202409,
+     "worst_day_delta_bp": 0.0973
+    },
+    "2%": {
+     "delta_ann_pp": 0.809634,
+     "drag_ann_pp": 0.809634,
+     "worst_day_delta_bp": 0.3892
+    },
+    "8%": {
+     "delta_ann_pp": 3.238537,
+     "drag_ann_pp": 3.238537,
+     "worst_day_delta_bp": 1.5569
+    }
+   },
+   "verdict": "INTEGRATION_RISK",
+   "fail_closed_reason": null,
+   "note": "sign book across equity+FX+crypto, cap 20%/name, gross 1.0; mean |short| all columns = 0.4048 (mix of equity names \u2014 borrowable \u2014 and FX/crypto \u2014 no fee). ZERO borrow charged by generator.",
+   "generator": "hedge_fund_strats/strat_global_macro.run_global_macro"
+  },
+  "FactorMom_2008": {
+   "is_intake": false,
+   "sr_d": 0.059,
+   "measurement": "STRUCTURAL",
+   "instrument_class": "FACTOR_SYNTH",
+   "renet": {
+    "ok": false,
+    "max_diff": null,
+    "mode": "byte_renet",
+    "n_joined": null
+   },
+   "short_notional": {
+    "mean_frac": 0.0,
+    "max_frac": 0.0,
+    "frac_days_short": 0.0
+   },
+   "borrow_applies": false,
+   "base_borrow_ann": 0.0,
+   "ladder": {
+    "0.5%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "2%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "8%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    }
+   },
+   "verdict": "INTEGRATION_OK",
+   "fail_closed_reason": null,
+   "note": "legs are Fama-French factor portfolios \u2014 no stock-loan market",
+   "generator": "hedge_fund_strats/strat_factor_momentum.run_factor_momentum"
+  },
+  "Factor_Momentum_FF": {
+   "is_intake": false,
+   "sr_d": 0.035,
+   "measurement": "STRUCTURAL",
+   "instrument_class": "FACTOR_SYNTH",
+   "renet": {
+    "ok": false,
+    "max_diff": null,
+    "mode": "byte_renet",
+    "n_joined": null
+   },
+   "short_notional": {
+    "mean_frac": 0.0,
+    "max_frac": 0.0,
+    "frac_days_short": 0.0
+   },
+   "borrow_applies": false,
+   "base_borrow_ann": 0.0,
+   "ladder": {
+    "0.5%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "2%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "8%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    }
+   },
+   "verdict": "INTEGRATION_OK",
+   "fail_closed_reason": null,
+   "note": "legs are Fama-French factor portfolios \u2014 no stock-loan market",
+   "generator": "hedge_fund_strats/strat_factor_momentum.run_factor_momentum"
+  },
+  "CTA_Futures_tsmom_10d": {
+   "is_intake": false,
+   "sr_d": 0.027,
+   "measurement": "STRUCTURAL",
+   "instrument_class": "FUTURES_MACRO_SYNTH",
+   "renet": {
+    "ok": false,
+    "max_diff": null,
+    "mode": "byte_renet",
+    "n_joined": null
+   },
+   "short_notional": {
+    "mean_frac": 0.0,
+    "max_frac": 0.0,
+    "frac_days_short": 0.0
+   },
+   "borrow_applies": false,
+   "base_borrow_ann": 0.0,
+   "ladder": {
+    "0.5%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "2%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "8%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    }
+   },
+   "verdict": "INTEGRATION_OK",
+   "fail_closed_reason": null,
+   "note": "real futures/macro instruments (Stooq/FRED) \u2014 no stock-loan market; short = inverted-rate legs, margin-financed",
+   "generator": "strat_cta_futures __main__ tsmom/10d"
+  },
+  "CTA_Futures_tsmom_21d": {
+   "is_intake": false,
+   "sr_d": 0.007,
+   "measurement": "STRUCTURAL",
+   "instrument_class": "FUTURES_MACRO_SYNTH",
+   "renet": {
+    "ok": false,
+    "max_diff": null,
+    "mode": "byte_renet",
+    "n_joined": null
+   },
+   "short_notional": {
+    "mean_frac": 0.0,
+    "max_frac": 0.0,
+    "frac_days_short": 0.0
+   },
+   "borrow_applies": false,
+   "base_borrow_ann": 0.0,
+   "ladder": {
+    "0.5%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "2%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "8%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    }
+   },
+   "verdict": "INTEGRATION_OK",
+   "fail_closed_reason": null,
+   "note": "real futures/macro instruments (Stooq/FRED) \u2014 no stock-loan market; short = inverted-rate legs, margin-financed",
+   "generator": "strat_cta_futures __main__ tsmom/21d"
+  },
+  "CTA_Futures_15vol": {
+   "is_intake": false,
+   "sr_d": -0.032,
+   "measurement": "STRUCTURAL",
+   "instrument_class": "FUTURES_MACRO_SYNTH",
+   "renet": {
+    "ok": false,
+    "max_diff": null,
+    "mode": "byte_renet",
+    "n_joined": null
+   },
+   "short_notional": {
+    "mean_frac": 0.0,
+    "max_frac": 0.0,
+    "frac_days_short": 0.0
+   },
+   "borrow_applies": false,
+   "base_borrow_ann": 0.0,
+   "ladder": {
+    "0.5%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "2%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "8%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    }
+   },
+   "verdict": "INTEGRATION_OK",
+   "fail_closed_reason": null,
+   "note": "real futures/macro instruments (Stooq/FRED) \u2014 no stock-loan market; short = inverted-rate legs, margin-financed",
+   "generator": "run_all quick CTA (0.15, 5d)"
+  },
+  "Credit_z120_2008": {
+   "is_intake": false,
+   "sr_d": -0.044,
+   "measurement": "STRUCTURAL",
+   "instrument_class": "SPREAD_SYNTH",
+   "renet": {
+    "ok": false,
+    "max_diff": null,
+    "mode": "byte_renet",
+    "n_joined": null
+   },
+   "short_notional": {
+    "mean_frac": 0.0,
+    "max_frac": 0.0,
+    "frac_days_short": 0.0
+   },
+   "borrow_applies": false,
+   "base_borrow_ann": 0.0,
+   "ladder": {
+    "0.5%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "2%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "8%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    }
+   },
+   "verdict": "INTEGRATION_OK",
+   "fail_closed_reason": null,
+   "note": "DV01 spread-bp synthetic P&L (FRED BAA/AAA/10y) \u2014 no securities shorted",
+   "generator": "hedge_fund_strats/strat_credit.run_credit"
+  },
+  "CTA_CTA_10vol_21d": {
+   "is_intake": false,
+   "sr_d": -0.076,
+   "measurement": "SHORT_LEG_UNKNOWN",
+   "instrument_class": "MIXED_MULTIASSET",
+   "renet": {
+    "ok": false,
+    "max_diff": 0.0004989073063828807,
+    "mode": "byte_renet",
+    "n_joined": 4683
+   },
+   "short_notional": {
+    "mean_frac": null,
+    "max_frac": null,
+    "frac_days_short": null
+   },
+   "borrow_applies": false,
+   "base_borrow_ann": 0.0,
+   "ladder": {
+    "0.5%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "2%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "8%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    }
+   },
+   "verdict": "NOT_INTEGRABLE",
+   "fail_closed_reason": "SHORT_LEG_UNKNOWN: short leg cannot be integrated (fail-closed)",
+   "note": "re-net failed md=4.99e-04: published curve ran on a 2020+ price-panel vintage no longer on disk (8 twelve_big names regenerated 08-17/08-28). ARITHMETIC validated e-16 on 2008-2019; bytes fail-closed. Short stream PROVISIONAL.",
+   "generator": "hedge_fund_strats/strat_cta.run_cta"
+  },
+  "CTA_Futures_multi_10d": {
+   "is_intake": false,
+   "sr_d": -0.083,
+   "measurement": "STRUCTURAL",
+   "instrument_class": "FUTURES_MACRO_SYNTH",
+   "renet": {
+    "ok": false,
+    "max_diff": null,
+    "mode": "byte_renet",
+    "n_joined": null
+   },
+   "short_notional": {
+    "mean_frac": 0.0,
+    "max_frac": 0.0,
+    "frac_days_short": 0.0
+   },
+   "borrow_applies": false,
+   "base_borrow_ann": 0.0,
+   "ladder": {
+    "0.5%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "2%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "8%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    }
+   },
+   "verdict": "INTEGRATION_OK",
+   "fail_closed_reason": null,
+   "note": "real futures/macro instruments (Stooq/FRED) \u2014 no stock-loan market; short = inverted-rate legs, margin-financed",
+   "generator": "strat_cta_futures __main__ multi/10d"
+  },
+  "StatArb_40pairs": {
+   "is_intake": false,
+   "sr_d": -0.088,
+   "measurement": "MEASURED",
+   "instrument_class": "EQUITY_PAIRS",
+   "renet": {
+    "ok": true,
+    "max_diff": 5.342948306008566e-16,
+    "mode": "byte_renet",
+    "n_joined": 4683
+   },
+   "short_notional": {
+    "mean_frac": 0.893254,
+    "max_frac": 1.0,
+    "frac_days_short": 0.893254
+   },
+   "borrow_applies": true,
+   "base_borrow_ann": 0.0,
+   "ladder": {
+    "0.5%": {
+     "delta_ann_pp": 0.446627,
+     "drag_ann_pp": 0.446627,
+     "worst_day_delta_bp": 0.1984
+    },
+    "2%": {
+     "delta_ann_pp": 1.786507,
+     "drag_ann_pp": 1.786507,
+     "worst_day_delta_bp": 0.7937
+    },
+    "8%": {
+     "delta_ann_pp": 7.146029,
+     "drag_ann_pp": 7.146029,
+     "worst_day_delta_bp": 3.1746
+    }
+   },
+   "verdict": "INTEGRATION_RISK",
+   "fail_closed_reason": null,
+   "note": "dollar-neutral pair legs, gross cap 2.0; mean |short| = 0.8933. ZERO borrow charged; sleeve SR NEGATIVE (borrow worsens). Validated at 6bps era.",
+   "generator": "hedge_fund_strats/strat_stat_arb.run_stat_arb"
+  },
+  "CTA_CTA_15vol_21d": {
+   "is_intake": false,
+   "sr_d": -0.123,
+   "measurement": "SHORT_LEG_UNKNOWN",
+   "instrument_class": "MIXED_MULTIASSET",
+   "renet": {
+    "ok": false,
+    "max_diff": 0.0005063110093546028,
+    "mode": "byte_renet",
+    "n_joined": 4683
+   },
+   "short_notional": {
+    "mean_frac": null,
+    "max_frac": null,
+    "frac_days_short": null
+   },
+   "borrow_applies": false,
+   "base_borrow_ann": 0.0,
+   "ladder": {
+    "0.5%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "2%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "8%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    }
+   },
+   "verdict": "NOT_INTEGRABLE",
+   "fail_closed_reason": "SHORT_LEG_UNKNOWN: short leg cannot be integrated (fail-closed)",
+   "note": "re-net failed md=5.06e-04: published curve ran on a 2020+ price-panel vintage no longer on disk (8 twelve_big names regenerated 08-17/08-28). ARITHMETIC validated e-16 on 2008-2019; bytes fail-closed. Short stream PROVISIONAL.",
+   "generator": "hedge_fund_strats/strat_cta.run_cta"
+  },
+  "MSSW": {
+   "is_intake": true,
+   "source": "results/sleeve_library/Multi_Strategy_SharpeW.csv",
+   "measurement": "SHORT_LEG_UNKNOWN",
+   "instrument_class": "BLEND_MULTI",
+   "renet": {
+    "ok": false,
+    "max_diff": null,
+    "mode": "no_generator",
+    "n_joined": null,
+    "note": "SharpeW blend generator not on disk (produced by ad-hoc commit e0e47e0; weights not reproducible)"
+   },
+   "short_notional": {
+    "mean_frac": null,
+    "max_frac": null,
+    "frac_days_short": null
+   },
+   "borrow_applies": false,
+   "base_borrow_ann": 0.0,
+   "ladder": {
+    "0.5%": {
+     "delta_ann_pp": 0.0
+    },
+    "2%": {
+     "delta_ann_pp": 0.0
+    },
+    "8%": {
+     "delta_ann_pp": 0.0
+    }
+   },
+   "verdict": "NOT_INTEGRABLE",
+   "fail_closed_reason": "MSSW blends library curves whose short legs include the flip-bug L/S and un-priced StatArb/Global_Macro shorts; no weights stream exists to price them",
+   "note": "",
+   "generator": "commit e0e47e0 (no script)"
+  },
+  "CRX1030": {
+   "is_intake": true,
+   "source": "agents/chief/coord/HUNT_CRYPTO2/sleeves/CRYPTO_VolX_10-30_EW12_audit.csv",
+   "measurement": "STRUCTURAL",
+   "instrument_class": "PERP_CRYPTO",
+   "renet": {
+    "ok": false,
+    "max_diff": null,
+    "mode": "byte_renet",
+    "n_joined": null
+   },
+   "short_notional": {
+    "mean_frac": 0.0,
+    "max_frac": 0.0,
+    "frac_days_short": 0.0
+   },
+   "borrow_applies": false,
+   "base_borrow_ann": 0.0,
+   "ladder": {
+    "0.5%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "2%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "8%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    }
+   },
+   "verdict": "INTEGRATION_OK",
+   "fail_closed_reason": null,
+   "note": "crypto perp vol-carry basket \u2014 funding, not stock loan; published meta caveat: binance perp funding NOT modeled",
+   "generator": "HUNT_CRYPTO2 CRYPTO_VolX_10-30_EW12_audit"
+  },
+  "A_rs": {
+   "is_intake": true,
+   "source": "agents/chief/coord/HUNT_SECTOR2/sleeves/A_rs_ratio.csv",
+   "measurement": "STRUCTURAL",
+   "instrument_class": "LONG_ONLY",
+   "renet": {
+    "ok": false,
+    "max_diff": null,
+    "mode": "byte_renet",
+    "n_joined": null
+   },
+   "short_notional": {
+    "mean_frac": 0.0,
+    "max_frac": 0.0,
+    "frac_days_short": 0.0
+   },
+   "borrow_applies": false,
+   "base_borrow_ann": 0.0,
+   "ladder": {
+    "0.5%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "2%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "8%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    }
+   },
+   "verdict": "INTEGRATION_OK",
+   "fail_closed_reason": null,
+   "note": "RS-ratio rotation LONG top-3 of 9 SPDRs (long_top3) \u2014 long-only",
+   "generator": "campaign/scripts/hunt_sector2_r2.py arm_a"
+  },
+  "A11": {
+   "is_intake": true,
+   "source": "agents/chief/coord/HUNT_SECTOR2/sleeves/A11_rs_ratio#lb126k4.csv",
+   "measurement": "STRUCTURAL",
+   "instrument_class": "LONG_ONLY",
+   "renet": {
+    "ok": false,
+    "max_diff": null,
+    "mode": "byte_renet",
+    "n_joined": null
+   },
+   "short_notional": {
+    "mean_frac": 0.0,
+    "max_frac": 0.0,
+    "frac_days_short": 0.0
+   },
+   "borrow_applies": false,
+   "base_borrow_ann": 0.0,
+   "ladder": {
+    "0.5%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "2%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "8%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    }
+   },
+   "verdict": "INTEGRATION_OK",
+   "fail_closed_reason": null,
+   "note": "literal 11-SPDR RS-ratio rotation, long top-k (lb126 k4) \u2014 long-only",
+   "generator": "campaign/scripts/hunt_sector2_r2.py arm_a (A11)"
+  },
+  "COMP50d": {
+   "is_intake": true,
+   "source": "agents/chief/coord/HUNT_SECTOR2/sleeves/COMP_50_50_daily.csv",
+   "measurement": "STRUCTURAL",
+   "instrument_class": "LONG_ONLY",
+   "renet": {
+    "ok": false,
+    "max_diff": null,
+    "mode": "byte_renet",
+    "n_joined": null
+   },
+   "short_notional": {
+    "mean_frac": 0.0,
+    "max_frac": 0.0,
+    "frac_days_short": 0.0
+   },
+   "borrow_applies": false,
+   "base_borrow_ann": 0.0,
+   "ladder": {
+    "0.5%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "2%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "8%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    }
+   },
+   "verdict": "INTEGRATION_OK",
+   "fail_closed_reason": null,
+   "note": "50/50 composite of two published long-only ETF sleeves \u2014 no short leg at either level; allocation-level costs only",
+   "generator": "HUNT_SECTOR2 COMP_50_50_daily"
+  },
+  "CMDTrot_h2": {
+   "is_intake": true,
+   "source": "agents/chief/coord/HUNT_CMDT2/sleeves/CMDT_SectorRot_6m_h2_LS.csv",
+   "measurement": "STRUCTURAL",
+   "instrument_class": "ETF_LS",
+   "renet": {
+    "ok": false,
+    "max_diff": null,
+    "mode": "byte_renet",
+    "n_joined": null
+   },
+   "short_notional": {
+    "mean_frac": null,
+    "max_frac": null,
+    "frac_days_short": null
+   },
+   "borrow_applies": true,
+   "base_borrow_ann": 0.005,
+   "ladder": {
+    "0.5%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "2%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    },
+    "8%": {
+     "delta_ann_pp": 0.0,
+     "drag_ann_pp": null
+    }
+   },
+   "verdict": "INTEGRATION_OK",
+   "fail_closed_reason": null,
+   "note": "commodity ETF sector rotation L/S (top/bottom basket); published net already charges 6.4bps FULL|dW| + 0.5%/yr borrow on short notional (meta line cost=)",
+   "generator": "campaign/scripts/HUNT_CMDT2_round1.py run_sector_rotation(months=6,hold=2)"
+  }
+ },
+ "summary": {
+  "n_rows": 36,
+  "n_top30": 30,
+  "n_intake": 6,
+  "n_measured": 11,
+  "n_structural": 18,
+  "n_unknown": 7,
+  "unknown_names": [
+   "AP_gold",
+   "CTA_CTA_10vol_21d",
+   "CTA_CTA_15vol_21d",
+   "L_S_Market_Neutral",
+   "MSSW",
+   "Multi_Strategy_EW",
+   "Multi_Strategy_SharpeW"
+  ],
+  "n_integration_risk": 8,
+  "risk_names": [
+   "Global_Macro",
+   "Merger_Arb_PEAD",
+   "Merger_Arb_PEAD_2pct",
+   "Merger_Arb_PEAD_3pct",
+   "Merger_Arb_PEAD_5pct",
+   "StatArb_40pairs",
+   "XGB1y_deploy",
+   "ls_n10r14_2018"
+  ],
+  "flip_bug": "strat_ls_equity.py:134 '* -1' flips every L/S short leg long: L_S_130_30, L_S_120_20, L_S_Dollar_Neutral, L_S_130_30_volmanaged measured |short| = 0.0 \u2014 the library's 'L/S' equity books are long-only and borrow-clean by BUG, not by design",
+  "headline": "XGB1y_deploy is the one library book with a real, sized, un-priced single-name short leg (|short|/NAV = 1.0): 8% HARD tier = ~8%/yr NAV drag on a 15.3% ann sleeve."
+ }
+}

@@ -44,6 +44,16 @@ def test_run_pass_fresh():
     assert g['uniq_ok'] is True
 
 
+def test_uniq_ratio_tiny_float_noise_still_counts_flat():
+    """AUDIT_FWBUGS R2(b) mutation M23: round-1 only tested exact-constant flattening, so
+    deleting the round(10) (which makes sub-1e-10 float noise collapse to one value) passed
+    the whole file. A book whose 'variation' lives entirely below 1e-10 IS flattened."""
+    r = pd.Series([0.001] * 30, index=pd.date_range('2020-01-01', periods=30, freq='B'))
+    r = r + np.arange(30) * 1e-13   # 30 DISTINCT values, all below the round(10) grid
+    assert G.uniq_ratio(r) < G.DEFAULTS['uniq_min'], \
+        f"sub-rounding noise must collapse under round(10), got uniq={G.uniq_ratio(r)}"
+
+
 def test_scramble_positive_signal_survives():
     # a real but weak positive signal should have p below ~0.1 (not degenerate)
     n = 900

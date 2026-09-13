@@ -12,6 +12,12 @@ Fixture construction mirrors the CHAMPION RECIPE (rawew13v2_build semantics: IS-
 nav-drift row-normalized weights, nav.shift(1) causal, full |dW| x 6.4bp with day-1 entry
 NOT charged, margin (gear-1)*rate/252) but is written OUTSIDE the tool under test so the
 tool's own algebra is what gets exercised.
+
+ITER15 (2026-09-11): the production weight rule changed to a correlation-aware IS
+max-Sharpe fit (verify_champion --rule minsharpe, now the DEFAULT). This fixture is
+deliberately still an IS-SR^P book, so every call here passes rule="srp" explicitly — the
+fixture exercises the MECHANISM checks (byte_repro / cost / causality / gross / yearly /
+mdd) against a known-good synthetic book, which is orthogonal to which weight rule built it.
 """
 import json
 import os
@@ -112,7 +118,7 @@ def _defect_fixture(tmp_path, causal=True, cost="full", gear=GEAR, year_mult=Non
 # ---------------------------------------------------------------- GREEN: honest build
 def test_honest_fixture_passes(honest_fixture):
     cpath, wpath, spaths = honest_fixture
-    ok, rep = verify_champion(cpath, wpath, spaths, is_end=IS_END, p_param=P)
+    ok, rep = verify_champion(cpath, wpath, spaths, is_end=IS_END, p_param=P, rule="srp")
     assert ok is True, json.dumps(rep, indent=2, default=str)
     for chk in ["weights_repro", "byte_repro", "cost_reconciliation", "causality",
                 "gross", "yearly", "mdd"]:
@@ -126,7 +132,7 @@ def test_honest_fixture_cli_exit0_json(honest_fixture, tmp_path):
     out = os.path.join(str(tmp_path), "rep.json")
     r = subprocess.run(
         [sys.executable, os.path.join(REPO, "bt", "verify_champion.py"),
-         "--champion", cpath, "--weights", wpath, "--json", out]
+         "--champion", cpath, "--weights", wpath, "--json", out, "--rule", "srp"]
          + [f"--sleeve {n}={p}" for n, p in spaths.items()],
         capture_output=True, text=True,
     )
@@ -139,7 +145,7 @@ def test_honest_fixture_cli_exit0_json(honest_fixture, tmp_path):
 def test_red_half_turn_cost(tmp_path):
     """Half-turn (0.5x|dW|) cost undercharge must be CAUGHT by cost reconciliation."""
     cpath, wpath, spaths = _defect_fixture(str(tmp_path), cost="half")
-    ok, rep = verify_champion(cpath, wpath, spaths, is_end=IS_END, p_param=P)
+    ok, rep = verify_champion(cpath, wpath, spaths, is_end=IS_END, p_param=P, rule="srp")
     assert ok is False
     c = rep["checks"]["cost_reconciliation"]
     assert c["ok"] is False
@@ -150,7 +156,7 @@ def test_red_half_turn_cost(tmp_path):
 def test_red_same_day_weights(tmp_path):
     """Same-day (unshifted nav) weight formation must be CAUGHT by the causality check."""
     cpath, wpath, spaths = _defect_fixture(str(tmp_path), causal=False)
-    ok, rep = verify_champion(cpath, wpath, spaths, is_end=IS_END, p_param=P)
+    ok, rep = verify_champion(cpath, wpath, spaths, is_end=IS_END, p_param=P, rule="srp")
     assert ok is False
     cz = rep["checks"]["causality"]
     assert cz["ok"] is False
@@ -162,7 +168,7 @@ def test_red_same_day_weights(tmp_path):
 def test_red_gross_17(tmp_path):
     """Gross 1.7 (over the 1.6 capital-real wall) must be CAUGHT by the gross gate."""
     cpath, wpath, spaths = _defect_fixture(str(tmp_path), gear=1.7)
-    ok, rep = verify_champion(cpath, wpath, spaths, is_end=IS_END, p_param=P,
+    ok, rep = verify_champion(cpath, wpath, spaths, is_end=IS_END, p_param=P, rule="srp",
                               gear=1.6)  # gate stays at the 1.6 wall while the book is 1.7
     assert ok is False
     g = rep["checks"]["gross"]
@@ -174,7 +180,7 @@ def test_red_gross_17(tmp_path):
 def test_red_one_neg_year(tmp_path):
     """One negative year must be CAUGHT by the yearly gate (self-consistent rebuild)."""
     cpath, wpath, spaths = _defect_fixture(str(tmp_path), year_mult=(2018, -3.0))
-    ok, rep = verify_champion(cpath, wpath, spaths, is_end=IS_END, p_param=P)
+    ok, rep = verify_champion(cpath, wpath, spaths, is_end=IS_END, p_param=P, rule="srp")
     y = rep["checks"]["yearly"]
     assert y["neg_years"] >= 1, json.dumps(y, default=str)
     assert y["ok"] is False
@@ -194,7 +200,7 @@ def test_nan_in_sleeve_file_is_builder_legitimate(tmp_path):
     W = _weights_path(df, relw, causal=True)      # fillna(0) inside nav arithmetic
     net = _net_from(df, W)                        # fillna(0) inside port arithmetic
     cpath, wpath, spaths = _write_fixture(str(tmp_path), df, W, net)
-    ok, rep = verify_champion(cpath, wpath, spaths, is_end=IS_END, p_param=P)
+    ok, rep = verify_champion(cpath, wpath, spaths, is_end=IS_END, p_param=P, rule="srp")
     assert ok is True, json.dumps(rep, indent=2, default=str)
     assert rep["checks"]["byte_repro"]["ok"] is True
     assert rep["checks"]["weights_repro"]["ok"] is True
@@ -209,7 +215,7 @@ def test_inf_in_sleeve_file_still_fails_closed(honest_fixture):
     s.iloc[5] = np.inf
     s.to_frame("ret").to_csv(inf_path, index_label="date")
     ok, rep = verify_champion(cpath, wpath, {**spaths, "sa": inf_path},
-                              is_end=IS_END, p_param=P)
+                              is_end=IS_END, p_param=P, rule="srp")
     assert ok is False
     assert any("non-finite" in e for e in rep["errors"]), rep["errors"]
 
@@ -218,7 +224,7 @@ def test_inf_in_sleeve_file_still_fails_closed(honest_fixture):
 def test_fail_closed_missing_champion(honest_fixture, tmp_path):
     cpath, wpath, spaths = honest_fixture
     ok, rep = verify_champion(os.path.join(str(tmp_path), "nope.csv"), wpath, spaths,
-                              is_end=IS_END, p_param=P)
+                              is_end=IS_END, p_param=P, rule="srp")
     assert ok is False
     assert rep["ok"] is False and "missing" in json.dumps(rep).lower()
 
@@ -226,7 +232,7 @@ def test_fail_closed_missing_champion(honest_fixture, tmp_path):
 def test_fail_closed_missing_sleeve(honest_fixture):
     cpath, wpath, spaths = honest_fixture
     short = {n: p for n, p in spaths.items() if n != "sc"}
-    ok, rep = verify_champion(cpath, wpath, short, is_end=IS_END, p_param=P)
+    ok, rep = verify_champion(cpath, wpath, short, is_end=IS_END, p_param=P, rule="srp")
     assert ok is False
     assert rep["ok"] is False
 
@@ -238,7 +244,7 @@ def test_fail_closed_weights_sleeve_mismatch(honest_fixture):
     bad.loc["ghost"] = 1.0
     bad_path = wpath.replace("relw.csv", "relw_bad.csv")
     bad.to_csv(bad_path, index_label="name")
-    ok, rep = verify_champion(cpath, bad_path, spaths, is_end=IS_END, p_param=P)
+    ok, rep = verify_champion(cpath, bad_path, spaths, is_end=IS_END, p_param=P, rule="srp")
     assert ok is False
 
 
@@ -246,7 +252,7 @@ def test_fail_closed_weights_sleeve_mismatch(honest_fixture):
 def test_cost_check_has_signal_not_vacuous(honest_fixture):
     """On the HONEST book the implied/full ratio must sit at 1.0 (not merely 'not 0.5')."""
     cpath, wpath, spaths = honest_fixture
-    ok, rep = verify_champion(cpath, wpath, spaths, is_end=IS_END, p_param=P)
+    ok, rep = verify_champion(cpath, wpath, spaths, is_end=IS_END, p_param=P, rule="srp")
     c = rep["checks"]["cost_reconciliation"]
     assert abs(c["implied_over_full_ratio"] - 1.0) < 1e-6
     assert c["max_dev"] < 1e-12

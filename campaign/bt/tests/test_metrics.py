@@ -36,3 +36,19 @@ def test_half_split_not_nan():
                   index=pd.date_range('2020-01-01', periods=100, freq='B'))
     h1, h2 = M.half_split(r)
     assert h1 == h1 and h2 == h2  # NaN-safe (not NaN)
+
+
+def test_half_split_split_point_is_exact():
+    """AUDIT_FWBUGS R2(b) mutation M21: the round-1 halves test only asserted 'not NaN',
+    so an off-by-one split (k=(len+1)//2) passed the whole file. Pin the EXACT halves on an
+    ODD-length series (even len=4 makes (len+1)//2 == len//2 — the mutation is a no-op)."""
+    r = pd.Series([0.01, 0.03, -0.02, 0.04, -0.01],
+                  index=pd.date_range('2020-01-01', periods=5, freq='B'))
+    h1, h2 = M.half_split(r)
+    assert np.isclose(h1, M.sharpe_d(r.iloc[:2])), \
+        f"H1 must be sharpe of the FIRST floor-half, got {h1}"
+    assert np.isclose(h2, M.sharpe_d(r.iloc[2:])), \
+        f"H2 must be sharpe of the REMAINDER, got {h2}"
+    # the mutated split (k=3) would move -0.02 from H2 into H1 -> different SRs
+    assert not np.isclose(M.sharpe_d(r.iloc[:3]), M.sharpe_d(r.iloc[:2])) or \
+        M.sharpe_d(r.iloc[:2]) == M.sharpe_d(r.iloc[:3])
