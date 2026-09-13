@@ -3836,3 +3836,77 @@ data-refresh adoption: ann 37.49% / SR 3.195 / MDD -6.69% / 0 neg, verify_champi
 8/8 R7 TDD green, rows<=2026-08-10 byte-identical, weights identical, pure freshness (only 2026
 differs +0.054pp). Recommend adopting RAWEW15 as refreshed champion of record.
 Full writeup: campaign/GOAL100_ITER14_NEWDATA_RESEARCH.md. Dead-idea count now ~103.
+
+---
+## SESSION 2026-09-09 — COT data-engine harden + honest COT research (RES_COT)
+Champion (UNCHANGED): RAW-EW13v2 weighted @1.6x, ann 37.20% / SR 3.181 / MDD -6.69% / 0 neg yrs.
+
+### Data-engine correctness fixes (this session, all verified)
+- **COT panel silent-defect FIXED** (`RES_COT/cot_panel.py`): `sp500_emini`/`nasdaq_emini` had
+  BLANK price proxies (lookups missed `twelvedata/SPY`, `more_etf/QQQ`), and eur/gbp/jpy/vix
+  used wrong sources. Now override-resolved (SPY->twelvedata, QQQ->more_etf, FX->FRED DEX,
+  VIX->more_vol) and FAIL-LOUD on any unresolvable proxy. All 33 mapped markets now have real
+  daily price backing (was 2 blank + 5 wrong).
+- **DATA_COVERAGE correction**: `more_cot` clean positioning panel = **2010+, NOT 1971+**.
+  The 1971 span was a lone JPY price proxy (`_jpy_proxy`), not positioning. This is why COT
+  cannot backtest the champion's 2008+ window (RES_COT/FINDINGS.md).
+- **`merge.load_series` robustness** (`team/lib/merge.py`): bare `fname` without `.csv` now
+  auto-suffixed. Fixes the documented `test_load_series_real_sp500` FAIL (`SPY` FileNotFound).
+- **Data-tree hygiene**: removed 9 `__pycache__`/`.pytest_cache` dirs under `tools/quant/data`
+  (regenerable junk; `test_no_cache_or_junk_anywhere` now GREEN).
+- **2 unambiguous test-bug fixes** (`test_merge.py`): union count 5->4 (was internally
+  contradictory with its own 4-element expected set), and a broken `[1:].all()` Python line.
+
+### Honest COT research (RES_COT) — REJECT with numbers
+- Built a gate-native COT engine (`cot_engine.py`): single `sig` on EW basket, causal COT-release
+  timing (report as-of Tue -> released Fri -> trades next trading week), full-|dW| 6.4bps + 0.5%/yr
+  borrow, `bt.gates.run` V2 with beats-passive trio.
+- Full 60-config grid (lvl/delta x lb{4,8,13} x follow/fade x 5 sub-baskets). **Leak gate PASS on
+  every config** (causally clean); **corr to champion <=0.08** (genuinely decorrelated); but **no
+  config clears SR>=1.0** (best non-neg SR 0.29 `COT_cies_lvl_follow`).
+- 7 TDD tests added (`team/tests/test_res_cot.py`), all GREEN: no-interior-null, sane ranges,
+  causal-contract invariant, costs, honest-verdict pin.
+- Consistent with the project's core finding: the binding constraint is **standalone SR>2 edge in a
+  new economic family, NOT decorrelation**. COT keeps its long-history value as a regime/flows
+  gauge, but needs a genuine pre-2010 CFTC archive pull to ever earn IS weight — not an engine fix.
+
+### Status
+- Team test suite: 12 -> 8 pre-existing failures (remaining = tracked DATA_ORGANIZE repair debt:
+  akshare stub, unpinned data-tree `.py`, manifest schema — out of this session's scope).
+- Champion/repro/repro-repro lineage unaffected (no champion files touched).
+- Deliverables: `RES_COT/{cot_panel,cot_engine}.py`, `cot_net_weekly/pct_weekly/MANIFEST.csv`,
+  `FINDINGS.md`, `team/tests/test_res_cot.py`; edits to `team/lib/merge.py`, `test_merge.py`,
+  `team/docs/DATA_COVERAGE.md`.
+
+## [ADOPTED] RAWEW15 — refreshed champion of record (2026-09-09, /loop improve-the-champion)
+The RAWEW15 data-refresh (validated ITER14) is now **ADOPTED as the champion of record**.
+Champion of record GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv: **ann 37.49% / SR 3.195 /
+MDD -6.69% / 0 neg yrs**, n=4806, end 2026-08-28 (was ann 37.20% / SR 3.181).
+- **Acceptance gauntlet**: verify_champion_r3_cmd (full-check) `ok=True`, weight+byte repro
+  1e-16, cost-recon full-|dW|, causality nav.shift(1) truncation dev 0.0, gross 1.6 exact
+  (0 over), 0 neg yrs, MDD -6.69% > -7%. honest_gate VERIFY_R3 PASS + FLATTEN-SWEEP PASS.
+- **Mechanism**: pure data freshness — 4 costfix sleeves (brwt10/7/5 -> 2026-08-28,
+  diescrack -> 2026-08-24) refreshed from live FRED/EIA/newdata sources (byte-recon ~1e-16),
+  prefix rows <= 2026-08-10 byte-identical to the prior champion (no history relabel);
+  weights identical (all post-IS tails); only 2026 differs (+0.054pp).
+- **Lineage preserved (reversible)**: prior champion archived
+  results/archive_GOAL100_RAWEW13v2_WEIGHTED_GEAR16_ann37.20.csv +
+  archive_RAWEW13v2_IS_SR_weights_ann37.20.csv; `.bak` copies at the canonical paths;
+  original champion & costfix sleeves are git-tracked (git checkout restores).
+- CHAMPION_CARD regenerated (headline 37.49%, OOS 41.23% >= IS 33.48%). RAWEW15 titles:
+  results/RAWEW15_REFRESH_CANDIDATE_daily.csv + _weights.csv.
+
+## [ITER16] Bug clearing + new-data-engine frontier (2026-09-13) — clean + documented
+- **Champion of record UNCHANGED** (ann 38.11% / SR 3.2358 / MDD -6.56% / 0 neg yrs, verified IDENTICAL).
+- **Bugs cleared first (TDD)**: champion/bt suite went **15 failing -> 444 passing** by re-pinning
+  every stale test to the verified ITER15/RAWEW15 champion, re-anchoring + re-pricing the
+  CAMP_BORROW_FINANCING_R3 + CAMP_SHORT census JSONs (sha ee03f5c0, base ann 38.1145), and
+  committing the champion + 49 audit/camp test files (HEAD == worktree now, so the weights-vs-HEAD
+  pin passes). NO honesty gate weakened: cost-only invariant, causal-vs-leak discriminator,
+  zero-HOBR 7/7, capital-real dAnn>0 gate all still enforced.
+- **New-engine search (honest REJECT — frontier)**: screened BIS EER (neg SR), Ken French
+  value/industry (SR 0.15-0.37), and validated candidate sleeves A5_r7/credit (1.51, all-gates),
+  H21_fixed, RB_hobr, CFX4 (incl. a failed fx_hist executables-extension). EVERY candidate fails
+  adoption gate 8c (dAnn>0 HARD) at capital-real fixed 1.6: they earn per-gross IR ~1.3-1.5 vs the
+  champion's ~20.5%/gross (energy family IR 2.8-3.0). Confirms champion at the honest frontier.
+- commit `46c5ba5` (+ this doc; full detail in campaign/GOAL100_ITER16_BUGS_NEWENGINES.md).
