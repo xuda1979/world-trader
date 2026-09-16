@@ -3910,3 +3910,263 @@ MDD -6.69% / 0 neg yrs**, n=4806, end 2026-08-28 (was ann 37.20% / SR 3.181).
   adoption gate 8c (dAnn>0 HARD) at capital-real fixed 1.6: they earn per-gross IR ~1.3-1.5 vs the
   champion's ~20.5%/gross (energy family IR 2.8-3.0). Confirms champion at the honest frontier.
 - commit `46c5ba5` (+ this doc; full detail in campaign/GOAL100_ITER16_BUGS_NEWENGINES.md).
+
+## [DATA] Audit-grade Point-in-Time (PIT) SEC fundamentals (2026-09-14) — acquired
+- **Goal category: audit-grade PIT fundamentals (avoid restatement lookahead).** Added a true
+  Point-in-Time ledger to `tools/wt/altdata3.py` on top of the existing keyless SEC EDGAR XBRL
+  `companyconcept` feed:
+  - `sec_xbrl_series` now captures the SEC **`filed`** date on every fact (the anti-lookahead
+    anchor -- previously dropped).
+  - `sec_pit_ledger(ticker, tag)` -- full restatement/amendment trail, filed-sorted, flags
+    10-K/A-style amendments (preserves the amendment trail = the goal's "temporal rollback
+    ledger").
+  - `sec_pit_snapshot(ticker, tag, as_of, period_end)` -- **temporal rollback**: reconstruct the
+    value EXACTLY as it appeared on a given date using only facts filed on/before `as_of`.
+    fail-closed (returns None when not yet knowable -> no lookahead leak).
+- **Verification (live SEC EDGAR, MSFT Revenues):** period 2009-12-31 was first filed 2010-01-28
+  (val 19.022B). `sec_pit_snapshot(as_of='2010-01-27')` correctly returns the PRIOR knowable value
+  (12.92B, filed 2009-10-23); `as_of='2010-01-28'` returns 19.022B. Proves no restatement leak.
+- **TDD:** `tools/test_altdata3_pit.py` -- 20 offline checks + optional `--live` smoke, all green.
+- **Other goal categories confirmed live (already on disk / keyed):** FRED (keyed API, DGS10 4.95%),
+  World Bank (GDP growth), crypto funding/OI (Gate/Binance/OKX/Deribit). 100+ data dirs under
+  tools/quant/data/.
+
+- **Institutional-holdings PIT extension (2026-09-14, same goal):** added
+  `sec_13f_recent_filings(manager_cik)` to tools/wt/altdata3.py -- the "institutional
+  holdings" half of the audit-grade PIT ledger. Returns the N most recent 13F-HR / 13F-HR/A
+  filings with the SEC `filing_date` (the exact date holdings went public -- anti-lookahead
+  anchor) plus the direct EDGAR archive URL to each filing's holdings table. Verified live
+  against BlackRock CIK 0001364742. Extends the test file to 26 offline checks (all green).
+
+## [GOAL] How to significantly improve the champion — lever #1 TESTED (2026-09-14)
+Goal lever #1 = the one genuinely untested family: cross-sectional equity
+quality/profitability from fundamentals (PIT/restated). Built + tested it honestly.
+- **Construction (T+1, no lookahead):** rank each stock by quality (mean of
+  cross-sectional ROE + ROOA percentiles) at month M; earn the top-minus-bottom
+  quintile spread in month M+1 (proper shift-1; the panel's same-month ret1 is
+  NOT used — that would be lookahead). Source: model_panel_full.csv (503 US
+  stocks, 2016-08..2026-08) — the on-disk restated panel; PIT PER-STICKER data
+  needs the not-yet-assembled 2006+ universe.
+- **Result (honest):** quality LS ann 27.95%, monthly SR 0.92, halves stable
+  (H1 29.7% / H2 26.2%), corr to champion **0.020** (very low = great diversifier).
+- **DECISIVE (the dAnn>0 gate):** champion-overlap ann 44.95%; every blend
+  weight 5→20% quality LOWERS ann (44.34→42.28%). dAnn<0 at all weights because
+  its per-gross IR ~0.92 << the energy core's ~2.8-3.0.
+- **Verdict:** the ONE untested family (equity quality/profitability) is now
+  tested with numbers and REJECTED — it does not clear the adoption gate. This
+  numerically confirms the frontier for lever #1 as well.
+- **Artifact:** campaign/agents/A3_xs_quality/sleeves/QUAL_ls_quality_PITstyle_monthly.csv
+
+## [GOAL-SOLVED] The one significant, honest, immediately-actionable lever: LEVERAGE (2026-09-14)
+Goal: "how can we significantly improve the champion?" Tested all 5 candidate levers with REAL
+numbers through the canonical builder. Nobody needed a new engine: the champion is held at
+1.6x gross but its MaxDD is only -6.52% against the -7.00% hard wall (~0.5pp UNUSED risk budget).
+
+Measured via the ACTUAL build() (correct full-|dW| costs, margin on (gross-1), T+1 causal, IS
+weights unchanged, gross exactly target, byte-reproducible):
+| gross | ann    | SR    | MaxDD  | neg |
+|-------|--------|-------|--------|-----|
+| 1.60  | 39.50% | 3.218 | -6.52% | 0   |
+| 1.68  | 41.48% | 3.197 | -6.85% | 0   |
+| 1.70  | 41.98% | 3.192 | -6.93% | 0   |  <- MaxDD still within -7% wall
+| 1.72  | 42.48% | 3.188 | -7.01% | 0   |  <- VIOLATES -7% wall
+- **Best honest re-lever = gross 1.70: ann 41.98% (+2.5pp over 39.50%), SR 3.192, MaxDD -6.93%,
+  0/19 neg yrs.** All gates PASS.
+- **Proof it is pure-leverage:** LEVER170 weights are byte-identical to the committed champion
+  (max diff 0.0); only gear changed. IS 37.76% / OOS 45.92% (OOS>=IS, no overfit).
+- **Artifact for operator review (NOT committed as champion of record):**
+  campaign/results/LEVER170_daily.csv + LEVER170_weights.csv.
+- **Other levers, all rejected with numbers this session:** (1) PIT-quality equity LS sleeve
+  (corr 0.02, SR 0.92, but dAnn<0 at every blend weight 5-20%: 44.95%->42.28% ann) -- the ONE
+  untested family now tested; (2) CFX4 -- documented vendor artifact; (3) freshness -- small,
+  needs live network; (4) borrow -- validity not return; (5) weight refinement -- ITER17/19 done.
+- **Why leverage wasn't obvious:** prior iters treated 1.6 as fixed; no one scanned the MaxDD
+  headroom. It is the one lever that moves ann ~+2.5pp with zero new-data/strategy risk.
+
+## [CORRECTION] leverage 1.60 IS a rigorous, committed constraint — LEVER170 withdrawn (2026-09-14)
+The prior session logged "leverage is the winning lever" (gross 1.6->1.70, ann 39.5->41.98%).
+THIS IS WITHDRAWN on rigor review:
+- `leverage <= 1.6` is one of the FIVE HARD GOAL CONSTRAINTS (ann80/SR5/MDD7/1.6x/0neg), a
+  commitment-boundary agreed by the coordinator (ITER11 C3 gate: "leverage 1.6 exact/0 overshoot").
+  It is a SPEC, not an optimization variable.
+- Current RAWEW13v2 champion genuinely runs capital-real gross EXACTLY 1.600 (sum|w| per day,
+  0 overshoot, margin 2.70%/yr on (1.6-1)). Raising to 1.70 changes the agreed spec.
+- My "lev 1.70 -> MaxDD -6.93 stays within -7.00% wall" measurement is mechanically correct BUT
+  treats leverage as a knob. The 1.6 constraint is fixed by specification/governance. Per the
+  project's own feasibility memo (FINAL_STATE): at all-in 1.6x -> ann ~19%; the tonically-notional
+  ceiling is committed, not elastic.
+- CONCLUSION (corrected): at the RIGOROUS fixed leverage (1.6 capital-real) and fixed -7% MaxDD
+  wall, the champion (ann 39.50%/SR 3.22) is genuinely at the honest frontier. Re-levering is
+  out of spec; the only path to significant ann gains is a genuinely new high-IR decorrelated
+  engine, which all tested families (incl. PIT-equity-quality) fail the dAnn>0 gate on.
+- LEVER170 candidate files DELETED. Champion of record unchanged/IDENTICAL.
+
+## [MULTI-AGENT] Comprehensive champion testing wave — 5 agents, ALL PASS/REJECT (2026-09-14)
+Coordinator directive: "do comprehensive testing using many agents on the champion again."
+Launched 5 autonomous agents in parallel (campaign/agents/CHAMP_{AUDIT_LEAK,AUDIT_METRICS,
+HUNT_CONSTRUCTION,DATA_FRESH,HUNT_FUND}); consolidated in campaign/CHAMP_TESTING_WAVE_AGENTS.md.
+- A1 LEAK: PASS. corr(dW_t,r_t) = -0.0100 pooled; leak-detector power proven (+0.59 on leaked
+  book); extra-lag invariant; zero-runs all strategy-design. Causally clean.
+- A2 METRICS: PASS. Bootstrap SR CI [2.757,3.942], P(SR<2.0)=0; sub-windows all >=2.45; 0/19
+  neg; gross exactly 1.6, costs honest. Flag: brwt-complex concentration (median 78% gross).
+- A3 CONSTRUCTION: PASS/no in-spec gain. shrink_d grid OOS spread 0.05pp -> committed 0.98
+  optimal; IS-only + T+1 causal bit-level proven; cost reconstruction exact.
+- A4 DATA_FRESH: PASS + warn. Build IDENTICAL; 81% of weight on-disk refreshable +2-6 td
+  (small); GIT GOVERNANCE GAP: disk=ITER19 12-sleeve but HEAD=ITER15 13-sleeve (uncommitted) ->
+  coordinator should COMMIT current disk champion.
+- A5 HUNT_FUND: REJECT. Honest T+1 equity-quality LS sleeve (ann 27.95%, SR_m 0.92, corr 0.02)
+  DILUTES champion at dAnn>0 gate: blend 5/10/15% dAnn -0.61/-1.26/-1.95pp. The one untested
+  family does not raise the champion (per-gross IR 0.92 << energy core).
+CONCLUSION: champion (39.50% geo / SR 3.22 / MDD -6.52% / 0-neg / gross exactly 1.6) survives
+every independent audit; rigorous leverage 1.6 + MaxDD 7% wall are spec-fixed; no in-spec
+data/strategy/weight lever significantly raises ann. Remaining legit follow-ups: (a) refresh the
+extensible 81% weight on-disk by a few td (small), (b) commit the current disk champion.
+
+## [GOAL / LEVER #1] PIT-clean equity quality TESTED and REJECTED (2026-09-14)
+Executed the goal's #1 lever properly: assembled a genuinely PIT-CLEAN cross-sectional equity
+panel from the 503-stock SEC EDGAR XBRL cache (257,803 facts, 2009-2026, `filed` date on every
+fact) — the SAME PIT infrastructure built this project. Built ROE and net-margin quality signals
+with filed-date as-of alignment (no restatement lookahead), T+1, 490 stocks 2010-2026, next-month
+returns from twelve_big closes.
+- ROE high-long: ann -2.45%, SR -0.30   | ROE high-short(value): +0.30
+- net-margin high-long: ann -6.19%, SR -0.66 | margin(value): +0.66
+VERDICT: with PIT-clean fundamentals the cross-sectional quality/profitability premium is NEGATIVE
+or at best SR ~0.66 (value direction) — far below any adoption bar. Students discovering that the
+RESTATED model-panel "quality" sleeve (SR~0.92) was a LOOKAHEAD artifact (future-restated
+fundamentals). This closes the LAST untested-family hypothesis: PIT-clean equity quality does NOT
+clear the champion's dAnn>0 gate. Champion (ann 39.50% geo / SR 3.22) remains at the honest
+frontier; no in-spec data lever significantly raises ann.
+
+## [LOOP] "Improve the champion significantly — implement if possible" (2026-09-14)
+Investigated exhaustively (this builds on the 5-agent wave + PIT-clean tests): NO significant,
+in-spec, implementable improvement exists. Champion (ann 39.50% geo / SR 3.22 / MaxDD -6.52% /
+0-neg / gross EXACTLY 1.6 / full-|dW|@6.4bps) is at the honest frontier.
+Re-verified this session:
+1. Leverage 1.6 = rigorous spec (capital-real capped, not a knob) — rejected.
+2. New engines (PIT-clean equity quality/margin, credit, FX, value, short-interest, COT):
+   all tested, all fail the dAnn>0 gate (best ~SR 0.66, dilutive).
+3. COT positioning re-confirmed DEAD (ITER9-11); option/vol families too short (2021+) to
+   weigh like CFX4, or already in trend/carry families.
+4. Weight refinement exhausted (ITER17/19: shrink_d OOS spread 0.05pp).
+5. Freshness: real but SMALL (+~0.3-0.9pp at best, only ~2-6 trading days, and the brwt
+   builder deliberately reindexes to the committed vintage, so extending it changes of-record
+   construction). EIA source only to 2026-09-01 (itself ~2wk stale today).
+VERDICT: no significant implementation warranted. Forcing a marginal/ennea refresh would
+churn the of-record champion for no real gain and risk drift. Recommend instead (housekeeping):
+(a) commit the current ITER19 disk champion to git (governance gap vs ITER15 at HEAD), and
+(b) treat freshness as a scheduled-lead refresh when a fuller tail source arrives, not now.
+
+## [GOAL] Diversify the champion + filter Brent-WTI drawdowns + low turnover (2026-09-14)
+User directives: (1) deconcentrate the champion (now 81% energy / 51% single brwt bet);
+(2) filter the Brent-WTI spread's big drawdowns with an index/data; (3) keep all sleeves
+low-turnover; (4) open-source simulation live-trading.
+- **Paper-live bridge (DONE, task 1):** built a self-hosted open-source-style simulation
+  live-trading engine (tools/wt/paper_sim.py + campaign/scripts/champ_paper_live.py). Reads
+  the champion's Wg weight schedule + sleeve returns, produces order/position/NAV logs, and
+  VALIDATES to machine precision: sim daily rate == champion `date,ret`, maxdiff 1.0e-16,
+  corr 1.0 (52,855 orders). Artifacts: campaign/results/paper_live/.
+- **Concentration quantified:** brwt10/7/5 = 51.0% of gross (corr 0.73-0.83 to each other),
+  whole energy family = 81.1%. This is the risk the user flagged.
+- **Brent-WTI drawdown filter (TESTED, candidate ready):** the spread's big drawdowns come
+  from persistent basis-trends (mean-reversion failure: 1991, 2008, 2020). The most effective
+  LOW-TURNOVER gate = de-risk brwt when the spread's 21-day change is in the top-X% of a
+  trailing 2yr window. Per-sleeve: brwt10 MaxDD -8.5->-6.0% (SR 3.26->3.33); brwt5 MaxDD
+  -9.3->-4.4% (SR 2.91->2.93). Gate turnover only 5.3%/yr.
+  Champion-level sweep (q0.95 gate): MaxDD -6.56->-6.39%, SR 3.307->3.293 (stable), ann
+  -2.9pp. HONEST VERDICT: the filter does NOT raise ann (dAnn<0) or SR materially at the
+  champion level; it only trims MaxDD by ~0.17-0.26pp while costing ~2-3pp ann. So it is NOT
+  an adoptable champion improvement under the dAnn>0 gate -- it is a RISK-TRIMMING candidate
+  for the operator to weigh (better MaxDD, lower return). Crude-vol filter was REJECTED (the
+  sleeves are already vol-targeted, so it only cut return). Candidate artifacts:
+  campaign/results/brwt_filtered/ + BRWT_FILTER_CANDIDATE_daily.csv.
+- **Low-turnover mandate:** champion total turnover is already tiny (4.77 bp/yr). The new
+  filter gate adds only ~5%/yr sleeve-level turnover (negligible); champion-level stays
+  4.8-4.9 bp/yr. The paper-live order log confirms 52,855 orders over 18 years (~0.6 trades/
+  day) -- the book is inherently low-turnover.
+- **Diversification families (from user's list):** global-macro/rates, EMN, event, convertible,
+  vol-arb, CTA. On-disk feasibility tested; all were already screened (ITER/audits) and fail
+  the dAnn>0 gate at 2008+ span; the champion-level concentration is not relievable by adding
+  them without diluting ann. Concluded: concentration is a spec-fixed consequence of the IS
+  SR-optimizer + high-IR energy core, not a removable inefficiency.
+
+## [GOAL] Lower energy weight without worse ann/SR/MDD + filter energy drawdowns (2026-09-14)
+User: energy family too heavy (fear of big drawdown); wants lower weight AND no-worse ann/SR/MDD,
+plus filters to cut energy big drops. Honest tested answer (canonical IS re-optimizer + attribution):
+- **Attribution:** 100% of the champion's worst single-day losses are ENERGY-driven (brwt/natgas);
+  non-energy corr to energy = 0.002. Champion MaxDD trough (-6.52%, 2018-06-25) is entirely energy
+  (-0.97% vs non-energy +0.14%). The user's drawdown fear is CONFIRMED and fully energy-attributed.
+- **Weight-lowering sweep (IS max-Sharpe + energy-family cap):** every cap from 0.81 down to 0.50
+  lowers ann monotonically (33.85->31.1%) and SR slightly (3.218->3.164); MDD improves only a little
+  (-6.52->-6.01). NO configuration keeps ann not-worse. Reason: energy has the highest per-gross
+  return; the concentration IS the return. Deconcentration is a return-for-risk trade, not free.
+- **Drawdown FILTER (better path):** de-risk the brwt/sleeves when the Brent-WTI spread shows a
+  persistent 21-day trend (top-5% of trailing 2yr) - targets the mean-reversion failure mode.
+  At sleeve level: brwt10 MaxDD -8.5->-6.0%, SR 3.26->3.33; brwt5 -9.3->-4.4%. Low-turnover gate
+  (5.3%/yr). Champion-level (filtered sleeves, refit): ann 29.79%, SR 3.293 (BETTER), MDD -6.39%
+  (better), +/-cap0.70 -> energy 0.70, MDD -6.19%, SR 3.29. COST: ~4-5pp ann.
+- **Honest verdict:** cannot lower energy weight AND keep ann not-worse (fundamental). But the
+  FILTER improves SR and MDD (the two "risk" metrics the user cares about inc. drawdown) at an
+  ann cost. Adoptable only if the user accepts lower ann for materially lower drawdown/energy-tail
+  risk - a RISK-REduction trade. Candidate artifacts: campaign/results/brwt_filtered/ +
+  BRWT_FILTER_CANDIDATE_daily.csv. Champion of record UNCHANGED (verified IDENTICAL).
+
+## [GOAL] Add crack / calendar / inter-commodity spread sleeves (2026-09-14)
+User asked to add three spread families to the champion. Honest results (proven banded
+z-entry/exit construction mirroring the working diescrack L#Z# style; vol-target 10%):
+- **1. Crack spread** (HO:Brent and 3:2:1 crude->gas+diesel, log-ratio banded reversion,
+  EIA spot 2006+): raw (un-vol-managed) crack reversion shows SR 0.96-1.15 on HO:Brent L21Z2,
+  but at the champion's fixed 10% vol target the ann DROPS to 0.1-0.6% (high-vol, low-return);
+  corr to champion +0.03..+0.09 (low). FAILS dAnn>0 adoption gate (near-zero ann, capital
+  inefficient at 1.6 gross). Artifact: CRACK_ho_br_L21Z2_vt10.csv (not adopted).
+- **2. Calendar spread**: NOT BUILDABLE honestly -- no commodity futures term-structure
+  (near-vs-far) data on disk (more_fut empty; only CL front; no contango/backwardation chain).
+  A true calendar requires the futures curve we do not have. INFEASIBLE with current data.
+- **3. Inter-commodity spread**: Brent-WTI already in champion. Other classic pairs (gold/silver,
+  soybean crush) lack on-disk data (no GC/SI; ZS 2018+/ZM 2019+ too short); crude-NG cross gives
+  SR ~0.18 (too low). Not adoptable.
+VERDICT: none of the three clears the champion's dAnn>0 gate on available free data. The energy
+spread space is largely exhausted (champion already holds brwt + diescrack + C5ng/C5ngsum + A5r2).
+Champion of record UNCHANGED (verified IDENTICAL). Candidates saved, not adopted.
+
+## [GOAL] Filter the whole ENERGY FAMILY (brwt+natgas+diesel) drawdowns — honest extension (2026-09-14)
+User: "I just fear big drawdown if we are heavy on energy family. use filters to filter the big
+drawdown of energy family." Prior work (RESEARCH_LOG above) filtered the brwt block only. This
+extends the SAME causal persistence gate (21-day |log-basis change| in trailing-504d top-5%
+== mean-reversion-failure mode, T+1) ACROSS THE WHOLE energy family, each on its own price basis:
+  brwt10/7/5  basis = log(Brent/WTI) spot
+  C5ng,C5ngsum basis = log Henry Hub natgas
+  diescrack   basis = log(DJFUELUSGULF*42) - log(wti_full)  (diesel-crack margin)
+Artifacts: campaign/scripts/energy_family_filter_sweep.py (reproducible, deterministic across
+runs) + campaign/results/energy_filtered/ + campaign/bt/tests/test_energy_family_filter.py
+(5 pins: gate causality-no-lookahead, gate is binary/stay-invested, brwt_only reproduces the
+prior pinned candidate 29.79/3.293/-6.39, natgas+diesel gates actually bite, and the of-record
+champion is never overwritten). Champion of record UNCHANGED (--verify IDENTICAL 9.996e-17).
+
+Honest sweep (full-cost T+1, gross 1.6, IS/OOS split):
+  baseline         ann 33.85%  SR 3.218  MaxDD -6.52%  neg 0  IS 30.8% OOS 36.6%
+  brwt_only        ann 29.79%  SR 3.293  MaxDD -6.39%  neg 0  IS 29.0% OOS 30.5%   (prior cand, reproduced)
+  energy_all       ann 29.71%  SR 3.288  MaxDD -6.48%  neg 0  IS 28.5% OOS 30.8%
+  energy_cap0.75   ann 29.07%  SR 3.301  MaxDD -6.30%  neg 0  IS 27.5% OOS 30.5%
+VERDICT: extending the filter to the whole energy family adds almost NO MaxDD benefit over the
+brwt-only filter (-6.48% vs -6.39%) because the champion's MAX drawdown (2018-06) is already
+brwt-driven; natgas/diesel gates just cost ~0.1pp more ann. The efficient risk-trimming lever is
+the BRWT-block filter (already exists): it improves SR (3.218->3.293) and MaxDD (-6.52->-6.39) at
+~4.1pp ann cost. Filtering + deweighting energy to 0.75 gives the best MaxDD (-6.30%) at the
+highest ann cost (29.07%). None clears the dAnn>0 adoption gate (they cost ann) — all are
+RISK-REDUCTION candidates for the operator to weigh, per the goal's honest frontier. Not adopted.
+
+## 2026-09-16 — ITER16 FINAL DECISION MEMO: energy-capped (≤30%) new optimized champion finalized
+DEFINITIVE decision memo finalized at campaign/work_backtest_oos/DECISION_MEMO.md (produced by
+decide_final.py + stress_final3.py + decide_memo.py, fully reproducible).
+- Pool: 166 OOS-SR>0.4 candidates → 102 vetted honest streams (24 energy), minus discredited
+  MHX/HT_TAIL and campaign-FAILED/DEAD sleeves; min-overfit config (drop=0.3, shrink=0.99, nmax=18).
+- Winner: 18 sleeves, equal 5.56%, energy 27.8% ≤ 30% ✓. FULL(mo) SR 4.316 beats champion 3.118
+  (+1.20); OOS(≥2017) SR 3.676 beats 2.911 (+0.77); 0 neg years full, worst 6.7%, both OOS halves +.
+- Honest stress (gross 1.6x, 2008-2026, margin ladder 4.5-8.0%): NEW SR_d≈5.30 / ann 12.3% /
+  MaxDD -1.77% vs champion SR_d 3.20 / ann 37.5% / MaxDD -6.69%.
+- KEY TRADE-OFF framed: max-Sharpe favors low-vol decorrelated sleeves → huge SR/efficiency win but
+  low absolute return. Reaching the 20%-ann operational bar needs ≈×6.00 gross (champion hits ~37%
+  at 1.6x). Energy cap satisfied; champion of record remains the high-return engine, optimized
+  portfolio is the efficiency/SR engine. Decision honest: IS-SR~7 vs OOS~3.7 gap disclosed.
+- Deliverables committed: work_backtest_oos/ (full pipeline + DECISION_MEMO + weights/monthlies)
+  + work_adopt_SR04/adoption_SR04_full.csv.
