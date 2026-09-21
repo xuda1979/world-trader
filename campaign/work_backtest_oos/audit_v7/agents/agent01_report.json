@@ -1,0 +1,56 @@
+{
+  "agent": "01_data_leakage",
+  "checks": [
+    {
+      "check": "Weight sum = 1.0",
+      "status": "PASS",
+      "detail": "sum=1.0000000000"
+    },
+    {
+      "check": "IS max < OOS min",
+      "status": "PASS",
+      "detail": "IS max=2016-12-31, OOS min=2017-01-31"
+    },
+    {
+      "check": "No IS/OOS overlap",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "Objective uses ONLY IS returns (mu_is)",
+      "status": "PASS",
+      "detail": "objective=-w\u00b7mu_is (IS), constraint=IS SR, no mu_oos"
+    },
+    {
+      "check": "Reproduces V7 weights from IS-only fit",
+      "status": "PASS",
+      "detail": "max diff=8.67e-17"
+    },
+    {
+      "check": "V7 differs from V6 (leaked)",
+      "status": "PASS",
+      "detail": "max abs diff V7 vs V6=0.1200"
+    },
+    {
+      "check": "V7 uses same sleeve set as V5-honest (IS-selected)",
+      "status": "PASS",
+      "detail": "V7 and V5-honest sleeve sets equal: True"
+    },
+    {
+      "check": "No vt_bad sleeves",
+      "status": "PASS",
+      "detail": "n_vt_bad=0"
+    },
+    {
+      "check": "All sleeves in honest pool",
+      "status": "PASS",
+      "detail": "missing from pool: []"
+    },
+    {
+      "check": "IS shrunk-SR >= 6.5 (constraint binding)",
+      "status": "PASS",
+      "detail": "shrunk SR=6.500000 (exact 6.5=constraint), sample SR=6.3821"
+    }
+  ],
+  "overall": "PASS"
+}
