@@ -153,3 +153,25 @@ Table: V7_DATA_LINEAGE.json.
 Gap cause: harness prefix-copy steps (__prefix suffixes) and hunt workdirs break
 naive generator matching. Full lineage requires reading the harness copy logic —
 open item, estimated 1 session of work. This is the main barrier to external DD.
+
+## GLOBAL-MARKET EXPANSION STUDY (user-initiated, honest protocol)
+
+Question: improve V7 via global instruments tradeable at IBKR?
+V7 is already partially global (ICE Brent, CN pairs, KRW, intl treasury carry).
+Note: CN futures legs (rebar/soymeal, DCE) are NOT IBKR-tradable — currently proxies.
+
+Candidate families built from on-disk data (IS-fit only, bar: IS SR>=1.0,
+max IS corr<=0.35, >=80 months):
+- FX momentum basket (AUD/MXN/NOK/SEK/KRW/JPY vs USD, 12m TS, vt10): IS SR 0.24 -> FAIL
+- Global 10y bond trend (AU/CA/EU/GB/CH/US): IS SR 0.54, corr 0.39 -> FAIL
+- EM HY spread trend (BAMLEMHBHYCRPIOAS): DISQUALIFIED — local file starts 2023-09 (no IS window)
+- IG-vs-HY quality spread: DISQUALIFIED — same data gap
+
+Data procurement attempts this session: IBKR site BLOCKED, Yahoo BLOCKED,
+FRED reachable but public CSV serves only ~3y for BAML series (781 rows from
+2023-09 even with cosd=1997). Full history needs browser download or FRED API key.
+
+CONCLUSION: global expansion is the right lever in principle, but no candidate
+can honestly qualify with data on this machine today. V7 stands. Scoped next step:
+browser-download full FRED histories for the 4 BAML credit series (2 min),
+rebuild the 2 credit families with true IS, then pre-registered expansion + single OOS reveal.
