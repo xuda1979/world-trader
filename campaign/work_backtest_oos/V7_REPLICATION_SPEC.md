@@ -1,6 +1,11 @@
 # V7 REPLICATION SPEC — single source of truth (standalone)
+**REPLICATION CONTRACT:** this document alone must regenerate V7. Gate:
+`python3 replicate_from_doc.py` — it parses the §1 sleeve table from this file,
+re-runs the §4 recipe (SLSQP, IS data only), and must reproduce the §1 weights
+(max diff < 1e-6) AND the §6 canonical metrics. Exit 0 = document is valid for
+live trading; non-zero = document is stale, STOP.
 Generated 2026-09-21 from committed artifacts. Live trading uses ONLY this document
-plus `reproduce_v7.py`. If any number below fails reproduction, STOP and investigate.
+plus `replicate_from_doc.py` (doc→weights→metrics gate) and `reproduce_v7.py` (post-trade verifier). If any number below fails reproduction, STOP and investigate.
 
 ## 1. UNIVERSE (20 sleeves — exact files under `campaign/`)
 | # | Sleeve file (relative to `campaign/`) | Weight |
