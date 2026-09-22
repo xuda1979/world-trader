@@ -4170,3 +4170,100 @@ decide_final.py + stress_final3.py + decide_memo.py, fully reproducible).
   portfolio is the efficiency/SR engine. Decision honest: IS-SR~7 vs OOS~3.7 gap disclosed.
 - Deliverables committed: work_backtest_oos/ (full pipeline + DECISION_MEMO + weights/monthlies)
   + work_adopt_SR04/adoption_SR04_full.csv.
+
+## 2026-09-22 (/loop keep improving V7) — CAMP_SHORT suite GREEN-up: implemented R2/R2(b) missing API
+The pytest collection was ERRORING on 4 CAMP_SHORT test modules
+(`test_shortability.py`, `test_shortability_r2.py`, `test_shortability_r2b_ladder.py`,
+`test_camp_short_r2b.py`): the Round-2 pre-gate/borrow-tiers contract was TDD'd as tests
+but the implementation was never landed in `bt/shortability.py` (git `-S shortability_pregate`
+= never committed). That made the CAMP_SHORT subsystem RED/uncollectable — a genuine QA gap
+for a live-trading system. FIXED (purely additive, +62 lines, 0 removed):
+- `shortability_pregate(weights, tier_by_name, preserve_gross=True)` — hunt-template pre-gate:
+  drop NONE-tier short legs (longs untouched), optionally re-lever survivors to preserve row
+  gross, tiered borrow on surviving shorts, fail-closed on unknown tier, zero-gross guarded.
+- `tier_delta_cost(short_notional, base_rate, tier_rate)` — daily borrow delta = notional*(tier-base)/252;
+  negative tier delta = credit (never clipped); fail-closed on negative/NaN notional.
+- `LADDER_050_100_300` = {T0:0.005,T1:0.01,T2:0.03} and `LADDER_050_200_800` = {T0:0.005,T1:0.02,T2:0.08}.
+RESULT: 24 + 7 + 7 = 38 CAMP_SHORT/shortability tests PASS (was 4 collection-errors).
+`run_borrow_stress.py` now imports cleanly. `reproduce_v7.py` UNCHANGED: all 9 canonical
+checks still PASS (V7 champion unaffected — change touches only the shortability API layer,
+no sleeve/weights/conventions). NOTE: the broader campaign suite still has ~123 legacy
+PRE-EXISTING failures (iter17/20-23/audit_champ2/verify_champion etc.) — independent
+drift (e.g. `verify_champion()` signature `rule=` mismatch) unrelated to this change and
+to V7-of-record; they predate and are outside this focused V7-improvement loop.
+
+## 2026-09-22 (/loop keep improving V7 iter2) — V7 OOS-DECAY MONITOR (pre-committed sleeve-health gate)
+Implemented ITER9-agenda Tier-2 #4 ("OOS-decay monitor as a GATE") for V7's 20 sleeves:
+`campaign/work_backtest_oos/v7_oos_decay_monitor.py` — a READ-ONLY reporting gate (never
+re-optimizes weights; verified by test the weights/ledger are byte-identical after run).
+PRE-COMMITTED rule (fixed, not tuned): full_sr = monthly SR over OOS (>=2017); trail2y =
+monthly SR over trailing 24m; HARD = trail2y < 0 (regime break, exit 2 fail-closed);
+DECAY = trail2y < 0.8*full_sr; ADVISORY-PRUNE = DECAY AND weight > 10% of gross.
+Outputs V7_OOS_DECAY_REPORT.{csv,json}. Pinned by 4 new tests
+(campaign/bt/tests/test_v7_oos_decay_monitor.py): writes reports, classification matches
+an INDEPENDENT recomputation on the same streams, zero advisory-prune on current weights
+(all decayers are <=8.9% -> >10% rule genuinely engaged, not vacuous), and read-only
+on V7 artifacts.
+RESULT as of data 2026-09-30: 1 HARD stop (FXD1_KRWTRI, trail2y SR -0.31 -> the FX-deposit
+sleeve is in a negative trailing-2y regime; only 3% weight so not material), 2 additional
+DECAY (D_xlu_ief ratio 0.06, crossasset_rev ratio 0.14), 0 advisory-prunes. The two 15%
+sleeves C4 (ratio 0.87) and brwt7 (1.44) and 11% RB (1.52) are all healthy >0.8 floor —
+the book's heavy sleeves are not decaying)Skip. reproduce_v7.py ALL 9 checks PASS (champion
+untouched). Combined 28 V7+shortability tests green.
+
+## 2026-09-22 (/loop keep improving V7, "innovational ideas + alternative data if you get") — COPPER alt-data acquired & honestly gated
+User asked for innovational ideas with alternative data "if you can get". Network probe:
+FRED/CBOE/BIS/data.nasdaq.com reachable; Yahoo/CoinGecko blocked; Nasdaq Data Link (Quandl)
+403s without an API key. WORKING, genuinely-new on-disk alt-data = AlphaVantage COPPER
+('Dr. Copper'): GOLD/SILVER functions no longer exist in the free API, but COPPER returns
+1992-2026-07 monthly. Persisted campaign/agents/HUNT_ALT_METALS/data/copper_alpha.csv —
+metals were explicitly ABSENT from the prior inventory (2026-09-14: "no GC/SI").
+HONEST GATE (monthly, >=2009, IS<2017/OOS>=2017): every copper construction is DECORRELATED
+(|corr| 0.02-0.10 vs energy book, OOS SR > IS on most = no overfit) but SUB-BAR (best IS
+monthly SR = 0.48 raw-long) — cannot clear V7's >1.0 floor or the 6.5 shrunk-Sharpe
+optimizer, so the optimizer assigns ~0 weight in a capital-real re-fit. A copper REGIME-
+FILTER on the champion (OOS SR 2.78) is also WORSE than the bare champion (3.63). VERDICT:
+REJECTED for V7 adoption — a clean, reproducible NEGATIVE that extends the frontier
+statement by one more data surface (metals). Not a dead-end: a DAILY-frequency metals
+source could reopen it (monthly copper is too slow for a daily-return sleeve). V7 champion
+UNCHANGED (reproduce_v7.py still 9/9 PASS). New: 3 copper pins
+(campaign/bt/tests/test_alt_metals_copper.py). Docs: HUNT_ALT_METALS/FINDINGS.md.
+
+## 2026-09-22 (/loop keep improving V7 iter3, "innovational ideas + alternative data") — EIA PADD REGIONAL-STORAGE SEAM CLOSED (the R8-flagged one)
+
+Executed the exact hunt AUDIT_R7REDO R8 §7c pre-identified as "WORTH A ROUND": the
+certified-but-never-mined 192-series EIA weekly petroleum-stock matrix (`petstk_*`,
+1990..2026-08, lint ok, harvested 2026-09-07) — the "REGIONAL storage + crude
+prod/imports/supplied remain UNTESTED" affordance recorded verbatim in DEAD_IDEAS row
+57 after the L48-aggregate natgas probe died (SR 0.29, priced at publication).
+
+3 pre-registered stages, IS(<2017)-only selection, PIT +5d (week-ending-Fri stamp ->
+Wed 10:30 ET print -> Thu availability -> next-day position), 6.4bps full |dW|:
+1. **Regional outright** (24 configs): 5-PADD crude/dist/gas 5y-seasonal deviations,
+   cross-sectionally demeaned, on WTI/HO/RBOB/Brent. Best IS SR **0.173**.
+2. **Locational basis** (11 configs) — R8's own proposed construction: PADD2-Cushing
+   glut -> WTI−Brent; EC distillate tightness -> NYH−Gulf ULSD; EC gasoline ->
+   NYH−Gulf gasoline; relative (p1a−p3)/(p2−p3); dispersion regime. Best IS SR **0.104**.
+3. **Weekly flows** (12 configs): crude prod / imports / supply(prod+imports), z104 +
+   seasonal, both directions, on WTI. Best IS SR **0.192**.
+
+VERDICT: 47/47 configs < 0.20 IS SR vs the 1.0 adoption bar — **NEGATIVE, seam CLOSED**.
+The regional cross-section carries no information the aggregate doesn't: the EIA weekly
+publication is priced at print, in outright AND basis form. This extends the frontier
+statement to the full petroleum-stock matrix and converts the ledger's last
+self-identified "untested affordance" into a reproducible negative. Honest gaps
+recorded: futures term-structure on PADD imbalances formally untested (same mechanism,
+failed in basis form); products-supplied weekly (WGTSTUS1w) declared in eia_dl.py but
+never landed on disk (data gap); sub-PADD 1b/1c not pursued (PADD-level null).
+
+Artifacts: campaign/agents/HUNT_EIA_PADD/{honest_gate_padd.py,stage2_basis.py,
+screen_results.csv,stage2_results.csv,stage3_results.csv,FINDINGS.md}; pins
+campaign/bt/tests/test_eia_padd_closed.py (5 tests, all green — data-certified,
+3-stage sub-bar pins, ledger-row presence). DEAD_IDEAS 64 -> 65 (HUNT_EIA_PADD).
+V7 champion UNCHANGED: reproduce_v7.py 9/9 PASS; decay monitor re-run — same state as
+iter2 (1 HARD stop FXD1_KRWTRI 3% sleeve, 2 DECAY, 0 advisory, heavy sleeves C4 0.87 /
+brwt7 1.44 / RB 1.52 all healthy); CAMP_SHORT 31 + copper 3 + EIA-PADD 5 = 39 targeted
+tests green. (Full-suite note: 123 failures are pre-existing infrastructure mismatch —
+e.g. test_verify_champion expects a `--rule srp` CLI flag never implemented, align.py
+is untracked so clean-checkout collection errors — none related to this hunt; left for
+a dedicated bt/ infra round, not silently "fixed".)
