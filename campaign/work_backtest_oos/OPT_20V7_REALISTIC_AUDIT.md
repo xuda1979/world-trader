@@ -175,3 +175,21 @@ CONCLUSION: global expansion is the right lever in principle, but no candidate
 can honestly qualify with data on this machine today. V7 stands. Scoped next step:
 browser-download full FRED histories for the 4 BAML credit series (2 min),
 rebuild the 2 credit families with true IS, then pre-registered expansion + single OOS reveal.
+
+## CREDIT-FAMILY EXPANSION (EXP-3, user-directed; pre-registered, single OOS reveal)
+
+Data routes for full-history BAML spreads all blocked (IBKR/Yahoo/WSJ blocked;
+FRED caps licensed series to ~3y; stooq JS-walled). Pivoted to the local
+research universe: 515 sleeve CSVs scanned, 61 credit-family candidates evaluated.
+
+QUALIFIERS (IS SR>=1.0, corr<=0.35, honest status, >=48 IS months):
+- A5_r7_credit_composite (IS SR 1.52) — already in V7
+- A1_credit_regime_mom (IS SR 1.65, corr 0.26, history from 1990) — NEW
+
+EXP-3: add A1_credit_regime_mom (21 sleeves), same recipe, IS SR floor 5.19.
+OOS reveal: geo 31.59% (base 32.30), arith 28.07% (base 28.64), SRm 3.48 (same),
+DD -2.37% (base -2.34), NEG MONTHS 14 (base 16), 0 neg years.
+Strict bar (no metric worse): FAILED — arith -0.6pp.
+Noted trade-off: -2 losing months for -0.6pp ann (user variant option).
+
+V7 stands as champion. Credit-regime variant documented as an option.
