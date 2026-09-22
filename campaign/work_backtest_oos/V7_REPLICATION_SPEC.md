@@ -73,10 +73,11 @@ Weight sum: 1.0000000000 | min 3.0000% | max 15.0000%
 | OOS MaxDD (gross, monthly) | -0.8000% |
 | Full-window SR (gross) | 4.5946 |
 | OOS neg years (gross) | 0 |
-| Realistic net @5.3%: OOS arithmetic | 29.66%/yr |
-| Realistic net: monthly SR | 3.63 |
-| Realistic net: daily MaxDD | -3.16% |
-| Realistic net: neg months (OOS) | 14/117 |
+| Realistic net @5.3% — LEDGER convention (static-weight marks) | 29.66%/yr |
+| Realistic net @5.3% — DEPLOYMENT convention (drifted weights, pseudocode S3-S4) | **30.33%/yr (canonical for live)** |
+| Realistic net: monthly SR | 3.63 ledger / 3.62 deployment |
+| Realistic net: daily MaxDD | -3.16% ledger / -3.18% deployment |
+| Realistic net: neg months (OOS) | 14/117 (both conventions) |
 
 ## 7. LIVE (IBKR PAPER) RUNBOOK
 1. Browser-download **IB Gateway stable standalone (macOS)** from IBKR (site blocks CLI here);
@@ -92,3 +93,12 @@ Weight sum: 1.0000000000 | min 3.0000% | max 15.0000%
 
 ## 8. CHANGE CONTROL
 Any edit to weights/conventions invalidates this document. New versions = new V# spec file.
+
+## 9. NET-RETURN CONVENTIONS (why two numbers)
+- LEDGER convention (29.66%): marks PnL on STATIC weights; costs from the committed
+  blotter. Slightly conservative; used for daily post-trade verification
+  (`reproduce_v7.py`).
+- DEPLOYMENT convention (30.33%): marks PnL on DRIFTED weights — positions ride
+  between monthly rebalances, exactly as the live account behaves (pseudocode S3-S4).
+  `backtest_pseudocode.py` gates on this. Difference (+0.67pp) is drift capture.
+- Both: 14 negative months / 0 negative years OOS. Ann = ARITHMETIC.
