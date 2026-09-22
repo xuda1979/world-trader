@@ -193,3 +193,17 @@ Strict bar (no metric worse): FAILED — arith -0.6pp.
 Noted trade-off: -2 losing months for -0.6pp ann (user variant option).
 
 V7 stands as champion. Credit-regime variant documented as an option.
+
+## LINEAGE CLOSED (loop pass 1) + RAW-MARKET FINGERPRINT
+
+Lineage: **20/20 generators mapped** (V7_DATA_LINEAGE.json). The #1 institutional-DD
+remediation item is CLOSED. Remaining 8 metas = documentation gap only, generators exist.
+
+Raw-market fingerprint (contemporaneous corr vs FRED raw prices, OOS):
+- crack_crack321 (3-2-1 crack): **0.48 vs WTI — strongly linked to raw market**
+- brwt7 0.06, diescrack 0.08, inter_dieseljet 0.10, RB_hobr 0.03, C5ng 0.03:
+  inconclusive BY DESIGN — these are timing/hysteresis/seasonality strategies whose
+  positions vary; low contemporaneous corr does not indicate fabrication.
+- Forensic red flags (zero-runs, |r|>10% clusters, autocorr): 0/20 sleeves flagged.
+Gold standard remains per-sleeve re-derivation from generators (now tractable:
+all 20 generators identified) — scheduled for the next loop pass.
