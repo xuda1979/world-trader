@@ -33,6 +33,7 @@ net_d=(g.pnl-g.cost).sort_index()
 net_m=(1+net_d).resample("ME").prod()-1
 net_m_oos=net_m[net_m.index>=IS_END]
 # ledger reconciliation: marks == LEV x gross daily
+fails=0  # incremented by the recon check below and by the canonical asserts
 marks=LED[LED.component=='mark'].groupby('date')['pnl'].sum().sort_index()
 ddata={s:load(s) for s in sleeves}
 ddf=pd.DataFrame(ddata)[pd.DataFrame(ddata).index>="2009-01-01"].fillna(0)
@@ -55,7 +56,6 @@ checks=[
  ("Realistic net daily DD", ((1+net_d).cumprod()/(1+net_d).cumprod().cummax()-1).min()*100, -3.16, 0.15),
  ("Neg years (gross, OOS)", NEG_YRS_GROSS, 0, 0.5),
 ]
-fails=0
 print(f"{'CHECK':<36}{'REPRODUCED':>12}{'CANONICAL':>12}{'TOL':>8}  STATUS")
 for name,got,want,tol in checks:
     ok=abs(got-want)<=tol

@@ -8,6 +8,9 @@ def load_panel():
     out = {}
     for f in os.listdir(PANEL):
         if f.endswith(".csv"):
+            with open(os.path.join(PANEL, f)) as fh:
+                if fh.readline().strip().split(",")[0] != "date":
+                    continue  # manifest.csv etc. (added 2026-09-08) — not price data
             df = pd.read_csv(os.path.join(PANEL, f), parse_dates=["date"], index_col="date")
             df = df[~df.index.duplicated(keep="last")].sort_index()
             out[f[:-4]] = df

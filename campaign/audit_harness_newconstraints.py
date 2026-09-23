@@ -32,9 +32,11 @@ def _builder():
 # ---- C1: 6.4bps FULL |dW| cost ----
 def audit_C1(b):
     net, relw, gross, to, df = b.build()
-    # to must be FULL |dW| (not 0.5x). Verify by reconstructing |dW|.
+    # to must be FULL |dW| (not 0.5x). Verify by reconstructing |dW| with the SAME
+    # T+1-causal construction the re-emitted builder ships (nav.shift(1)); the old
+    # same-day nav here made C1 fail the causal builder (ratio 1.0313) — fixed 2026-09-23.
     k = len(relw)
-    nav = (1 + df.fillna(0)).cumprod()
+    nav = (1 + df.fillna(0)).cumprod().shift(1).fillna(1.0)   # T+1 causal
     d2 = nav.div(nav.mean(axis=1), axis=0).mul(relw, axis=1)
     d2 = d2.div(d2.sum(axis=1), axis=0) * k
     Wg = d2 * (1.6 / k)
@@ -45,15 +47,32 @@ def audit_C1(b):
 
 # ---- C2: IBKR margin 4.5% on (gross-1) ----
 def audit_C2(b):
+    """Margin charge must be verified INDEPENDENTLY, not reconstructed from net.
+
+    Old version was tautological: it added margin_const to net and subtracted it again,
+    so ANY series (including a no-margin one) passed with residual ~1e-19.
+    (Documented as vacuous by bt/tests/test_audit_champ2_round1.py A1, fixed 2026-09-23.)
+
+    Correct check: rebuild the gross portfolio PnL from the builder's OWN inputs
+    (sleeve returns x gross weight path), apply the builder's OWN cost charge, and
+    require net == gross - costs - margin to 1e-12, i.e. the margin term must be
+    PRESENT in net. A no-margin builder fails because net then exceeds the
+    margin-charged reconstruction by exactly (1.6-1)*0.045/252 per day.
+    """
     net, relw, gross, to, df = b.build()
-    # margin drag = (1.6-1)*0.045/252 daily. Biggest margin drag to no-margin:
     margin_const = (1.6-1)*0.045/252
-    # reconstruct port
-    port = net + to*6.4/1e4 + margin_const  # back out
-    # assert the net has margin subtracted: total margin drag = 0.6*0.045/252 per day * n
-    implied = ((port - net) - to*6.4/1e4).replace([np.inf,-np.inf], np.nan).abs()
-    ok = (implied - margin_const).abs().max() < 1e-10
-    return ok, f"margin const={margin_const:.6e} day, max residual diff={(implied-margin_const).abs().max():.2e}"
+    # independent gross PnL: rebuild the causal weight matrix from df+relw (same T+1 recipe
+    # as audit_C1's |dW| reconstruction — NOT from net), then charge costs+margin ourselves.
+    k = len(relw)
+    nav = (1 + df.fillna(0)).cumprod().shift(1).fillna(1.0)   # T+1 causal
+    d2 = nav.div(nav.mean(axis=1), axis=0).mul(relw, axis=1)
+    d2 = d2.div(d2.sum(axis=1), axis=0) * k
+    Wg = d2 * (1.6 / k)
+    gross_pnl = (df.fillna(0) * Wg).sum(axis=1)
+    recon = gross_pnl - to*6.4/1e4 - margin_const
+    j = pd.concat([net.rename('n'), recon.rename('r')], axis=1, join='inner').dropna()
+    dev = float((j.n - j.r).abs().max())
+    return dev < 1e-10, f"margin-charged recon maxdev={dev:.2e} (margin_const={margin_const:.6e}/day)"
 
 # ---- C3: leverage ----
 def audit_C3(b):
@@ -82,18 +101,45 @@ def audit_C5(b):
 
 # ---- C6: T+1 no lookahead (perturbation) ----
 def audit_C6(b):
-    # Verify sleeve returns used at t+1: shift the full pool by 1 day and confirm the portfolio
-    # return at day t is NOT changed by knowing day-t sleeve return (T+1 property).
-    # Heuristic: the builder uses NAV-drift weights derived from cumprod (uses t-1 info).
-    # Confirm weights Wg are built only from data up to t-1 by checking port at t uses Wg(t-1).
+    """Perturbation test: day-t portfolio PnL must NOT change when FUTURE returns change.
+
+    Old version was `return True` (tested nothing) — documented vacuous by
+    bt/tests/test_audit_champ2_round1.py A2, fixed 2026-09-23.
+
+    Method: rebuild the builder's net with a single day's returns perturbed
+    (scaled 1.5x + 10bp) on the LAST day of the panel. Under T+1 causality
+    (nav.shift(1)) the net path is IDENTICAL for every day BEFORE the perturbed
+    day, because weights only embed returns through the prior day. A same-day
+    builder (nav WITHOUT shift) leaks: its day-t weights embed day-t returns,
+    so the pre-perturbation path itself shifts.
+
+    The rebuild replicates the committed builder recipe exactly (RAW-EW13v2:
+    IS-only SR^P relative weights, T+1 NAV drift, 6.4bps full |dW|, margin) —
+    independently of the builder module's internals.
+    """
     net, relw, gross, to, df = b.build()
-    # The key no-lookahead property: Wg changes (formation) use NAV which uses returns <= t.
-    # Wg is shifted implicitly because Wg is computed from NAV (not same-day returns).
-    # Verify: correlating Monday-position with Monday-return contribution would be lookahead.
-    # Simplest robust check: weights at t depend only on cumprod of returns <= t (NAV), which is
-    # known at end of t (not a trade at t on t return). The PORTFOLIO return at t = Wg(t-1)*r(t).
-    # We confirm by checking that gross/turnover are computed on lagged Wg in the builder.
-    return True, "T+1 verified: Wg from NAV-drift (returns<=t-1), port_t = Wg_{t-1}*r_t (see builder)"
+    d0 = df.index[-1]
+    df2 = df.copy()
+    df2.loc[d0] = df2.loc[d0] * 1.5 + 0.001
+    net2 = _rebuild_net(df2, relw)
+    j = pd.concat([net.rename('a'), net2.rename('b')], axis=1, join='inner').dropna()
+    pre = j.loc[j.index < d0]                # strictly BEFORE the perturbed day
+    dev = float((pre.a - pre.b).abs().max()) if len(pre) else 0.0
+    return dev < 1e-12, f"future-perturbation ({d0.date()}) leak on prior days: maxdev={dev:.2e}"
+
+def _rebuild_net(df, relw, gear=1.6, rate=0.045, bps=6.4):
+    """Independent re-implementation of the RAW-EW13v2 T+1 construction on a given panel."""
+    k = len(df.columns)
+    nav = (1 + df.fillna(0)).cumprod().shift(1).fillna(1.0)   # T+1 causal
+    d2 = nav.div(nav.mean(axis=1), axis=0).mul(relw, axis=1)
+    d2 = d2.div(d2.sum(axis=1), axis=0) * k
+    Wg = d2 * (gear / k)
+    port = (df.fillna(0).values * Wg.values).sum(axis=1)
+    to = (Wg.diff().abs().sum(axis=1)).fillna(0.0)
+    net = (pd.Series(port, index=df.index)
+           - to * bps/1e4
+           - np.maximum(gear-1, 0)*rate/252)
+    return net
 
 # ---- C7: byte reproducibility ----
 def audit_C7(b):
