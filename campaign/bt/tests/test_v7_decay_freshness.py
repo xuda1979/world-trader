@@ -44,13 +44,19 @@ def test_freshness_csv_column():
 
 
 def test_known_stale_sleeves_flagged():
-    """As of 2026-09-22, 8 sleeves exceed the 35/65d freshness limit (TREASFUT at
-    +113d is the worst). Pin >= 5 so the test survives partial refreshes but
-    still guarantees the gate is not vacuously green."""
+    """RE-PINNED 2026-09-25: the 2026-09-25 verified data refresh extended 6 of the 7
+    then-stale sleeves (brwt7/A1/Merger/diescrack/RC/FXD1 inputs; TREASFUT inputs to
+    2026-08), so the 2026-09-22 pin (n_stale >= 5, TREASFUT stale) no longer holds.
+    Current reality: exactly 1 stale sleeve — a6_r2_pair_residmom_fm1926 (+56d), which
+    is STRUCTURALLY blocked upstream (F-F daily factors end 2026-07-31, fetched
+    2026-09-23; the library/sleeve cannot extend past the last F-F monthly stamp).
+    Pin n_stale == 1 with the a6 name so (a) the gate is not vacuously green, and
+    (b) any NEW staleness (a second sleeve crossing 35/65d) fails this test loudly.
+    When F-F August publishes and a6 is re-emitted, re-pin to 0 (with this audit note)."""
     with open(os.path.join(OD, "V7_OOS_DECAY_REPORT.json")) as f:
         j = json.load(f)
-    assert j["freshness"]["n_stale"] >= 5
-    assert "TREASFUT_intlcarry3_lag1_NEG.csv" in j["freshness"]["stale_sleeves"]
+    assert j["freshness"]["n_stale"] == 1
+    assert "a6_r2_pair_residmom_fm1926.csv" in j["freshness"]["stale_sleeves"]
 
 
 def test_monitor_still_readonly_on_weights():
