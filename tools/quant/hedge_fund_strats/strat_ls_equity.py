@@ -131,7 +131,12 @@ def run_long_short_equity(prices: pd.DataFrame,
         if len(pos) > 0:
             weights.loc[date, pos_idx] = (pos / pos.sum() * long_scale).values
         if len(neg) > 0:
-            weights.loc[date, neg_idx] = (neg / neg.abs().sum() * short_scale * -1).values
+            # Short weights stay NEGATIVE: BacktestEngine.run's contract is
+            # "positive=long, negative=short, sum=net exposure" (core.py), and the
+            # module docstring defines 130/30 as 130% long + 30% short. The
+            # pre-fix `* -1` here flipped every intended short leg long
+            # (130/30 was really 160/0); CAMP_SHORT R3 census / R4 TDD fix.
+            weights.loc[date, neg_idx] = (neg / neg.abs().sum() * short_scale).values
     
     # Run backtest
     engine = BacktestEngine(prices, cost_bps=cost_bps)
