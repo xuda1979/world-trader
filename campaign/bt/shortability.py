@@ -52,3 +52,64 @@ def mcap_tier(mcap_rank_frac: float) -> str:
     if mcap_rank_frac < 0.40:
         return "MEDIUM"
     return "EASY"
+
+
+# ---- ROUND 2(b): charter tier ladders (champion borrow re-pricing) ----
+# T0 == the base rate the committed book is already priced at (a no-op).
+LADDER_050_100_300 = {"T0": 0.005, "T1": 0.01, "T2": 0.03}   # 0.5 / 1 / 3 %/yr
+LADDER_050_200_800 = {"T0": 0.005, "T1": 0.02, "T2": 0.08}   # R1 calibration 0.5 / 2 / 8 %/yr
+
+
+def tier_delta_cost(short_notional, base_rate: float, tier_rate: float):
+    """Daily borrow delta from re-pricing a SHORT notional stream to a tier rate.
+
+    delta_t = short_notional_t * (tier_rate - base_rate) / 252.
+    A tier BELOW the already-charged base yields a NEGATIVE delta (a credit) and is
+    never clipped. Fail-closed: negative notional (notional is a short magnitude, >= 0)
+    and NaN both raise."""
+    sn = short_notional.astype(float)
+    if sn.isna().any():
+        raise ValueError("short_notional contains NaN")
+    if (sn < 0).any():
+        raise ValueError("short_notional must be a non-negative magnitude")
+    return sn * (tier_rate - base_rate) / ANN
+
+
+def shortability_pregate(weights, tier_by_name, preserve_gross: bool = True):
+    """Hunt-template pre-gate: drop the short leg of un-shortable (NONE) names, then
+    optionally re-lever surviving legs so each row's gross is preserved, and compute
+    the tiered borrow on surviving shorts.
+
+    Returns (gated_weights, borrow_series, info) where info = dict(dropped, gross_before,
+    gross_after, borrow_ann_frac). Fail-closed: unknown tier raises. A `preserve_gross=False`
+    leaves survivors unscaled (dropped size just vanishes). NONE names drop ONLY their short
+    leg; a long in an un-shortable name is perfectly holdable and stays untouched."""
+    if not all(t in TIERS for t in tier_by_name.values()):
+        bad = [t for t in tier_by_name.values() if t not in TIERS]
+        raise ValueError(f"unknown tier(s) {bad}")
+    tier_for = {c: tier_by_name.get(c, "EASY") for c in weights.columns}
+    w = weights.copy()
+    dropped = [c for c, t in tier_for.items() if t == "NONE"]
+    gross_before = w.abs().sum(axis=1)
+    for c in dropped:
+        w[c] = w[c].clip(lower=0.0)          # drop the short leg only (longs untouched)
+    if preserve_gross and dropped:
+        gross_after = w.abs().sum(axis=1)
+        # scale survivors per row so gross is preserved; guard divide-by-zero (all-dropped row)
+        scale = gross_before.div(gross_after.replace(0.0, np.nan)).fillna(0.0)
+        w = w.mul(scale, axis=0)
+
+    # borrow on surviving shorts (post-relever notional)
+    borrow = pd.Series(0.0, index=weights.index, dtype=float)
+    for c, t in tier_for.items():
+        if t == "NONE":
+            continue
+        shorts = (-w[c].clip(upper=0.0))
+        borrow = borrow + shorts * TIERS[t] / ANN
+    an = weights.abs().sum(axis=1)
+    info = {"dropped": dropped, "gross_before": float(gross_before.replace(0.0, np.nan).mean())
+            if (gross_before != 0).any() else 0.0,
+            "gross_after": float(w.abs().sum(axis=1).replace(0.0, np.nan).mean())
+            if (w.abs().sum(axis=1) != 0).any() else 0.0,
+            "borrow_ann_frac": float(borrow.mean() * ANN)}
+    return w, borrow, info
