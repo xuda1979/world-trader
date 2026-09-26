@@ -44,19 +44,17 @@ def test_freshness_csv_column():
 
 
 def test_known_stale_sleeves_flagged():
-    """RE-PINNED 2026-09-25: the 2026-09-25 verified data refresh extended 6 of the 7
-    then-stale sleeves (brwt7/A1/Merger/diescrack/RC/FXD1 inputs; TREASFUT inputs to
-    2026-08), so the 2026-09-22 pin (n_stale >= 5, TREASFUT stale) no longer holds.
-    Current reality: exactly 1 stale sleeve — a6_r2_pair_residmom_fm1926 (+56d), which
-    is STRUCTURALLY blocked upstream (F-F daily factors end 2026-07-31, fetched
-    2026-09-23; the library/sleeve cannot extend past the last F-F monthly stamp).
-    Pin n_stale == 1 with the a6 name so (a) the gate is not vacuously green, and
-    (b) any NEW staleness (a second sleeve crossing 35/65d) fails this test loudly.
-    When F-F August publishes and a6 is re-emitted, re-pin to 0 (with this audit note)."""
+    """RE-PINNED 2026-09-25 (session 2): F-F published the 202608 CRSP vintage at 21:55Z
+    2026-09-25 (after the 9/23 fetch that ended 2026-07-31). The a6 chain was re-emitted on
+    it (ff_factors -> equity_FactorMom -> lib -> a6 sleeve, extended to 2026-08-31), so the
+    session-1 pin (n_stale == 1, a6 stale) is obsolete: the whole book is now fresh —
+    n_stale == 0. Pin == 0 with an empty stale list; ANY sleeve going stale (crossing the
+    35/65d gap rule) fails this test loudly, so the gate stays non-vacuous via
+    test_freshness_rule_arithmetic (independent re-derivation) + this exact-count pin."""
     with open(os.path.join(OD, "V7_OOS_DECAY_REPORT.json")) as f:
         j = json.load(f)
-    assert j["freshness"]["n_stale"] == 1
-    assert "a6_r2_pair_residmom_fm1926.csv" in j["freshness"]["stale_sleeves"]
+    assert j["freshness"]["n_stale"] == 0
+    assert j["freshness"]["stale_sleeves"] == []
 
 
 def test_monitor_still_readonly_on_weights():
