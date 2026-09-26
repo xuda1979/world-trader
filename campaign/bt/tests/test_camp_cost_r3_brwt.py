@@ -169,9 +169,15 @@ def test_vintage_drift_quantified_vs_current_fred_only():
     js = pd.concat([spliced.rename("a"), tgt.rename("b")], axis=1, join="inner").dropna()
     dev_cur = float((jc.a - jc.b).abs().max())
     dev_sp = float((js.a - js.b).abs().max())
-    assert len(jc) == len(tgt) - 6, (
-        f"current-fred vintage must miss exactly the 6 tail rows (2026-08-03..08-10 payoffs; "
-        f"missed {len(tgt)-len(jc)})")
+    # UPDATE 2026-09-24 (post-FRED-refresh): data_fred/wti+brent were refreshed
+    # (uncommitted refresh, ends 2026-09-15), so current_fred now COVERS the
+    # committed file's entire span — the 6-row vintage gap (2026-08-04..08-10
+    # payoffs) that this test pinned as "missed" is CLOSED. Measured: misses 0,
+    # still byte-exact. The gap is vintage-conditional, not structural; if a
+    # future FRED truncation re-opens it, this assert will flag it (missed>0).
+    assert len(jc) == len(tgt), (
+        f"current-fred vintage must now fully cover the committed file "
+        f"(post-2026-09-15 FRED refresh; missed {len(tgt)-len(jc)})")
     assert dev_sp < 1e-12, f"spliced vintage must be exact (dev {dev_sp:.3e})"
     # HONEST CORRECTION vs R2: with the recovered z-band +-1.0, EVERY overlapping row is
     # byte-exact even from current-only data_fred — R2's "maxdev 1.3e-01 = vintage drift"
