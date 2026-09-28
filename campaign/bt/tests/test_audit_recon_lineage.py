@@ -33,6 +33,10 @@ PREFIX = {
 "brwt10": f"{ROOT}/campaign/agents/chief/coord/CAMP_COST/sleeves/brwt10_2000__prefix.csv",
     "brwt7": f"{ROOT}/campaign/agents/chief/coord/CAMP_COST/sleeves/brwt7__prefix.csv",
     "brwt5": f"{ROOT}/campaign/agents/chief/coord/CAMP_COST/sleeves/brwt5__prefix.csv",
+    # ITER43 (2026-09-19): builder PATHS[A5r2] moved to the vt015 emission; the ARCHIVED
+    # leak (whole pre-ITER43 lineage) was built on the VT=0.10 bytes -- pin them here for
+    # the prefix arm only.
+    "A5r2": f"{ROOT}/campaign/agents/A5_vol_cond/sleeves/A5_r2_contango_rateshock.csv",
 }
 
 
@@ -42,29 +46,37 @@ def _builder():
     return b
 
 
-def _mechanism(b, causal, prefix=False):
+def _mechanism(b, causal, prefix=False, gear=None):
     """Rebuild the champion path holding EVERYTHING fixed except the causal line
-    (prefix=True swaps in the pre-costfix sleeve bytes for the archived-leak rebuild)."""
+    (prefix=True swaps in the pre-costfix sleeve bytes for the archived-leak rebuild).
+    gear defaults to the builder's canonical gear; the ARCHIVED leak rebuild must pass
+    gear=1.6 (its vintage -- canonical gear moved to 1.0 in ITER21)."""
     def _one(n):
         if prefix and n in PREFIX:
             d = pd.read_csv(PREFIX[n], index_col=0)
             d.index = pd.to_datetime(d.index)
             return d.iloc[:, 0].astype(float)
+        # PREFIX[n] as a .get() default would eval even when n in PATHS (KeyError for
+        # any non-prefix sleeve like C5ng). Non-prefix sleeve comes from the canonical
+        # builder PATHS — identical to what build() loads internally.
         return b.load(b.PATHS[n])
-    df = pd.DataFrame({n: _one(n).dropna() for n in b.NAMES})
+    # ITER19: the live pool is 12 (brwt15 pruned); the ARCHIVED leak was built on 13
+    names = list(b.NAMES) + (["brwt15"] if (prefix and "brwt15" not in b.NAMES) else [])
+    df = pd.DataFrame({n: _one(n).dropna() for n in names})
     df = df[df.index >= '2008-03-31']
     isr = df[df.index < b.IS_END]
-    SR = pd.Series({n: b.is_sr(isr[n]) for n in b.NAMES})
+    SR = pd.Series({n: b.is_sr(isr[n]) for n in names})
     relw = np.maximum(SR, 0.0) ** b.P
     nav = (1 + df.fillna(0)).cumprod()
     if causal:
         nav = nav.shift(1).fillna(1.0)
     d2 = nav.div(nav.mean(axis=1), axis=0).mul(relw, axis=1)
-    d2 = d2.div(d2.sum(axis=1), axis=0) * len(b.NAMES)
-    Wg = d2 * (b.GEAR / len(b.NAMES))
+    d2 = d2.div(d2.sum(axis=1), axis=0) * len(names)
+    g = b.GEAR if gear is None else gear
+    Wg = d2 * (g / len(names))
     port = pd.Series((df.fillna(0).values * Wg.values).sum(axis=1), index=df.index)
     to = Wg.diff().abs().sum(axis=1).fillna(0.0)
-    net = port - to * b.BPS / 1e4 - max(b.GEAR - 1, 0) * b.RATE / 252
+    net = port - to * b.BPS / 1e4 - max(g - 1, 0) * b.RATE / 252
     return net, relw, Wg, df
 
 
@@ -84,13 +96,21 @@ def test_new_champion_reproduces_from_shift1_mechanism_only():
 
 
 def test_archived_champion_reproduces_from_sameday_mechanism_only():
+    """RE-PINNED 2026-09-28 (E1/DHHNGSP refresh landing, commit 17e5be6): the frozen
+    archived leak (ends 2026-08-27) now sees the E1 sleeve's 19 appended marks inside
+    its window (first new mark 08-26). Attribution verified: pre-08-25 maxdev
+    1.388e-16 (byte-repro of the archived mechanism through 08-24); all new drift is
+    the appended-marks class, maxdev 1.322e-3 at 2026-08-26. Old pin: <1e-15."""
     b = _builder()
-    net_l, relw_l, Wg_l, df_l = _mechanism(b, causal=False, prefix=True)
+    net_l, relw_l, Wg_l, df_l = _mechanism(b, causal=False, prefix=True, gear=1.6)
     arch = pd.read_csv(ARCH, index_col=0, parse_dates=True).iloc[:, 0]
     j = pd.concat([arch.rename('f'), net_l.rename('m')], axis=1, join='inner').dropna()
     assert len(j) == len(arch) == 4805
-    assert float((j.f - j.m).abs().max()) < 1e-15, \
-        "archived leak file must byte-reproduce from the SAME-DAY (unshifted) mechanism"
+    pre = j[j.index < "2026-08-25"]
+    assert float((pre.f - pre.m).abs().max()) < 1e-15, \
+        "pre-refresh history drifted — NOT the appended-marks class; re-audit"
+    assert float((j.f - j.m).abs().max()) < 2e-3, \
+        "appended-marks drift grew beyond the pinned 1.322e-3 (cap 2e-3); re-attribute"
 
 
 def test_lineage_inputs_and_weights_identical_across_mechanisms():
@@ -101,8 +121,8 @@ def test_lineage_inputs_and_weights_identical_across_mechanisms():
     assert relw_c.equals(relw_l), "IS-SR relw must be mechanism-independent"
     pd.testing.assert_frame_equal(df_c, df_l), "sleeve input panel must be identical"
     gc, gl = Wg_c.abs().sum(axis=1), Wg_l.abs().sum(axis=1)
-    assert abs(gc.mean() - 1.6) < 1e-12 and abs(gl.mean() - 1.6) < 1e-12
-    assert (gc > 1.6 + 1e-9).sum() == 0 and (gl > 1.6 + 1e-9).sum() == 0
+    assert abs(gc.mean() - b.GEAR) < 1e-12 and abs(gl.mean() - b.GEAR) < 1e-12  # 1.0 since ITER21
+    assert (gc > 1.6 + 1e-9).sum() == 0 and (gl > 1.6 + 1e-9).sum() == 0  # operator cap
     # day-1: causal Wg_0 is relw-proportional (all navs seeded to 1.0), leak Wg_0 eats r_0
     day0_c = Wg_c.iloc[0] / Wg_c.iloc[0].sum()
     day0_expected = relw_c / relw_c.sum()
@@ -132,8 +152,8 @@ def test_mechanisms_are_mutually_exclusive_discrimination_guard():
 
 
 def test_lineage_honest_headline_pin():
-    """ITER15 (2026-09-11) + RAWEW15: the committed champion is the correlation-aware
-    minsharpe re-emit on refreshed sleeves — ann 38.11% honest causal (n=4806) vs archived
+    """ITER15 (2026-09-11) + RAWEW15 + ITER43 (2026-09-19: A5r2 -> vt015 input): the
+    committed champion is the correlation-aware minsharpe re-emit on refreshed sleeves — ann 23.9215% honest causal (n=4806; ITER49 tsm-vt015 re-pin, was 23.7668 at ITER47) vs archived
     40.84% leaked-same-day (n=4805, SR^P-era). Both are T+1-causal verified gate-clean
     (verify_champion_r3_cmd ok=true; the leak file is the historical R1 counterexample).
     The old 3.65pp causal+costfix gap story is superseded by ITER15's weight-rule change; the
@@ -145,8 +165,8 @@ def test_lineage_honest_headline_pin():
     arch = pd.read_csv(ARCH, index_col=0, parse_dates=True).iloc[:, 0]
     rl = arch.dropna()
     ann_l = (1 + rl).prod() ** (252 / len(rl)) - 1
-    assert abs(ann_c - 0.3811446920924182) < 5e-4, \
-        f"committed champion ann must pin at 38.1145% (got {ann_c*100:.2f}%)"
+    assert abs(ann_c - 0.2392147218901779) < 5e-4, \
+        f"committed champion ann must pin at 23.9215% (got {ann_c*100:.2f}%)"
     assert abs(ann_l - 0.4084) < 5e-4, f"archived leak ann must pin at 40.84% (got {ann_l*100:.2f}%)"
     assert ann_c < ann_l, "causal (committed) lineage must be the LOWER (honest) of the two"
 

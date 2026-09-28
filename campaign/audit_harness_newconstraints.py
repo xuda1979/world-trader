@@ -32,6 +32,7 @@ def _builder():
 # ---- C1: 6.4bps FULL |dW| cost ----
 def audit_C1(b):
     net, relw, gross, to, df = b.build()
+    GEAR_B = getattr(b, 'GEAR', 1.6)  # ITER21: builder canonical gear moved 1.6 -> 1.0; audit the construction it ships
     # to must be FULL |dW| (not 0.5x). Verify by reconstructing |dW| with the SAME
     # T+1-causal construction the re-emitted builder ships (nav.shift(1)); the old
     # same-day nav here made C1 fail the causal builder (ratio 1.0313) — fixed 2026-09-23.
@@ -39,7 +40,7 @@ def audit_C1(b):
     nav = (1 + df.fillna(0)).cumprod().shift(1).fillna(1.0)   # T+1 causal
     d2 = nav.div(nav.mean(axis=1), axis=0).mul(relw, axis=1)
     d2 = d2.div(d2.sum(axis=1), axis=0) * k
-    Wg = d2 * (1.6 / k)
+    Wg = d2 * (GEAR_B / k)
     to_full = Wg.diff().abs().sum(axis=1).fillna(0.0)
     j = pd.concat([to.rename('t'), to_full.rename('tf')], axis=1, join='inner').dropna()
     ratio = (j.tf / j.t.replace(0.0, np.nan)).median()
@@ -60,14 +61,15 @@ def audit_C2(b):
     margin-charged reconstruction by exactly (1.6-1)*0.045/252 per day.
     """
     net, relw, gross, to, df = b.build()
-    margin_const = (1.6-1)*0.045/252
+    GEAR_B = getattr(b, 'GEAR', 1.6)  # ITER21 (2026-09-18): builder canonical gear 1.6 -> 1.0; audit the construction it ships
+    margin_const = max(GEAR_B-1, 0)*0.045/252   # gear 1.0 -> 0 margin/day (capital-real: no borrowing)
     # independent gross PnL: rebuild the causal weight matrix from df+relw (same T+1 recipe
     # as audit_C1's |dW| reconstruction — NOT from net), then charge costs+margin ourselves.
     k = len(relw)
     nav = (1 + df.fillna(0)).cumprod().shift(1).fillna(1.0)   # T+1 causal
     d2 = nav.div(nav.mean(axis=1), axis=0).mul(relw, axis=1)
     d2 = d2.div(d2.sum(axis=1), axis=0) * k
-    Wg = d2 * (1.6 / k)
+    Wg = d2 * (GEAR_B / k)
     gross_pnl = (df.fillna(0) * Wg).sum(axis=1)
     recon = gross_pnl - to*6.4/1e4 - margin_const
     j = pd.concat([net.rename('n'), recon.rename('r')], axis=1, join='inner').dropna()
@@ -118,10 +120,11 @@ def audit_C6(b):
     independently of the builder module's internals.
     """
     net, relw, gross, to, df = b.build()
+    GEAR_B = getattr(b, 'GEAR', 1.6)  # ITER21: audit the construction it ships (canonical gear 1.0)
     d0 = df.index[-1]
     df2 = df.copy()
     df2.loc[d0] = df2.loc[d0] * 1.5 + 0.001
-    net2 = _rebuild_net(df2, relw)
+    net2 = _rebuild_net(df2, relw, gear=GEAR_B)
     j = pd.concat([net.rename('a'), net2.rename('b')], axis=1, join='inner').dropna()
     pre = j.loc[j.index < d0]                # strictly BEFORE the perturbed day
     dev = float((pre.a - pre.b).abs().max()) if len(pre) else 0.0
