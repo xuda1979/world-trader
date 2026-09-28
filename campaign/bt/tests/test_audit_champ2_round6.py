@@ -4,7 +4,7 @@
 Pins the R6 candidate-verification numbers so any drift in the 14-sleeve candidate, the
 champion of record, or the fill-0 blend arithmetic is loud:
 
-  1. champion of record 7/7 stats (CAGR 37.1954 / SR 3.1810 / MDD -6.6922 / 0 neg).
+  1. champion of record 7/7 stats (ITER47: CAGR 23.7668 / SR 3.7841 / MDD -3.7012 / 0 neg).
   2. CAMP_COST 14-sleeve candidate: 7/7 own-algebra pass + byte-identity of my rebuild.
   3. Convention root-cause: fill-0 w=0.25 blend reproduces dSR +0.199 / dAnn +4.21pp;
      the 8e-compliant re-solve gives dAnn -0.907pp. Both directions pinned.
@@ -90,9 +90,17 @@ def _rebuild_cand():
 def test_champion_of_record_77_stats():
     s = _stats(_champ())
     assert s["neg"] == 0
-    assert abs(s["cagr"] - 38.11446920924182) < 1e-6   # ITER15 weight-rule re-emit
-    assert abs(s["sr"] - 3.235753053577948) < 1e-6
-    assert abs(s["mdd"] - (-6.561964559361821)) < 1e-6
+    # ITER43 champion of record (2026-09-19: canonical A5r2 sleeve -> the vt015 emission
+    # at the SAME canonical gear 1.0 / gross 1.0; the ITER21 gear-1.0 vintage is preserved
+    # byte-exact at agents/chief/coord/ITER43_A5R2_VT/prior_champion_backup/ --
+    # 23.60536534642561 / 3.75142869028905 / -3.61301217878950)
+    # ITER47 re-pin (2026-09-19: A5r2 -> vt024; was 23.681279442217228 / 3.7647642016866434 /
+    # -3.6603250632892492 at ITER43).
+    # ITER49 re-pin (2026-09-19: QAxasts -> tsm-vt015; was 23.766796770250043 / 3.7840994002149047 /
+    # -3.701204431908023 at ITER47).
+    assert abs(s["cagr"] - 23.921472189017791) < 1e-6
+    assert abs(s["sr"] - 3.820357300956879) < 1e-6
+    assert abs(s["mdd"] - (-3.733938034777473)) < 1e-6
 
 
 def test_candidate14_own_rebuild_byte_exact_and_77():
@@ -116,21 +124,31 @@ def test_convention_rootcause_fill0_vs_resolve():
     champ, h = _champ(), _load(SLEEVES["RB_hobr"])
     # fill-0 on the CHAMPION's index (4806 days after RAWEW15 refresh) reproduces the
     # standup numbers exactly; the inner-join variant differs slightly - both re-pinned for
-    # the ITER15/RAWEW15 champion of record.
+    # the ITER43 champion of record (A5r2 vt015).
     h0 = h.reindex(champ.index).fillna(0.0)
     fill0 = champ + 0.25 * h0
     d_ann_fill0 = _stats(fill0)["cagr"] - _stats(champ)["cagr"]
     d_sr_fill0 = _stats(fill0)["sr"] - _stats(champ)["sr"]
-    assert abs(d_sr_fill0 - 0.19613735321236136) < 1e-9
-    assert abs(d_ann_fill0 - 4.239679972090649) < 1e-6
+    # re-pinned at ITER43 (2026-09-19): the blend deltas moved with the champion of record
+    # (A5r2 -> vt015 input; was 0.18592233964045 / 3.79763208747301 at the ITER21 gear-1.0
+    # vintage, 0.19589478855917 / 4.18705711114098 at the ITER20 gear-1.6 vintage)
+    # ITER47 re-pin (2026-09-19, A5r2 -> vt024): values below re-measured at the new champion.
+    # ITER49 re-pin (2026-09-19, QAxasts -> tsm-vt015): re-measured again at the new champion.
+    assert abs(d_sr_fill0 - 0.1831887250272) < 1e-9
+    assert abs(d_ann_fill0 - 3.8077479644020) < 1e-6
     # inner-join variant (dropna'd common days only)
     j = pd.concat([champ.rename("c"), h.rename("h")], axis=1, join="inner").dropna()
     bl = j.c + 0.25 * j.h
-    assert abs((_stats(bl)["sr"] - _stats(j.c)["sr"]) - 0.2017067382575468) < 1e-9
-    assert abs((_stats(bl)["cagr"] - _stats(j.c)["cagr"]) - 4.528510559016134) < 1e-6
-    # the 8e-compliant re-solve delta is NEGATIVE and pinned (now vs the 38.11% champ)
+    assert abs((_stats(bl)["sr"] - _stats(j.c)["sr"]) - 0.1899638988568) < 1e-9
+    assert abs((_stats(bl)["cagr"] - _stats(j.c)["cagr"]) - 4.0398642799632) < 1e-6
+    # the 8e delta vs the frozen RAWEW14 candidate, re-pinned. Sign note: it was NEGATIVE
+    # (-0.1264676pp) vs the ITER20 gear-1.6 champion and is POSITIVE now only because the
+    # champion runs at 1.0 (ann 23.9215% at ITER49) while the candidate bytes are a gear-1.6-era
+    # artifact (ann 36.2885%) -- an APPLES-TO-ORANGES ann comparison across gears, not a
+    # candidate improvement. The candidate remains NON-ADOPTED (8c dAnn>0 HARD at its own
+    # era; SR comparison at matched gross governs under the SR-max objective).
     sc, sn = _stats(_champ()), _stats(_cand())
-    assert abs((sn["cagr"] - sc["cagr"]) - (-1.8259683861025167)) < 1e-6
+    assert abs((sn["cagr"] - sc["cagr"]) - 12.3670286341215) < 1e-6
 
 
 def test_champion_card_clean_env_bare_run_matches_committed():

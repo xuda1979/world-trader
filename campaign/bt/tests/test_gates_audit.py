@@ -14,6 +14,8 @@ _sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.absp
 ROOT = "/Users/daxu/software/world-trader"
 # cwd-relative CHAMP broke when pytest ran from anywhere but repo root
 # (5 false FAILs from coord/, standup 2026-09-07 00:5x); mirror test_rawew13v2.py.
+# ITER43 (2026-09-19): the champion CSV emits index-col (,ret) -- no named date column;
+# read with index_col=0.
 CHAMP = f"{ROOT}/campaign/results/GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv"
 
 
@@ -157,7 +159,7 @@ def test_audit_plateau_edge_of_grid_uses_available_neighbors():
 # ---------------------------------------------------------------- decorrelation
 def test_audit_corr_computation_matches_manual():
     """corr_to must equal a manual Pearson on the date-aligned overlap."""
-    champ = pd.read_csv(CHAMP, parse_dates=['date']).set_index('date')['ret']
+    champ = pd.read_csv(CHAMP, index_col=0, parse_dates=True).iloc[:, 0]
     rng = np.random.default_rng(41)
     cand = pd.Series(rng.normal(0, 0.01, len(champ)), index=champ.index)
     g = G.run(cand, ref=champ)
@@ -168,14 +170,14 @@ def test_audit_corr_computation_matches_manual():
 
 def test_audit_corr_self_champion_fails():
     """corr(champion, champion)=1 must NOT pass the |corr|<0.15 gate (sanity of sign/abs)."""
-    champ = pd.read_csv(CHAMP, parse_dates=['date']).set_index('date')['ret']
+    champ = pd.read_csv(CHAMP, index_col=0, parse_dates=True).iloc[:, 0]
     g = G.run(champ, ref=champ)
     assert abs(g['corr'] - 1.0) < 1e-9
     assert g['corr_ok'] is False
 
 
 def test_audit_corr_noise_vs_champion_passes():
-    champ = pd.read_csv(CHAMP, parse_dates=['date']).set_index('date')['ret']
+    champ = pd.read_csv(CHAMP, index_col=0, parse_dates=True).iloc[:, 0]
     rng = np.random.default_rng(42)
     cand = pd.Series(rng.normal(0, 0.01, len(champ)), index=champ.index)
     g = G.run(cand, ref=champ)
@@ -184,7 +186,7 @@ def test_audit_corr_noise_vs_champion_passes():
 
 def test_audit_corr_no_overlap_fails_closed():
     """Almost-disjoint calendars -> corr undefined -> gate must FAIL CLOSED, not pass."""
-    champ = pd.read_csv(CHAMP, parse_dates=['date']).set_index('date')['ret']
+    champ = pd.read_csv(CHAMP, index_col=0, parse_dates=True).iloc[:, 0]
     cand = pd.Series([0.01, -0.01, 0.005],
                      index=pd.date_range('2030-01-01', periods=3, freq='B'))
     g = G.run(cand, ref=champ)
@@ -250,7 +252,7 @@ def test_audit_composite_strong_sleeve_passes():
 
 def test_audit_champion_stats_reachable():
     """The committed champion must clear SR/halves/yearly gates (corr-to-self excluded)."""
-    champ = pd.read_csv(CHAMP, parse_dates=['date']).set_index('date')['ret']
+    champ = pd.read_csv(CHAMP, index_col=0, parse_dates=True).iloc[:, 0]
     sr = sharpe_d(champ)
     h1, h2 = half_split(champ)
     neg, worst = neg_years(champ)

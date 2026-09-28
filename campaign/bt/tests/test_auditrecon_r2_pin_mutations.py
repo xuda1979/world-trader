@@ -26,7 +26,8 @@ def _rebuild(bps=None, gear=None, relw_scale=None, causal=True):
     # fit, so the baseline rebuild must use it to reproduce the committed champion. The
     # mutations below (cost rate, gear, relw scale, weight timing) are all orthogonal to
     # the rule and must still be caught.
-    relw = B.fit_relw(df[df.index < B.IS_END])
+    # ITER20: production = fit THROUGH the brwt-block cap transform (champion family).
+    relw = B.apply_brwt_cap(B.fit_relw(df[df.index < B.IS_END]))
     if relw_scale is not None:
         relw = relw * relw_scale
     nav = (1 + df.fillna(0)).cumprod()

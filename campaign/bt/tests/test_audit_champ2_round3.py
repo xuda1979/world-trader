@@ -51,7 +51,22 @@ HEAD_WEIGHTS_GIT = "HEAD:software/world-trader/campaign/results/RAWEW13v2_IS_SR_
 STALE_HEADLINES = ["40.84", "40.88", "40.8413", "39.85", "39.69", "39.687317", "39.6873",
                    # ITER15 (2026-09-11): the RAWEW15 refresh generation (37.4923%) was
                    # superseded by the correlation-aware weight rule (38.114469%).
-                   "37.49", "37.4923", "37.195397", "37.195"]
+                   "37.49", "37.4923", "37.195397", "37.195",
+                   # ITER20 (2026-09-18): objective moved to Sharpe-max; the ITER15/19
+                   # ann-max generations (38.1145% / 39.4995%) are now superseded headlines.
+                   "38.11", "38.114469", "39.4995", "39.499542", "39.50",
+                   # ITER21 (2026-09-18): the gear lever -- the SAME weights at canonical
+                   # gear 1.0 (23.6054%) supersede the ITER20 gear-1.6 headline (36.41%).
+                   "36.41", "36.415", "36.4150", "36.4149", "36.414968",
+                   # ITER43 (2026-09-19): the A5r2 -> vt015 input swap (23.681279%)
+                   # supersedes the ITER21 gear-1.0 headline (23.6054%).
+                   "23.60", "23.605", "23.6054", "23.605365", "23.61",
+                   # ITER47 (2026-09-19): the A5r2 -> vt024 upper-edge extension
+                   # (23.766797%) supersedes the ITER43 vt015 headline (23.6813%).
+                   "23.68", "23.681", "23.6813", "23.68128", "23.681279",
+                   # ITER49 (2026-09-19): the QAxasts -> tsm-vt015 harness-vol-target
+                   # adoption (23.921472%) supersedes the ITER47 vt024 headline (23.7668%).
+                   "23.77", "23.7668", "23.76679", "23.766797"]
 # line-level framing markers that make a stale-number mention historical rather than current
 FRAME = re.compile(
     r"archive|leak|prior|supersede|counterfactual|\bvs\b|\bvs\.|\bold\b|history|was\b|"
@@ -156,8 +171,15 @@ def test_a4_current_headline_is_the_costfix_reemit_not_a_stale_one():
     # Headline lineage, in order: 39.687317% (R2 costfix) -> 37.195397% (R3 brwt10/7/5
     # FULL|dW|@6.4 costfix, 2026-09-07 11:24) -> 37.4923% (R8 RAWEW15 refresh) ->
     # 38.114469% (ITER15 correlation-aware weight rule, 2026-09-11).
-    assert abs(pct - 38.114469) < 5e-4, f"champion headline moved to {pct:.6f}% — refresh banners"
-    for stale in (40.84, 40.88, 39.85, 39.69, 37.195397, 37.4923):
+    # ... -> 39.499542% (ITER19 brwt15-prune + shrink re-selection, 2026-09-13)
+    # ... -> 36.414968% (ITER20 Sharpe-max re-selection shrink 0.70 + brwt cap 0.30, 2026-09-18).
+    # ... -> 23.605365% (ITER21 gear lever: SAME weights at canonical gear 1.0, 2026-09-18).
+    # ... -> 23.681279% (ITER43 A5r2-axis vt015 input swap, 2026-09-19).
+    # ... -> 23.766797% (ITER47 A5r2 vt024 upper-edge extension, 2026-09-19).
+    # ... -> 23.921472% (ITER49 tsmom vt015 harness-vol-target adoption, 2026-09-19).
+    assert abs(pct - 23.921472) < 5e-4, f"champion headline moved to {pct:.6f}% — refresh banners"
+    for stale in (40.84, 40.88, 39.85, 39.69, 37.195397, 37.4923, 38.114469, 39.499542,
+                  36.414968, 23.605365, 23.681279, 23.766797):
         assert abs(pct - stale) > 5e-4, f"stale headline {stale} is billed as current"
 
 
@@ -184,7 +206,7 @@ def test_b_weights_csv_matches_builder_per_column():
     com = pd.read_csv(WFILE, index_col=0).iloc[:, 0]
     dev = (com - relw).abs()
     assert dev.max() < 1e-10, f"weights CSV drifts from builder: max {dev.max():.3e}"
-    assert sorted(com.index) == sorted(relw.index) and len(com) == 13
+    assert sorted(com.index) == sorted(relw.index) and len(com) == 12  # ITER19: brwt15 pruned
 
 
 def test_b_weights_drift_vs_git_head_is_exactly_the_costfix_delta():
@@ -205,9 +227,15 @@ def test_b_weights_drift_vs_git_head_is_exactly_the_costfix_delta():
     j = pd.concat([head.rename("head"), com.rename("cur")], axis=1, join="inner")
     delta = (j["cur"] - j["head"]).astype(float)
     movers = set(delta[delta.abs() > 1e-12].index)
-    assert movers == set(), (
-        f"uncommitted weights drift vs git HEAD (costfix already committed): {sorted(movers)}"
-    )
+    # RE-PINNED after ITER19 (2026-09-13): the brwt15-prune re-emit is REVIEWED but UNCOMMITTED
+    # (git staging is approval-gated, so HEAD still carries the 13-sleeve ITER15 blob). The
+    # pin is therefore: the ONLY difference vs HEAD is the ITER19 re-emit itself -- brwt15
+    # dropped, and the remaining 11 columns refit. Any OTHER mover is an unreviewed knob.
+    assert set(head.index) - set(com.index) == {"brwt15"}, "the drop-vs-HEAD must be exactly brwt15"
+    assert set(com.index) - set(head.index) == set(), "no sleeve may appear that HEAD lacks"
+    assert movers == {"A5r2", "C5ng", "C5ngsum", "QAxasts", "a6r7", "brwt10", "brwt5",
+                      "brwt7", "carryv2", "diescrack", "dualmom"}, (
+        f"unexpected weights drift vs git HEAD beyond the ITER19 re-emit: {sorted(movers)}")
 
 
 # ---------------------------------------------------------------- (c) champion card

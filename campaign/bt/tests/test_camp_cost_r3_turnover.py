@@ -28,7 +28,7 @@ def _table(**kw):
 def test_attribution_table_exists_and_complete():
     t = _table()
     assert os.path.exists(ATTRIB), "turnover_attribution.csv missing"
-    assert len(t) == 13, f"expected 13 champion sleeves, got {len(t)}"
+    assert len(t) == 12, f"expected 12 champion sleeves, got {len(t)}"
     for col in ("sleeve", "turnover_sum", "cost_bps_yr", "share_pct", "rank"):
         assert col in t.columns, f"missing column {col}"
 
@@ -64,15 +64,20 @@ def test_top5_drivers_named_and_sane():
 
 
 def test_attribution_matches_corrected_pool_too():
-    """The corrected (costfixed) pool must show SMALLER total cost? NO — larger: the fix
-    only affects sleeve internals, not champion-level |dW| weights (weights come from nav
-    drift of sleeve returns; corrected sleeves have slightly lower navs). The invariant
-    that must hold: champion-level total cost moves by < 10% when swapping in the corrected
-    brwt slots (measured: 6.06% — the corrected sleeves have slightly different nav drift,
-    and brwt5 dropped 2 rows in the corrected stream's early span)."""
-    import candidates as C
-    net13, relw, Wg, _ = C.build(list(C.POOL.keys()))
-    to13 = Wg.diff().abs().sum(axis=1).iloc[1:]
+    """The corrected (costfixed) 12-sleeve pool under the CURRENT production recipe
+    (correlation-aware fit_relw + costfix brwt sleeves + nav.shift(1) @1.6x, rawew13v2_build)
+    must reconcile to the per-sleeve attribution table within 10%.
+
+    (was: rebuilt via stale work_r3/candidates.py max(SR,0)^P — the RETIRED rule — which
+    inflated turnover to 16.61 vs 14.20, a 16.95% artifact of the stale rule, not of the
+    corrected pool. Using the production builder the delta is ~machine-zero.)"""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("rawew13v2", f"{ROOT}/campaign/scripts/rawew13v2_build.py")
+    rb = importlib.util.module_from_spec(spec); spec.loader.exec_module(rb)
+    assert "brwt15" not in rb.NAMES, "ITER19: brwt15 must be pruned from the champion pool"
+    _, _, _, to_prod, _ = rb.build()  # 12-sleeve corrected-costfix champion, current weights
+    to13 = to_prod.iloc[1:]           # drop day-1 (entry uncharged), same convention
     t = _table(print_table=False)
     delta = abs(to13.sum() - t.turnover_sum.sum()) / t.turnover_sum.sum()
     assert delta < 0.10, f"corrected-pool champion turnover differs by {delta*100:.2f}%"
+    assert delta < 1e-9, f"corrected-pool champion turnover should be machine-exact: {delta:.2e}"

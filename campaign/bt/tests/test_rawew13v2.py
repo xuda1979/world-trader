@@ -1,8 +1,9 @@
-"""TDD tests for the RAW-EW13v2 WEIGHTED champion (IS-SR-fitted slots @1.6x).
+"""TDD tests for the RAW-EW13v2 WEIGHTED champion (IS-SR-fitted slots; gear 1.0 canonical
+since ITER21 2026-09-18, was @1.6x through ITER20).
 
 Honesty properties verified (fail-closed):
-  1. Leverage cap: capital-real gross == 1.6 every day, never > 1.6+eps.
-  2. Margin charged on (1.6-1) at 4.5%/yr (nonzero drag).
+  1. Leverage: gross rides the canonical gear exactly (1.0 since ITER21), never > 1.6+eps.
+  2. Margin charged on max(gear-1, 0) at 4.5%/yr (real drag at gear > 1).
   3. Turnover cost applied (6.4bps one-side).
   4. Weights depend ONLY on IS (pre-2017) returns (no lookahead into OOS/full).
   5. 0/19 negative years and MaxDD > -7.0% (goal compliance).
@@ -23,10 +24,13 @@ def _builder():
     b = importlib.util.module_from_spec(spec); spec.loader.exec_module(b)
     return b
 
-def test_leverage_exactly_1p6_never_above():
+def test_leverage_rides_gear_never_above_operator_cap():
+    """ITER21: gross rides the CANONICAL gear (1.0) exactly and never exceeds the
+    operator's 1.6 cap. (Pre-ITER21 the canonical gear itself was 1.6.)"""
     b = _builder(); net, relw, gross, to, df = b.build()
-    assert (gross > 1.6 + 1e-9).sum() == 0, "gross must never exceed 1.6"
-    assert abs(gross.mean() - 1.6) < 1e-9, "gross must equal 1.6"
+    assert (gross > 1.6 + 1e-9).sum() == 0, "gross must never exceed the 1.6 operator cap"
+    assert abs(gross.mean() - b.GEAR) < 1e-9, "gross must equal the canonical gear exactly"
+    assert abs(b.GEAR - 1.0) < 1e-12, "ITER21: canonical gear is 1.0"
 
 def test_margin_charged():
     b = _builder(); net, relw, gross, to, df = b.build()
@@ -100,16 +104,19 @@ def test_weights_are_is_only_no_lookahead():
             best = r
     assert best is not None, "IS max-Sharpe fit must converge"
     expected = pd.Series(0.0, index=names); expected[have] = best.x
+    # ITER20: the committed weights are the independent fit THROUGH the sanctioned
+    # brwt-block cap transform (deterministic weight algebra, checked-in code).
+    expected = b.apply_brwt_cap(expected)
     assert float((relw - expected).abs().max()) < 1e-9, \
-        "weights must be the long-only IS max-Sharpe fit"
+        "weights must be the long-only IS max-Sharpe fit (through the ITER20 cap)"
     assert float(relw[~relw.index.isin(have)].abs().max()) == 0.0, \
         "sleeves with no IS coverage (CFX4) must carry exactly weight 0"
 
     # --- 2. the IS-only handoff: the fit DOES depend on its input window, and the
     #        committed relw is exactly the IS-restricted answer. Together these prove no
     #        post-2016 return can enter the weights (a full-frame fit would differ).
-    assert float((relw - b.fit_relw(isr)).abs().max()) < 1e-12, \
-        "committed relw must equal fit_relw(IS slice)"
+    assert float((relw - b.apply_brwt_cap(b.fit_relw(isr))).abs().max()) < 1e-12, \
+        "committed relw must equal the ITER20 composite of fit_relw(IS slice)"
     assert float((relw - b.fit_relw(df)).abs().max()) > 1e-6, \
         "sanity: the fit must actually depend on its input window (else this test is vacuous)"
 
@@ -126,7 +133,9 @@ def test_sr_and_ann_improve_over_prior_champion():
     -> inflated 1.29 ratio. Like-for-like (coordinator probe 2026-09-07): EW-same-inputs
     = 33.30% vs weighted 37.20% (+11.7% rel); SR 3.181 vs 3.22, MDD -6.69 vs -6.00,
     both inside the -7% wall, 0/19 neg years both. Honest gain of IS-SR slot fitting:
-    +3.9pp ann; the old >=30% claim was an artifact of baseline cost undercharge."""
+    +3.9pp ann; the old >=30% claim was an artifact of baseline cost undercharge.
+    ITER21 (canonical gear 1.0, like-for-like): EW-same-inputs 22.37% vs weighted 23.61%,
+    MDD -3.32 vs -3.61 (both inside the -7% wall), 0/19 neg years both."""
     b = _builder(); net = b.build()[0]
     now = M.report(net)
     import numpy as np
@@ -136,10 +145,10 @@ def test_sr_and_ann_improve_over_prior_champion():
     nav = (1 + df.fillna(0)).cumprod().shift(1).fillna(1.0)
     d2 = nav.div(nav.mean(axis=1), axis=0).mul(relw, axis=1)
     d2 = d2.div(d2.sum(axis=1), axis=0) * len(b.NAMES)
-    Wg = d2 * (1.6 / len(b.NAMES))
+    Wg = d2 * (b.GEAR / len(b.NAMES))          # ITER21: like-for-like on the canonical gear
     port = (df.fillna(0).values * Wg.values).sum(axis=1)
     to = (Wg.diff().abs().sum(axis=1)).fillna(0.0)
-    net_ew = pd.Series(port, index=df.index) - to*6.4e-4 - 0.6*0.045/252
+    net_ew = pd.Series(port, index=df.index) - to*6.4e-4 - max(b.GEAR-1, 0)*0.045/252
     ew = M.report(net_ew)
     assert now['ann_geo'] > ew['ann_geo'], "IS-SR weighting must beat same-inputs EW on ann"
     assert now['neg_years'] == 0 and ew['neg_years'] == 0
@@ -157,7 +166,7 @@ def test_turnover_cost_is_full_one_side_dw_not_half():
     nav = (1 + df.fillna(0)).cumprod().shift(1).fillna(1.0)
     d2 = nav.div(nav.mean(axis=1), axis=0).mul(relw, axis=1)
     d2 = d2.div(d2.sum(axis=1), axis=0) * k
-    Wg = d2 * (1.6 / k)
+    Wg = d2 * (b.GEAR / k)                     # ITER21: reconstruct on the canonical gear
     to_full = Wg.diff().abs().sum(axis=1).fillna(0.0)
     # builder's `to` must equal FULL |dW| (not 0.5x): compare on overlapping rows
     j = pd.concat([to.rename('t'), to_full.rename('tf')], axis=1, join='inner').dropna()

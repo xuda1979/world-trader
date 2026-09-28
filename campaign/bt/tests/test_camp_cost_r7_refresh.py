@@ -49,7 +49,26 @@ def test_refresh_prefix_identity_no_history_relabel():
     """Rows on/before 2026-08-10 (last committed end of any refreshed sleeve) must equal
     the committed champion bytes exactly — the refresh adds P&L only AFTER the committed
     sleeve ends, never relabels history."""
-    net, relw, gross, to, df = raw15.build()
+    # The archived generation is a GEAR-1.6 artifact; the candidate builder inherits the
+    # LIVE canonical GEAR (1.0 since ITER21 2026-09-18) -- restore the vintage gear.
+    _g = raw15.GEAR
+    _p = raw15.PATHS15["A5r2"]
+    _ts = raw15.PATHS15["QAxasts"]
+    try:
+        raw15.GEAR = 1.6
+        # Re-anchored 2026-09-19: pin the A5r2 sleeve to the historical VT=0.10 vintage
+        # this candidate was re-solved on - the 2026-09-19 ITER43 adoption repointed the
+        # live builder A5r2 path to the vt015 sleeve. ITER49 re-anchor (2026-09-19): same
+        # for the QAxasts tsmom vintage (vt0.10 -> tsm-vt015).
+        raw15.PATHS15["A5r2"] = (
+            "campaign/agents/A5_vol_cond/sleeves/A5_r2_contango_rateshock.csv")
+        raw15.PATHS15["QAxasts"] = (
+            "campaign/agents/E1_20yspan/sleeves/E1_QAxasts_tsmom189_2006.csv")
+        net, relw, gross, to, df = raw15.build()
+    finally:
+        raw15.GEAR = _g
+        raw15.PATHS15["A5r2"] = _p
+        raw15.PATHS15["QAxasts"] = _ts
     old = pd.read_csv(ARCH_CSV, index_col=0, parse_dates=True).iloc[:, 0]
     pre = net[net.index <= "2026-08-10"]
     j = pd.concat([old.rename("old"), pre.rename("new")], axis=1, join="inner").dropna()
@@ -67,10 +86,10 @@ def test_relw_identical_to_committed_weights():
 
 def test_costs_full_dw_64bps_and_margin():
     """Candidate charges FULL |dW| @ 6.4bps one-side (no 0.5 half-turn) + 4.5%/yr margin
-    on (1.6-1); day-1 entry uncharged."""
+    on max(gear-1, 0) (gear-aware since ITER21); day-1 entry uncharged."""
     net, relw, gross, to, df = raw15.build()
     port = (df.fillna(0).values * raw15.last_Wg.values).sum(axis=1)
-    implied = pd.Series(port, index=df.index) - net - 0.6 * 0.045 / 252  # embedded cost stream
+    implied = pd.Series(port, index=df.index) - net - max(raw15.GEAR - 1, 0) * 0.045 / 252
     cost_full = to * 6.4 / 1e4
     assert float((implied - cost_full).abs().max()) < 1e-15
     assert float((implied - 0.5 * cost_full).abs().max()) > 1e-6  # half-turn decisively wrong
@@ -78,8 +97,8 @@ def test_costs_full_dw_64bps_and_margin():
 
 def test_gross_rides_cap_exactly_never_over():
     net, relw, gross, to, df = raw15.build()
-    assert gross.max() <= 1.6 + 1e-9
-    assert abs(gross.mean() - 1.6) < 1e-9  # 8e: constructed AT the cap exactly
+    assert gross.max() <= 1.6 + 1e-9            # the OPERATOR cap (unchanged)
+    assert abs(gross.mean() - raw15.GEAR) < 1e-9  # constructed AT the gear exactly (1.0 since ITER21)
     assert int((gross > 1.6 + 1e-9).sum()) == 0
 
 
@@ -129,5 +148,5 @@ def test_emitted_bytes_deterministic():
 
 def test_emitted_weights_rows_match_13_sleeves():
     w = pd.read_csv(CAND_W, index_col=0)
-    assert len(w) == 13
+    assert len(w) == 13  # historical 13-sleeve pool (the ITER19 prune is builder-side)
     assert (w.iloc[:, 0] >= 0).all()

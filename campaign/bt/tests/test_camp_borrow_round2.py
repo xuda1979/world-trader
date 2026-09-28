@@ -22,7 +22,9 @@ from bt.borrow import margin_daily, margin_ann, gross_exact, borrow_tier_uplift
 
 ROOT = "/Users/daxu/software/world-trader"
 BUILDER = f"{ROOT}/campaign/scripts/rawew13v2_build.py"
-GEAR, RATE, BPS = 1.6, 0.045, 6.4
+GEAR_REF, RATE, BPS = 1.6, 0.045, 6.4  # geared REFERENCE (teeth for the rate ladder);
+# the CANONICAL gear is b.GEAR == 1.0 since ITER21 (2026-09-18) -- the champion pays no
+# margin at gear 1.0, so call-rate immunity is itself a pinned property down there.
 
 
 def _champ_builder():
@@ -31,7 +33,7 @@ def _champ_builder():
     return b
 
 
-def _causal_weights(df, relw):
+def _causal_weights(df, relw, gear):
     """Independent reconstruction of the shipped causal weight stream (nav.shift(1)) —
     NOT taken from the builder, so the margin/gross checks below cannot tautologically
     pass (audit_C2 R1 lesson: never reconstruct `port` from `net`)."""
@@ -39,14 +41,13 @@ def _causal_weights(df, relw):
     nav = (1 + df.fillna(0)).cumprod().shift(1).fillna(1.0)
     d2 = nav.div(nav.mean(axis=1), axis=0).mul(relw, axis=1)
     d2 = d2.div(d2.sum(axis=1), axis=0) * k
-    return d2 * (GEAR / k)
+    return d2 * (gear / k)
 
 
-def _independent_net(b, rate):
+def _independent_net(b, rate, gear=None):
     """Gross port / turnover / margin all recomputed from RAW sleeve frame at `rate`."""
     net, relw, gross_b, to, df = b.build()
-    k = len(relw)
-    Wg = _causal_weights(df, relw)
+    Wg = _causal_weights(df, relw, b.GEAR if gear is None else gear)
     port = pd.Series((df.fillna(0).values * Wg.values).sum(axis=1), index=df.index)
     to_full = Wg.diff().abs().sum(axis=1).fillna(0.0)
     net_new = port - to_full * BPS / 1e4 - np.maximum(Wg.abs().sum(axis=1) - 1, 0) * rate / 252
@@ -56,29 +57,31 @@ def _independent_net(b, rate):
 # ---------- (a) margin drag + gross exactness on the CAUSAL champion ----------
 
 def test_margin_drag_is_2p70_at_4p5_on_capital_real_gross():
-    g = pd.Series(GEAR, index=pd.date_range("2020-01-01", periods=5))
+    g = pd.Series(GEAR_REF, index=pd.date_range("2020-01-01", periods=5))
     d = margin_daily(g, RATE)
-    assert np.allclose(d, (GEAR - 1) * RATE / 252)
-    assert abs((GEAR - 1) * RATE / 252 - 1.0714285714285714e-4) < 1e-12  # 1.0714 bps/day
+    assert np.allclose(d, (GEAR_REF - 1) * RATE / 252)
+    assert abs((GEAR_REF - 1) * RATE / 252 - 1.0714285714285714e-4) < 1e-12  # 1.0714 bps/day
     assert abs(margin_ann(g, RATE) - 0.027) < 1e-12, "margin drag must be 2.70%/yr at 4.5% on 0.6"
 
 
 def test_margin_is_zero_at_or_below_gross_1():
     g = pd.Series([1.6, 1.0, 0.8])
-    assert np.allclose(margin_daily(g, RATE), [(GEAR - 1) * RATE / 252, 0.0, 0.0])
+    assert np.allclose(margin_daily(g, RATE), [(GEAR_REF - 1) * RATE / 252, 0.0, 0.0])
 
 
-def test_causal_champion_gross_is_1p6_within_1e9_every_day():
-    """(c) fail-closed: ANY day with |gross-1.6|>1e-9 fails (re-emit regression gate)."""
+def test_causal_champion_gross_rides_canonical_gear_within_1e9_every_day():
+    """(c) fail-closed: ANY day with |gross-canonical|>1e-9 fails. ITER21: canonical gear
+    is 1.0 (was 1.6); the operator's 1.6 cap still binds."""
     b = _champ_builder()
     net, relw, gross_b, to, df = b.build()
-    # builder-RETURNED gross series AND the independently reconstructed one must both pass
-    ok_b, dev_b, bad_b = gross_exact(gross_b)
-    Wg = _causal_weights(df, relw)
-    ok_i, dev_i, bad_i = gross_exact(Wg.abs().sum(axis=1))
-    assert ok_b, f"builder gross deviates from 1.6: max dev={dev_b:.3e} on {bad_b} days"
-    assert ok_i, f"independent gross deviates from 1.6: max dev={dev_i:.3e} on {bad_i} days"
+    assert abs(b.GEAR - 1.0) < 1e-12
+    ok_b, dev_b, bad_b = gross_exact(gross_b, target=b.GEAR)
+    Wg = _causal_weights(df, relw, b.GEAR)
+    ok_i, dev_i, bad_i = gross_exact(Wg.abs().sum(axis=1), target=b.GEAR)
+    assert ok_b, f"builder gross deviates from {b.GEAR}: max dev={dev_b:.3e} on {bad_b} days"
+    assert ok_i, f"independent gross deviates from {b.GEAR}: max dev={dev_i:.3e} on {bad_i} days"
     assert dev_b < 1e-9 and dev_i < 1e-9
+    assert float(gross_b.max()) <= 1.6 + 1e-9, "operator leverage cap"
 
 
 def test_gross_exact_flag_fires_on_doctored_stream():
@@ -94,7 +97,7 @@ def test_champion_net_reconciles_to_independent_margin_reconstruction():
     port from the raw sleeve frame, not from net."""
     b = _champ_builder()
     net, relw, gross, to, df = b.build()
-    net_i, Wg, to_i, _ = _independent_net(b, RATE)
+    net_i, Wg, to_i, _ = _independent_net(b, RATE, gear=b.GEAR)
     j = pd.concat([net.rename("n"), net_i.rename("i")], axis=1).dropna()
     assert float((j.n - j.i).abs().max()) < 1e-10, \
         f"committed net != independent reconstruction (max dev {float((j.n-j.i).abs().max()):.2e})"
@@ -102,33 +105,45 @@ def test_champion_net_reconciles_to_independent_margin_reconstruction():
 
 # ---------- (b) call-rate stress ladder on the NEW headline ----------
 
-def test_call_rate_ladder_is_exactly_linear_0p60pp_per_pp():
-    """(b) +1pp call rate costs exactly 0.6pp/yr arithmetic on a 1.6-gross book (0.6*1pp).
-    The ladder must reflect that exactly (margin term is the ONLY change)."""
+def test_call_rate_ladder_flat_at_canonical_gear_linear_geared():
+    """(b) TWO properties since ITER21. (i) At the CANONICAL gear 1.0 the champion pays NO
+    margin, so the call-rate ladder must be EXACTLY flat -- call-rate immunity.
+    (ii) The ladder machinery keeps its teeth: on an independent GEARED reconstruction
+    (gear 1.6, the pre-ITER21 canonical), +1pp call rate costs exactly 0.60pp/yr."""
     b = _champ_builder()
-    base = {}
+    base, gbase = {}, {}
     for rate in (0.045, 0.055, 0.065, 0.08):
-        net_i, _, _, _ = _independent_net(b, rate)
-        base[rate] = net_i
+        base[rate], _, _, _ = _independent_net(b, rate, gear=b.GEAR)
+        gbase[rate], _, _, _ = _independent_net(b, rate, gear=GEAR_REF)
     for hi, lo, pp in [(0.055, 0.045, 1.0), (0.065, 0.055, 1.0), (0.08, 0.065, 1.5)]:
-        dpp = (base[lo].mean() - base[hi].mean()) * 252 * 100
-        assert abs(dpp - 0.60 * pp) < 1e-9, \
-            f"{lo}->{hi}: ann impact {dpp:.4f}pp != {0.60 * pp}pp"
+        dpp0 = (base[lo].mean() - base[hi].mean()) * 252 * 100
+        assert abs(dpp0 - 0.0) < 1e-12, \
+            f"canonical-gear book must be call-rate-immune: {lo}->{hi} moved {dpp0:.6f}pp"
+        dpp1 = (gbase[lo].mean() - gbase[hi].mean()) * 252 * 100
+        assert abs(dpp1 - 0.60 * pp) < 1e-9, \
+            f"geared {lo}->{hi}: ann impact {dpp1:.4f}pp != {0.60 * pp}pp"
 
 
 def test_committed_champion_is_priced_at_4p5_not_a_stressed_rate():
-    """(c) committed net must match the 4.5% reconstruction EXACTLY and differ from every
-    stressed rung (else the headline silently embeds a different call rate)."""
+    """(c) committed net must match the 4.5% reconstruction EXACTLY. ITER21: at the
+    canonical gear 1.0 the margin term is identically 0 for EVERY rate (call-rate
+    immunity -- the price of de-gearing, and a FEATURE). The rate-DISCRIMINATION power
+    this test was written for is retained on the geared (1.6) independent reconstruction,
+    which must match 4.5% pricing and differ from every stressed rung."""
     b = _champ_builder()
     net, relw, gross, to, df = b.build()
     for rate in (0.045, 0.055, 0.065, 0.08):
-        net_i, _, _, _ = _independent_net(b, rate)
+        net_i, _, _, _ = _independent_net(b, rate, gear=b.GEAR)
         j = pd.concat([net.rename("n"), net_i.rename("i")], axis=1).dropna()
         dev = float((j.n - j.i).abs().max())
-        if rate == RATE:
-            assert dev < 1e-10, f"committed net deviates from 4.5% pricing by {dev:.2e}"
-        else:
-            assert dev > 1e-6, f"committed net indistinguishable from {rate:.1%} pricing?!"
+        assert dev < 1e-10, f"committed net deviates from canonical pricing by {dev:.2e}"
+    # teeth: the geared reconstruction discriminates rates (catches a silent re-price)
+    net_g, _, _, _ = _independent_net(b, RATE, gear=GEAR_REF)
+    for rate in (0.055, 0.065, 0.08):
+        net_i, _, _, _ = _independent_net(b, rate, gear=GEAR_REF)
+        j = pd.concat([net_g.rename("n"), net_i.rename("i")], axis=1).dropna()
+        dev = float((j.n - j.i).abs().max())
+        assert dev > 1e-6, f"geared reconstruction indistinguishable from {rate:.1%} pricing?!"
 
 
 # ---------- (d) borrow tiers: which slots actually need stock-loan borrow ----------
@@ -138,7 +153,7 @@ def test_only_declared_stock_loan_slots_and_their_uplift_is_immaterial():
     from the slots that actually carry a cash-borrow short leg (diescrack: 1-unit short
     leg on 11% of rows, declared in its sleeve meta; carryv2: occasional GLD ETF short).
     Futures/spot-proxy shorts (brwt*, C5ng*, QAxasts, a6r7) need NO stock loan."""
-    slot_gross = {"diescrack": 0.017 * GEAR, "carryv2": 0.011 * GEAR}  # measured gross shares
+    slot_gross = {"diescrack": 0.017 * GEAR_REF, "carryv2": 0.011 * GEAR_REF}  # geared shares
     # diescrack: short leg on ~11% of P&L rows (511 signal-on of 4647, meta) at 1 unit
     short_notional = {n: s * 0.11 for n, s in slot_gross.items()}
     uplift_hard = sum(borrow_tier_uplift(v, 0.005, 0.08) for v in short_notional.values())

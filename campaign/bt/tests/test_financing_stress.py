@@ -35,7 +35,14 @@ ROOT = "/Users/daxu/software/world-trader"
 R3_JSON = f"{ROOT}/campaign/results/CAMP_BORROW_FINANCING_R3.json"
 CHAMP = f"{ROOT}/campaign/results/GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv"
 R2_STREAM = f"{ROOT}/campaign/agents/chief/coord/CAMP_BORROW/work_r3/champion_committed_e6d8b9c0.csv"
-GEAR, RATE, BPS = 1.6, 0.045, 6.4
+# R3-era book of record: the ITER21 incumbent champion, preserved byte-exact in the
+# ITER43 backup (the 2026-09-19 ITER43 adoption moved the live champion of record);
+# the R3 ops JSON was priced on this blob, so the validation pins below read it.
+R3_ERA_CHAMP = (ROOT + "/campaign/agents/chief/coord/ITER43_A5R2_VT/"
+                "prior_champion_backup/GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv")
+GEAR, RATE, BPS = 1.6, 0.045, 6.4  # geared book reference (synthetic + R1/R2 stream);
+# the CHAMPION pays no margin at the canonical gear 1.0 since ITER21 -- the champion-facing
+# tests below build their gross at 1.0 explicitly.
 
 
 def _synth(n=500, seed=11, gross=GEAR):
@@ -324,14 +331,17 @@ def _load_net(path):
 
 
 @pytest.mark.skipif(not os.path.exists(R3_JSON), reason="R3 ops JSON not generated")
-@pytest.mark.skipif(not os.path.exists(CHAMP), reason="committed champion CSV missing")
+@pytest.mark.skipif(not os.path.exists(R3_ERA_CHAMP), reason="R3-era champion CSV missing")
 def test_tool_reproduces_r3_json_rate_paths_to_1e12():
     """Charter validation #1: tool output on the COMMITTED champion must reproduce every
     R3 rate_paths row (named scenarios AND both oracle windows, priced at their recorded
-    placements) to 1e-12."""
+    placements) to 1e-12. Re-anchored 2026-09-19: the R3 JSON stays priced on the
+    ITER21-era champion, preserved byte-exact in
+    coord/ITER43_A5R2_VT/prior_champion_backup/ (the 2026-09-19 ITER43 adoption moved
+    the live champion of record), so these pins read the R3-era blob."""
     d = json.load(open(R3_JSON))
-    net = _load_net(CHAMP)
-    g = pd.Series(GEAR, index=net.index)
+    net = _load_net(R3_ERA_CHAMP)
+    g = pd.Series(1.0, index=net.index)  # ITER21: canonical gear 1.0 (no margin drag)
     for name, row in d["rate_paths"].items():
         r = rate_path(net.index, RATE, {row["window_start"]: (row["rate"], row["n_days"])})
         m = path_metrics_checked(stress_net(net, g, r, RATE))
@@ -341,22 +351,27 @@ def test_tool_reproduces_r3_json_rate_paths_to_1e12():
         assert m["neg_years"] == row["neg_years"]
 
 
-@pytest.mark.skipif(not os.path.exists(CHAMP), reason="committed champion CSV missing")
+@pytest.mark.skipif(not os.path.exists(R3_ERA_CHAMP), reason="R3-era champion CSV missing")
 def test_tool_base_rung_equals_committed_champion_exactly():
     """The tool's base rung on the committed CSV must be the committed headline, bit-exact,
-    matching the R3 JSON base_headline to 1e-12."""
-    net = _load_net(CHAMP)
-    g = pd.Series(GEAR, index=net.index)
+    matching the R3 JSON base_headline to 1e-12. Re-anchored 2026-09-19: reads the
+    R3-era champion preserved byte-exact in
+    coord/ITER43_A5R2_VT/prior_champion_backup/ (the ITER43 adoption moved the live
+    champion of record), so the pinned ITER21 headline constants stay valid."""
+    net = _load_net(R3_ERA_CHAMP)
+    g = pd.Series(1.0, index=net.index)  # ITER21: canonical gear 1.0 (no margin drag)
     rows = rung_ladder(net, g, RATE, rungs=(RATE, 0.055, 0.065))
-    assert rows[0]["ann"] == pytest.approx(0.3811446920924182, abs=1e-12)   # ITER15/RAWEW15
-    assert rows[0]["sr_d"] == pytest.approx(3.235753053577948, abs=1e-12)
-    assert rows[0]["mdd"] == pytest.approx(-0.06561964559361821, abs=1e-12)
+    assert rows[0]["ann"] == pytest.approx(0.2360536534642581, abs=1e-12)   # ITER21 SR-max gear-1.0
+    assert rows[0]["sr_d"] == pytest.approx(3.75142869028905, abs=1e-12)
+    assert rows[0]["mdd"] == pytest.approx(-0.0361301217878950, abs=1e-12)
     assert rows[0]["neg_years"] == 0 and rows[0]["gate_moves"] is False
     d = json.load(open(R3_JSON))
     assert abs(rows[0]["ann"] - d["base_headline"]["ann"]) < 1e-12
-    # arithmetic slope pin: exactly -0.60pp per +1pp on the real champion too
-    assert abs(rows[1]["delta_ann_arith_pp"] + 0.60) < 1e-9
-    assert abs(rows[2]["delta_ann_arith_pp"] + 1.20) < 1e-9
+    # ITER21 slope pin: at gross 1.0 the book pays NO margin, so the rung slope is
+    # EXACTLY 0 (call-rate immunity; was -0.60pp per +1pp on the ITER20 gear-1.6 book,
+    # and -0.84pp/pp is still proven on the geared R1/R2 stream in the R1/R2 test).
+    assert abs(rows[1]["delta_ann_arith_pp"] - 0.0) < 1e-9
+    assert abs(rows[2]["delta_ann_arith_pp"] - 0.0) < 1e-9
 
 
 @pytest.mark.skipif(not os.path.exists(R2_STREAM), reason="pre-costfix stream CSV missing")

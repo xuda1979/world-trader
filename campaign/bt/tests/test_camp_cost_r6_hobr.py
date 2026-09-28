@@ -41,7 +41,27 @@ def test_relw_zero_recovers_committed_champion_exactly():
     champion now uses the correlation-aware minsharpe weight rule, so the SR^P candidate
     builder reproduces the ARCHIVED pre-ITER15 SR^P champion of record (ann 37.49%), which is
     the 13-slot SR^P book the 0-weight slot folds back into — verified byte-exact at 1.4e-16."""
-    net, relw, gross, to, df = raw14.build(hobr_relw_override=0.0)
+    # The archived pre-ITER15 champion is a GEAR-1.6 artifact; the candidate builder
+    # inherits the LIVE canonical GEAR (1.0 since ITER21 2026-09-18), so restore the
+    # vintage gear for this byte comparison (and put it back).
+    _g = raw14.GEAR
+    _p = raw14.PATHS14["A5r2"]
+    _ts = raw14.PATHS14["QAxasts"]
+    try:
+        raw14.GEAR = 1.6
+        # Re-anchored 2026-09-19: pin the A5r2 sleeve to the historical VT=0.10 vintage
+        # this archived generation was built on - the 2026-09-19 ITER43 adoption
+        # repointed the live builder A5r2 path to the vt015 sleeve. ITER49 re-anchor
+        # (2026-09-19): same for the QAxasts tsmom vintage (vt0.10 -> tsm-vt015).
+        raw14.PATHS14["A5r2"] = (
+            "campaign/agents/A5_vol_cond/sleeves/A5_r2_contango_rateshock.csv")
+        raw14.PATHS14["QAxasts"] = (
+            "campaign/agents/E1_20yspan/sleeves/E1_QAxasts_tsmom189_2006.csv")
+        net, relw, gross, to, df = raw14.build(hobr_relw_override=0.0)
+    finally:
+        raw14.GEAR = _g
+        raw14.PATHS14["A5r2"] = _p
+        raw14.PATHS14["QAxasts"] = _ts
     arch = pd.read_csv(ARCH_CHAMP, index_col=0, parse_dates=True).iloc[:, 0]
     j = pd.concat([arch.rename("old"), net.rename("new")], axis=1, join="inner").dropna()
     assert len(j) == len(arch) == 4806
@@ -50,10 +70,10 @@ def test_relw_zero_recovers_committed_champion_exactly():
 
 def test_costs_full_dw_64bps_and_margin():
     """Candidate charges FULL |dW| @ 6.4bps one-side (no 0.5 half-turn) + 4.5% margin on
-    (1.6-1); day-1 entry uncharged."""
+    max(gear-1, 0) (gear-aware since ITER21); day-1 entry uncharged."""
     net, relw, gross, to, df = raw14.build()
     port = (df.fillna(0).values * raw14.last_Wg.values).sum(axis=1)
-    implied = port - net - np.maximum(1.6 - 1, 0) * 0.045 / 252  # cost stream in the net
+    implied = port - net - np.maximum(raw14.GEAR - 1, 0) * 0.045 / 252  # cost stream in the net
     cost_full = to * 6.4 / 1e4
     assert float((implied - cost_full).abs().max()) < 1e-15
     assert float((implied - 0.5 * cost_full).abs().max()) > 1e-6  # half-turn decisively wrong
@@ -69,8 +89,8 @@ def test_hobr_nav_share_under_15pct_every_day():
 
 def test_gross_rides_cap_exactly_never_over():
     net, relw, gross, to, df = raw14.build()
-    assert gross.max() <= 1.6 + 1e-9
-    assert abs(gross.mean() - 1.6) < 1e-9  # 8e: re-levered to the cap EXACTLY
+    assert gross.max() <= 1.6 + 1e-9            # the OPERATOR cap (unchanged)
+    assert abs(gross.mean() - raw14.GEAR) < 1e-9  # rides the builder gear EXACTLY (1.0 since ITER21)
     assert int((gross > 1.6 + 1e-9).sum()) == 0
 
 

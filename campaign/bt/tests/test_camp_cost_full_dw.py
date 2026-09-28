@@ -38,10 +38,10 @@ def test_charged_turnover_equals_full_dw_on_live_builder_output():
     nav = (1 + df.fillna(0)).cumprod().shift(1).fillna(1.0)
     d2 = nav.div(nav.mean(axis=1), axis=0).mul(relw, axis=1)
     d2 = d2.div(d2.sum(axis=1), axis=0) * k
-    Wg = d2 * (1.6 / k)
+    Wg = d2 * (b.GEAR / k)                     # ITER21: canonical gear (1.0)
     full = (Wg.diff().abs().sum(axis=1) * 6.4 / 1e4).fillna(0.0)
     port = pd.Series((df.fillna(0).values * Wg.values).sum(axis=1), index=df.index)
-    cand = port - full - (1.6 - 1) * 0.045 / 252
+    cand = port - full - max(b.GEAR - 1, 0) * 0.045 / 252
     j = pd.concat([net.rename('n'), cand.rename('c')], axis=1).dropna()
     md = float((j.n - j.c).abs().max())
     assert md < 1e-12, f"charged turnover must equal FULL |dW|*6.4bps (dev={md})"
@@ -57,10 +57,10 @@ def test_committed_net_matches_full_not_half():
     nav = (1 + df.fillna(0)).cumprod().shift(1).fillna(1.0)
     d2 = nav.div(nav.mean(axis=1), axis=0).mul(relw, axis=1)
     d2 = d2.div(d2.sum(axis=1), axis=0) * k
-    Wg = d2 * (1.6 / k)
+    Wg = d2 * (b.GEAR / k)                     # ITER21: canonical gear (1.0)
     port = pd.Series((df.fillna(0).values * Wg.values).sum(axis=1), index=df.index)
-    full = port - (Wg.diff().abs().sum(axis=1) * 6.4 / 1e4).fillna(0.0) - (1.6 - 1) * 0.045 / 252
-    half = port - (Wg.diff().abs().sum(axis=1) * 0.5 * 6.4 / 1e4).fillna(0.0) - (1.6 - 1) * 0.045 / 252
+    full = port - (Wg.diff().abs().sum(axis=1) * 6.4 / 1e4).fillna(0.0) - max(b.GEAR - 1, 0) * 0.045 / 252
+    half = port - (Wg.diff().abs().sum(axis=1) * 0.5 * 6.4 / 1e4).fillna(0.0) - max(b.GEAR - 1, 0) * 0.045 / 252
     d_full = float((net - full).abs().max())
     d_half = float((net - half).abs().max())
     assert d_full < 1e-12, f"committed net must match FULL |dW| charging (dev={d_full})"

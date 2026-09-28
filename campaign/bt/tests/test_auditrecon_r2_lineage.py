@@ -42,6 +42,9 @@ PREFIX = {
 "brwt10": f"{ROOT}/campaign/agents/chief/coord/CAMP_COST/sleeves/brwt10_2000__prefix.csv",
     "brwt7": f"{ROOT}/campaign/agents/chief/coord/CAMP_COST/sleeves/brwt7__prefix.csv",
     "brwt5": f"{ROOT}/campaign/agents/chief/coord/CAMP_COST/sleeves/brwt5__prefix.csv",
+    # ITER43 (2026-09-19): builder PATHS[A5r2] moved to the vt015 emission; the ARCHIVED
+    # leak was built on the VT=0.10 bytes -- pin them here for the srp/prefix arm only.
+    "A5r2": f"{ROOT}/campaign/agents/A5_vol_cond/sleeves/A5_r2_contango_rateshock.csv",
 }
 
 
@@ -58,25 +61,34 @@ def _ports(prefix=False, rule="iter15"):
             d = pd.read_csv(PREFIX[n], index_col=0)
             d.index = pd.to_datetime(d.index)
             return d.iloc[:, 0].astype(float)
+        # PREFIX[n] as a .get() default evals eagerly even when n in PATHS -> KeyError
+        # on non-prefix sleeves (C5ng etc). Non-prefix sleeve comes from canonical PATHS.
         return B.load(B.PATHS[n])
-    df = pd.DataFrame({n: _one(n).dropna() for n in B.NAMES})
+    # ITER19: the live pool is 12 (brwt15 pruned); the ARCHIVED leak was built on 13
+    names = list(B.NAMES) + (["brwt15"] if (prefix and "brwt15" not in B.NAMES) else [])
+    df = pd.DataFrame({n: _one(n).dropna() for n in names})
     df = df[df.index >= '2008-03-31']
     isr = df[df.index < B.IS_END]
     if rule == "iter15":
-        relw = B.fit_relw(isr)
+        # ITER20: production = fitted shares THROUGH the brwt-block cap transform, so the
+        # causal arm must track the composite or it stops matching the champion of record.
+        relw = B.apply_brwt_cap(B.fit_relw(isr))
     else:
-        SR = pd.Series({n: B.is_sr(isr[n]) for n in B.NAMES})
+        SR = pd.Series({n: B.is_sr(isr[n]) for n in names})
         relw = np.maximum(SR, 0.0) ** B.P
     nav = (1 + df.fillna(0)).cumprod()
+    # gear per arm: the ARCHIVED leak csv is a GEAR-1.6 artifact; the live champion arm
+    # uses the canonical gear (1.0 since ITER21).
+    gear = 1.6 if rule == "srp" else B.GEAR
 
     def wg(shift):
         nv = nav.shift(1).fillna(1.0) if shift else nav
         d2 = nv.div(nv.mean(axis=1), axis=0).mul(relw, axis=1)
-        d2 = d2.div(d2.sum(axis=1), axis=0) * len(B.NAMES)
-        Wg = d2 * (B.GEAR / len(B.NAMES))
+        d2 = d2.div(d2.sum(axis=1), axis=0) * len(names)
+        Wg = d2 * (gear / len(names))
         port = pd.Series((df.fillna(0).values * Wg.values).sum(axis=1), index=df.index)
         to = Wg.diff().abs().sum(axis=1).fillna(0.0)
-        net = port - to * B.BPS / 1e4 - np.maximum(B.GEAR - 1, 0) * B.RATE / 252
+        net = port - to * B.BPS / 1e4 - np.maximum(gear - 1, 0) * B.RATE / 252
         return net, to, port
 
     return wg(False), wg(True)
@@ -89,12 +101,14 @@ def test_L1_same_inputs_constants():
     max(IS_SR,0)^P to the correlation-aware IS max-Sharpe fit. relw is still a pure
     function of the IS window, which is what this check pins (via the builder's own fit).
     """
-    assert B.GEAR == 1.6 and B.RATE == 0.045 and B.BPS == 6.4
-    assert len(B.NAMES) == 13 and len(set(B.NAMES)) == 13
+    # ITER21 (2026-09-18): canonical GEAR is 1.0 (was 1.6 through ITER20) -- same weights,
+    # the margin term makes net SR strictly decreasing above gear 1.
+    assert B.GEAR == 1.0 and B.RATE == 0.045 and B.BPS == 6.4
+    assert len(B.NAMES) == 12 and len(set(B.NAMES)) == 12  # ITER19: brwt15 pruned
     # relw must be the IS-only fit: recompute from the IS slice, independent of mechanism
     df = pd.DataFrame({n: B.load(B.PATHS[n]).dropna() for n in B.NAMES})
     df = df[df.index >= '2008-03-31']
-    relw = B.fit_relw(df[df.index < B.IS_END])
+    relw = B.apply_brwt_cap(B.fit_relw(df[df.index < B.IS_END]))  # ITER20 composite
     assert float((relw - pd.read_csv(f"{ROOT}/campaign/results/RAWEW13v2_IS_SR_weights.csv",
                                      index_col=0).iloc[:, 0]).abs().max()) < 1e-12
 
@@ -115,8 +129,10 @@ def test_L2_lineage_is_causal_mechanism_only():
 
 def test_L3_pin_discriminates():
     """Negative control: each csv must NOT match the OTHER lineage arm — otherwise the pin
-    could not detect a lineage swap."""
-    (leak, _, _), (causal, _, _) = _ports(prefix=True)
+    could not detect a lineage swap under their own faithful mechanisms (leak=srp+prefix,
+    causal=iter15+shifted — mirroring test_L2's arm construction)."""
+    leak = _ports(prefix=True, rule="srp")[0][0]
+    causal = _ports(prefix=False, rule="iter15")[1][0]
     arc = pd.read_csv(ARC_CSV, index_col=0, parse_dates=True).iloc[:, 0]
     new = pd.read_csv(NEW_CSV, index_col=0, parse_dates=True).iloc[:, 0]
     assert float((leak - new).abs().max()) > 1e-6, "leak build matches causal csv: pin is blind"

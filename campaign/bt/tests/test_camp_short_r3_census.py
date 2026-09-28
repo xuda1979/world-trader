@@ -17,6 +17,11 @@ JSON_PATH = f"{ROOT}/campaign/results/CAMP_SHORT_LIBRARY_BORROW_CENSUS.json"
 LIB = f"{ROOT}/campaign/results/sleeve_library"
 CHAMP = f"{ROOT}/campaign/results/GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv"
 
+# Census-era champion (the ITER21 incumbent), preserved byte-exact in the ITER43
+# backup; the 2026-09-19 ITER43 adoption moved the live champion of record (CHAMP).
+CENSUS_ERA_CHAMP = (ROOT + "/campaign/agents/chief/coord/ITER43_A5R2_VT/"
+                    "prior_champion_backup/GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv")
+
 INTAKE = ["MSSW", "CRX1030", "A_rs", "A11", "COMP50d", "CMDTrot_h2"]
 RENET_TOL = 2e-4
 
@@ -207,8 +212,11 @@ def test_summary_consistent_with_rows():
 
 
 def test_champion_untouched_by_census_run():
-    """The census must not mutate the champion (R2 lesson: blast radius discipline)."""
+    """The census must not mutate the champion (R2 lesson: blast radius discipline).
+    Re-anchored 2026-09-19: the ITER43 adoption moved the live champion of record; the
+    blast-radius check now pins the census-era champion, preserved byte-exact in
+    coord/ITER43_A5R2_VT/prior_champion_backup/."""
     j = _load()
     want = j["champion_reemit"]["champion_sha256_at_run"]
-    with open(CHAMP, "rb") as f:
+    with open(CENSUS_ERA_CHAMP, "rb") as f:
         assert hashlib.sha256(f.read()).hexdigest() == want

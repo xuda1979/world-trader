@@ -161,7 +161,9 @@ def champ_pair():
     def wg(nav):
         d2 = nav.div(nav.mean(axis=1), axis=0).mul(relw, axis=1)
         d2 = d2.div(d2.sum(axis=1), axis=0) * k
-        return d2 * (b.GEAR / k)
+        # The archived SAME-DAYLEAK artifact this fixture is probed against is a GEAR-1.6
+        # vintage (canonical gear moved to 1.0 in ITER21) -- pin the vintage gear.
+        return d2 * (1.6 / k)
 
     Rz = df.fillna(0)
     nav_c = (1 + Rz).cumprod().shift(1).fillna(1.0)
