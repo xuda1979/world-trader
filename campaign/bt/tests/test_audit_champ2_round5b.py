@@ -78,12 +78,22 @@ def test_v2_postcostfix_rebuild_diffs_committed():
     books by BAL 3.107e-03 / SAFE 6.160e-03 / AGGR 6.206e-03. Tight pin: any input
     drift after 2026-09-08 invalidates the R5 DROP evidence and must re-open the
     audit. If this ever goes ~0 WITHOUT a documented re-emit decision, someone
-    re-emitted V2 with deprecated semantics — fail loudly."""
+    re-emitted V2 with deprecated semantics — fail loudly.
+
+    RE-PINNED 2026-09-28 (E1/DHHNGSP refresh landing, commit 17e5be6): the
+    E1_C5ng_summer_weekday sleeve's +19 appended marks (2026-08-25..09-21) enter
+    the rebuild inside the committed books' comparison window (both end 2026-08-28),
+    moving the join maxdev to the last joined day (08-28): BAL 6.737603e-03 /
+    SAFE 6.191377e-03 / AGGR 7.283830e-03. Attribution verified: pre-0824 window
+    reproduces the 2026-09-08 pins exactly (BAL 3.106507e-03 / SAFE 6.159917e-03 /
+    AGGR 6.206379e-03 at unchanged argmax dates 2021-01-01 / 2014-03-05 /
+    2021-01-01) — the historical vintage is untouched; all new drift is the
+    appended-marks class. Old pins preserved above in docstring history."""
     m = _load(B20Y, "c20y_a")
     expect = {
-        "BALANCED": 3.107e-03,
-        "SAFE": 6.160e-03,
-        "AGGRESSIVE": 6.206e-03,
+        "BALANCED": 6.737603e-03,
+        "SAFE": 6.191377e-03,
+        "AGGRESSIVE": 7.283830e-03,
     }
     A = m.construct(m.POOL20, 0.090, 0.030, "2006-10-01")
     B = m.construct(m.POOL20, 0.106, 0.0255, "2006-10-01")
@@ -106,15 +116,23 @@ def test_v2_postcostfix_rebuild_stats_and_wall_breach():
     """Post-costfix BAL: CAGR 89.44 / arith 64.52 / SR 6.12 / MDD -7.21 / 1 neg yr.
     The book breaches the -7% champion wall (-7.21%) and has 1 negative year —
     quoted in the DROP rationale; committed (pre-costfix) vintage was
-    CAGR 90.45 / arith 65.05 (matches json 'ann': 65.1 ARITH convention)."""
+    CAGR 90.45 / arith 65.05 (matches json 'ann': 65.1 ARITH convention).
+
+    RE-PINNED 2026-09-28 (E1/DHHNGSP refresh landing, commit 17e5be6): the +19
+    appended E1 marks (2026-08-25..09-21, mildly negative in aggregate) move the
+    full-series BAL stats to CAGR 89.3741 / arith 64.4883 / SR 6.1105 /
+    MDD -7.2145 / 1 neg yr. Only the CAGR pin moved outside its 0.05 tolerance
+    (delta 0.0659); arith/sr/mdd/neg all stayed inside. The DROP verdict is
+    UNCHANGED: MDD still breaches the -7% wall, still 1 negative year, still
+    far from admissible. Old pins preserved in docstring history above."""
     m = _load(B20Y, "c20y_b")
     A = m.construct(m.POOL20, 0.090, 0.030, "2006-10-01")
     B = m.construct(m.POOL20, 0.106, 0.0255, "2006-10-01")
     s = _stats(((A + B) / 2))
-    assert abs(s["cagr"] - 89.44) < 0.05
-    assert abs(s["arith"] - 64.52) < 0.05
-    assert abs(s["sr"] - 6.12) < 0.02
-    assert abs(s["mdd"] - (-7.21)) < 0.05
+    assert abs(s["cagr"] - 89.3741) < 0.05
+    assert abs(s["arith"] - 64.4883) < 0.05
+    assert abs(s["sr"] - 6.1105) < 0.02
+    assert abs(s["mdd"] - (-7.2145)) < 0.05
     assert s["mdd"] < -7.0, "post-costfix BAL inside the -7% wall? re-audit"
     assert s["neg"] == 1
 

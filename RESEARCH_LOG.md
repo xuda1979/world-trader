@@ -4171,6 +4171,27 @@ decide_final.py + stress_final3.py + decide_memo.py, fully reproducible).
 - Deliverables committed: work_backtest_oos/ (full pipeline + DECISION_MEMO + weights/monthlies)
   + work_adopt_SR04/adoption_SR04_full.csv.
 
+## [GOAL5DIR-RESEARCH] 8 parallel agents, one per direction & sub-topic (2026-09-16)
+Goal (user): "do research on these 5 directions using many agents working in parallel."
+Batch-of-3-4 staggered `claude -p` agents (GLM), T+1/6bps/FULL-margin, FAIL-CLOSED.
+
+**RESULT: 7/7 new sleeves REJECT (no champion change); 1 harness PROCEED (H1 option-tail state estimation).**
+
+| agent | direction | headline | verdict |
+|---|---|---|---|
+| F1_cost | 1 cost/capacity | commission model right-flow; mkt-impact cost visible at AUM>=10mm | ACK | 
+| F2_overnight | 1 decomp | O/N drift SR~1.0 corr+0.4; flagship 41% of DD inception days ALSO DRY; DD is structurally within-reach & OSS-halting is the tool | REJECT(wait,learnable) |
+| G1_intraday | 1 RSI gate | 240-cfg; best h21-mom20-RSI: SR 2.037 corr 0.303 -> 2-gates fail | REJECT |
+| K1_tail | 2 fat-tail trend | SR<1.3; best kurt-overlay H22K-2 SR 1.06 corr 0.69 | REJECT |
+| V1_volterm | 3 vol-term carry | 56 variants; termWITHOUT-regime-gate IS the signal (β=-0.72) | REJECT |
+| I1_stock | 5 cross-sect tail L/S | 542 stocks; best a2 SR 2.1 corr -0.08; 0.5% borrow loses every way | REJECT |
+| J1_gold | 4 gold 1968+ | SR 0.32 2008+; terrain is a resample artifact, short-side-only | REJECT |
+
+**PROCEED (H1_optiontail)**: formulas+schema verified on live 4-underlying snapshot; build a daily CBOE snapshot harness → activates a production tail factor.
+Full numbers+ledger DEAD_IDEAS rows->158: campaign/GOAL5DIR_RESEARCH_FINDINGS.md
+
+**META CONCLUSION**: with ~158 documented dead-ideas, on-disk free daily data alpha-harvesting has narrowed to a knife-edge; the Frontier gap is ORTHOgonal intake, specifically option-tail snapshots (H1) & a dedicated drawdown-control post-processing policy (F2).
+
 ## 2026-09-22 (/loop keep improving V7) — CAMP_SHORT suite GREEN-up: implemented R2/R2(b) missing API
 The pytest collection was ERRORING on 4 CAMP_SHORT test modules
 (`test_shortability.py`, `test_shortability_r2.py`, `test_shortability_r2b_ladder.py`,
