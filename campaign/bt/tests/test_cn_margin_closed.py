@@ -55,7 +55,10 @@ def test_dead_ideas_rows_present():
     joined = " ".join(r[0] for r in rows)
     assert "China A-share margin-balance sentiment" in joined
     assert "HK Stock Connect northbound" in joined
-    assert len(rows) == 68  # header + 67 dead ideas
+    # 68 (header+67, HUNT_CN_MARGIN/HSGT closure 2026-09-22) -> 70 (2026-09-30):
+    # +2 honest-negative closure rows from HUNT_BINANCE_AXES (Binance USD-M
+    # metrics & bookdepth axes, both below the 1.0 fail-closed bar).
+    assert len(rows) == 70  # header + 69 dead ideas
 
 
 def test_v7_unaffected_note_in_findings():
