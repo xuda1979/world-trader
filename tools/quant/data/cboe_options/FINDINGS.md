@@ -62,6 +62,21 @@ retry for the summer slot. Write-once archiving makes the duplicate attempt a
 harmless loud no-op (second run raises FileExistsError, logged, nothing touched).
 `crontab` was NOT used: `crontab -` / `crontab <file>` hang in this environment.
 
+**Interpreter PINNED (2026-09-30 hardening, same session)**: the plist invokes
+`/Users/daxu/homebrew/bin/python3` (3.14.7, pandas 3.0.3 / scipy 1.18.0 /
+numpy 2.4.6) — the stack that produced the committed canonicals. Verification
+found system `/usr/bin/python3` (3.9.6, scipy 1.13.1) drifts the SVI fits by up
+to 1.26e-4 (p20/var/skew) vs the committed archive and can fail the digital
+cross-check gate on some symbols. A stack seam would have silently entered the
+daily factor series if launchd had used the default PATH python.
+
+**Bug found+fixed during the same hardening**: `recompute_day`'s input glob
+previously matched its OWN output files (`H1_tailfactor_*.csv`,
+`H1_diagnostics_*.csv`) when re-running on an already-computed day — the first
+run was safe only because outputs didn't exist yet; a `--recompute` on any
+archived day would try to parse its own outputs as chains. Fixed: inputs exclude
+`H1_*` files (with test pin).
+
 ## Tests (12/12 green)
 
 `test_h1_collect.py`: pin-parity vs the committed 2026-09-16 reference (SPY row +

@@ -222,3 +222,25 @@ def test_snapshot_schema_matches_latest():
     assert list(a.columns) == ["spot", "exp", "typ", "strike", "bid", "ask", "iv",
                                "open_interest", "volume", "delta", "gamma", "vega",
                                "theta", "moneyness"]
+
+
+# ---------------------------------------------------------------- recompute inputs
+def test_recompute_excludes_own_outputs(tmp_path, monkeypatch):
+    """Regression (2026-09-30 hardening): recompute_day must NOT read its own
+    H1_* output files as input chains (a prior re-run parsed them as snapshots
+    and rejected 2 'symbols' named after the output files)."""
+    import shutil
+    day = tmp_path / "archive" / "20260929"
+    day.mkdir(parents=True)
+    shutil.copy(os.path.join(ARCHIVE, "20260929", "SPY.csv"), day / "SPY.csv")
+    shutil.copy(os.path.join(ARCHIVE, "20260929", "TLT.csv"), day / "TLT.csv")
+    # pre-place the harness's own outputs (as a completed day would have)
+    pd.DataFrame({"symbol": ["SPY"], "p20_30d": [0.1]}).to_csv(
+        day / "H1_tailfactor_20260929.csv", index=False)
+    pd.DataFrame({"symbol": ["SPY"]}).to_csv(
+        day / "H1_diagnostics_20260929.csv", index=False)
+    monkeypatch.setattr(h1, "ARCHIVE", str(tmp_path / "archive"))
+    fac, dg, rejects = h1.recompute_day("20260929")
+    syms = set(fac.symbol)
+    assert syms == {"SPY", "TLT"}, syms
+    assert all(not r[0].startswith("H1_") for r in rejects), rejects

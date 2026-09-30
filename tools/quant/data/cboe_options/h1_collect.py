@@ -328,9 +328,12 @@ def build_symbol(df, snap, dte_floor=None):
 
 def recompute_day(datestr):
     """Recompute H1_tailfactor_YYYYMMDD.csv + diagnostics from archive/YYYYMMDD/.
-    Fails-closed per symbol; ok only if the day has archived snapshots."""
+    Fails-closed per symbol; ok only if the day has archived snapshots.
+    Note: only raw symbol snapshots are read — H1_* output files from a prior
+    recompute are excluded (they share the day dir but are NOT inputs)."""
     day_dir = os.path.join(ARCHIVE, datestr)
-    files = sorted(glob.glob(os.path.join(day_dir, "*.csv")))
+    files = sorted(fp for fp in glob.glob(os.path.join(day_dir, "*.csv"))
+                   if not os.path.basename(fp).startswith("H1_"))
     if not files:
         raise FileNotFoundError("no archived snapshots in archive/%s" % datestr)
     snap = pd.Timestamp(dt.datetime.strptime(datestr, "%Y%m%d").date())
