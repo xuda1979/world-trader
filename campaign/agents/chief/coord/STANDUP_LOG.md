@@ -16002,3 +16002,23 @@ the one transient round6 fill0 failure was the appended-marks class, re-pinned w
 dated note per the test's own ITER47/ITER49 convention). Vintage addendum appended to
 V7_SESSION_2026-09-29_HARDSTOP_ACT.md. NO qualitative conclusion changed anywhere
 (A4 weak dominance, negYr=0, ranking, monitor exits).
+
+## 2026-10-01 | main session: daily decay-monitor gate run (as-of 2026-09-30) + round-record permanence commit
+
+v71_oos_decay_monitor EXIT 0 GREEN (as-of 2026-09-30): 20 sleeves (18 held, 2
+RETIRED tracked), 0 HARD, 2 decay (D_xlu_ief, a6_r2 — same documented pair, both
+<w10%), 0 STALE, 0 advisory-prune. v7_oos_decay_monitor EXIT 2 (its 2 HARD stops,
+expected for superseded V7.0). Reports byte-identical to HEAD — no tracked file
+dirtied. Operator-pending items unchanged: (a) 09-28 champion re-emission decision
+(GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv uncommitted full-rebuild, now forensically
+attributed to the 17:02:32 09-28 bulk event — 85 files incl. rawew13v2_build.py,
+fleet_keeper.py, E1 detrunc script share the exact mtime; 69 tracked-modified of which
+14 later committed via 54715522), (b) 2 V7 HARD stops act/hold (A4 weak dominant, NOT
+adopted). Data-permanence: HUNT_MACRO2 (rounds 1-7), ITER60_DATA_AXES, 2026-09-06
+combined FINDINGS committed fede0ddf (68 files verbatim, secret-scan clean; suite
+pre-commit 29-RED/717-passed byte-identical to census state). Remaining untracked mass:
+campaign/work_backtest_oos 87 files ~28MB (OPT_V2-V8 optimization artifacts, audit_v5/
+audit_v7b 10-agent audit trees, refresh_2026_09_25 re-emission scripts, v7_raw_refresh
+tooling) — NOT committed this session: pending the operator's champion re-emission
+decision (its artifacts are evidence for that decision; committing piecemeal first risks
+splitting the record).
