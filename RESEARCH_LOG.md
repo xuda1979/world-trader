@@ -4544,3 +4544,21 @@ H1 launchd agent pre-flight verified instead: loaded program =
 is flight-ready.
 
 DONE data_cot_refresh_20260922
+
+## 2026-09-30 18:5x | H1 data-permanence fix (main session): the 2026-09-08 snapshot was UNTRACKED — now frozen + panel completed to 2 dates
+
+Audit of the H1 harness artifacts found the 2026-09-08 chain snapshot (the ONLY
+pre-harness data point, per FINDINGS.md "kept in latest/") existed ONLY in the
+gitignored latest/ dir — the wholesale tools/quant/data/ ignore plus force-add
+convention had captured all 16 harness files EXCEPT this one. A disk failure
+would have destroyed the only pre-09-29 tail-pricing observation irrecoverably.
+
+Fixed per the harness write-once convention: frozen as archive/20260908/
+(9/9 symbols, 2.4k-12k rows each, expiries to 2028-12), factors recomputed
+(9 rows, 0 rejects), H1_tailfactor_panel.csv now carries BOTH dates (18 rows).
+Notable: the 3-week factor move is large (p20_30d TSLA 0.0182->0.0421,
+AAPL 0.0055->0.0194, TLT 5.4e-5->0.0028) — the cross-sectional tail-pricing
+state the future sleeve will trade IS moving. 13/13 harness tests pass post-fix.
+Committed 9eff430 (force-add convention, same class as f4828f7).
+
+DONE h1_datapermanence_20260908
