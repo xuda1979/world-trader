@@ -1,6 +1,15 @@
-# V8-GOV ADOPTION PACKAGE (2026-09-30) — the admissible V8 lane, measured. NOT adopted.
+# V8-GOV ADOPTION PACKAGE (2026-09-30) — the admissible V8 lane, measured. RESOLVED.
 
-**Status: CANDIDATE EVALUATION ONLY.** System of record remains V7 (reproduce 9/9 PASS,
+> **RESOLUTION 2026-09-29 (operator decision, executed same session): ACT — A4
+> (zero + renormalize) ADOPTED** via the governed V7.1 spec bump
+> (V71_REPLICATION_SPEC.md; weights OPT_20V71_weights.csv; ledger
+> OPT_20V71_FULL_LEDGER.csv; gates reproduce_v71.py 14/14, replicate_from_doc_v71.py
+> 4/4, backtest_pseudocode_v71.py 6/6, v71_oos_decay_monitor.py exit 0).
+> The V8GOV 18-slv re-solve lane is REJECTED (loses to A4 on all selection-free
+> metrics). V7.0 artifacts preserved byte-exact. This document is now decision
+> evidence (historical); the system of record is the V7.1 spec.
+
+**Status: CANDIDATE EVALUATION ONLY (at time of writing).** System of record remains V7 (reproduce 9/9 PASS,
 ledger recon 7.2e-16). This package exists so the operator's act/hold decision on the
 2 HARD stops is served by measured, governed options instead of the inadmissible 9/19
 OPT_V8 (pre-costfix inputs, full-period fit — adjudicated 2026-09-19).

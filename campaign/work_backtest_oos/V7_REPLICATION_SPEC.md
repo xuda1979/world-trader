@@ -81,6 +81,15 @@ Weight sum: 1.0000000000 | min 3.0000% | max 15.0000%
 - Negative months/years: count of net compound returns < 0.
 
 ## 6. CANONICAL NUMBERS (reproduce_v7.py asserts these)
+
+> **NOTE 2026-09-30 (RB refresh):** the pins below are the 2026-09-23 landing vintage.
+> The LIVING pins live in OPT_20V7_best.json and are re-pinned with dated audit
+> trails at each verified data refresh (see `pins_prerefresh_e1_20260930`,
+> `pins_prerefresh_rb_20260930`). Current (post-RB-refresh) values: OOS SR 4.0702,
+> OOS ann 33.7048%, OOS DD -0.8000%, full SR 4.5703 (IS SR unchanged 6.3819).
+> V7.0 itself is SUPERSEDED history — the system of record is V7.1
+> (V71_REPLICATION_SPEC.md, HARD-STOP act 2026-09-29).
+
 | Metric | Value |
 |--------|-------|
 | IS SR (gross, monthly) | 6.3821 |

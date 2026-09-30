@@ -15921,3 +15921,84 @@ V8GOV_ADOPTION_PACKAGE_2026-09-30.md with act/hold recommendation (act -> A4 via
 governed V# spec bump; hold -> FROZEN stands). NOT ADOPTED: operator decision
 required; system of record unchanged (reproduce 9/9 PASS; suite 122/593/7 = the
 documented baseline).
+
+--------- SESSION 2026-09-29 22:3x (HARD-STOP GOVERNED ACT). OPERATOR DECIDED ACT —
+A4 ZERO+RENORM ADOPTED VIA V7.1 SPEC BUMP. The standing open item (act/hold on the 2
+decay-monitor HARD stops, exit 2 since 2026-09-19) was resolved by the operator this
+session: ACT, arm A4, vehicle = the governed V# bump pre-specified in the adoption
+package (same 20-sleeve table with 2 zeroed weights + renormalized survivors; §4.1 S1
+language updated — a zero+renorm is NOT a re-solve, 3e-4 pin retires to 1e-6 baseline;
+decay-monitor history line: stops fired 2026-09-19, acted on 2026-09-29). The 18-slv
+recipe re-solve lane (V8GOV) REJECTED in the same decision (loses to A4 on all
+selection-free metrics: full SR -0.116, OOS SR -0.047, OOS ann -0.59pp, deeper DD;
+mechanism measured and pinned: SR>=6.5 corner binds, solver raids C4).
+
+EXECUTED (all gates run fresh this session, nothing carried): OPT_20V71_weights.csv
+(exact §4.2 transform of committed V7.0; transform pin 9.0e-17 vs 1e-6);
+OPT_20V71_FULL_LEDGER.csv 105,590 rows (engine = rebuild_v7_ledger.py + weight switch
+2024-10; pre-switch marks BYTE-IDENTICAL to V7.0 ledger max|d|=0.0; post-switch recon
+5.2e-16); V71_REPLICATION_SPEC.md (new system of record; V7_REPLICATION_SPEC.md
+preserved byte-exact). Gates: reproduce_v71.py 14/14 PASS; replicate_from_doc_v71.py
+4/4 stages PASS (stage1 recipe->V7.0 2.43e-4 attributed a6; stage2 exact 9.0e-17;
+stage3 full doc path 1.72e-4 < 1.135286x3e-4; §1 table 4.3e-9); backtest_pseudocode_v71.py
+6/6 PASS — deployment convention OOS 31.13%/yr arith (canonical for live), SRm 3.65,
+daily DD -3.18%, 0 neg yrs, drift capture +0.68pp (V7.0 pattern +0.67pp);
+v71_oos_decay_monitor.py EXIT 0 — first green live gate since 2026-09-19 (18 held, 0
+HARD, 2 decay D_xlu_ief/a6_r2 both <w10%, 0 stale, 2 RETIRED sleeves tracked for
+recovery, excluded from fail-close per spec §7). V7.0 re-verified fresh: reproduce_v7.py
+9/9 PASS. Canonical V7.1 numbers (spec §6, = committed A4 row): full SR 4.0740, OOS SR
+3.6648, full ann 27.955%, OOS ann 30.455%, trail2y SR 3.8796 / ann 27.995%, daily DD
+-3.161%, neg yrs 0/0, H1/H2 5.671/3.5718.
+
+TESTS: test_v71_hardstop_act.py 6 pins + test_v71_oos_decay_monitor.py 5 pins, 11/11
+PASS (exact-transform invariant; pre-switch byte-identity; post-switch recon; §6
+canonicals; V7.0 artifacts unchanged; spec parse; retired semantics; exit-0; retired
+health visible; independent rule re-derivation; read-only artifacts). Full bt suite:
+29 failed / 710 passed — the 29 = the documented pre-existing baseline at HEAD 5471552
+(identical set), zero regressions from the act.
+
+HONESTY: the +4.2pp trail2y headline is IN-SAMPLE to the stop decision (pinned in the
+memo); the forward-looking basis for the act is weak dominance on selection-free
+metrics (+0.87pp OOS ann) + minimal intervention + clearing a standing governance flag,
+NOT the in-sample number. The 2 retired sleeves stay visible in the monitor; recovery
+above 0 re-opens nothing automatically but is observable (test pin re-validates
+openly). Any future weight change follows the same vehicle: new V# spec file, full
+gate battery, dated session memo.
+
+LANDED: campaign/work_backtest_oos/{OPT_20V71_weights.csv, OPT_20V71_FULL_LEDGER.csv,
+V71_REPLICATION_SPEC.md, rebuild_v71_ledger.py, v71_oos_decay_monitor.py,
+V71_OOS_DECAY_REPORT.csv, V71_OOS_DECAY_REPORT.json, V7_SESSION_2026-09-29_HARDSTOP_ACT.md}
++ root gates {reproduce_v71.py, replicate_from_doc_v71.py, backtest_pseudocode_v71.py}
++ campaign/bt/tests/{test_v71_hardstop_act.py, test_v71_oos_decay_monitor.py} +
+RESOLUTION markers on {HARDSTOP_GOVERNANCE_MEMO_2026-09-30.md, V8GOV_ADOPTION_PACKAGE_2026-09-30.md}.
+
+--------- SESSION 2026-09-30 (DOUBLE AUDIT + RB REFRESH, pre-commit). Operator ordered:
+double audit V7 + V7.1, then commit+push. AUDIT FOUND ONE REAL ISSUE (fixed): the
+overnight date rollover pushed RB_hobr_crack stale (last 2026-08-25, +36d > 35d) —
+both monitors flagged it (V7.0 exit 2 + STALE 1; V7.1 exit 3). Fix = the routine
+refresh, per convention: DHOILNYH + DCOILBRENTEU refetched from FRED API (append-only
++19 rows each to 2026-09-22, overlap exact 0.0, no sentinels), sleeve re-emitted by
+its own gate-checked generator (full_pass=True, append-only +18 rows vs git, 0
+deletions), V7.0 ledger rebuilt (105,636 rows, recon 1.04e-17, --check PASS 1.0e-16 on
+pre-refresh window), V7.1 ledger rebuilt (105,590 rows, pre-switch marks still
+byte-identical to V7.0), evidence CSVs regenerated (HARDSTOP_COUNTERFACTUAL +
+V8GOV_EVAL, deterministic), best.json re-pinned with dated audit block
+(pins_prerefresh_rb_20260930: OOS SR 4.0586->4.0702, OOS DD -0.8960->-0.8000, full SR
+4.5614->4.5703), V7.0 spec §6 given a living-pins note (V7.0 = superseded history),
+round6 fill0/resolve pins re-pinned (appended-marks class, dated note, old values
+preserved in comment).
+
+POST-REFRESH STATE, ALL 8 GATES FRESH GREEN: reproduce_v7 9/9 PASS; reproduce_v71
+14/14 PASS; replicate_from_doc PASS; replicate_from_doc_v71 4/4 stages PASS;
+backtest_pseudocode PASS (V7.0 deployment 30.27%/yr); backtest_pseudocode_v71 6/6 PASS
+(V7.1 deployment 31.16%/yr, +0.68pp drift capture = the V7.0 +0.67pp pattern);
+v7_oos_decay_monitor exit 2 (its 2 HARD stops, expected for superseded V7.0);
+v71_oos_decay_monitor exit 0 GREEN (18 held, 0 HARD, 2 decay, 0 STALE — RB now
+through 2026-09-22, 2 RETIRED tracked). V7.1 canonicals (refreshed): full SR 4.0792,
+OOS SR 3.6718, full ann 27.969%, OOS ann 30.481%, trail2y SR 3.9223 / ann 28.125%, DD
+-3.161%, neg yrs 0/0, H1/H2 5.671/3.5790. SUITE: 29 failed / 704 passed — failure set
+DIFF-VERIFIED identical to the documented pre-existing baseline (sorted diff empty;
+the one transient round6 fill0 failure was the appended-marks class, re-pinned with
+dated note per the test's own ITER47/ITER49 convention). Vintage addendum appended to
+V7_SESSION_2026-09-29_HARDSTOP_ACT.md. NO qualitative conclusion changed anywhere
+(A4 weak dominance, negYr=0, ranking, monitor exits).

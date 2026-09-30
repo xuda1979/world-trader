@@ -4288,3 +4288,44 @@ tests green. (Full-suite note: 123 failures are pre-existing infrastructure mism
 e.g. test_verify_champion expects a `--rule srp` CLI flag never implemented, align.py
 is untracked so clean-checkout collection errors — none related to this hunt; left for
 a dedicated bt/ infra round, not silently "fixed".)
+
+## 2026-09-29 (V7 hard-stop act) — OPERATOR DECIDED ACT: A4 ZERO+RENORM ADOPTED AS V7.1
+
+The standing governance question (2 decay-monitor HARD stops since 2026-09-19) was
+decided by the operator: **ACT — A4 (zero + renormalize)**, executed via the governed
+V# spec bump the adoption package pre-specified. System of record is now
+**V71_REPLICATION_SPEC.md** (V7.0 preserved byte-exact).
+
+Why A4 and not hold or re-solve (all measured, committed CSVs): A4 weakly dominates
+V7.0 on every selection-free metric (full SR 4.074 vs 4.0458, OOS SR 3.665 vs 3.597,
+OOS ann +0.87pp, DD identical, 0 neg years) and is minimal-intervention (no re-fit);
+the 18-slv recipe re-solve measured WORSE (full SR -0.116, OOS SR -0.047, OOS ann
+-0.59pp, deeper DD) — the SR>=6.5 corner doesn't transfer from 20 to 18 sleeves.
+Honesty caveat carried forward: the +4.2pp trail2y headline is in-sample to the stop
+decision; the act rests on the small forward deltas + governance clearance, not the
+in-sample number.
+
+Execution (all fresh this session): OPT_20V71_weights.csv (exact transform pin 9.0e-17);
+OPT_20V71_FULL_LEDGER.csv (105,590 rows; pre-switch marks byte-identical to V7.0;
+post-switch recon 5.2e-16); gates reproduce_v71 14/14, replicate_from_doc_v71 4/4,
+backtest_pseudocode_v71 6/6 (deployment OOS 31.13%/yr, +0.68pp drift capture);
+v71_oos_decay_monitor EXIT 0 — first green live gate since 2026-09-19 (2 stops now
+RETIRED sleeves, tracked for recovery). V7.0 reproduce re-verified 9/9. New test pins
+11/11; full suite 29 failed (pre-existing baseline) / 710 passed, zero regressions.
+
+## 2026-09-30 (double audit + RB refresh) — V7/V7.1 DOUBLE-AUDIT GREEN; ONE STALE SLEEVE FOUND AND REFRESHED
+
+Operator-ordered double audit of V7 and V7.1 before commit. All 8 gates re-run fresh:
+both reproduction gates (9/9, 14/14), both doc-replication gates, both deployment
+pseudocode gates, both decay monitors. ONE REAL ISSUE found (date rollover):
+RB_hobr_crack crossed the 35d freshness limit (last 2026-08-25, +36d). Fixed by the
+routine refresh convention: FRED re-fetch DHOILNYH+DCOILBRENTEU (append-only +19 rows
+each to 2026-09-22, overlap exact), sleeve re-emitted append-only (+18 rows,
+full_pass=True), both ledgers rebuilt (recon 1.04e-17 / 1e-16-check), evidence CSVs
+regenerated, all pins re-pinned with dated audit trails (best.json
+pins_prerefresh_rb_20260930; round6 fill0/resolve appended-marks re-pin; spec §6
+living-pins note). Post-refresh: all 8 gates green; suite 29 failed (diff-verified =
+the documented pre-existing baseline, zero regressions) / 704 passed. V7.1 refreshed
+canonicals: full SR 4.0792, OOS SR 3.6718, OOS ann 30.481% (deployment 31.16%),
+trail2y 3.9223/28.125%, DD -3.161%, 0 neg years; monitor exit 0. V7.0: OOS SR 4.0702,
+full SR 4.5703 (superseded history, gate kept meaningful on current vintage).

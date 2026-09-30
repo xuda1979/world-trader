@@ -134,13 +134,21 @@ def test_convention_rootcause_fill0_vs_resolve():
     # vintage, 0.19589478855917 / 4.18705711114098 at the ITER20 gear-1.6 vintage)
     # ITER47 re-pin (2026-09-19, A5r2 -> vt024): values below re-measured at the new champion.
     # ITER49 re-pin (2026-09-19, QAxasts -> tsm-vt015): re-measured again at the new champion.
-    assert abs(d_sr_fill0 - 0.1831887250272) < 1e-9
-    assert abs(d_ann_fill0 - 3.8077479644020) < 1e-6
+    # RB-refresh re-pin (2026-09-30, V7.1 HARD-STOP act session): RB_hobr FRED refresh
+    # (DHOILNYH+DCOILBRENTEU +19 rows each through 2026-09-22; sleeve re-emitted
+    # append-only +18 rows, 2026-08-26..2026-09-22) extends the sleeve past the frozen
+    # champion (last 2026-08-28), so the fill-0 variant now carries the new marks while
+    # the inner-join window is nearly unchanged. Same appended-marks class as the
+    # 20260925/20260928 re-pins: d_sr_fill0 0.1831887250272 -> 0.18402368124895,
+    # d_ann_fill0 3.8077479644020 -> 3.81411950410975, inner d_sr 0.1899638988568 ->
+    # 0.19068127513409, inner d_cagr 4.0398642799632 -> 4.04354926259272.
+    assert abs(d_sr_fill0 - 0.18402368124895) < 1e-9
+    assert abs(d_ann_fill0 - 3.81411950410975) < 1e-6
     # inner-join variant (dropna'd common days only)
     j = pd.concat([champ.rename("c"), h.rename("h")], axis=1, join="inner").dropna()
     bl = j.c + 0.25 * j.h
-    assert abs((_stats(bl)["sr"] - _stats(j.c)["sr"]) - 0.1899638988568) < 1e-9
-    assert abs((_stats(bl)["cagr"] - _stats(j.c)["cagr"]) - 4.0398642799632) < 1e-6
+    assert abs((_stats(bl)["sr"] - _stats(j.c)["sr"]) - 0.19068127513409) < 1e-9
+    assert abs((_stats(bl)["cagr"] - _stats(j.c)["cagr"]) - 4.04354926259272) < 1e-6
     # the 8e delta vs the frozen RAWEW14 candidate, re-pinned. Sign note: it was NEGATIVE
     # (-0.1264676pp) vs the ITER20 gear-1.6 champion and is POSITIVE now only because the
     # champion runs at 1.0 (ann 23.9215% at ITER49) while the candidate bytes are a gear-1.6-era

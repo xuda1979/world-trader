@@ -7,7 +7,10 @@ logged into PAPER, API enabled on port 4002.
 import argparse, os, sys, math
 import pandas as pd
 OD=os.path.join(os.path.dirname(os.path.abspath(__file__)),"work_backtest_oos")
-WT=pd.read_csv(os.path.join(OD,"OPT_20V7_weights.csv"),index_col=0)['w']
+# SYSTEM OF RECORD: V7.1 (V71_REPLICATION_SPEC.md, HARD-STOP act 2026-09-29 — the 2
+# monitor HARD stops are RETIRED: w=0 rows, no orders emitted for them). V7.0 weights
+# are superseded history (OPT_20V7_weights.csv preserved byte-exact).
+WT=pd.read_csv(os.path.join(OD,"OPT_20V71_weights.csv"),index_col=0)['w']
 # PROVISIONAL instrument map: sleeve -> (exchange symbol, type). Multi-leg futures
 # sleeves trade via ComboContract in live mode (legs listed). Research-only sleeves
 # are marked PROXY and are SKIPPED in live mode until 1:1 mapping is validated.

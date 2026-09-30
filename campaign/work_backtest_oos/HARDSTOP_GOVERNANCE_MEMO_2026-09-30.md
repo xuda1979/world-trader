@@ -1,5 +1,12 @@
 # HARD-STOP GOVERNANCE MEMO — decision evidence for the 2 standing V7 HARD stops
 
+> **RESOLUTION 2026-09-29: ACTED.** The operator chose ACT — A4 (zero + renormalize),
+> executed the same session via the governed V7.1 spec bump
+> (V71_REPLICATION_SPEC.md + OPT_20V71_weights.csv + OPT_20V71_FULL_LEDGER.csv;
+> all gates green; V7.0 preserved byte-exact; monitor v71_oos_decay_monitor.py
+> exit 0 — the 2 stops are RETIRED sleeves, tracked for recovery, no longer
+> fail-closing the live runner). This memo is now historical decision evidence.
+
 **Date:** 2026-09-30 | **Scope:** evidence only — no weights, specs, or manifests changed.
 **Question:** the decay monitor (exit 2 since 2026-09-19, b9f8dee) flags 2 HARD stops:
 `FXD1_KRWTRI_raw_daily.csv` (w 3.0%, trail2y SR -0.52) and `crossasset_rev_L8.csv`
