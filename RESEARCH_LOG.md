@@ -4480,3 +4480,46 @@ Verification stack: minimal-PATH launchd simulation passes; 31/31 cboe_options
 tests (12 harness + 7 regression/new + 12 pre-existing dl tests); recompute
 idempotent. The harness is now flight-ready for its first scheduled fire
 (04:20 CST tonight).
+
+## 2026-09-30 17:2x-18:5x | HUNT_BACKFILL (main session): free-source census for the H1 backfill gap — VERDICT MISS, claim "no free data" now verified; licensed memo concrete
+
+Seam: FINDINGS.md (cboe_options) had classified the H1 backfill as "a licensed-data
+decision, not free data" — true but UNTESTED. Pre-registered HUNT_BACKFILL charter
+(campaign/agents/HUNT_BACKFILL_results/PRECOMMIT.md) with HIT/NEAR/MISS gates sealed
+before any probe. Census executed this session:
+
+1. EXISTING-KEY PROBE: env POLYGON_KEY is live but stocks-basic tier — options
+   snapshot endpoint 403 NOT_AUTHORIZED. Free Polygon cannot serve option chains.
+2. DOLT HUB post-no-preference/options (FREE, live through 2026-09-28, census
+   complete): 118.9M option_chain rows 2019-02-09→present, schema
+   date/act_symbol/expiration/strike/call_put/bid/ask/vol(IV)/delta/gamma/theta/
+   vega/rho — every field the H1 factor needs. FAILS the sleeve-backfill gates on
+   four independent counts: (a) symbols 5/9 — QQQ/IWM/GLD/TLT NEVER present (probed
+   2019/2021/2024/2026 eras, all zero); (b) 2024-08-05 yen-carry tail ABSENT (hole
+   spans 2024-07-30..2024-08-13, bracketed by 110/114-row days); (c) 2020-03 COVID
+   tail PARTIAL (~half the days); (d) sampled grid not full chain (SPY 2026-09-28:
+   210 rows / 4 expiries / 33 strikes vs our ground-truth capture of thousands of
+   rows to 2029). Cadence evolved sporadic→near-daily 2024→2026. volatility_history
+   table (daily per-symbol HV+IV, 2019+) has the same 5/9 symbol limit and the same
+   2024-08-05 hole.
+3. THETADATA: no free options tier; cheapest Options $40/mo (6y EOD full chains),
+   Standard $80/mo (10y), Pro $160/mo (14y). ORATS/ivolatility/CBOE DataShop
+   JS-walled this session, unprobed.
+
+VERDICT: MISS against pre-registered HIT gates. Two free part-credits recorded
+(DoltHub sampled OPRA set + its volatility_history; both live, neither
+adoption-eligible for sleeve backfill). Operator memo: cheapest concrete path is
+ThetaData Options $40/mo — one month suffices to bulk-download 2019→2026 EOD for
+the 9 symbols (both tails in-sample), collapsing the H1 sleeve timeline from ~2029
+to days; historicaloptiondata.com one-shot files are the alternative.
+Forward-collection harness therefore remains the ONLY free path — daily accrual is
+now the binding constraint.
+
+Probe discipline note: DoltHub remote SQL console ~60s deadline, rate-limits
+aggressive probing; every census number is from a successful query (TO cells
+re-probed with backoff, none inferred). Suite this session: 29 failed / 717 passed
+— byte-identical to the documented 29-failure pre-existing baseline (commit 5471552
+class); my session added only markdown artifacts, zero new REDs. Landed:
+campaign/agents/HUNT_BACKFILL_results/{PRECOMMIT,FINDINGS}.md.
+
+DONE HUNT_BACKFILL
