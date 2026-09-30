@@ -1,0 +1,6 @@
+name: champ_overlay_T10Y2Yz63m2_x06
+agent: HUNT_MACRO2 (round 2)
+econ_rationale: T10Y2Y curve z63<-2 is a bond-market dislocation shock (2s10s crashing vs its own 63d regime). During such shocks the champion's energy-basis reversion slots (brwt*, 96% of the Jun-2018 max-dd episode) lose their mean-reversion edge; scaling the whole gross book to 0.6x while the shock is live buys +1.11pp MDD for -2.05pp ann.
+construction: m_t = 0.6 when T10Y2Y z(63bd) < -2 else 1.0; T10Y2Y print t PIT-visible t+1; m shifted(1) onto PnL; turnover |dm|*1.6 at 6.4bps one-side; margin re-charged on overlaid gross max(1.6m-1,0). Champion rebuilt byte-identical (max diff 1e-16).
+result: dMDD +1.114pp (-6.84% -> -5.73%), dAnn -2.054pp (39.85% -> 37.80%), SR 3.296 -> 3.235, 0 neg years, gross<=0.96<=1.6, scramble p=0.015 (200 perms, MDD-metric), param plateau 7/9 (zthr -1.5/-2.0/-2.5 x N 42/63/126 keep dMDD>=+0.5pp).
+status: PASSES charter round-2 acceptance (MDD arm). Candidate overlay, coordinator decision.

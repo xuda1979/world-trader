@@ -4587,3 +4587,24 @@ INSIDE the documented baseline, operator-pending champion re-emission. Do not
 re-emission decision on the 09-28 champion rewrite (incl. whether to commit it).
 
 DONE data_freshness_census_20260930
+
+## 2026-10-01 | round-record data-permanence fix (main session): HUNT_MACRO2/ITER60_DATA_AXES/2026-09-06 combined FINDINGS were UNTRACKED — now committed
+
+Single-copy loss-risk audit of coord/ round records found three untracked dirs
+(same class as 53f4300b STANDUP_LOG fix and 9eff430e H1-snapshot fix):
+ (a) HUNT_MACRO2/ (84 files, rounds 1-7: CHARTER/FINDINGS, 20 repro scripts,
+     29 sleeve CSVs + metas, work_r3 ALFRED vintage cube 10 series, r7 evidence
+     JSONs) — the macro lane's full measurement history, never in git;
+ (b) ITER60_DATA_AXES/ (CHARTER+FINDINGS of the 2026-09-24 two-axis acquisition
+     round that opened the Binance axes) — the round HUNT_BINANCE_AXES measured;
+ (c) the 2026-09-06 space-named combined-role FINDINGS.md dir (round-1 record of
+     the 13-role combined agent).
+Secret-scan clean (FRED key loaded from file, never literal; only 32-hex hits are
+pytest CACHEDIR.TAG signatures). __pycache__/.pytest_cache excluded by gitignore.
+Suite at HEAD pre-commit: 29 failed / 717 passed — byte-identical counts to the
+documented 2026-09-30 census state (5471552 class); iter60_charter_caps_held RED
+reproduces from repo root for the same reason iter60 was RED at census time (its
+in-dir import of test_frontier_closure_manifest), inside the documented baseline.
+No content changes — 67 files added verbatim.
+
+DONE round_record_permanence_20261001
