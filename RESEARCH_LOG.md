@@ -4451,3 +4451,32 @@ Artifacts: campaign/agents/K1_KURTOV_results/{PREREGISTRATION.md, k1_kurtov_run.
 k1_kurtov_results.csv, K1_KURTOV_REPORT.md}; DEAD_IDEAS.csv row 71 appended
 (72 records incl header); pins campaign/bt/tests/test_k1_kurtov_closed.py 6/6 +
 row-count pin updated 71->72. V7.1 champion untouched (read-only study).
+
+## 2026-09-30 (/loop keep innovational research, iter 4) — H1 HARNESS HARDENED BEFORE FIRST SCHEDULED FIRE: interpreter pin + self-input bug fix
+
+Pre-flight verification of the H1 forward-collection harness's scheduled path
+(the fragile part: if the launchd job misfires or computes on the wrong stack,
+data is lost silently and free data cannot be backfilled). Two real defects
+found and fixed:
+
+(1) INTERPRETER STACK SEAM (critical): under launchd's default-PATH interpreter
+(/usr/bin/python3 = 3.9.6, scipy 1.13.1), the SVI fits drift up to 1.26e-4 vs the
+committed canonicals (homebrew 3.14.7 / scipy 1.18 / numpy 2.4.6 stack that
+produced archive/20260929) and can fail the digital cross-check gate on some
+symbols. The plist now pins /Users/daxu/homebrew/bin/python3 explicitly;
+verified the pinned interpreter's --recompute reproduces the committed
+archive/20260929 factors byte-identically (git diff empty) and the agent
+reloaded clean (exit 0, 04:20+05:20 CST).
+
+(2) RECOMPUTE SELF-INPUT BUG: recompute_day's input glob (*.csv) matched its OWN
+output files (H1_tailfactor_*.csv, H1_diagnostics_*.csv) when re-running on an
+already-computed day — the first live run was safe only because outputs didn't
+exist yet; any later --recompute would parse its own outputs as option chains
+and 'reject' 2 phantom symbols named after the output files. Fixed: inputs
+exclude H1_* files; regression pin test_recompute_excludes_own_outputs added
+(reproduces the failure mode on a temp copy).
+
+Verification stack: minimal-PATH launchd simulation passes; 31/31 cboe_options
+tests (12 harness + 7 regression/new + 12 pre-existing dl tests); recompute
+idempotent. The harness is now flight-ready for its first scheduled fire
+(04:20 CST tonight).
