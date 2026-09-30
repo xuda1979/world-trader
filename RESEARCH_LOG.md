@@ -4523,3 +4523,24 @@ class); my session added only markdown artifacts, zero new REDs. Landed:
 campaign/agents/HUNT_BACKFILL_results/{PRECOMMIT,FINDINGS}.md.
 
 DONE HUNT_BACKFILL
+
+## 2026-09-30 18:3x | data_cot weekly refresh (main session): CFTC 2026-09-22 release ingested, append-only verified
+
+The 2026-09-22 CFTC release (published 09-25) was sitting un-ingested; panels were
+one weekly release stale. Cleared the two cached 2026 zips, re-ran
+download_cot.py (full-history rebuild, append-only by construction), verified on
+(report_date, contract_code) keys: 191,161/191,161 cot_tidy + 39,912/39,912 tff_tidy
+overlap rows 100% identical, 0 lost keys, only new date 2026-09-22 (+290 cot_tidy /
++96 tff_tidy), fieldnames identical, legacy_tidy untouched. Committed 415f0e3 with
+zips retained (6a6e180 convention).
+
+Also this session (pre-registration discipline note): enumerated the 29-failure
+suite baseline — all vintage-drift/pin classes documented at commit 5471552;
+deliberately NOT re-pinned (champion-vintage re-emission is operator-pending per
+test docstrings; unilateral re-pin would mask drift or usurp the decision).
+H1 launchd agent pre-flight verified instead: loaded program =
+/Users/daxu/homebrew/bin/python3 (pinned interpreter ACTIVE), WorkingDirectory set,
+04:20+05:20 calendar triggers registered, runs=0 — tonight's first scheduled fire
+is flight-ready.
+
+DONE data_cot_refresh_20260922
