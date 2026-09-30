@@ -4608,3 +4608,29 @@ in-dir import of test_frontier_closure_manifest), inside the documented baseline
 No content changes — 67 files added verbatim.
 
 DONE round_record_permanence_20261001
+
+## 2026-10-01 (iter 3) | CHAMPION COMMIT DECISION MEMO: the "09-28 rewrite" premise CORRECTED — on-disk CSV IS the ITER49 champion of record, byte-reproducible from manifest-pinned inputs
+
+Full forensic of the operator-pending "09-28 champion re-emission" question:
+ (1) on-disk GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv sha16 cfa9ec4d38158691
+     = the documented ITER49 champion of record (adopted 2026-09-19, STANDUP
+     session 29), NOT a rogue 17:02 rewrite — 85+ files share the exact
+     17:02:32 bulk-touch mtime;
+ (2) 14 COMMITTED test files at HEAD pin cfa9ec4d; the committed CSV blob is the
+     stale ITER16 vintage (ee03f5c0, last committed 09-13, ann 38.11% gear-1.6,
+     6 champion generations behind);
+ (3) BYTE-EXACT REPRODUCTION PROVEN: current builder + the two frontier-manifest-
+     pinned sleeve vintages (brwt7 8e76dd58, C5ngsum ccfe3a4b) -> cfa9ec4d
+     exactly (n=4806, maxdev 9.99e-17); sleeves restored byte-exact after test;
+ (4) 29-RED decomposition: majority = committed-CSV-lag (GREEN on commit, zero
+     re-pins needed); ~4-6 = rebuild-extends class (sleeves deliberately extended
+     post-seal through 2026-09-21/09-14 -> fresh build 4821 rows vs sealed 4806);
+     1 = iter60 import seam (green from tests dir).
+MEMO LANDED: campaign/work_backtest_oos/CHAMPION_COMMIT_DECISION_MEMO_2026-10-01.md
+— recommendation Option A (commit the on-disk champion as provenance closure, NOT
+a champion move), with pre-registered 5-step verification gauntlet; Option B
+(governed extension) quantified: SR 3.8086/ann 23.81% at n=4821, would need a
+14-file re-pin wave — recommended as a SEPARATE later act. Operator decision
+pending on the memo.
+
+DONE champion_commit_memo_20261001
