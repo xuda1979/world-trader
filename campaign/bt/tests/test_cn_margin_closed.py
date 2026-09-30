@@ -58,7 +58,10 @@ def test_dead_ideas_rows_present():
     # 68 (header+67, HUNT_CN_MARGIN/HSGT closure 2026-09-22) -> 70 (2026-09-30):
     # +2 honest-negative closure rows from HUNT_BINANCE_AXES (Binance USD-M
     # metrics & bookdepth axes, both below the 1.0 fail-closed bar).
-    assert len(rows) == 70  # header + 69 dead ideas
+    # 70 -> 71 (2026-09-30, F2_DDC): +1 GOAL5DIR action-B closure row (drawdown-
+    # control post-processing on V7.1: all 4 pre-registered families REJECT,
+    # monotone binding-hurts evidence; campaign/agents/F2_DDC_results/).
+    assert len(rows) == 71  # header + 70 dead ideas
 
 
 def test_v7_unaffected_note_in_findings():

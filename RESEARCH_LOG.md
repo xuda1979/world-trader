@@ -4329,3 +4329,92 @@ the documented pre-existing baseline, zero regressions) / 704 passed. V7.1 refre
 canonicals: full SR 4.0792, OOS SR 3.6718, OOS ann 30.481% (deployment 31.16%),
 trail2y 3.9223/28.125%, DD -3.161%, 0 neg years; monitor exit 0. V7.0: OOS SR 4.0702,
 full SR 4.5703 (superseded history, gate kept meaningful on current vintage).
+
+## 2026-09-30 (/loop keep innovational research) — H1 FORWARD-COLLECTION HARNESS BUILT & LIVE: the option-tail time series has STARTED accruing
+
+The research log's standing meta-conclusion (2026-09-21 five-direction round: ~158
+documented dead ideas; frontier gap = ORTHOgonal intake) names exactly two open
+lanes: H1 option-tail state estimation (harness PROCEED) and F2 drawdown-control
+post-processing. Audit of H1's state found the gap: H1_report §7 (2026-09-16)
+specifies a DAILY CBOE EOD snapshot harness as the prerequisite for a tradable
+tail sleeve — but it existed only on paper. The old downloader
+(cboe_options_dl.py) OVERWRITES latest/*.csv every run; the only snapshot on disk
+was 2026-09-08 (single vintage, 22 days stale). Free delayed CBOE data cannot be
+backfilled: every day without the harness was a day lost forever for the future
+sleeve (needs >=3y of daily factors).
+
+Built `tools/quant/data/cboe_options/h1_collect.py` (the H1 §7 harness, exact):
+(1) fetch 9 symbols from the free keyless CBOE API — NOTE the endpoint now
+307-redirects cdn.cboe.com -> cdn-api.cboe.com (schema unchanged); (2) write-once
+archive archive/YYYYMMDD/{SYM}.csv, SAME schema as latest/, full strike range, ALL
+expiries >=7 DTE (both 30d term-structure brackets; 0.8S strikes carry p20);
+re-archive of a live day raises FileExistsError and touches nothing; (3) per-date
+factor recompute H1_tailfactor_YYYYMMDD.csv + diagnostics, math identical to the
+committed H1_build_tailfactor.py — verified pin-parity: all 9 committed
+2026-09-16 reference rows reproduce to <=1.5e-4 relative (float noise only);
+(4) idempotent panel H1_tailfactor_panel.csv (date,symbol,ascending); (5)
+fail-closed: fetch/lint failures logged+excluded, day needs >=6/9 factor rows
+else exit 1; fetch_report.json records fetch timestamp + per-file sha256 +
+TRADE DATE per symbol for T+1 causality audit.
+
+Trade-date subtlety handled: the delayed payload serves the LAST COMPLETED session,
+so a pre-market fetch is labelled by the underlying last_trade_time's DATE
+(majority vote across symbols) — the first run (fetched 2026-09-30 ~03:25 ET)
+correctly archived the 2026-09-29 close as 20260929, not 0930; labelling by fetch
+date would have corrupted every DTE by one day.
+
+FIRST LIVE DAY CAPTURED: 2026-09-29 close, 9/9 symbols, 0 rejects. Tail pricing
+moved materially in 3 weeks (p20_30d: TSLA 0.0182->0.0421, AAPL 0.0055->0.0194,
+TLT 5.4e-5->0.0028, SPY 0.0034->0.0040) — retroactively validates H1's premise
+that the tail-pricing state varies and is harvestable. Scheduling: launchd agent
+com.worldtrader.h1collect (~/Library/LaunchAgents/), 04:20+05:20 CST daily (summer
+16:00 EDT=04:00 CST / winter 16:00 EST=05:00 CST +20min settle; the second slot
+doubles as retry; write-once makes duplicates harmless loud no-ops). crontab was
+NOT usable: `crontab -` / `crontab <file>` hang in this environment.
+
+Tests: test_h1_collect.py 12/12 green (pin-parity x2, DTE-floor gate, >=6/9 gate,
+synthetic end-to-end smile incl. parity recovery + digital cross-check, archive
+existence/schema/sha256/trade-date pins, panel ordering, write-once enforcement);
+cboe_options dir 30/30; full suite 29 failed (diff-verified = documented
+pre-existing baseline, zero regressions) / 704 passed. Docs:
+tools/quant/data/cboe_options/FINDINGS.md. V7.1 champion UNTOUCHED
+(reproduce_v71.py 14/14 PASS this session). OPEN: licensed backfill of >=3y EOD
+chains (CBOE DataShop/ORATS/ivolatility/Polygon) — a spend decision; until then
+the panel accrues daily and the factors are monitoring-only. Sleeve construction
+stays blocked until >=3y of factors per H1 §7.
+
+## 2026-09-30 (/loop keep innovational research, iter 2) — GOAL5DIR ACTION B CLOSED: F2-DDC drawdown-control post-processing REJECTED (clean, pre-registered negative)
+
+With action A (H1 harness) live, executed GOAL5DIR action B: "Deep-dive F2's
+drawdown-control policy as a STANDALONE research milestone (post-processing
+optimizer on champion positions)". Pre-registered first
+(campaign/agents/F2_DDC_results/PREREGISTRATION.md, locked before any result):
+4 families x 26 arms — DDHALT hysteresis halt (b 3-10%, a=b-2/1%), DDSCALE linear
+de-risk (a 1-2%, b 4-8%, s_min 0/0.5), VOLTGT (10/15/20%), TLOSS trailing-63d-loss
+halt (5/8/12%, the OSS-halting tool F2 named); IS(<2017) selection, OOS(>=2017)
+gates G1-G6 (materiality +0.10 monthly SR, DD no-worse, ann-1pp floor, 0 neg yrs,
+turnover<=6, sign consistency); T+1 causal (s_{t-1} x r_t); 6.4bps per |ds| of the
+whole book; data = OPT_20V71_FULL_LEDGER daily net only.
+
+RESULT: **ALL 4 FAMILIES REJECT.** Structural, monotone finding: the more a
+DD-triggered policy BINDS, the more it HURTS OOS — post-hoc fine grid (disclosed,
+exploratory): b=1% halt OOS SR edge -0.45, b=1.5% -0.35, b=2% -0.18, b=2.5%
+-0.065; pre-registered b=3% -0.057; DDSCALE a=1% -0.086..-0.028; VOLTGT>=10% and
+TLOSS>=5% are exact NO-OPs (zero turnover, edge 0.0): V7.1's full 17.7y DD is only
+-3.16% — the pre-registered thresholds were calibrated on the GOAL100 book
+(DD -7.31%) and sit beyond V7.1's realized tail. Cause: V7.1 DDs are too shallow
+and recover too fast — DD-triggered de-risking sells the bottom of shallow dips
+and misses the recovery; and champion IS-SR~5.67 vs OOS~3.67 means IS-selected
+triggers overfit. Extends the GOAL5DIR meta-conclusion (overlays COST money:
+G1/K1/V1) to drawdown control. GOAL5DIR action B CLOSED.
+
+One bug found+fixed mid-study (disclosed): neg-years originally grouped monthly
+returns without compounding (1+m) per year — inflated to 10; corrected to the
+reproduce_v71 convention (champion OOS neg-yrs==0 asserted in the runner).
+
+Artifacts: campaign/agents/F2_DDC_results/{PREREGISTRATION.md, f2_ddc_run.py,
+f2_ddc_results.csv (34 rows), F2_DDC_REPORT.md}; DEAD_IDEAS.csv row 70 appended
+(F2-DDC, full evidence trail); pins campaign/bt/tests/test_f2_ddc_closed.py 7/7
+green (34-arm completeness, all-families-REJECT, monotone-binding-hurts,
+no-op-zero-edge, champion-OOS-SR 3.6718 pin, DEAD_IDEAS row, prereg-before-results
+governance). V7.1 champion untouched (read-only study).
