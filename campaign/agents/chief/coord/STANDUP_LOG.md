@@ -16022,3 +16022,26 @@ audit_v7b 10-agent audit trees, refresh_2026_09_25 re-emission scripts, v7_raw_r
 tooling) — NOT committed this session: pending the operator's champion re-emission
 decision (its artifacts are evidence for that decision; committing piecemeal first risks
 splitting the record).
+
+## 2026-10-01 (iter 4) | CHAMPION COMMIT DECISION MEMO landed (main session): "09-28 rewrite" premise CORRECTED — operator decision re-scoped to a provenance-closure commit
+
+The 09-30 census deferred the champion question believing the on-disk CSV was an
+unexplained 09-28 rewrite. Deep forensic (this session) proves otherwise:
+on-disk cfa9ec4d38158691 IS the ITER49 champion of record (adopted 2026-09-19,
+recorded in STANDUP session 29 and pinned by 14 COMMITTED test files incl.
+test_frontier_closure_manifest CHAMPION_PAIR); HEAD's committed CSV is the
+stale ITER16 vintage (ee03f5c0, committed 09-13, superseded by 6 champion
+generations ITER17..49). The 17:02:32 mtime is a bulk-touch signature (85+ files
+share the exact second). BYTE-EXACT REPRODUCTION: builder + manifest-pinned
+sleeve vintages (brwt7 8e76dd58 / C5ngsum ccfe3a4b) -> cfa9ec4d exactly
+(n=4806, maxdev 9.99e-17); sleeves restored byte-exact post-test. 29-RED
+decomposition: majority = committed-CSV-lag (GREEN on commit, zero re-pins);
+~4-6 = rebuild-extends class (post-seal sleeve extensions through 09-21 make
+fresh build 4821 rows vs sealed 4806; governed extension is a SEPARATE future
+act); 1 = iter60 import seam. MEMO: campaign/work_backtest_oos/
+CHAMPION_COMMIT_DECISION_MEMO_2026-10-01.md (commit b79d7b87) — recommendation
+Option A: commit on-disk champion+weights+card as provenance closure (NOT a
+champion move; the 53f4300b/9eff430e class), 5-step pre-registered gauntlet;
+Option B quantified and deferred (SR 3.8086/ann 23.81% at n=4821, 14-file
+re-pin wave); Option C rejected (contradicts committed pins). OPERATOR DECISION
+PENDING on the memo. Suite state unchanged: 29/717 at HEAD (documented).
