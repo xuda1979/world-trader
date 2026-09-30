@@ -61,7 +61,10 @@ def test_dead_ideas_rows_present():
     # 70 -> 71 (2026-09-30, F2_DDC): +1 GOAL5DIR action-B closure row (drawdown-
     # control post-processing on V7.1: all 4 pre-registered families REJECT,
     # monotone binding-hurts evidence; campaign/agents/F2_DDC_results/).
-    assert len(rows) == 71  # header + 70 dead ideas
+    # 71 -> 72 (2026-09-30, K1_KURTOV): +1 GOAL5DIR action-D closure row
+    # (inverse-kurtosis overlay on the 20 sleeves: all 3 arms REJECT, DD
+    # deepens every arm; campaign/agents/K1_KURTOV_results/).
+    assert len(rows) == 72  # header + 71 dead ideas
 
 
 def test_v7_unaffected_note_in_findings():

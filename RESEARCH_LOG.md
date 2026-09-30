@@ -4418,3 +4418,36 @@ f2_ddc_results.csv (34 rows), F2_DDC_REPORT.md}; DEAD_IDEAS.csv row 70 appended
 green (34-arm completeness, all-families-REJECT, monotone-binding-hurts,
 no-op-zero-edge, champion-OOS-SR 3.6718 pin, DEAD_IDEAS row, prereg-before-results
 governance). V7.1 champion untouched (read-only study).
+
+## 2026-09-30 (/loop keep innovational research, iter 3) — GOAL5DIR FULLY CLOSED: action D (K1-KURTOV kurtosis overlay on champion sleeves) REJECTED; actions A-D all resolved
+
+Executed GOAL5DIR action D ("re-examine kurtosis-filter scaling as an overlay on
+the champion's existing sleeves, not a standalone"). Pre-registered first
+(campaign/agents/K1_KURTOV_results/PREREGISTRATION.md): inverse-trailing-kurtosis
+weight scaling s=1/(1+clip(kurt_K,0,20)) applied to the V7.1 champion's 20 sleeve
+weights, renormalized to gross 1 (zeroed sleeves stay 0 — the overlay reallocates,
+never de-grosses; de-grossing = DD-control, already REJECTED by F2-DDC), 3 arms
+K=126/252/378, T+1 causal, overlay cost 6.4bps x 1.6 LEV on |d(w_eff)| turnover,
+OOS(>=2017) gates G1-G6 identical to F2-DDC.
+
+RESULT: **ALL 3 ARMS REJECT.** OOS SR edges -0.337 (K=126) / -0.203 (K=252) /
+-0.219 (K=378) — G1 and G6 fail on every arm; OOS DD DEEPENS on every arm
+(-5.98%/-5.33%/-5.17% vs champion -3.16%, G2 fail); K=126 also breaches the
+turnover cap (6.64 > 6, G5). Structural reading: the overlay raises ann
+(35.5-39.2% vs 30.7%) ONLY by concentrating tail risk — it shifts weight toward
+low-TRAILING-kurt sleeves whose realized forward tails are then relatively
+fatter; the +ann is payment for tail risk, not alpha. Consistent with
+K1-standalone (kurt scaling hurt trend 0.26 vs 0.43) and F2-DDC (overlays
+degrade the frontier champion).
+
+GOAL5DIR IS NOW FULLY CLOSED: A = H1 harness (LIVE, iteration 1); B = F2-DDC
+(REJECT, iteration 2); C = DEAD_IDEAS discipline (ongoing, +2 rows this session);
+D = K1-KURTOV (REJECT, this iteration). The GOAL5DIR ranked action list is
+exhausted; the frontier statement now reads: on-disk free-data alpha is closed
+out (158->171 documented dead ideas), and the only live growth lane is the H1
+option-tail time series accruing daily in the write-once archive.
+
+Artifacts: campaign/agents/K1_KURTOV_results/{PREREGISTRATION.md, k1_kurtov_run.py,
+k1_kurtov_results.csv, K1_KURTOV_REPORT.md}; DEAD_IDEAS.csv row 71 appended
+(72 records incl header); pins campaign/bt/tests/test_k1_kurtov_closed.py 6/6 +
+row-count pin updated 71->72. V7.1 champion untouched (read-only study).
