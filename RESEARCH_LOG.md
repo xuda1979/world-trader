@@ -4562,3 +4562,28 @@ state the future sleeve will trade IS moving. 13/13 harness tests pass post-fix.
 Committed 9eff430 (force-add convention, same class as f4828f7).
 
 DONE h1_datapermanence_20260908
+
+## 2026-09-30 19:0x | data-axis freshness census + champion-CSV forensic (main session): COT was the only safely-refreshable axis; MACRO2 REDs attributed to the uncommitted 09-28 champion rewrite (pre-baseline)
+
+Systematic last-row freshness census of all 2,040 CSV panels under
+tools/quant/data/ (per-axis max-date). Result: beyond the COT refresh already
+landed (415f0e3), NO other stale axis is safely refreshable this session:
+- more_onchain (5 months stale), polygon_intraday (2025): zero live consumers.
+- more_fred/newdata FRED axes (~5 weeks): consumed by HUNT_MACRO2/A2_fx_carry —
+  LIVE multi-round hunts whose pins would RED on mid-hunt vintage change (the
+  operator-pending appended-marks class), not refreshable without charter
+  update.
+- bis_eer/kenfrench/tic_mfh/twelve_extend: static-by-publication-cadence.
+- gas_storage/em_rates/dm_rates/boe_curve: 2-4 week lags are their publication
+  cadence, not staleness.
+
+Champion-CSV forensic: HUNT_MACRO2 r2/r4 test_champion_rebuild_matches_committed
+fail with maxdev 0.0733 — attributed to campaign/results/GOAL100_RAWEW13v2_
+WEIGHTED_GEAR16_daily.csv being REWRITTEN 2026-09-28 17:02 (all 4,807 rows
+differ vs HEAD, uncommitted, mtime Sep 28 17:02). The 29-RED baseline commit
+(5471552, Sep 28 17:48) POSTDATES the rewrite by 46 minutes — these failures are
+INSIDE the documented baseline, operator-pending champion re-emission. Do not
+"fix" by refreshing data or re-pinning: the correct next action is the operator's
+re-emission decision on the 09-28 champion rewrite (incl. whether to commit it).
+
+DONE data_freshness_census_20260930
