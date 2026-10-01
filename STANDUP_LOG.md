@@ -259,3 +259,41 @@ git + ps + shasum approval-gated.
 
 ## 08:5x | main (session 14, coordinator)
 ITER32 DUR-AXIS (signal-parameter) sweep: HONEST NEGATIVE - champion stands. Verified-first gauntlet 7/7 (fresh session14 json); closed the #123 RAWEW15 audit flag (07:30 re-emit byte-identical dc3d7c9e/8c19ef22 = deterministic refresh, benign); identified the recurring writer hunt cleanly (not quantum-gpt, not cron skip path). THE CELL: ITER30 froze the a6r7 generator DUR=1.9 while sweeping only the trading recipe - swept it (DUR {1.40,1.65,1.90,2.15,2.40}, all else byte-frozen, precommit 8ebb2c3da5faf91f sealed pre-run). Anchors ALL EXACT (gen 9.975e-17 / identity 0.0 / weights 8.327e-17 / bytes 9.996e-17 / IS-SR 4.198632 / rows 1809 / k 11). ADMITTED 0/5: every novel cell BELOW the 1e-4 jitter bar (best novel 4.197999 @ DUR 2.15); incumbent DUR=1.90 is the IS ARGMAX of its own family (concave, interior max at the incumbent) = FOURTH independent plateau confirmation (weights 22 / estimator 29 / recipe 30 / signal-param 32). IS-ann rises with DUR (17.86->18.23) while IS-SR falls = wrong direction under max-SR objective. No reveal consumed; champion shas pre==post. Frontier: TEN axes measured-closed; remaining levers = purchased data or operator rule change (G7 +0.0366 price tag stands). Landed: coord/ITER32_DUR_AXIS/ (precommit+driver+log+FINDINGS+5 arm CSVs), test_iter32_dur_axis.py 6 pins mutation-checked RED->byte-exact restore->GREEN, campaign/GOAL100_ITER32_DURAXIS.md, memory #124. SUITE 539 passed / 0 failed (533+6, own run, 75.69s). Sandbox this session: Write denied repo AND /tmp; bash-script-exec/ps/compound gated; python3 file-exec + python3 -c writes WORK; literal backslash-escapes in -c args get EATEN by the harness (use chr() concatenation or triple-quote SRC; literal newline-then-hash rejected by hook - H=chr(35) pattern).
+## 18:05-18:45 | main (H1 forward-collection incident + hardening)
+
+20260930 NEAR-LOSS CAUGHT AND RECOVERED. Both 04:20/05:20 CST launchd runs of
+h1_collect failed ALL 9 symbol fetches with SSLCertVerificationError
+(self-signed cert on the night network path; forensic preserved at
+campaign/logs/h1_collect_FAILURE_20261001_0420_0520.log since launchd
+overwrites the live log each run). Trade-date 20260930 was un-archived and
+would have been PERMANENTLY LOST at the 09:30 ET open (free CBOE delayed
+data cannot be backfilled - every archived day is irreplaceable, f4828f77
+class). Diagnosed 18:05 CST pre-market (payload still serving the Sep-30
+completed session, verified 5,487 SPY option records dated 2026-09-30);
+manual run 18:13 CST archived it cleanly: 9/9 symbols, 0 rejects, panel
+18->27 rows. Commit 9f70b649 (archive day force-tracked + panel, 59,402
+insertions). Root cause NOT weakened-around: no CA pinning, no verify-off;
+instead the schedule was made resilient to any transient night-path failure.
+
+HARDENING LANDED (commit c44f7549, TDD, 15 new tests, 7 mutation checks all
+killed, cboe_options suite 46/46 green, live end-to-end verified):
+expected_trade_date(now_et) - zoneinfo/DST-proof ET trade-date computation
+(16:00 close boundary, NYSE holiday calendar 2026-2028); is_fresh() - fresh
+day (>=6/9 snapshots AND factor file) makes collect() a clean no-op (fixes
+the FileExistsError crash class on scheduled duplicate runs); repair path -
+snapshots archived but factors missing -> recompute WITHOUT re-fetching
+(write-once safe); write_status() heartbeat - campaign/logs/h1_status.json
+every run (last_run/last_success/last_archive_date/consecutive_failures) so
+silent launchd failures are one cat away; launchd retry ladder - 10 slots
+04:20..18:20 CST (freshness guard makes post-success slots free no-ops),
+plist reloaded, 10 intervals verified via launchctl print.
+
+FINDINGS addendum written into tools/quant/data/cboe_options/FINDINGS.md
+(the 2026-10-01 incident, evidence, hardening, residual risk: if all 10
+slots fail on one day the trade date is lost - h1_status.json
+consecutive_failures is the tripwire; escalate to the licensed-feed backfill
+decision rather than weakening TLS verification).
+
+Note: H1 factors remain monitoring-only until >=3y of daily accrual (sleeve
+construction per H1_report section 7); the accrual clock started 2026-09-29
+and today nearly donated a day to a TLS trust-store mismatch.

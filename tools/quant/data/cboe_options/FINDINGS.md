@@ -96,4 +96,68 @@ panel ordering pin; write-once enforcement (re-archive raises, file unchanged).
 - Backfill gap remains open (CBOE DataShop / ORATS / ivolatility / Polygon, ≥5y
   EOD chains preferred; 3y minimum) — a licensed-data decision, not free data.
 
+---
+
+# ADDENDUM 2026-10-01 — the 20260930 near-loss and the hardening it forced
+
+**STATUS: PASS — trade-date 20260930 recovered pre-open (18:13 CST manual run,
+9/9 symbols, 0 rejects, panel 18→27 rows, commit 9f70b649); harness hardened
+(freshness guard + repair path + heartbeat + 10-slot retry ladder, commit
+c44f7549); cboe_options suite 46/46 green.**
+
+## What happened
+
+Both 04:20/05:20 CST launchd runs failed ALL 9 symbol fetches with
+`SSLCertVerificationError: self-signed certificate` (forensic preserved:
+`campaign/logs/h1_collect_FAILURE_20261001_0420_0520.log` — the live log is
+overwritten by launchd each run). Trade-date 20260930 went un-archived; the
+CBOE delayed payload serves the last COMPLETED session only until the next
+open, so the day would have been PERMANENTLY LOST at 09:30 ET. Diagnosed at
+18:05 CST (pre-market, ~3.4h of margin): interactive-path fetch worked
+(Let's Encrypt chain verifies fine), manual run archived the day cleanly.
+
+## Root-cause picture (evidence, not conjecture)
+
+- Night-path TLS presents a cert the homebrew `openssl@3/cert.pem` bundle
+  does not trust ("self-signed" per python; curl via the macOS keychain
+  verified a legit Let's Encrypt chain at 18:0x). A local PAC proxy
+  (TrustAgentLauncher, 127.0.0.1:54021→54119) is active on this machine;
+  unified log yielded nothing conclusive about the 04:20 window.
+- Decision: do NOT weaken verification (no `certifi`-swap, no
+  `SSL_CERT_FILE` pinning to a keychain-exported CA, no verify-off). Instead
+  make the schedule resilient to ANY transient night-path failure mode
+  (TLS, DNS, proxy): 10 retry slots spanning the 17h payload window, plus
+  the freshness guard so post-success slots are free no-ops.
+
+## Hardening (TDD: 15 new tests, 7 mutations all killed)
+
+1. `expected_trade_date(now_et)` — zoneinfo/DST-proof ET trade date the
+   payload serves (16:00 ET close boundary; NYSE full-holiday calendar
+   2026-2028; weekend/holiday pre-market → prior session).
+2. `is_fresh(expected)` — true iff archive/<d>/ holds ≥6/9 snapshots AND its
+   `H1_tailfactor_<d>.csv`; fresh → `collect()` no-ops (fixes the
+   `FileExistsError` crash class on scheduled duplicates — the old 05:20 run
+   after a successful 04:20 run crashed loudly).
+3. Repair path — snapshots archived but factor file missing (transient
+   crash mid-run): recompute factors from the archive WITHOUT re-fetching
+   (write-once data is irreplaceable; factors are pure functions of it).
+4. `write_status()` heartbeat — `campaign/logs/h1_status.json` every run:
+   last_run/last_success/last_archive_date/expected_archive_date/n_symbols/
+   consecutive_failures. A silently-failing launchd agent is now visible
+   with one `cat`.
+5. launchd retry ladder — 04:20/05:20/06:20/07:20/08:20/10:20/12:20/14:20/
+   16:20/18:20 CST; plist reloaded, 10 intervals verified via
+   `launchctl print`; live end-to-end run verified (no-op, exit 0,
+   heartbeat written).
+
+## Residual risk
+
+- If ALL 10 slots fail on a given day (sustained outage or a night-path cert
+  that persists past ~18:20 CST), that trade date is lost; the heartbeat's
+  `consecutive_failures` is the tripwire — check `h1_status.json` daily.
+- The 04:20 failure mode (night-path TLS) may recur on any slot; the ladder
+  exists precisely to outlive it. If logs show failures across the whole
+  ladder on one day, escalate to a licensed-feed decision (the open backfill
+  gap) rather than weakening TLS verification.
+
 DONE H1_forward_collection
