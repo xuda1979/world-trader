@@ -29,6 +29,7 @@ import json
 import os
 import sys
 import datetime as dt
+from zoneinfo import ZoneInfo
 
 import numpy as np
 import pandas as pd
@@ -41,6 +42,27 @@ ARCHIVE = os.path.join(HERE, "archive")
 LATEST = os.path.join(HERE, "latest")
 SYMS = ["SPY", "QQQ", "IWM", "TLT", "GLD", "AAPL", "MSFT", "NVDA", "TSLA"]
 MIN_FACTOR_SYMBOLS = 6
+
+# US equity holiday calendar for the freshness guard (expected_trade_date).
+# NYSE full-holiday closures only; half-days still close 13:00 ET and the
+# delayed payload serves them, so they are NOT listed here.
+US_HOLIDAYS = {
+    # 2026
+    "2026-01-01", "2026-01-19", "2026-02-16", "2026-04-03", "2026-05-25",
+    "2026-06-19", "2026-07-03", "2026-09-07", "2026-11-26", "2026-12-25",
+    # 2027
+    "2027-01-01", "2027-01-18", "2027-02-15", "2027-04-02", "2027-05-31",
+    "2027-06-18", "2027-07-05", "2027-09-06", "2027-11-25", "2027-12-24",
+    # 2028
+    "2028-01-17", "2028-02-21", "2028-04-14", "2028-05-29", "2028-06-19",
+    "2028-07-04", "2028-09-04", "2028-11-23", "2028-12-25",
+}
+US_CLOSE_ET = dt.time(16, 0)   # regular-session close
+
+# status heartbeat (failure visibility for launchd runs; see write_status)
+# HERE = <repo>/tools/quant/data/cboe_options -> repo root = dirname x4
+_REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(HERE))))
+STATUS_FP = os.path.join(_REPO, "campaign", "logs", "h1_status.json")
 
 TARG_T = 30.0 / 365.0
 DGRID = 4000
@@ -389,10 +411,117 @@ def update_panel():
     return panel
 
 
-def collect(datestr=None, now_iso=None):
+# ------------------------------------------------- freshness guard (2026-10-01)
+# The 04:20/05:20 CST launchd runs of 2026-10-01 failed all 9 fetches
+# (SSLCertVerificationError: night-path proxy cert not in the openssl CA
+# bundle) and trade-date 20260930 nearly went permanently un-archived —
+# recovered manually pre-open. These helpers make re-runs idempotent no-ops
+# once a day is archived, and give the scheduler a machine-readable heartbeat.
+
+def expected_trade_date(now_et):
+    """The YYYYMMDD trade date whose COMPLETED session the CBOE delayed
+    payload serves at ET instant `now_et` (zoneinfo-aware, DST-proof).
+
+    Rules: after 16:00 ET close (weekday, non-holiday) -> same date; before
+    close, or on weekends/holidays -> the most recent weekday that was neither
+    a weekend nor a US equity holiday (NYSE full-closure calendar, 2026-2028).
+    """
+    d = now_et.date()
+    if now_et.time() >= US_CLOSE_ET and d.weekday() < 5 \
+            and d.isoformat() not in US_HOLIDAYS:
+        return d.strftime("%Y%m%d")
+    d = d - dt.timedelta(days=1)
+    while d.weekday() >= 5 or d.isoformat() in US_HOLIDAYS:
+        d = d - dt.timedelta(days=1)
+    return d.strftime("%Y%m%d")
+
+
+def is_fresh(expected_datestr):
+    """True iff archive/<expected>/ holds >= MIN_FACTOR_SYMBOLS symbol CSVs
+    AND its H1_tailfactor_<d>.csv exists (a partial day fails the factor
+    gate, so it counts as NOT fresh and the next scheduled run retries; a
+    fully-archived day whose factor computation crashed transiently is also
+    NOT fresh — collect() then repairs factors without re-fetching)."""
+    day_dir = os.path.join(ARCHIVE, expected_datestr)
+    if not os.path.isdir(day_dir):
+        return False
+    n = len([f for f in os.listdir(day_dir)
+             if f.endswith(".csv") and not f.startswith("H1_")])
+    if n < MIN_FACTOR_SYMBOLS:
+        return False
+    return os.path.exists(os.path.join(
+        day_dir, "H1_tailfactor_%s.csv" % expected_datestr))
+
+
+def write_status(ok, expected, archived, n_symbols, now_iso=None):
+    """Machine-readable heartbeat written EVERY run (campaign/logs/
+    h1_status.json): last_run/last_success/last_archive_date/n_symbols/
+    consecutive_failures + expected_archive_date, so a silently-failing
+    launchd agent is visible without reading tracebacks."""
+    now_iso = now_iso or dt.datetime.now().isoformat(timespec="seconds")
+    prev = {}
+    try:
+        with open(STATUS_FP) as f:
+            prev = json.load(f)
+    except Exception:
+        pass
+    fails = prev.get("consecutive_failures", 0)
+    if ok:
+        fails = 0
+    else:
+        fails = fails + 1
+    status = {
+        "last_run": now_iso,
+        "expected_archive_date": expected,
+        "n_symbols": n_symbols,
+        "consecutive_failures": fails,
+    }
+    if ok:
+        status["last_success"] = now_iso
+        status["last_archive_date"] = archived
+    else:
+        status["last_success"] = prev.get("last_success")
+        status["last_archive_date"] = prev.get("last_archive_date")
+    os.makedirs(os.path.dirname(STATUS_FP), exist_ok=True)
+    with open(STATUS_FP, "w") as f:
+        json.dump(status, f, indent=1)
+    return status
+
+
+def collect(datestr=None, now_iso=None, now_et=None):
     """One full daily run: fetch -> archive (write-once) -> factor -> panel.
+
+    Freshness guard (2026-10-01): when now_et is supplied, the ET trade date
+    the delayed payload is EXPECTED to serve is computed first; if that day is
+    already archived with >= MIN_FACTOR_SYMBOLS snapshots, this is a clean
+    no-op (scheduled duplicate / weekend run) returning exit_ok=True without
+    fetching — fixes the FileExistsError crash class on duplicate runs.
     datestr defaults to the majority trade date across symbols (a pre-market run
     therefore archives the prior close under its own trade date)."""
+    expected = None
+    if datestr is None and now_et is not None:
+        expected = expected_trade_date(now_et)
+        if is_fresh(expected):
+            return None, None, None, dict(
+                date=expected, already_archived=True, exit_ok=True,
+                fetched=0, fetch_failed=0, factor_rows=0, factor_rejects=0,
+                panel_rows=0)
+        # repair path: snapshots archived but factors missing/crashed —
+        # recompute from the archive WITHOUT re-fetching (write-once data
+        # is irreplaceable but factors are pure functions of it)
+        day_dir = os.path.join(ARCHIVE, expected)
+        if os.path.isdir(day_dir):
+            n_snap = len([f for f in os.listdir(day_dir)
+                          if f.endswith(".csv") and not f.startswith("H1_")])
+            if n_snap >= MIN_FACTOR_SYMBOLS:
+                fac, dg, rejects = recompute_day(expected)
+                panel = update_panel()
+                return None, fac, panel, dict(
+                    date=expected, already_archived=False, repaired=True,
+                    fetched=0, fetch_failed=0, factor_rows=len(fac),
+                    factor_rejects=len(rejects),
+                    panel_rows=0 if panel is None else len(panel),
+                    exit_ok=bool(len(fac) >= MIN_FACTOR_SYMBOLS))
     ok, fail = fetch_all()
     if not ok:
         raise RuntimeError("all %d symbol fetches failed: %s" % (len(SYMS), fail))
@@ -408,6 +537,7 @@ def collect(datestr=None, now_iso=None):
     panel = update_panel()
     summary = dict(
         date=datestr,
+        already_archived=False,
         fetched=len(ok), fetch_failed=len(fail),
         factor_rows=len(fac), factor_rejects=len(rejects),
         panel_rows=0 if panel is None else len(panel),
@@ -436,7 +566,22 @@ def main(argv):
         update_panel()
         print("RECOMPUTED %s: %d rows, %d rejects" % (argv[i + 1], len(fac), len(rejects)))
         return 0
-    report, fac, panel, summary = collect()
+    # live run: pass the ET clock for the freshness guard + heartbeat
+    now_et = dt.datetime.now(ZoneInfo("America/New_York"))
+    expected = expected_trade_date(now_et)
+    try:
+        report, fac, panel, summary = collect(now_et=now_et)
+    except Exception as e:
+        write_status(ok=False, expected=expected, archived=None, n_symbols=0)
+        raise
+    if summary.get("already_archived"):
+        write_status(ok=True, expected=expected, archived=summary["date"],
+                     n_symbols=0)
+        print(json.dumps(summary, indent=1))
+        return 0
+    write_status(ok=summary["exit_ok"], expected=expected,
+                 archived=summary["date"] if summary["exit_ok"] else None,
+                 n_symbols=summary["fetched"])
     print(json.dumps(summary, indent=1))
     print(fac.round(6).to_string(index=False))
     return 0 if summary["exit_ok"] else 1
