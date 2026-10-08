@@ -106,10 +106,13 @@ def test_verify_detects_tamper_fail_closed():
 
 
 def test_pinned_baseline_snapshot():
-    """Pin the 2026-10-08 recovery-state baseline: axis count + total files +
-    the tree sha16 (sha256 over the manifest's sha16 column in order). Any
-    change to the data tree -- acquisition, refresh, loss -- moves this and
-    must be re-pinned DELIBERATELY with a ledger note."""
+    """Pin the baseline: axis count + total files + the tree sha16 (sha256
+    over the manifest's sha16 column in order). Any change to the data tree
+    -- acquisition, refresh, loss -- moves this and must be re-pinned
+    DELIBERATELY with a ledger note. History: 2026-10-08 initial baseline
+    11694 files / 519df8283c781911; 2026-10-08 same-day ITER60-axis refresh
+    (binance_metrics + binance_bookdepth to 2026-10-07, +56 files) ->
+    11750 files / 3a94f43736fd9737."""
     with open(MANIFEST) as f:
         rows = [r for r in csv.reader(f) if r and not r[0].startswith("#")]
     files = rows[1:]
@@ -117,13 +120,13 @@ def test_pinned_baseline_snapshot():
     assert len(axes) == 86, (
         f"axis count moved from 86: {len(axes)} -- if a new axis was acquired, "
         "update this pin AND the ledger note in the same commit")
-    assert len(files) == 11694, (
-        f"file count moved from 11694: {len(files)} -- re-run --emit and "
+    assert len(files) == 11750, (
+        f"file count moved from 11750: {len(files)} -- re-run --emit and "
         "re-pin if the change is deliberate")
     import hashlib
     h = hashlib.sha256()
     for r in files:
         h.update(r[2].encode())
     tree_sha16 = h.hexdigest()[:16]
-    assert tree_sha16 == "519df8283c781911", (
-        f"data-tree content hash moved from 519df8283c781911: {tree_sha16}")
+    assert tree_sha16 == "3a94f43736fd9737", (
+        f"data-tree content hash moved from 3a94f43736fd9737: {tree_sha16}")
