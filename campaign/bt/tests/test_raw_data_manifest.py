@@ -117,16 +117,16 @@ def test_pinned_baseline_snapshot():
         rows = [r for r in csv.reader(f) if r and not r[0].startswith("#")]
     files = rows[1:]
     axes = {r[0].split("/")[0] for r in files}
-    assert len(axes) == 86, (
-        f"axis count moved from 86: {len(axes)} -- if a new axis was acquired, "
+    assert len(axes) == 87, (
+        f"axis count moved from 87: {len(axes)} -- if a new axis was acquired, "
         "update this pin AND the ledger note in the same commit")
-    assert len(files) == 11750, (
-        f"file count moved from 11750: {len(files)} -- re-run --emit and "
+    assert len(files) == 11756, (
+        f"file count moved from 11756: {len(files)} -- re-run --emit and "
         "re-pin if the change is deliberate")
     import hashlib
     h = hashlib.sha256()
     for r in files:
         h.update(r[2].encode())
     tree_sha16 = h.hexdigest()[:16]
-    assert tree_sha16 == "3a94f43736fd9737", (
-        f"data-tree content hash moved from 3a94f43736fd9737: {tree_sha16}")
+    assert tree_sha16 == "d02c0d3050e3ffbc", (
+        f"data-tree content hash moved from d02c0d3050e3ffbc: {tree_sha16}")
