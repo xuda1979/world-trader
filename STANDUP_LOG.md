@@ -544,3 +544,29 @@ resolves the staged trio). Champion trio STAGED-UNCHANGED through the round
 (explicit-pathspec commits only; index verified).
 
 DONE hunt_ng_regional_20261008
+
+## 2026-10-08 DATA_NOAA_HDDCDD round record (post hunt_ng_regional)
+
+NEW DATA AXIS ACQUIRED (beat-path (b) "new data acquisition" now exercised):
+tools/quant/data/noaa_hddcdd/ — monthly US population-weighted HDD/CDD
+(base 65F), national + 9 climate regions, 1895-01..2026-08 (1580 months/
+series, 20 series, zero gaps, lint PASS). Source: NCEI Climate at a Glance
+JSON (national 110 + regional 101..109, hdd/cdd), verified live 2026-10-08.
+Weekly CPC files inspected and EXCLUDED (archive keeps only ~4 weeks).
+
+- TDD: 9 pins, RED observed first, GREEN fresh-run. Independent live
+  cross-check: national HDD 1580/1580 months, 0 mismatches.
+- RAW_DATA_MANIFEST re-emit: 87 axes / 11756 files, tree sha16
+  3a94f43736fd9737 -> d02c0d3050e3ffbc; --verify GREEN; test pins re-pinned,
+  pytest 6/6 GREEN.
+- Novelty verified: no HDD/CDD coverage in any prior axis, DEAD_IDEAS, or
+  C5_newdata history (C5 exhausted free sources as of round 3; NCEI CAG was
+  not among them).
+- Commits: 8d72dd62 explicit-pathspec only. Champion trio STAGED-UNCHANGED
+  (verified post-commit).
+- NEXT (not started): pre-registered weather-demand hunt charter (natgas
+  complex tilt; HDD-dev z-score windows, cumulative surplus/deficit vs
+  normal, CDD summer variant) under honesty gates. Monthly cadence: as-of
+  join must respect ~2wk NCEI publication lag (mid-M+1), not month-start.
+
+DONE data_noaa_hddcdd_20261008
