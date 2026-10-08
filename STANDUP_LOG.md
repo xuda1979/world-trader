@@ -570,3 +570,35 @@ Weekly CPC files inspected and EXCLUDED (archive keeps only ~4 weeks).
   join must respect ~2wk NCEI publication lag (mid-M+1), not month-start.
 
 DONE data_noaa_hddcdd_20261008
+
+## 2026-10-08 HUNT_WX_DEMAND round record (weather-demand hunt on the 87th axis)
+
+Beat-path (b) full loop closed in one session: acquire axis -> pre-register
+hunt -> measure under gates -> honest negative.
+
+- Charter sealed pre-result (commit c0ca915e): 4 families (W1 HDD-dev z
+  tilt, W2 season-cum surplus, W3 CDD summer variants, W4 regional
+  composition), per-family specs sum to 20 configs (headline "16" was an
+  arithmetic slip, recorded in FINDINGS; all 20 pre-registered).
+- Instrument: DHHNGSP spot (sha16 b9329a850156bc79); inputs sha16-asserted
+  at runtime; conservative 12th-of-M+1 NCEI publication convention, as-of
+  joined to the daily calendar, T+1, 6.4bps FULL|dW| + 0.5%/yr borrow,
+  10% vol-target.
+- Measurement-harness fix BEFORE results accepted: weekend-12th as-of-join
+  drop fixed to charter semantics (searchsorted); conclusion identical
+  (best positive 0.280 -> 0.248), both runs recorded in FINDINGS.
+- RESULT: honest negative 20/20. Best positive SR 0.248 vs >=1.0; negY 7-19
+  vs <=2; best scramble p 0.120. Realized weather prints are priced at
+  publication, consistent with EIA storage rows 57/66/72. Dead ledger
+  72->73 (HUNT_WX_DEMAND row).
+- Commits: c0ca915e (charter), ec2f0774 (closure). Champion trio
+  STAGED-UNCHANGED (verified after each commit; explicit pathspecs only).
+- AXIS RETAINED: noaa_hddcdd stays on disk (manifest-pinned, 87 axes);
+  conditioning-variable use (regime features for existing engines) remains
+  a legal future hypothesis requiring its own pre-registration.
+- FRONTIER: beat-the-champion remains at (a) 2027-09 span trigger
+  (Binance), (b) NEW data acquisition [this path now exercised once with a
+  negative hunt], (c) rule change, (d) operator Option-A champion-provenance
+  decision (resolves the staged trio; not a beat).
+
+DONE hunt_wx_demand_20261008
