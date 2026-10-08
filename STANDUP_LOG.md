@@ -493,3 +493,21 @@ STATE: manifest committed (ebaf8083); champion trio STAGED-UNCHANGED
 unchanged; suite addition 6 tests GREEN.
 
 DONE raw_data_manifest_20261008
+
+ADDENDUM raw_data_manifest_20261008 (same session, post log-commit): the
+round's own suite run surfaced PRE-EXISTING staleness REDs in
+test_iter60_data_axes (metrics/bookdepth last=2026-09-23, >7d freshness
+guards) — refreshed via the axes' own builders (lint PASS, end 2026-10-07;
+BTC 2228/1368, ETH 1772/1369), 3/3 GREEN standalone. The manifest then
+correctly failed-closed (60 extra/4 missing) -> deliberate re-emit + re-pin:
+11750 files / 86 axes / tree sha16 3a94f43736fd9737 (commit fa3b4a91,
+history note embedded in the test docstring). Remaining pre-existing RED
+NOT touched (operator adjudication class): test_frontier_closure_manifest
+brwt7 pin 8e76dd581ec6e50d predates the 2026-09-25 ledger refresh — disk=HEAD
+=611b277ef72b9200 (commit 3c9caf6c) — same committed-CSV-lag class as the
+Option-A memo scope; also its import of the sibling module requires running
+from tests/ dir (documented ITER60 behavior). Champion trio STAGED-UNCHANGED
+through the round (index 10fc14f4/8db03231/01beb01a verified; commits used
+explicit pathspecs only).
+
+DONE raw_data_manifest_20261008_addendum
