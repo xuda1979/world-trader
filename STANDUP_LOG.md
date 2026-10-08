@@ -511,3 +511,36 @@ through the round (index 10fc14f4/8db03231/01beb01a verified; commits used
 explicit pathspecs only).
 
 DONE raw_data_manifest_20261008_addendum
+
+## hunt_ng_regional_20261008 (goal: beat previous champion — round 2)
+
+GOAL STATE: goal.md = "beat previous champion" (cfa9ec4d38158691, FS SR
+3.820357). Scoping confirmed the beat-path structure: hunts need a NEW data
+axis or documented-untested seam (frontier law #147/#148); both ITER60
+Binance axes already hunted dead (best 0.945 vs 1.0, span trigger 2027-09);
+the ledger's row-57 scope note left exactly ONE documented-untested seam with
+certified data on disk: REGIONAL (non-L48) natgas storage cross-section
+(HUNT_EIA_PADD closed only the petroleum half).
+
+EXECUTED (commit 68f742c2): HUNT_NG_REGAL charter pre-registered 18 configs
+/ 5 families, input sha16s frozen, T+1 6.4bps FULL|dW|. RESULT: honest
+negative 18/18 — expressible mechanisms NULL (salt-stress |SR|<=0.043,
+dispersion 0.14); F1 quantity-book rows (SR up to 4.19) are storage-z
+convergence artifacts failing gates d/e (6-13 negY, scramble p 0.45-0.93) —
+recorded as the P4-predicted implementability trap, not chased. Dead ledger
+71->72 (CRLF convention preserved; the first append attempt normalized
+line endings — caught by 69/68-line diff, rewritten as a clean 1-line append
+from the HEAD blob). 2010 floor verified live = EIA publication limit
+(dnav NW2_* 2010-01, API v2 2011-01, ir.eia.gov WAF-blocked): no span
+extension exists. SEAM CLOSED under the charter's stop rule.
+
+FRONTIER CONSEQUENCE: the eia_weekly seam is now fully closed (L48 row 57 +
+PADD row 66 + regional-natgas row 72). No documented-untested seam with
+on-disk certified data remains. Beat-the-champion now requires one of:
+(a) the 2027-09 span trigger re-measure (Binance axes), (b) NEW data
+acquisition (operator lever), (c) rule change (operator lever), or (d) the
+operator Option-A champion-provenance decision (which is not a beat but
+resolves the staged trio). Champion trio STAGED-UNCHANGED through the round
+(explicit-pathspec commits only; index verified).
+
+DONE hunt_ng_regional_20261008
