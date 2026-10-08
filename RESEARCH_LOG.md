@@ -4634,3 +4634,127 @@ a champion move), with pre-registered 5-step verification gauntlet; Option B
 pending on the memo.
 
 DONE champion_commit_memo_20261001
+
+## 2026-10-01 (evening) | STASH CLOBBER NEAR-MISS + RECOVERY: 110-file git stash dropped mid-review; all load-bearing files restored from stash@{0}; champion hashes intact; suite 31-RED fully diff-explained (29 census + 2 date-rollover)
+
+Incident: a `git stash` holding 110+ in-flight files (V71 decay mods and related
+campaign work) was dropped BEFORE the pop-review step completed. Containment
+that saved the day, in order of leverage:
+ (1) champion CSVs snapshotted to /tmp BEFORE any git op (cfa9ec4d /
+     a384d6b9 safety copies) — the provenance-critical assets were never at
+     risk for a single moment;
+ (2) stash_all_files.txt (110 paths) captured from the stash BEFORE restore;
+ (3) modified_27.txt identified the 27 files that differed vs HEAD;
+ (4) stash@{0} was NOT pruned until all 27 verified byte-identical post-restore.
+
+Recovery state at 20:15 CST: champion re-verified cfa9ec4d38158691 /
+a384d6b92e258fd5 (ITER49 pins, intact after every suite run — standing rule);
+working tree restored; suite fresh-run 31 failed / 715 passed / 746 total, RED
+list byte-identical to reds_final.txt captured at incident time.
+
+Diff-explanation vs the 29-RED census (fede0ddf, 2026-09-30 22:19 CST):
++2 REDs = test_iter60_data_axes.py::{metrics,bookdepth}_axis_pinned, pure
+date-rollover: both Binance axes' last row is 2026-09-23; at census time the
+gap was exactly 7 days (GREEN at <=7); on 10-01 the gap is 8 days -> RED.
+Remaining 29 = the documented MACRO2 / pre-baseline 09-28-rewrite census set,
+operator-pending (unchanged). Zero champion-related REDs; zero stash-related
+REDs; suite total stable at 746.
+
+Process notes: (a) /tmp evidence files are volatile — STANDUP_LOG 19:0x-20:1x
+entry is the durable record; (b) the incident was a LIVE example of why the
+safety-copy-before-any-git-op rule exists (53f4300b/9eff430e class); (c) the
+2 freshness REDs are a normal timer expiry, NOT data loss — the 09-23 rows
+are intact and simply need the next acquisition refresh, which is the
+documented operator-pending workflow, not an emergency.
+
+DONE stash_clobber_recovery_20261001
+
+## 2026-10-08 | Option A simulation (empirical): fresh-checkout A/B 19-fixed/0-new; main-tree 32-RED decomposition; diescrack 09-14 net data loss found
+
+Follow-up to the 2026-10-01 CHAMPION_COMMIT_DECISION_MEMO (operator-pending).
+The memo PREDICTED gauntlet step 3 ("committed-CSV-lag REDs -> GREEN; failure
+set strictly shrinks from 29"); this session MEASURED it:
+
+1. SIDE-COMMIT METHOD (zero HEAD movement): staged champion cfa9ec4d +
+   weights a384d6b9 + regenerated card 8c9586a1; `git write-tree` ->
+   `git commit-tree` side commit 90e591a2 (parent a4ea5ae4); detached
+   worktrees for HEAD-control and HEAD+3-files. Champion provenance verified
+   on both ends (byte-exact, gauntlet step 1 PASS).
+
+2. STAGED-STASH CLOBBER INCIDENT (in-process, recovered): first safety
+   attempt `git stash push --staged --keep-index` reset the working-tree
+   champion files to the INDEX (stale) content — caught via empty
+   diff-tree on the would-be side commit; restored byte-exact from the
+   safety stash; re-staged; correct side commit built. Root cause: stash
+   --staged --keep-index leaves the working tree matching the INDEX, and
+   the index pre-held stale staged copies. Rule addition candidate:
+   staged-stash is a git-op requiring the same safety-copy step.
+
+3. FRESH-CHECKOUT A/B RESULT (campaign/bt): control 269F/333P; Option-A
+   250F/353P => 19 REDs fixed, 0 new. The 18 committed-CSV-lag tests +
+   frontier CHAMPION_PAIR green exactly as the memo claimed FOR FRESH
+   CHECKOUTS. The ~250 RED floor in both worktrees is HEAD's stale
+   committed campaign/bt code (6 modified-uncommitted + 7 untracked
+   load-bearing files: engine/metrics/verify_champion/align/borrow/
+   leakcheck/blend...) — landing that code is separate un-landed work,
+   quantified here for the first time.
+
+4. MAIN-TREE CORRECTION: today's main tree (which ALREADY has the disk
+   champion) shows 32 REDs and NONE are committed-CSV-lag — the memo's
+   "majority = committed-CSV-lag" decomposition described the fresh-checkout
+   state, not the main-tree state. Actual classes: ~19 rebuild-extends
+   (C5ngsum 3 revised marks 08-26..28 maxdev 1.79e-3 + brwt7/diescrack row
+   extensions vs sealed n=4806); 3 iter60 date-rollover/import; 8-stale
+   v7_decay_freshness (refresh workflow); energy pin drift; camp_cost_r2
+   (below); round5b/iter60 import seams; frontier brwt7 pin committed
+   already-stale (8e76dd58 vs 611b277e, pin 09-28 vs refresh 09-25).
+
+5. DATA LOSS DISCOVERED (53f4300b/9eff430e class): diescrack net
+   (HUNT_BASIS2/sleeves/diescrack_L40Z20_net.csv) was extended to 09-14
+   (4629 rows) pre-09-26 — never committed — and the 10-01 stash-clobber
+   restore reverted disk to the 08-24 vintage (4615). The 09-14 net vintage
+   exists nowhere in git; only the committed costfix prefix-archive
+   (623e2e75) preserves that coverage. test_camp_cost_r2 cost_grows_only
+   is the tripwire that caught it (4615 < 4629). Recovery: inverse-costfix
+   from the prefix archive or HUNT_BASIS2 re-run; adjudication pending.
+
+6. RECOMMENDATION UNCHANGED, NOW MEASURED: Option A remains the correct
+   provenance-closure act (fresh checkout: 19 fixed / 0 new measured;
+   step-1 hashes PASS; step-4 CHAMPION_PAIR GREEN in the Option-A
+   worktree). Step 3's main-tree wording should be corrected to "no
+   committed-CSV-lag REDs exist in the main tree; the fresh-checkout
+   class greens" when/if the operator proceeds. The diescrack loss and
+   the brwt7 stale-pin are NEW adjudication items that Option A alone
+   does not fix.
+
+Artifacts: logs/{fixed,new}_reds_optionA.txt, logs/reds_head_wt.txt,
+logs/reds_optionA_wt.txt, logs/reds_main_bt_20261008.txt; side commit
+90e591a2 (analysis-only, never to be merged); worktrees
+/tmp/option_a_{sim,head}_20261008 pending cleanup.
+
+### 2026-10-08 raw-data provenance manifest (closes b79d7b87 open item (b), commit ebaf8083)
+
+The b79d7b87 memo flagged 'tools/quant/data/ being wholly gitignored' as a
+systemic single-copy-loss exposure (diescrack raw lost 2026-10-08; H1
+20260930 near-loss; same class as the 9f70b64 lesson). Closed WITHOUT
+touching the operator gate or the champion: contents-pinning, not byte-archival.
+
+  * campaign/results/RAW_DATA_MANIFEST.csv — 11694 files / 86 axes,
+    deterministic (relpath,bytes,sha16), sorted, mtime-free.
+  * campaign/scripts/raw_data_manifest.py — --emit (safe) / --verify
+    (fail-closed: any extra/missing/changed file exits 1 and names it).
+  * campaign/bt/tests/test_raw_data_manifest.py — TDD 6/6 GREEN; baseline
+    pins 86 axes / 11694 files / tree sha16 519df8283c781911; coverage test
+    turns RED when a new axis dir lands (acquisitions must re-snapshot).
+
+Design choice recorded: the tree STAYS gitignored — the manifest pins
+content so silent mutation/loss/truncation is detectable (incl. the observed
+in-place diesel DJFUELUSGULF weekly revisions, which now flip --verify RED
+until deliberately re-pinned), while per-file ALFRED-style vintage pinning of
+specific raws remains an operator lever.
+
+Incident (self-caught, zero-loss): an initial bare 'git commit' swept the 3
+operator-gated STAGED champion files (soft-reset; re-committed with explicit
+pathspec; index byte-verified unchanged). Systemic lesson: while the Option-A
+trio is staged in this tree, every commit must use explicit pathspecs — a
+bare commit silently promotes gated files. Standup log has the full record.

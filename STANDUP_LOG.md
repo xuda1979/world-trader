@@ -297,3 +297,199 @@ decision rather than weakening TLS verification).
 Note: H1 factors remain monitoring-only until >=3y of daily accrual (sleeve
 construction per H1_report section 7); the accrual clock started 2026-09-29
 and today nearly donated a day to a TLS trust-store mismatch.
+## 19:0x-20:1x | main (stash-incident recovery + forensic)
+
+GIT STASH CLOBBER INCIDENT: RECOVERED, ZERO DATA LOSS, CHAMPION INTACT.
+At ~19:00 a `git stash` of 110+ files was dropped prematurely (the stash-pop
+review step was skipped); 75 of the stashed paths were restored from stash@{0}
+before drop — but the working-tree list (stash_all_files.txt, 110 paths) was
+captured BEFORE any restore, and the 27 files modified vs HEAD (modified_27.txt)
+were identified. Both champion CSVs were snapshotted to /tmp safety copies
+(champion_cfa9ec4d_safety.csv, weights_a384d6b9_safety.csv) BEFORE any git
+operation — the single-copy-loss hazard class (53f4300b/9eff430e) did not fire.
+
+Recovery: load-bearing files restored from stash@{0} (V71 decay mods + all 27
+modified files verified byte-identical after restore). Standing champion
+re-verified AFTER every suite run: sha256 cfa9ec4d38158691 (champion daily CSV)
+and a384d6b92e258fd5 (weights CSV) — both intact at 20:15 CST, matching the
+ITER49 pinned hashes.
+
+Suite diff-explanation (Task 4 of 5, airtight): fresh full run at 20:0x =
+31 failed / 715 passed / 746 total, RED list byte-identical to the session's
+reds_final.txt. Diff vs the documented 29-RED census (fede0ddf, run 2026-09-30
+22:19 CST): the +2 are test_iter60_data_axes.py::{metrics,bookdepth}_axis_pinned
+— pure date-rollover. Both axes' last row is 2026-09-23; the census ran 09-30
+when the gap was exactly 7 days (GREEN at <=7); today 10-01 the gap is 8 days
+-> RED. No champion-related or stash-related REDs; the remaining 29 are the
+documented MACRO2/pre-baseline 09-28-rewrite census set, operator-pending.
+
+Evidence preserved in /tmp: stash_all_files.txt (110 paths, captured pre-drop),
+modified_27.txt (27 modified-vs-HEAD), reds_final.txt (31 RED list),
+champion_cfa9ec4d_safety.csv + weights_a384d6b9_safety.csv (pre-op safety
+copies). Residual: /tmp is volatile — this log entry is the durable record.
+
+## 2026-10-08 | /loop research: Option A EMPIRICALLY SIMULATED (commit-tree + worktree A/B, zero HEAD movement) — memo's step-3 prediction CORRECTED; diescrack 09-14 net-vintage data-loss DISCOVERED
+
+Operator decision on the CHAMPION_COMMIT_DECISION_MEMO_2026-10-01.md (Option A =
+provenance-closure commit of champion cfa9ec4d) remained pending. Rather than
+wait, this loop SIMULATED the commit with zero HEAD movement:
+
+METHOD: staged {cfa9ec4d CSV, a384d6b9 weights, regenerated 8c9586a1 card} ->
+git write-tree -> git commit-tree (side commit 90e591a2, parent HEAD a4ea5ae4)
+-> two detached worktrees (/tmp/option_a_sim_20261008 = HEAD+3-champion-files;
+/tmp/option_a_head_20261008 = HEAD control). No checkout, no branch, no merge.
+
+INCIDENT (in-process, fully recovered): the first staged-stash safety attempt
+(`git stash push --staged --keep-index`) CLOBBERED the working-tree champion
+files to HEAD's stale vintage — the exact 53f4300b class. Caught immediately
+(empty diff-tree on the side commit), restored byte-exact from the safety
+stash (cfa9ec4d/a384d6b9 re-verified, card 8c9586a1), re-staged, side commit
+rebuilt as 90e591a2. Recovery verified by hash. LESSON REINFORCED: stash
+--staged --keep-index still resets working-tree files to the INDEX content;
+the safety-copy-before-any-git-op rule applies to staged-stash too.
+
+RESULT (fresh-checkout A/B, campaign/bt):
+- HEAD control worktree: 269 failed / 333 passed
+- Option-A worktree:     250 failed / 353 passed
+- DELTA: 19 REDs fixed, 0 new REDs. Fixed set = the 18 committed-CSV-lag
+  tests (iter20/21/23/25-27/30-40 champion-pin family,
+  frontier_closure_manifest CHAMPION_PAIR) + iter19/57/58 pair-pins.
+- Worktree RED floor (~250) is dominated by HEAD's stale committed campaign/bt
+  code itself (engine/metrics/verify_champion are 6+ files modified-uncommitted
+  + 7 untracked: align/borrow/leakcheck/blend/etc.) — fresh checkouts cannot
+  run the real suite; this is itself un-landed work.
+
+CORRECTION to memo section 2 (the 29-RED split): in the MAIN tree (which
+already has the disk champion), NONE of today's 32 REDs are committed-CSV-lag
+— that class only exists in fresh checkouts. Today's 32 RED decomposition:
+(1) rebuild-extends class ~19: builder n=4821 vs sealed 4806 (C5ngsum DHHNGSP
++19 rows & 3 revised marks 08-26..28 maxdev 1.79e-3, commit 17e5be62; brwt7
++23d rows commit 3c9caf6c) — test_rawew13v2, iter21, audit_champ2 r2/r3/r5/
+r6, verify_r3_cmd, camp_cost_r6/r7, camp_borrow_r3, auditrecon_r2, iter20x2;
+(2) date-rollover freshness 2+1: iter60 axes {metrics,bookdepth} (last row
+09-23, 15d gap today vs <=7 GREEN) + charter-caps import seam;
+(3) v7_decay_freshness 1: n_stale==8 (8 OOS-decay monitor sleeves crossed
+35/65d; a6-style structural F-F lag; refresh is the documented workflow);
+(4) energy_family_filter 1 (ann 19.38 vs 19.44±0.05 pin — needs attribution);
+(5) camp_cost_r2 1 — see DISCOVERY below;
+(6) frontier_closure_manifest test_champion_inputs_byte_exact 1 — brwt7 pin
+8e76dd58 was committed ALREADY-STALE (54715522, 09-28) vs brwt7 611b277e
+refreshed 09-25 (3c9caf6c): a pin-vs-refresh ordering defect, not drift;
+(7) audit_champ2_round5b 2 + iter60 import 1: module-import/collection seams.
+
+DISCOVERY (data loss, 53f4300b/9eff430e class): the diescrack
+HUNT_BASIS2/sleeves/diescrack_L40Z20_net.csv was extended to 2026-09-14
+(4629 rows) on disk pre-09-26 — its costfix prefix-archive
+(CAMP_COST/sleeves/diescrack__prefix.csv, committed 623e2e75 09-26) preserves
+that coverage — but the 09-14 net vintage was NEVER COMMITTED, and the 10-01
+stash-clobber restore replaced it with a 08-24 vintage (4615 rows). The
+09-14-extended net exists NOWHERE in git. test_camp_cost_r2
+cost_grows_only RED (4615 < 4629) is the tripwire that caught it. Recovery
+path: re-derive the net tail 08-25..09-14 from the prefix archive inverse
+costfix transform, or re-run the HUNT_BASIS2 refresh; NOT restorable from git.
+
+GAUNTLET STATUS vs memo section 5: step 1 PASS (cfa9ec4d/a384d6b9 verified
+post-sim); step 2 PASS for weights (7.6e-17) but champion prints DIFF
+(1.79e-3, the documented 3-revised-marks drift) — the memo's own text
+anticipated this for post-extension sleeves; step 3 as-predicted does NOT
+hold for the main tree (0 of 32 REDs are committed-CSV-lag there) but DOES
+hold for fresh checkouts (19 fixed / 0 new, measured); step 4
+CHAMPION_PAIR GREEN in the Option-A worktree (part of the 19). Option A
+remains sound as provenance closure; the operator decision is now backed by
+a measured A/B instead of a prediction.
+
+Artifacts: RED lists archived logs/{fixed,new}_reds_optionA.txt,
+logs/reds_head_wt.txt, logs/reds_optionA_wt.txt, logs/reds_main_bt_20261008.txt
+(/tmp copies volatile). Side commit 90e591a2 + safety stash@{0} retained;
+worktrees /tmp/option_a_{sim,head}_20261008 to be cleaned after review.
+
+DONE option_a_empirical_simulation_20261008
+
+## 2026-10-08 | diescrack 09-14 net-vintage loss RESOLVED (recovery derived + verified, adoption staged not executed)
+
+Follow-up to this session's data-loss discovery (diescrack net 09-14 vintage,
+4629 rows, never committed, destroyed by the 10-01 stash-clobber restore).
+
+FORENSIC RESULT: NO INFORMATION WAS ACTUALLY LOST. Three independent lines:
+(1) The committed costfix prefix-archive (CAMP_COST/sleeves/
+diescrack__prefix.csv, commit 623e2e75) covers 09-14 and its 14 tail dates
+(08-25..09-14) are EXACTLY ZERO. (2) An independent from-raw rebuild
+(refresh_sleeves.py R6 conventions: DJFUELUSGULF + wti_full/EIA splice)
+also yields 0.0 on every tail date (maxdev 0.0 vs archive tail). (3) The
+sleeve's last nonzero day is 2026-07-15 on BOTH the working net and the
+archive — the entire lost window was a no-position flat period.
+
+RECOVERY DERIVED (staged, NOT executed on the live sleeve): recovered net =
+working net (08-24, 4615 rows) + zero-extension on the 14 archive tail
+dates -> 4629 rows ending 09-14, EXACTLY the lost vintage's row set.
+Artifact: campaign/work_backtest_oos/recovery_20261008/
+diescrack_L40Z20_net_RECOVERED_0914.csv (sha256[:16] e5e215dfe854ec71) +
+RECOVERY_EVIDENCE.json. Gate simulation: passes the camp_cost_r2
+cost_grows_only tripwire that caught the loss (4629 >= 4629; aggregate
+cost direction preserved). Adoption = replace the live sleeve's bytes with
+the recovered file — one operator decision, zero information risk.
+
+ALSO DISCOVERED (unrelated but important): the diesel raw input
+(tools/quant/data/newdata/DJFUELUSGULF.csv, weekly, gitignored under
+'tools/quant/data/') has been REVISED in place since every committed
+diescrack artifact was built: from-raw rebuilds now diverge from ALL
+committed vintages (HEAD 08-10, working 08-24, prefix 09-14) on 607 dates,
+maxdev 5.464e-3 — same shape, same dates, all three. EIA weekly revisions
+land silently. The gitignore means the 09-14-era diesel vintage is
+unrecoverable from git. Implication: (a) from-raw re-emission of the
+diescrack sleeve is NO LONGER byte-exact — the working-net bytes are the
+only exact source; (b) 'tools/quant/data/' being wholly gitignored is a
+systemic raw-vintage single-copy-loss exposure for every sleeve built from
+newdata/eia_weekly (champion-relevant: C5ng DHHNGSP path was ALFRED-pinned
+by DATA_FREDMORE for exactly this reason — the diesel path has no such pin).
+
+OPEN: (a) operator decision on adopting the recovered file (one mv); (b)
+raw-vintage pinning for DJFUELUSGULF-class inputs (ALFRED-vintage-style or
+git-track the raws) — flagged as a systemic item, same class as the
+9f70b64 H1 lesson ('every archived day is irreplaceable').
+
+DONE diescrack_recovery_derived_20261008
+
+## raw_data_manifest 20261008 (session: autonomous loop, iters 1-5)
+
+FRONTIER ASSESSMENT: hunts stay closed (33 axes measured, frontier-closure
+law #147/#148; both ITER60 Binance axes already hunted to DEAD_IDEAS rows
+69/70; FINRA blocked; dead ledger 71). No operator-gated item touched.
+Champion trio staged-state preserved VERIFIED (index blobs 10fc14f4 /
+8db03231 / 01beb01a = disk cfa9ec4d/a384d6b9 unchanged through the round).
+
+EXECUTED (commit ebaf8083, explicit-pathspec commit of exactly 3 files):
+raw-data provenance manifest — closes open item (b) of the b79d7b87 memo
+systemically. campaign/scripts/raw_data_manifest.py --emit/--verify pins
+the CONTENTS of the gitignored tools/quant/data tree (stays gitignored, no
+repo bloat): RAW_DATA_MANIFEST.csv = 11694 files / 86 axes, deterministic
+(relpath,bytes,sha16; sorted; mtime-free), --verify fail-closed on any
+extra/missing/changed file, names the offender, exits 1. Mutation-tested:
+content-change RED, add-file RED, restore GREEN. TDD 6/6
+(test_raw_data_manifest.py; RED landed first). Baseline pinned: 86 axes /
+11694 files / tree sha16 519df8283c781911.
+
+INCIDENT (self-caught, zero-loss): first commit attempt (15f64f0c,
+soft-reset immediately) accidentally swept the 3 STAGED champion files into
+the commit because they were sitting in the index. Root cause: 'git add' of
+my 3 files onto an index that already held the operator-gated trio + commit
+without pathspec. Fix applied: git reset --soft HEAD~1 (champion trio back
+in index, byte-verified), re-commit with explicit pathspec (partial-commit
+mode). LESSON (systemic): while the Option-A trio sits staged in the main
+index, ALL commits in this tree MUST use explicit pathspecs; a bare 'git
+commit' silently promotes the operator-gated files. Recorded here as a
+near-miss of exactly the gate the b79d7b87 memo protects.
+
+ALSO NOTED: diesel DJFUELUSGULF raw was revised-in-place again (weekly
+08-24 vintage now on disk, superseding the 08-10 the committed artifacts
+were built from) — the manifest now DETECTS this class: any future
+in-place revision flips --verify RED until deliberately re-pinned. That is
+the designed behavior (vintage drift must be a visible decision, not a
+silent overwrite). Per-file ALFRED-style vintage pinning remains an
+operator lever if byte-provenance of specific raws is ever needed.
+
+STATE: manifest committed (ebaf8083); champion trio STAGED-UNCHANGED
+(operator decision on Option A still pending); dead-idea/hunt frontier
+unchanged; suite addition 6 tests GREEN.
+
+DONE raw_data_manifest_20261008
