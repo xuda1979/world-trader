@@ -602,3 +602,54 @@ hunt -> measure under gates -> honest negative.
   decision (resolves the staged trio; not a beat).
 
 DONE hunt_wx_demand_20261008
+
+## 2026-10-09 HUNT_ENSO_AG round record (ENSO/NAO climate-index ag-complex hunt)
+
+Beat-path (b) second full loop in two sessions: consume pinned axes (no
+acquisition needed) -> pre-register hunt -> measure under gates -> honest
+negative.
+
+- Charter sealed pre-result (commit 47700c3e): 4 families, E1 ONI-state DBA
+  tilt thr 0.5/1.0/1.5 both directions (6), E2 SH-harvest-window Nov-Mar
+  restriction (2), E3 NAO-state tilt thr 1.0/1.5 both directions (4), E4
+  ONI-conditioned CORN/WEAT/SOYB 60d cross-section (2). Charter-honesty
+  note: text said "Total 16" but enumerates 14; enumeration governed, none
+  added post-hoc. First seal attempt (b245fd47) was CONTAMINATED by 3
+  pre-staged champion files swept from the index; fixed same-session by
+  soft reset + explicit-pathspec re-seal 47700c3e (charter-only, 1 file);
+  champion trio STAGED-UNCHANGED throughout (verified).
+- Frozen inputs sha16-asserted at runtime: oni a458c1cc929c36ab,
+  meiv2 ce8c21bf3c4dc2ee (pinned, unused), nao 3e723c3c42ac609f,
+  DBA 7a12c1e0d6f11f65, CORN a579ceacc2dc1d21, WEAT 33c6813fc1c5db93,
+  SOYB b53ab1388a569b6b. Publication conventions verified against live
+  sources pre-charter: ONI center-labeled 3m window (knowable 12th M+2),
+  MEI.v2 second-month seasons, NAO calendar month (12th M+1).
+- RESULT: HONEST NEGATIVE, 14/14 configs fail gates. Best positive
+  E1_oni0.5_ninalong SR 0.544 (gate a needs >=1.0; H2 0.470 < 0.5;
+  negY 7 > 2). Pre-registered negative prediction (0.2-0.4 scale)
+  confirmed at the upper edge. Long-ag-when-La-Nina is the strongest
+  standalone climate/weather signal measured in this program to date
+  (0.54 vs WX_DEMAND best 0.248), directionally stable thr 0.5-1.0, both
+  halves positive, scramble p 0.025 — still decisively dead under the
+  contract; retained as a possible future CONDITIONING variable
+  (separate pre-registration required, no claim made).
+- DEFECT FOUND + SCOPED (coordinator-relevant): gate-e scramble in the
+  two prior chief hunts (HUNT_WX_DEMAND, HUNT_NG_REGIONAL work/*.py)
+  shuffled NET RETURNS — SR is permutation-invariant (~1e-16 float noise),
+  so those reported scramble p-values were degenerate coin-flips
+  (measurements, not evidence). VERDICTS UNAFFECTED: both hunts failed
+  gates a/c/d by wide margins regardless of gate e. HUNT_ENSO_AG
+  implements gate e per GATES_CONTRACT text (permute monthly signal
+  states 200x through the full cost+vt pipeline, seed 17, p<0.05).
+  Recommend a scoped audit case to formally void those p-values in the
+  record (NOT a verdict change).
+- DEAD_IDEAS row appended (75 rows total, prior rows byte-unchanged,
+  1-insertion diff verified). Ledger reference: ENSO/NAO ag-complex,
+  source HUNT_ENSO_AG.
+- Champion trio STAGED-UNCHANGED; commits this round: 47700c3e (charter
+  seal), this closure commit. FRONTIER: unchanged — (a) 2027-09 span
+  trigger (Binance), (b) NEW data acquisition [exercised twice with
+  negative hunts: WX_DEMAND, ENSO_AG], (c) rule change, (d) operator
+  Option-A champion-provenance decision (resolves the staged trio).
+
+DONE hunt_enso_ag_20261009
