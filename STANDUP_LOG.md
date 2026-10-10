@@ -740,3 +740,61 @@ DONE audit_gate_evoid_20261009
   every operation. Frontier unchanged.
 
 DONE audit_gate_evoid_addendum_20261009
+
+## 2026-10-10 ITER61_DDCON round record (construction-level DD-reduction, operator-objective round)
+
+- Charter PRE-REGISTERED and sealed (FINDINGS_PRECOMMIT.md, ~16:45 CST)
+  BEFORE any arm computation: operator objective "lower MDD without
+  lowering SR/ann" instantiated as 8 pre-registered arms in 3 families
+  (A: post-fit NG-block cap 0.25/0.28/0.30/0.35 — incumbent mechanism;
+  B: in-fit constraint w_C5ng+w_C5ngsum<=0.30 and per-sleeve 0.15 caps;
+  C: IS-only DD-soft-penalty and tail-soft-penalty objectives) + 3
+  controls (D1 uncapped staged-incumbent repro FAIL-CLOSED, D2 zero-info,
+  D3 W_MAX/k audit). Gates G1-G8 all pre-registered (SR >= incumbent-0.05,
+  ann >= incumbent-0.5pp, full+OOS MDD strictly shallower, 0 neg years,
+  turnover <= incumbent+10%, gross <= 1.6, G8 min-MDD tie-break).
+- D1 control PASSED fail-closed tolerances first (dev vs staged: SR
+  3.0e-07 / ann 2.8e-07 / mdd 3.8e-07; staged SR 3.820357 / ann 23.9215%
+  / MDD -3.7339% reproduced), then and only then were arms read.
+- VERDICT: POSITIVE. Winner A_cap28 (post-fit cap on (C5ng, C5ngsum)
+  block at 0.28, proportional down-scale + renorm): SR 3.7845 (G1 pass,
+  -0.036 vs incumbent within grace), ann 23.861% (G2 pass), full MDD
+  -3.3048% and OOS MDD -3.3048% (G3/G4 pass, +0.43pp shallower), 0 neg
+  years worst +7.55% (G5), turnover 4.19bp <= 4.76bp (G6, DOWN as
+  predicted), gross 1.0 (G7), G8 min-MDD beats co-passer A_cap30
+  (-3.4799%). Recovery 2024-03-05 vs incumbent 2024-04-02 (28d faster);
+  2024-01-11 day -1.9225% vs -2.3992% (+0.48pp, max-diff day exactly the
+  spike day, mechanism as chartered).
+- Family read-out: ONLY family A (incumbent mechanism, post-fit cap)
+  reduces DD. In-fit constraints (B) and DD/tail-soft objectives (C)
+  both push MORE weight into the NG block under the SR objective and
+  make MDD WORSE (-3.90% to -4.19% vs -3.73%): the 2024 DD is a
+  weight-space concentration problem, not a fit-objective problem.
+  A_cap35 = D1 exactly (incumbent ng_share 0.32857 < 0.35 non-binding
+  control).
+- Winner battery (charter §6, before any adoption claim): B1 byte-
+  determinism identical (sha16 c245ab36a33538ec both runs); B2 halves
+  4.2555/3.6143 vs incumbent 4.2681/3.6727 (stable both halves); B3
+  yearly 10 better / 9 worse / 0 neg years either side (gives up part
+  of NG-strong upside years 2023/2024, disclosed); B4 placebo-cap on
+  non-DD block (diescrack+a6r7 0.2049->0.17) MDD -3.7501% WORSE than
+  incumbent — cap benefit is NG-block-specific, NOT mechanical (desired
+  discriminancy result); B5 cost stress 6.4/8/10 bps: SR gap stable
+  ~0.036, MDD advantage preserved at all levels (not cost-fragile).
+- Artifacts (charter §7 scope: work/ + ITER61_* candidates only, staged
+  trio untouched): FINDINGS.md (verdict + gates), work/driver_iter61.py,
+  work/battery_iter61.py, work/arms_iter61.{json,csv},
+  work/battery_iter61.json, campaign/results/ITER61_DDCON_candidate_
+  daily.csv (4806 rows, full precision, byte-exact re-emit repro PASS)
+  + ITER61_DDCON_candidate_weights.csv (exact relw match to logged
+  A_cap28). NO archive supersede, NO champion change, NO DEAD_IDEAS row
+  (positive round), NO git stash (b79d7b87/82fa7401 lesson), staged
+  trio verified unchanged.
+- Adoption deferred to its own round per §7 (Option-A pending): at
+  adoption time — rawew13v2_build extension with NG-block cap pass +
+  --verify reproduction, archive_*_SUPERSEDED_by_ITER61_DDCON.csv,
+  champion card update, explicit-pathspec commit. Family-A winner so
+  no new mechanism enters the builder; cap_block is the incumbent
+  W_BRWT_CAP pattern applied to a second block.
+
+DONE iter61_ddcon_20261010
