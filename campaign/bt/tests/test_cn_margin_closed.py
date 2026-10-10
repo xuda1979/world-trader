@@ -64,7 +64,14 @@ def test_dead_ideas_rows_present():
     # 71 -> 72 (2026-09-30, K1_KURTOV): +1 GOAL5DIR action-D closure row
     # (inverse-kurtosis overlay on the 20 sleeves: all 3 arms REJECT, DD
     # deepens every arm; campaign/agents/K1_KURTOV_results/).
-    assert len(rows) == 72  # header + 71 dead ideas
+    # 72 -> 75 (2026-10-08/09, three chief hunts — re-pinned 2026-10-09 by
+    # AUDIT_GATE_EVOID which found this pin stale after the closures):
+    # +1 HUNT_NG_REGIONAL (regional non-L48 natgas storage cross-section,
+    # 18/18 configs dead), +1 HUNT_WX_DEMAND (HDD/CDD weather-demand natgas
+    # tilts, 20/20 dead), +1 HUNT_ENSO_AG (ENSO/NAO ag-complex tilts,
+    # 14/14 dead). Rows 73/74 gate-e p-value citations carry VOID markers
+    # per AUDIT_GATE_EVOID (degenerate return-shuffle; verdicts unaffected).
+    assert len(rows) == 75  # header + 74 dead ideas
 
 
 def test_v7_unaffected_note_in_findings():
