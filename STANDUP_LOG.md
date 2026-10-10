@@ -699,3 +699,44 @@ were degenerate coin-flips — measurements, not evidence.
   record hygiene, not a frontier event.
 
 DONE audit_gate_evoid_20261009
+
+## 2026-10-09 AUDIT_GATE_EVOID addendum: test re-pin + two stash near-loss incidents (self-caught, zero loss)
+
+- TEST RE-PIN (commit 6d2743de): the audit's post-edit suite run found
+  test_cn_margin_closed.py::test_dead_ideas_rows_present stale at
+  len==72 — the three hunt closures (rows 73/74/75, 2026-10-08/09) never
+  re-pinned it (pre-existing RED, verified failing before any audit edit).
+  Re-pinned 72->75 per the test's own dated convention chain
+  (68->70->71->72->75). Ledger integrity verified: 75 rows, 4/4 fields,
+  status dead unchanged, rows 73/74 carry the VOID markers.
+- SUITE STATE (post-audit, definitive, stable across 2 runs): 32 failed /
+  720 passed. Causal check: ZERO of the 32 failing tests read any file
+  edited by this audit (the one grep hit is the docs-lint's own
+  history-of-record EXCLUSION rule). Decomposition of the 32 (all
+  pre-existing, documented classes): ~28 champion-rebuild/card/iter pins =
+  staged-trio working-tree vs HEAD + 2026-10-07 data-refresh vintage drift
+  (Option-A pending state, cf. 17e5be62 attribution memo); 2 manifest
+  REDs = Oct 9 20:20 H1 cboe collect added 16 files after the last
+  baseline re-pin (designed fail-closed behavior); v7_decay_freshness +
+  iter pins = same vintage-drift class. NONE caused by the audit.
+- STASH NEAR-LOSS x2 (self-caught, zero loss, both fully recovered —
+  systemic lesson recorded): while baseline-verifying the suite WITHOUT
+  the re-pin, two `git stash` operations (one pathspec'd, one plain) each
+  silently swept the STAGED champion trio into the stash (the documented
+  bare-commit hazard class extends to stash: ANY git operation that
+  touches the index sees the staged trio). Both recovered via
+  `stash apply/pop --index` with byte verification (staged trio sha
+  b1669940c2fa0f31 identical before/after both incidents). Second pop
+  additionally blocked by 4 regenerable OOS decay reports (suite-run
+  artifacts, deterministic, backed up to /tmp, restored from stash
+  byte-identical). LESSON (extends the b79d7b87 explicit-pathspec rule):
+  while the Option-A trio is staged, do NOT use git stash for
+  baseline-isolation — use a HEAD worktree instead; stash round-trips
+  the staged trio through index restoration where a missed --index flag
+  silently unstages it.
+- Champion trio STAGED-UNCHANGED through all three commits
+  (8e1fb089 charter+findings, eaa5bdeb record edits, 6d2743de test
+  re-pin); staged-file set + content hash verified identical after
+  every operation. Frontier unchanged.
+
+DONE audit_gate_evoid_addendum_20261009
