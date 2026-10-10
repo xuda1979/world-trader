@@ -2,6 +2,14 @@
 
 ## Result: HONEST NEGATIVE (all 20 pre-registered configs fail gates)
 
+> **[VOID 2026-10-09 — AUDIT_GATE_EVOID]** All "scram" p-values in this file
+> (table column, "best scramble p (0.120)" narration, and the DEAD_IDEAS
+> row 74 citation) are VOID: the gate-e implementation shuffled the NET
+> RETURN series (SR is permutation-invariant, deviations ~1e-16), so those
+> p-values were degenerate coin-flips, not signal-scramble tests. Verdict
+> UNAFFECTED: every config failed gates a/c/d by wide margins independent
+> of gate e. See ../../AUDIT_GATE_EVOID/ (charter + findings + repro).
+
 Weather-demand (HDD/CDD) natgas-complex tilts are DEAD on the DHHNGSP spot
 instrument under the gates contract. Best positive config: W3_cddz1.5_follow
 SR 0.248 (gate a needs >= 1.0), negY 9 (gate d needs <= 2), scramble p 0.120

@@ -653,3 +653,49 @@ negative.
   Option-A champion-provenance decision (resolves the staged trio).
 
 DONE hunt_enso_ag_20261009
+
+## 2026-10-09 AUDIT_GATE_EVOID round record (scoped audit: void degenerate gate-e p-values in two prior chief hunts)
+
+Executed the audit recommended by HUNT_ENSO_AG FINDINGS (5af80bf7 standup
+record): the gate-e scramble in HUNT_WX_DEMAND and HUNT_NG_REGIONAL
+shuffled the NET RETURN series (SR is permutation-invariant, deviations
+~1e-16 float noise), so all reported scramble p-values in those two hunts
+were degenerate coin-flips — measurements, not evidence.
+
+- SCOPE REGISTERED PRE-EDIT (house audit convention, cf. AUDIT_GATES2):
+  campaign/agents/chief/coord/AUDIT_GATE_EVOID/CHARTER.md — 4 record
+  edits, verdict changes explicitly out of scope.
+- DEFECT BOUND (repo-wide sweep): exactly 2 defective implementations
+  (WX_DEMAND work/hunt_wx_demand.py:133, NG_REGIONAL
+  work/hunt_ng_regional.py:95). Correct class everywhere else: bt/gates.py
+  scramble_positions (canonical), HUNT_BINANCE_AXES hunt_lib, HUNT_ENSO_AG
+  (monthly signal-state permutation per contract text), HUNT_TREASFUT
+  r1/r5, hunt_vol2_lib, hunt_sector2 family, QA_dualmom_band121.
+- NUMERIC REPRO (work/demo_invariance.py, synthetic, seed 17): buggy
+  class max |SR_scram - SR_real| = 1.735e-16 over 200 shuffles (asserted
+  < 1e-12); correct class produces a genuine null spread. Seed 17 matches
+  both hunts' scramble seeds.
+- P-VALUES VOIDED: WX_DEMAND all 20 table values (0.965 ... 0.120 ...
+  0.470) + "best scramble p (0.120)" narration + DEAD_IDEAS row 74
+  citation; NG_REGIONAL all 18 table values (0.450 ... 0.005 ... 0.170) +
+  "FAIL e (p=0.93!)" narration + "scramble p up to 0.93" clause +
+  DEAD_IDEAS row 73 "scramble p 0.45-0.93" citation. NOT void: HUNT_ENSO_AG
+  p 0.025 (correct-class implementation), all other gate-e reports.
+- VERDICTS UNAFFECTED (pre-registered basis): gate e is a conjunct; WX
+  best positive SR 0.248 vs >=1.0 (gate a, ~4x gap), negY 7-19 vs <=2
+  (gate d); NG expressible |SR| <= 0.14 (gate a), F1/F2 quantity-book
+  artifacts fail gate d (negY 4-13 vs <=2) and are non-tradable. Voiding
+  gate e cannot flip any verdict; both hunts remain HONEST NEGATIVE / DEAD.
+  No re-measure required (nothing adopted from either; no sleeves exist).
+- RECORD EDITS (explicit-pathspec commits): WX_DEMAND FINDINGS.md VOID
+  banner after Result line (tables byte-intact); NG_REGIONAL FINDINGS.md
+  VOID banner after VERDICT line; DEAD_IDEAS.csv rows 73/74 annotated in
+  evidence fields only (verified: 75 rows intact, 4/4 fields, status dead
+  unchanged, 2-line diff); this standup record.
+- Champion trio STAGED-UNCHANGED (staged-file set verified identical
+  before/after; explicit pathspecs only). Frontier unchanged: (a) 2027-09
+  span trigger (Binance), (b) NEW data acquisition, (c) rule change,
+  (d) operator Option-A champion-provenance decision. This audit is
+  record hygiene, not a frontier event.
+
+DONE audit_gate_evoid_20261009

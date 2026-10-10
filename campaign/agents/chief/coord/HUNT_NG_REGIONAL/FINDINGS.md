@@ -7,6 +7,16 @@ vintages, sha16-pinned in CHARTER.md (verified in-driver at load).
 
 ## VERDICT: HONEST NEGATIVE — no config clears the gates contract. Seam CLOSED.
 
+> **[VOID 2026-10-09 — AUDIT_GATE_EVOID]** All "scram-p" values in this file
+> (table column, "FAIL e (p=0.93!)" narration, the "scramble p up to 0.93"
+> clause, and the DEAD_IDEAS row 73 "scramble p 0.45-0.93" citation) are
+> VOID: the gate-e implementation shuffled the NET RETURN series (SR is
+> permutation-invariant, deviations ~1e-16), so those p-values were
+> degenerate coin-flips, not signal-scramble tests. Verdict UNAFFECTED:
+> every row failed gates a/b/d by wide margins independent of gate e, and
+> the F1/F2 quantity-book-artifact diagnosis stands on non-tradability +
+> gate d alone. See ../../AUDIT_GATE_EVOID/ (charter + findings + repro).
+
 18/18 pre-registered configs measured. Full table (SR / H1 / H2 / negY /
 scramble-p):
 
