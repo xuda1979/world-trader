@@ -798,3 +798,39 @@ DONE audit_gate_evoid_addendum_20261009
   W_BRWT_CAP pattern applied to a second block.
 
 DONE iter61_ddcon_20261010
+
+## 2026-10-12 raw-data manifest re-pin (scheduled-pipeline drift, housekeeping round)
+
+ROUND CONTEXT: no hunt in flight; goal.md was stale (2026-10-08, missing
+WX_DEMAND/ENSO_AG/AUDIT_GATE_EVOID/ITER61_DDCON rounds). Housekeeping pass
+before any next hunt: manifest verify FIRST (admission bar: provenance-clean
+inputs), then goal.md refresh.
+
+MANIFEST VERIFY FOUND RED: 26 extra, 2 "missing" (sha-drift, not loss).
+Investigation before touching: all 26 trace to SCHEDULED CBOE pipelines
+(launchd H1 tail-factor + flow fetchers, 04:20/05:20 runs) operating
+2026-10-08..10: cboe_options/archive/20261008 (12 files) + /20261009
+(10 files) + refreshed cboe_flow/{spx,put,manifest}.csv + refreshed
+cboe_options/H1_tailfactor_panel.csv (7778 B, through 2026-10-09). The two
+"MISSING" pinned files exist on disk with drifted sha16s — NOT loss-class;
+the 47-byte 13a9c9cfd9952995 stub was itself a documented foreign-schema
+clobber artifact (DATA_ETF_MORE + HUNT_CREDIT2 FINDINGS), the current
+158-byte manifest.csv is the pipeline's healthy regenerated output. Repo-wide
+grep: no hunt pins either old sha16 as a frozen input (both mentions are
+historical FINDINGS prose only). No git history for either file (gitignored
+tree).
+
+ACTION (house pattern fa3b4a91/8d72dd62): --emit + baseline re-pin.
+11756 -> 11780 files / 87 axes / tree sha16 d02c0d3050e3ffbc ->
+1cfad63f89775723. test_raw_data_manifest.py baseline pin updated
+(count + sha16 + history docstring); suite 6/6 GREEN. Champion trio
+STAGED-UNCHANGED (no results/ file touched except the manifest itself).
+
+GOAL.MD refreshed: 75-row DEAD_IDEAS ledger (rows 71-75 added since last
+refresh: NG_regional, WX_demand, ENSO_AG, iter61-positive-note-placeholder,
+audit-gate-evoid), beat-path status updated (hunts closed; ITER61 candidate
+recorded but NOT adopted — operator decisions pending: ITER61 adoption +
+Option-A; Binance re-measure fires 2027-09; new-axis acquisition needs
+operator charter).
+
+DONE raw_data_manifest_repin_20261012

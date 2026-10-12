@@ -112,7 +112,10 @@ def test_pinned_baseline_snapshot():
     DELIBERATELY with a ledger note. History: 2026-10-08 initial baseline
     11694 files / 519df8283c781911; 2026-10-08 same-day ITER60-axis refresh
     (binance_metrics + binance_bookdepth to 2026-10-07, +56 files) ->
-    11750 files / 3a94f43736fd9737."""
+    11750 files / 3a94f43736fd9737. 2026-10-08 NOAA HDDCDD acquisition
+    (87th axis, +6 files) -> 11756 / d02c0d3050e3ffbc. 2026-10-12
+    scheduled CBOE pipelines (H1 tail-factor + flow fetchers, archives
+    20261008/20261009, +24 net files) -> 11780 / 1cfad63f89775723."""
     with open(MANIFEST) as f:
         rows = [r for r in csv.reader(f) if r and not r[0].startswith("#")]
     files = rows[1:]
@@ -120,13 +123,13 @@ def test_pinned_baseline_snapshot():
     assert len(axes) == 87, (
         f"axis count moved from 87: {len(axes)} -- if a new axis was acquired, "
         "update this pin AND the ledger note in the same commit")
-    assert len(files) == 11756, (
-        f"file count moved from 11756: {len(files)} -- re-run --emit and "
+    assert len(files) == 11780, (
+        f"file count moved from 11780: {len(files)} -- re-run --emit and "
         "re-pin if the change is deliberate")
     import hashlib
     h = hashlib.sha256()
     for r in files:
         h.update(r[2].encode())
     tree_sha16 = h.hexdigest()[:16]
-    assert tree_sha16 == "d02c0d3050e3ffbc", (
-        f"data-tree content hash moved from d02c0d3050e3ffbc: {tree_sha16}")
+    assert tree_sha16 == "1cfad63f89775723", (
+        f"data-tree content hash moved from 1cfad63f89775723: {tree_sha16}")
