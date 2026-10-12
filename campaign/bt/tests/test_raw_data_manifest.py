@@ -115,7 +115,10 @@ def test_pinned_baseline_snapshot():
     11750 files / 3a94f43736fd9737. 2026-10-08 NOAA HDDCDD acquisition
     (87th axis, +6 files) -> 11756 / d02c0d3050e3ffbc. 2026-10-12
     scheduled CBOE pipelines (H1 tail-factor + flow fetchers, archives
-    20261008/20261009, +24 net files) -> 11780 / 1cfad63f89775723."""
+    20261008/20261009, +24 net files) -> 11780 / 1cfad63f89775723. 2026-10-12
+    DATA_BAML_REPAIR: repair_baml_oas.py fenced DEAD (docstring rewrite + hard
+    runtime guard, 3321->5151 bytes; no data CSVs touched) -> 11780 /
+    662cc9db40d2d355."""
     with open(MANIFEST) as f:
         rows = [r for r in csv.reader(f) if r and not r[0].startswith("#")]
     files = rows[1:]
@@ -131,5 +134,5 @@ def test_pinned_baseline_snapshot():
     for r in files:
         h.update(r[2].encode())
     tree_sha16 = h.hexdigest()[:16]
-    assert tree_sha16 == "1cfad63f89775723", (
-        f"data-tree content hash moved from 1cfad63f89775723: {tree_sha16}")
+    assert tree_sha16 == "662cc9db40d2d355", (
+        f"data-tree content hash moved from 662cc9db40d2d355: {tree_sha16}")

@@ -57,3 +57,16 @@ ledger or a documented blocker. The hunt-closure claim stands. Data-side
 residuals remain exactly: (a) fred_full/more_fred BAML full-history repair
 (standing item), (b) Binance CBOE H1/options axes pending live accumulation,
 (c) Binance short-span trigger re-measure (fires 2027-09).
+
+ADDENDUM 2026-10-12 (DATA_BAML_REPAIR, same session): residual (a) is now CLOSED,
+not standing. A 5-route probe (API no-start / API observation_start=1996-12-31 /
+fredgraph.csv / alfredgraph.csv / ALFRED vintage API) falsified the "~7,400 rows
+1996-12+" premise on every route — all return 786-794 rows from 2023-10-10+; ALFRED
+returns HTTP 400 ("series does not exist in ALFRED"). FRED's own metadata names the
+root cause: "Starting in April 2026, this series will only include 3 years of
+observations" (ICE licensing cap, ROLLING window). No repair exists; the on-disk
+files are now the only copy of 2023-09-05..2023-10-09 (blind re-pull = data
+destruction; repair_baml_oas.py fenced with a hard runtime guard). The "genuinely
+new measurement opportunity" via DATA_COVERAGE item-1 does not exist. Long-history
+credit spreads would require a new licensed axis — operator charter, beat-path 1.
+Residuals now: (b), (c) only. See ../DATA_BAML_REPAIR/FINDINGS.md.

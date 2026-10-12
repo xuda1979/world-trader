@@ -76,6 +76,29 @@ Honest paths to beat the champion, in prior order:
   beat-path-1 hunt available from the current manifest. Per-axis detail:
   coord/ITER61_AXES_AUDIT/{FINDINGS.md,audit_87_axes.csv}. Manifest verify
   GREEN (11780 files pinned).
+- 2026-10-12 DATA_BAML_REPAIR (data-side round, RESOLVED — phantom confirmed, no repair
+  exists): 5-route probe settled the ITER61_AXES_AUDIT contradiction. All routes return
+  2023-10-10+ only (API no-start 786 / fredgraph 794 / API start=1996-12-31 794 /
+  alfredgraph 794 / ALFRED vintage API HTTP 400 "series does not exist in ALFRED").
+  Root cause per FRED's own metadata: April 2026 ICE policy — "this series will only
+  include 3 years of observations", a ROLLING window. DATA_COVERAGE item-1's "~7,400
+  rows 1996-12+" was a phantom; worse, the instruction had become DESTRUCTIVE: FRED
+  has rolled past the on-disk front month, so the more_fred/fred_full BAML CSVs are
+  the only surviving copy of 2023-09-05..2023-10-09 and a blind re-pull would orphan
+  it. Actions: repair_baml_oas.py fenced DEAD (docstring rewrite + hard runtime guard,
+  verified exit 1); DATA_COVERAGE item-1 + DATA_PULL row corrected at BOTH the doc and
+  the generator (build_coverage.py — the resurrection vector; regen verified emitting
+  closed text); ITER61_AXES_AUDIT addendum narrows residuals to Binance (b)/(c);
+  raw-data manifest re-emit/re-pin (repair script lives inside the pinned tree; tree
+  sha16 1cfad63f89775723 -> 662cc9db40d2d355, verify GREEN, test 6/6); suite 57/695
+  fully decomposed (exclusion run: zero failures caused by this round; the 57 = the
+  in-flight ITER61 ADOPTION state — operator approved 21:02 CST, prior session staged
+  A_cap28 (NG block exactly 0.28, verifier 9/9 GREEN) and was cut off mid-decomposition
+  with the same 57/695 — plus the Oct-10 append-only sleeve-vintage wave plus the 32
+  documented pre-existing classes; adoption commit belongs to the adoption session's
+  operator, NOT this round). RES_CREDIT decade+ gate permanently blocked
+  on FRED; long-history credit spreads need a new licensed axis = operator charter
+  (beat-path 1). Record: coord/DATA_BAML_REPAIR/{FINDINGS.md,work/probe_baml_routes.py}.
 
 ## Pending operator decisions (do NOT execute autonomously)
 - ITER61 adoption (NG-block cap 0.28 into champion construction — its own round per §7:

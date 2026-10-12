@@ -16045,3 +16045,63 @@ champion move; the 53f4300b/9eff430e class), 5-step pre-registered gauntlet;
 Option B quantified and deferred (SR 3.8086/ann 23.81% at n=4821, 14-file
 re-pin wave); Option C rejected (contradicts committed pins). OPERATOR DECISION
 PENDING on the memo. Suite state unchanged: 29/717 at HEAD (documented).
+
+## 2026-10-12 (iter 5) | DATA_BAML_REPAIR closed (main session, post-compaction resume): audit residual (a) RESOLVED AS PHANTOM — rolling ICE cap, no repair exists, destructive re-pull fenced
+
+The ITER61_AXES_AUDIT named the BAML OAS truncation contradiction its single most
+concrete data-side residual: DATA_COVERAGE item-1 claimed FRED serves 1996-12+
+~7,400 rows (re-pull unblocks RES_CREDIT), while HUNT_CREDIT2 R2 had verified the
+opposite on every route it tried. This round settled it empirically, 5 routes,
+fail-closed probe (work/probe_baml_routes.py, read-only): (a) API no-start 786 rows
+2023-10-10+, (b) fredgraph.csv 794 rows 2023-10-10+, (c) API observation_start=
+1996-12-31 794 rows 2023-10-10+, (d) alfredgraph.csv 794 rows 2023-10-10+,
+(e) ALFRED vintage API HTTP 400 "series does not exist in ALFRED". Root cause from
+FRED's own metadata: "Starting in April 2026, this series will only include 3 years
+of observations" — ICE licensing cap, ROLLING window. NEW HAZARD found and fenced:
+the window rolls — on-disk files start 2023-09-05, FRED now serves from 2023-10-10,
+so the on-disk more_fred/fred_full BAML CSVs are the ONLY surviving copy of
+2023-09-05..2023-10-09; executing item-1 as written (or repair_baml_oas.py) would
+have overwritten the front month = data destruction. Actions: repair_baml_oas.py
+docstring rewritten + HARD RUNTIME GUARD (SystemExit, verified exit 1);
+DATA_COVERAGE.md item-1 replaced with CLOSED/phantom record + DATA_PULL row VOIDED
+(strikethrough, VIX1D acceptance unchanged); SAME edits applied to the GENERATOR
+campaign/team/agents/DATA_MAESTRO/build_coverage.py (the resurrection vector) —
+regeneration re-run and verified emitting the closed text (n=2 stubs now, honest
+disk re-scan adds binance_dl_common); ITER61_AXES_AUDIT FINDINGS.md addendum dated
+2026-10-12 narrows residuals to (b) Binance CBOE H1/options + (c) Binance
+short-span trigger re-measure (2027-09). No data files touched (by design — they are
+now load-bearing archival artifacts); RES_CREDIT decade+
+gate is PERMANENTLY blocked on FRED, long-history credit spreads need a new licensed
+axis = operator charter, beat-path 1. Full record: coord/DATA_BAML_REPAIR/FINDINGS.md.
+MANIFEST CORRECTION to the entry above: the raw-data manifest DID move —
+repair_baml_oas.py lives INSIDE the pinned gitignored tools/quant/data/ tree, so the
+first post-edit verify was RED exactly as designed (EXTRA 5151B/90e2dd09 vs MISSING
+3321B/1ce4082a). Protocol run: --emit (11780 files, tree sha16 1cfad63f89775723 ->
+662cc9db40d2d355), --verify GREEN, test_raw_data_manifest.py re-pinned with dated
+history note, 6/6 GREEN. Gotcha recorded: `python3 test_raw_data_manifest.py --verify`
+exits 0 SILENTLY (no CLI handler on the test module) — real entry point is
+campaign/scripts/raw_data_manifest.py. SUITE (first full run since 10-09 32/720
+baseline): 57 failed / 695 passed; causal decomposition by exclusion run: minus this
+round's test file = 57/689 IDENTICAL failure set, own test 6/6 GREEN; all 41 failing
+files reference ZERO of this round's 5 touched files; 57 = 32 documented pre-existing
++ 25 new from the UNCOMMITTED Oct-10 09:39 append-only sleeve-vintage wave (diescrack
+08-10->08-24, brwt5 08-10->08-28, append-only verified) — standing
+operator-adjudication class, NOT this round. TRIO-STATE CORRECTION (post-commit-prep
+verification, 23:5x): the staged trio is NO LONGER the Option-A state — the operator
+approved ITER61 adoption at 21:02 CST ("go ahead") and the pre-compaction session
+executed the adoption staging: old trio archived as
+archive_{GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily,RAWEW13v2_IS_SR_weights}_SUPERSEDED_
+by_ITER61_DDCON.csv (21:24), A_cap28 champion written+staged (21:25:03; staged daily
+CSV a8ed233bd0f6fd5d, 4806 rows through 2026-08-28; weights 2b0f5fbc43113149 with NG
+block EXACTLY 0.28 = C5ng 0.15290004 + C5ngsum 0.12709996, the DDCON winner signature),
+card regenerated ded40a5145b8827a (22:24), verifier 9/9 GREEN on the staged champion
+(14:37Z transcript). ADOPTION UNCOMMITTED at this entry's write time (HEAD still the
+19:37 audit commit) — the pre-compaction session was cut off mid-suite-decomposition
+(its final measurement: 57 failed / 695 passed, IDENTICAL to this round's, confirming
+the 57-decomposition is the adoption-state suite baseline, not an anomaly). This
+round's suite numbers above therefore decompose as: adoption-state champion pins
+(staged A_cap28 vs HEAD Option-A vintage) + the Oct-10 sleeve-vintage wave + the 32
+documented pre-existing classes. Option-A trio state lives in stash@{0} (cfa9ec4d /
+a384d6b9 / 8c9586a1 verified intact this session) — the supersede-at-adoption path the
+memo pre-registered; the adoption round's commit belongs to that session's operator,
+not this round.
