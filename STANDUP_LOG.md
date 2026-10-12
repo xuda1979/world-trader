@@ -834,3 +834,131 @@ Option-A; Binance re-measure fires 2027-09; new-axis acquisition needs
 operator charter).
 
 DONE raw_data_manifest_repin_20261012
+
+## 2026-10-12 bad-commit-episode side-effect verification CLOSED (hash-verified against durable pins)
+
+Cutoff-continuation round: the one open verification item from the
+b71ae6f9 bad-commit-episode recovery ("staged card 8c9586a1 verify
+against other records") is now CLOSED with a positive result — the
+pin EXISTS in two independent durable records, and the staged card
+matches both:
+
+PIN 1: STANDUP_LOG 2026-10-08 Option-A simulation round (lines
+337/346): "staged {cfa9ec4d CSV, a384d6b9 weights, regenerated
+8c9586a1 card}" + "restored byte-exact from the safety stash
+(cfa9ec4d/a384d6b9 re-verified, card 8c9586a1)".
+
+PIN 2: side commit 90e591a2 (Option-A commit-tree, parent a4ea5ae4):
+its CHAMPION_CARD.md blob hashes to 8c9586a1bb7c3c89 (verified by
+git cat-file today).
+
+TODAY'S HASH MATRIX (all match): working-tree card 8c9586a1bb7c3c89
+= index-staged card 8c9586a1bb7c3c89 = both pins; champion CSV
+cfa9ec4d38158691 and weights a384d6b92e258fd5 re-verified on disk.
+Staged-differs-from-HEAD for all three trio files confirmed (M in
+git status, staged side of diff) — staged-state is the Option-A
+state, HEAD holds the stale vintage, as designed.
+
+VERDICT: the b71ae6f9 episode had hash-verified ZERO side effects
+on the staged champion card. The recovery claim "staged trio
+untouched" is now confirmed against durable pins (standup record +
+side-commit tree), not merely staged-status inference. The staged
+trio is byte-identical to the 2026-10-08 Option-A staged state.
+
+No repo state changed this round (verification only; this log entry
+is the durable record). Pending operator decisions unchanged:
+(a) ITER61 adoption (builder + cap_block + --verify, archive
+supersede, champion card update — its own round per §7);
+(b) Option-A champion-provenance decision; (c) any new data-axis
+acquisition charter. Binance re-measure fires 2027-09.
+
+DONE badcommit_sideeffect_verify_20261012
+
+## 2026-10-12 — ITER61 consolidation: independent CSV re-verification + operator decision memo (verification-only; no repo state changed)
+
+Scope registered first (task list): (1) recompute the ITER61 candidate and
+staged-incumbent metrics independently from the PUBLISHED CSV artifacts (not
+from engine runs) to confirm the FINDINGS.md gate table; (2) consolidate the
+two pending operator decisions into one decision memo; (3) goal.md/standup
+records. This is a verification + consolidation round only — no champion
+change, no adoption, no unstage.
+
+Verification results (recomputation from campaign/results CSVs, 2026-10-12):
+- Candidate ITER61_DDCON_candidate_daily.csv: SR 3.784489, ann 23.8610%,
+  MDD -3.30485% (full and OOS identical — the DD episode is OOS), 0 negative
+  years, worst year +7.553%, worst day -2.2480% (2026-03-17, brwt — non-NG,
+  untouched by cap as documented).
+- Incumbent GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv: SR 3.820357,
+  ann 23.9215%, MDD -3.73394%. Matches champion of record pins.
+- All 8 pre-registered ITER61 gates re-confirmed from artifacts: G1 3.784489
+  >= 3.770357; G2 23.8610 >= 23.4215; G3 -3.30485 > -3.73394; G4 OOS MDD
+  same as G3 (episode is OOS); G5 0 neg years / worst +7.553% >= +5; G6
+  turnover 4.1917 <= 6.4; G7 gross 1.6; G8 NG block share exactly
+  0.28000000 (C5ng 0.15290004 + C5ngsum 0.12709996) vs incumbent 0.32856826,
+  non-NG sleeves pro-rata, relw sums 1.0, day corr 0.995579.
+- Option-A staged trio re-hashed: staged-tree (git diff --cached --binary |
+  shasum) sha16 b1669940c2fa0f31; consistent with the 2026-10-08
+  badcommit_sideeffect_verify byte-identity finding. Stash-unsafety
+  constraint remains binding while staged.
+
+Emitted: campaign/agents/chief/coord/ITER61_DDCON/OPERATOR_DECISION_MEMO.md —
+consolidates (a) ITER61 adopt/hold/reject (pre-registered chief recommendation:
+ADOPT in a dedicated round — all gates green, battery clean, family-A mechanism
+is the incumbent's own; honest costs stated: -0.036 SR / -0.06pp ann buys
+0.43pp shallower MDD, 2024/2023 give up ~2.3pp/~1.0pp, remaining DD episodes
+are non-NG) and (b) Option-A provenance (supersede-at-adoption if ITER61
+adopted; else commit the trio to close the long-lived staged state —
+"leave staged indefinitely" explicitly not recommended given the two
+stash-near-loss incidents). Decisions remain operator-owned; nothing executes
+autonomously.
+
+Records: goal.md round entry appended (this file + goal.md are the durable
+records; memo is the decision artifact). Pending operator decisions unchanged
+in substance, now consolidated in one memo: (a) ITER61 adoption, (b) Option-A
+provenance, (c) any new data-axis charter. Binance re-measure fires 2027-09.
+
+DONE iter61_consolidation_verify_20261012
+
+## Round iter61_axes_audit_20261012 (chief, audit)
+
+Scope registered first (task list): enumerate all 87 raw-data manifest axes
+and cross-reference against the hunted/measured set to verify or refute the
+"hunts stay closed" claim — an acquired-but-unmeasured axis would be an
+autonomous beat-path-1 hunt (new data, already certified).
+
+Result: ZERO unmeasured axes; hunt-closure claim CONFIRMED. Method: axis
+enumeration via find tools/quant/data -mindepth 1 -maxdepth 1 -type d (87,
+matches the test_raw_data_manifest.py line-122 pin); name-match pass against
+DEAD_IDEAS.csv (74 rows, idea+evidence+source), DATA_COVERAGE.md,
+STRATEGY.md; 5 name-unmatched axes resolved manually by opening
+charters/findings/files:
+- binance_bookdepth: MEASURED — HUNT_BINANCE_AXES, DEAD_IDEAS row 70 (24
+  configs, best BTC imb5 net SR 0.811, short-span 2.7y).
+- binance_metrics: MEASURED — HUNT_BINANCE_AXES, DEAD_IDEAS row 69 (70
+  configs incl. cross-sectional RV).
+- noaa_hddcdd: MEASURED — HUNT_WX_DEMAND, DEAD_IDEAS row 73 (charter pins
+  hdd_monthly sha16 0be7aa2620a76e52 / cdd_monthly f658bcdcdda3dcaa).
+- fred_full: MEASURED-BUT-TRUNCATED — 4 BAML OAS files, 781 rows
+  2023-09-22..2026-09-01, same series as more_fred BAML (DEAD_IDEAS row 41
+  blocked-truncation; rows 40/31 credit dead). DATA_COVERAGE item-1 repair
+  (full 1996-12+ re-pull via fredgraph.csv) remains the single most concrete
+  data-side residual in the 87-axis map — this audit adds no new obligation.
+- binance_dl_common: NOT-A-DATA-AXIS — shared downloader lib (binance_dl.py +
+  tests) used by the bookdepth/metrics builders; appears as an axis only via
+  the directory-level split. If manifest axis definition ever changes, the
+  count pin would go 87->86 with a matching test update (not worth doing).
+
+Honest caveats recorded in FINDINGS.md: name-matching is a floor not a
+ceiling (axis-level coverage verified, not file-level; file-level residuals
+have their own tracking via DATA_COVERAGE notes + manifest lint columns).
+
+No autonomous beat-path-1 hunt is available from the current manifest. Every
+acquired axis has >=1 pre-registered measurement pass or a documented
+blocker. Beat-path-3 (Binance span trigger) fires 2027-09; beat-path-4
+(CBOE H1/options accumulation) unchanged; fred_full/more_fred BAML repair
+remains the standing data-side item.
+
+Artifacts: coord/ITER61_AXES_AUDIT/FINDINGS.md + audit_87_axes.csv (87 rows,
+0 UNRESOLVED). raw_data_manifest --verify GREEN (11780 files). goal.md round
+entry appended. Champion trio STAGED-UNCHANGED; no results/ file touched.
+DONE iter61_axes_audit_20261012
