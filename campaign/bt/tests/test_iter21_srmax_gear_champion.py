@@ -73,12 +73,19 @@ def test_candidate_bytes_are_the_champion_bytes():
     # coord/ITER47_A5R2_VTEXT/prior_champion_backup); the ITER21-era bytes live on unchanged
     # in the ITER21 candidate artifact and are byte-identical to the preserved
     # ITER43 prior_champion_backup daily (8559fa55ee9a3417 -- the champion of that era).
+    # Re-anchored 2026-10-12 (ITER61 NG-block-cap adoption): the live champion is now
+    # a8ed233bd0f6fd5d; the pre-NG-cap bytes (cfa9ec4d38158691) live on byte-exact in
+    # results/archive_*_SUPERSEDED_by_ITER61_DDCON.csv.
     a = hashlib.sha256(CHAMP.read_bytes()).hexdigest()[:16]
     b = hashlib.sha256(CAND.read_bytes()).hexdigest()[:16]
     bk = hashlib.sha256((ROOT / "campaign" / "agents" / "chief" / "coord"
                          / "ITER43_A5R2_VT" / "prior_champion_backup"
                          / "GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv").read_bytes()).hexdigest()[:16]
-    assert a == "cfa9ec4d38158691", f"live champion changed: {a}"
+    sup = hashlib.sha256((ROOT / "campaign" / "results"
+                          / "archive_GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily_SUPERSEDED_by_ITER61_DDCON.csv"
+                          ).read_bytes()).hexdigest()[:16]
+    assert a == "a8ed233bd0f6fd5d", f"live champion changed: {a}"
+    assert sup == "cfa9ec4d38158691", "superseded pre-NG-cap vintage must stay byte-exact"
     assert b == bk == "8559fa55ee9a3417", f"champion-era mismatch: cand {b} != backup {bk}"
 
 
@@ -92,9 +99,11 @@ def test_champion_stats_and_operator_gates():
     # -3.6130 -- that era's bytes live in the ITER43 prior_champion_backup pair).
     # ITER47 re-anchor (2026-09-19): was 23.6813 / 3.764764 / -3.6603 at ITER43.
     # ITER49 re-anchor (2026-09-19): was 23.7668 / 3.784099 / -3.7012 at ITER47.
-    assert abs(ann * 100 - 23.9215) < 0.01, f"ann drifted: {ann*100:.4f}%"
-    assert abs(sr - 3.820357) < 0.0005, f"SR drifted: {sr:.6f}"
-    assert abs(mdd * 100 + 3.7339) < 0.01, f"MDD drifted: {mdd*100:.4f}%"
+    # ITER61 re-anchor (2026-10-12): was 23.921472 / 3.820357 / -3.7339 pre-NG-cap
+    # (cfa9ec4d bytes live in the archive_*_SUPERSEDED_by_ITER61_DDCON pair).
+    assert abs(ann * 100 - 23.8610) < 0.01, f"ann drifted: {ann*100:.4f}%"
+    assert abs(sr - 3.784489) < 0.0005, f"SR drifted: {sr:.6f}"
+    assert abs(mdd * 100 + 3.3048) < 0.01, f"MDD drifted: {mdd*100:.4f}%"
     assert ann >= 0.20, "operator return floor breached"
     years = c.groupby(c.index.year).apply(lambda x: (1 + x).prod() - 1)
     assert int((years < 0).sum()) == 0, "negative calendar year"
@@ -135,7 +144,10 @@ def test_iter20_gear16_vintage_archived_and_reproducible():
     B.PATHS["A5r2"] = "campaign/agents/A5_vol_cond/sleeves/A5_r2_contango_rateshock.csv"
     B.PATHS["QAxasts"] = "campaign/agents/E1_20yspan/sleeves/E1_QAxasts_tsmom189_2006.csv"
     try:
-        net, _, _, _, _ = B.build(gear=1.6)
+        # ITER61: the archived vintage predates the NG-block cap pass, so the rebuild
+        # disables it (ng_cap=None); the sealed-vintage frame pins stay ON (the
+        # incumbent champion already ran on the sealed-vintage basis).
+        net, _, _, _, _ = B.build(gear=1.6, ng_cap=None)
     finally:
         B.PATHS["A5r2"] = old_a5
         B.PATHS["QAxasts"] = old_ts

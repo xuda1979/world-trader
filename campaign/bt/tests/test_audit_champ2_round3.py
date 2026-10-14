@@ -66,7 +66,11 @@ STALE_HEADLINES = ["40.84", "40.88", "40.8413", "39.85", "39.69", "39.687317", "
                    "23.68", "23.681", "23.6813", "23.68128", "23.681279",
                    # ITER49 (2026-09-19): the QAxasts -> tsm-vt015 harness-vol-target
                    # adoption (23.921472%) supersedes the ITER47 vt024 headline (23.7668%).
-                   "23.77", "23.7668", "23.76679", "23.766797"]
+                   "23.77", "23.7668", "23.76679", "23.766797",
+                   # ITER61 (2026-10-12): the NG-block cap 0.28 adoption (23.860978%,
+                   # A_cap28, ITER61_DDCON) supersedes the ITER49 tsmom-vt015 headline
+                   # (23.921472%) — sealed vintage, window to 2026-08-28.
+                   "23.92", "23.921", "23.9214", "23.92147", "23.921472"]
 # line-level framing markers that make a stale-number mention historical rather than current
 FRAME = re.compile(
     r"archive|leak|prior|supersede|counterfactual|\bvs\b|\bvs\.|\bold\b|history|was\b|"
@@ -177,9 +181,11 @@ def test_a4_current_headline_is_the_costfix_reemit_not_a_stale_one():
     # ... -> 23.681279% (ITER43 A5r2-axis vt015 input swap, 2026-09-19).
     # ... -> 23.766797% (ITER47 A5r2 vt024 upper-edge extension, 2026-09-19).
     # ... -> 23.921472% (ITER49 tsmom vt015 harness-vol-target adoption, 2026-09-19).
-    assert abs(pct - 23.921472) < 5e-4, f"champion headline moved to {pct:.6f}% — refresh banners"
+    # ... -> 23.860978% (ITER61 NG-block C5ng+C5ngsum cap 0.28, A_cap28 adoption,
+    #     2026-10-12; sealed vintage, window to 2026-08-28).
+    assert abs(pct - 23.860978) < 5e-4, f"champion headline moved to {pct:.6f}% — refresh banners"
     for stale in (40.84, 40.88, 39.85, 39.69, 37.195397, 37.4923, 38.114469, 39.499542,
-                  36.414968, 23.605365, 23.681279, 23.766797):
+                  36.414968, 23.605365, 23.681279, 23.766797, 23.921472):
         assert abs(pct - stale) > 5e-4, f"stale headline {stale} is billed as current"
 
 

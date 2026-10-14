@@ -85,9 +85,12 @@ def test_generator_source_defects_sealed():
 def test_reject_means_no_adoption():
     """PIN 5: REJECT means the champion pair of record is untouched and the
     adjudication record is byte-exact."""
+    # ITER61 re-pin (2026-10-12, NG-block-cap adoption): the champion pair moved
+    # WITH a ledger entry; the pre-adoption cfa9ec4d/a384d6b9 pair lives on
+    # byte-exact as results/archive_*_SUPERSEDED_by_ITER61_DDCON.csv.
     for rel, want in [
-        ("campaign/results/GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv", "cfa9ec4d38158691"),
-        ("campaign/results/RAWEW13v2_IS_SR_weights.csv", "a384d6b92e258fd5"),
+        ("campaign/results/GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv", "a8ed233bd0f6fd5d"),
+        ("campaign/results/RAWEW13v2_IS_SR_weights.csv", "2b0f5fbc43113149"),
     ]:
         got = _sha16(ROOT / rel)
         assert got == want, "champion %s moved without an adoption ledger entry" % rel

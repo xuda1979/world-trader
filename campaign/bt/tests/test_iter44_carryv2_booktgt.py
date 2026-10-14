@@ -64,8 +64,11 @@ def test_reveal_passes_every_operator_gate_and_dies_on_g7_3of5():
 def test_champion_bytes_stable_through_iter44():
     champ = ROOT + "/campaign/results/GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv"
     wgt = ROOT + "/campaign/results/RAWEW13v2_IS_SR_weights.csv"
-    assert _sha16(champ) == "cfa9ec4d38158691"
-    assert _sha16(wgt) == "a384d6b92e258fd5"
+    # ITER61 re-pin (2026-10-12, NG-block-cap adoption): live champion is now
+    # a8ed233bd0f6fd5d / 2b0f5fbc43113149; the cfa9ec4d/a384d6b9 pair lives on
+    # byte-exact as results/archive_*_SUPERSEDED_by_ITER61_DDCON.csv.
+    assert _sha16(champ) == "a8ed233bd0f6fd5d"
+    assert _sha16(wgt) == "2b0f5fbc43113149"
     t = _log()
     assert "Champion sha16 pre-run: e67446186e269b88 / weights bde8612d0b295068" in t
     assert "Champion sha16 post-run: e67446186e269b88 / weights bde8612d0b295068 (pre==post: True)" in t

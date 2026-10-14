@@ -39,6 +39,13 @@ def ledgers_reproduce(ledger: pd.DataFrame, champion: pd.Series,
 def turnover_reconciles(ledger: pd.DataFrame, pos_path: pd.DataFrame,
                         qty_col: str = 'qty_notional', tol: float = 1e-8) -> dict:
     """Per-sleeve sum|qty| == pos_path.diff().abs() charged turnover."""
+    # fail-closed on the degenerate frame: a zero-row pos_path with a nonzero ledger is a
+    # coverage violation, not a crash (AUDIT_FWBUGS R2; same class as the R1 day-1 seed).
+    if len(pos_path) == 0:
+        nonzero_led = bool((pd.to_numeric(ledger.get(qty_col), errors='coerce')
+                            .fillna(0.0) != 0).any())
+        return dict(ok=False if nonzero_led else True,
+                    max_rel=float('inf') if nonzero_led else 0.0, n=0)
     led = ledger.groupby(ledger['sleeve'])[qty_col].sum()
     # day-1 entry is real traded notional: seed prev row with zeros so diff covers it
     # (must match engine.cost_turnover charging semantics, AUDIT_FWBUGS R1).

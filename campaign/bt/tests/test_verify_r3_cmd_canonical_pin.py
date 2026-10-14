@@ -53,6 +53,12 @@ def test_r3_cmd_knobs_equal_builder_canonical():
                           "gauntlet broke after the ITER21 swap)" % (g, B.GEAR))
     assert float(_script_flag("shrink")) == B.SHRINK_D
     assert float(_script_flag("brwt-cap")) == B.W_BRWT_CAP
+    # ITER61 (2026-10-12): the champion of record is the SEALED VINTAGE NG-block-capped
+    # book. Pin the three new knobs to the builder canonicals so the NEXT swap trips
+    # this test, not the record (same D16 law as gear/shrink/brwt-cap above).
+    assert float(_script_flag("ng-cap")) == B.W_NG_CAP
+    assert _script_flag("vintage-end") == str(B.VINTAGE_END.date())
+    assert _script_flag("c5ngsum-trunc") == str(B.C5NGSUM_TRUNC.date())
 
 
 def test_r3_cmd_books_are_the_committed_ones():
@@ -71,5 +77,8 @@ def test_r3_gauntlet_ok_on_the_live_champion():
         sleeve_paths=_script_sleeves(),
         rule="minsharpe", shrink=float(_script_flag("shrink")),
         brwt_cap=float(_script_flag("brwt-cap")), gear=B.GEAR,
+        ng_cap=float(_script_flag("ng-cap")),
+        vintage_end=_script_flag("vintage-end"),
+        c5ngsum_trunc=_script_flag("c5ngsum-trunc"),
     )
     assert ok, "canonical gauntlet RED on the live champion: %s" % (rep["errors"][:4],)

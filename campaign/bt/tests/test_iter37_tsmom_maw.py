@@ -43,8 +43,11 @@ def test_champion_of_record_is_adopted_iter43_blob():
     # in coord/ITER43_A5R2_VT/prior_champion_backup/ and recorded in the ITER37 memo
     # (the champion WAS byte-stable pre==post through ITER37; the driver-log sha lines
     # pinned below stay on the recorded ITER37-era values).
-    assert _sha16(CHAMP) == "cfa9ec4d38158691"
-    assert _sha16(WGT) == "a384d6b92e258fd5"
+    # ITER61 re-pin (2026-10-12, NG-block-cap adoption): live champion is now
+    # a8ed233bd0f6fd5d / 2b0f5fbc43113149; the cfa9ec4d/a384d6b9 pair lives on
+    # byte-exact as results/archive_*_SUPERSEDED_by_ITER61_DDCON.csv.
+    assert _sha16(CHAMP) == "a8ed233bd0f6fd5d"
+    assert _sha16(WGT) == "2b0f5fbc43113149"
 
 
 def test_iter37_precommit_sealed_before_run():

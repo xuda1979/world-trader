@@ -107,16 +107,23 @@ def test_weights_are_is_only_no_lookahead():
     # ITER20: the committed weights are the independent fit THROUGH the sanctioned
     # brwt-block cap transform (deterministic weight algebra, checked-in code).
     expected = b.apply_brwt_cap(expected)
+    # ITER61 (2026-10-12): ... THEN the natgas-block cap (second post-fit pass,
+    # applied AFTER the brwt cap so the two compose exactly as measured in
+    # ITER61_DDCON; A_cap28 construction).
+    expected = b.cap_block(expected, b.NG_BLOCK, b.W_NG_CAP)
     assert float((relw - expected).abs().max()) < 1e-9, \
-        "weights must be the long-only IS max-Sharpe fit (through the ITER20 cap)"
+        "weights must be the long-only IS max-Sharpe fit (through the ITER20 + ITER61 caps)"
     assert float(relw[~relw.index.isin(have)].abs().max()) == 0.0, \
         "sleeves with no IS coverage (CFX4) must carry exactly weight 0"
 
     # --- 2. the IS-only handoff: the fit DOES depend on its input window, and the
     #        committed relw is exactly the IS-restricted answer. Together these prove no
     #        post-2016 return can enter the weights (a full-frame fit would differ).
-    assert float((relw - b.apply_brwt_cap(b.fit_relw(isr))).abs().max()) < 1e-12, \
-        "committed relw must equal the ITER20 composite of fit_relw(IS slice)"
+    # ITER61: committed relw = cap_block(apply_brwt_cap(fit_relw(IS slice))) — the
+    # two post-fit cap passes compose in that order (brwt first, NG-block second).
+    assert float((relw - b.cap_block(b.apply_brwt_cap(b.fit_relw(isr)),
+                                     b.NG_BLOCK, b.W_NG_CAP)).abs().max()) < 1e-12, \
+        "committed relw must equal the ITER20+ITER61 composite of fit_relw(IS slice)"
     assert float((relw - b.fit_relw(df)).abs().max()) > 1e-6, \
         "sanity: the fit must actually depend on its input window (else this test is vacuous)"
 

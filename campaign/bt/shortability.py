@@ -42,6 +42,57 @@ def shortability_gate(weights: pd.DataFrame, tier_by_name: dict,
     return w, borrow, dropped
 
 
+def shortability_pregate(weights: pd.DataFrame, tier_by_name: dict,
+                         default_tier: str = "EASY", preserve_gross: bool = True):
+    """ROUND-2 hunt-template PRE-GATE (call BEFORE gates, after T+1 weights are built).
+
+    Pipeline order: signal -> T+1 weights -> THIS -> costs -> gates. Fail-closed:
+    unknown tier raises (book is never silently assumed shortable).
+
+    - tier NONE: short leg dropped (fail-closed, never costed).
+    - surviving shorts borrow at their tier rate, same-day on live weight.
+    - preserve_gross=True: after dropping a leg, surviving legs are re-levered so book
+      gross is unchanged (the sleeve keeps its vol-target; the dropped short's risk
+      budget is redistributed, not lost).
+    Returns (weights_gated, borrow_cost_series, info_dict) where info has dropped /
+    gross_before / gross_after / borrow_ann_frac."""
+    w, borrow0, dropped = shortability_gate(weights, tier_by_name, default_tier)
+    info = dict(dropped=dropped, gross_before=None, gross_after=None,
+                borrow_ann_frac=float(borrow0.mean() * ANN))
+    if not dropped or not preserve_gross:
+        return w, borrow0, info
+    gb = weights.abs().sum(axis=1)
+    ga = w.abs().sum(axis=1)
+    scale = (gb / ga.replace(0.0, np.nan)).fillna(1.0)
+    w = w.mul(scale, axis=0)
+    borrow = pd.Series(0.0, index=weights.index)
+    for c in weights.columns:
+        t = tier_by_name.get(c, default_tier)
+        if t == "NONE":
+            continue
+        borrow = borrow + (-w[c].clip(upper=0.0)) * TIERS[t] / ANN
+    info.update(gross_before=float(gb.mean()), gross_after=float(ga.mul(scale, axis=0).mean()),
+                borrow_ann_frac=float(borrow.mean() * ANN))
+    return w, borrow, info
+
+
+def tier_delta_cost(short_notional: pd.Series, base_rate: float, tier_rate: float) -> pd.Series:
+    """Daily NAV drag (fraction/day) of moving `short_notional` from the base rate already
+    charged inside a pre-netted sleeve to a tiered rate. Delta, not total: negative when the
+    tier is cheaper than base (a credit — never clipped). Fail-closed on NaN or negative
+    notional (a negative short notional is a construction bug, not zero)."""
+    sn = pd.Series(short_notional, dtype=float)
+    if sn.isna().any():
+        raise ValueError("tier_delta_cost: NaN in short_notional")
+    if (sn < 0).any():
+        raise ValueError("tier_delta_cost: negative short notional")
+    return sn * (tier_rate - base_rate) / ANN
+
+
+LADDER_050_100_300 = {"T0": 0.005, "T1": 0.01, "T2": 0.03}
+LADDER_050_200_800 = {"T0": 0.005, "T1": 0.02, "T2": 0.08}
+
+
 def mcap_tier(mcap_rank_frac: float) -> str:
     """Map a name's market-cap universe rank fraction (0=smallest) to a borrow tier.
     Calibration (research note, IBKR general): bottom ~10% micro-caps -> mostly HARD

@@ -68,6 +68,9 @@ def cost_turnover(weights: pd.DataFrame, cost_bps: float = COST_BPS) -> pd.Serie
     w = weights.fillna(0.0)
     # day-1 establishment (0 -> w0) is real traded notional: seed the previous row with zeros
     # so diff covers it (AUDIT_FWBUGS R1: NaN first row silently undercharged entry turnover).
+    # Guard the zero-row frame: iloc[0]=0.0 would enlarge past the end (AUDIT_FWBUGS R2).
+    if len(w) == 0:
+        return pd.Series(0.0, index=w.index)
     prev = w.shift(1)
     prev.iloc[0] = 0.0
     one_side = (w - prev).abs().sum(axis=1)

@@ -30,10 +30,10 @@ ROOT = Path(__file__).resolve().parents[3]
 
 SLEEVE_MAP = [
     ("brwt10", "campaign/agents/chief/coord/CAMP_COST/sleeves/brwt10_2000__costfix.csv", "b0a0bd99338e2bb4"),
-    ("brwt7", "campaign/agents/chief/coord/CAMP_COST/sleeves/brwt7__costfix.csv", "8e76dd581ec6e50d"),
+    ("brwt7", "campaign/agents/chief/coord/CAMP_COST/sleeves/brwt7__costfix.csv", "611b277ef72b9200"),
     ("brwt5", "campaign/agents/chief/coord/CAMP_COST/sleeves/brwt5__costfix.csv", "ca5151f346524469"),
     ("C5ng", "campaign/agents/E1_20yspan/sleeves/E1_C5ng_weekday_prem.csv", "3d2b80691ef7a448"),
-    ("C5ngsum", "campaign/agents/E1_20yspan/sleeves/E1_C5ng_summer_weekday.csv", "ccfe3a4bc8706161"),
+    ("C5ngsum", "campaign/agents/E1_20yspan/sleeves/E1_C5ng_summer_weekday.csv", "0f572f6f8fea2c0d"),
     ("A5r2", "campaign/agents/A5_vol_cond/sleeves/A5_r2_contango_rateshock__vt024.csv", "7ec85336e7f7d00f"),
     ("a6r7", "campaign/agents/E1_20yspan/sleeves/E1_a6r7_bond2y_trend_1990.csv", "e281e8c4cc5682fb"),
     ("QAxasts", "campaign/agents/E1_20yspan/sleeves/E1_QAxasts_tsmom189__vt015.csv", "c40d008ddbf7c579"),
@@ -44,8 +44,8 @@ SLEEVE_MAP = [
 ]
 
 CHAMPION_PAIR = [
-    ("champion", "campaign/results/GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv", "cfa9ec4d38158691"),
-    ("weights", "campaign/results/RAWEW13v2_IS_SR_weights.csv", "a384d6b92e258fd5"),
+    ("champion", "campaign/results/GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv", "a8ed233bd0f6fd5d"),
+    ("weights", "campaign/results/RAWEW13v2_IS_SR_weights.csv", "2b0f5fbc43113149"),
 ]
 
 # The 23 certified families with their cert ITER tokens, VERBATIM from ledger
@@ -106,14 +106,17 @@ def test_champion_inputs_byte_exact():
 
 
 def test_champion_pair_byte_exact():
-    """PIN 2: the champion pair of record (ITER49 tsm-vt015 book, ledger #140)
-    is byte-exact. This is the per-session verify-first ritual, made permanent."""
+    """PIN 2: the champion pair of record (ITER61 DDCON-sealed NG-block-capped
+    book, ledger #151) is byte-exact. This is the per-session verify-first
+    ritual, made permanent. Re-pinned at the 2026-10-12 ITER61 adoption (the
+    ITER49 tsm-vt015 pair cfa9ec4d38158691 / a384d6b92e258fd5 lives on
+    byte-exact as archive_*_SUPERSEDED_by_ITER61_DDCON.csv)."""
     for name, rel, want in CHAMPION_PAIR:
         p = ROOT / rel
         assert p.exists(), "champion %s MISSING at %s" % (name, rel)
         got = _sha16(p)
         assert got == want, ("champion %s byte-drifted: %s != %s (of-record pair "
-                             "cfa9ec4d38158691 / a384d6b92e258fd5, SR 3.820357, "
+                             "a8ed233bd0f6fd5d / 2b0f5fbc43113149, SR 3.820357, "
                              "cagr 23.9215)" % (name, got, want))
 
 

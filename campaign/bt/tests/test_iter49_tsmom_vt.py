@@ -89,8 +89,13 @@ def test_battery_and_adopted_champion():
     assert cn["ok"] is True
     assert cn["checks"]["weights_repro"]["max_dev"] < 1e-15
     res = ROOT + "/campaign/results"
-    assert _sha(res + "/GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv") == "cfa9ec4d38158691"
-    assert _sha(res + "/RAWEW13v2_IS_SR_weights.csv") == "a384d6b92e258fd5"
+    # ITER61 re-anchor (2026-10-12): the live champion is now the NG-block-capped book
+    # (a8ed233bd0f6fd5d / 2b0f5fbc43113149); the cfa9ec4d/a384d6b9 pair this round
+    # emitted lives on byte-exact as archive_*_SUPERSEDED_by_ITER61_DDCON.csv.
+    assert _sha(res + "/GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv") == "a8ed233bd0f6fd5d"
+    assert _sha(res + "/RAWEW13v2_IS_SR_weights.csv") == "2b0f5fbc43113149"
+    assert _sha(res + "/archive_GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily_SUPERSEDED_by_ITER61_DDCON.csv") == "cfa9ec4d38158691"
+    assert _sha(res + "/archive_RAWEW13v2_IS_SR_weights_SUPERSEDED_by_ITER61_DDCON.csv") == "a384d6b92e258fd5"
     assert _sha(ROOT + "/campaign/agents/E1_20yspan/sleeves/E1_QAxasts_tsmom189__vt015.csv") == "c40d008ddbf7c579"
     assert os.path.isfile(ROOT + "/campaign/agents/E1_20yspan/sleeves/E1_QAxasts_tsmom189__vt015.csv.meta")
     bak = D + "/prior_champion_backup"

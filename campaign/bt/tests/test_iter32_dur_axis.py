@@ -35,8 +35,11 @@ def test_champion_of_record_is_adopted_iter43_blob():
     # ITER32-era incumbent (8559fa55ee9a3417 / d2d11c92a98683df) is preserved byte-exact
     # in coord/ITER43_A5R2_VT/prior_champion_backup/ and recorded in the ITER32 memo
     # (the champion WAS byte-stable through ITER32).
-    assert _sha16(CHAMP) == "cfa9ec4d38158691"
-    assert _sha16(WGT) == "a384d6b92e258fd5"
+    # ITER61 re-pin (2026-10-12, NG-block-cap adoption): live champion is now
+    # a8ed233bd0f6fd5d / 2b0f5fbc43113149; the cfa9ec4d/a384d6b9 pair lives on
+    # byte-exact as results/archive_*_SUPERSEDED_by_ITER61_DDCON.csv.
+    assert _sha16(CHAMP) == "a8ed233bd0f6fd5d"
+    assert _sha16(WGT) == "2b0f5fbc43113149"
 
 
 def test_iter32_precommit_sealed_before_run():

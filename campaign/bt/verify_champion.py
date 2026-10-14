@@ -5,7 +5,11 @@ Independent acceptance gate for a champion CSV. Verifies a (champion_csv, weight
 sleeve CSVs) triple WITHOUT importing any engine internals — only the builder arithmetic
 (rawew13v2 recipe) is mirrored here, in this file's own algebra:
 
-  1. weights_repro       committed relw == max(IS_SR,0)^P from the sleeves themselves.
+  1. weights_repro       committed relw == the named weight rule re-derived from the sleeves
+                         themselves. --rule minsharpe (default, ITER15 current champion:
+                         long-only IS max-Sharpe on the covariance shrunk 0.62 toward its
+                         diagonal, cap 2.0x equal weight) or --rule srp (retired
+                         max(IS_SR,0)^P heuristic, for the archived pre-ITER15 champion).
   2. byte_repro          champion net series rebuilds exactly from sleeves + relw
                          (nav-drift weights, nav.shift(1) causal, FULL |dW| x bps with
                          day-1 entry NOT charged, margin (gear-1)*rate/252).
@@ -42,6 +46,7 @@ import sys
 
 import numpy as np
 import pandas as pd
+from scipy.optimize import minimize
 
 # Recipe constants (rawew13v2_build.py). Overridable on the CLI; is_end is inferred when
 # not given because the mini-champion fixtures use a different IS cutoff than the
@@ -52,6 +57,23 @@ DEFAULT_GEAR = 1.6
 DEFAULT_RATE = 0.045
 DEFAULT_BPS = 6.4
 DEFAULT_MDD_LIMIT = -0.07
+
+# ITER15 (2026-09-11): the weight rule is selectable. "srp" is the retired
+# max(IS_SR,0)^P heuristic; "minsharpe" is the correlation-aware long-only IS max-Sharpe
+# fit that replaced it. The tool mirrors BOTH in its own algebra (no builder imports).
+DEFAULT_RULE = "minsharpe"
+SHRINK_D = 0.62   # ITER15 covariance shrinkage toward the diagonal
+# ITER61 (2026-10-12): the champion of record is emitted on the SEALED VINTAGE basis
+# with a second post-fit cap pass on the natgas block. Mirrored here in the tool's own
+# algebra (constants duplicated deliberately — no builder import; the canonical-pin test
+# test_verify_r3_cmd_canonical_pin.py fails if the r3 cmd flag drifts from the builder
+# canonical W_NG_CAP).
+NG_BLOCK = ("C5ng", "C5ngsum")
+DEFAULT_NG_CAP = 0.28
+VINTAGE_END = "2026-08-28"
+C5NGSUM_TRUNC = "2026-08-24"
+W_MAX = 2.0       # ITER15 per-sleeve cap, in units of the equal weight
+RULES = ("srp", "minsharpe")
 IS_END_GRID = [f"{y}-{m}-01" for y in range(2010, 2021) for m in (1, 7)]
 TOL = 1e-12
 RELW_TOL = 1e-9
@@ -111,17 +133,111 @@ def _is_sr(r):
 
 
 # ------------------------------------------------- builder arithmetic (own algebra)
-def _build_frame(sleeves, names, start):
+def _build_frame(sleeves, names, start, vintage_end=None, c5ngsum_trunc=None):
     """Outer-align dropna'd sleeve series (columns in `names` order), filter >= start.
     Mirrors rawew13v2_build.build(): NO inner-join dropna — missing values stay NaN and
-    are fillna(0)-ed only inside the nav/port arithmetic, exactly like the builder."""
+    are fillna(0)-ed only inside the nav/port arithmetic, exactly like the builder.
+    ITER61 sealed-vintage pins (vintage_end / c5ngsum_trunc): frame rows are capped at
+    the vintage last row and the C5ngsum series at its truncation date, exactly as the
+    builder's VINTAGE_END / C5NGSUM_TRUNC. Pass None to disable (pre-ITER61 frame)."""
     df = pd.DataFrame({n: sleeves[n] for n in names})
-    return df[df.index >= pd.Timestamp(start)]
+    if c5ngsum_trunc is not None and "C5ngsum" in df.columns:
+        # ITER61 sealed vintage: builder truncates the C5ngsum SERIES (not the frame)
+        # before the outer align; mirroring after the align is equivalent because the
+        # truncation only removes rows (never adds) and the align is outer.
+        df["C5ngsum"] = df["C5ngsum"][df["C5ngsum"].index <= pd.Timestamp(c5ngsum_trunc)]
+    df = df[df.index >= pd.Timestamp(start)]
+    if vintage_end is not None:
+        df = df[df.index <= pd.Timestamp(vintage_end)]
+    return df
 
 
-def _relw_from(df, is_end, p):
+def _cap_block(share, block, cap):
+    """ITER61 own-algebra mirror of scripts/rawew13v2_build.cap_block: proportional
+    down-scale of `block`'s share to `cap`, pro-rata redistribution on the rest.
+    No-op if the block share is already <= cap."""
+    share = share.copy()
+    blk = [n for n in block if n in share.index]
+    s = float(share[blk].sum())
+    if s <= cap or s <= 0:
+        return share
+    other = [n for n in share.index if n not in blk and share[n] > 0]
+    excess = s - cap
+    k = excess / s
+    share[blk] = share[blk] * (1 - k)
+    oo = float(share[other].sum())
+    if oo > 0:
+        share[other] = share[other] * (1 + excess / oo)
+    return share
+
+
+def _relw_from(df, is_end, p, rule=DEFAULT_RULE, shrink=SHRINK_D, brwt_cap=None,
+               ng_cap=None):
+    """Committed weights implied by the named rule, on the IS window only.
+
+    "srp"       : relw_i = max(IS_SR_i, 0)^p   (retired heuristic; blind to covariance)
+    "minsharpe" : long-only max-Sharpe on the IS covariance shrunk SHRINK_D toward its
+                  diagonal, per-sleeve cap W_MAX x equal weight, sleeves without IS
+                  coverage pinned to 0. Mirrors scripts/rawew13v2_build.fit_relw in this
+                  file's own algebra (deliberately NOT imported from the builder).
+    ng_cap      : ITER61 second post-fit cap pass on the natgas block (C5ng+C5ngsum),
+                  applied AFTER the brwt cap so the two passes compose exactly as
+                  measured in ITER61_DDCON. None disables (pre-ITER61 construction).
+    """
     isr = df[df.index < pd.Timestamp(is_end)]
-    return pd.Series({n: max(_is_sr(isr[n]), 0.0) ** p for n in df.columns})
+    if rule == "srp":
+        return pd.Series({n: max(_is_sr(isr[n]), 0.0) ** p for n in df.columns})
+    if rule != "minsharpe":
+        raise ValueError(f"unknown weight rule {rule!r}; expected one of {RULES}")
+    names = list(df.columns)
+    have = [n for n in names if isr[n].notna().sum() > 0]      # CFX4 has no IS coverage -> 0
+    X = isr[have].dropna()
+    mu = (X.mean() * 252).to_numpy()
+    Sig = X.cov().to_numpy() * 252
+    Sig = (1.0 - shrink) * Sig + shrink * np.diag(np.diag(Sig))
+    k, sd = len(have), np.sqrt(np.diag(Sig))
+
+    def neg_sharpe(w):
+        v = float(np.sqrt(w @ Sig @ w))
+        return -(float(w @ mu)) / v if v > 1e-14 else 0.0
+
+    cons = [{"type": "eq", "fun": lambda w: w.sum() - 1.0}]
+    bnds = [(0.0, W_MAX)] * k
+    best = None
+    for w0 in (np.full(k, 1.0 / k),
+               np.maximum(mu, 0.0) / max(float(np.maximum(mu, 0.0).sum()), 1e-12),
+               (1.0 / sd) / (1.0 / sd).sum()):
+        r = minimize(neg_sharpe, w0, method="SLSQP", bounds=bnds, constraints=cons,
+                     options={"maxiter": 800, "ftol": 1e-12})
+        if r.success and (best is None or r.fun < best.fun):
+            best = r
+    if best is None:
+        raise RuntimeError("IS max-Sharpe fit failed to converge — fail closed")
+    out = pd.Series(0.0, index=names)
+    out[have] = best.x
+    if brwt_cap is not None:
+        # ITER20 (2026-09-18): the champion family caps the brwt-block (brwt10/7/5)
+        # relw share at brwt_cap and redistributes the excess pro-rata on the non-block
+        # shares; CFX4 stays pinned 0. Own algebra (deliberately not imported), mirroring
+        # scripts/rawew13v2_build.apply_brwt_cap -- reproduces the ITER20 champion
+        # weights at 8.3e-17.
+        share = out / out.sum()
+        blk = [n for n in ("brwt10", "brwt7", "brwt5") if n in share.index]
+        bs = float(share[blk].sum())
+        if bs > brwt_cap:
+            excess = bs - brwt_cap
+            share[blk] = share[blk] * (brwt_cap / bs)
+            nonblk = [n for n in share.index if n not in blk]
+            nb = float(share[nonblk].sum())
+            share[nonblk] = share[nonblk] + excess * share[nonblk] / nb
+        if "CFX4" in share.index:
+            share["CFX4"] = 0.0
+        out = share
+    if ng_cap is not None:
+        # ITER61 (2026-10-12): second post-fit cap pass, AFTER the brwt cap — mirrors
+        # scripts/rawew13v2_build.build()'s cap_block(NG_BLOCK, W_NG_CAP) composition.
+        out = _cap_block(out, NG_BLOCK, ng_cap)
+    return out
 
 
 def _weights_from(df, relw, causal=True):
@@ -152,8 +268,12 @@ def _net_from(df, W, bps, rate, gear):
 def verify_champion(champion_csv, weights_csv, sleeve_paths, is_end=None, p_param=DEFAULT_P,
                     start=DEFAULT_START, gear=DEFAULT_GEAR, rate=DEFAULT_RATE,
                     bps=DEFAULT_BPS, mdd_limit=DEFAULT_MDD_LIMIT, tol=TOL,
-                    truncation_probes=None):
-    """Verify a champion triple independently of engine internals. Returns (ok, report)."""
+                    truncation_probes=None, rule=DEFAULT_RULE, shrink=SHRINK_D,
+                    brwt_cap=None, ng_cap=None, vintage_end=None,
+                    c5ngsum_trunc=None):
+    """Verify a champion triple independently of engine internals. Returns (ok, report).
+    ITER61: ng_cap / vintage_end / c5ngsum_trunc mirror the sealed-vintage NG-capped
+    construction (None = disabled, pre-ITER61 book)."""
     rep = {"tool": "bt/verify_champion.py", "ok": False, "errors": [], "checks": {}}
     errors = rep["errors"]
 
@@ -186,7 +306,8 @@ def verify_champion(champion_csv, weights_csv, sleeve_paths, is_end=None, p_para
     relw = wr.copy()
     relw.index = names
 
-    df = _build_frame(sleeves, names, start)
+    df = _build_frame(sleeves, names, start, vintage_end=vintage_end,
+                      c5ngsum_trunc=c5ngsum_trunc)
     if len(df) == 0:
         errors.append(f"sleeve inputs empty after start filter {start} — fail-closed")
         return False, rep
@@ -199,7 +320,7 @@ def verify_champion(champion_csv, weights_csv, sleeve_paths, is_end=None, p_para
     if is_end is None:
         cands, dev_by = [], {}
         for cand in IS_END_GRID:
-            r = _relw_from(df, cand, p_param)
+            r = _relw_from(df, cand, p_param, rule, shrink, brwt_cap, ng_cap)
             if len(r) != len(relw):
                 continue
             cands.append(cand)
@@ -218,8 +339,11 @@ def verify_champion(champion_csv, weights_csv, sleeve_paths, is_end=None, p_para
         inferred["is_end"], inferred["inferred"] = good[0], True
         is_end = good[0]
     rep["is_end"] = {"value": str(pd.Timestamp(is_end).date()), "inferred": inferred["inferred"],
-                     "p": p_param, "start": start}
-    r_rebuild = _relw_from(df, is_end, p_param)
+                     "p": p_param, "start": start, "weight_rule": rule, "shrink": shrink,
+                     "brwt_cap": brwt_cap, "ng_cap": ng_cap,
+                     "vintage_end": str(vintage_end) if vintage_end else None,
+                     "c5ngsum_trunc": str(c5ngsum_trunc) if c5ngsum_trunc else None}
+    r_rebuild = _relw_from(df, is_end, p_param, rule, shrink, brwt_cap, ng_cap)
     wdev = float((r_rebuild - relw).abs().max())
     rep["checks"]["weights_repro"] = {"ok": bool(wdev < RELW_TOL), "max_dev": wdev,
                                       "tol": RELW_TOL}
@@ -338,7 +462,7 @@ def verify_champion(champion_csv, weights_csv, sleeve_paths, is_end=None, p_para
     rep["inputs"] = {"champion": champion_csv, "weights": weights_csv,
                      "sleeves": dict(sleeve_paths)}
     rep["params"] = {"gear": gear, "rate": rate, "bps": bps, "p": p_param, "start": start,
-                     "tol": tol, "truncation_probes": list(probes)}
+                     "tol": tol, "truncation_probes": list(probes), "weight_rule": rule}
     rep["ok"] = bool(all(v["ok"] for v in rep["checks"].values()) and not errors)
     return rep["ok"], rep
 
@@ -360,11 +484,32 @@ def main(argv=None):
                     help="name=path/to/sleeve.csv (repeat for every slot)")
     ap.add_argument("--is-end", default=None)
     ap.add_argument("--p", dest="p_param", type=float, default=DEFAULT_P)
+    ap.add_argument("--brwt-cap", dest="brwt_cap", type=float, default=None,
+                    help="ITER20 brwt-block relw-share cap applied AFTER the minsharpe "
+                         "fit (pro-rata redistribution; e.g. 0.30 for the ITER20 "
+                         "champion book). Default None = no cap (pre-ITER20 books).")
+    ap.add_argument("--shrink", dest="shrink", type=float, default=SHRINK_D,
+                    help="covariance shrinkage toward the diagonal for --rule minsharpe "
+                         f"(default {SHRINK_D} = the ITER15 constant; the ITER19 brwt15-"
+                         "pruned champion of record re-selected 0.98 under the same "
+                         "pre-committed rule — pass --shrink 0.98 to verify that book)")
+    ap.add_argument("--rule", dest="rule", choices=RULES, default=DEFAULT_RULE,
+                    help="weight rule to verify against: 'minsharpe' (ITER15, current "
+                         "champion) or 'srp' (retired max(IS_SR,0)^P heuristic)")
     ap.add_argument("--start", default=DEFAULT_START)
     ap.add_argument("--gear", type=float, default=DEFAULT_GEAR)
     ap.add_argument("--rate", type=float, default=DEFAULT_RATE)
     ap.add_argument("--bps", type=float, default=DEFAULT_BPS)
     ap.add_argument("--mdd-limit", type=float, default=DEFAULT_MDD_LIMIT)
+    ap.add_argument("--ng-cap", dest="ng_cap", default=str(DEFAULT_NG_CAP),
+                    help="ITER61 natgas-block (C5ng+C5ngsum) relw-share cap applied "
+                         "AFTER the brwt cap (pro-rata redistribution; canonical "
+                         f"{DEFAULT_NG_CAP}). 'none' disables (pre-ITER61 books).")
+    ap.add_argument("--vintage-end", dest="vintage_end", default=VINTAGE_END,
+                    help="ITER61 sealed-vintage frame last row ('none' disables).")
+    ap.add_argument("--c5ngsum-trunc", dest="c5ngsum_trunc", default=C5NGSUM_TRUNC,
+                    help="ITER61 sealed-vintage C5ngsum series truncation date "
+                         "('none' disables).")
     ap.add_argument("--json", dest="json_path", default=None)
     a = ap.parse_args(expanded)
     sleeves = {}
@@ -375,10 +520,17 @@ def main(argv=None):
         n, p = tok.split("=", 1)
         sleeves[n] = p
     is_end = pd.Timestamp(a.is_end) if a.is_end else None
+    ng_cap = None if str(a.ng_cap).lower() in ("none", "None") else float(a.ng_cap)
+    vintage_end = None if str(a.vintage_end).lower() in ("none", "None") else a.vintage_end
+    c5ngsum_trunc = (None if str(a.c5ngsum_trunc).lower() in ("none", "None")
+                     else a.c5ngsum_trunc)
     try:
         ok, rep = verify_champion(a.champion, a.weights, sleeves, is_end=is_end,
                                   p_param=a.p_param, start=a.start, gear=a.gear,
-                                  rate=a.rate, bps=a.bps, mdd_limit=a.mdd_limit)
+                                  rate=a.rate, bps=a.bps, mdd_limit=a.mdd_limit,
+                                  rule=a.rule, shrink=a.shrink, brwt_cap=a.brwt_cap,
+                                  ng_cap=ng_cap, vintage_end=vintage_end,
+                                  c5ngsum_trunc=c5ngsum_trunc)
     except Exception as exc:  # never traceback past the gate: fail closed
         ok, rep = False, {"tool": "bt/verify_champion.py", "ok": False,
                           "errors": [f"exception during verification: {exc!r}"],

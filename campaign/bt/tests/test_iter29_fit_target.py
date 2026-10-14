@@ -37,8 +37,11 @@ def test_champion_bytes_unchanged_through_iter29():
     # in the ITER43 prior_champion_backup pair (8559fa55ee9a3417 / d2d11c92a98683df).
     bk = os.path.join(ROOT, "campaign", "agents", "chief", "coord", "ITER43_A5R2_VT",
                       "prior_champion_backup")
-    assert _sha16(CHAMP) == "cfa9ec4d38158691"
-    assert _sha16(WGT) == "a384d6b92e258fd5"
+    # ITER61 re-pin (2026-10-12, NG-block-cap adoption): live champion is now
+    # a8ed233bd0f6fd5d / 2b0f5fbc43113149; the cfa9ec4d/a384d6b9 pair lives on
+    # byte-exact as results/archive_*_SUPERSEDED_by_ITER61_DDCON.csv.
+    assert _sha16(CHAMP) == "a8ed233bd0f6fd5d"
+    assert _sha16(WGT) == "2b0f5fbc43113149"
     assert _sha16(os.path.join(bk, "GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv")) == "8559fa55ee9a3417"
     assert _sha16(os.path.join(bk, "RAWEW13v2_IS_SR_weights.csv")) == "d2d11c92a98683df"
 

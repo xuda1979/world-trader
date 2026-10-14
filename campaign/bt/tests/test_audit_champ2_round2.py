@@ -31,6 +31,16 @@ ITER49 (2026-09-19): champion of record -> the vt015 QAxasts input (sha16 cfa9ec
 weights a384d6b92e258fd5); PATHS["QAxasts"] below follows (tsm-vt015); the leak-era VT=0.10
 tsmom bytes stay pinned in PREFIX for the archived-leak arm.
 
+ITER61 (2026-10-12): champion of record -> the NG-block (C5ng+C5ngsum) relw cap 0.28, a
+SECOND post-fit cap pass after the brwt cap (A_cap28, ITER61_DDCON; sha16 a8ed233bd0f6fd5d,
+weights 2b0f5fbc43113149). SEALED VINTAGE: C5ngsum truncated at 2026-08-24 (pre-09-28
+refresh), evaluation window pinned to 2026-08-28 — _pool() below mirrors the builder's
+C5NGSUM_TRUNC / VINTAGE_END; the prior champion (cfa9ec4d38158691 / a384d6b92e258fd5) stays
+reproducible via build(ng_cap=None) and lives on as the archive_*_SUPERSEDED_by_ITER61_DDCON
+pair. The leak-era tail drift (1.322e-3, appended-marks class) stays pinned in
+test_d_archived_is_exact_leaky_rebuild; the identity in test_d_mechanism is evaluated on
+the byte-stable pre-2026-08-25 region.
+
 Red-phase evidence (mutations of my own reconstruction, run before trusting the green):
     mutate shift->shift(2)   : causal-vs-committed maxdev 1.9e-3 (detected)
     mutate P 0.55->0.60      : diff-of-diffs ~1e-2        (detected)
@@ -115,11 +125,22 @@ def _pool(prefix=False):
         # The ARCHIVED leak CSV predates ITER19 and was built from the full 13-sleeve pool.
         names = list(PATHS)
         df = pd.DataFrame({n: _load_any(PREFIX.get(n, f"{ROOT}/{PATHS[n]}")).dropna() for n in names})
-    else:
-        # ITER19 (2026-09-13): the champion prunes the dominated brwt15 -> 12 sleeves.
-        names = [n for n in PATHS if n != "brwt15"]
-        df = pd.DataFrame({n: _load(PATHS[n]).dropna() for n in names})
-    return df[df.index >= "2008-03-31"]
+        return df[df.index >= "2008-03-31"]
+    # ITER19 (2026-09-13): the champion prunes the dominated brwt15 -> 12 sleeves.
+    names = [n for n in PATHS if n != "brwt15"]
+    # ITER61 (2026-10-12) SEALED VINTAGE: the champion is built on the PRE-09-28-refresh
+    # C5ngsum vintage (truncated 2026-08-24; commit 17e5be62 appended 19 rows NOT in the
+    # champion) with the evaluation window pinned to the staged-vintage last row 2026-08-28.
+    # Mirrors build()'s C5NGSUM_TRUNC / VINTAGE_END exactly.
+    parts = {}
+    for n in names:
+        s = _load(PATHS[n])
+        if n == "C5ngsum":
+            s = s[s.index <= "2026-08-24"]
+        parts[n] = s.dropna()
+    df = pd.DataFrame(parts)
+    df = df[df.index >= "2008-03-31"]
+    return df[df.index <= "2026-08-28"]
 
 
 def _relw(df, p=P):
@@ -147,6 +168,12 @@ def _relw_iter15(df, shrink_d=0.70, w_max=2.0):
     ITER20 (2026-09-18) re-anchor: the champion family adds the sanctioned brwt-block
     (brwt10/7/5) relw-share cap 0.30 with pro-rata redistribution of the excess (operator
     objective moved to Sharpe-max); the composite is applied below, still in own code.
+
+    ITER61 (2026-10-12) re-anchor: a SECOND post-fit cap pass — the natgas block
+    (C5ng + C5ngsum) relw share capped at 0.28, pro-rata redistribution on the rest,
+    applied AFTER the brwt cap so the two compose exactly as measured in ITER61_DDCON
+    (raw NG share 0.32857 -> cap binds; A_cap28 family, adopted as champion of record).
+    Own-code mirror of the builder's cap_block(NG_BLOCK, W_NG_CAP=0.28).
     """
     from scipy.optimize import minimize
     names = list(df.columns)
@@ -187,6 +214,18 @@ def _relw_iter15(df, shrink_d=0.70, w_max=2.0):
         nonblk = [n for n in share.index if n not in blk]
         nb = float(share[nonblk].sum())
         share[nonblk] = share[nonblk] + excess * share[nonblk] / nb
+    # ITER61 composite: fitted shares THROUGH the natgas-block cap 0.28 (second pass,
+    # applied after the brwt cap above; own code, not the builder's cap_block).
+    ng = [n for n in ("C5ng", "C5ngsum") if n in share.index]
+    ns = float(share[ng].sum())
+    ng_cap = 0.28
+    if ns > ng_cap:
+        ng_excess = ns - ng_cap
+        share[ng] = share[ng] * (1 - ng_excess / ns)
+        ng_other = [n for n in share.index if n not in ng and share[n] > 0]
+        ng_oo = float(share[ng_other].sum())
+        if ng_oo > 0:
+            share[ng_other] = share[ng_other] * (1 + ng_excess / ng_oo)
     if "CFX4" in share.index:
         share["CFX4"] = 0.0
     return share
@@ -295,7 +334,13 @@ def test_d_mechanism_is_exactly_three_sanctioned_knobs():
                          pd.read_csv(ARCH, index_col=0, parse_dates=True).iloc[:, 0].rename("b")],
                         axis=1, join="inner").dropna()
     j_mid = pd.concat([c_new.rename("a"), l_old.rename("b")], axis=1, join="inner").dropna()
-    ident = float(((j_files.a - j_files.b) - (j_mid.a - j_mid.b)).abs().max())
+    # ITER61 (2026-10-12): the identity is evaluated on the byte-stable region (< 2026-08-25).
+    # The leak-era tail (2026-08-26..27) carries the appended-marks drift 1.322e-3 from the
+    # 09-28 C5ngsum refresh — pinned as its own class in
+    # test_d_archived_is_exact_leaky_rebuild; NOT a sixth knob. Pre-refresh residual 1.8e-16.
+    resid = ((j_files.a - j_files.b) - (j_mid.a - j_mid.b))
+    resid = resid[resid.index < "2026-08-25"]
+    ident = float(resid.abs().max())
     assert ident < 1e-12, \
         f"champion-archived delta is not exactly shift+costfix+weightrule: residual {ident:.3e}"
     corr = float(j_files.a.corr(j_files.b))
@@ -304,7 +349,9 @@ def test_d_mechanism_is_exactly_three_sanctioned_knobs():
     # ITER43 (2026-09-19): the A5r2 -> vt015 input moves it off 0.9418451552.
     # ITER47 (2026-09-19): the A5r2 -> vt024 input moves it off 0.9385613294.
     # ITER49 (2026-09-19): the QAxasts -> tsm-vt015 input moves it off 0.9357692357.
-    assert abs(corr - 0.9298157450) < 5e-6, f"champion/arch corr drifted: {corr!r}"
+    # ITER61 (2026-10-12): the NG-block cap 0.28 re-emit (sealed vintage, window to
+    # 2026-08-28) moves it off 0.9298157450.
+    assert abs(corr - 0.9561203365) < 5e-6, f"champion/arch corr drifted: {corr!r}"
 
 
 def test_d_weights_file_matches_post_costfix_is_fit():
@@ -319,7 +366,9 @@ def test_d_weights_file_matches_post_costfix_is_fit():
     # ITER43 re-emit (2026-09-19): A5r2 -> vt015 sleeve, IS refit (sha16 bde8612d0b295068).
     # ITER47 re-emit (2026-09-19): A5r2 -> vt024 sleeve, IS refit (sha16 8313bee1ad8a72fe).
     # ITER49 re-emit (2026-09-19): QAxasts -> tsm-vt015 sleeve, IS refit (sha16 a384d6b92e258fd5).
-    assert cur == "a384d6b92e258fd54dab448c93cd5f15bd3fa1cc79accdb5a3fa3ca01205ebe8"
+    # ITER61 re-emit (2026-10-12): NG-block (C5ng+C5ngsum) cap 0.28 second post-fit pass
+    # (sha16 2b0f5fbc43113149; sealed vintage C5ngsum<=2026-08-24, window<=2026-08-28).
+    assert cur == "2b0f5fbc431131495731925c50a601b5c052146d9df9443b812acef311fb8d96"
     assert float((_relw_iter15(_pool()) - pd.read_csv(WFILE, index_col=0).iloc[:, 0]).abs().max()) < 1e-12
 
 
@@ -350,9 +399,12 @@ def test_d_committed_metrics_are_honest_current():
     # MDD -3.6603% (coord/ITER47_A5R2_VTEXT/prior_champion_backup, byte-exact).
     # ITER49 re-emit (2026-09-19): QAxasts -> tsm-vt015 sleeve. Was 23.7668% / SR 3.784099 /
     # MDD -3.7012% (coord/ITER49_TSMOM_VT/prior_champion_backup, byte-exact).
-    assert abs(ann - 0.2392147) < 5e-7, f"ann {ann:.6%} drifted from honest 23.9215%"
-    assert 3.817 <= sr <= 3.823
-    assert -0.0375 <= dd <= -0.0372
+    # ITER61 re-emit (2026-10-12): NG-block (C5ng+C5ngsum) cap 0.28 (A_cap28, ITER61_DDCON;
+    # sealed vintage window to 2026-08-28). Was 23.921472% / SR 3.820357 / MDD -3.7012%
+    # (archive_*_SUPERSEDED_by_ITER61_DDCON, byte-exact; reproducible build(ng_cap=None)).
+    assert abs(ann - 0.23860978) < 5e-7, f"ann {ann:.6%} drifted from honest 23.8610%"
+    assert 3.781 <= sr <= 3.788
+    assert -0.0332 <= dd <= -0.0328
     assert int((yby < 0).sum()) == 0
     # and the leak must stay ABSENT: ann must NOT round-trip to the archived 40.84
     arch_ann = (1 + pd.read_csv(ARCH, index_col=0, parse_dates=True).iloc[:, 0].dropna()).prod() \
@@ -395,7 +447,9 @@ def test_c_truth20y_bal_is_not_a_constraint_passing_champion():
     geo = (1 + r).prod() ** (252 / len(r)) - 1
     assert abs(geo - 0.6909) < 5e-4, f"TRUTH20Y BAL geo ann drifted: {geo:.4%}"
     assert abs(r.mean() * 252 - 0.5303) < 5e-4, "JSON 'ann 53.0' is simple-arith; keep conventions distinct"
-    # and it is a DIFFERENT animal from the champion (pool corr 0.575 measured R2)
+    # and it is a DIFFERENT animal from the champion (pool corr 0.575 measured R2;
+    # ITER61 re-emit 2026-10-12 moved the champion side to 0.5964349 — NG-capped
+    # sealed-vintage construction, still clearly a different animal)
     c = pd.read_csv(CHAMP, index_col=0, parse_dates=True).iloc[:, 0].dropna()
     j = pd.concat([r.rename("t"), c.rename("c")], axis=1, join="inner").dropna()
-    assert abs(j.t.corr(j.c) - 0.575) < 0.02
+    assert abs(j.t.corr(j.c) - 0.5964) < 0.02

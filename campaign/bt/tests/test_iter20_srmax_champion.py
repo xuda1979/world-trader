@@ -76,9 +76,19 @@ def test_weights_provenance():
     # stricter proxy the pre-ITER43 champion happened to satisfy).
     k_active = int((relw > 0).sum())
     assert float(relw.max()) <= 2.0 / k_active + 1e-12
-    # The brwt-block cap binds at 0.30 of relw mass.
+    # The brwt-block cap binds at 0.30 of relw mass AT ITS OWN PASS; ITER61's NG-block
+    # cap then redistributes the NG excess pro-rata onto ALL non-NG sleeves, lifting the
+    # brwt block to 0.32170 (documented composition: brwt pass first, NG pass second —
+    # the two passes do NOT re-normalize each other). The NG block itself lands exactly
+    # at its 0.28 cap.
     blk = ["brwt10", "brwt7", "brwt5"]
-    assert abs(float(relw[blk].sum()) - 0.30) < 1e-9
+    _, _, _, _, df = B.build()
+    isr = df[df.index < B.IS_END]
+    fit_w = B.apply_brwt_cap(B.fit_relw(isr))
+    assert abs(float(fit_w[blk].sum()) - 0.30) < 1e-9
+    ng = ["C5ng", "C5ngsum"]
+    assert abs(float(relw[ng].sum()) - B.W_NG_CAP) < 1e-9
+    assert abs(float(relw[blk].sum()) - 0.3217006073) < 1e-6
 
 
 def test_champion_stats_and_gates():
@@ -94,9 +104,12 @@ def test_champion_stats_and_gates():
     # ITER43 re-pin (A5r2 vt015 sleeve; was 23.6054 / 3.7514 / -3.6130 at ITER21).
     # ITER47 re-pin (A5r2 vt024 sleeve; was 23.6813 / 3.7648 / -3.6603 at ITER43).
     # ITER49 re-pin (tsmom vt015 sleeve; was 23.7668 / 3.7841 / -3.7012 at ITER47).
-    assert abs(ann * 100 - 23.9215) < 0.05, f"ann drifted: {ann*100:.3f}%"
-    assert abs(sr - 3.8204) < 0.002, f"SR drifted: {sr:.4f}"
-    assert abs(mdd * 100 + 3.7339) < 0.02, f"MDD drifted: {mdd*100:.4f}%"
+    # ITER61 re-pin (2026-10-12, NG-block cap 0.28 adoption; was 23.9215 / 3.8204 /
+    # -3.7339 at ITER49 — that era's bytes live in the
+    # archive_*_SUPERSEDED_by_ITER61_DDCON pair).
+    assert abs(ann * 100 - 23.8610) < 0.05, f"ann drifted: {ann*100:.3f}%"
+    assert abs(sr - 3.7845) < 0.002, f"SR drifted: {sr:.4f}"
+    assert abs(mdd * 100 + 3.3048) < 0.02, f"MDD drifted: {mdd*100:.4f}%"
     # operator constraints
     assert gross.max() <= 1.6 + 1e-9, "leverage cap breached"
     assert int((gross > 1.6 + 1e-9).sum()) == 0
@@ -119,9 +132,11 @@ def test_committed_champion_file_pins():
     # ITER47 re-pin (2026-09-19): was 23.6813 / 3.764764 / -3.6603 (ITER47_A5R2_VTEXT backup).
     # ITER49 re-pin (2026-09-19): was 23.7668 / 3.784099 / -3.7012 (ITER48_C5NG_VT era;
     # 3c456aa5 bytes live in the ITER49_TSMOM_VT prior_champion_backup pair).
-    assert abs(ann * 100 - 23.9215) < 0.01, f"committed ann drifted: {ann*100:.4f}%"
-    assert abs(sr - 3.820357) < 0.001, f"committed SR drifted: {sr:.5f}"
-    assert abs(mdd * 100 + 3.7339) < 0.01, f"committed MDD drifted: {mdd*100:.4f}%"
+    # ITER61 re-pin (2026-10-12): was 23.921472 / 3.820357 / -3.7339 (pre-NG-cap era;
+    # cfa9ec4d bytes live in the archive_*_SUPERSEDED_by_ITER61_DDCON pair).
+    assert abs(ann * 100 - 23.8610) < 0.01, f"committed ann drifted: {ann*100:.4f}%"
+    assert abs(sr - 3.784489) < 0.001, f"committed SR drifted: {sr:.5f}"
+    assert abs(mdd * 100 + 3.3048) < 0.01, f"committed MDD drifted: {mdd*100:.4f}%"
     years = c.groupby(c.index.year).apply(lambda r: (1 + r).prod() - 1)
     assert int((years < 0).sum()) == 0
 

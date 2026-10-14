@@ -10,7 +10,10 @@ ANN_M = 12.0
 def ann_geo(r: pd.Series) -> float:
     if not len(r):
         return np.nan
-    prod = (1 + r).prod()
+    # min_count=1 (AUDIT_FWBUGS R2): an all-NaN series prods to 1.0 under pandas skipna,
+    # which sailed both ruin guards and reported a clean 0.0% — same fail-open class as the
+    # R1 neg_years bug. Zero finite observations => undefined => NaN (ann_arith agrees).
+    prod = (1 + r).prod(min_count=1)
     if not np.isfinite(prod) or prod <= 0:
         return np.nan  # ruin guard: negative/zero product => undefined geometric ann
     return float(prod ** (1.0 / len(r) * ANN) - 1)
@@ -43,6 +46,8 @@ def max_dd(r: pd.Series) -> float:
 def neg_years(r: pd.Series) -> tuple:
     if len(r) == 0:
         return (0, np.nan)
+    if not isinstance(r.index, pd.DatetimeIndex):
+        raise ValueError("neg_years: r.index must be a DatetimeIndex (no .year to group on)")
     yr = r.groupby(r.index.year).apply(lambda x: (1 + x).prod(min_count=1) - 1)
     # fail-closed (AUDIT_FWBUGS R1): a NaN/inf year return (whole missing year, ruined
     # product) must COUNT as a negative year, not silently pass the gate.

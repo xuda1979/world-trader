@@ -8,9 +8,13 @@ has tests in `campaign/bt/tests/` (TDD). **All new hunts SHOULD build on this, n
 |---|---|
 | `bt/engine.py` | T+1 `lag_signal`, trailing no-lookahead `vol_target_scale`, `capital_gross`, `cap_leverage`, `cost_turnover`, `borrow_cost`, `margin_cost` (IBKR call rate) |
 | `bt/metrics.py` | `ann_geo/arith`, `sharpe_d/m`, `max_dd`, `neg_years`, `half_split`, `report` |
-| `bt/gates.py` | acceptance battery: `run()` (SR/H1H2/negyr/ac1/uniq/corr), `uniq_ratio`, `zero_runs_long`, `position_lag_scramble` |
+| `bt/gates.py` | acceptance battery: `run()` (SR/H1H2/negyr/ac1/uniq/corr), `uniq_ratio`, `zero_runs_long`, `position_lag_scramble`, opt-in `beats_passive=True` mandatory beats-passive gate (default OFF) |
+| `bt/beats_passive.py` | MANDATORY beats-passive gate (INTL2 R3): matched-span net benchmarks — SPY B&H (1× 6.4bps entry, T+1), 60/40 SPY-IEF monthly-rebalanced (full \|dW\| costs), CTA_15vol 10% VT proxy — candidate net SR must STRICTLY beat the best (ties fail, fail-closed on missing/unmeasurable benchmarks) |
 | `bt/reconcile.py` | `max_abs_diff`, `repro_ok`, `ledgers_reproduce` (ledger PnL == champion), `turnover_reconciles` (TRADE_RECORD_STANDARD) |
 | `bt/backtest.py` | high-level `sleeve()` and `book()` runners tying the above together |
+| `bt/borrow.py` | `margin_daily/ann`, `gross_exact` (fail-closed 1e-9), `borrow_tier_uplift`, `rate_path`/`spike_window` (fail-closed on pre-index/after-end windows), `margin_daily_path`, `scenario_net`, `path_metrics` |
+| `bt/blend.py` | constant-mix champion+sleeve blends; margin charged ONCE on blended gross−1 (sign-fixture-pinned) |
+| `bt/financing_stress.py` | CAMP_BORROW R4 tool: given a net series + gross path, emit the call-rate rung ladder (per-rung ann/SR/MDD deltas, arithmetic slope exactly −(gross−1)pp/+1pp), named rate-path scenarios, borrow-tier block — one JSON-able `stress_table()`; fail-closed on missing/misaligned/non-finite inputs; `gate_moves` = neg_years>0 or MDD≤−7% |
 
 ## Run tests
 ```

@@ -33,8 +33,12 @@ def test_champion_of_record_unchanged_by_iter24():
     # in the ITER43 prior_champion_backup daily (8559fa55ee9a3417).
     # ITER47 re-anchor (2026-09-19): live champion -> 3c456aa53193eb89 (e67446186e269b88 preserved
     # in coord/ITER47_A5R2_VTEXT/prior_champion_backup).
+    # ITER61 re-anchor (2026-10-12, NG-block-cap adoption): live champion ->
+    # a8ed233bd0f6fd5d / weights 2b0f5fbc43113149; the ITER49 tsm-vt015 pair
+    # (cfa9ec4d38158691 / a384d6b92e258fd5) lives on byte-exact as
+    # results/archive_*_SUPERSEDED_by_ITER61_DDCON.csv.
     sha = hashlib.sha256(open(CHAMP, "rb").read()).hexdigest()[:16]
-    assert sha == "cfa9ec4d38158691", f"live champion bytes changed: {sha}"
+    assert sha == "a8ed233bd0f6fd5d", f"live champion bytes changed: {sha}"
     bk = (ROOT + "/campaign/agents/chief/coord/ITER43_A5R2_VT"
           + "/prior_champion_backup/GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv")
     sha_bk = hashlib.sha256(open(bk, "rb").read()).hexdigest()[:16]

@@ -98,9 +98,13 @@ def test_champion_of_record_77_stats():
     # -3.6603250632892492 at ITER43).
     # ITER49 re-pin (2026-09-19: QAxasts -> tsm-vt015; was 23.766796770250043 / 3.7840994002149047 /
     # -3.701204431908023 at ITER47).
-    assert abs(s["cagr"] - 23.921472189017791) < 1e-6
-    assert abs(s["sr"] - 3.820357300956879) < 1e-6
-    assert abs(s["mdd"] - (-3.733938034777473)) < 1e-6
+    # ITER61 re-pin (2026-10-12: ITER61_DDCON NG-block relw cap 0.28 champion of record;
+    # was 23.921472189017791 / 3.820357300956879 / -3.733938034777473 at ITER49 — the
+    # ITER49 daily bytes are archived byte-exact as
+    # campaign/results/archive_GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily_SUPERSEDED_by_ITER61_DDCON.csv).
+    assert abs(s["cagr"] - 23.860978396835698) < 1e-6
+    assert abs(s["sr"] - 3.784489467204887) < 1e-6
+    assert abs(s["mdd"] - (-3.3048491694404603)) < 1e-6
 
 
 def test_candidate14_own_rebuild_byte_exact_and_77():
@@ -142,21 +146,27 @@ def test_convention_rootcause_fill0_vs_resolve():
     # 20260925/20260928 re-pins: d_sr_fill0 0.1831887250272 -> 0.18402368124895,
     # d_ann_fill0 3.8077479644020 -> 3.81411950410975, inner d_sr 0.1899638988568 ->
     # 0.19068127513409, inner d_cagr 4.0398642799632 -> 4.04354926259272.
-    assert abs(d_sr_fill0 - 0.18402368124895) < 1e-9
-    assert abs(d_ann_fill0 - 3.81411950410975) < 1e-6
+    # ITER61 re-pin (2026-10-12: ITER61_DDCON champion; blend deltas re-measured at the
+    # NG-cap-0.28 daily bytes): d_sr_fill0 0.18402368124895 -> 0.19061241139913454,
+    # d_ann_fill0 3.81411950410975 -> 3.812628956413942, inner d_sr 0.19068127513409 ->
+    # 0.19735257177390508, inner d_cagr 4.04354926259272 -> 4.04249287930838.
+    assert abs(d_sr_fill0 - 0.19061241139913454) < 1e-9
+    assert abs(d_ann_fill0 - 3.812628956413942) < 1e-6
     # inner-join variant (dropna'd common days only)
     j = pd.concat([champ.rename("c"), h.rename("h")], axis=1, join="inner").dropna()
     bl = j.c + 0.25 * j.h
-    assert abs((_stats(bl)["sr"] - _stats(j.c)["sr"]) - 0.19068127513409) < 1e-9
-    assert abs((_stats(bl)["cagr"] - _stats(j.c)["cagr"]) - 4.04354926259272) < 1e-6
+    assert abs((_stats(bl)["sr"] - _stats(j.c)["sr"]) - 0.19735257177390508) < 1e-9
+    assert abs((_stats(bl)["cagr"] - _stats(j.c)["cagr"]) - 4.04249287930838) < 1e-6
     # the 8e delta vs the frozen RAWEW14 candidate, re-pinned. Sign note: it was NEGATIVE
     # (-0.1264676pp) vs the ITER20 gear-1.6 champion and is POSITIVE now only because the
     # champion runs at 1.0 (ann 23.9215% at ITER49) while the candidate bytes are a gear-1.6-era
     # artifact (ann 36.2885%) -- an APPLES-TO-ORANGES ann comparison across gears, not a
     # candidate improvement. The candidate remains NON-ADOPTED (8c dAnn>0 HARD at its own
     # era; SR comparison at matched gross governs under the SR-max objective).
+    # ITER61 re-pin (2026-10-12): champion ann 23.921472189017791 -> 23.860978396835698
+    # (NG-cap-0.28 daily bytes) moves the delta 12.3670286341215 -> 12.427522426303604.
     sc, sn = _stats(_champ()), _stats(_cand())
-    assert abs((sn["cagr"] - sc["cagr"]) - 12.3670286341215) < 1e-6
+    assert abs((sn["cagr"] - sc["cagr"]) - 12.427522426303604) < 1e-6
 
 
 def test_champion_card_clean_env_bare_run_matches_committed():

@@ -177,13 +177,15 @@ def test_v2_b3_uncosted_premium():
 # R5(c) — GOAL80 COORD_FINAL: byte-exact reproduction + convention pins
 # ---------------------------------------------------------------------------
 
-def _goal80_rebuild(tmpdir, dualmom_rel):
+def _goal80_rebuild(tmpdir, dualmom_rel, carryv2_rel=None):
     """COORD_FINAL through the CONFIRMED artifact recipe: raw-first per-sleeve vt
     (vt10 cap 8, shift-1), EW mean, global vt TGT=0.08, 126d DD-throttle 4% FR 0.5,
     6bps one-side HALF-turn on blend+throttle turnover, start 2008-09-01."""
     m = _load(BGO80, "cg80")
     if dualmom_rel is not None:
         m.POOL["dualmom"] = dualmom_rel
+    if carryv2_rel is not None:
+        m.POOL["carryv2"] = carryv2_rel
     names = ["H21_f5", "H21_br", "A5r7", "a6r7", "A1inf", "QAxasts", "A5r2",
              "A1credit", "XGB1y", "dualmom", "carryv2", "A5r4", "brwt",
              "B3momhml"]
@@ -228,7 +230,25 @@ def test_goal80_coordfinal_byte_repro():
     with tempfile.TemporaryDirectory() as td:
         dst = os.path.join(td, "QA_dualmom_band121_pre.csv")
         open(dst, "wb").write(blob.stdout)
-        r = _goal80_rebuild(td, os.path.relpath(dst, WT))
+        # ITER61-era drift fix (2026-10-12): carryv2 (A1_carry_seasonal_v2.csv)
+        # was refreshed append-only +31 rows (2026-08-04..09-15, maxdev 0.0 on the
+        # 4848 common rows) in 3c9caf6c (V7 data-refresh loop, 2026-09-25). The
+        # appended September marks leak into the blend's carryv2 vt window and
+        # break the byte-repro (maxdev 6.5e-3). Pin the artifact-era carryv2 blob
+        # (3c9caf6c~1), dualmom-precedent style: the rebuild must track the bytes
+        # the artifact was built from, not the live refreshed sleeve. The live
+        # sleeve stays untouched (its refresh is governed by its own re-pinned
+        # canonical tests).
+        cv_blob = subprocess.run(
+            ["git", "show",
+             "3c9caf6c~1:software/world-trader/campaign/agents/"
+             "A1_trend_cta/sleeves/A1_carry_seasonal_v2.csv"],
+            cwd=toplevel, capture_output=True)
+        assert cv_blob.returncode == 0, cv_blob.stderr[-300:]
+        cv_dst = os.path.join(td, "A1_carry_seasonal_v2_pre.csv")
+        open(cv_dst, "wb").write(cv_blob.stdout)
+        r = _goal80_rebuild(td, os.path.relpath(dst, WT),
+                            carryv2_rel=os.path.relpath(cv_dst, WT))
         comm = pd.read_csv(os.path.join(RES, "COORD_FINAL_daily.csv"),
                            index_col=0, parse_dates=True).iloc[:, 0].dropna()
         j = pd.concat([comm.rename("c"), r.rename("r")], axis=1,
@@ -278,6 +298,30 @@ def test_goal80_shipped_blend_default_does_not_reproduce_artifact():
         assert blob.returncode == 0, blob.stderr[-300:]
         open(pre_abs, "wb").write(blob.stdout)
     m.POOL["dualmom"] = pre_rel
+    # ITER61-era drift fix (2026-10-12), dualmom-precedent style: carryv2 was
+    # refreshed append-only +31 rows (2026-08-04..09-15, maxdev 0.0 on the 4848
+    # common rows) in 3c9caf6c (V7 data-refresh loop, 2026-09-25). The shipped
+    # default blend() window follows the longest sleeve, so the appended Sept
+    # marks leak in and move the pin 19.99 -> 19.24 (and window end 08-28 ->
+    # 09-15). Pin the artifact-era carryv2 blob (3c9caf6c~1) so this hazard pin
+    # keeps measuring the builder's default-vs-artifact divergence, not sleeve
+    # freshness. Verified: pinned blob restores arith 19.9915 / window 08-28.
+    cv_rel = ("campaign/agents/chief/coord/AUDIT_CHAMP2/work/r5/"
+              "carryv2_pre_refresh.csv")
+    cv_abs = os.path.join(WT, cv_rel)
+    if not os.path.isfile(cv_abs):
+        os.makedirs(os.path.dirname(cv_abs), exist_ok=True)
+        toplevel = subprocess.run(["git", "rev-parse", "--show-toplevel"],
+                                  cwd=WT, capture_output=True, text=True
+                                  ).stdout.strip()
+        blob2 = subprocess.run(
+            ["git", "show",
+             "3c9caf6c~1:software/world-trader/campaign/agents/"
+             "A1_trend_cta/sleeves/A1_carry_seasonal_v2.csv"],
+            cwd=toplevel, capture_output=True)
+        assert blob2.returncode == 0, blob2.stderr[-300:]
+        open(cv_abs, "wb").write(blob2.stdout)
+    m.POOL["carryv2"] = cv_rel
     names = ["H21_f5", "H21_br", "A5r7", "a6r7", "A1inf", "QAxasts", "A5r2",
              "A1credit", "XGB1y", "dualmom", "carryv2", "A5r4", "brwt",
              "B3momhml"]
