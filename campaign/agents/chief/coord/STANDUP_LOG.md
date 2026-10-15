@@ -16105,3 +16105,49 @@ documented pre-existing classes. Option-A trio state lives in stash@{0} (cfa9ec4
 a384d6b9 / 8c9586a1 verified intact this session) — the supersede-at-adoption path the
 memo pre-registered; the adoption round's commit belongs to that session's operator,
 not this round.
+
+## 2026-10-15 (iter 6) | STALE-SLEEVE TRIAGE (main session, post-compaction resume): 8-stale set fully characterized — champion (RAWEW13v2_WEIGHTED_GEAR16) CLEAN, staleness is a V7.1/DECISION-book refresh-debt property, zero decay contamination
+
+Decay-monitor state as re-verified this session (both monitors re-run 2026-10-15,
+reports re-pinned, tree sha16 662cc9db40d2d355): V7.1 20 sleeves (18 held, 2 retired
+tracked: crossasset_rev_L8, FXD1_KRWTRI — the 2026-09-29 hard-stop pair, w=0), 0 HARD,
+2 decay (D_xlu_ief ratio 0.060, a6_r2 ratio 0.745 — same documented sub-10% pair),
+8 STALE (C4_construct_v2 48d, inter_gasreg_nyh_gulf 45d, a6_r2 45d, crack_crack321
+45d, A5_r7_credit_composite 49d, TREASFUT_intlcarry3_lag1_NEG 75d, inter_dieseljet
+45d, D_xlu_ief 43d; rule >35d, month-stamped >65d — TREASFUT fails both clocks).
+Monitor exit 3 (freshness RED) per pre-committed rule; live sessions must not proceed
+on stale sleeves until refresh.
+
+TRIAGE RESULT (task #5 closed):
+
+1. CHAMPION MEMBERSHIP — CLEAN. The live champion (GOAL100_RAWEW13v2_WEIGHTED_GEAR16,
+   12 members via ITER47 canonical map: brwt10, brwt7, brwt5, C5ng, C5ngsum, A5r2,
+   a6r7, QAxasts, carryv2, dualmom, diescrack, CFX4) intersects the 8-stale set in
+   ZERO members. The RAWEW13v2 member files are themselves stale-clock-eligible
+   (24-73d; carryv2 73d, A5r2 65d, dualmom/QAxasts 64d, CFX4 71d) — but that is the
+   champion's own refresh-debt cadence (documented every gate run since 2026-09-30),
+   NOT decay: no champion member appears in any decay/hard set, and the champion
+   OOS-decay status remains the documented all-clear (full-OOS SR trajectory pinned
+   in CHAMPION_CARD.md).
+2. DECAY CONTAGION — NONE. Both decay sleeves (D_xlu_ief w=3.41%, a6_r2 w=3.41%) are
+   non-champion V7.1-held sleeves. Both are ALSO in the stale set (43d/45d): their
+   trail-2y SR is computed on data ending 2026-09-02/2026-08-31 — the decay flags are
+   measurement-window artifacts of the same refresh debt, not new signal degradation.
+   The 2026-10-01 entry's "0 STALE" vs today's 8 STALE is exactly the Oct-10
+   sleeve-vintage wave: 2 of the 8 (crossasset_rev_L8, FXD1_KRWTRI) were the
+   2026-09-29 hard-stop pair, already handled; the Oct-10 wave was a re-emission
+   batch, not a data-outage event.
+3. BOOK SEPARATION. Of the 8 stale sleeves, 5 are in the 18-sleeve DECISION_CHAMPION
+   book (C4_construct_v2, inter_gasreg_nyh_gulf, A5_r7_credit_composite,
+   TREASFUT_intlcarry3_lag1_NEG, inter_dieseljet) and 8/8 are in the V7.1 20-sleeve
+   monitor universe (all at the uniform 3.41% renorm weight except C4 at 17.03%).
+   C4_construct_v2 at 17.03% of V7.1 is the largest stale exposure (48d) — flagged
+   as the priority target for the next refresh wave. Neither a6_r2 nor
+   crack_crack321 (the 2 non-DECISION stale sleeves) is a champion member.
+
+ACTION: No emergency action — zero HARD, champion clean, decay pair unchanged and
+already sub-governance-threshold. The staleness is the known refresh-debt queue
+(Oct-10 wave + backlog), to be cleared by the pre-registered next refresh wave
+(C4_construct_v2 first by weight). Task #5 closed; task #6 (next pre-registered hunt
+round design) unblocked, with the refresh-wave sequencing recorded as its leading
+dependency.
