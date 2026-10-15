@@ -158,5 +158,20 @@ pre-registered re-adjudication; (3) Binance-axes span trigger re-measure (fires 
 (4) Binance CBOE H1/options axes pending live-data accumulation. Note (4) is not a beat
 either — resolves data-side options.
 
-## Status
-in_progress
+## Status (2026-10-15 housekeeping close-out)
+The last standing autonomous item — the raw_data_manifest fail-closed pair — was
+resolved this session (re-pin 11780→11816 / tree sha16 3975b8d6472d6c16, commit
+8a3d2d17; LOSS-CLASS ALARM falsified pre-re-pin via byte-exact panel reconstruction;
+exclusion decomposition: zero suite failures caused by the round). Provenance is
+GREEN, suite residual 24/728 fully attributed to documented pre-existing
+old-round-constant pins (adoption-scope, deliberately not extended here).
+
+Beat-the-champion is NOT achievable autonomously at this state: every remaining
+beat-path is operator-gated (new-axis charter / rule change re-adjudication),
+scheduled (Binance span trigger 2027-09), or data-accumulation (CBOE H1/options
+live collection; BAML repair standing). Frontier-closure law (#147/#148) forbids
+re-measuring dead ideas without a new axis. The frontier is closed at 87 axes,
+33+ measured; champion of record stands at A_cap28 (SR 3.7845 / ann 23.86% /
+MDD -3.30%) awaiting the next operator action.
+
+Status: completed (housekeeping frontier; hunt frontier remains operator-gated)
