@@ -962,3 +962,43 @@ Artifacts: coord/ITER61_AXES_AUDIT/FINDINGS.md + audit_87_axes.csv (87 rows,
 0 UNRESOLVED). raw_data_manifest --verify GREEN (11780 files). goal.md round
 entry appended. Champion trio STAGED-UNCHANGED; no results/ file touched.
 DONE iter61_axes_audit_20261012
+
+## Round raw_data_manifest_repin_20261015 (chief, housekeeping)
+
+ROUND CONTEXT: post-adoption session (champion of record = A_cap28 since
+2026-10-14 db974c92). Goal.md noted a standing failure class: "raw_data_manifest
+fail-closed pair pending next scheduled re-pin." Manifest verify was RED:
+37 extra + 1 "MISSING (LOSS-CLASS ALARM)" — cboe_options/H1_tailfactor_panel.csv
+pinned 7778B/a10c405b6a58aafb vs disk 10794B/d73c837a6e96b011.
+
+INVESTIGATION BEFORE RE-PIN (loss-class alarms are falsified, not assumed
+benign): update_panel() in h1_collect.py rebuilds the panel idempotently from
+the write-once archive every run; the extras are the scheduled CBOE H1/flow
+pipeline archives 20261012/20261013/20261014 (+36 net files). Old panel
+byte-exact RECONSTRUCTED (pandas concat over archive dirs <=20261009 =
+7778 bytes, sha16 a10c405b6a58aafb — exact match to the pin) => rotation,
+not loss; the archive daily files remain the primary provenance and the
+panel is a derived artifact.
+
+ACTIONS: --emit re-run (11780 -> 11816 files, 87 axes, tree sha16
+662cc9db40d2d355 -> 3975b8d6472d6c16); test_raw_data_manifest.py baseline
+re-pinned (count + sha16 + ledger history docstring, incl. the
+reconstruction note); verify GREEN; manifest tests 6/6.
+
+SUITE DECOMPOSITION (exclusion run): 24 failed/728 passed with this round's
+files vs 26 failed/728 passed without — sole delta is the known
+raw_data_manifest fail-closed pair (RED pre-re-pin / GREEN post). All 24
+residual failures byte-identical with/without this round = zero caused by
+it; all are documented pre-existing pins of superseded round constants
+(iter23 gridedge INCUMBENT (0.70,0.30), iter60 freshness-vs-today,
+auditrecon headline 23.9215% pre-A_cap28, camp_cost sleeve pins, energy
+family filter, iter17/19 pins) — superseded by the adoption commit's
+33-file test re-pin (db974c92), which this housekeeping round deliberately
+does not extend (adoption-session scope; re-pinning 24 stale
+old-round-constant tests is a hunt-scope decision, not housekeeping).
+
+Champion trio STAGED-UNCHANGED; no results/ metric touched (manifest itself
+only). goal.md round entry appended. Standing data-side item unchanged:
+fred_full/more_fred BAML repair; beat-path-3 fires 2027-09.
+
+DONE raw_data_manifest_repin_20261015

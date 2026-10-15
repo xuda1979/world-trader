@@ -4,20 +4,22 @@
 Beat the previous champion.
 
 ## What this means (world-trader GOAL100 frame)
-The previous champion of record is **RAW-EW13v2 WEIGHTED @1.6x**:
-`campaign/results/GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv` (sha16 `cfa9ec4d38158691`,
-weights `a384d6b92e258fd5`) — headline ann 23.92% / SR 3.820357, MDD -3.73%.
+The champion of record (since the 2026-10-14 ITER61_DDCON adoption, commit db974c92) is
+**RAW-EW13v2 WEIGHTED @1.6x + A_cap28** (post-fit NG-block cap 0.28):
+`campaign/results/GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv` (sha16 `a8ed233bd0f6fd5d`,
+weights `2b0f5fbc43113149`) — headline ann 23.86% / SR 3.7845, MDD -3.30%.
 A beat requires:
-- Higher FS SR than 3.820357 at the champion's own cost conventions (6.4bps full |dW|,
+- Higher FS SR than 3.7845 at the champion's own cost conventions (6.4bps full |dW|,
   T+1 causal, capital-real accounting, gross 1.0 exact, margin 0)
 - All operator gates G1-G8 + G7 positive-bin police (as applied in ITER57/58 adjudications)
 - OOS honesty: no same-day leak, IS-only frozen weights, walkforward evidence
 - Provenance-clean inputs (no stray-writer drift; manifest-pinned)
 
 ## Constraints respected this session
-- The operator-gated state (staged Option-A champion trio) is NOT touched: no commits of
-  `campaign/CHAMPION_CARD.md`, `campaign/results/GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv`,
-  `campaign/results/RAWEW13v2_IS_SR_weights.csv` until the operator decides Option-A.
+- The Option-A staged trio is RESOLVED (adopted via db974c92, 2026-10-14); no staged
+  state remains in the index. Explicit-pathspec commits remain the standing convention
+  (adopted as habit from the staged era; also protects against the 2,900+ untracked
+  artifacts at repo root).on-A.
 - All commits use explicit pathspecs while the champion trio sits staged in the main index.
 - Frontier-closure law (#147/#148) respected: new hunts require NEW data or rule change;
   no re-litigating measured/dead ideas without a new axis.
@@ -99,12 +101,56 @@ Honest paths to beat the champion, in prior order:
   operator, NOT this round). RES_CREDIT decade+ gate permanently blocked
   on FRED; long-history credit spreads need a new licensed axis = operator charter
   (beat-path 1). Record: coord/DATA_BAML_REPAIR/{FINDINGS.md,work/probe_baml_routes.py}.
+- 2026-10-15 RAW_DATA_MANIFEST re-pin (housekeeping, closes the standing
+  "fail-closed pair pending next scheduled re-pin" item): scheduled CBOE H1/flow
+  pipelines added archives 20261012/20261013/20261014 (+36 net files) and the
+  idempotent H1_tailfactor_panel rebuild rotated coverage 20261009->20261014
+  (7778->10794 bytes). LOSS-CLASS ALARM on the panel falsified before re-pin:
+  update_panel() rebuilds from the write-once archive, old panel byte-exact
+  reconstructible (pandas over dirs <=20261009 = sha16 a10c405b6a58aafb) —
+  rotation, not loss. Re-emit + re-pin 11780/662cc9db40d2d355 -> 11816 files /
+  87 axes / tree sha16 3975b8d6472d6c16; verify GREEN; manifest tests 6/6.
+  Suite decomposition (exclusion run): 24 failed/728 passed with this round's
+  files vs 26/728 without — the only delta is the known raw_data_manifest
+  fail-closed pair (RED pre-re-pin, GREEN post); all 24 residual failures
+  identical with/without this round = zero caused by it; they are the
+  documented pre-existing pins (old-round constants: iter23 gridedge
+  INCUMBENT (0.70,0.30), iter60 freshness-vs-today, auditrecon lineage
+  headline 23.9215% pre-A_cap28, camp_cost sleeves), superseded by the
+  2026-10-14 adoption commit db974c92's 33-file test re-pin which this round
+  deliberately did NOT extend (adoption-session scope). Champion trio
+  STAGED-UNCHANGED; no results/ metric touched.
+- 2026-10-14 ITER61_DDCON ADOPTION (executed — its own round per charter §7; commit
+  db974c92): champion of record moves to A_cap28 (RAW-EW13v2 WEIGHTED @1.6x + post-fit
+  NG-block cap 0.28). Daily sha16 a8ed233bd0f6fd5d (4806 rows, 2008-03-31..2026-08-28),
+  weights 2b0f5fbc43113149 (12 sleeves + CFX4 at 0.0), CHAMPION_CARD ded40a5145b8827a;
+  headline ann 23.86% / SR 3.7845 / MDD -3.30%. Prior champion archived byte-exact
+  (archive_*_SUPERSEDED_by_ITER61_DDCON = cfa9ec4d/a384d6b9). Verify chain GREEN:
+  builder --verify n=4806 max|new-old|=9.99e-17; verify_champion_r3 9/9; winner battery
+  B1-B5 stands (B1 byte-determinism, B2 halves 4.2555/3.6143, B4 placebo non-discriminant
+  = NG-specificity, B5 cost-stress stable). Builder sealed-vintage basis per ITER61_DDCON
+  charter §3 (C5NGSUM_TRUNC=2026-08-24, VINTAGE_END=2026-08-28, W_NG_CAP=0.28 as post-fit
+  cap_block() second pass composing exactly as measured); verify_champion.py gains
+  --vintage_end/--c5ngsum_trunc (defaults baked to adoption state). 33 test files re-pinned
+  cfa9ec4d/a384d6b9 -> a8ed233b/2b0f5fbc. Sleeve-vintage wave (Oct-10, append-only vs
+  HEAD: max diff 1.0e-16 on common dates) landed with the adoption: brwt5__costfix,
+  brwt10_2000__costfix, diescrack_L40Z20_net. Option-A staged trio RESOLVED (index now
+  empty; the two pending operator decisions in the 2026-10-12 memo are both closed).
+  Post-adoption suite: 24 failed / 728 passed; failure set byte-identical to the
+  pre-adoption baseline (all pre-existing classes: iter23 gridedge re-litigation pins,
+  raw_data_manifest fail-closed pair pending next scheduled re-pin, iter60 sibling-import
+  structural, audit-era headline pins); zero adoption-caused failures. Not a beat (SR
+  3.7845 < 3.820357 — operator-objective round; the beat threshold is now 3.7845).
 
 ## Pending operator decisions (do NOT execute autonomously)
-- ITER61 adoption (NG-block cap 0.28 into champion construction — its own round per §7:
-  builder extension + --verify, archive supersede naming, champion card update).
-- Option-A champion-provenance decision (resolves the staged trio).
 - Any new data-axis acquisition charter (beat-path 1) or rule change (beat-path 2).
+- (RESOLVED 2026-10-14) ITER61 adoption — executed as its own round, commit db974c92.
+- (RESOLVED 2026-10-14) Option-A champion-provenance decision — resolved by the adoption:
+  HEAD live-path blobs were the stale ITER16-era vintage ee03f5c0/745bc5f1; the true
+  pre-adoption champion cfa9ec4d (adopted 2026-09-19) was never committed at the live
+  paths — survives byte-exact in the archive pair + stash@{0}. Adoption diff on live
+  paths = ee03f5c0→a8ed233b; the archive pair (archive_*_SUPERSEDED_by_ITER61_DDCON)
+  fills the provenance chain. Documented in OPERATOR_DECISION_MEMO.md Decision 2.
 
 ## Remaining beat-paths
 (1) NEW data axis acquisition → new charter → hunt; (2) operator rule change →
