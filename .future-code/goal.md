@@ -225,3 +225,28 @@ MDD -3.30%) awaiting the next operator action.
   manifest --verify GREEN 11840/2f8a754bd2b7285b. Autonomous frontier clear.
 
 Status: completed (durability/recovery frontier; hunt frontier remains operator-gated)
+
+- 2026-10-17 pre-registration round (beat-path 4 hunt leg; no champion re-measure):
+  HUNT_H1_TAILFACTOR R1 charter SEALED PRE-OUTCOME (58df590f) — the H1 tail-factor
+  panel (tools/quant/data/cboe_options/H1_tailfactor_panel.csv, pinned
+  cae23d09649b1917, 114 rows / 13 dates / 9 symbols) had zero evaluation done on
+  it, so the protocol was committed BEFORE any forward return was computed:
+  13-date fragment quarantined under GATES_CONTRACT_V2 §9b (materially short =
+  unjudgeable, fail closed), CONCRETE 60-date/3-calendar-month evaluation floor,
+  exhaustive signal grid (per-symbol z L∈{21,63}, cross-sectional ranks, 9-symbol
+  composites + dispersion across p20_30d/var95/var99/skew/kurt; risk-off /
+  tail-harvest / dispersion-timing / skew-kurt gates, t∈{1.0,1.5,2.0}) with
+  pre-committed PRIMARY = composite p20_30d z L=63 t=1.5 on SPY long/flat T+1,
+  cost basis 6bps |dW| + 4.5%/yr margin + 0.5%/yr borrow, leak_check=True, §9a
+  inception-fail; frontier-closure legality documented vs dead HUNT_VOL2 row 58 /
+  HUNT_CBOE_IV R8 C1-C3 / HUNT_VOLOVERLAY row 23 / HUNT_VXV_TERM row 44 (panel is
+  per-symbol SVI-slice risk-neutral DENSITY product, none of which tested that
+  object); champion pin a8ed233bd0f6fd5d + canonical headline SR 3.7845 / ann
+  23.86% / MDD -3.30% embedded. H1_report.md stale SR~5.18/ann~61% refs (lines 4,
+  141) corrected to canonical (2aed50d9). Standup iter-10 (7bed2479). Round status:
+  PROTOCOL-HOLD by design — R1 evaluation legal only after ≥60 panel dates accrue
+  (~early December 2026); until then autonomous work is housekeeping/refresh only.
+  No champion-path files touched; hunt frontier remains operator-gated (beat-paths
+  1-4 unchanged, but beat-path 4 now has a SEALED pre-registered evaluation).
+
+Status: completed (pre-registration sealed; R1 evaluation gated on panel accrual to ≥60 dates, ~early Dec 2026)
