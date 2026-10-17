@@ -190,4 +190,33 @@ MDD -3.30%) awaiting the next operator action.
   td_extend_report.json, irltlt_leaf_report.json, leaf snapshots) + STANDUP_LOG
   iter 7. No champion-path files touched.
 
-Status: completed (housekeeping frontier; hunt frontier remains operator-gated)
+- 2026-10-17 durability/recovery round (operator-objective; no champion re-measure):
+  4 commits landed — 81fae690 (10-16 goal round entry), a506e1ab (refresh wave:
+  6 sleeve CSVs overlap-verified append; cboe archive 20261015 + H1_tailfactor_panel
+  extension; manifest re-pin 11816->11828 / ab839894d9d8e46e), 7db194e0
+  (ITER62_REFRESH_WAVE1 close-out recovered from interrupted session: 10-17 ledger
+  rebuilds + 26 test re-pins + overnight CBOE re-pin 11828->11840 /
+  2f8a754bd2b7285b + fleet_keeper fail-closed fix: empty-pending mid-round no
+  longer exits keeper with fleet in flight), 5edde5e6 (inter-session drift
+  recovery: HUNT_CRYPTO_SAT iter-75 completion line + HUNT_TAIL cost-convention
+  addendum; parent commits 2f535bc/9004b67f verified long-committed; no code
+  paths touched). Independent verification, not trusting prior-session claims:
+  manifest verify GREEN — 11840 files pinned byte-identical via
+  campaign/scripts/raw_data_manifest.py; all 26 re-pinned tests re-run personally
+  (V7.0 decay-freshness 5 + V7.0 oos-decay-monitor 4 + V7.1 hardstop-act 3 +
+  V7.1 oos-decay-monitor 8 + manifest 6 = 26 passed in 11.55s); tracked tree
+  fully clean. Archival audit clean, both pre-stated discriminating outcomes
+  confirmed: (1) rebuild reachability — capture_frontier_state() rebuild gate at
+  iteration>=ITER60; per-axis tsv for all 87 axes matches standing
+  chapter-and-verse in d-path and record_age at iter 8, so the frontier is
+  reachable from the pinned manifest + evidence pack alone; (2) archival
+  immutability — zero commits in the last 200 moved or resurrected champion-path
+  files through archive/vintage conventions. Decay monitor standing: HARD 0,
+  STALE 1 (a6_r2 upstream-cadence artifact, +46d with byte-proof of Dartmouth
+  blockage), C4_construct_v2 advisory DECAY at 15% of gross (advisory-prune rule
+  genuinely fires, n_advisory_prune 0->1). Standing triggers: Dartmouth 202609
+  FF rotation (un-stales a6 + re-emit) or next scheduled CBOE pipeline run.
+  No champion-path files touched; hunt frontier remains operator-gated
+  (beat-paths 1-4 unchanged).
+
+Status: completed (durability/recovery frontier; hunt frontier remains operator-gated)
