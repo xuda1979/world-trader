@@ -1,1 +1,17 @@
 === loop_team/HUNT_CRYPTO_SAT start Thu Sep  3 19:49:07 CST 2026 ===
+HUNT complete. Summary of what was done and found:
+
+## Execution (superpowers TDD, campaign/bt only)
+- **RED first**: wrote `test_crypto_longonly.py` (8 property tests: T+1 no-leak, long-only clamp, cost-on-change, warmup, uptrend sign, ledger turnover + PnL reconcile) + a negative-control proving the tests have teeth. Observed failures (`ModuleNotFoundError`, then 2 real emitter bugs) before any GREEN.
+- **Two real bugs caught by the tests, root-caused and fixed**: (1) ledger emitted from a sliced weight path — pandas `.diff()` skipped no-trade gaps, understating turnover 2.3% rel (BTC 6.6428 vs true 6.6761); (2) shadowed-variable `px` bug in the mark-ledger emitter. Final reconcile: **ledger PnL max|diff| 6.939e-18**, **turnover max_rel 2.418e-16**, sha256 byte-repro identical.
+- **Final suite: 36 passed** (8 crypto + 28 framework).
+
+## Verdict: NEGATIVE / disclosed near-miss (exact numbers in FINDINGS.md)
+- Best panel book `CRYPTO_TSMOM21LO` (long-only, 12 coins, T+1, vt10/60/cap3, 6.4bps/side, borrow 0): **SR 1.109**, corr to V3 champion **+0.0535** / to RAW-EW13 **+0.0403** (decorrelation premise confirmed) — but **4/10 neg yrs**, **H2 0.210**, scramble **p=0.083–0.130 FAIL** (cost-recharged variant marginal at 0.039, logged as fail).
+- SOL single-name tsmom126 SR 1.302 fails scramble p=0.130 (selection risk). Reversal family dead long-only (crypto trends daily); L/S paper strictly worse (shorts untradeable at retail — disclosed).
+- Padded onto champion calendar: **4/19 neg years 2008+** with a 2416-day zero run — satellite cannot satisfy annual gates, exactly as charter predicted.
+- Blend into RAW-EW13@1.6x at w=0.10: SR 4.038→4.100 (**dSR +0.063 max**), neg stays 0/10, leverage stays ≤1.6 — below campaign materiality; 2025-26 SR −0.226 (edge dormant, blend now detrimental).
+
+Deliverables committed (2f535bc): sleeves + 42k-row trade ledger (3549 REAL-priced trades + 38,580 marks) + meta + repro + FINDINGS.md + DEAD_IDEAS row.
+
+HUNT_CRYPTO_SAT DONE

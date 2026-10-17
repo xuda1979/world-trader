@@ -90,3 +90,17 @@ Construction = HONEST11 engines verbatim + two changes:
   dVIX_t) = -0.816 (sanity OK). VIX level vs next-day SPY ret corr: -0.034.
 - All output series pass: SR_d>>0.6, H1/H2>=0.3, 0 neg years, scramble p=0.000 (sleeve-level),
   no flatten, max|day|<8%, T+1 everywhere, 6bps/side + borrow charged.
+
+---
+
+## ADVERSARIAL ADDENDUM (2026-09-09, coordinator) — COST-CONVENTION UNDERCHARGE GAP
+The HT_TAIL delivered sleeves charge turnover at **HALF-turn × 6.0bps**:
+`tw = (|dW|*0.5).sum(); r_out -= (tw+dsc)*6e-4` (g9_final.py).
+This is the SAME half-turn@6.0 undercharge that audit A1 flagged as a BLOCKING defect (41.7% of
+the honest champion cost rate) and that the RAWEW lineage (full |dW| @ 6.4bps) fixed. On this
+high-turnover levered book the undercharge is ~2.13x, so HT_TAIL's headline SR 4.72 / ann 45-60%
+is **NOT comparable** to the RAWEW champion's honest 37.2% / SR 3.18. It is the reason the
+HONEST11 family reports 45-60% while the RAWEW champion (same engines, honest costs) reports
+37.2%. HT_TAIL must be re-costed to full |dW|@6.4 before any "higher Sharpe" claim; the RAWEW
+honest-champion lineage remains the comparable baseline. (Coordinator finding, recorded for the
+bt-owner/QA_CONSTRUCT wave.)
