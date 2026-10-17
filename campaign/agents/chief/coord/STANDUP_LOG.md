@@ -16422,3 +16422,40 @@ interim sessions are housekeeping/refresh waves only. Next scheduled
 hunt session: re-run r1_engine.py (real mode) + adjudicate in
 FINDINGS.md vs GATES_CONTRACT_V2 at ≥60 panel dates / ≥3 months
 (~early Dec 2026). Beat-paths 1-4 as filed.
+
+## iter-14 — 2026-10-18 HUNT_H1_TAILFACTOR Addendum A closed: data-dependency audit + fail-closed hardening executed pre-outcome (PROTOCOL-HOLD preserved)
+Time ~00:2x CST. Follow-through on iter-13's flagged risk: the sealed engine's
+load_returns consumed price sources 3.5-5+ weeks stale vs the panel (twelvedata
+2026-09-22, cboe_hist 2026-09-09 vs panel last 2026-10-16) — at Dec maturity
+every panel date after 2026-09-22 would have lacked a forward return.
+Committed 6b86e402 (pre-outcome framing, zero forward returns computed):
+- A.3 latent defects (found by reading sealed code, outcome-blind): (1) no
+  coverage-end guard — a silently stale price file passed; (2) eval_cell
+  reindexed weights onto the FULL ~20y price history (metric n inflated to
+  5000+, SR diluted) and silently DROPPED missing forward dates.
+- A.5 hardening executed: (1) staleness guard — price coverage must extend
+  past the panel's last date for all 9 syms (T+1 of the last panel date must
+  exist) else RuntimeError; (2) eval_cell aligned to the panel's T+1 exposure
+  window only, missing forward dates raise; (3) regression battery extended
+  to 19/19 GREEN (was 17).
+- Live dual-direction guard proof: real panel FAILS correctly (AAPL twelvedata
+  last bar 2026-10-16 == panel last 2026-10-16, T+1 genuinely not yet
+  existent — Monday's bar); in-memory truncation probe to 2026-10-14 PASSES
+  with all 9 syms' T+1 = 2026-10-15 bar computable (5 ETFs cboe_hist, 4
+  single names twelvedata).
+- A.4 remediation executed operationally (git-ignored regenerable data, sealed
+  panel prefix untouched, pin PIN-OK cae23d09649b1917/114rows/13dates):
+  twelvedata 9/9 panel syms refreshed to 2026-10-16 via tools/quant/
+  refresh_panel.py fetch path; cboe_hist 5 ETFs refreshed to 2026-10-15 via
+  sealed ad-hoc CLI after manifest row removal; CBOE 307-follow verified live
+  (A.4's open item closed — urllib 5736 SPY bars through redirect).
+- Synthetic artifact regenerated deterministically: r1_results_synthetic.json
+  diff is exactly the A.5(2) window correction (metric n 71->70 per cell);
+  consecutive runs byte-identical.
+- Round state: PROTOCOL-HOLD unchanged (13/60 dates, 2/3 months, no grid).
+  Residual noted in A.6: sources re-stale by ~1 day per accrual day — refresh
+  both sources same-day before the December maturity run (paths in A.4).
+ACTION: none further this window. Next scheduled hunt session unchanged:
+re-run r1_engine.py (real mode) + adjudicate in FINDINGS.md vs
+GATES_CONTRACT_V2 at ≥60 panel dates / ≥3 months (~early Dec 2026).
+Beat-paths 1-4 as filed.
