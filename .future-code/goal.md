@@ -250,3 +250,19 @@ Status: completed (durability/recovery frontier; hunt frontier remains operator-
   1-4 unchanged, but beat-path 4 now has a SEALED pre-registered evaluation).
 
 Status: completed (pre-registration sealed; R1 evaluation gated on panel accrual to ≥60 dates, ~early Dec 2026)
+
+- 2026-10-17 post-registration housekeeping sweep (PROTOCOL-HOLD round;
+  no champion re-measure): all standing state re-verified — champion pin
+  a8ed233bd0f6fd5d intact, R1 charter 58df590f untouched, Dartmouth FF
+  live re-check 18:58 CST still 202608 CRSP vintage (202609 publication
+  NOT landed; a6 un-stale trigger unfired, a6_r2 +47d cadence artifact),
+  V7.1 decay monitor baseline match (HARD 0 / decay 3 / advisory 1 /
+  STALE 1), manifest verify GREEN 6/6, H1 scheduler Saturday no-op
+  (heartbeat 18:20:08, archive 20261016 current, next accrual after Mon
+  10-19 close). Standup iter-11 (8f62d6bf). Round status: PROTOCOL-HOLD
+  by design — next milestone is ≥60 panel dates (~early Dec 2026), then
+  R1 evaluation under the sealed grid; interim sessions are
+  housekeeping/refresh waves only. No champion-path files touched; hunt
+  frontier remains operator-gated (beat-paths 1-4 unchanged).
+
+Status: completed (PROTOCOL-HOLD housekeeping sweep; next scheduled work is refresh waves until ≥60 panel dates)
