@@ -16358,3 +16358,37 @@ then R1 evaluation under the sealed exhaustive grid; interim sessions are
 housekeeping/refresh waves only (Dartmouth rotation watch + scheduled
 CBOE pipeline runs + decay/manifest re-verify). Autonomous frontier clear;
 hunt operator-gated (beat-paths 1-4 unchanged, beat-path 4 pre-registered).
+
+## iter-12 — 2026-10-17 HUNT_H1_TAILFACTOR work_r1 engine sealed (PROTOCOL-HOLD, pre-maturity machinery)
+Time ~23:3x CST. Follow-through on the 58df590f charter seal (goal round dc7348e5
+remains PROTOCOL-HOLD). Built and froze the mechanical evaluator BEFORE the real
+panel matures — all inside coord/HUNT_H1_TAILFACTOR/work_r1/:
+- r1_engine.py: 3-stage fail-closed engine. Stage 0 coverage audit (diagnostics
+  only, §Scope-2); Stage 1 span guard §Scope-3 (≥60 dates AND ≥3 months or
+  PROTOCOL-HOLD, engine exits before any grid); Stage 2 exhaustive 30-cell grid
+  (§Scope-4) with T+1, 6.4bps |dW| + 4.5%/yr margin on (gross-1) + 0.5%/yr
+  borrow, metrics per campaign/bt/metrics.py. Charter pin enforced as
+  byte-identical PREFIX of the live panel (append-only accrual passes;
+  mutation/deletion/reorder/truncate → PROTOCOL-VIOLATION, no evaluation).
+- test_r1_engine.py: 19/19 PASS (pytest 3 passed; standalone 19 passed 0
+  failed). Pin-guard fail-closed (7), span-guard quarantine on the real
+  13-date panel (4), synthetic determinism + real/synthetic artifact
+  separation (8).
+- r1_results.json (REAL): PIN-OK, coverage audit (114 rows/13 dates/9 syms,
+  holes only the documented 10-08/10-09 CBOE feed gap, value sanity GREEN,
+  sha256 == charter pin), span guard PROTOCOL-HOLD — 13/60 dates, 2/3 months.
+  NO grid executed; no forward return of any panel symbol computed against
+  any factor value (quarantine mechanically enforced, not just promised).
+- r1_results_synthetic.json (SYNTHETIC fixtures only): full-pipeline probe
+  (stages 0-2, 30/30 cells, deterministic byte-identical reruns). Machinery
+  probe ONLY — zero evidential weight per charter anti-p-hack commitments.
+- WORK.md: countersign artifact — engine protocol, test manifest, coverage
+  audit record, countersign statement.
+Fences honored: charter Non-goals intact — panel acquisition continues
+passively (panel through 2026-10-16 at run time), no pre-unblinding mutation,
+DATA_BAML_REPAIR untouched, champion RAWEW13v2_WEIGHTED_GEAR16 (sha16
+a8ed233bd0f6fd5d) untouched. The engine reports; FINDINGS.md adjudicates
+against GATES_CONTRACT_V2 at evaluation time.
+ACTION: none pending until panel maturity (≥60 dates/≥3 months, ~early Dec
+2026). Next hunt session = re-run r1_engine.py (real mode), adjudicate in
+FINDINGS.md. Autonomous frontier unchanged; beat-paths 1-4 as filed.
