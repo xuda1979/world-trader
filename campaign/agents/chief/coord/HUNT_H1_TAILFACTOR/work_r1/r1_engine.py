@@ -255,9 +255,27 @@ def eval_cell(exposure: pd.DataFrame, px_ret: pd.DataFrame) -> dict:
     6.4bps one-side |dW|, 4.5%/yr margin on (gross-1), 0.5%/yr borrow on short
     notional. Long/flat cells have no short notional -> borrow term is 0 but is
     computed anyway (harness uniformity).
+
+    Evaluation window (Addendum A.5): ONLY the panel's own dates (shifted to
+    T+1) are evaluated — never the full price history. Zero-weight days outside
+    the panel window do NOT enter metrics.
     """
     w = exposure.shift(1).fillna(0.0)                    # T+1
-    w = w.reindex_like(px_ret).fillna(0.0)
+    # --- fail-closed window alignment (Addendum A.5, 2026-10-18) ---------------
+    # Original: `w.reindex_like(px_ret)` — with real data px_ret spans ~20y of
+    # price history, so zero-weight zero-return days OUTSIDE the panel window
+    # entered `net` (inflating metric n ~5000+ and diluting SR/ann), while panel
+    # dates absent from stale price indexes were silently DROPPED instead of
+    # failing. Now: evaluate ONLY on the exposure window — the panel's dates
+    # shifted once (T+1). Any panel date missing a forward return fails closed.
+    w = w.reindex(exposure.index).fillna(0.0)
+    missing = [d.date() for d in w.index if d not in px_ret.index]
+    if missing:
+        raise RuntimeError(
+            f"eval_cell: {len(missing)} evaluation date(s) missing forward "
+            f"returns (first {min(missing)}, last {max(missing)}); price "
+            f"coverage is stale/short relative to the panel. Fail closed "
+            f"(WORK.md Addendum A.5).")
     gross = w.abs().sum(axis=1)
     r = (w * px_ret.fillna(0.0)).sum(axis=1)
     cost = turnover_cost(w)
@@ -407,6 +425,7 @@ def load_returns(panel: pd.DataFrame) -> pd.DataFrame:
     """
     rets = {}
     sources = {}
+    panel_last = pd.to_datetime(panel["date"]).max()
     for sym in sorted(panel["symbol"].unique()):
         s = None
         for src in ("cboe_hist", "twelvedata"):
@@ -427,6 +446,20 @@ def load_returns(panel: pd.DataFrame) -> pd.DataFrame:
         if s is None or len(s) <= 1:
             raise FileNotFoundError(
                 f"no price source covers {sym} (tried cboe_hist, twelvedata)")
+        # --- fail-closed coverage guard (Addendum A.5, 2026-10-18) -------------
+        # The sealed engine originally only required >=2 price rows. A silently
+        # stale file (audit 2026-10-17: twelvedata last bar 2026-09-22, cboe_hist
+        # 2026-09-09 vs panel last date 2026-10-16) would have passed and dropped
+        # every post-staleness panel date in eval_cell. Now: the chosen source's
+        # coverage must extend >= 1 trading day past the panel's last date, i.e.
+        # the T+1 forward return of the LAST panel date must exist. Fail closed.
+        last_bar = s.index.max()
+        if last_bar <= panel_last:
+            raise RuntimeError(
+                f"stale price source for {sym}: {src} last bar {last_bar.date()} "
+                f"<= panel last date {panel_last.date()}; T+1 forward return of "
+                f"the last panel date is not computable. Refresh price sources "
+                f"before running (see WORK.md Addendum A.4 remediation paths).")
     out = pd.DataFrame(rets)
     out.attrs["sources"] = sources
     return out
