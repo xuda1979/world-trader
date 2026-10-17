@@ -16276,3 +16276,17 @@ would violate frontier-closure.
 Fences honored: no champion-path file touched, no ledger/manifest emitted, no
 results/ metric modified. ACTION: none pending. Hunt frontier remains
 operator-gated (beat-paths 1-4 unchanged); housekeeping frontier clear.
+
+2026-10-17 (iter 9, scheduler-health verification addendum): H1/CBOE
+launchd pipeline audited as a distinct check class (motivated by the 2026-09-30
+silent-SSL-failure precedent — beat-path 4's only lifeline). All GREEN:
+com.worldtrader.h1collect registered (gui/501), plist on disk (Oct 1 18:39),
+last exit 0, 64 archived-day records, exactly 1 fetch_failed in history
+(the documented Sep-30 SSL failure, recovered pre-open per 9f70b649), zero
+exit_ok=false. Panel current through 2026-10-16 (Friday close, collected
+04:20 Sat); Oct-17 is a Saturday so no accrual expected — next accrual
+after Monday 10-19 close. goal-autonomy.json confirmed host bookkeeping
+(untracked by design). Dartmouth not re-checked this iteration (last live
+check ~18:00 CST, minutes prior). Manifest/champion/decay state unchanged
+from f98fdd55. Fences honored; no files modified outside this log.
+ACTION: none pending. Autonomous frontier clear; hunt operator-gated.
