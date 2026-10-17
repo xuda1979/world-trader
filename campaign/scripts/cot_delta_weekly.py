@@ -57,7 +57,13 @@ def market_weekly(name, lookback=1, z_thr=0.0):
     sig=np.sign(z).fillna(0.0)
     sig[sig.abs()<1e-9]=0.0
     if z_thr>0:
-        sig=np.where(z>z_thr,1.0,np.where(z<-z_thr,-1.0,0.0))
+        # keep sig a pandas Series: np.where returned a raw ndarray whose
+        # .shift(1) raised AttributeError, silently swallowed by build_weekly's
+        # bare except -> 3 of 4 __main__ configs unrunnable (R4 audit,
+        # HUNT_CMDT2/tests_tdd_r4_audit.py)
+        sig=pd.Series(np.where(z>z_thr,1.0,np.where(z<-z_thr,-1.0,0.0)),
+                      index=z.index)
+        sig[sig.abs()<1e-9]=0.0
     # position taken for week AFTER the signal week (shift 1 week)
     pos_week=sig.shift(1)
     # weekly realized portfolio ret
@@ -70,11 +76,11 @@ def market_weekly(name, lookback=1, z_thr=0.0):
 def build_weekly(lookback, z_thr, start='2012-01-06'):
     nets={}
     for m in PRICES:
-        try:
-            n,_=market_weekly(m,lookback,z_thr)
-            nets[m]=n
-        except Exception as e:
-            nets[m]=None
+        # fail loud, not silent: a swallowed market-level exception previously
+        # turned into pd.DataFrame(all-None) -> ValueError, hiding 3/4 broken
+        # configs from the row's saved repro path (R4 audit)
+        n,_=market_weekly(m,lookback,z_thr)
+        nets[m]=n
     df=pd.DataFrame(nets)
     df=df[df.index>=start]
     return df

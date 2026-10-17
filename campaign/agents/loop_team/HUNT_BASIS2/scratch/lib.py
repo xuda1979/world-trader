@@ -15,9 +15,11 @@ def fred(name, src=FRED):
     s=df['value'] if 'value' in df.columns else df.iloc[:,0]
     return s[~s.index.duplicated(keep='last')].sort_index()
 
-def zrev(spread, lookback=15, gate=1.5, min_start='2008-01-01', cost_bps=6.0):
-    """z-rev on a price/log-spread series. Returns NET daily series (T+1, 6bps/side),
-    gross (uncosted) for turnover reporting, and position series."""
+def zrev(spread, lookback=15, gate=1.5, min_start='2008-01-01', cost_bps=6.4):
+    """z-rev on a price/log-spread series. Returns NET daily series (T+1), gross (uncosted)
+    for turnover reporting, and position series. Cost: FULL |dpos| one-side at cost_bps
+    (TRADE_RECORD_STANDARD; CAMP_COST R2 costfix 2026-09-07: was pos.diff().abs()/2 * 6.0bps
+    half-turn, an undercharge)."""
     sp=spread.dropna(); sp=sp[sp.index>=min_start]
     m=sp.rolling(lookback,min_periods=lookback).mean()
     sd=sp.rolling(lookback,min_periods=lookback).std().replace(0,np.nan)
@@ -26,7 +28,7 @@ def zrev(spread, lookback=15, gate=1.5, min_start='2008-01-01', cost_bps=6.0):
     pos[z<-gate]=1.0; pos[z>gate]=-1.0
     ret=sp.diff().shift(-1)          # P&L t->t+1 (T+1 execution)
     gr=(pos*ret).dropna()
-    tup=(pos.diff().abs()/2.0).reindex(gr.index).fillna(0.0)  # one-side turnover
+    tup=(pos.diff().abs()).reindex(gr.index).fillna(0.0)  # FULL one-side turnover
     net=gr-tup*cost_bps/1e4
     return net, gr, pos.reindex(gr.index), tup
 

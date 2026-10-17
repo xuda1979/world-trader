@@ -1,3 +1,11 @@
+> **[QUARANTINE NOTICE - HUNT_TREASFUT round 3, 2026-09-07]** The `GOAL100_TRUTH20Y*` books
+> referenced below are QUARANTINED, not current: no builder in tree, reconstruction max
+> |recon-committed| 3.86e-2 (>>1e-12; see campaign/agents/chief/coord/HUNT_TREASFUT/
+> work_r3/TRUTH20Y_QUARANTINE.md), geometric ann 69.09% vs the 53.0 arith headline,
+> MDD -7.88% breaches the -7% wall, 1 negative year (2006). The 19.8y span claim below
+> is the historical record of how the span floor was derived; DO NOT quote TRUTH20Y as
+> champion/current anywhere.
+
 # G4_detrun — FINDINGS (self-executed by coordinator; GLM API limit prevented sub-agent)
 Date: 2026-09-01. Method: direct python, no sub-agent.
 

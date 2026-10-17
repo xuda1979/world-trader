@@ -16151,3 +16151,110 @@ already sub-governance-threshold. The staleness is the known refresh-debt queue
 (C4_construct_v2 first by weight). Task #5 closed; task #6 (next pre-registered hunt
 round design) unblocked, with the refresh-wave sequencing recorded as its leading
 dependency.
+
+## 2026-10-16 (iter 7) | ITER62_REFRESH_WAVE1 EXECUTED (main session, post-compaction resume): 8-stale queue cleared to 1 (a6 upstream-cadence), decay monitor 8->1 fresh-relevant, manifest re-pinned 11816->11828 / ab839894d9d8e46e, verify GREEN, test 6/6
+
+Work dir: campaign/work_backtest_oos/refresh_2026_10_16/. Reemit ledger:
+reemit_report.json (A5_r7, EIA trio, D_xlu_ief, a6_r2 no-op, TREASFUT intlcarry3,
+C4_construct_v2) + td_extend_report.json + irltlt_leaf_report.json + snapshots.
+1. #4 A5_r7_credit_composite: FRED API (fredgraph down; api.stlouisfed.org with
+   FRED_KEY) extended DAAA/DBAA/DGS10 +32d -> 2026-10-14; canonical
+   a5_r7_final_credit_composite.py re-run, overlap maxdev 1e-16, append-only +32
+   rows -> sleeve 2026-10-14 (n=9195). Gates re-verified (SR 1.50).
+2. #11 EIA trio: dnav keyless XLS; all 5 leaves extended +16d -> 2026-10-14;
+   ulsd_nyh 2011-restatement documented (gasreg exact, crack321 maxdev 0.0058,
+   dieseljet 0.0025, tol 0.01); sleeves extended +30d -> 2026-10-13.
+3. #7 D_xlu_ief (the heavy one): TwelveData exact-overlap (maxdev 0.0) extended
+   XLU/IEF + all 8 remaining S9 sector leaves -> 2026-10-16 (leaves gitignored,
+   snapshots in td_leaf_snapshot_pre/); rebuilt committed variant
+   "D|lb21|riskoff|IEF" via canonical scan recipe + net_multi (weekly_weights,
+   T+1, 6.4bps FULL |dW|, 0.5%/yr borrow, trailing VT10 clip3); overlap vs
+   committed maxdev 1e-16, append-only +31d -> sleeve 2026-10-16 (n=4728).
+4. #6 TREASFUT_intlcarry3_lag1_NEG: Sep-2026 IRLTLT01{DEM,CAM,JPM,USM} published
+   on FRED -> leaves extended to 2026-09-01 with 3 documented OECD restatements
+   (DEM 2026-08 3.18->3.18571; CAM 2026-04 3.51833->3.48333, 2026-06
+   3.38833->3.42); canonical net_intl(lag_m=1) rebuild; sleeve re-emitted full
+   (5 overlap months deviate <=5.0e-4 from the restatements, documented); new row
+   2026-09-01. Staleness class: upstream-monthly-cadence, resolved.
+5. #9 a6_r2_pair_residmom_fm1926: NO-OP with evidence — fresh Dartmouth pull
+   SHA-IDENTICAL to on-disk FF daily factors (last row 2026-08-31; zip
+   last-modified 2026-09-25 21:55 GMT, i.e. the 202608 vintage; Sep-2026 not yet
+   published as of 2026-10-16 14:50 GMT). Sleeve end == input end. Staleness is
+   measurement-window artifact; will clear when Dartmouth rotates (202609 vintage).
+6. #10 C4_construct_v2 (17.03% of V7.1): canonical builder re-run on current
+   16-pool state (A5r7 pool member now fresh to 10-14); full re-emit -> 2026-10-14
+   (n=4728, ann 54.7% SR 5.31 MDD -7.8%). Overlap vs committed deviates on 3869
+   rows (max 9.1e-3) — POOL-STATE DEPENDENCE, not writer drift: committed C4 (git
+   3996e099) was built 09-01 with carryv2 ending 08-03; carryv2's 09-25 append-only
+   extension (verified 0 changed rows vs git) adds mid-Aug coverage the committed
+   blend lacked. All pool members byte-verified append-only vs git. Documented
+   tail caveat: beyond 2026-09-16 only A5r7 alive -> 1-2 member blend; normalizes
+   as members refresh.
+7. #8 decay monitor: V71_OOS_DECAY_REPORT re-run. Result: HARD stops 0 (both
+   retired), STALE 1 (a6_r2 +46d, the documented FF-cadence artifact), decay
+   flags 3 (D_xlu_ief ratio 0.32 trail2y 0.22 — pure performance decay, NOT
+   freshness; the sleeve is fresh at +0d; sub-governance-threshold as of the
+   10-15 triage), advisory 1 (C4 ratio 0.71 w 17% — advis is decay AND w>10%:
+   pre-committed prune rule NOT met per 09-29 governance counterfactual, decay
+   pair unchanged). EXIT 3 is the a6 freshness-RED only.
+8. #5 manifest: 35-extra/23-missing delta fully reconciled (CBOE 20261015
+   scheduled archive +10 net; eia_weekly 8 spots extended; more_etf 10 sectors
+   extended; more_fred 4 IRLTLT restated/extended) -> --emit, --verify GREEN
+   (11828 files, 87 axes), test pin re-pinned 11816/3975b8d6472d6c16 ->
+   11828/ab839894d9d8e46e, bt test 6/6 PASS. DATA_BAML_REPAIR fence untouched.
+FRESHNESS LEDGER: of the 8-stale queue, 7 sleeves now fresh at their
+input-frontier (A5_r7 +2d, EIA trio +3d, D_xlu_ief +0d, intlcarry3 at native
+monthly frontier, C4 +2d at pool frontier). a6_r2 remains stale-by-cadence with
+byte-proof of upstream blockage. V7.1 book refresh-debt from the 10-15 triage is
+CLEARED subject to the a6 cadence exception. Champion (RAWEW13v2_WEIGHTED_GEAR16)
+untouched by this wave (member sleeves not in the 8-stale set; confirmed 10-15).
+ACTION: none pending in this queue. Next refresh trigger: Dartmouth 202609 FF
+rotation (a6 un-stale + re-emit) or next scheduled CBOE pipeline run.
+
+## 2026-10-17 (iter 8) | ITER62_REFRESH_WAVE1 CLOSE-OUT: 10-17 ledger rebuilds + test
+re-pins (V7.1 hardstop/canonical-metrics, V7.0 decay/freshness) + overnight CBOE
+pipeline re-pin 11828/ab839894d9d8e46e -> 11840/2f8a754bd2b7285b
+
+Wave follow-through after the iter-7 main entry (same work dir
+refresh_2026_10_16/, same session, all records in-tree):
+
+1. Dartmouth FF re-check (10-17): F-F daily + Momentum zips byte-identical to
+   the 10-16 pull (zip last-modified Fri 25 Sep 2026, 202608 vintage; last row
+   2026-08-31). FF 202609 NOT published -> a6_r2 stays stale-by-cadence (+47d
+   now) with byte-proof; NO-OP recorded. Same documented exception as iter 7.
+2. V7.1 ledger rebuild (refresh_2026_10_16 state, rebuild_v71_ledger.py):
+   OPT_20V71_FULL_LEDGER.csv 105983 rows; recon marks vs 1.6x gross 1.39e-17;
+   full SR 4.0200 / OOS SR 3.5916 / t2y SR 3.4923; full ann 27.719% / OOS ann
+   30.031% / t2y ann 26.109%; DD -3.582%; negYrs 0/0; xcheck ledger-vs-eval
+   agreement. V7.0 ledger rebuilt likewise (OPT_20V7_FULL_LEDGER.csv 106031
+   rows, OOS ann 29.19%, monthlySR 3.53, DD -3.56%, negYrs 0/18) for
+   cross-consistency.
+3. Test re-pins (governance constants follow the live artifacts; old values
+   preserved in-test):
+   - test_v71_hardstop_act.py canonical metrics re-pinned per the 09-25
+     FF-vintage precedent: full SR 4.0792 -> 4.0200, OOS SR 3.6718 -> 3.5916,
+     ann 27.969 -> 27.719, OOS ann 30.481 -> 30.031, t2y SR 3.9223 -> 3.4923
+     (docstring records the 2026-09-30 A4 governance row as the anchor).
+   - test_raw_data_manifest.py: overnight scheduled CBOE pipeline run (fetch
+     2026-10-17T04:20Z, archive 20261016, +10 net files, panel 11803->12810
+     bytes, coverage 20261016) -> manifest re-emit 11828 -> 11840 files,
+     tree sha16 ab839894d9d8e46e -> 2f8a754bd2b7285b, --verify GREEN
+     (byte-identical), pins re-pinned, 6/6 PASS.
+   - test_v7_decay_freshness.py: stale_sleeves pin corrected to basename form
+     (["a6_r2_pair_residmom_fm1926.csv"]) matching the monitor's output
+     schema; n_stale == 1 (a6, +46d cadence artifact). 5/5 PASS.
+   - test_v7_oos_decay_monitor.py advisory re-pin: C4_construct_v2 now DECAYS
+     (ratio 0.714, trail2y 2.53 vs full 3.55) at 15% of gross -> the >10%
+     advisory-prune rule GENUINELY FIRES (n_advisory_prune 0 -> 1, flagged
+     sleeve C4). Advisory is informational; pre-committed prune decision was
+     adjudicated NO PRUNE in the 09-29 governance counterfactual and stands.
+     The 09-22 zero-advisory pin is retired with rationale in-docstring.
+4. Full affected set GREEN: test_v7_decay_freshness (5) +
+   test_v7_oos_decay_monitor (4) + test_v71_hardstop_act (3) +
+   test_v71_oos_decay_monitor (8) + test_raw_data_manifest (6) = 26/26 PASS.
+   (Pre-addendum runs: 17/17 on the V7.1 trio + manifest; 6/6 manifest alone.)
+5. Fences honored: DATA_BAML_REPAIR untouched; champion RAWEW13v2_WEIGHTED_GEAR16
+   untouched; hunt frontier remains operator-gated. No results/ metric touched
+   except the governed ledger/manifest re-emits above.
+ACTION: none pending. Standing triggers unchanged: Dartmouth 202609 FF rotation
+(a6 un-stale + re-emit) or next scheduled CBOE pipeline run.

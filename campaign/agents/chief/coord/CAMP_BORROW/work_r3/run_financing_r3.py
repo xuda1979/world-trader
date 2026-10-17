@@ -45,9 +45,15 @@ BUILDER = f"{ROOT}/campaign/scripts/rawew13v2_build.py"
 OUT = f"{ROOT}/campaign/results/CAMP_BORROW_FINANCING_R3.json"
 CHAMP_PATH = f"{ROOT}/campaign/results/GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv"
 WORK = f"{ROOT}/campaign/agents/chief/coord/CAMP_BORROW/work_r3"
-COMMITTED_CSV = f"{WORK}/champion_committed_ee03f5c0.csv"
-COMMITTED_SHA = "ee03f5c096aabb6d080b3d7d2c0a4349bd89a6be63212e0fe31a549049ea757d"
-GEAR, RATE, BPS = 1.6, 0.045, 6.4
+COMMITTED_CSV = f"{WORK}/champion_committed_8559fa55.csv"  # ITER21 SR-max gear-1.0 champion
+COMMITTED_SHA = "8559fa55ee9a3417d3068579b24fd5609815b605a6600387e0efd5c5cf37dbe8"
+# prior anchors: 766fc0ce9926d793dd582b028558f29b7cf1e5ad4d86475cd8c46507175fd393 (ITER20
+# gear-1.6 vintage, archived byte-exact); 7559e82b022c62365a109ec41bfcc5128811c741398479811422dcfce50cbd26 (ITER19)
+# ITER21 (2026-09-18): GEAR follows the canonical builder gear (1.0). At gross 1.0 the
+# margin term is identically 0, so every rate-path scenario is call-rate-immune (deltas 0)
+# -- that degeneracy is the honest result, not a bug; the closed-form asserts below are
+# gear-relative and still hold.
+GEAR, RATE, BPS = 1.0, 0.045, 6.4
 
 SCENARIOS = {
     # 2008-style: Lehman week onward, 90 trading days at a sustained 12% call rate
@@ -219,11 +225,13 @@ def main():
     doc = {
         "generated": "2026-09-11", "agent": "CAMP_BORROW", "round": 3,
         "champion_book_of_record": (
-            "ITER15 correlation-aware minsharpe re-emit 2026-09-11 on RAWEW15-refreshed "
-            "sleeves — campaign/results/GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv, sha256 "
-            "ee03f5c096aabb6d…, rebuilt byte-exactly by the unchanged builder "
-            f"(max|dev| {frozen_dev:.3e}); supersedes the SR^P costfix blob 4358dfab… "
-            "(ann 37.195%/SR 3.1810, pre-ITER15 weight rule on pre-RAWEW15 sleeves)"),
+            "ITER20 SR-max champion 2026-09-18 (12-sleeve pool, shrink 0.70 + brwt-block "
+            "cap 0.30, operator objective Sharpe-max s.t. ann>=20% & gross<=1.6) — "
+            "campaign/results/GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv, sha256 "
+            "766fc0ce9926d793…, rebuilt byte-exactly by the unchanged builder mechanics "
+            f"(max|dev| {frozen_dev:.3e}); supersedes the ITER19 ann-max vintage 7559e82b… "
+            "(ann 39.500%/SR 3.2176, shrink 0.98, archived "
+            "archive_*_SUPERSEDED_by_ITER20_srmax.csv)"),
         "champion_drift": {
             "drifted": False,
             "committed_sha256_16": COMMITTED_SHA[:16],
@@ -231,28 +239,34 @@ def main():
             "superseded_sha256_16": "4358dfab95679b97",
             "committed_ann": base_ann_committed,
             "ann_vs_superseded_pp": (base_ann_committed - 0.3719539675684984) * 100.0,
-            "attribution": ("ITER15 (2026-09-11): weight rule changed from the SR^P "
-                            "heuristic (per-sleeve IS SR only, blind to covariance) to the "
-                            "correlation-aware long-only IS max-Sharpe (cov shrunk 0.62 "
-                            "toward diagonal, cap 2.0x equal weight), fitted ONLY on "
-                            "<2017-01-01; PLUS the RAWEW15 data refresh extended the "
-                            "costfix sleeve tails. Construction/costs/gross unchanged. "
-                            "The prior costfix blob 4358dfab (SR^P, ann 37.195%) is "
-                            "superseded at sha256 4358dfab95679b97…"),
-            "action": ("round-3 scenarios re-priced on the ITER15/RAWEW15 book of record "
-                       "(ee03f5c0); prior JSONs (on e6d8b9c0 and 4358dfab) are superseded"),
+            "attribution": ("ITER20 (2026-09-18): operator objective moved to Sharpe-max "
+                            "s.t. ann>=20% & gross<=1.6. Same correlation-aware long-only IS "
+                            "max-Sharpe fit, re-selected at shrink 0.70 (was 0.98) PLUS the "
+                            "brwt-block (brwt10/7/5) relw-share cap 0.30 with pro-rata "
+                            "redistribution; CFX4 stays pinned 0. Construction/costs/gross "
+                            "unchanged; selection = argmax IS-SR over the pre-committed "
+                            "grid (see campaign/GOAL100_ITER20_SRMAX_FRONTIER.md). The "
+                            "prior ann-max vintage 7559e82b (ITER19, shrink 0.98) is "
+                            "superseded, archived byte-exact."),
+            "action": ("round-3 scenarios re-priced on the ITER20 SR-max book of record "
+                       "(766fc0ce); prior JSONs (on 7559e82b, ee03f5c0, 4358dfab, e6d8b9c0) "
+                       "are superseded"),
             "reprice_history": [
                 {"time": "2026-09-07 09:52", "champion_sha16": "e6d8b9c0631aac24",
                  "base_ann": 0.39850980021392535, "status": "SUPERSEDED (stale champion)"},
                 {"time": "2026-09-07 15:0x", "champion_sha16": "4358dfab95679b97",
                  "base_ann": 0.3719539675684984, "status": "SUPERSEDED (SR^P weight rule)"},
-                {"time": "2026-09-11", "champion_sha16": COMMITTED_SHA[:16],
-                 "base_ann": base_ann_committed, "status": "CURRENT (ITER15/RAWEW15)"}],
+                {"time": "2026-09-11", "champion_sha16": "ee03f5c096aabb6d",
+                 "base_ann": 0.381145, "status": "SUPERSEDED (ITER19 prune re-emit)"},
+                {"time": "2026-09-13", "champion_sha16": "7559e82b022c6236",
+                 "base_ann": 0.3949954170804415, "status": "SUPERSEDED (objective moved to Sharpe-max)"},
+                {"time": "2026-09-18", "champion_sha16": COMMITTED_SHA[:16],
+                 "base_ann": base_ann_committed, "status": "CURRENT (ITER20 SR-max)"}],
         },
         "base_headline": {"ann": ann_geo(net_c), "sr_d": sharpe_d(net_c),
                           "mdd": max_dd(net_c), "neg_years": neg_years(net_c)[0],
                           "worst_year": neg_years(net_c)[1],
-                          "variant": "minsharpe_ee03f5c0"},
+                          "variant": "iter20_srmax_c30_s70"},
         "convention": ("margin charged daily on max(gross-1,0) at the path rate r_t/252; "
                        "only the margin term moves vs base; blend = constant-mix split, "
                        "margin ONCE on blended gross"),

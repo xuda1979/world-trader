@@ -44,17 +44,19 @@ def test_freshness_csv_column():
 
 
 def test_known_stale_sleeves_flagged():
-    """RE-PINNED 2026-09-25 (session 2): F-F published the 202608 CRSP vintage at 21:55Z
-    2026-09-25 (after the 9/23 fetch that ended 2026-07-31). The a6 chain was re-emitted on
-    it (ff_factors -> equity_FactorMom -> lib -> a6 sleeve, extended to 2026-08-31), so the
-    session-1 pin (n_stale == 1, a6 stale) is obsolete: the whole book is now fresh —
-    n_stale == 0. Pin == 0 with an empty stale list; ANY sleeve going stale (crossing the
-    35/65d gap rule) fails this test loudly, so the gate stays non-vacuous via
-    test_freshness_rule_arithmetic (independent re-derivation) + this exact-count pin."""
+    """RE-PINNED 2026-10-17 (ITER62_REFRESH_WAVE1): the F-F 202609 CRSP vintage is NOT
+    yet published (Dartmouth zip last-modified 2026-09-25 21:55Z, still the 202608
+    vintage; fresh pull SHA-identical to disk, verified 2026-10-16/17). a6_r2_pair_
+    residmom_fm1926 is therefore stale-by-upstream-cadence (+47d), exactly as in the
+    09-25 session-1 state (pin was n_stale == 1, a6, then). All other 19 sleeves are
+    fresh after the wave. Pin == 1 with the a6 name; ANY OTHER sleeve going stale
+    (crossing the 35/65d gap rule) fails this test loudly. The gate stays non-vacuous
+    via test_freshness_rule_arithmetic + this exact-count pin. When Dartmouth
+    publishes 202609, re-emit the a6 chain and re-pin to 0 (session-2 precedent)."""
     with open(os.path.join(OD, "V7_OOS_DECAY_REPORT.json")) as f:
         j = json.load(f)
-    assert j["freshness"]["n_stale"] == 0
-    assert j["freshness"]["stale_sleeves"] == []
+    assert j["freshness"]["n_stale"] == 1
+    assert j["freshness"]["stale_sleeves"] == ["a6_r2_pair_residmom_fm1926.csv"]
 
 
 def test_monitor_still_readonly_on_weights():

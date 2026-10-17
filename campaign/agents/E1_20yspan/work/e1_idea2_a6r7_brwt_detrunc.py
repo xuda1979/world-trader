@@ -50,7 +50,7 @@ sp=(np.log(BR)-np.log(WT)).dropna()
 z=(sp-sp.rolling(15,min_periods=15).mean())/sp.rolling(15,min_periods=15).std().replace(0,np.nan)
 pos=pd.Series(0.0,index=sp.index); pos[z<-1.5]=1.0; pos[z>1.5]=-1.0
 ret=sp.diff().shift(-1)
-net=pos*ret-(pos.diff().abs()/2.0)*6e-4
+net=pos*ret-(pos.diff().abs())*6.4e-4   # FULL |dpos| @ 6.4bps one-side (CAMP_COST R2 costfix; was /2.0*6e-4 half-turn)
 br_net=net.dropna()
 br_sc,_=vol_target(br_net); br_sc=br_sc.dropna()
 eb,sb=stats_report('E1_brwt_2000',br_sc,'2001-01-01')

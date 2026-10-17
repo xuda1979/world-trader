@@ -74,12 +74,25 @@ def test_classification_matches_reference_implementation():
 
 
 def test_no_advisory_prune_on_current_weights():
-    """As of the committed V7 weights, no decaying sleeve is >10% of gross, so there
-    must be zero advisory-prune flags (all decayers are 3/5/8.9% sleeves). This pins
-    that the >10% rule is genuinely engaged, not vacuously always false."""
+    """RE-PINNED 2026-10-17 (10-16 refresh wave): C4_construct_v2 now DECAYS at ratio
+    0.714 (trail2y SR 2.53 vs full-OOS 3.55 — the ratio artifact of an outsized full
+    SR, not weak absolute performance) while carrying 15% of gross, so the >10%
+    advisory-prune rule GENUINELY FIRES: n_advisory_prune == 1, flagged sleeve C4.
+    The advisory flag is informational only; the pre-committed prune decision was
+    adjudicated NO PRUNE in the 2026-09-29 hard-stop governance counterfactual
+    (V7_SESSION_2026-09-29_HARDSTOP_ACT.md) and stands — zeroing C4 is NOT authorized
+    by this report. The 09-22 pin (n_advisory_prune == 0, all decayers <= 8.9%) went
+    stale when C4's trail2y/full ratio crossed 0.8 at this data vintage. This pin
+    keeps the rule engaged in the strongest sense: it demonstrably fires on the
+    book's heaviest engine."""
     with open(os.path.join(OD, "V7_OOS_DECAY_REPORT.json")) as f:
         j = json.load(f)
-    assert j["n_advisory_prune"] == 0
+    assert j["n_advisory_prune"] == 1
+    df = pd.read_csv(os.path.join(OD, "V7_OOS_DECAY_REPORT.csv"))
+    adv = df[df["advisory_prune"] == True]
+    assert list(adv["sleeve"]) == ["C4_construct_v2.csv"]
+    assert float(adv["ratio"].iloc[0]) < 0.8
+    assert float(adv["w"].iloc[0]) > 10.0
     # and at least one HARD or DECAY is flagged so the gate is not vacuously green
     assert j["n_hard"] + j["n_decay"] >= 1
 

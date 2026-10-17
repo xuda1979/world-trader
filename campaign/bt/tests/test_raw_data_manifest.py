@@ -123,7 +123,15 @@ def test_pinned_baseline_snapshot():
     rebuild (7778->10794 bytes, 20261009->20261014 coverage) -> 11816 /
     3975b8d6472d6c16. Old panel byte-exact reconstructible from write-once
     archive (pandas update_panel() over dirs <=20261009 = sha16
-    a10c405b6a58aafb) — rotation, not loss."""
+    a10c405b6a58aafb) — rotation, not loss. 2026-10-16 ITER62_REFRESH_WAVE1:
+    scheduled CBOE H1 pipeline (archive 20261015, +10 net files; panel
+    10794->11803 bytes, 20261015 coverage) + refresh-wave leaf extensions
+    (more_etf XLU/IEF + 8 S9 sectors to 2026-10-16 via TwelveData exact-overlap;
+    more_fred IRLTLT01{DEM,CAM,JPM,USM} to 2026-09-01 with 3 documented OECD
+    restatements; eia_weekly 8 spots to 2026-10-14) -> 11828 /
+    ab839894d9d8e46e. 2026-10-17 scheduled CBOE H1 pipeline (archive 20261016,
+    +10 net files; panel 11803->12810 bytes, 20261016 coverage) -> 11840 /
+    2f8a754bd2b7285b."""
     with open(MANIFEST) as f:
         rows = [r for r in csv.reader(f) if r and not r[0].startswith("#")]
     files = rows[1:]
@@ -131,13 +139,13 @@ def test_pinned_baseline_snapshot():
     assert len(axes) == 87, (
         f"axis count moved from 87: {len(axes)} -- if a new axis was acquired, "
         "update this pin AND the ledger note in the same commit")
-    assert len(files) == 11816, (
-        f"file count moved from 11816: {len(files)} -- re-run --emit and "
+    assert len(files) == 11840, (
+        f"file count moved from 11840: {len(files)} -- re-run --emit and "
         "re-pin if the change is deliberate")
     import hashlib
     h = hashlib.sha256()
     for r in files:
         h.update(r[2].encode())
     tree_sha16 = h.hexdigest()[:16]
-    assert tree_sha16 == "3975b8d6472d6c16", (
-        f"data-tree content hash moved from 3975b8d6472d6c16: {tree_sha16}")
+    assert tree_sha16 == "2f8a754bd2b7285b", (
+        f"data-tree content hash moved from 2f8a754bd2b7285b: {tree_sha16}")

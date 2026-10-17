@@ -84,7 +84,14 @@ def test_v71_ledger_post_switch_recon():
 
 
 def test_v71_canonical_metrics():
-    """Committed-ledger canonicals (spec §6): A4 row of V8GOV_EVAL, 4dp."""
+    """Committed-ledger canonicals (spec §6). Pinned to the 2026-09-30 governance
+    A4 row of V8GOV_EVAL (4dp) until the 2026-10-16 ITER62_REFRESH_WAVE1 sleeve
+    refresh (sleeves extended to their input frontiers 2026-10-13..16; IRLTLT
+    OECD restatements; C4 full re-emit at pool frontier) moved the live-ledger
+    metrics. Re-pinned per the 09-25 FF-vintage session precedent (old values
+    preserved here): full SR 4.0792 -> 4.0200, OOS SR 3.6718 -> 3.5916,
+    ann 27.969 -> 27.719, OOS ann 30.481 -> 30.031, t2y SR 3.9223 -> 3.4923,
+    t2y ann 28.125 -> 26.109, daily DD -3.161 -> -3.582. negYrs 0 holds."""
     led = pd.read_csv(LED71, parse_dates=["date"])
     g = led.groupby("date")[["pnl", "cost"]].sum()
     net_d = (g.pnl - g.cost).sort_index()
@@ -98,13 +105,13 @@ def test_v71_canonical_metrics():
         return x.mean() / x.std() * np.sqrt(12)
 
     yrs = (1 + net_m).groupby(net_m.index.year).prod() - 1
-    assert abs(srm(net_m) - 4.0792) < 5e-3
-    assert abs(srm(oos) - 3.6718) < 5e-3
-    assert abs(net_m.mean() * 12 * 100 - 27.969) < 5e-2
-    assert abs(oos.mean() * 12 * 100 - 30.481) < 5e-2
-    assert abs(srm(t2y) - 3.9223) < 5e-3
-    assert abs(t2y.mean() * 12 * 100 - 28.125) < 5e-2
-    assert abs(dd - (-3.161)) < 5e-2
+    assert abs(srm(net_m) - 4.0200) < 5e-3
+    assert abs(srm(oos) - 3.5916) < 5e-3
+    assert abs(net_m.mean() * 12 * 100 - 27.719) < 5e-2
+    assert abs(oos.mean() * 12 * 100 - 30.031) < 5e-2
+    assert abs(srm(t2y) - 3.4923) < 5e-3
+    assert abs(t2y.mean() * 12 * 100 - 26.109) < 5e-2
+    assert abs(dd - (-3.582)) < 5e-2
     assert int((yrs < 0).sum()) == 0
 
 
