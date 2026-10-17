@@ -174,4 +174,20 @@ re-measuring dead ideas without a new axis. The frontier is closed at 87 axes,
 33+ measured; champion of record stands at A_cap28 (SR 3.7845 / ann 23.86% /
 MDD -3.30%) awaiting the next operator action.
 
+- 2026-10-16 ITER62_REFRESH_WAVE1 executed (operator-objective round; data-hygiene):
+  the 8-stale refresh-debt queue from the 10-15 triage cleared — 7 sleeves re-emitted
+  fresh at their input frontiers (A5_r7 +32d via FRED API; EIA trio +30d; D_xlu_ief
+  +31d via TwelveData exact-overlap sector-leaf extension to 2026-10-16;
+  TREASFUT intlcarry3 at Sep IRLTLT frontier with 3 documented OECD restatements;
+  C4_construct_v2 full re-emit at pool frontier, pool-state deviation root-caused to
+  carryv2's append-only 09-25 extension, all members byte-verified vs git);
+  a6_r2 documented stale-by-cadence (Dartmouth FF 202608 vintage still current,
+  fresh pull SHA-identical, Sep not published). Decay monitor: HARD 0, STALE 1
+  (a6 cadence), D_xlu_ief DECAY flag is performance-not-freshness (fresh +0d).
+  Raw-data manifest re-emitted/re-pinned 11816->11828 files / tree sha16
+  3975b8d6472d6c16 -> ab839894d9d8e46e, verify GREEN, bt manifest test 6/6.
+  Record: campaign/work_backtest_oos/refresh_2026_10_16/ (reemit_report.json,
+  td_extend_report.json, irltlt_leaf_report.json, leaf snapshots) + STANDUP_LOG
+  iter 7. No champion-path files touched.
+
 Status: completed (housekeeping frontier; hunt frontier remains operator-gated)
