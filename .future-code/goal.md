@@ -266,3 +266,41 @@ Status: completed (pre-registration sealed; R1 evaluation gated on panel accrual
   frontier remains operator-gated (beat-paths 1-4 unchanged).
 
 Status: completed (PROTOCOL-HOLD housekeeping sweep; next scheduled work is refresh waves until ≥60 panel dates)
+
+- 2026-10-17 R1 engine build + coverage audit (PROTOCOL-HOLD round; no champion
+  re-measure): the mechanical evaluator for the sealed HUNT_H1_TAILFACTOR R1
+  charter (58df590f) was built and regression-tested BEFORE the panel matures —
+  work_r1/{r1_engine.py, test_r1_engine.py (19 checks PASS: pytest 3 + standalone
+  19), r1_results.json, r1_results_synthetic.json, WORK.md}. Engine stages:
+  (0) pin-guard (panel sha16 must equal charter pin cae23d09649b1917 or
+  PROTOCOL-VIOLATION, no evaluation); (1) coverage audit (diagnostics only);
+  (2) span guard §Scope-3 (≥60 dates AND ≥3 calendar months or PROTOCOL-HOLD,
+  exits before grid); (3) exhaustive 30-cell grid §Scope-4 (per-symbol factors
+  p20_30d/var95/var99/skew/kurt × z-windows {21,63} × thresholds {1.0,1.5,2.0}
+  × families a/b/c), T+1 execution, costs 6.4bps |dW| + 4.5%/yr margin on
+  (gross−1) + 0.5%/yr borrow, metrics per campaign/bt/metrics.py; verdicts
+  PROTOCOL-VIOLATION / PROTOCOL-HOLD / GRID-REPORTED with adjudication reserved
+  to FINDINGS.md vs GATES_CONTRACT_V2 (engine never judges). REAL-panel run
+  (r1_results.json): pin PIN-OK; coverage audit 114 rows / 13 dates
+  (2026-09-08→2026-10-16) / 9 symbols / 2 months; per_date_holes only
+  2026-10-08 (8 missing) + 2026-10-09 (7 missing, documented CBOE feed gap);
+  dup_rows 0; value sanity all TRUE (p20_in_0_1, var_monotone_neg,
+  no_nan_factors); panel_sha256 == charter pin; span_guard 13/60 dates, 2/3
+  months → PROTOCOL-HOLD with hold_reason, NO grid key (quarantine
+  mechanically enforced). SYNTHETIC-fixture run
+  (r1_results_synthetic.json): full pipeline stages 0–2, 30/30 grid cells,
+  deterministic byte-identical reruns, span_guard EVALUATE, primary cell n=71
+  SR 0.6531, best-sr cell b_tail_harvest|p20_30d|L21|t2.0 SR 1.5648 —
+  machinery probe ONLY, zero evidential weight per charter anti-p-hack
+  commitments. KEY INVARIANTS: no forward return of any panel symbol was
+  computed against any panel factor value (the real panel never reached the
+  grid; only deterministic synthetic fixtures executed the grid — span guard
+  §Scope-3 fail-closed), so pre-registration remains sealed against the real
+  outcome; panel acquisition continues passively (panel through 2026-10-16 at
+  run time); champion untouched (a8ed233bd0f6fd5d); DATA_BAML_REPAIR untouched.
+  Next hunt session = re-run `python3 r1_engine.py` (real mode) and adjudicate
+  in FINDINGS.md vs GATES_CONTRACT_V2 when panel reaches ≥60 dates / ≥3 months
+  (~early Dec 2026). Standup iter-12 (standup committed same session as
+  engine + WORK.md + artifacts).
+
+Status: completed (R1 engine built, tested fail-closed, and run in quarantine; real grid evaluation deferred until ≥60 panel dates, ~early Dec 2026)
