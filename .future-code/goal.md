@@ -325,3 +325,39 @@ Status: completed (R1 engine built, tested fail-closed, and run in quarantine; r
   adjudicate in FINDINGS.md vs GATES_CONTRACT_V2.
 
 Status: completed (verification sweep; all fences GREEN, frontier time-gated — next scheduled work refresh waves until ≥60 panel dates)
+- 2026-10-18 Addendum A round (pre-outcome data-dependency audit + fail-closed
+  hardening of the sealed R1 engine; no new hunt, no grid, zero forward returns
+  computed): follow-through on iter-13's flagged risk — at Dec maturity every
+  panel date after 2026-09-22 would have lacked a forward return (twelvedata
+  last 2026-09-22, cboe_hist last 2026-09-09 vs panel last 2026-10-16).
+  Outcome-blind audit of sealed code found two latent defects (A.3): (1) no
+  coverage-end guard — silently stale price sources passed; (2) eval_cell
+  reindexed weights onto the FULL ~20y price history (metric n inflated to
+  5000+, SR diluted) and silently DROPPED missing forward dates. Hardening
+  executed pre-outcome (A.5): staleness guard — price coverage must extend
+  past the panel's last date for all 9 syms (T+1 of the last panel date must
+  exist) else RuntimeError; eval_cell aligned to the panel's T+1 exposure
+  window only (missing forward dates raise); regression battery 19/19 GREEN
+  (was 17). Live dual-direction guard proof: real panel FAILS correctly
+  (AAPL T+1 = Monday 2026-10-19 bar not yet existent); in-memory truncation
+  probe to 2026-10-14 PASSES with all 9 syms' T+1 computable. A.4 remediation
+  operational: twelvedata 9/9 panel syms refreshed to 2026-10-16, cboe_hist
+  5/5 ETFs to 2026-10-15, CBOE 307-follow verified live (A.4 open item
+  closed); git-ignored regenerable data, sealed panel prefix untouched,
+  pin PIN-OK cae23d09649b1917/114 rows. Synthetic artifact regenerated
+  deterministically (r1_results_synthetic.json diff = exactly the A.5(2)
+  window correction, metric n 71->70 per cell; consecutive runs
+  byte-identical). Pins live re-verified post-commit: champion
+  a8ed233bd0f6fd5d MATCH, panel cae23d09649b1917 MATCH (header + 114 rows
+  through 2026-10-16). Saturday launchd heartbeat no-op GREEN 01:19:46 CST
+  (already_archived 20261016, consecutive_failures 0). Residual (A.6):
+  sources re-stale ~1 day per accrual day — refresh both sources same-day
+  before the December maturity run (paths in A.4). Commits 6b86e402 (WORK.md
+  Addendum A + engine hardening + synthetic regen) and e3a004bc (standup
+  iter-14). Round PROTOCOL-HOLD preserved at 13/60 dates / 2 of 3 months;
+  champion, charter 58df590f, beat-paths 1-4 untouched. Next scheduled work
+  unchanged: refresh waves until ≥60 panel dates / ≥3 months (~early Dec
+  2026), then re-run r1_engine.py (real mode) and adjudicate in FINDINGS.md
+  vs GATES_CONTRACT_V2.
+
+Status: completed (Addendum A audit + hardening sealed pre-outcome; PROTOCOL-HOLD preserved 13/60 — next scheduled work refresh waves until ≥60 panel dates)
