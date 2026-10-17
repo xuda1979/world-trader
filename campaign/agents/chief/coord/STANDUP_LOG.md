@@ -16290,3 +16290,41 @@ after Monday 10-19 close. goal-autonomy.json confirmed host bookkeeping
 check ~18:00 CST, minutes prior). Manifest/champion/decay state unchanged
 from f98fdd55. Fences honored; no files modified outside this log.
 ACTION: none pending. Autonomous frontier clear; hunt operator-gated.
+
+2026-10-17 (iter 10): HUNT_H1_TAILFACTOR R1 CHARTER SEALED PRE-OUTCOME
+(commit 58df590f) — the methodologically decisive event for beat-path 4's
+hunt leg. The H1 tail-factor panel (tools/quant/data/cboe_options/
+H1_tailfactor_panel.csv, pinned sha256:16 cae23d09649b1917, 114 rows,
+13 dates 2026-09-08..2026-10-16, 9 symbols) had ZERO evaluation done on
+it, so the evaluation protocol was committed BEFORE any forward return of
+any panel symbol was computed: (a) accrued fragment quarantined under
+GATES_CONTRACT_V2 §9b (13 trading dates = materially short = unjudgeable,
+fail closed), CONCRETE 60-date/3-calendar-month evaluation floor set now
+so "long enough" is never adjudicated post-hoc; (b) exhaustive signal
+grid pre-registered (per-symbol z L∈{21,63}, cross-sectional ranks,
+9-symbol composites + dispersion of p20_30d/var95/var99/skew/kurt;
+risk-off / tail-harvest / dispersion-timing / skew-kurt gates,
+thresholds t∈{1.0,1.5,2.0}) with pre-committed PRIMARY = composite p20_30d
+z L=63 t=1.5 on SPY long/flat T+1, cost basis 6bps |dW| + 4.5%/yr margin +
+0.5%/yr borrow, leak_check=True, §9a inception-fail; (c) frontier-closure
+legality documented — panel is per-symbol SVI-slice risk-neutral DENSITY
+product, distinct from dead HUNT_VOL2 row 58 (index-level VVIX/SKEW/VIX-TS/
+GVZ/OVX gates), HUNT_CBOE_IV R8 C1/C2/C3 (CBOE index statistics, all
+REJECT), HUNT_VOLOVERLAY row 23 and HUNT_VXV_TERM row 44 (index-level
+champion overlays); (d) champion-of-record pin a8ed233bd0f6fd5d + canonical
+headline (SR 3.7845/ann 23.86%/MDD -3.30% via champion_card.py
+regeneration) embedded so no stale-quote drift is possible; PROTOCOL-HOLD
+is the only legal round status until the floor is met. Also this iter:
+H1_report.md stale SR~5.18/ann~61% champion refs (lines 4, 141) corrected
+to the canonical headline (commit 2aed50d9) — the superseded lineage
+(40.84%/39.85%/40.88%/37.49% and the pre-supercede 5.18/61 quotes) must
+never be re-quoted as current. H1 scheduler state unchanged from iter-9
+(last_run 2026-10-17T18:20:08, last_archive_date 20261016,
+consecutive_failures 0; next accrual after Monday 10-19 close).
+Manifest/champion/decay state unchanged from iter-9. Fences honored:
+champion RAWEW13v2_WEIGHTED_GEAR16 untouched, DATA_BAML_REPAIR untouched,
+panel file untouched (charter §Non-goals: acquisition continues passively,
+no pre-unblinding mutation). ACTION: none pending — round now
+PROTOCOL-HOLD by design; next session work is housekeeping/refresh waves
+until ≥60 panel dates accrue (~early December 2026), then R1 evaluation
+under the sealed grid. Autonomous frontier clear; hunt operator-gated.
