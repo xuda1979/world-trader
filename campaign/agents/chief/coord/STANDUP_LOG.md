@@ -16328,3 +16328,33 @@ no pre-unblinding mutation). ACTION: none pending — round now
 PROTOCOL-HOLD by design; next session work is housekeeping/refresh waves
 until ≥60 panel dates accrue (~early December 2026), then R1 evaluation
 under the sealed grid. Autonomous frontier clear; hunt operator-gated.
+until ≥60 panel dates accrue (~early December 2026), then R1 evaluation
+under the sealed grid. Autonomous frontier clear; hunt operator-gated.
+
+## iter-11 — 2026-10-17 post-registration housekeeping sweep (PROTOCOL-HOLD)
+Time ~19:00 CST. Round remains PROTOCOL-HOLD by design (goal round closed
+dc7348e5). State re-verified this sweep:
+- Champion pin intact: GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv sha16
+  a8ed233bd0f6fd5d unchanged; canonical headline SR 3.7845 / ann 23.86% /
+  MDD -3.30% stands. No champion-path files touched.
+- HUNT_H1_TAILFACTOR R1 charter untouched (sealed 58df590f); panel pinned
+  cae23d09649b1917; h1_status.json heartbeat-only drift (last_run
+  16:20:03 -> 18:20:08, same archive 20261016, n_symbols 0 — Saturday
+  no-op as expected; next accrual after Monday 10-19 close).
+- Dartmouth FF live re-check (18:58 CST, direct fetch of
+  F-F_Research_Data_Factors_daily_CSV.zip): site still serves 202608 CRSP
+  vintage, coverage end 2026-08-31, byte-identical size 1,210,997 to
+  on-disk — Sep-2026/202609 publication has NOT landed. a6 un-stale
+  trigger unfired; a6_r2 remains upstream-cadence artifact (+47d).
+- V7.1 decay monitor rerun: HARD stops 0; decay 3; advisory-prune 1
+  (C4_construct_v2); STALE 1 (a6_r2 +47d) — matches iter-9/10 baseline
+  exactly. No new decay events.
+- Raw-data manifest verify re-run GREEN (6/6 tests, 8.37s).
+- Fences honored: charter Non-goals intact — acquisition continues
+  passively, no pre-unblinding mutation of the panel; DATA_BAML_REPAIR
+  untouched; champion RAWEW13v2_WEIGHTED_GEAR16 untouched.
+ACTION: none pending. Next milestone: ≥60 panel dates (~early Dec 2026)
+then R1 evaluation under the sealed exhaustive grid; interim sessions are
+housekeeping/refresh waves only (Dartmouth rotation watch + scheduled
+CBOE pipeline runs + decay/manifest re-verify). Autonomous frontier clear;
+hunt operator-gated (beat-paths 1-4 unchanged, beat-path 4 pre-registered).
