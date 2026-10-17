@@ -218,5 +218,10 @@ MDD -3.30%) awaiting the next operator action.
   FF rotation (un-stales a6 + re-emit) or next scheduled CBOE pipeline run.
   No champion-path files touched; hunt frontier remains operator-gated
   (beat-paths 1-4 unchanged).
+  Post-close no-op sweep (standup f98fdd55, iter 8): all standing triggers
+  re-verified live — Dartmouth Sep FF still unpublished (a6 remains cadence
+  artifact), CBOE overnight run consumed in 11840 re-pin, H1 tailfactor panel
+  current through 2026-10-16, advisory NO PRUNE stands (informational),
+  manifest --verify GREEN 11840/2f8a754bd2b7285b. Autonomous frontier clear.
 
 Status: completed (durability/recovery frontier; hunt frontier remains operator-gated)
