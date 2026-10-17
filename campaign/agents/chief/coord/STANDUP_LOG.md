@@ -16392,3 +16392,33 @@ against GATES_CONTRACT_V2 at evaluation time.
 ACTION: none pending until panel maturity (≥60 dates/≥3 months, ~early Dec
 2026). Next hunt session = re-run r1_engine.py (real mode), adjudicate in
 FINDINGS.md. Autonomous frontier unchanged; beat-paths 1-4 as filed.
+
+## iter-13 — 2026-10-17 post-engine-close verification sweep (no-op, PROTOCOL-HOLD)
+Time ~23:3x CST. Continuation-window sweep after the R1 engine round closed
+(522bb9c8, ~23:24). No new work opened — verified standing state instead:
+- Champion fence: results/GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv sha16
+  a8ed233bd0f6fd5d recomputed live == CHAMPION_CARD.md pin. Untouched.
+- H1 panel fence: tools/quant/data/cboe_options/H1_tailfactor_panel.csv
+  sha16 cae23d09649b1917 recomputed live == charter pin (58df590f);
+  114 rows, current through 2026-10-16 (Saturday — no accrual due).
+- ITER61_AXES_AUDIT residual check (autonomous-actionability triage):
+  (b) = H1/CBOE live accumulation — same panel as above, maturity-gated
+  (~early Dec 2026); (c) = Binance short-span re-measure — span trigger
+  fires 2027-09 (HUNT_BINANCE_AXES pre-registered trigger; near-miss 0.945
+  vs 1.0 bar needs the +1y span). Both time-gated, neither actionable now.
+- Monday 10-19 accrual readiness verified end-to-end (the one
+  forward-looking item): launchd com.worldtrader.h1collect loaded, last
+  exit 0, 9-slot retry ladder 04:20→18:20 ET intact; h1_collect.py
+  idempotent run GREEN (already_archived 20261016, exit_ok,
+  consecutive_failures 0); regression tests 28/28 PASS
+  (test_h1_collect + test_h1_freshness, 20.3s). Tuesday 04:20 run will
+  append Monday's close.
+- Dartmouth a6 watch: last live check iter-11 18:58 CST (Sep FF vintage
+  still unpublished); publication lands on their cadence, next re-check
+  with the next housekeeping wave — not re-probed this sweep (hours, not
+  days, of drift risk).
+ACTION: none. Autonomous frontier remains time-gated/operator-gated;
+interim sessions are housekeeping/refresh waves only. Next scheduled
+hunt session: re-run r1_engine.py (real mode) + adjudicate in
+FINDINGS.md vs GATES_CONTRACT_V2 at ≥60 panel dates / ≥3 months
+(~early Dec 2026). Beat-paths 1-4 as filed.
