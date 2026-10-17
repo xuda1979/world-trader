@@ -304,3 +304,24 @@ Status: completed (PROTOCOL-HOLD housekeeping sweep; next scheduled work is refr
   engine + WORK.md + artifacts).
 
 Status: completed (R1 engine built, tested fail-closed, and run in quarantine; real grid evaluation deferred until ≥60 panel dates, ~early Dec 2026)
+- 2026-10-17 continuation round (post-engine-close verification sweep; no champion
+  re-measure, no new hunt): 30 minutes after the R1 engine round closed (522bb9c8),
+  re-verified every standing fence live rather than opening redundant work —
+  champion CSV sha16 recomputed a8ed233bd0f6fd5d == CHAMPION_CARD.md pin; H1 panel
+  sha16 recomputed cae23d09649b1917 == charter pin 58df590f (114 rows through
+  2026-10-16, Saturday no accrual due); ITER61_AXES_AUDIT residuals triaged:
+  (b) H1/CBOE live accumulation — same panel, maturity-gated ~early Dec 2026,
+  (c) Binance short-span re-measure — pre-registered trigger fires 2027-09
+  (HUNT_BINANCE_AXES near-miss 0.945 vs 1.0 bar needs the +1y span), both
+  time-gated, neither autonomously actionable; Monday 10-19 accrual readiness
+  verified end-to-end — launchd com.worldtrader.h1collect loaded, last exit 0,
+  9-slot retry ladder 04:20→18:20 ET, h1_collect.py idempotent run GREEN
+  (already_archived 20261016, consecutive_failures 0), regression tests 28/28
+  PASS; Dartmouth a6 watch last live-verified iter-11 18:58 CST (Sep FF still
+  unpublished). Standup iter-13 (65877289). Round remains PROTOCOL-HOLD by
+  design; no champion-path, charter, or panel files touched; beat-paths 1-4
+  unchanged. Next scheduled work: refresh waves until ≥60 panel dates /
+  ≥3 months (~early Dec 2026), then re-run r1_engine.py (real mode) and
+  adjudicate in FINDINGS.md vs GATES_CONTRACT_V2.
+
+Status: completed (verification sweep; all fences GREEN, frontier time-gated — next scheduled work refresh waves until ≥60 panel dates)
