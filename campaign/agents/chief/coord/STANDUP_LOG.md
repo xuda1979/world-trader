@@ -16258,3 +16258,21 @@ refresh_2026_10_16/, same session, all records in-tree):
    except the governed ledger/manifest re-emits above.
 ACTION: none pending. Standing triggers unchanged: Dartmouth 202609 FF rotation
 (a6 un-stale + re-emit) or next scheduled CBOE pipeline run.
+
+2026-10-17 (post-round no-op verification, iter 8): Autonomous frontier sweep
+after 90085a16 round close. All standing triggers checked live, none actionable:
+(1) Dartmouth 202609 FF rotation: NOT FIRED — data_library.html still shows
+Aug-2026 as current research period (verified 2026-10-17 ~18:00 CST); a6_r2
+remains STALE as upstream-cadence artifact (byte-proof on file, +46d, overlap_ok).
+(2) Next scheduled CBOE pipeline run: CONSUMED — overnight 10-17 run absorbed
+into manifest re-pin 11828->11840 (commit 7db194e0).
+(3) H1 tailfactor panel accrual: CURRENT — panel through 2026-10-16, mtime
+2026-10-17 04:20, 9 symbols, live harness healthy (campaign commit f4828f77).
+(4) Advisory-prune (C4_construct_v2, n_advisory_prune 1): informational only;
+pre-committed NO PRUNE stands from 09-29 governance counterfactual — re-litigating
+would violate frontier-closure.
+(5) Raw-data manifest --verify GREEN: 11840 files pinned, byte-identical
+(2f8a754bd2b7285b), run personally this session.
+Fences honored: no champion-path file touched, no ledger/manifest emitted, no
+results/ metric modified. ACTION: none pending. Hunt frontier remains
+operator-gated (beat-paths 1-4 unchanged); housekeeping frontier clear.
