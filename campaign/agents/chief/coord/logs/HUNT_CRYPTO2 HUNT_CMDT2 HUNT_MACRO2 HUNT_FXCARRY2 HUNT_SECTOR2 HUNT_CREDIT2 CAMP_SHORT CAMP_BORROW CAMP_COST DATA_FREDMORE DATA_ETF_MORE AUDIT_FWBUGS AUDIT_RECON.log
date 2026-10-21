@@ -1,0 +1,54 @@
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609062043076e29328f70664439]
+=== HUNT_CRYPTO2 HUNT_CMDT2 HUNT_MACRO2 HUNT_FXCARRY2 HUNT_SECTOR2 HUNT_CREDIT2 CAMP_SHORT CAMP_BORROW CAMP_COST DATA_FREDMORE DATA_ETF_MORE AUDIT_FWBUGS AUDIT_RECON rate-limited (attempt 1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260906204644bcbfbe45ab7545ba]
+=== HUNT_CRYPTO2 HUNT_CMDT2 HUNT_MACRO2 HUNT_FXCARRY2 HUNT_SECTOR2 HUNT_CREDIT2 CAMP_SHORT CAMP_BORROW CAMP_COST DATA_FREDMORE DATA_ETF_MORE AUDIT_FWBUGS AUDIT_RECON rate-limited (attempt 2); backing off ===
+Round 1 executed per charter across all 13 roles. Summary:
+
+## Data acquisition (2 agents)
+- **DATA_FREDMORE**: 17 attempted → **13 PASS** (VIXCLS, T10Y2Y, T5YIFR, DGS2/10/30, AWHAETP, CSUSHPISA, TOTALSL, IPMAN, DGORDER, USREC, HSN1F), 5 fail-closed (NROU had 702 forecast-row gaps to 2036 — lint correctly killed it)
+- **DATA_ETF_MORE**: 20 attempted → **10 PASS** (XLE/XLF/XLI/XLB complete the 11-SPDR set; LQD, TLT, IEF, EWH, EWM, GLD), 10 fail-closed on start-bound
+
+## Engine hunts (6 agents) — **all honest negatives**
+| Hunt | Best config | Best SR | Verdict |
+|---|---|---|---|
+| CRYPTO2 | LTC 5d reversal | 0.548 | FAIL (basket 0.16, 5 neg yrs; RV -0.68) |
+| CMDT2 | sector rotation | 0.399 | FAIL (9 neg yrs, MDD -39%) |
+| MACRO2 | BAA-AAA→QQQ | -0.061 | all 4 composites dead |
+| FXCARRY2 | carry+mom EW | -0.342 | dead (data only 2019+) |
+| SECTOR2 | gated LO | 0.395 | FAIL (7 neg yrs) |
+| CREDIT2 | credit-impulse | -0.327 | all 4 dead |
+
+## Constraints (3 agents)
+- **CAMP_SHORT**: built `bt/shortability.py` (tiered borrow, fail-closed leg-drop) + 5 green TDD tests; champion has no single-name L/S slot; MHX flagged 75bps/yr borrow-tier risk
+- **CAMP_BORROW**: margin verified (2.70%/yr drag); stress 4.5→5.5→6.5% = 40.84→40.00→39.16% ann
+- **CAMP_COST**: live builder charges full |dW| ✓; found **2 slot-level half-turn offenders** (dualmom ~0.1bps/yr, diescrack ~2.2bps/yr champion-level, both flagged for re-emit wave)
+
+## Audits (2 agents)
+- **AUDIT_FWBUGS**: 2 real bugs found+fixed RED→GREEN — `turnover_reconciles` dropped day-1 entry notional; `neg_years` was fail-open on all-NaN years (pandas `prod()` skipna)
+- **AUDIT_RECON**: byte-repro IDENTICAL (9.996e-17); **major finding**: champion's NAV-drift weights use same-day returns — fully-causal version is ann 39.85% vs committed 40.84% (-0.99pp), SR 3.296, MDD -6.84%, still 0 neg years; documented as xfail test, committed champion untouched per instructions
+
+**Final state**: bt suite 51 passed + 1 xfailed (baseline 43, +9 tests). FINDINGS.md ends with `ROUND 1 DONE`.
+=== HUNT_CRYPTO2 HUNT_CMDT2 HUNT_MACRO2 HUNT_FXCARRY2 HUNT_SECTOR2 HUNT_CREDIT2 CAMP_SHORT CAMP_BORROW CAMP_COST DATA_FREDMORE DATA_ETF_MORE AUDIT_FWBUGS AUDIT_RECON rate-limited (attempt 3); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260906214438fcd7d4185d214ca3]
+=== HUNT_CRYPTO2 HUNT_CMDT2 HUNT_MACRO2 HUNT_FXCARRY2 HUNT_SECTOR2 HUNT_CREDIT2 CAMP_SHORT CAMP_BORROW CAMP_COST DATA_FREDMORE DATA_ETF_MORE AUDIT_FWBUGS AUDIT_RECON rate-limited (attempt 4); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090621494364fa4ac49bc946f1]
+=== HUNT_CRYPTO2 HUNT_CMDT2 HUNT_MACRO2 HUNT_FXCARRY2 HUNT_SECTOR2 HUNT_CREDIT2 CAMP_SHORT CAMP_BORROW CAMP_COST DATA_FREDMORE DATA_ETF_MORE AUDIT_FWBUGS AUDIT_RECON rate-limited (attempt 5); backing off ===
+Round 1 executed and closed. Summary:
+
+**Context found on arrival:** The literal combined-role path didn't exist (launcher brace-expansion artifact), but all 13 per-agent dirs did, and a prior session (blocked mid-wave by API 429s per STANDUP_LOG.md) had already executed round-1 work with a coord-level FINDINGS.md. Rather than trust it, I independently re-verified every material claim with fresh commands.
+
+**Verification results (actual command output):**
+- `pytest campaign/bt/tests/` → **51 passed, 1 xfailed** — matches claim
+- `rawew13v2_build.py --verify` → n=4805, max dev 9.996e-17 **IDENTICAL**, gross 1.600000, 0 days >1.6, margin 2.70%/yr
+- `git status` → champion CSV **not modified** (only sanctioned DEAD_IDEAS.csv +1); bt fixes are uncommitted working-tree changes — flagged for the coordinator's re-emit wave
+- Re-ran `work_r1/hunt_crypto.py` end-to-end → negatives reproduce exactly (best candidates xa_SOL SR 0.490 w/ mdd -50.9%, LTC_rev1 SR 0.483 failing halves, rv_z60 SR -0.680) — honest-negative verdict **confirmed**
+- Data spot-checks: 15/15 sampled new FRED/ETF files present (more_fred=111, more_etf=66)
+
+**Round-1 verdict (as recorded):** 6/6 engine hunts honest NEGATIVE (best anywhere SR 0.55, none near gate SR≥1.0); 2 real framework bugs fixed RED→GREEN; 1 major integrity finding (same-day NAV-drift weights: causal ann 39.85% vs committed 40.84%, −0.99pp, still 0 neg years, xfail-documented); 2 slot-level half-turn cost offenders flagged (~0.1 and ~2.2 bps/yr champion-level); +13 FRED / +10 ETF series linted PASS; shortability model + 5 TDD tests delivered.
+
+**Deliverable:** `FINDINGS.md` written to the exact combined-role path with what was tried, exact pass/fail numbers, verification evidence, and last line exactly `ROUND 1 DONE`.
+=== HUNT_CRYPTO2 HUNT_CMDT2 HUNT_MACRO2 HUNT_FXCARRY2 HUNT_SECTOR2 HUNT_CREDIT2 CAMP_SHORT CAMP_BORROW CAMP_COST DATA_FREDMORE DATA_ETF_MORE AUDIT_FWBUGS AUDIT_RECON rate-limited (attempt 6); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609062206398e3e84cf4e7d401a]
+=== HUNT_CRYPTO2 HUNT_CMDT2 HUNT_MACRO2 HUNT_FXCARRY2 HUNT_SECTOR2 HUNT_CREDIT2 CAMP_SHORT CAMP_BORROW CAMP_COST DATA_FREDMORE DATA_ETF_MORE AUDIT_FWBUGS AUDIT_RECON rate-limited (attempt 7); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260906221317d9141729dde64f79]
+=== HUNT_CRYPTO2 HUNT_CMDT2 HUNT_MACRO2 HUNT_FXCARRY2 HUNT_SECTOR2 HUNT_CREDIT2 CAMP_SHORT CAMP_BORROW CAMP_COST DATA_FREDMORE DATA_ETF_MORE AUDIT_FWBUGS AUDIT_RECON rate-limited (attempt 8); backing off ===

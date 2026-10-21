@@ -1,0 +1,25 @@
+=== loop_team/HUNT_FXDEPO start Thu Sep  3 10:04:41 CST 2026 ===
+=== HUNT_FXDEPO iter6 === $(date)
+Charter executed: data audit (deposit rates BLOCKED - none on disk), DEX z-rev grid (idea1),
+triangle crosses (idea2 - all dead), rate gates (idea3 variants - dead), short-horizon mom (idea4 - dead).
+DELIVERED: FXD1_KRWTRI_raw_daily.csv near-miss 6/7 gates (fails yearly 8/19, all >-5%).
+All exact numbers in FINDINGS.md.
+Charter executed. Summary of the run:
+
+## HUNT_FXDEPO — Execution Summary
+
+**Data audit (fail-closed):** The charter's named domain "FX deposit rates" **does not exist on disk**. No foreign deposit/policy/3mo rates, no LIBOR/EURIBOR/SOFR, no forward points (grep = 0 hits). Only US DGS3MO daily (1981+) and monthly 10y yields for 7 countries (2018+, ~100 rows). True PIT carry = **BLOCKED**; the one runnable 10y-proxy variant scored SR +0.471/-0.530 — closed.
+
+**Idea slate results (exact):**
+1. **DEX cross z-reversion** (charter idea 1): full spread grid → best = KRW/SEK lb21 SR 0.784. Built the 3-book KRW3 composite (KRW/SEK + KRW/CHF + KRW/NOK, lb(21,63)):
+   - **SR 0.870** ✓, H1 1.075/H2 0.606 ✓, scramble p=0.000 (3 seeds) ✓, ac1 -0.014 ✓, uniqR 1.000 ✓, corr +0.005 ✓ → **6/7 gates; FAILS yearly gate (8/19 neg yrs, all >-5%)**. Delivered as honest near-miss `FXD1_KRWTRI_raw_daily.csv` + poolvt variant + frozen repro script.
+   - Dedup: corr +0.129 to CFX4 (different data domain); T+2 probe SR 0.019; G10-only version SR **-0.141** (KRW is the edge carrier); 15bps NDF cost kills it (net ≈ -3.9%/yr) — tradability honestly flagged.
+2. **Triangle crosses** (idea 2): 21 synthetic major crosses × 3 lookbacks = **75 configs, ALL negative SR** (best -0.093). CFX4's books are the only major-FX z-rev edge. My harness reproduced CFX4 at corr 0.9984.
+3. **Rate gates/momentum** (idea 3 variants): DGS3MO dollar-smile books SR -0.08..-0.50 — dead.
+4. **Short-horizon FX mom/rev** (idea 4): lb2-10 per-ccy, gross negative — dead.
+
+**Marginal value at champion level (HONEST14V3):** w=0.10 → SR_d 3.923→3.957 (vt 3.990), MDD -4.92%→-4.48%, 0 negy kept, at ~4% ann cost. Same story as all prior FX sleeves: SR/DD help, no path to ann≥80%.
+
+All checks with exact numbers are in `campaign/agents/loop_team/HUNT_FXDEPO/FINDINGS.md` (11 sections, dead-idea ledger included), metas carry instruments + price-path anchors for the future trade-record audit (KRW/SEK cross at 132.99 mean; top day 2008-10-30 +5.05%).
+
+HUNT_FXDEPO DONE

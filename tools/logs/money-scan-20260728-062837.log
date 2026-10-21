@@ -1,0 +1,166 @@
+=== MONEY-LOOP scan started 2026-07-28 06:28:37 ===
+=== WORLD-TRADER GLOBAL SCAN  2026-07-27T22:28:37+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+-- OPEN NOW: 3 markets --
+   + CRYPTO (Crypto (24/7))
+   + FUT (Futures (CME/GLOBEX: commodities, bonds, index))
+   + FX (FX (24/5))
+
+-- REGIME: NEUTRAL  (score +0.00) --
+   [+spillover: 10 cross-asset candidates from 2 themes]
+
+-- LIVE QUOTES: 106 instruments fetched (crypto RT, US, China A-share live, Taiwan live, FX)  [wide US unavailable: net: Remote end closed connection without response]  [wide CN unavailable: RemoteDisconnected: Remote end closed connection without response] --
+
+=== OPPORTUNITIES (ranked by per-trade expected Sharpe = E[R]/sigma) ===
+  markets open now (2026-07-27T22:30:15+00:00): CRYPTO, FUT, FX
+  YOUR BAR to qualify: E[R]>=+1%/trade, sigma<=7%*sqrt(h/5), Sharpe>=0.40, n>=20, t>=2 (Bonferroni-adj.), OOS Sharpe>0
+  >> NOTHING cleared your bar this scan. The rows below are the best
+     MEASURED edges only -- they are NOT signals. DO NOT trade them.
+
+-- TRADE PLAN --
++---+-------------+-----+--------+-------+------------------+--------+--------------+------+--------+--------+--------+-----+-------+----------+
+| # | Instrument  | Sym | Mkt    | Dir   | Setup            |  Price | Quote(Local) | Chg% |  Entry |   Stop | Target | R:R | Risk% | Catalyst |
++===+=============+=====+========+=======+==================+========+==============+======+========+========+========+=====+=======+==========+
+| 1 | Crypto: BNB | BNB | CRYPTO | Short | TrendRide50Short | 571.73 | 07-27 22:28  |   -- | 571.73 | 584.86 | 532.35 | 3.0 | 2.30% |          |
++---+-------------+-----+--------+-------+------------------+--------+--------------+------+--------+--------+--------+-----+-------+----------+
+
+-- EDGE & RISK (evidence for the SAME numbered rows) --
++---+-----+--------+--------------+---------+-------+--------+--------+-----+-------+------+----+------+--------+-------+-------+
+| # | Sym |  Price | Quote(Local) | Verdict | E[R]% | sigma% | Sharpe |   t |  oosS | Win% |  n | ATR% | Kelly% | RV/IV | Data  |
++===+=====+========+==============+=========+=======+========+========+=====+=======+======+====+======+========+=======+=======+
+| 1 | BNB | 571.73 | 07-27 22:28  | below   | 1.28% |  5.41% |   0.24 | 1.6 | -0.82 |  47% | 45 | 1.9% |  28.9% |    -- | RT 1m |
++---+-----+--------+--------------+---------+-------+--------+--------+-----+-------+------+----+------+--------+-------+-------+
+  note: 8 live instruments have no free daily history (China A-share/Taiwan) -> no expectancy, excluded from ranking.
+
+-- MACRO / RATES / CREDIT (FRED) --
+  US IG credit spread              0.80  (2026-07-24)
+  Brent oil                       86.99  (2026-07-20)
+  USD/EUR                    1.1385000000  (2026-07-24)
+  Broad USD index            120.7105000000  (2026-07-24)
+  Fed balance sheet          6747378.0000000000  (2026-07-22)
+  M2 money supply               23052.3  (2026-05-01)
+  Unemployment rate                 4.2  (2026-06-01)
+  CPI                           332.568  (2026-06-01)
+  5Y inflation breakeven           2.18  (2026-07-27)
+
+-- CATALYST CALENDAR (next 14d; today=2026-07-28) --
+  (no actionable upcoming catalysts found)
+  errors: earnings: net: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081); ipo: net: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081); fda: net: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081); dividends: net: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081)
+
+-- NEWS (expanded feeds) --
+  [Benzinga]
+    - Myro (MYRO) Price Prediction: 2025, 2026, 2030
+    - Toncoin (TON) Price Prediction 2025, 2026, 2027-2030
+    - PancakeSwap (CAKE) Price Prediction: 2025, 2026, 2030
+  [FedPress]
+    - Agencies issue joint statement on handling of highly sensitive information during bank examinations
+    - Federal Reserve Board issues enforcement action with former chief lending officer of Heritage State Bank
+    - Minutes of the Board's discount rate meetings on June 8 and June 17, 2026
+  [BoJ]
+    - (IMES Newsletter) 2026 BOJ-IMES Conference
+    - Services Producer Price Index (June)
+    - Developments in Real Exports and Real Imports
+  [SpaceNews]
+    - Upper C-band auction offers another lift for GEO industry
+    - Sphinx Defense wins $287 million contract for strategic satellite communications software
+    - Orbes unveils Exo-ORB and agreement with Symphony Space
+  [TechCrunch]
+    - Satya Nadella says companies that trust one AI for everything may not survive
+    - Thea Energy lands $20M federal grant to build its magnets for fusion reactors
+    - As rivals chase acquisitions, Peacock bets on bundles through a new deal with YouTube
+  [Investing-DE]
+    - Boston Scientific unveils new restructuring plan, expects job cuts
+    - Meta disregarded its own research on teen harm, Tennessee tells jury
+    - Porsche to axe one in five jobs by 2035 as China, EV woes bite
+  [Investing-IT]
+    - Trump says US and Tehran having ’good talks’ as drones hit Iran’s neighbours
+    - Gold prices rise slightly as pause in Middle East fighting weighs on oil
+    - Oil price outlook: OPEC+ supply hike and weak demand signal further downside
+  [NikkeiAsia]
+    - Japanese university startups develop AI robot arms for delicate tasks
+    - Collaborate with Chinese EV makers or suffer, Thai auto firm CEO warns
+    - Japan's Hotel Okura to open first Turkey property in 2028
+  [EconTimes]
+    - US stocks: US market ends mixed as investors focus on tech earnings
+    - SpaceX at $100 would imply zero AI value, Morgan Stanley says
+    - Bond investors, unsure about Fed policy outlook, hedge against US rate shock
+  [LiveMint]
+    - Treasuries Rise as Elevated Yields Attract Buyers Before Fed
+    - Wall Street ends mixed as investors focus on tech earnings
+    - Dollar eases as oil prices fall on pause in Middle East conflict
+  [MiningCom]
+    - Op-Ed: Copper supply gap — good news on borrowed time
+    - Brixton hits extraordinary 5,015g silver over 20m near Cobalt
+    - NextSource’ eyes longer Madagascar graphite mine life, higher costs
+  [BeInCrypto]
+    - Tom Lee Says This Ethereum Project Could Be a Game-Changer
+    - VC Reportedly Rejected Trump Crypto Venture After Steve Witkoffs Memecoin Blunder
+    - New York AG Letitia James Opposes the Crypto Bill Coinbase Wants Passed August 3
+  [NewsBTC]
+    - BitMEX Faces Proposed Class Action Seeking Return Of 622 BTC
+    - CLARITY Act Delay Shows Crypto Market Structure Fight Is Not Over
+    - Robinhood CEO X Hack Shows Why Crypto Scams Still Target Trusted Names
+  [Investing-FX]
+    - USD/JPY and USD/CAD lead G10 FX volatility as yen hits 40-year low
+    - Dollar rises slightly as traders eye crucial Fed decision later in the week
+    - Global yields retreat as crude slide eases inflation fears ahead of Fed, BOE calls
+  [Pandaily]
+    - Optical Computing Reaches Commercialization Inflection Point: Lightelligence PACE 3 Photonic Chip With 256x256 Matrix, First Real-World Deployed Photonic Computing at WAIC 2026
+    - Heguang Quantum Accelerates Photonic Quantum Computing Commercialization With Deterministic Error Correction Breakthrough and Distributed Architecture
+    - China Reusable Rocket Launch Costs Drop by Two-Thirds: CZ-10B Net Recovery Success Marks Reusable Rocket Era as Space Economy Reaches Trillion-Yuan Inflection Point
+  [ChinaBriefing]
+    - The Greater Bay Area IIT Subsidy for 2026 Kickstarts in Shenzhen
+    - US-China Relations in the Trump 2.0 Era: A Timeline
+    - Why China is Still the Top 1 Manufacturing Destination in Asia
+
+-- SEC 8-K MATERIAL CATALYSTS (last 3 days) --
+  (unavailable: IncompleteRead: IncompleteRead(49152 bytes read))
+
+-- INSIDER CLUSTER BUYS (last 30d, >=2 insiders) --
+  (unavailable: RemoteDisconnected: Remote end closed connection without response)
+
+-- DEFI STABLECOIN YIELDS (top 8 by APY, TVL >=$10M) --
+  (unavailable: net: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081))
+
+-- SHORT SQUEEZE WATCH (SI% float >= 10%) --
+  (no high-SI names found)
+
+-- ENERGY SNAPSHOT (FRED weekly) --
+  (altdata2 error: TypeError: unsupported format string passed to NoneType.__for)
+
+research only, not financial advice. verify before acting.
+
+[scan task log]
+  - 06:28:37  regime: gathering FRED macro / VIX / fear-greed
+  - 06:28:40  regime: NEUTRAL score=+0.00
+  - 06:28:40  quotes: collecting global universe (crypto/US/CN/TW/HK/FX/futures/indices + region/macro ETFs)
+  - 06:29:20  quotes: 96 curated instruments fetched
+  - 06:29:20  wide US funnel: pulling ~12k tickers from Polygon, pre-screening top 150
+  - 06:29:24  wide US funnel: 0 of 0 -> top 150 backtested [err: net: Remote end closed connection without response]
+  - 06:29:24  spillover funnel: scanning RSS headlines for theme keywords -> peer candidates
+  - 06:29:37  spillover funnel: 12 candidates across 2 themes -> 11 fetched
+  - 06:29:37  wide CN funnel: pulling ~5,500 A-shares, pre-screening top 120
+  - 06:29:37  wide CN funnel: 0 of 0 -> top 120 backtested [err: RemoteDisconnected: Remote end closed connection without response]
+  - 06:29:37  opportunities: building candidate set from quotes + regime
+  - 06:29:38  opportunities: 50 raw candidates
+  - 06:29:38  backtest: enriching with technicals + E[R]/sigma/Sharpe
+  - 06:30:00  backtest: per-candidate family m=13 (global total=71) -> Bonferroni t>=2.89
+  - 06:30:00  news enrichment: Finnhub headlines + Polygon sentiment per candidate
+  - 06:30:00  news enrichment: done (0 candidates have fresh headlines)
+  - 06:30:00  catalyst enrichment: scanning Finnhub earnings/FDA/IPO + Polygon dividends
+  - 06:30:02  catalyst enrichment: 0 candidates have a near-term catalyst (+0 new)
+  - 06:30:02  PEAD confirmation: looking up recent earnings surprises for PEAD setups
+  - 06:30:02  PEAD confirmation: 0 PEAD setups confirmed by earnings surprise (+0 new)
+  - 06:30:02  options enrichment: pulling ATM straddles (CBOE) for top US candidates
+  - 06:30:02  options enrichment: 0 candidates have an RV/IV signal (+0 new)
+  - 06:30:02  country crisis: scanning 32 country ETFs for crisis signals
+  - 06:30:10  country crisis: 0 candidates in crisis (+0 new)
+  - 06:30:12  veto gate: 0 rows vetoed (0 crash-in-progress, 0 news-contradicts) -> PASS rows 0 -> 0
+  - 06:30:15  catalysts: printing freshest company news for top candidates
+  - 06:30:15  alt-data: pulling FRED macro/rates/credit, treasury curve, BTC funding, COT
+  - 06:30:23  catalyst calendar: Finnhub earnings/FDA/IPO + Polygon dividends (14d)
+  - 06:30:24  expanded news: sweeping all RSS feeds (equities/macro/CB/crypto/FX/commodities/regional)
+  - 06:31:13  expanded news: 16 feeds ok, 90 feeds failed
+  - 06:31:14  GDELT: 24h global market tone sweep
+  - 06:31:30  altdata2: SEC 8-K + insider clusters + DeFi yields + short squeeze + energy

@@ -1,0 +1,21 @@
+=== STRICTAUDIT_EXECUTION start Wed Sep  2 11:00:20 CST 2026 ===
+The audit is complete. FINDINGS.md has been written to `campaign/agents/STRICTAUDIT_EXECUTION/FINDINGS.md` with every check recorded at exact numbers.
+
+## Summary of what I found
+
+**Confirmed (exact recomputation from the committed CSV):**
+- ann 49.36%, SR 5.24 daily / 3.46 monthly (bootstrap CI [3.02,3.96]), MaxDD -6.05%, 0/19 negative years, OOS17+ 55.85%, LOYO 46.7–51.0% — every headline number reproduces
+- Calendar hygiene: **0 weekend rows, 0 NYSE-holiday rows**, 0 zero rows
+- Cost layer: instrument costs (~1.27pp/yr at stated bps) are present, correctly incremental, no 6bps double-count
+- A5r7/A1credit genuinely excluded (their signature is absent from st−ft residuals); a6r7/QAxasts rates-synth faithful (my own corr to IEF: 0.955/0.721)
+
+**Problems found (my independent adversarial conclusions):**
+1. **No builder exists** — nothing on disk or in any git commit generates the STRICTTRADE/IBKR CSVs; "byte-verified" is false for the champion blend. My own reconstruction reaches corr 0.9815 and brackets the ann within ~0.9pp.
+2. **Calendar claim is wrong in substance** — 90 NYSE-OPEN days (Columbus, Veterans, Easter Monday, UK holidays, half-days) are silently dropped, and holiday P&L is NOT accumulated as documented (drop-mapping fits 10× better); dropped holiday P&L = +2.8pp/yr conservative-direction error.
+3. **Borrow-fee story is materially mis-stated** — dualmom is long-only (my exact rebuild: corr 1.00000000, 9.97e-17) and holds no shorts; XGB1y holds ~42 names/side, not ~10–20; borrow is ~0.2pp/yr; rebate exclusion UNVERIFIED.
+4. **Hidden leverage worse than disclosed** — capital-real gross 2.17x mean / 8.0x max (not 1.43x/4.4x); charging financing at 4.75% gives **43.8% ann @ -8.79% DD**.
+5. **QAxasts VIX-spot leg flagged** — its own attribution says the VIX leg carries nearly all the edge; VIX spot is not tradeable and no futures series exists to verify basis (same test that killed the credit sleeves was not applied here).
+6. **XGB1y provenance regressed** — its generator state (Aug-28) is not committed; best month-total corr 0.9987 vs the Aug-20 blob, 0/210 exact; AUDIT2's 1.000000 claim is not reproducible today.
+7. Natgas-lag DD stress: my reconstruction shows DD worsening to ~-11%, contradicting the memo's -7.0/-8.4% lag-variant claim (no artifact exists for it); the ann impact is small (-1.4 to -2.6pp).
+
+Last line of FINDINGS.md is exactly `STRICTAUDIT_EXECUTION DONE`.

@@ -1,0 +1,121 @@
+{
+ "name": "ATT_DE_RISK_A11",
+ "label": "NOT_HUNT_ELIGIBLE (V2 9a span_class=inception_fail)",
+ "acceptance_track": "NONE_NOT_HUNT_ELIGIBLE",
+ "span_class": "inception_fail",
+ "span": "2018-06-20..2026-08-12",
+ "n": 2047,
+ "base_SR": 0.679,
+ "overlay_SR": 0.821,
+ "dSR": 0.141,
+ "placebo_p": 0.0,
+ "dSR_halves": [
+  0.407,
+  -1.087
+ ],
+ "dSR_excl_best_yr": -0.979,
+ "excl_year": 2020,
+ "gate_fire_frac": 0.223,
+ "gate_flips": 300,
+ "gates_overlay": {
+  "sr": 0.8205249893121767,
+  "pass_": false,
+  "leak": {
+   "measurable": true,
+   "leak": false,
+   "same_period_corr": 0.08443010286510964,
+   "same_period_p": 0.0001272337464887046,
+   "lag_scan": {
+    "-2": 0.08827817751660137,
+    "-1": -0.011214700114623869,
+    "0": 0.08443010286510964,
+    "1": 0.005376958550650371,
+    "2": 0.02667153143849313
+   },
+   "n": 2047
+  },
+  "leak_ok": true,
+  "beats_passive": {
+   "beats_passive_ok": true,
+   "candidate_sr": 0.8205249893121767,
+   "best_passive_sr": 0.7538102831194906,
+   "best_passive_name": "spy_bh",
+   "margin": 0.06671470619268605,
+   "reason": null,
+   "detail": {
+    "spy_bh": {
+     "sr": 0.7538102831194906,
+     "n": 2047
+    },
+    "sixty_forty": {
+     "sr": 0.7049584998761509,
+     "n": 2047
+    },
+    "cta_trend": {
+     "sr": -0.2693063033493089,
+     "n": 2047
+    }
+   }
+  },
+  "corr_to_champion": -0.0629066781537153,
+  "scr_p": 0.0
+ },
+ "rationale": "Attention-de-risk overlay on the PUBLISHED R2 A11 rotation (SR 0.679, FAIL_SR only). span_class=inception_fail (window 2018-06-20..2026-08-12 starts after the 2013-01-01 bound, V2 9a) -> NOT_HUNT_ELIGIBLE regardless of numbers. Measured anyway per charter: overlay SR vs published base, leak probe on the scale path (V2 6 Step-1, explicit), beats-passive trio, and a 200-draw matched fire-fraction/flip-count placebo separating ATTENTION from generic de-risk timing.",
+ "admission_summary": {
+  "n_sources": 4,
+  "n_admissible": 0,
+  "verdict": "CORNER_DEAD_ON_DATA_ADMISSION"
+ },
+ "roster": [
+  {
+   "name": "google_news",
+   "admission": "DROP_NO_HISTORY",
+   "span_class": "inception_fail",
+   "first_bar": null,
+   "rows": 100,
+   "pit_lag": "items stamped pubDate at crawl time; TWO live crawls 2026-09-08: crawl1 100 items spanning ~1h (15:45-16:45 GMT same day), crawl2 100 items spanning 495h/20.6d (one stale item at the window edge). Either way: bounded rolling window, NO archive endpoint."
+  },
+  {
+   "name": "reddit_top",
+   "admission": "DROP_NO_HISTORY",
+   "span_class": "inception_fail",
+   "first_bar": null,
+   "rows": 25,
+   "pit_lag": "items stamped 'updated' at crawl time; crawl1 ~25 items spanning ~4d (oldest 2026-09-02, newest 2026-09-06), crawl2 15 items spanning ~5h. Bounded rolling window, NO archive endpoint."
+  },
+  {
+   "name": "nasdaq_hist",
+   "admission": "DROP_INCEPTION_FAIL",
+   "span_class": "inception_fail",
+   "first_bar": "2016-09-06",
+   "rows": 2514,
+   "pit_lag": "official close published after 16:00 ET same day; usable t+1. BUT the archive itself is ~10y: fromdate silently ignored beyond it (live probe: fromdate=2000/2007 both return 2514 rows back to 2016-09-06; hard windows 2010-2012 / 2004-2006 / 2012-2013-06 return 0 rows)"
+  },
+  {
+   "name": "wiki_attention",
+   "admission": "DROP_INCEPTION_FAIL",
+   "span_class": "inception_fail",
+   "first_bar": "2015-07-01",
+   "rows": 4086,
+   "pit_lag": "day-D views aggregated in UTC, served from ~00:00-04:00 UTC D+1 -> usable D+1 (PIT-safe, documented in wiki_attention/README.md)"
+  }
+ ],
+ "vintage_pins": {
+  "A11_rs_ratio#lb126k4.csv": {
+   "sha256_16": "0354fd437047d221",
+   "rows": 2047
+  },
+  "wiki_attention.csv": {
+   "sha256_16": "609cca25738461c0",
+   "rows": 4086
+  },
+  "wiki_panel_rows": {
+   "sha256_16": null,
+   "rows": 4086
+  }
+ },
+ "champion_ref": {
+  "file": "GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv"
+ },
+ "honest_negative": true
+}

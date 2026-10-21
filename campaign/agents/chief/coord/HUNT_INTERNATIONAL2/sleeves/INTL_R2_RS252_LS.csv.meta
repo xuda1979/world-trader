@@ -1,0 +1,8 @@
+name=INTL_R2_RS252_LS
+status=DEAD_NOT_PROMOTED (round-2 best config, honest split-adjusted EWM panel)
+panel=SPY(twelvedata)+EWH/EWM(more_etf), EWM split-adjusted pre-2015-12-21 x0.7352
+window=2008-11-04 -> 2026-08-12 n=4469
+SR=0.564 FAIL (gate >=1.0); 7 neg years FAIL; no lookback plateau (189/210/252/294/336 = 0.46/0.60/0.62/0.70/0.50 raw)
+loses to passive long-SPY SR 0.73 on same window/costs/vt -> rotation adds no signal (beta, not alpha)
+corr to champion -0.033 (only gate passed); scramble p=0.000 (only gate passed)
+evidence=/tmp/hunt_intl2_r2_main.log /tmp/hunt_intl2_r2_splitfix.log /tmp/hunt_intl2_r2_audit.log

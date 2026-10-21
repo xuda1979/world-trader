@@ -1,0 +1,16 @@
+=== agent G1_intraday attempt 1 start Wed Sep 16 14:41:57 CST 2026 ===
+**G1_intraday complete. VERDICT: REJECT** — deliverables written to `campaign/agents/G1_intraday_results/` (`G1_report.md`, `G1_sleeve.csv`, grid CSVs, scripts).
+
+Key results (all T+1 causal, 6bps/full |dW| + 4.5%/yr margin on gross>1):
+
+| Test | Result |
+|---|---|
+| **RSI gate (primary brief hypothesis)** | **REJECTED** — every spec lowers SR vs h21 baseline 1.92: RSI70/30 w.5/1.5 → 1.73, RSI70/30 w0/1.25 → 1.44, best RSI spec 1.84. MaxDD deepens too. The XGB book isn't hurt by overbought RSI; gate costs (3–19 turns/yr) + whipsaw only subtract. |
+| **Momentum de-risk (MOM21<−3% → 0.5×)** | SR 2.04, MaxDD −14.2%, 2H SR 1.93 — passes mechanical sleeve gate (SR≥1.5 ✓, corr to champ 0.303<0.5 ✓) so `G1_sleeve.csv` delivered per spec, **but delta vs baseline t=0.09 (+0.06pp ann) = grid-mining noise → NO-GO for adoption.** |
+| **SPY overnight-gap reversal addon** | **REJECTED** — negative even gross (−2.5%/yr, SR −0.25; gaps *continue* intraday); net SR −0.05 to −0.97 across ±0.5/1.0/1.5%/q90 specs. Not a cost artifact. |
+| **Champion integration** | champ+5%h21: SR 5.21 vs 5.18 — +0.03, immaterial. |
+
+REJECT log: `more_etf/SPY.csv` absent → substituted `tools/quant/data/cboe_hist/SPY.csv` (5709 rows, 2004→2026-09); polygon_intraday arm fail-closed (17 single names, no SPY, 68 sessions <252 obs).
+
+Findings file ends with `DONE G1_intraday`.
+=== agent G1_intraday attempt 1 end Wed Sep 16 14:48:23 CST 2026 exit 0 ===

@@ -1,0 +1,204 @@
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260906195052be11480d157446ae]
+=== HUNT_CREDIT2 round 1 end Sun Sep  6 19:50:52 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070150018c4351a7f8fe4e4d]
+=== HUNT_CREDIT2 rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907021103dcdf00eca51249bb]
+=== HUNT_CREDIT2 rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070219245e9b9b038f9c4be0]
+=== HUNT_CREDIT2 rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907023502fd3b3f6e2be94b69]
+=== HUNT_CREDIT2 rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907024311e5cd64d51e57402a]
+=== HUNT_CREDIT2 rate-limited or errored (attempt 5, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070249330f16a9e9f88148dc]
+=== HUNT_CREDIT2 rate-limited or errored (attempt 6, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907033216bb43e6e5cbbd47fb]
+=== HUNT_CREDIT2 rate-limited or errored (attempt 7, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907034039ee94290681ff4d00]
+=== HUNT_CREDIT2 rate-limited or errored (attempt 8, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070455167910dc25d97f4f9e]
+=== HUNT_CREDIT2 rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907050328930ee3f743224a78]
+=== HUNT_CREDIT2 rate-limited or errored (attempt 2, rc=1); backing off ===
+Round 2 complete. All four charter engines are dead — including the one that looked live.
+
+## What ran
+
+**Setup inherited from the prior session:** `BAMLH0A0HYM2` fetched via the DATA_FREDMORE machinery (FRED serves it only from 2023-09-05, 787 rows — verified), and the stress-gate bug fixed TDD-style (`test_credit2_r2.py`, 4/4 green; full bt suite 148 passed). Charter substitution for (d) was pre-authorized and used: BAA10Y (1986+) instead of the 2023+ HY OAS.
+
+**Engines (a)(b)(c) — hard negatives, no alpha even gross:**
+| Sleeve | Net SR | Gross SR | Halves | Neg yrs | scram_p | corr |
+|---|---|---|---|---|---|---|
+| (a) LQD-TLT spread mom k=126 | −0.31 | +0.01 | −0.24/−0.44 | 13 | 0.000 | 0.142 |
+| (b) T10YIE→TLT/TIP tilt k=63 | −0.80 | −0.40 | −1.10/−0.45 | 21 | 0.000 | −0.050 |
+| (c) 2s10s IEF/TLT steepener k=21 | −0.54 | +0.07 | −0.59/−0.50 | 21 | 0.000 | −0.128 |
+
+Every k-scan point negative → plateau fails everywhere. Post-hoc sign-flips (run to kill the ideas both ways, not to adopt) also fail: −0.33 / +0.09 / −0.64.
+
+## The (d) trap — and why I rejected a "+0.198 SR" overlay
+
+The HY-stress gate lifted champion SR 3.296→3.494 and survived scramble (p=0.000) and bootstrap (P(delta≤0)=1.7%). It's still fake, and the decisive controls are in `HUNT_CREDIT2_round2_gate2.py`:
+
+- Gated days carry champion returns of **+66% to +202% annualized** — 59% of them are winning days. A real stress gate fires on losses.
+- Top-6 contribution days are all **March–April 2020 champion wins** (+18.31%, +14.42%...); net cumulative return contribution is **−0.38** — the gate gives up return, and the SR gain is purely variance-outlier suppression. 85% of gated-day variance sits in 22 positive-outlier days.
+- **Content-free control kills it:** champion's own trailing vol z>2 →0.7x (zero credit content) gives delta **+0.224**, *beating* the credit gate's +0.198; a vol-matched constant 0.93x scale gives exactly 0.000 (SR is scale-invariant), proving the entire delta is non-uniform de-levering of the biggest win days, not credit information.
+- Era split confirms concentration: +0.046 / −0.064 / +0.295 (2008-12 / 13-19 / 20-26).
+
+## Artifacts
+
+- `campaign/scripts/HUNT_CREDIT2_round2{,_gate,_gate2}.py` (reproducible)
+- `HUNT_CREDIT2/sleeves/` — 3 sleeve CSVs + `.meta` with fail-closed diagnostics
+- `DEAD_IDEAS.csv` 80→84 rows; FINDINGS.md appended (both the shared coord file per round-1 convention and `HUNT_CREDIT2/FINDINGS.md` ending in `ROUND 2 DONE`)
+- Champion untouched (git diff empty); nothing committed, left for coordinator collection
+=== HUNT_CREDIT2 round 2 end Mon Sep  7 05:19:00 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907080251f2be410ad8094acd]
+=== HUNT_CREDIT2 rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090708070606cc335251294129]
+=== HUNT_CREDIT2 rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090708113176ab1cfcd7384254]
+=== HUNT_CREDIT2 rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907083330ba0b7b7cc29a4490]
+=== HUNT_CREDIT2 rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070846147b367a6dc1ed4c22]
+=== HUNT_CREDIT2 rate-limited or errored (attempt 5, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070911026b4d6edc0b7e462f]
+=== HUNT_CREDIT2 rate-limited or errored (attempt 6, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907091920dbd14629440d4c37]
+=== HUNT_CREDIT2 rate-limited or errored (attempt 7, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070933312d692f328d0e498d]
+=== HUNT_CREDIT2 rate-limited or errored (attempt 8, rc=1); backing off ===
+All tasks complete. Final summary:
+
+## ROUND 3 EXECUTED — all hunts DEAD, honest negative
+
+**Charter (a) data** ✅ — HYG (4883d, 2007-04-11+), JNK (4718d), EMB (4707d) verified in `more_etf` + manifest; lint re-verified independently (dup=0, maxgap=5d, jumps=0). Disclosed: 2008 GFC in-sample, 1990s HY bears not.
+
+**Data discovery that shaped (ii)**: more_etf closes are **unadjusted** (`adjusted=true` identical, `/dividends` 403-paywalled, TLT flat over 24y) → charter's "HYG total return" reconstructed as price + FRED-yield/365 T+1-lagged, TDD-pinned.
+
+**TDD (5/5 green)** caught two real bugs pre-hunt: my first "dip" definition fired on *uptrends* (trend detector), and px-vs-SMA20 z is slope-invariant (±1.606 on any ramp) → fixed to structurally anti-momentum design.
+
+**Hunt results (all fail-closed, T+1, 6.4bps full-dW, borrow, shortability-pregate, VT10%)**:
+
+| Sleeve | net SR | gross SR | verdict |
+|---|---|---|---|
+| HYG/LQD spread-mom k63 | **−0.87** | −0.35 | DEAD (plateau+halves+18negyr+eras) |
+| JNK/IEF spread-mom k63 | **−0.30** | +0.04 | DEAD (no pre-cost alpha) |
+| Static HY carry 2007+ | **−0.30** | −0.26 | DEAD — raw diff **−1.90%/yr pre-cost** |
+| Carry z-timed (true OAS) | **−0.78** | −0.37 | DEAD + span n=753 unjudgeable |
+| Weekly buy-the-dip HYG/JNK | **−0.13/−0.35** | −0.02/−0.23 | DEAD (plateau+eras) |
+
+- Charter era-split add-on: **0/5 sleeves** have all-era SR ≥ 0.
+- Sign-flips dead both ways (−0.18/−0.38) — 63d HY-IG spread mean-reverts.
+- Only positive cell in R3 (HYG dip zt=2.0, +0.19) **survives** the new generic-control kill-test (200 random masks, p=0.035) — first credit signal to do so — but misses the SR gate 5×.
+- **Gate-honesty flag for coordinator**: `scram_p=0.000` on these books is a re-costing artifact (permutation churns 2825bps/yr vs 390 real) — disclosed in every .meta; the decisive negatives are gross SR ≈ 0 + era failures.
+
+**Deliverables**: 2 repro scripts + `_kills.py`, 5 sleeve CSVs + `.meta`, 4 DEAD_IDEAS rows (102→106, CSV validated), FINDINGS.md appended ending `ROUND 3 DONE`. The 18 bt-suite failures are **pre-existing and not mine** — proven by stash-isolation (17 census failures persist without my changes; missing other agent's `CAMP_SHORT_LIBRARY_BORROW_CENSUS.json`; audit test passes 8/8 alone). Champion untouched.
+=== HUNT_CREDIT2 round 3 end Mon Sep  7 14:36:28 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907185518f4e2ce0339874a77]
+=== HUNT_CREDIT2 rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907190306c9999b17e32d4b7f]
+=== HUNT_CREDIT2 rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609071907149925049c217a4737]
+=== HUNT_CREDIT2 rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907192452d0efbfe2c8a94662]
+=== HUNT_CREDIT2 rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907193024a625fdd39d2049c7]
+=== HUNT_CREDIT2 rate-limited or errored (attempt 5, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609071957365d1fdde2b5014684]
+=== HUNT_CREDIT2 rate-limited or errored (attempt 6, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907200510aa3f108638ee4557]
+=== HUNT_CREDIT2 rate-limited or errored (attempt 7, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609072013424e4cecfc53f8443b]
+=== HUNT_CREDIT2 rate-limited or errored (attempt 8, rc=1); backing off ===
+Round 4 complete. FINDINGS.md ends with exactly `ROUND 4 DONE`.
+
+## Summary
+
+**Special duty** — re-ran `HUNT_CREDIT2_round2_gate2.py` end-to-end on today's vintage: conclusion **holds**. Generic own-vol mask delta **+0.204** (486 days) vs credit gate **+0.184** (323 days) — credit content adds nothing; net cum contribution −0.364; top-6 delta days still Mar-Apr 2020 champion wins (+17.78%, +14.03%); 105 transitions = 17.5bps/yr. Deltas re-based from R2's +0.198/+0.224 because the champion was re-issued at 6.4bps full-|dW| (37.20%/SR 3.181 — re-verified live in C5); the ordering is unchanged.
+
+**Audit rotation** — 6 rows from other families, all reproduced from their cited scripts:
+
+| Row | Family | Verdict |
+|---|---|---|
+| 110 FF factor premia | HUNT_FF2 | **Byte-identical** (sha `1adcb4b7fbbdc079` / `55a9b3e5661bd871`) |
+| 111 industry/decile L/S | HUNT_FUNDAMENTAL | 6/6 claims exact (IC +0.1042 IR 0.42; accrual_inv −0.0510; backtest SR +0.39/7negy) |
+| 113 BAB | HUNT_FF2 | Headlines exact (BAB −0.64, C_BABlong 0.58/corr 0.0824) — **one stale side-number**: short leg "−0.74%/yr" not reproducible (actual −20.46%/yr; direction & conclusion unchanged, divergence flagged) |
+| 114 FOMC × natgas/gold | D4_microstruct | 7/7 cells exact (NG k=1 SR −0.66 t −3.32; gold +20.6bp n=110; best short 0.51) |
+| 102 commodity spread mom | HUNT_CMDT2-R3 | 16/16 cells exact, TDD 7/7 green |
+| 59 2s10s steepener | HUNT_TREASFUT | All cells exact (k=21 −0.11; k=126 1.12 w/ H2 0.11) |
+
+**Verdict**: 0 fraud, 0 unreproducible scripts, 1 cosmetic divergence (row 113's −0.74% figure). All audited rows remain dead on today's data; champion untouched. Repro saved at `work_r4/audit_runner.py`.
+
+One process note worth the coordinator's attention: FF2's `final1.py` uses `sys.path.insert(0,'.')` and silently depends on CWD for its `lib` import — I proved provenance by rerunning from the canonical scratch dir, but that's a footgun for future audits.
+=== HUNT_CREDIT2 round 4 end Mon Sep  7 21:00:42 CST 2026 exit 0 ===
+Round 5 executed per charter. **Honest negative: 0/44 configs pass — the corner is closed.**
+
+## What was tried (pre-registered corner)
+
+Three never-tested FRED spread constructions on dollar-neutral LQD/IEF books, full GATES_CONTRACT_V2 battery on every config:
+
+| Family | New series | Configs | Verdict |
+|---|---|---|---|
+| Mortgage-spread RV | MORTGAGE30US (−DGS10) | 8 | best netSR −0.74; MR arm is an **anti-signal** |
+| NFCI regime carry | NFCICREDIT/NFCIRISK (staged, n=2904 each, 1971–2026) | 24 | best gross v2SR **+0.206** = 5x gate miss |
+| CP-OIS funding stress | RIFSPPFAAD01NB (staged, n=6635, 2000+) + DGS3MO | 12 | mirror arms ±symmetric = no content |
+
+## Decisive numbers
+
+- **Best pre-cost cell: SR 0.206 vs 1.0 gate; scramble p=0.185 FAILS** — statistically indistinguishable from block-scrambled noise. Its exact sign-mirror scores −0.206: symmetric noise around zero.
+- **beats_passive 0/44** (§7 rejects everything by itself; spy_bh 0.51–0.55 on matched spans).
+- **leak_ok 44/44 TRUE** (|same-period corr| ≤ 0.012) — constructions are T+1-clean; the failures are real.
+- Era-split of best cell: +0.21 / −0.25 / +0.06 = regime flip, not effect (fails the R4 span-gate bar).
+- `r=per-unit, sig=s` wiring TDD-pinned (CMDT2-R5's r=net defect avoided); champion sha `4358dfab95679b97` re-verified unchanged; `campaign/bt/` untouched.
+
+## What the TDD RED phase caught (3 real defects before any verdict)
+
+1. Weekly-vs-daily intersection → Thursdays-only mortgage book (n=1252; run-1 numbers superseded, direction unchanged).
+2. TB3MS is **monthly** → n=102 intersection; treasury leg corrected to DGS3MO (spread n=6620).
+3. `save_sleeve` KeyError crash on short books → now fail-closed.
+
+Artifacts: `HUNT_CREDIT2_round5.py`, `work_r5/test_credit2_r5.py` (10/10 green), 44 sleeve CSVs+metas with full leak/beats-passive lines, fetch manifest, run log, 1 DEAD_IDEAS row (recount: 128 at round end — concurrent appends by other agents). FINDINGS.md ends with exactly `ROUND 5 DONE`.
+=== HUNT_CREDIT2 round 5 end Tue Sep  8 06:42:08 CST 2026 exit 0 ===
+Round 6 complete. My footprint: `HUNT_CREDIT2/work_r6/*` + FINDINGS.md append + exactly 1 DEAD_IDEAS row (140→141 on my append, 143 at round close from concurrent agents). The `bt/` M-files are other agents' pre-existing in-flight work — untouched by me, as are all HUNT_CRYPTO2 files.
+
+## ROUND 6 SUMMARY (HUNT_CREDIT2 — audit rotation)
+
+**Champion re-verified fresh (not trusted):** `verify_champion_r3_cmd.sh` → ok=true 7/7, sha `4358dfab95679b97`, MDD −6.6922%, 0 neg yrs. Pinned `work_r6/verify_champ_r6.json`.
+
+**(a) Fraud-catch on HUNT_CRYPTO2 R5 — all 3 verdicts CONFIRMED with my own from-scratch code, 4 escalations:**
+
+| Claim | My recompute | Verdict |
+|---|---|---|
+| Expressible carry 12/12 FAIL | All 12 net SRs exact to 3dp; honest-wiring re-judgment: best SR **0.730**, beats_passive 0/12, pass=False everywhere | CONFIRMED (strengthened) |
+| HEDGE_BTC_W real, not expressible | Sleeve CSV reproduces from raw BitMEX data to **1e-16**; SR√52 1.628, 1 neg yr, 11.6%/yr; my own 200-draw placebo: **195/200** reproduce the blend dSR → confirms coordinator's mean-injection diagnosis | CONFIRMED |
+| Overlays 6/6 dAnn<0 (gate 8c) | Rebuilt engine from prose: BTC C best dSR +0.103 but dAnn **−1.26pp**; 6/6 fail | CONFIRMED |
+
+**Escalations (all verdict-safe):** (1) their carry engines pass `r=book` AND `sig=`, so gates judged **sig²·r** — proven by `gates.sr` 0.510573 == SR(sig²·r) and five BTC cells sharing one bit-identical `gates.corr` (sign-stripping invariant); (2) the on-disk `hedged_battery.py` v1 output has the leg sign flipped (gates.sr −2.895) while the cited v3 JSON's generator **is not on disk**; (3) FINDINGS quotes leak c0 −0.104 (v1 pairing) against v3's +0.177 — vintage-stitched prose; (4) the overlay engine was never artifact-published (V2 §10a gap).
+
+**(b) Credit-rows curation:** 7 rows audited. Rows 104/106/107 reproduce **exactly** from saved sleeves + verbatim `HUNT_CREDIT2_round3.py` re-run (carry k252: −0.779, H1 +1.01/H2 −1.98). Row 105 title mislabel found ("1:1 static" is actually the z-timed variant; true static book re-derived −1.90%/yr raw, netSR −0.178). Row 121 stale cells re-confirmed stale (best net +0.112, worst −1.878). Row 126 files verified (path nit: `tools/quant/data/more_fred/`). 1 curation row appended, ledger well-formed.
+
+**(c)** No new credit corner — zero engines run in my closed family.
+
+FINDINGS.md ends with exactly `ROUND 6 DONE`.
+=== HUNT_CREDIT2 round 6 end Tue Sep  8 14:22:32 CST 2026 exit 0 ===
+Round 7 complete. Summary of what was done and the evidence:
+
+## ROUND 7 — audit rotation, charter item (a) executed
+
+**Duty:** independently re-run DATA_ETF_MORE-R6's `more_etf/manifest.csv` restore via their `work_r3/manifest_r3.py build()` **read-only**, and test their 4 claims. Repro saved at `work_r7/audit_r7_manifest_restore.py` → `audit_r7_results.json`; **12/12 checks PASS, claim 4/4 CONFIRMED, 0 divergences.**
+
+| Claim | Verdict | Evidence |
+|---|---|---|
+| Restored sha16 `9b04a324ebb4db04` | **PASS** | on-disk full sha `9b04a324...268a620a`, mtime 16:29 = their stated restore time |
+| 82×10 span_class schema | **PASS** | shape (82,10); columns exact; span_class populated all 82, domain {pre2007, 2007plus, inception_fail} |
+| 2 loud FAILs (XLC 2018-06-19, XLRE 2015-10-08) | **PASS** | exactly 2, both `FAIL(inception)`: XLC n=2063, XLRE n=2741; rest = 50 PASS / 30 PASS_WAIVER |
+| Byte-identity rests on builder determinism (no pre-clobber sha anywhere) | **PASS + STRENGTHENED** | file gitignored (`.gitignore:5`), untracked (`git ls-files` rc=1), never committed at any ref (`git log --all` empty); repo-wide grep finds `9b04a324` only in 3 post-restore files. My re-invocation = a **second independent build draw ~3.5h later in a different process**, re-rendering byte-for-byte — upgrades their one-draw assertion to a cross-session two-draw reproduction |
+
+**Read-only proof:** their `build()` writes at line 46, so I monkeypatched `DataFrame.to_csv` to a recorder — 1 attempted write suppressed; on-disk sha **and** mtime proven unchanged after the run.
+
+**Beyond the charter ask (fraud-catch):** an independent linter of mine (no import of their `lint_series`/`classify`, own zero-run loop) re-derived all 82 series from raw CSVs — **0 field mismatches**; pandas-free shell spot-checks row-exact (HYG 4883, ENOR 3676, XLC 2063, XLRE 2741, AGG 5771, XME 5082); their R4 spot-facts (HYG/ENOR/EIS/TUR/EPHE/COPX all PASS_WAIVER) exact. **Comparator teeth-tested**: a tampered manifest (HYG rows +7, XME span_class flipped) is caught as exactly 2 mismatches — the clean result isn't blind. Also corroborated their clobber account: 14 other manifests still carry the foreign 1-row schema sha `13a9c9cf...` (their disclosed non-deliverables, incl. `twelvedata/manifest.csv`).
+
+**(b)** No new credit corner run (family CLOSED); R6 escalations remain logged, no edits to other agents' files. DEAD_IDEAS recounted: **147 data rows** (charter quoted 145–146, dynamic). Champion sha `4358dfab95679b97` re-verified fresh — frontier unchanged.
+
+FINDINGS.md appended with the full block and ends with exactly `ROUND 7 DONE`.
+=== HUNT_CREDIT2 round 7 end Tue Sep  8 20:07:40 CST 2026 exit 0 ===

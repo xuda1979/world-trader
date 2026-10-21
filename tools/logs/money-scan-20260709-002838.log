@@ -1,0 +1,119 @@
+=== MONEY-LOOP scan started 2026-07-09 00:28:39 ===
+=== WORLD-TRADER GLOBAL SCAN  2026-07-08T16:28:48+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+-- REGIME: RISK-ON  (score +0.51) --
+   VIX=16.13(+0.26)  HY=2.67(+0.92)  10Y-2Y=0.36(+0.36)
+   crypto fear&greed: 20 (Extreme Fear)
+
+-- LIVE QUOTES: 387 instruments fetched (crypto RT, US, China A-share live, Taiwan live, FX)  [+wide US: 4334 of 12440 tickers pre-screened -> top 150]  [+wide CN A-share: 299 of 300 liquid names -> top 120, backtested] --
+
+=== OPPORTUNITIES (ranked by per-trade expected Sharpe = E[R]/sigma) ===
+  markets open now (2026-07-08T16:39:19+00:00): CRYPTO, FX, US
+  YOUR BAR to qualify: E[R]>=+1%/trade, sigma<=7%*sqrt(h/5), Sharpe>=0.40, n>=20, t>=2 (Bonferroni-adj.), OOS Sharpe>0
+  >> markets open (CRYPTO, FX, US) but no positive-expectancy edge measured this scan -- stand aside. An empty table is the honest answer.
+
+-- MACRO / RATES / CREDIT (FRED) --
+  US 3M yield                      3.87  (2026-07-06)
+  US 2Y yield                      4.13  (2026-07-06)
+  US 10Y yield                     4.48  (2026-07-06)
+  US 30Y yield                     4.99  (2026-07-06)
+  10Y-2Y spread                    0.36  (2026-07-07)
+  10Y-3M spread                    0.69  (2026-07-07)
+  Fed funds                        3.63  (2026-07-06)
+  VIX                             16.13  (2026-07-07)
+  US HY credit spread              2.67  (2026-07-07)
+  US IG credit spread              0.76  (2026-07-07)
+  WTI oil                         71.87  (2026-06-29)
+  Brent oil                       71.59  (2026-06-29)
+  USD/EUR                        1.1448  (2026-07-02)
+  Broad USD index              120.6902  (2026-07-02)
+  Fin conditions index         -0.51500  (2026-07-03)
+  Fed balance sheet             6724564  (2026-07-01)
+  M2 money supply               23052.3  (2026-05-01)
+  Unemployment rate                 4.2  (2026-06-01)
+  CPI                           333.979  (2026-05-01)
+  5Y inflation breakeven           2.28  (2026-07-07)
+  UST curve: 10Y 4.48%  30Y 4.99%
+
+-- CATALYST CALENDAR (next 14d; today=2026-07-09) --
+  (no actionable upcoming catalysts found)
+  errors: earnings: net: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1081); ipo: net: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1081); fda: net: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1081); dividends: net: [Errno 54] Connection reset by peer
+
+-- NEWS (expanded feeds) --
+  [Nasdaq-Mkts]
+    - Can Meta Platforms Become a Neocloud? Don't Hold Your Breath.
+    - Tom Gardner's Five Stocks for the Long Term: Big Diversification, AI Research, and Caution
+    - Wednesday's ETF with Unusual Volume: IPAY
+  [Nasdaq-Stocks]
+    - Stocks Pressured as US-Iran Hostilities Resume
+    - Corn Showing Steady Action on Wednesday
+    - Corn Extend Gains to Tuesday
+  [FedPress]
+    - Federal Reserve Board requests comment on a proposal to amend its requirements for banks to maintain anti-money laundering programs
+    - Federal Reserve Board issues enforcement action with Small Business Bank and announces termination enforcement actions with BNP Paribas S.A., BNP Paribas USA, Inc., BNP Paribas Securities Corp., and Community Bankshares, Inc.
+    - Federal Reserve issues initial findings from its 2025 triennial payments study
+  [ECB]
+    - Philip R. Lane: AI and monetary policy
+    - Christine Lagarde: Interview with Les Échos
+    - Piero Cipollone: The digital transformation of money, payments and finance
+  [BoE]
+    - Minutes of the UK Money Markets Code Sub-Committee – June 2026
+    - Statistical Notice 2026/07 -  Bank of England Levy: Notification Document Levy Year 2026/27
+    - Financial Policy Committee Record – July 2026
+  [BoJ]
+    - Loans, Debt Securities, and Deposits by Maturity (End of September 2025)
+    - Principal Figures of Financial Institutions (June)
+    - Direct Investment by Region and Industry (1st quarter 2026)
+  [Cointelegraph]
+    - Bitcoin slides as Iran ceasefire collapse sees $75 oil on Hormuz blockade threats
+    - Bull Bitcoin asks French court to strike down DAC8 implementing decree
+    - India crypto tax filings lag trading activity: Report
+  [Decrypt]
+    - BNB Chain Plans New Layer-1 for AI Agents and Quantum Future
+    - XRP Logo Lands on Kansas Jayhawks Jerseys as Ripple Inks Multi-Year Deal
+    - Malaysia Seizes Over 75,000 Crypto Mining Rigs in Power-Theft Crackdown
+  [ForexLive]
+    - The USDCAD remains confined in trading range but below the 100/200 hour MAs
+    - Intel Stock: Is It a Buy After a Nearly 30% Pullback?
+    - Oil jumps, risk assets fall as Trump threatens further strikes on Iran, says MOU is "dead"
+  [FXStreet]
+    - Canadian Dollar strengthens on Oil rally as markets eye jobs data
+    - Euro: Energy repricing shapes outlook against US Dollar – ABN AMRO
+    - British Pound holds firm as Hormuz shock lifts Oil, Dollar
+  [OilPrice]
+    - UK Airline Turns Fuel Price Surge Into $500 Million Windfall Through Hedging
+    - Oil Prices Jump over 7% as Iran Ceasefire Declared ‘Over’
+    - Global Nuclear Power Capacity Set to Jump by 44% by 2036
+  [Mining.com]
+    - Royalty juniors seek higher value in metals rally
+    - Gold, critical minerals gain trust premium as money, supply chains fray
+    - Critical Metals weighs asset sales to speed up Greenland project
+
+research only, not financial advice. verify before acting.
+
+[scan task log]
+  - 00:28:48  regime: gathering FRED macro / VIX / fear-greed
+  - 00:29:30  regime: RISK-ON score=+0.51
+  - 00:29:30  quotes: collecting curated universe (crypto/US-core/CN/TW/FX)
+  - 00:36:51  quotes: 117 curated instruments fetched
+  - 00:36:51  wide US funnel: pulling ~12k tickers from Polygon, pre-screening top 150
+  - 00:36:57  wide US funnel: 4334 of 12440 -> top 150 backtested
+  - 00:36:57  wide CN funnel: pulling ~5,500 A-shares, pre-screening top 120
+  - 00:37:00  wide CN funnel: 299 of 300 -> top 120 backtested
+  - 00:37:00  opportunities: building candidate set from quotes + regime
+  - 00:37:00  opportunities: 235 raw candidates
+  - 00:37:00  backtest: enriching with technicals + E[R]/sigma/Sharpe
+  - 00:39:03  backtest: per-candidate family m=7 (global total=154) -> Bonferroni t>=2.69
+  - 00:39:03  news enrichment: Finnhub headlines + Polygon sentiment per candidate
+  - 00:39:04  news enrichment: done (0 candidates have fresh headlines)
+  - 00:39:04  catalyst enrichment: scanning Finnhub earnings/FDA/IPO + Polygon dividends
+  - 00:39:08  catalyst enrichment: 0 candidates have a near-term catalyst (+0 new)
+  - 00:39:08  options enrichment: pulling ATM straddles (CBOE) for top US candidates
+  - 00:39:19  options enrichment: 10 candidates have an RV/IV signal (+10 new)
+  - 00:39:20  catalysts: printing freshest company news for top candidates
+  - 00:39:20  alt-data: pulling FRED macro/rates/credit, treasury curve, BTC funding, COT
+  - 00:39:41  catalyst calendar: Finnhub earnings/FDA/IPO + Polygon dividends (14d)
+  - 00:39:42  expanded news: sweeping all RSS feeds (equities/macro/CB/crypto/FX/commodities/regional)
+  - 00:39:54  expanded news: 12 feeds ok, 14 feeds failed
+  - 00:39:54  GDELT: 24h global market tone sweep

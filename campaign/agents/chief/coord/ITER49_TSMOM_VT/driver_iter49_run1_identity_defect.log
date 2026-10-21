@@ -1,0 +1,19 @@
+ITER49 RUN-1 (preserved byte-exact class, driver_iter41_run1_g1defect.log precedent):
+driver_iter49.py v1 died FAIL-CLOSED at the graft import (from r7_idea5_breadth import panel, RET_PAN)
+BEFORE any arm computation, BEFORE A1, BEFORE any verdict or candidate - no results consumed.
+ROOT CAUSE (module-identity defect): the D17 patch inherited from driver_iter48 patched the
+SHORT-PATH identity (import data as DH, sys.modules['data']) and was RETAINED-INERT in iter48
+because the C5ng chain never calls panel(). The tsmom chain DOES: r6lib.py line 7 is
+    from campaign.harness import data as D
+i.e. the FULL-PATH identity sys.modules['campaign.harness.data'] - a DIFFERENT module object
+whose panel() was unpatched -> manifest.csv ValueError('Missing column provided to
+parse_dates: date') at r7_idea5_breadth -> r7lib -> r6lib -> D.closes().
+The pre-seal probe did NOT hit this because it patched the full-path identity directly
+(import campaign.harness.data as _D). Amendment 1 patches BOTH identities before the graft import.
+Traceback tail (as captured):
+  File driver_iter49.py line 168, in <module>: from r7_idea5_breadth import panel, RET_PAN
+  r7_idea5_breadth.py line 6: from r7lib import *
+  r7lib.py line 10: from r6lib import wback_rb, sret, gates6, xcorr, CH, OLD, IDX
+  r6lib.py line 9: px=D.closes(); ...
+  harness/data.py line 22 in panel: df = pd.read_csv(... parse_dates=["date"] ...)
+  ValueError: Missing column provided to 'parse_dates': 'date'

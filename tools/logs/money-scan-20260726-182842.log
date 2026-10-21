@@ -1,0 +1,253 @@
+=== MONEY-LOOP scan started 2026-07-26 18:28:42 ===
+=== WORLD-TRADER GLOBAL SCAN  2026-07-26T10:28:42+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+-- OPEN NOW: 1 markets --
+   + CRYPTO (Crypto (24/7))
+
+-- REGIME: NEUTRAL  (score +0.00) --
+   crypto fear&greed: 26 (Fear)
+   [+spillover: 1 cross-asset candidates from 4 themes]
+
+-- LIVE QUOTES: 220 instruments fetched (crypto RT, US, China A-share live, Taiwan live, FX)  [wide US unavailable: net: Remote end closed connection without response]  [+wide CN A-share: 599 of 600 liquid names -> top 120, backtested] --
+
+=== OPPORTUNITIES (ranked by per-trade expected Sharpe = E[R]/sigma) ===
+  markets open now (2026-07-26T10:33:17+00:00): CRYPTO
+  YOUR BAR to qualify: E[R]>=+1%/trade, sigma<=7%*sqrt(h/5), Sharpe>=0.40, n>=20, t>=2 (Bonferroni-adj.), OOS Sharpe>0
+  >> NOTHING cleared your bar this scan. The rows below are the best
+     MEASURED edges only -- they are NOT signals. DO NOT trade them.
+
+-- TRADE PLAN --
++---+--------------+------+--------+-------+------------------+---------+--------------+------+---------+---------+---------+-----+-------+----------+
+| # | Instrument   | Sym  | Mkt    | Dir   | Setup            |   Price | Quote(Local) | Chg% |   Entry |    Stop |  Target | R:R | Risk% | Catalyst |
++===+==============+======+========+=======+==================+=========+==============+======+=========+=========+=========+=====+=======+==========+
+| 1 | Crypto: ADA  | ADA  | CRYPTO | Short | TrendRide50Short | 0.16485 | 07-26 10:29  | 1.6% | 0.16485 | 0.17407 | 0.13720 | 3.0 | 5.59% |          |
+| 2 | Crypto: DOGE | DOGE | CRYPTO | Short | ConnorsShort     | 0.07322 | 07-26 10:29  |   -- | 0.07322 | 0.07575 | 0.06816 | 2.0 | 3.46% |          |
+| 3 | Crypto: XRP  | XRP  | CRYPTO | Short | TrendRide50Short |   1.100 | 07-26 10:29  | 1.0% |   1.100 |   1.139 | 0.98193 | 3.0 | 3.58% |          |
++---+--------------+------+--------+-------+------------------+---------+--------------+------+---------+---------+---------+-----+-------+----------+
+
+-- EDGE & RISK (evidence for the SAME numbered rows) --
++---+------+---------+--------------+---------+-------+--------+--------+-----+-------+------+----+------+--------+-------+-------+
+| # | Sym  |   Price | Quote(Local) | Verdict | E[R]% | sigma% | Sharpe |   t |  oosS | Win% |  n | ATR% | Kelly% | RV/IV | Data  |
++===+======+=========+==============+=========+=======+========+========+=====+=======+======+====+======+========+=======+=======+
+| 1 | ADA  | 0.16485 | 07-26 10:29  | below   | 2.02% |  4.90% |   0.41 | 2.2 |  0.20 |  75% | 28 | 4.7% |  66.7% |    -- | RT 3m |
+| 2 | DOGE | 0.07322 | 07-26 10:29  | below   | 0.91% |  5.63% |   0.16 | 1.0 | -0.05 |  50% | 40 | 3.5% |  25.0% |    -- | RT 3m |
+| 3 | XRP  |   1.100 | 07-26 10:29  | below   | 0.02% |  5.29% |   0.00 | 0.0 | -0.62 |  44% | 32 | 3.0% |  25.0% |    -- | RT 4m |
++---+------+---------+--------------+---------+-------+--------+--------+-----+-------+------+----+------+--------+-------+-------+
+  note: 4 live instruments have no free daily history (China A-share/Taiwan) -> no expectancy, excluded from ranking.
+
+-- MACRO / RATES / CREDIT (FRED) --
+  US 3M yield                3.9500000000  (2026-07-23)
+  US 10Y yield               4.7100000000  (2026-07-23)
+  10Y-3M spread                    0.73  (2026-07-24)
+  US IG credit spread              0.79  (2026-07-23)
+  Brent oil                       86.99  (2026-07-20)
+  USD/EUR                         1.144  (2026-07-17)
+  Broad USD index              120.5315  (2026-07-17)
+  Fin conditions index         -0.55200  (2026-07-17)
+  Fed balance sheet          6747378.0000000000  (2026-07-22)
+  M2 money supply               23052.3  (2026-05-01)
+  Unemployment rate                 4.2  (2026-06-01)
+  CPI                           332.568  (2026-06-01)
+  5Y inflation breakeven           2.24  (2026-07-24)
+  UST curve: 3M 3.95%  2Y 4.37%  10Y 4.71%  30Y 5.17%
+  BTC perp funding: +0.0082%  OI 0
+
+-- CATALYST CALENDAR (next 14d; today=2026-07-26) --
+  (no actionable upcoming catalysts found)
+  errors: earnings: net: Remote end closed connection without response; ipo: net: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081); fda: net: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081); dividends: net: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081)
+
+-- NEWS (expanded feeds) --
+  [Nasdaq-Stocks]
+    - Chip Stock Sell-off Puts Downward Pressure on Broader Market
+    - Wheat Pulls Off Early Friday Lows, Still See Pressure to Close the Week
+    - Soybeans Extend Buying into the End of the Week
+  [SeekingAlpha]
+    - Buy 4 Barron's Better Bets (Than T-Bills) Out Of 11 'Safer' July DiviDogs
+    - DUSA: Value, Low Volatility Exposure To Weigh On Returns, Hold Rating Maintained
+    - Coca-Cola Europacific Partners: Earnings Can Keep Compounding
+  [Investing]
+    - 5 big analyst AI moves: Several top picks named into Q2 earnings
+    - Africa facing $10-$20 billion economic hit from ’super’ El Niño, AfDB climate chief warns
+    - Summer carry bias: A myth or reality?
+  [Yahoo-Fin]
+    - Jim Cramer Called 3M Company (NYSE:MMM) “Easy Money” As Earnings Hit The Wires
+    - Oracle Corporation (NYSE:ORCL)’s Stock Is The One To Watch, Says Jim Cramer
+    - Alphabet's Projected $205 Billion Capex Can Lift These 3 AI Stocks
+  [Benzinga]
+    - Top Performing Pet Insurance Stocks
+    - Top Performing Defensive Stocks
+    - Top Performing Green Penny Stocks
+  [Zerohedge]
+    - The United Nations Has Run Out Of Alibis
+    - Platner's Replacement May Not Be Eligible For Nomination
+    - Beijing Blacklists 14 EU Firms After Brussels Targets Chinese Companies In Latest Russia Sanctions Package
+  [WSJ-Markets]
+    - ‘Time will tell whether that was a good bet’: My adviser got me a full SpaceX IPO allocation. Was I lucky?
+    - I want to transfer $17,000 in credit-card debt. Why did Wells Fargo offer me only a $4,000 credit limit?
+    - I am a 63-year-old semiretired physician. If I saved $2 million for retirement, should my Social Security become optional?
+  [FT-Markets]
+    - China pours funding into green energy deals as Iran war hits oil demand
+    - Maga’s creepy baby obsession won’t solve the fertility crisis
+    - Why workers are nostalgic for life before AI
+  [CNBC-Top]
+    - Ukraine strikes Iranian vessels in Caspian Sea, Tehran accuses Kyiv of 'hostile and criminal act'
+    - Logistics giants are racing to keep up with healthcare boom as GLP-1s highlight need for cold storage
+    - Cocoa prices are easing. So why is chocolate still so expensive?
+  [CNBC-Markets]
+    - Logistics giants are racing to keep up with healthcare boom as GLP-1s highlight need for cold storage
+    - Paramount agrees to delay WBD acquisition to as late as June 2027 amid legal challenge
+    - Moody's says 'unprecedented' AI spending threatens credit quality of Amazon, Meta, Alphabet and others
+  [FedPress]
+    - Agencies issue joint statement on handling of highly sensitive information during bank examinations
+    - Federal Reserve Board issues enforcement action with former chief lending officer of Heritage State Bank
+    - Minutes of the Board's discount rate meetings on June 8 and June 17, 2026
+  [ECB]
+    - Philip R. Lane: Outlook for the euro area economy
+    - Decisions taken by the Governing Council of the ECB (in addition to decisions setting interest rates)
+    - ECB to extend use of climate factors in Eurosystem collateral framework to non-financial corporate credit claims
+  [BoE]
+    - Letter from the Governor to the Daily Mail
+    - PRA consults on updated guidance for friendly society amalgamations and transfers
+    - PRA fines HDI Global SE £4,165,000 for inaccurate reporting of FSCS Liabilities and FSCS Fee Tariff data
+  [BoJ]
+    - Developments in Real Exports and Real Imports
+    - Japanese Government Bonds Held by the Bank of Japan
+    - (BOJ Review) The Development and Strengthening of International Forums in Asia with the Participation of the Bank of Japan
+  [Cointelegraph]
+    - South Korea’s largest bank to launch payment service on JPMorgan’s Kinexys
+    - BitMart to wind down exchange, end trading by Aug. 26
+    - Binance ‘red teams’ its own staff every month to keep hackers out
+  [Decrypt]
+    - What Is an AI Kill Switch and Why Do US Lawmakers Want One?
+    - Stocks Just Topped Crypto on Hyperliquid. ARK Says That Changes Everything
+    - Samsung Wallet Will Add Stablecoin Support, Including USDC
+  [TheBlock]
+    - EU adds HTX to Russia sanctions list, barring transactions starting Aug. 23
+    - Robinhood in talks to add Crypto.com prediction markets as Kalshi rivalry grows: WSJ
+    - Bitcoin ETF weekly trading volume falls to lowest since October 2024 as ether funds lead inflows again
+  [CoinDesk]
+    - Europe's high regulatory bar could spark new crypto industry M&A wave
+    - Shiba Inu surges 36% as South Korean traders fuel mystery rally
+    - Crypto exchange BitMart to shut down after nine years, BMX token crashes 58%
+  [FXStreet]
+    - Singapore Dollar: MAS seen on hold with cautious inflation tone – OCBC
+    - EUR/JPY Price Forecast: Cross consolidates under 187.00, bulls target 188.00
+    - Malaysia: Solid fundamentals support Ringgit and bonds – DBS
+  [Mining.com]
+    - MAX Power Mining increases landholding at Lawson hydrogen project in Saskatchewan
+    - American Mineral Resources bets on diversified project portfolio as US juniors struggle to raise capital
+    - US Department of Energy commits $65.5M to boost domestic oil and gas production
+  [JapanTimes]
+    - How foreign workers became an essential part of Japan’s ubiquitous konbini
+    - 17 missing after Vietnamese ship sinks in South China Sea: Hanoi
+    - Syria reports fresh Israeli incursion, shelling in south
+  [ET-Markets]
+    - 10 midcap stocks with massive upside potential up to 70%! Do you own any?
+    - Mcap of nine of top-10 most valued firms erodes by Rs 2.74 lakh cr; HDFC Bank takes biggest hit
+    - IPO rush: 9 companies  to launch issues on D-St this week, raising over Rs 11,000 cr
+  [SpaceNews]
+    - NASA and ESA facilities avoid major damage from wildfires in Spain
+    - SpaceX conducts 13th Starship test flight
+    - ULA deals with financial challenges caused by Vulcan grounding
+  [TechCrunch]
+    - Monday.com is the latest tech company to blame AI for layoffs — here are 20 others
+    - Warner Bros. lawsuit accuses Amazon of illegally poaching executives
+    - The hacker who humiliated spyware makers and was never caught
+  [PV-Magazine]
+    - China adopts tougher mandatory energy limits for polysilicon plants
+    - How to win and how not to lose: What the Football World Cup final teaches us about leading the energy transition
+    - Tunisia authorizes residential solar-plus-storage amid heatwave
+  [Investing-UK]
+    - Dollar set for biggest weekly gain in over a month; yen eyes worst week since May
+    - Canadian dollar slips as oil retreats, Fed decision looms
+    - South African rand nears 17 per dollar after rate decision
+  [CityAM]
+    - Bank of England to hold interest rates as oil price surge threatens UK economy
+    - Burnham ‘aware’ of Healey’s extra £9bn spending demands
+    - Inside the untapped commercial potential of the Tour de France
+  [Investing-DE]
+    - 5 big analyst AI moves: Several top picks named into Q2 earnings
+    - Africa facing $10-$20 billion economic hit from ’super’ El Niño, AfDB climate chief warns
+    - Summer carry bias: A myth or reality?
+  [Investing-IT]
+    - Iran war spreads to Red Sea and Caspian, Gulf quiet as US forgoes strikes
+    - Houthis fire on Saudi oil sites; no US strike on Iran for first time in two weeks
+    - Swiss cheesemakers try to fill hole in sales from US tariffs
+  [NikkeiAsia]
+    - AI makes cyberattacks too fast to fight
+    - Shein IPO filing, CXMT listing, Marcos address
+    - Japan office workers cool off with shorts amid record-breaking summers
+  [JijiPress]
+    - トランプ米大統領、米軍にイラン攻撃中止を命令　協議での打開模索か、防空弾不足懸念も
+    - 「二度と起きないように」　やまゆり園で犠牲者の冥福祈る―相模原殺傷事件から１０年
+    - 特別国会で首相の集中審議出席、大幅減　「国会嫌い」指摘、与野党で相次ぐ
+  [EconTimes]
+    - 10 midcap stocks with massive upside potential up to 70%! Do you own any?
+    - Mcap of nine of top-10 most valued firms erodes by Rs 2.74 lakh cr; HDFC Bank takes biggest hit
+    - IPO rush: 9 companies  to launch issues on D-St this week, raising over Rs 11,000 cr
+  [MoneyControl]
+    - Uncle Sam is wrong, India and China are doing their bit to fight climate change
+  [LiveMint]
+    - Expert View: Mid-year - recalibrating India equity story with a positive bias, says Vinod Nair
+    - Upcoming IPOs: Manipal Hospitals IPO, Juniper Green Energy IPO among new nine issues to open next week; full list here
+    - Philippine Peso Finds Line in Sand as Record Low Holds
+  [HinduBiz]
+    - Nippon India MF tops mutual fund industry with over 4 cr folios
+    - Oil prices, US Fed rate decision, West Asia crisis to drive mkts: Analysts
+    - Mcap of nine of top-10 most valued firms erodes by Rs 2.74 lakh cr; HDFC Bank takes biggest hit
+
+-- SEC 8-K MATERIAL CATALYSTS (last 3 days) --
+  (unavailable: net: Remote end closed connection without response)
+
+-- INSIDER CLUSTER BUYS (last 30d, >=2 insiders) --
+  (unavailable: IncompleteRead: IncompleteRead(18827 bytes read))
+
+-- DEFI STABLECOIN YIELDS (top 8 by APY, TVL >=$10M) --
+  (unavailable: net: Remote end closed connection without response)
+
+-- SHORT SQUEEZE WATCH (SI% float >= 10%) --
+  (no high-SI names found)
+
+-- ENERGY SNAPSHOT (FRED weekly) --
+  Gasoline retail: $None/gal  (4w: +2.2%)
+  WTI crude:       $None/bbl  (4w: +4.9%)
+  Heating oil:     $None/gal
+  Natgas:          $None/MMBtu
+
+research only, not financial advice. verify before acting.
+
+[scan task log]
+  - 18:28:42  regime: gathering FRED macro / VIX / fear-greed
+  - 18:28:49  regime: NEUTRAL score=+0.00
+  - 18:28:49  quotes: collecting global universe (crypto/US/CN/TW/HK/FX/futures/indices + region/macro ETFs)
+  - 18:31:06  quotes: 99 curated instruments fetched
+  - 18:31:11  wide US funnel: pulling ~12k tickers from Polygon, pre-screening top 150
+  - 18:32:10  wide US funnel: 0 of 0 -> top 150 backtested [err: net: Remote end closed connection without response]
+  - 18:32:10  spillover funnel: scanning RSS headlines for theme keywords -> peer candidates
+  - 18:32:31  spillover funnel: 21 candidates across 4 themes -> 1 fetched
+  - 18:32:31  wide CN funnel: pulling ~5,500 A-shares, pre-screening top 120
+  - 18:32:34  wide CN funnel: 599 of 600 -> top 120 backtested
+  - 18:32:34  opportunities: building candidate set from quotes + regime
+  - 18:32:34  opportunities: 74 raw candidates
+  - 18:32:34  backtest: enriching with technicals + E[R]/sigma/Sharpe
+  - 18:33:02  backtest: per-candidate family m=10 (global total=116) -> Bonferroni t>=2.81
+  - 18:33:02  news enrichment: Finnhub headlines + Polygon sentiment per candidate
+  - 18:33:02  news enrichment: done (0 candidates have fresh headlines)
+  - 18:33:02  catalyst enrichment: scanning Finnhub earnings/FDA/IPO + Polygon dividends
+  - 18:33:05  catalyst enrichment: 0 candidates have a near-term catalyst (+0 new)
+  - 18:33:05  PEAD confirmation: looking up recent earnings surprises for PEAD setups
+  - 18:33:05  PEAD confirmation: 0 PEAD setups confirmed by earnings surprise (+0 new)
+  - 18:33:05  options enrichment: pulling ATM straddles (CBOE) for top US candidates
+  - 18:33:05  options enrichment: 0 candidates have an RV/IV signal (+0 new)
+  - 18:33:05  country crisis: scanning 32 country ETFs for crisis signals
+  - 18:33:17  country crisis: 0 candidates in crisis (+0 new)
+  - 18:33:17  veto gate: 9 rows vetoed (9 crash-in-progress, 0 news-contradicts) -> PASS rows 1 -> 1
+  - 18:33:17  catalysts: printing freshest company news for top candidates
+  - 18:33:17  alt-data: pulling FRED macro/rates/credit, treasury curve, BTC funding, COT
+  - 18:33:23  catalyst calendar: Finnhub earnings/FDA/IPO + Polygon dividends (14d)
+  - 18:33:24  expanded news: sweeping all RSS feeds (equities/macro/CB/crypto/FX/commodities/regional)
+  - 18:33:39  expanded news: 35 feeds ok, 70 feeds failed
+  - 18:33:39  GDELT: 24h global market tone sweep
+  - 18:33:50  altdata2: SEC 8-K + insider clusters + DeFi yields + short squeeze + energy
+  - 18:34:01  energy: gas=$None crude=$None gas4w=2.22% crude4w=4.9%

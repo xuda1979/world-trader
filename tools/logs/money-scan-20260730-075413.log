@@ -1,0 +1,250 @@
+=== MONEY-LOOP scan started 2026-07-30 07:54:13 ===
+=== WORLD-TRADER GLOBAL SCAN  2026-07-29T23:54:14+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+-- OPEN NOW: 3 markets --
+   + CRYPTO (Crypto (24/7))
+   + FUT (Futures (CME/GLOBEX: commodities, bonds, index))
+   + FX (FX (24/5))
+
+-- REGIME: RISK-ON  (score +0.47) --
+   VIX=18.21(+0.12)  HY=2.84(+0.83)  10Y-2Y=0.45(+0.45)
+   crypto fear&greed: 29 (Fear)
+   [+spillover: 3 cross-asset candidates from 2 themes]
+
+-- LIVE QUOTES: 194 instruments fetched (crypto RT, US, China A-share live, Taiwan live, FX)  [wide US unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)]  [+wide CN A-share: 100 of 100 liquid names -> top 120, backtested] --
+
+=== OPPORTUNITIES (ranked by per-trade expected Sharpe = E[R]/sigma) ===
+  markets open now (2026-07-30T00:00:43+00:00): AU, CRYPTO, FUT, FX, JP, KR
+  YOUR BAR to qualify: E[R]>=+1%/trade, sigma<=7%*sqrt(h/5), Sharpe>=0.40, n>=20, t>=2 (Bonferroni-adj.), OOS Sharpe>0
+  >> markets open (AU, CRYPTO, FUT, FX, JP, KR) but no positive-expectancy edge measured this scan -- stand aside. An empty table is the honest answer.
+
+-- MACRO / RATES / CREDIT (FRED) --
+  US 3M yield                3.9000000000  (2026-07-28)
+  US 2Y yield                4.2600000000  (2026-07-28)
+  US 10Y yield               4.6100000000  (2026-07-28)
+  US 30Y yield               5.0900000000  (2026-07-28)
+  10Y-2Y spread                    0.45  (2026-07-29)
+  10Y-3M spread                    0.84  (2026-07-29)
+  Fed funds                  3.6300000000  (2026-07-28)
+  VIX                             18.21  (2026-07-28)
+  US HY credit spread              2.84  (2026-07-28)
+  WTI oil                         84.25  (2026-07-27)
+  USD/EUR                    1.1385000000  (2026-07-24)
+  Broad USD index            120.7105000000  (2026-07-24)
+
+-- CATALYST CALENDAR (next 14d; today=2026-07-30) --
+  (no actionable upcoming catalysts found)
+  errors: earnings: net: [Errno 54] Connection reset by peer; ipo: ConnectionResetError: [Errno 54] Connection reset by peer; fda: net: [Errno 54] Connection reset by peer; dividends: ConnectionResetError: [Errno 54] Connection reset by peer
+
+-- NEWS (expanded feeds) --
+  [MarketWatch]
+    - ‘I’m in my peak earning years’: I’m working beyond 70. Will that help increase my Social Security?
+    - Why the USO oil ETF is a better buy than crude futures as the Iran war rages
+    - ‘We already have wills’: We’re in our 60s with $1.5 million. Should we set up a trust to prevent conflict among our heirs?
+  [Nasdaq-Mkts]
+    - Malaysia Stock Market May Hand Back Wednesday's Gains
+    - Prediction: 1 Reason Uranium Demand Should Spike 140% by 2050
+    - Starbucks Raises Its Full-Year Guidance as Comparable Store Sales Jump 7.9%. Here’s What Investors Need to Know.
+  [Nasdaq-Stocks]
+    - Improving Indian Monsoon Rains Weigh on Sugar Prices
+    - Stocks Plunge on a Rout in Chipmakers and a Hawkish Fed Hold
+    - Coffee Prices Fall Amid Weakness in the Brazilian Real
+  [SeekingAlpha]
+    - Meta Platforms, Inc. (META) Q2 2026 Earnings Call Transcript
+    - FormFactor, Inc. (FORM) Q2 2026 Earnings Call Transcript
+    - Aris Mining Corporation (ARIS:CA) Q2 2026 Earnings Call Transcript
+  [WSJ-Markets]
+    - ‘I’m in my peak earning years’: I’m working beyond 70. Will that help increase my Social Security?
+    - Why the USO oil ETF is a better buy than crude futures as the Iran war rages
+    - ‘We already have wills’: We’re in our 60s with $1.5 million. Should we set up a trust to prevent conflict among our heirs?
+  [CNBC-Top]
+    - Meta's stock drops on disappointing guidance, dwindling free cash flow
+    - Microsoft jumps 7% as it boosts capital spending plans, citing demand
+    - Divided Fed holds interest rates steady, but three members voted to hike
+  [CNBC-Markets]
+    - Starbucks stock jumps as coffee giant raises full-year outlook
+    - Carvana stock falls as auto retailer’s 2026 earnings guidance misses Wall Street’s expectations
+    - Chipotle hikes same-store sales forecast, says cyclospora fears hit sales in late July
+  [FedPress]
+    - Federal Reserve issues FOMC statement
+    - Agencies issue joint statement on handling of highly sensitive information during bank examinations
+    - Federal Reserve Board issues enforcement action with former chief lending officer of Heritage State Bank
+  [ECB]
+    - ECB wage tracker at 2.7% in Q1 2027, indicating stable negotiated wage pressures
+    - Philip R. Lane: Outlook for the euro area economy
+    - Decisions taken by the Governing Council of the ECB (in addition to decisions setting interest rates)
+  [BoE]
+    - Letter from the Governor to the Daily Mail
+    - PRA consults on updated guidance for friendly society amalgamations and transfers
+    - PRA fines HDI Global SE £4,165,000 for inaccurate reporting of FSCS Liabilities and FSCS Fee Tariff data
+  [BoJ]
+    - Average Contract Interest Rates on Loans and Discounts (June)
+    - Indicators for Core CPI
+    - (IMES Newsletter) 2026 BOJ-IMES Conference
+  [Cointelegraph]
+    - Robinhood posts record quarter, but crypto revenue slides 38%
+    - Binance.US to attempt prediction markets entry as CFTC-licensed entity, says CEO
+    - Crypto entering biggest consolidation phase in history, says ARK analyst
+  [Decrypt]
+    - Microsoft Quietly Adds New Windows App That Wants to Scan Your Face
+    - Robinhood Posts Best Quarter Ever as Prediction Market and Robinhood Chain Take Off
+    - Flock Cameras Face Growing Backlash as Privacy Concerns Reach Capitol Hill
+  [TheBlock]
+    - Robinhood’s prediction markets top crypto and equities revenue in Q2
+    - Fed holds rates steady as 3 officials push for hike while crypto market stays flat
+    - Pump.fun token graduation rate jumps after BOOST changes launch incentives
+  [ForexLive]
+    - Trump is weighing another two-week campaign of strikes against Iran
+    - Shares of Microsoft extend gains to 7% after hours on capex guide
+    - Meta shares sink 11% as CFO says they will continue to add compute in 2028 and beyond
+  [FXStreet]
+    - Yemen's Houthis reportedly considering fees for ships sailing through Red Sea
+    - US President Donald Trump says US will strike Iran hard
+    - Gold rebounds to near $4,100 as Fed leaves interest rates unchanged
+  [OilPrice]
+    - Investors Are Racing to Find Americas Next Rare Earth Winner
+    - U.S. Backs Madagascar’s Rare Earths Project
+    - Low Gas Storage and Diesel Shortages Threaten Europe’s Winter Supply
+  [Mining.com]
+    - Rare Earths Americas expands footprint at Shiloh project in Georgia
+    - GBM agrees to buy Lomiko Metals to add Quebec graphite project
+    - Titan Mining secures graphite supply deal with US aerospace and defense manufacturer
+  [SpaceNews]
+    - Proposed rule would exempt commercial launch licensing from environmental regulations
+    - L3Harris delays missile business IPO to 2027 despite surging defense demand
+    - SpaceX wins $1.6 billion in launch orders for military satellite networks
+  [TechCrunch]
+    - Mark Zuckerberg predicts that billions of people will have personal AI agents in five years
+    - Microsoft logs $3.2B from Anthropic investment, but OpenAI was a mixed bag
+    - Zuckerberg says Metas enterprise AI opportunity extends beyond agents
+  [BioPharma]
+    - <a href="/pharma/fierce-pharma-regulatory-tracker-2026-h2" hreflang="en">Regulatory tracker: AbbVie scores 1st Rinvoq alopecia nod in EU</a>
+    - <a href="/pharma/biogen-flips-its-26-guidance-expected-decline-increase" hreflang="en">Biogen flips '26 guidance from expected decline to sales increase</a>
+    - <a href="/pharma/boosted-cms-settlement-incyte-expects-opzelura-cross-1b-2026" hreflang="en">Boosted by CMS settlement, Incyte expects Opzelura to cross $1B in 2026</a>
+  [PV-Magazine]
+    - China’s solar market heads for first annual contraction since 2019
+    - CAB® Solar highlights solar cable hanger solutions for agricultural projects
+    - US bans foreign-produced solar inverters
+  [Electrek]
+    - Trump feds use a solar review to approve the first AI data center on public land
+    - The new Mercedes GLA EV is bigger, smarter, and has a range of over 400 miles
+    - The 2027 Cadillac Lyriq gains a key upgrade for $200 more
+  [CityAM]
+    - Vehicle production drops in first half of year
+    - Diamonds Brilliance can dazzle in the Nassau
+    - Andab could be Talk of New York on Sussex Downs
+  [MoneyControl]
+    - Uncle Sam is wrong, India and China are doing their bit to fight climate change
+  [Brazil-Exame]
+    - Disco icônico dos Beatles ganhará versão especial de R$ 1.450
+    - Justiça da Bolívia ordena prisão de Evo Morales por protestos que pararam o país
+    - Tempestades e ventanias na quinta? Órgão faz alertas para Rio e São Paulo
+  [FarmProgress]
+    - Forecast throws bucket of cold water on soybean rally
+    - Why we shouldn’t rule out a record soybean crop
+    - USDA to reopen Mexican border for cattle imports Aug. 24
+  [CoinTelegraph]
+    - Robinhood posts record quarter, but crypto revenue slides 38%
+    - Binance.US to attempt prediction markets entry as CFTC-licensed entity, says CEO
+    - Crypto entering biggest consolidation phase in history, says ARK analyst
+  [BeInCrypto]
+    - Lummis, CLARITY Acts Fiercest Proponent, Hit by Crypto Scam Hack
+    - Microsoft Crushes Q4 as Azure Growth Fuels AI Boom, How Should Traders Position?
+    - Robinhood Crypto Revenue Tops Estimates Despite 38% Drop, How Will Stock React?
+  [NewsBTC]
+    - BitMEX Faces Proposed Class Action Seeking Return Of 622 BTC
+    - CLARITY Act Delay Shows Crypto Market Structure Fight Is Not Over
+    - Robinhood CEO X Hack Shows Why Crypto Scams Still Target Trusted Names
+  [BitcoinMag]
+    - Republican Senator Cynthia Lummis Slams Democrat Lawmakers For Dragging Their Feet Over Clarity Act
+    - Bitcoin Barely Budges as Fed Keeps Interest Rates Unchanged
+    - Democratic Senator Backs Clarity Act — With Proposed Law Enforcement Changes Included: Report
+  [TheDefiant]
+    - SummerFi to Wind Down After Seven Years, Citing Exploit
+    - eToro Takes Strategic Stake in Onchain Derivatives Exchange Extended, Plans Zengo Tie-Up
+    - NEAR Governance Votes to Scrap Developer Gas Rebate
+  [Pandaily]
+    - BYD AI Team Revealed for First Time: HyWorldVLA Hybrid World Model Achieves SOTA on NAVSIM v1 With 90.59 PDMS Marking BYD Entry Into Autonomous Driving Foundation Models
+    - AI Teammates Enter the Enterprise: Tencent Cloud CodeBuddy NPC Reimagines Next-Generation R&D Workflow With AI Native Git Paradigm
+    - Alibaba Tencent and 360 Simultaneously Enter the AI Office Agent Arena: Your Desktop Becomes the New Battleground as WorkBuddy Qianwen Office and 360 AI Target Productivity Dominance
+  [TechNode]
+    - Samsung weighs using Chinese-made DRAM to expand share in China’s budget smartphone market
+    - Chinas Robotaxi enters London for first time as Baidus Apollo Go begins UK road tests with Uber and Lyft
+    - InfiMaker seeks to bring industrial manufacturing to every desktop with AI
+  [ChinaBriefing]
+    - The Greater Bay Area IIT Subsidy for 2026 Kickstarts in Shenzhen
+    - US-China Relations in the Trump 2.0 Era: A Timeline
+    - Why China is Still the Top 1 Manufacturing Destination in Asia
+  [VentureBeat-AI]
+    - Google just redesigned the search box for the first time in 25 years — here’s why it matters more than you think.
+    - Railway secures $100 million to challenge AWS with AI-native cloud infrastructure
+    - Claude Code costs up to $200 a month. Goose does the same thing for free.
+
+-- SEC 8-K MATERIAL CATALYSTS (last 3 days) --
+  2026-07-29 PCSA   [1.01,1.02,2.01,3.02,]  Processa Pharmaceuticals, Inc.  (PCSA)
+  2026-07-29 CATL   [1.01,3.02,5.02,5.03,]  Catalyst Acquisition Corp.  (CATL)
+  2026-07-29 SNDR   [5.02,8.01,9.01]  Schneider National, Inc.  (SNDR)
+  2026-07-28 CCRN   [1.02,2.01,3.01,3.03,]  CROSS COUNTRY HEALTHCARE INC  (CCRN)
+  2026-07-28 ECHO   [1.02,2.01,8.01,9.01]  EchoStar CORP  (ECHO)
+  2026-07-28 MTAK   [1.01,3.02,5.02,5.03,]  Market Technology Acquisition Corp  (MTA
+  2026-07-28 VYNE   [1.01,2.01,2.02,3.02,]  Yarrow Bioscience, Inc.  (VYNE)
+  2026-07-28 JSDA   [1.01,3.02,8.01,9.01]  JONES SODA CO.  (JSDA)
+  2026-07-28 ----   [1.01,3.02,5.02,9.01]  Entera Bio Ltd.  (ENTX, ENTXW)
+  2026-07-28 TE     [1.01,1.02,2.01,3.02,]  T1 Energy Inc.  (TE)
+  2026-07-27 ----   [5.02,7.01,8.01,9.01]  Profusa, Inc.  (PFSA, NVACW)
+  2026-07-27 YYAI   [1.01,2.01,7.01,9.01]  AIRWA INC.  (YYAI)
+  2026-07-27 ----   [1.01,5.02,5.03,8.01,]  HPS Net Lease Income REIT
+  2026-07-27 LSCC   [2.01,2.03,3.02,5.02,]  LATTICE SEMICONDUCTOR CORP  (LSCC)
+  2026-07-27 ----   [2.01,2.03,7.01,9.01]  NOVANTA INC  (NOVT, NOVTU)
+
+-- INSIDER CLUSTER BUYS (last 30d, >=2 insiders) --
+  SCTX    3 insiders / 3 buys  val=$35000K  2026-07-27  Scribe Therapeutics, Inc.
+
+-- DEFI STABLECOIN YIELDS (top 8 by APY, TVL >=$10M) --
+  (unavailable: ConnectionResetError: [Errno 54] Connection reset by peer)
+
+-- SHORT SQUEEZE WATCH (SI% float >= 10%) --
+  (no high-SI names found)
+
+-- ENERGY SNAPSHOT (FRED weekly) --
+  Gasoline retail: $4.096/gal  (4w: +6.9%)
+  (altdata2 error: TypeError: unsupported format string passed to NoneType.__for)
+
+research only, not financial advice. verify before acting.
+
+[scan task log]
+  - 07:54:14  regime: gathering FRED macro / VIX / fear-greed
+  - 07:54:28  regime: RISK-ON score=+0.47
+  - 07:54:28  quotes: collecting global universe (crypto/US/CN/TW/HK/FX/futures/indices + region/macro ETFs)
+  - 07:59:07  quotes: 101 curated instruments fetched
+  - 07:59:07  wide US funnel: pulling ~12k tickers from Polygon, pre-screening top 150
+  - 07:59:10  wide US funnel: 0 of 0 -> top 150 backtested [err: JSONDecodeError: Expecting value: line 1 column 1 (char 0)]
+  - 07:59:10  spillover funnel: scanning RSS headlines for theme keywords -> peer candidates
+  - 07:59:38  spillover funnel: 12 candidates across 2 themes -> 11 fetched
+  - 07:59:38  wide CN funnel: pulling ~5,500 A-shares, pre-screening top 120
+  - 07:59:39  wide CN funnel: 100 of 100 -> top 120 backtested
+  - 07:59:39  opportunities: building candidate set from quotes + regime
+  - 07:59:39  opportunities: 70 raw candidates
+  - 07:59:39  backtest: enriching with technicals + E[R]/sigma/Sharpe
+  - 08:00:16  backtest: per-candidate family m=10 (global total=109) -> Bonferroni t>=2.81
+  - 08:00:16  news enrichment: Finnhub headlines + Polygon sentiment per candidate
+  - 08:00:16  news enrichment: done (0 candidates have fresh headlines)
+  - 08:00:16  catalyst enrichment: scanning Finnhub earnings/FDA/IPO + Polygon dividends
+  - 08:00:17  catalyst enrichment: 0 candidates have a near-term catalyst (+0 new)
+  - 08:00:17  PEAD confirmation: looking up recent earnings surprises for PEAD setups
+  - 08:00:17  PEAD confirmation: 0 PEAD setups confirmed by earnings surprise (+0 new)
+  - 08:00:17  options enrichment: pulling ATM straddles (CBOE) for top US candidates
+  - 08:00:17  options enrichment: 0 candidates have an RV/IV signal (+0 new)
+  - 08:00:17  country crisis: scanning 32 country ETFs for crisis signals
+  - 08:00:43  country crisis: 0 candidates in crisis (+0 new)
+  - 08:00:43  veto gate: 7 rows vetoed (7 crash-in-progress, 0 news-contradicts) -> PASS rows 2 -> 1
+  - 08:00:43  catalysts: printing freshest company news for top candidates
+  - 08:00:43  alt-data: pulling FRED macro/rates/credit, treasury curve, BTC funding, COT
+  - 08:01:28  catalyst calendar: Finnhub earnings/FDA/IPO + Polygon dividends (14d)
+  - 08:01:29  expanded news: sweeping all RSS feeds (equities/macro/CB/crypto/FX/commodities/regional)
+  - 08:02:01  expanded news: 36 feeds ok, 65 feeds failed
+  - 08:02:01  GDELT: 24h global market tone sweep
+  - 08:02:13  altdata2: SEC 8-K + insider clusters + DeFi yields + short squeeze + energy
+  - 08:02:15  SEC 8-K: 15 filings with material items (last 3d)
+  - 08:02:16  insider clusters: 1 tickers with >=2 insider buyers (30d)

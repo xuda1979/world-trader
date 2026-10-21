@@ -1,0 +1,25 @@
+{
+  "purpose": "PROPOSED recovery of the lost 09-14-extended diescrack net vintage (4629 rows), lost in the 2026-10-01 stash-clobber restore; NOT yet written to the live sleeve.",
+  "lost_vintage": {
+    "rows": 4629,
+    "last": "2026-09-14",
+    "exists_in_git": false
+  },
+  "recovery_method": "working net (08-24, 4615 rows) + zero-extension on the 14 archive tail dates",
+  "evidence": [
+    "committed costfix prefix archive (CAMP_COST/sleeves/diescrack__prefix.csv, commit 623e2e75) covers 09-14 and is EXACTLY ZERO on all 14 tail dates",
+    "independent rebuild from raw (DJFUELUSGULF + wti_full/EIA splice, refresh_sleeves.py R6 conventions) also yields 0.0 on all tail dates (maxdev 0.0 vs archive tail)",
+    "sleeve last nonzero day: 2026-07-15 (both net and archive agree); the 08-25..09-14 window was a no-position flat period"
+  ],
+  "limitations": [
+    "the diesel raw input (tools/quant/data/newdata/DJFUELUSGULF.csv) is gitignored and revised in place; the 09-14-era diesel vintage is unrecoverable, so an exact from-raw re-emission is impossible",
+    "however, since the recovered tail is identically zero, no information is lost: the exact bytes of the lost vintage tail are deterministically implied by the committed archive",
+    "the 607-date pre-08-24 divergence class (diesel revision) affects from-raw rebuilds but NOT this recovery, which uses the actual working-net bytes"
+  ],
+  "validation": {
+    "recovered_n": 4629,
+    "recovered_last": "2026-09-14",
+    "tail_all_zero": true,
+    "prefix_archive_tail_zero": true
+  }
+}

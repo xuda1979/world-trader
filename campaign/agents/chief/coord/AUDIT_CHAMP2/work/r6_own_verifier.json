@@ -1,0 +1,125 @@
+{
+ "weights_repro": {
+  "ok": true,
+  "max_dev": 2.220446049250313e-16,
+  "tol": 1e-09,
+  "rb_hobr_relw": 1.549578832818235
+ },
+ "byte_repro": {
+  "ok": true,
+  "max_dev": 9.996344030316351e-17,
+  "n_inner": 4805,
+  "n_csv": 4805,
+  "n_my": 4805,
+  "tol": 1e-12
+ },
+ "cost_reconciliation": {
+  "ok": true,
+  "model": "full_dw",
+  "max_dev_full": 1.0001976799415592e-16,
+  "max_dev_half": 1.96634076754432e-05,
+  "ratio": 1.000000000001463,
+  "bp_per_year": 5.4972041293393765,
+  "day1_entry_charged_bp": 7.521652571618187e-14
+ },
+ "causality": {
+  "ok": true,
+  "causal_max_dev": 9.996344030316351e-17,
+  "sameday_max_dev": 0.004814594115162541,
+  "truncation_max_dev": 0.0,
+  "trunc_tol": 1e-15
+ },
+ "gross": {
+  "ok": true,
+  "weights_max": 1.6000000000000012,
+  "financing_implied_max": 1.60000000000056,
+  "n_over": 0
+ },
+ "yearly": {
+  "ok": true,
+  "neg_years": 0,
+  "worst_year_pct": 7.844281449836488
+ },
+ "mdd": {
+  "ok": true,
+  "mdd_pct": -6.235379082850856,
+  "limit": -7.0
+ },
+ "stats": {
+  "c14": {
+   "n": 4805,
+   "cagr_pct": 36.2885008231393,
+   "arith_pct": 31.426110738798258,
+   "sr": 3.271866061551841,
+   "mdd_pct": -6.235379082850856,
+   "neg_years": 0,
+   "worst_year_pct": 7.844281449836488,
+   "n_years": 19
+  },
+  "champ": {
+   "n": 4805,
+   "cagr_pct": 37.19539675684982,
+   "arith_pct": 32.13733812888786,
+   "sr": 3.180994199561701,
+   "mdd_pct": -6.692185534307193,
+   "neg_years": 0,
+   "worst_year_pct": 7.310363900638817,
+   "n_years": 19
+  }
+ },
+ "deltas": {
+  "dAnn_cagr_pp": -0.9068959337105156,
+  "dAnn_arith_pp": -0.7112273900896042,
+  "dSR": 0.09087186199014008,
+  "dMDD_pp": 0.45680645145633747
+ },
+ "halves": {
+  "c13_H1": 3.5639906794132727,
+  "c13_H2": 2.9790377967420074,
+  "c14_H1": 3.80161427108804,
+  "c14_H2": 3.0013537708189157,
+  "dSR_H1_byhalf": 0.2376235916747671,
+  "dSR_H2_byhalf": 0.02231597407690833,
+  "split": "2017-06-13"
+ },
+ "is_oos": {
+  "c14_IS_SR": 3.7251681518274555,
+  "c14_OOS_SR": 3.065496098042458,
+  "c13_IS_SR": 3.494544476028433,
+  "c13_OOS_SR": 3.0358015700608547,
+  "dSR_IS": 0.23062367579902254,
+  "dSR_OOS": 0.029694527981603436
+ },
+ "hobr_share": {
+  "mean": 0.057582199090409264,
+  "min": 0.01455751024215863,
+  "max": 0.09980913826776491,
+  "cap": 0.15,
+  "ok_le_0.15": true
+ },
+ "turnover_bp_yr": {
+  "c14": 5.497204129331333,
+  "champ_5_2622_ref": 5.2622
+ },
+ "fill0_w025": {
+  "dSR": 0.20451484945409382,
+  "dAnn_cagr_pp": 4.496894105702928,
+  "dAnn_arith_pp": 3.2123271710509727,
+  "note": "native-units add WITHOUT renormalization: the champion already rides gross 1.6 exactly, so ANY added slot exposure pushes gross above 1.6 by 0.25*hobr_gross >= 0 (8e). The re-solve instead re-allocates inside 1.6.",
+  "extra_gross_if_hobr_gross_2": 0.5,
+  "extra_gross_if_hobr_gross_1": 0.25
+ },
+ "renorm_gross160_hobr_gross2": {
+  "champ_leg_mult": 1.0666666666666667,
+  "dSR": 0.20451484945409382,
+  "dAnn_cagr_pp": 7.968800231287339,
+  "gross": "1.6 by construction"
+ },
+ "renorm_gross160_hobr_gross1": {
+  "champ_leg_mult": 1.28,
+  "dSR": 0.20451484945409382,
+  "dAnn_cagr_pp": 19.600962103016826,
+  "gross": "1.6 by construction"
+ },
+ "FAIL": []
+}

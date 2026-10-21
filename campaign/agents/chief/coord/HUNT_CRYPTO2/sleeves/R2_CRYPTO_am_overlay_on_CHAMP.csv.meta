@@ -1,0 +1,6 @@
+agent=HUNT_CRYPTO2 round=2 overlay=R2_CRYPTO_am_overlay_on_CHAMP verdict=FAIL
+gate=champ*binary_overlay; flip costs |dg|*6.4bps; T+1; nothing else changed
+champ_ref: SR=3.2964 ann=39.85% mdd=-6.84%
+overlay: SR=3.315 dSR=+0.019 dAnn=-10.923pp dMDD=+0.807pp off%=27 flips=236 negyr=0 corr_champ=+0.880
+honesty: prefix-no-lookahead PASS; extra-lag 0..3 stable; scramble200x p_SR=0.435 p_MDD=0.440
+caveats: price-only dominance proxy (no caps on disk); BTC 3h-late close; acts 2017-08+ only (2008/09 MDDs untouchable, max possible dMDD +0.81pp); warmup NaN = no action; charter bar +0.3pp ann or -0.5pp MDD NOT met

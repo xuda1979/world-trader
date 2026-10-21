@@ -1,0 +1,67 @@
+=== A) published-CSV vs meta vs my-honest rebuild (all 19 books) ===
+          name  n_pub  n_meta  n_honest  sr_pub  sr_meta  sr_honest  sr_double  devA_vs_pub  dev_pos_vs_pub
+  POST5_2_long   6654    6653      6654  0.2914   0.1275     0.2914     0.1275 9.990923e-17             0.0
+   PRE5_2_long   6660    6659      6660 -0.8558  -0.6922    -0.8558    -0.6922 9.990923e-17             0.0
+       COND5_2   6571    6570      6571 -1.0503  -0.7184    -1.0503    -0.7184 9.990923e-17             0.0
+  POST5_5_long   6582    6581      6582  0.2161  -0.3245     0.2161    -0.3245 9.999055e-17             0.0
+   PRE5_5_long   6588    6587      6588 -0.7074  -0.3137    -0.7074    -0.3137 9.974660e-17             0.0
+       COND5_5   6085    6084      6085 -0.6015  -0.5602    -0.6015    -0.5602 9.974660e-17             0.0
+ POST5_10_long   6663    6662      6663  0.1977   0.2074     0.1977     0.2074 9.974660e-17             0.0
+  PRE5_10_long   6669    6668      6669 -0.0199  -0.0218    -0.0199    -0.0218 9.990923e-17             0.0
+      COND5_10   6394    6393      6394 -0.2724  -0.2717    -0.2724    -0.2717 9.887924e-17             0.0
+ POST5_30_long   6393    6392      6393  0.4407   0.4676     0.4407     0.4676 9.887924e-17             0.0
+  PRE5_30_long   6399    6398      6399 -0.4999  -0.1817    -0.4999    -0.1817 9.714451e-17             0.0
+      COND5_30   4391    4390      4391  0.1177   0.0768     0.1177     0.0768 9.974660e-17             0.0
+ POST5_10_anti   6663    6662      6663 -0.8594  -0.8636    -0.8594    -0.8636 9.974660e-17             0.0
+  PRE5_10_anti   6669    6668      6669 -0.6081  -0.5919    -0.6081    -0.5919 9.887924e-17             0.0
+ COND5_10_anti   6394    6393      6394 -0.3923  -0.3865    -0.3923    -0.3865 9.974660e-17             0.0
+ POST3_10_long   6663    6662      6663  0.1977  -0.3349    -0.1846    -0.3349 6.508238e-02             3.0
+      COND3_10   6394    6393      6394 -0.2724  -0.5367    -0.4691    -0.5367 6.508238e-02             3.0
+POST10_10_long   6663    6662      6663  0.1977   0.2528     0.3377     0.2528 5.583881e-02             3.0
+     COND10_10   6394    6393      6394 -0.2724  -0.1470    -0.1670    -0.1470 5.583881e-02             3.0
+
+my honest rebuild == published sleeve CSV, byte-exact (<1e-12): False
+my effective weights == published positions CSV (<1e-12):        False
+my double-net rebuild == 19 meta net_sr cells (<5e-5):           True
+plateau-book published CSVs byte-identical to their k=5 counterpart: [('POST3_10_long', 'POST5_10_long', True, 5), ('COND3_10', 'COND5_10', True, 5), ('POST10_10_long', 'POST5_10_long', True, 5), ('COND10_10', 'COND5_10', True, 5)]
+
+=== B) honest single-T+1 book cells (what the submission SHOULD have reported) ===
+          name  sr_honest  ann_honest      h1      h2  neg_honest  worst_honest  corr_champ  corr_a6r7  spy_sr_matched  beats_spy  perm_p  lag_p  era_pre  era_post
+  POST5_2_long     0.2914      0.0151  0.8038 -0.3175          13       -0.1115      0.0445     0.4428          0.5171      False    0.00  0.000   0.8199   -0.3168
+   PRE5_2_long    -0.8558     -0.0453 -1.0449 -0.6392          20       -0.1988      0.0600     0.4068          0.5171      False    0.00  0.990  -1.0428   -0.6501
+       COND5_2    -1.0503     -0.0602 -0.8936 -1.2486          22       -0.2057     -0.0465    -0.1138          0.5171      False    0.00  0.855  -0.9062   -1.2298
+  POST5_5_long     0.2161      0.0139  0.4787 -0.0570          11       -0.1500      0.0549     0.3730          0.5171      False    0.00  0.005   0.5208   -0.0826
+   PRE5_5_long    -0.7074     -0.0546 -0.7822 -0.6238          20       -0.2792      0.0766     0.3529          0.5171      False    0.00  0.985  -0.7344   -0.6873
+       COND5_5    -0.6015     -0.0498 -0.0134 -1.2319          17       -0.2723     -0.0197    -0.1058          0.5171      False    0.00  0.480  -0.0138   -1.1276
+ POST5_10_long     0.1977      0.0113  0.5913 -0.2647          12       -0.1502     -0.0013     0.2110          0.5171      False    0.00  0.025   0.6129   -0.2751
+  PRE5_10_long    -0.0199     -0.0041  0.2370 -0.2994          13       -0.0767      0.0003     0.2428          0.5171      False    0.00  0.270   0.2984   -0.3523
+      COND5_10    -0.2724     -0.0212  0.1044 -0.7377          17       -0.1995      0.0066     0.0757          0.5171      False    0.00  0.470   0.2433   -0.8374
+ POST5_30_long     0.4407      0.0392  0.5155  0.3802           8       -0.1151      0.0037     0.1116          0.5171      False    0.00  0.030   0.6966    0.2609
+  PRE5_30_long    -0.4999     -0.0614 -0.3389 -0.6322          16       -0.2407     -0.0087     0.1183          0.5171      False    0.46  0.985  -0.3309   -0.6194
+      COND5_30     0.1177      0.0069  0.5731 -0.3505           6       -0.2422      0.0006     0.0356          0.7955      False    0.00  0.080   1.0736   -0.2296
+ POST5_10_anti    -0.8594     -0.0603 -1.1598 -0.5090          23       -0.1830      0.0076    -0.2096          0.5171      False    0.00  0.975  -1.1731   -0.5059
+  PRE5_10_anti    -0.6081     -0.0463 -0.8052 -0.3946          21       -0.1178     -0.0027    -0.2446          0.5171      False    0.00  0.725  -0.8569   -0.3493
+ COND5_10_anti    -0.3923     -0.0295 -0.6899 -0.0331          17       -0.1830     -0.0004    -0.0761          0.5171      False    0.00  0.555  -0.8136    0.0607
+ POST3_10_long    -0.1846     -0.0112  0.3596 -0.8171          15       -0.1219     -0.0000     0.1581          0.5171      False    0.00  0.330   0.3953   -0.8390
+      COND3_10    -0.4691     -0.0263 -0.2449 -0.7459          18       -0.1700      0.0008     0.0837          0.5171      False    0.00  0.675  -0.0759   -0.8963
+POST10_10_long     0.3377      0.0286  0.5464  0.0967           9       -0.2028      0.0051     0.3091          0.5171      False    0.00  0.050   0.5358    0.1174
+     COND10_10    -0.1670     -0.0210  0.1215 -0.5187          13       -0.2418     -0.0052     0.0864          0.5171      False    0.00  0.530   0.2500   -0.6130
+
+honest books passing sr>=1.0 AND beats_spy AND scrambles AND era: 0/19
+honest books with SR>=1.0: 0/19; max honest SR = 0.4407
+
+=== C) drift controls (independent) ===
+  2y: post   15.2bp (pub   15.2)  all   10.3bp (pub   10.3)  excess   +4.9bp (pub   +5.0)  t  6.1 (pub  2.0)  weak/strong   22.8/   9.6bp  driftCSV maxdev 9.97e-17
+  5y: post   22.7bp (pub   22.7)  all   10.8bp (pub   10.8)  excess  +12.0bp (pub  +12.6)  t  5.8 (pub  3.2)  weak/strong   26.3/  21.5bp  driftCSV maxdev 9.97e-17
+  10y: post   16.8bp (pub   16.8)  all   11.3bp (pub   11.3)  excess   +5.5bp (pub   +5.9)  t  2.3 (pub  0.8)  weak/strong   28.3/  12.4bp  driftCSV maxdev 9.89e-17
+  30y: post   49.1bp (pub   49.1)  all   13.8bp (pub   13.8)  excess  +35.4bp (pub  +35.4)  t  2.6 (pub  1.8)  weak/strong   28.5/  80.6bp  driftCSV maxdev 9.71e-17
+
+scorecard -> work_r6/r6_treasfut_repro_scorecard.json
+{
+ "published_csv_matches_honest_single_netof": false,
+ "published_positions_match": false,
+ "metas_match_double_netof_rebuild": true,
+ "metas_match_published_csv": false,
+ "honest_books_any_pass": 0,
+ "max_honest_sr": 0.4407
+}

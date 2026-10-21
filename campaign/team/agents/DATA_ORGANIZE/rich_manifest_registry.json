@@ -1,0 +1,23 @@
+{
+  "policy": "Rich (non-canonical) manifests pinned by R7 post-mortem (DATA_ETF_MORE, 2026-09-08): a family whose manifest carries facts the flat 7-col schema cannot express (span_class, PIT vintage rows, corr columns) may hold a purpose-built schema INSTEAD of the canonical one. organize_lib.write_manifest refuses to regenerate these (fail-closed guard) and this test file grants them an exemption. Two-way fail-closed: (1) an unpinned rich manifest still fails the layout test (no license to flatten by hand either); (2) a pinned family whose manifest loses a required column OR regains the canonical schema fails the test (de-classify by updating this registry, never silently).",
+  "pinned": {
+    "more_etf": {
+      "row_key": "symbol",
+      "disk_check": "top_level_csv",
+      "required_cols": ["symbol", "start", "end", "rows", "max_gap_days", "zero_ret_rows", "jump_days", "dup_dates", "span_class", "status"],
+      "reason": "DATA_ETF_MORE R3-R4 deliverable: span_class (pre2007|2007plus|inception_fail) is the coordinator-waiver depth disclosure hunts filter on (GATES_CONTRACT_V2 section 9). Destroyed once by the 14:40 clobber, restored via work_r3/manifest_r3.py."
+    },
+    "bench_r5": {
+      "row_key": "symbol",
+      "disk_check": "none",
+      "required_cols": ["symbol", "role", "path", "lint_mode", "px_convention", "fetch_source", "sha256_16", "start", "end", "rows", "span_years", "maxgap_days", "zero_ret_rows", "jump_days", "dup_dates", "status", "span_class", "corr_spy", "corr_ief", "corr_cta", "corr_to_champion", "max_corr_trio", "nobs_spy", "nobs_ief", "nobs_cta", "nobs_champion", "note"],
+      "reason": "DATA_ETF_MORE R5 deliverable: pinned-trio byte-stability (sha256_16 per row, V2 9d/10b) + decorrelation measurements for the V2 section-8 blend battery. Its test suite (work_r5/test_bench_r5.py T4) asserts its exact bytes - a schema flatten IS a test failure. Destroyed once by the 14:40 clobber, restored via work_r5/bench_r5.py build()."
+    },
+    "alfred": {
+      "row_key": "series_id",
+      "disk_check": "none",
+      "required_cols": ["series_id", "artifact", "level_file", "level_rows", "level_start", "level_end", "level_gaps", "level_lint_pass", "vintage_rows", "release_span", "obs_span", "lag_min_days", "lag_max_days", "lag_floor_days", "alfred_birth", "vintage", "lint_pass", "restored_from", "sha256_16", "status", "note"],
+      "reason": "DATA_FREDMORE R5 deliverable, restored R7: PIT vintage facts (lag_min/max_days vs floor, release/obs spans, alfred_birth, vintage-csv sha256_16, provenance) that the flat 7-col schema cannot express - the exact row class the 14:40 clobber destroyed (CAMP_BORROW FINDINGS LIVE INCIDENT escalation #2). Rows re-derived from disk and written atomically by DATA_FREDMORE work_r7/restore_pit_manifest.py; organize_lib regen guard refuses any flatten."
+    }
+  }
+}

@@ -1,0 +1,11 @@
+status: DEAD (R5 full V2 battery FAIL)
+family: TimesFM 2.5-200m zero-shot weekly forecast-direction, PROP, horizon 5d
+span_class: pre2007 span 1992-07-09..2026-09-01 n=8559
+battery: gates.run(r=rpu, sig=w, leak_check=True, beats_passive=True, spy/ief/cta pinned, ref=champion)
+sr 0.2828 h1 0.1905 h2 0.3769 negyr 11.0 worst -0.1859 ann 0.0258 corr -0.0193 scr_p 0.585
+leak same_period_corr -0.018774412661108405 leak_ok True; bp_best 0.5642582760611512 (spy_bh) bp_ok False
+agree_naive_mom5 0.622 (not a momentum re-test)
+costs: 6.4bps one-side FULL |dW| entry+exit folded, borrow 0.5%/yr, margin 4.5%/yr, VT10 clip3 frozen at decision
+champion vintage: GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv sha 4358dfab95679b97
+source vintage: /Users/daxu/software/world-trader/tools/quant/data/more_fred/DPROPANEMBTX.csv sha c71b0d1e89a2061a
+scripts: work_r5/gen_forecasts_r5.py, work_r5/eval_r5.py, tests/test_tfm_r5_tdd.py 13/13

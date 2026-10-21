@@ -1,0 +1,220 @@
+{
+ "part_A_mhx": {
+  "A0_import_audit": {
+   "imports": [
+    "__future__",
+    "features",
+    "features6",
+    "json",
+    "numpy",
+    "os",
+    "pandas",
+    "pickle",
+    "pipeline_common",
+    "sys",
+    "time",
+    "xgboost"
+   ],
+   "imports_strat_ls_equity": false,
+   "imports_hedge_fund_strats": false
+  },
+  "A1_rebuild_validation": {
+   "cache": "horizon_preds_20y_f6.pkl",
+   "max_diff": 9.982791503160282e-17,
+   "n": 4682,
+   "valid_at_2e4": true,
+   "committed": "COORD/sleeves/MHX_multihorizon_xgb.csv"
+  },
+  "A2_borrow_ladder": {
+   "mean_short_frac": 0.29601238588098594,
+   "drag_pct_per_yr": {
+    "EASY": 0.148,
+    "MEDIUM": 0.592,
+    "HARD": 2.3681
+   },
+   "base_R1_flag": "~75bps/yr borrow-tier uplift (R1 FINDINGS)",
+   "champion_impact_pp": 0.0,
+   "champion_note": "MHX removed from champion (failed retrain); champion stock-loan slots already priced in R2/R3"
+  },
+  "A_fix_changes_mhx": "NO-OP: strat_ls_equity not in MHX import graph; committed MHX bytes reproduced from the XGB prediction cache (max|diff| 9.983e-17) without touching strat_ls_equity."
+ },
+ "part_B_ls_books": {
+  "L_S_130_30": {
+   "committed_provenance": {
+    "replicated_max_diff": 5.204170427930421e-16,
+    "n": 4683,
+    "cost_frac": 0.0012,
+    "tol": 0.0002,
+    "byte_valid": true
+   },
+   "fixed_vs_committed": {
+    "max_diff": 0.06285609857798258,
+    "n": 4683,
+    "cost_frac": 0.0012
+   },
+   "committed_perf": {
+    "ann_pct": 19.9953,
+    "sr": 0.8216,
+    "mdd_pct": -45.8438,
+    "n": 4683
+   },
+   "fixed_perf": {
+    "ann_pct": 13.1589,
+    "sr": 0.7319,
+    "mdd_pct": -28.903,
+    "n": 4683
+   },
+   "fixed_mean_short_frac": 0.2825149444918873,
+   "buggy_mean_short_frac": 0.0,
+   "fixed_borrow_drag_pct_per_yr": {
+    "EASY": 0.1413,
+    "MEDIUM": 0.565,
+    "HARD": 2.2601
+   },
+   "none_drop_perf": {
+    "ann_pct": 20.8414,
+    "sr": 0.8209,
+    "mdd_pct": -45.028,
+    "n": 4683
+   }
+  },
+  "L_S_120_20": {
+   "committed_provenance": {
+    "replicated_max_diff": 5.386316392907986e-16,
+    "n": 4683,
+    "cost_frac": 0.0012,
+    "tol": 0.0002,
+    "byte_valid": true
+   },
+   "fixed_vs_committed": {
+    "max_diff": 0.023827077289394587,
+    "n": 4683,
+    "cost_frac": 0.0006
+   },
+   "committed_perf": {
+    "ann_pct": 15.5246,
+    "sr": 0.8254,
+    "mdd_pct": -34.991,
+    "n": 4683
+   },
+   "fixed_perf": {
+    "ann_pct": 14.8116,
+    "sr": 0.8767,
+    "mdd_pct": -30.6275,
+    "n": 4683
+   },
+   "fixed_mean_short_frac": 0.09435999146029038,
+   "buggy_mean_short_frac": 0.0,
+   "fixed_borrow_drag_pct_per_yr": {
+    "EASY": 0.0472,
+    "MEDIUM": 0.1887,
+    "HARD": 0.7549
+   },
+   "none_drop_perf": {
+    "ann_pct": 16.1349,
+    "sr": 0.8379,
+    "mdd_pct": -35.4808,
+    "n": 4683
+   }
+  },
+  "L_S_Market_Neutral": {
+   "committed_provenance": {
+    "replicated_max_diff": 0.007566220544710678,
+    "n": 4680,
+    "cost_frac": 0.0012,
+    "tol": 0.0002,
+    "byte_valid": false
+   },
+   "fixed_vs_committed": {
+    "max_diff": 0.20952032859327602,
+    "n": 4680,
+    "cost_frac": 0.0012
+   },
+   "committed_perf": {
+    "ann_pct": 25.4278,
+    "sr": 0.8671,
+    "mdd_pct": -46.5025,
+    "n": 4680
+   },
+   "fixed_perf": {
+    "ann_pct": -1.1185,
+    "sr": 0.0022,
+    "mdd_pct": -33.0603,
+    "n": 4683
+   },
+   "fixed_mean_short_frac": 0.9417164816396243,
+   "buggy_mean_short_frac": 0.0,
+   "fixed_borrow_drag_pct_per_yr": {
+    "EASY": 0.4709,
+    "MEDIUM": 1.8834,
+    "HARD": 7.5337
+   },
+   "none_drop_perf": {
+    "ann_pct": 25.158,
+    "sr": 0.8208,
+    "mdd_pct": -53.9334,
+    "n": 4683
+   }
+  },
+  "L_S_Dollar_Neutral": {
+   "committed_provenance": {
+    "replicated_max_diff": 5.169475958410885e-16,
+    "n": 4682,
+    "cost_frac": 0.0012,
+    "tol": 0.0002,
+    "byte_valid": true
+   },
+   "fixed_vs_committed": {
+    "max_diff": 0.20952032859327624,
+    "n": 4682,
+    "cost_frac": 0.0012
+   },
+   "committed_perf": {
+    "ann_pct": 23.2906,
+    "sr": 0.8135,
+    "mdd_pct": -46.5954,
+    "n": 4682
+   },
+   "fixed_perf": {
+    "ann_pct": -1.1185,
+    "sr": 0.0022,
+    "mdd_pct": -33.0603,
+    "n": 4683
+   },
+   "fixed_mean_short_frac": 0.9417164816396243,
+   "buggy_mean_short_frac": 0.0,
+   "fixed_borrow_drag_pct_per_yr": {
+    "EASY": 0.4709,
+    "MEDIUM": 1.8834,
+    "HARD": 7.5337
+   },
+   "none_drop_perf": {
+    "ann_pct": 25.158,
+    "sr": 0.8208,
+    "mdd_pct": -53.9334,
+    "n": 4683
+   }
+  },
+  "L_S_130_30_volmanaged": {
+   "fixed_perf": {
+    "ann_pct": 14.4748,
+    "sr": 0.7357,
+    "mdd_pct": -23.8265,
+    "n": 4408
+   },
+   "committed_perf": {
+    "ann_pct": 16.1534,
+    "sr": 0.8048,
+    "mdd_pct": -26.6366,
+    "n": 4661
+   },
+   "fixed_vs_committed_max_diff": 0.05106209225384172,
+   "n": 4408
+  }
+ },
+ "conventions": {
+  "fix": "strat_ls_equity.py:139 neg / |neg|.sum() * short_scale  (shorts stay NEGATIVE)",
+  "docstring_contract": "core.py BacktestEngine.run: target_weights \"(positive=long, negative=short, sum=net exposure)\"; module docstring: 130/30 = 130% long + 30% short",
+  "tol": 0.0002
+ }
+}

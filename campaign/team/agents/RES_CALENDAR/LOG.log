@@ -1,0 +1,45 @@
+=== RES_CALENDAR start Tue Sep  8 09:57:47 CST 2026 ===
+=== RES_CALENDAR r1 (2026-09-08) ===
+- Read ORG.md + charter. bt/tests baseline: 403 passed (pre-work), 410 at close.
+- DATA-LINT: newdata/fomc_dates.csv corrupt 2021+ (0/8 real days match); fail-closed, not used.
+- REBUILD: FOMC calendar 2008-2025 from federalreserve.gov via direct HTTP (no browser);
+  145 days, 8/yr (2020=9: Mar-03 unscheduled stmt, Mar-15 special COVID meeting);
+  cross-month "Jan/Feb 31-1" / "Oct/Nov 31-1" mapped (2017/2018/2023).
+- Scans: FOMC day-after on EW82-ETF basket (n=144, -24.50bp, t=-2.54); UNG short-Thu
+  (t=-3.53); month-turn/weekday 410-test Bonferroni scan (survivors = dist-artifacts + UNG);
+  UUP/pre-FOMC/rates screens all sub-bar.
+- Best composite 50/50: SR 0.592, halves 0.544/0.640, negYr 5, corr 0.080, scr p=0.015,
+  leak ok -> FAILS (a),(d). 0 sleeves saved. VERDICT: REJECT-with-numbers.
+- Deliverables: FINDINGS.md, work/{fomc_ann_final.json, fed_source_calendars.html},
+  sleeves/repro_r1.py, tests_r1.py (4/4 green). bt/tests 410 passed at close.
+=== RES_CALENDAR r1 DONE ===
+Charter executed to completion. Final report:
+
+## RES_CALENDAR r1 — DONE (REJECT-with-numbers, 0 sleeves saved)
+
+**Charter mission**: find ≥1 decorrelated SR≥1.0 daily calendar/macro-seasonal engine vs champion (37.195% / SR 3.181).
+
+### What was done
+
+**1. Framework baseline (verification-first)**: `bt/tests/` 403 passed pre-work; 434 passed at close (bt + team + my new tests).
+
+**2. DATA-LINT (blocking intel)**: the on-disk `fomc_dates.csv` is **corrupt** — 2021 has 4 rows, **0/8** matching the real public FOMC calendar; 2022 = 2/8 wrong; 2023 = 3 rows + one `NaN`; 2024 = 4/8 wrong. Fail-closed: rejected.
+
+**3. REBUILD (no-browser, direct HTTP)**: FOMC announcement-day calendar 2008–2025 rebuilt from federalreserve.gov (13 GETs, one per year + calendars page). Handles cross-month renderings ("Jan/Feb 31-1", "Oct/Nov 31-1") and 2020 COVID specials (Mar-03 unscheduled stmt, Mar-15 Sunday meeting). **145 days, 8/year (2020=9)**, validated against public knowledge. Saved to `work/fomc_ann_final.json` — suggested team replacement for the corrupt file.
+
+**4. Hunts (all honest: T+1, 6.4bps full |dW|, VT, gates.run with sig+leak+corr)**:
+| Idea | Key numbers | Verdict |
+|---|---|---|
+| FOMC day-after equity short (EW 82 ETFs) | gross -24.50bp/event t=-2.54 (n=144); net SR 0.263–0.471 | real, **FAILS** sr/halves/negYr/uniq |
+| UNG short-Thursday | gross -37.1bp t=-3.53; net SR 0.354, corr 0.081 | real, **FAILS** sr/halves/negYr |
+| Composite 50/50 (best of round) | **SR 0.592, H1 0.544/H2 0.640, negYr 5, corr 0.080, scramble p=0.015, leak ok, pass=False** | **FAILS (a),(d)** |
+| Bond-ETF month-end/Monday "effects" | BIL MT -4.5bp t=-8.5, HYG -19bp t=-6.1 | **DATA ARTIFACT** (distribution ex-dates — short pays the dist, uneconomic) |
+| Pre-FOMC / UUP / rates / VIX screens | all \|t\|<2.4 or uneconomic | REJECT at screen |
+
+**Root cause across the family**: event frequency (8/yr × 1-day holds) caps net SR ~0.35–0.60 vs the 1.0 bar — same wall E2 hit. The family is *real* (scramble p=0.015, corr to champion ≤0.08) but unsaveable standalone.
+
+### Deliverables (all short-file, TDD-pinned)
+- `FINDINGS.md` — every number above, last line exactly `RES_CALENDAR DONE`
+- `tests_r1.py` — 4 TDD tests, RED→GREEN (caught 2 of my own bugs: calendar gaps, panel window)
+- `sleeves/repro_r1.py` — thin repro regenerating all headline numbers
+- `work/fomc_ann_final.json` + raw HTML snapshot — clean PIT calendar replacing the corrupt file

@@ -1,0 +1,2016 @@
+########## DIGEST 2026-07-08 09:00:16 CST ##########
+world-trader daily digest  2026-07-08 09:00 CST
+
+=== FUNDING ARB (single-exchange spot-vs-perp) ===
+  scanner error: <urlopen error timed out>
+Traceback (most recent call last):
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1501, in connect
+    super().connect()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1032, in connect
+    self.sock = self._create_connection(
+                ~~~~~~~~~~~~~~~~~~~~~~~^
+        (self.host,self.port), self.timeout, self.source_address)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 874, in create_connection
+    raise exceptions[0]
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 859, in create_connection
+    sock.connect(sa)
+    ~~~~~~~~~~~~^^^^
+TimeoutError: timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/daily_digest.py", line 26, in build_digest
+    rows = funding_arb.scan()
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 73, in scan
+    funding_rows = all_perp_funding()
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 26, in all_perp_funding
+    return _get("https://fapi.binance.com/fapi/v1/premiumIndex")
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 21, in _get
+    return json.load(urllib.request.urlopen(req, timeout=timeout))
+                     ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error timed out>
+
+
+=== CROSS-EXCHANGE FUNDING SPREAD ===
+  exchanges: binance_funding=0, bybit_funding=0, okx_funding=0, gate=829, bitget=0
+  no cross-exchange spread cleared the bar.
+
+=== RISK REMINDER ===
+  Funding arbs are delta-neutral but have real risks:
+  - funding interval mismatch (4h vs 8h) between exchanges
+  - liquidation if margin imbalance grows
+  - withdrawal delays / exchange outages
+  - small-cap symbols may have wide spreads / thin liquidity
+  Verify live before trading. Research only, not financial advice.
+
+--- dispatching to alert channels ---
+{
+  "email": [
+    false,
+    "email not configured"
+  ],
+  "telegram": [
+    false,
+    "telegram not configured"
+  ],
+  "discord": [
+    false,
+    "discord not configured"
+  ]
+}
+
+########## DIGEST 2026-07-09 09:00:05 CST ##########
+world-trader daily digest  2026-07-09 09:00 CST
+
+=== FUNDING ARB (single-exchange spot-vs-perp) ===
+  scanner error: <urlopen error timed out>
+Traceback (most recent call last):
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1501, in connect
+    super().connect()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1032, in connect
+    self.sock = self._create_connection(
+                ~~~~~~~~~~~~~~~~~~~~~~~^
+        (self.host,self.port), self.timeout, self.source_address)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 874, in create_connection
+    raise exceptions[0]
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 859, in create_connection
+    sock.connect(sa)
+    ~~~~~~~~~~~~^^^^
+TimeoutError: timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/daily_digest.py", line 26, in build_digest
+    rows = funding_arb.scan()
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 73, in scan
+    funding_rows = all_perp_funding()
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 26, in all_perp_funding
+    return _get("https://fapi.binance.com/fapi/v1/premiumIndex")
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 21, in _get
+    return json.load(urllib.request.urlopen(req, timeout=timeout))
+                     ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error timed out>
+
+
+=== CROSS-EXCHANGE FUNDING SPREAD ===
+  exchanges: binance_funding=0, bybit_funding=0, okx_funding=0, gate=829, bitget=0
+  no cross-exchange spread cleared the bar.
+
+=== RISK REMINDER ===
+  Funding arbs are delta-neutral but have real risks:
+  - funding interval mismatch (4h vs 8h) between exchanges
+  - liquidation if margin imbalance grows
+  - withdrawal delays / exchange outages
+  - small-cap symbols may have wide spreads / thin liquidity
+  Verify live before trading. Research only, not financial advice.
+
+--- dispatching to alert channels ---
+{
+  "email": [
+    false,
+    "email not configured"
+  ],
+  "telegram": [
+    false,
+    "telegram not configured"
+  ],
+  "discord": [
+    false,
+    "discord not configured"
+  ]
+}
+
+########## DIGEST 2026-07-10 09:00:05 CST ##########
+world-trader daily digest  2026-07-10 09:00 CST
+
+=== FUNDING ARB (single-exchange spot-vs-perp) ===
+  1 candidates:
+  - VANRYUSDT    fr_8h=-0.189% basis=-0.264% net_24h=+0.114% APR=+13.830% (long_perp_short_spot)
+
+=== CROSS-EXCHANGE FUNDING SPREAD ===
+  exchanges: binance=782, bybit=617, okx=0, gate=829, bitget=0
+  25 candidates:
+  - SKLUSDT      SHORT binance (-0.735%) / LONG bybit (-2.000%) spread_8h=+1.265% net_24h=+3.634% APR=+442.179%
+  - XCNUSDT      SHORT binance (+0.000%) / LONG bybit (-0.600%) spread_8h=+0.600% net_24h=+1.640% APR=+199.491%
+  - DATAUSDT     SHORT gate (-0.199%) / LONG bybit (-0.636%) spread_8h=+0.437% net_24h=+1.151% APR=+140.008%
+  - OGNUSDT      SHORT gate (-0.355%) / LONG bybit (-0.751%) spread_8h=+0.396% net_24h=+1.028% APR=+125.088%
+  - GWEIUSDT     SHORT bybit (+0.001%) / LONG binance (-0.380%) spread_8h=+0.381% net_24h=+0.984% APR=+119.675%
+  - ONGUSDT      SHORT binance (-0.131%) / LONG bybit (-0.420%) spread_8h=+0.289% net_24h=+0.708% APR=+86.142%
+  - LAUSDT       SHORT bybit (+0.005%) / LONG gate (-0.212%) spread_8h=+0.217% net_24h=+0.492% APR=+59.848%
+  - CATUSDT      SHORT gate (+0.010%) / LONG binance (-0.206%) spread_8h=+0.216% net_24h=+0.488% APR=+59.416%
+  - HIGHUSDT     SHORT bybit (+0.192%) / LONG binance (+0.000%) spread_8h=+0.192% net_24h=+0.417% APR=+50.790%
+  - VANRYUSDT    SHORT bybit (+0.001%) / LONG gate (-0.189%) spread_8h=+0.191% net_24h=+0.412% APR=+50.121%
+
+=== RISK REMINDER ===
+  Funding arbs are delta-neutral but have real risks:
+  - funding interval mismatch (4h vs 8h) between exchanges
+  - liquidation if margin imbalance grows
+  - withdrawal delays / exchange outages
+  - small-cap symbols may have wide spreads / thin liquidity
+  Verify live before trading. Research only, not financial advice.
+
+--- dispatching to alert channels ---
+{
+  "email": [
+    false,
+    "email not configured"
+  ],
+  "telegram": [
+    false,
+    "telegram not configured"
+  ],
+  "discord": [
+    false,
+    "discord not configured"
+  ]
+}
+
+########## DIGEST 2026-07-11 09:00:04 CST ##########
+world-trader daily digest  2026-07-11 09:00 CST
+
+=== FUNDING ARB (single-exchange spot-vs-perp) ===
+  no candidates cleared the bar.
+
+=== CROSS-EXCHANGE FUNDING SPREAD ===
+  exchanges: binance=787, bybit=618, okx=0, gate=829, bitget=0
+  25 candidates:
+  - B3USDT       SHORT binance (+0.000%) / LONG bybit (-1.086%) spread_8h=+1.086% net_24h=+3.098% APR=+376.890%
+  - MBOXUSDT     SHORT binance (+0.000%) / LONG gate (-0.787%) spread_8h=+0.787% net_24h=+2.201% APR=+267.752%
+  - AMATUSDT     SHORT bybit (+0.379%) / LONG binance (+0.000%) spread_8h=+0.379% net_24h=+0.978% APR=+118.995%
+  - PARTIUSDT    SHORT gate (-0.439%) / LONG bybit (-0.767%) spread_8h=+0.328% net_24h=+0.825% APR=+100.329%
+  - SKLUSDT      SHORT bybit (+0.001%) / LONG binance (-0.296%) spread_8h=+0.297% net_24h=+0.732% APR=+89.031%
+  - ASTSUSDT     SHORT binance (+0.062%) / LONG bybit (-0.190%) spread_8h=+0.252% net_24h=+0.596% APR=+72.483%
+  - OGNUSDT      SHORT gate (-0.018%) / LONG bybit (-0.241%) spread_8h=+0.223% net_24h=+0.510% APR=+62.036%
+  - STXXUSDT     SHORT bybit (+0.000%) / LONG binance (-0.206%) spread_8h=+0.206% net_24h=+0.458% APR=+55.766%
+  - ESPORTSUSDT  SHORT bybit (+0.199%) / LONG binance (+0.021%) spread_8h=+0.178% net_24h=+0.375% APR=+45.628%
+  - MAVUSDT      SHORT gate (+0.184%) / LONG binance (+0.010%) spread_8h=+0.174% net_24h=+0.362% APR=+44.043%
+
+=== RISK REMINDER ===
+  Funding arbs are delta-neutral but have real risks:
+  - funding interval mismatch (4h vs 8h) between exchanges
+  - liquidation if margin imbalance grows
+  - withdrawal delays / exchange outages
+  - small-cap symbols may have wide spreads / thin liquidity
+  Verify live before trading. Research only, not financial advice.
+
+--- dispatching to alert channels ---
+{
+  "email": [
+    false,
+    "email not configured"
+  ],
+  "telegram": [
+    false,
+    "telegram not configured"
+  ],
+  "discord": [
+    false,
+    "discord not configured"
+  ]
+}
+
+########## DIGEST 2026-07-12 09:00:02 CST ##########
+world-trader daily digest  2026-07-12 09:00 CST
+
+=== FUNDING ARB (single-exchange spot-vs-perp) ===
+  no candidates cleared the bar.
+
+=== CROSS-EXCHANGE FUNDING SPREAD ===
+  exchanges: binance=787, bybit=619, okx=0, gate=829, bitget=0
+  25 candidates:
+  - B3USDT       SHORT binance (+0.000%) / LONG bybit (-2.364%) spread_8h=+2.364% net_24h=+6.933% APR=+843.532%
+  - ANKRUSDT     SHORT binance (-0.704%) / LONG bybit (-1.982%) spread_8h=+1.278% net_24h=+3.673% APR=+446.899%
+  - EVAAUSDT     SHORT binance (-0.114%) / LONG gate (-1.341%) spread_8h=+1.227% net_24h=+3.521% APR=+428.354%
+  - GWEIUSDT     SHORT bybit (+0.001%) / LONG binance (-0.905%) spread_8h=+0.907% net_24h=+2.560% APR=+311.494%
+  - STEEMUSDT    SHORT binance (-0.115%) / LONG gate (-0.846%) spread_8h=+0.731% net_24h=+2.034% APR=+247.509%
+  - SXTUSDT      SHORT binance (-0.737%) / LONG bybit (-1.364%) spread_8h=+0.628% net_24h=+1.723% APR=+209.686%
+  - TUSDT        SHORT bybit (+0.001%) / LONG gate (-0.501%) spread_8h=+0.502% net_24h=+1.347% APR=+163.891%
+  - AMATUSDT     SHORT bybit (+0.498%) / LONG binance (+0.000%) spread_8h=+0.498% net_24h=+1.335% APR=+162.481%
+  - IBMUSDT      SHORT gate (+0.010%) / LONG bybit (-0.467%) spread_8h=+0.477% net_24h=+1.271% APR=+154.640%
+  - KNCUSDT      SHORT binance (+0.010%) / LONG gate (-0.237%) spread_8h=+0.247% net_24h=+0.582% APR=+70.798%
+
+=== RISK REMINDER ===
+  Funding arbs are delta-neutral but have real risks:
+  - funding interval mismatch (4h vs 8h) between exchanges
+  - liquidation if margin imbalance grows
+  - withdrawal delays / exchange outages
+  - small-cap symbols may have wide spreads / thin liquidity
+  Verify live before trading. Research only, not financial advice.
+
+--- dispatching to alert channels ---
+{
+  "email": [
+    false,
+    "email not configured"
+  ],
+  "telegram": [
+    false,
+    "telegram not configured"
+  ],
+  "discord": [
+    false,
+    "discord not configured"
+  ]
+}
+
+########## DIGEST 2026-07-13 09:00:04 CST ##########
+world-trader daily digest  2026-07-13 09:00 CST
+
+=== FUNDING ARB (single-exchange spot-vs-perp) ===
+  2 candidates:
+  - SXTUSDT      fr_8h=-0.121% basis=+0.010% net_24h=+0.163% APR=+19.801% (long_perp_short_spot)
+  - VANRYUSDT    fr_8h=-0.111% basis=-0.100% net_24h=+0.044% APR=+5.356% (long_perp_short_spot)
+
+=== CROSS-EXCHANGE FUNDING SPREAD ===
+  exchanges: binance=787, bybit=619, okx=0, gate=829, bitget=0
+  25 candidates:
+  - 1000XECUSDT  SHORT binance (-0.444%) / LONG bybit (-2.006%) spread_8h=+1.562% net_24h=+4.526% APR=+550.671%
+  - B3USDT       SHORT binance (+0.000%) / LONG gate (-0.648%) spread_8h=+0.648% net_24h=+1.785% APR=+217.163%
+  - ANKRUSDT     SHORT gate (-0.356%) / LONG bybit (-0.868%) spread_8h=+0.512% net_24h=+1.375% APR=+167.316%
+  - PAYPUSDT     SHORT gate (-0.051%) / LONG binance (-0.389%) spread_8h=+0.338% net_24h=+0.855% APR=+103.970%
+  - TUSDT        SHORT bybit (+0.001%) / LONG gate (-0.332%) spread_8h=+0.334% net_24h=+0.841% APR=+102.316%
+  - SKHYNIXUSDT  SHORT bybit (+0.339%) / LONG binance (+0.011%) spread_8h=+0.327% net_24h=+0.822% APR=+100.041%
+  - IWMUSDT      SHORT gate (+0.010%) / LONG bybit (-0.256%) spread_8h=+0.266% net_24h=+0.639% APR=+77.781%
+  - GWEIUSDT     SHORT bybit (+0.001%) / LONG gate (-0.261%) spread_8h=+0.262% net_24h=+0.626% APR=+76.145%
+  - SKHYUSDT     SHORT bybit (+0.000%) / LONG binance (-0.252%) spread_8h=+0.252% net_24h=+0.595% APR=+72.397%
+  - SPELLUSDT    SHORT gate (-0.063%) / LONG binance (-0.308%) spread_8h=+0.245% net_24h=+0.576% APR=+70.080%
+
+=== RISK REMINDER ===
+  Funding arbs are delta-neutral but have real risks:
+  - funding interval mismatch (4h vs 8h) between exchanges
+  - liquidation if margin imbalance grows
+  - withdrawal delays / exchange outages
+  - small-cap symbols may have wide spreads / thin liquidity
+  Verify live before trading. Research only, not financial advice.
+
+--- dispatching to alert channels ---
+{
+  "email": [
+    false,
+    "email not configured"
+  ],
+  "telegram": [
+    false,
+    "telegram not configured"
+  ],
+  "discord": [
+    false,
+    "discord not configured"
+  ]
+}
+
+########## DIGEST 2026-07-14 09:00:04 CST ##########
+world-trader daily digest  2026-07-14 09:00 CST
+
+=== FUNDING ARB (single-exchange spot-vs-perp) ===
+  no candidates cleared the bar.
+
+=== CROSS-EXCHANGE FUNDING SPREAD ===
+  exchanges: binance=787, bybit=620, okx=0, gate=829, bitget=0
+  25 candidates:
+  - 1000XECUSDT  SHORT binance (-0.176%) / LONG bybit (-1.485%) spread_8h=+1.309% net_24h=+3.767% APR=+458.261%
+  - BLENDUSDT    SHORT gate (-0.133%) / LONG bybit (-0.563%) spread_8h=+0.429% net_24h=+1.128% APR=+137.287%
+  - B3USDT       SHORT binance (+0.000%) / LONG bybit (-0.395%) spread_8h=+0.395% net_24h=+1.024% APR=+124.631%
+  - C98USDT      SHORT gate (+0.353%) / LONG binance (+0.010%) spread_8h=+0.343% net_24h=+0.869% APR=+105.692%
+  - THEUSDT      SHORT gate (-0.055%) / LONG binance (-0.328%) spread_8h=+0.274% net_24h=+0.661% APR=+80.390%
+  - MAVUSDT      SHORT gate (+0.256%) / LONG binance (+0.010%) spread_8h=+0.246% net_24h=+0.578% APR=+70.323%
+  - ZKCUSDT      SHORT gate (+0.004%) / LONG bybit (-0.240%) spread_8h=+0.244% net_24h=+0.573% APR=+69.774%
+  - ANKRUSDT     SHORT binance (-0.096%) / LONG bybit (-0.326%) spread_8h=+0.230% net_24h=+0.531% APR=+64.620%
+  - HYUNDAIUSDT  SHORT bybit (+0.222%) / LONG binance (+0.000%) spread_8h=+0.222% net_24h=+0.507% APR=+61.658%
+  - SKHYNIXUSDT  SHORT bybit (+0.502%) / LONG gate (+0.300%) spread_8h=+0.202% net_24h=+0.446% APR=+54.275%
+
+=== RISK REMINDER ===
+  Funding arbs are delta-neutral but have real risks:
+  - funding interval mismatch (4h vs 8h) between exchanges
+  - liquidation if margin imbalance grows
+  - withdrawal delays / exchange outages
+  - small-cap symbols may have wide spreads / thin liquidity
+  Verify live before trading. Research only, not financial advice.
+
+--- dispatching to alert channels ---
+{
+  "email": [
+    false,
+    "email not configured"
+  ],
+  "telegram": [
+    false,
+    "telegram not configured"
+  ],
+  "discord": [
+    false,
+    "discord not configured"
+  ]
+}
+
+########## DIGEST 2026-07-17 09:00:05 CST ##########
+world-trader daily digest  2026-07-17 09:00 CST
+
+=== FUNDING ARB (single-exchange spot-vs-perp) ===
+  scanner error: <urlopen error [Errno 61] Connection refused>
+Traceback (most recent call last):
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1501, in connect
+    super().connect()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1032, in connect
+    self.sock = self._create_connection(
+                ~~~~~~~~~~~~~~~~~~~~~~~^
+        (self.host,self.port), self.timeout, self.source_address)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 874, in create_connection
+    raise exceptions[0]
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 859, in create_connection
+    sock.connect(sa)
+    ~~~~~~~~~~~~^^^^
+ConnectionRefusedError: [Errno 61] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/daily_digest.py", line 26, in build_digest
+    rows = funding_arb.scan()
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 73, in scan
+    funding_rows = all_perp_funding()
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 26, in all_perp_funding
+    return _get("https://fapi.binance.com/fapi/v1/premiumIndex")
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 21, in _get
+    return json.load(urllib.request.urlopen(req, timeout=timeout))
+                     ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error [Errno 61] Connection refused>
+
+
+=== CROSS-EXCHANGE FUNDING SPREAD ===
+  exchanges: binance_funding=0, bybit_funding=0, okx_funding=0, gate=835, bitget=0
+  no cross-exchange spread cleared the bar.
+
+=== RISK REMINDER ===
+  Funding arbs are delta-neutral but have real risks:
+  - funding interval mismatch (4h vs 8h) between exchanges
+  - liquidation if margin imbalance grows
+  - withdrawal delays / exchange outages
+  - small-cap symbols may have wide spreads / thin liquidity
+  Verify live before trading. Research only, not financial advice.
+
+--- dispatching to alert channels ---
+{
+  "email": [
+    false,
+    "email not configured"
+  ],
+  "telegram": [
+    false,
+    "telegram not configured"
+  ],
+  "discord": [
+    false,
+    "discord not configured"
+  ]
+}
+
+########## DIGEST 2026-07-18 09:00:05 CST ##########
+world-trader daily digest  2026-07-18 09:00 CST
+
+=== FUNDING ARB (single-exchange spot-vs-perp) ===
+  scanner error: <urlopen error timed out>
+Traceback (most recent call last):
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1501, in connect
+    super().connect()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1032, in connect
+    self.sock = self._create_connection(
+                ~~~~~~~~~~~~~~~~~~~~~~~^
+        (self.host,self.port), self.timeout, self.source_address)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 874, in create_connection
+    raise exceptions[0]
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 859, in create_connection
+    sock.connect(sa)
+    ~~~~~~~~~~~~^^^^
+TimeoutError: timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/daily_digest.py", line 26, in build_digest
+    rows = funding_arb.scan()
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 73, in scan
+    funding_rows = all_perp_funding()
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 26, in all_perp_funding
+    return _get("https://fapi.binance.com/fapi/v1/premiumIndex")
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 21, in _get
+    return json.load(urllib.request.urlopen(req, timeout=timeout))
+                     ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error timed out>
+
+
+=== CROSS-EXCHANGE FUNDING SPREAD ===
+  exchanges: binance_funding=0, bybit_funding=0, okx_funding=0, gate=835, bitget=0
+  no cross-exchange spread cleared the bar.
+
+=== RISK REMINDER ===
+  Funding arbs are delta-neutral but have real risks:
+  - funding interval mismatch (4h vs 8h) between exchanges
+  - liquidation if margin imbalance grows
+  - withdrawal delays / exchange outages
+  - small-cap symbols may have wide spreads / thin liquidity
+  Verify live before trading. Research only, not financial advice.
+
+--- dispatching to alert channels ---
+{
+  "email": [
+    false,
+    "email not configured"
+  ],
+  "telegram": [
+    false,
+    "telegram not configured"
+  ],
+  "discord": [
+    false,
+    "discord not configured"
+  ]
+}
+
+########## DIGEST 2026-07-19 09:00:04 CST ##########
+world-trader daily digest  2026-07-19 09:00 CST
+
+=== FUNDING ARB (single-exchange spot-vs-perp) ===
+  scanner error: <urlopen error timed out>
+Traceback (most recent call last):
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1501, in connect
+    super().connect()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1032, in connect
+    self.sock = self._create_connection(
+                ~~~~~~~~~~~~~~~~~~~~~~~^
+        (self.host,self.port), self.timeout, self.source_address)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 874, in create_connection
+    raise exceptions[0]
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 859, in create_connection
+    sock.connect(sa)
+    ~~~~~~~~~~~~^^^^
+TimeoutError: timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/daily_digest.py", line 26, in build_digest
+    rows = funding_arb.scan()
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 73, in scan
+    funding_rows = all_perp_funding()
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 26, in all_perp_funding
+    return _get("https://fapi.binance.com/fapi/v1/premiumIndex")
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 21, in _get
+    return json.load(urllib.request.urlopen(req, timeout=timeout))
+                     ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error timed out>
+
+
+=== CROSS-EXCHANGE FUNDING SPREAD ===
+  exchanges: binance_funding=0, bybit_funding=0, okx_funding=0, gate=835, bitget=0
+  no cross-exchange spread cleared the bar.
+
+=== RISK REMINDER ===
+  Funding arbs are delta-neutral but have real risks:
+  - funding interval mismatch (4h vs 8h) between exchanges
+  - liquidation if margin imbalance grows
+  - withdrawal delays / exchange outages
+  - small-cap symbols may have wide spreads / thin liquidity
+  Verify live before trading. Research only, not financial advice.
+
+--- dispatching to alert channels ---
+{
+  "email": [
+    false,
+    "email not configured"
+  ],
+  "telegram": [
+    false,
+    "telegram not configured"
+  ],
+  "discord": [
+    false,
+    "discord not configured"
+  ]
+}
+
+########## DIGEST 2026-07-20 09:00:01 CST ##########
+world-trader daily digest  2026-07-20 09:00 CST
+
+=== FUNDING ARB (single-exchange spot-vs-perp) ===
+  scanner error: <urlopen error timed out>
+Traceback (most recent call last):
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1501, in connect
+    super().connect()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1032, in connect
+    self.sock = self._create_connection(
+                ~~~~~~~~~~~~~~~~~~~~~~~^
+        (self.host,self.port), self.timeout, self.source_address)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 874, in create_connection
+    raise exceptions[0]
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 859, in create_connection
+    sock.connect(sa)
+    ~~~~~~~~~~~~^^^^
+TimeoutError: timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/daily_digest.py", line 26, in build_digest
+    rows = funding_arb.scan()
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 73, in scan
+    funding_rows = all_perp_funding()
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 26, in all_perp_funding
+    return _get("https://fapi.binance.com/fapi/v1/premiumIndex")
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 21, in _get
+    return json.load(urllib.request.urlopen(req, timeout=timeout))
+                     ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error timed out>
+
+
+=== CROSS-EXCHANGE FUNDING SPREAD ===
+  exchanges: binance_funding=0, bybit_funding=0, okx_funding=0, gate=835, bitget=0
+  no cross-exchange spread cleared the bar.
+
+=== RISK REMINDER ===
+  Funding arbs are delta-neutral but have real risks:
+  - funding interval mismatch (4h vs 8h) between exchanges
+  - liquidation if margin imbalance grows
+  - withdrawal delays / exchange outages
+  - small-cap symbols may have wide spreads / thin liquidity
+  Verify live before trading. Research only, not financial advice.
+
+--- dispatching to alert channels ---
+{
+  "email": [
+    false,
+    "email not configured"
+  ],
+  "telegram": [
+    false,
+    "telegram not configured"
+  ],
+  "discord": [
+    false,
+    "discord not configured"
+  ]
+}
+
+########## DIGEST 2026-07-21 09:00:03 CST ##########
+world-trader daily digest  2026-07-21 09:00 CST
+
+=== FUNDING ARB (single-exchange spot-vs-perp) ===
+  scanner error: <urlopen error timed out>
+Traceback (most recent call last):
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1501, in connect
+    super().connect()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1032, in connect
+    self.sock = self._create_connection(
+                ~~~~~~~~~~~~~~~~~~~~~~~^
+        (self.host,self.port), self.timeout, self.source_address)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 874, in create_connection
+    raise exceptions[0]
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 859, in create_connection
+    sock.connect(sa)
+    ~~~~~~~~~~~~^^^^
+TimeoutError: timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/daily_digest.py", line 26, in build_digest
+    rows = funding_arb.scan()
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 73, in scan
+    funding_rows = all_perp_funding()
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 26, in all_perp_funding
+    return _get("https://fapi.binance.com/fapi/v1/premiumIndex")
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 21, in _get
+    return json.load(urllib.request.urlopen(req, timeout=timeout))
+                     ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error timed out>
+
+
+=== CROSS-EXCHANGE FUNDING SPREAD ===
+  exchanges: binance_funding=0, bybit_funding=0, okx_funding=0, gate=835, bitget=0
+  no cross-exchange spread cleared the bar.
+
+=== RISK REMINDER ===
+  Funding arbs are delta-neutral but have real risks:
+  - funding interval mismatch (4h vs 8h) between exchanges
+  - liquidation if margin imbalance grows
+  - withdrawal delays / exchange outages
+  - small-cap symbols may have wide spreads / thin liquidity
+  Verify live before trading. Research only, not financial advice.
+
+--- dispatching to alert channels ---
+{
+  "email": [
+    false,
+    "email not configured"
+  ],
+  "telegram": [
+    false,
+    "telegram not configured"
+  ],
+  "discord": [
+    false,
+    "discord not configured"
+  ]
+}
+
+########## DIGEST 2026-07-22 09:00:02 CST ##########
+world-trader daily digest  2026-07-22 09:00 CST
+
+=== FUNDING ARB (single-exchange spot-vs-perp) ===
+  scanner error: <urlopen error timed out>
+Traceback (most recent call last):
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1501, in connect
+    super().connect()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1032, in connect
+    self.sock = self._create_connection(
+                ~~~~~~~~~~~~~~~~~~~~~~~^
+        (self.host,self.port), self.timeout, self.source_address)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 874, in create_connection
+    raise exceptions[0]
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 859, in create_connection
+    sock.connect(sa)
+    ~~~~~~~~~~~~^^^^
+TimeoutError: timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/daily_digest.py", line 26, in build_digest
+    rows = funding_arb.scan()
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 73, in scan
+    funding_rows = all_perp_funding()
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 26, in all_perp_funding
+    return _get("https://fapi.binance.com/fapi/v1/premiumIndex")
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 21, in _get
+    return json.load(urllib.request.urlopen(req, timeout=timeout))
+                     ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error timed out>
+
+
+=== CROSS-EXCHANGE FUNDING SPREAD ===
+  exchanges: binance_funding=0, bybit_funding=0, okx_funding=0, gate=840, bitget=0
+  no cross-exchange spread cleared the bar.
+
+=== RISK REMINDER ===
+  Funding arbs are delta-neutral but have real risks:
+  - funding interval mismatch (4h vs 8h) between exchanges
+  - liquidation if margin imbalance grows
+  - withdrawal delays / exchange outages
+  - small-cap symbols may have wide spreads / thin liquidity
+  Verify live before trading. Research only, not financial advice.
+
+--- dispatching to alert channels ---
+{
+  "email": [
+    false,
+    "email not configured"
+  ],
+  "telegram": [
+    false,
+    "telegram not configured"
+  ],
+  "discord": [
+    false,
+    "discord not configured"
+  ]
+}
+
+########## DIGEST 2026-07-23 09:00:05 CST ##########
+world-trader daily digest  2026-07-23 09:00 CST
+
+=== FUNDING ARB (single-exchange spot-vs-perp) ===
+  scanner error: <urlopen error Remote end closed connection without response>
+Traceback (most recent call last):
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1501, in connect
+    super().connect()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1042, in connect
+    self._tunnel()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1000, in _tunnel
+    (version, code, message) = response._read_status()
+                               ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 305, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+                             " response")
+http.client.RemoteDisconnected: Remote end closed connection without response
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/daily_digest.py", line 26, in build_digest
+    rows = funding_arb.scan()
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 73, in scan
+    funding_rows = all_perp_funding()
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 26, in all_perp_funding
+    return _get("https://fapi.binance.com/fapi/v1/premiumIndex")
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 21, in _get
+    return json.load(urllib.request.urlopen(req, timeout=timeout))
+                     ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error Remote end closed connection without response>
+
+
+=== CROSS-EXCHANGE FUNDING SPREAD ===
+  exchanges: binance_funding=0, bybit_funding=0, okx_funding=0, gate=0, bitget=0
+  no cross-exchange spread cleared the bar.
+
+=== RISK REMINDER ===
+  Funding arbs are delta-neutral but have real risks:
+  - funding interval mismatch (4h vs 8h) between exchanges
+  - liquidation if margin imbalance grows
+  - withdrawal delays / exchange outages
+  - small-cap symbols may have wide spreads / thin liquidity
+  Verify live before trading. Research only, not financial advice.
+
+--- dispatching to alert channels ---
+{
+  "email": [
+    false,
+    "email not configured"
+  ],
+  "telegram": [
+    false,
+    "telegram not configured"
+  ],
+  "discord": [
+    false,
+    "discord not configured"
+  ]
+}
+
+########## DIGEST 2026-07-24 09:00:01 CST ##########
+world-trader daily digest  2026-07-24 09:00 CST
+
+=== FUNDING ARB (single-exchange spot-vs-perp) ===
+  no candidates cleared the bar.
+
+=== CROSS-EXCHANGE FUNDING SPREAD ===
+  exchanges: binance=800, bybit=657, okx=0, gate=855, bitget=0
+  25 candidates:
+  - TSEMUSDT     SHORT bybit (+2.204%) / LONG gate (+0.010%) spread_8h=+2.194% net_24h=+6.422% APR=+781.398%
+  - DEXEUSDT     SHORT bybit (+0.001%) / LONG binance (-1.966%) spread_8h=+1.968% net_24h=+5.743% APR=+698.758%
+  - ONUSDT       SHORT bybit (+1.191%) / LONG gate (+0.005%) spread_8h=+1.186% net_24h=+3.399% APR=+413.600%
+  - NVDLUSDT     SHORT gate (+0.010%) / LONG bybit (-0.831%) spread_8h=+0.841% net_24h=+2.362% APR=+287.388%
+  - BARDUSDT     SHORT binance (-1.036%) / LONG bybit (-1.789%) spread_8h=+0.753% net_24h=+2.098% APR=+255.201%
+  - AMATUSDT     SHORT binance (+0.000%) / LONG bybit (-0.696%) spread_8h=+0.696% net_24h=+1.927% APR=+234.393%
+  - SNXXUSDT     SHORT gate (-0.084%) / LONG bybit (-0.758%) spread_8h=+0.674% net_24h=+1.863% APR=+226.625%
+  - MUUUSDT      SHORT binance (+0.000%) / LONG bybit (-0.428%) spread_8h=+0.428% net_24h=+1.123% APR=+136.619%
+  - ERAUSDT      SHORT bybit (+0.001%) / LONG gate (-0.362%) spread_8h=+0.363% net_24h=+0.929% APR=+112.974%
+  - LRCXUSDT     SHORT gate (+0.010%) / LONG bybit (-0.317%) spread_8h=+0.327% net_24h=+0.820% APR=+99.810%
+
+=== RISK REMINDER ===
+  Funding arbs are delta-neutral but have real risks:
+  - funding interval mismatch (4h vs 8h) between exchanges
+  - liquidation if margin imbalance grows
+  - withdrawal delays / exchange outages
+  - small-cap symbols may have wide spreads / thin liquidity
+  Verify live before trading. Research only, not financial advice.
+
+--- dispatching to alert channels ---
+{
+  "email": [
+    false,
+    "email not configured"
+  ],
+  "telegram": [
+    false,
+    "telegram not configured"
+  ],
+  "discord": [
+    false,
+    "discord not configured"
+  ]
+}
+
+########## DIGEST 2026-07-25 09:00:04 CST ##########
+world-trader daily digest  2026-07-25 09:00 CST
+
+=== FUNDING ARB (single-exchange spot-vs-perp) ===
+  no candidates cleared the bar.
+
+=== CROSS-EXCHANGE FUNDING SPREAD ===
+  exchanges: binance_funding=0, bybit_funding=0, okx_funding=0, gate=0, bitget=0
+  no cross-exchange spread cleared the bar.
+
+=== RISK REMINDER ===
+  Funding arbs are delta-neutral but have real risks:
+  - funding interval mismatch (4h vs 8h) between exchanges
+  - liquidation if margin imbalance grows
+  - withdrawal delays / exchange outages
+  - small-cap symbols may have wide spreads / thin liquidity
+  Verify live before trading. Research only, not financial advice.
+
+--- dispatching to alert channels ---
+{
+  "email": [
+    false,
+    "email not configured"
+  ],
+  "telegram": [
+    false,
+    "telegram not configured"
+  ],
+  "discord": [
+    false,
+    "discord not configured"
+  ]
+}
+
+########## DIGEST 2026-07-26 09:00:01 CST ##########
+world-trader daily digest  2026-07-26 09:00 CST
+
+=== FUNDING ARB (single-exchange spot-vs-perp) ===
+  no candidates cleared the bar.
+
+=== CROSS-EXCHANGE FUNDING SPREAD ===
+  exchanges: binance=799, bybit=656, okx=0, gate=0, bitget=0
+  25 candidates:
+  - B3USDT       SHORT binance (+0.000%) / LONG bybit (-1.102%) spread_8h=+1.102% net_24h=+3.146% APR=+382.759%
+  - TLMUSDT      SHORT binance (-0.352%) / LONG bybit (-0.834%) spread_8h=+0.482% net_24h=+1.285% APR=+156.361%
+  - ONUSDT       SHORT binance (+0.005%) / LONG bybit (-0.283%) spread_8h=+0.288% net_24h=+0.705% APR=+85.811%
+  - MIRAUSDT     SHORT binance (-0.388%) / LONG bybit (-0.651%) spread_8h=+0.263% net_24h=+0.629% APR=+76.567%
+  - 1000XECUSDT  SHORT binance (-0.079%) / LONG bybit (-0.214%) spread_8h=+0.135% net_24h=+0.246% APR=+29.880%
+  - GWEIUSDT     SHORT bybit (+0.005%) / LONG binance (-0.119%) spread_8h=+0.124% net_24h=+0.212% APR=+25.811%
+  - ERAUSDT      SHORT binance (-0.131%) / LONG bybit (-0.246%) spread_8h=+0.115% net_24h=+0.184% APR=+22.413%
+  - BNTUSDT      SHORT bybit (+0.010%) / LONG binance (-0.104%) spread_8h=+0.114% net_24h=+0.183% APR=+22.250%
+  - MTLUSDT      SHORT binance (-0.025%) / LONG bybit (-0.133%) spread_8h=+0.108% net_24h=+0.164% APR=+19.924%
+  - MUUUSDT      SHORT binance (+0.000%) / LONG bybit (-0.108%) spread_8h=+0.108% net_24h=+0.163% APR=+19.826%
+
+=== RISK REMINDER ===
+  Funding arbs are delta-neutral but have real risks:
+  - funding interval mismatch (4h vs 8h) between exchanges
+  - liquidation if margin imbalance grows
+  - withdrawal delays / exchange outages
+  - small-cap symbols may have wide spreads / thin liquidity
+  Verify live before trading. Research only, not financial advice.
+
+--- dispatching to alert channels ---
+{
+  "email": [
+    false,
+    "email not configured"
+  ],
+  "telegram": [
+    false,
+    "telegram not configured"
+  ],
+  "discord": [
+    false,
+    "discord not configured"
+  ]
+}
+
+########## DIGEST 2026-07-27 09:00:02 CST ##########
+world-trader daily digest  2026-07-27 09:00 CST
+
+=== FUNDING ARB (single-exchange spot-vs-perp) ===
+  scanner error: <urlopen error Remote end closed connection without response>
+Traceback (most recent call last):
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1501, in connect
+    super().connect()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1042, in connect
+    self._tunnel()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1000, in _tunnel
+    (version, code, message) = response._read_status()
+                               ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 305, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+                             " response")
+http.client.RemoteDisconnected: Remote end closed connection without response
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/daily_digest.py", line 26, in build_digest
+    rows = funding_arb.scan()
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 73, in scan
+    funding_rows = all_perp_funding()
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 26, in all_perp_funding
+    return _get("https://fapi.binance.com/fapi/v1/premiumIndex")
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 21, in _get
+    return json.load(urllib.request.urlopen(req, timeout=timeout))
+                     ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error Remote end closed connection without response>
+
+
+=== CROSS-EXCHANGE FUNDING SPREAD ===
+  exchanges: binance=799, bybit_funding=0, okx_funding=0, gate=850, bitget=0
+  25 candidates:
+  - LPTUSDT      SHORT binance (-0.315%) / LONG gate (-1.073%) spread_8h=+0.758% net_24h=+2.114% APR=+257.196%
+  - B3USDT       SHORT binance (+0.000%) / LONG gate (-0.493%) spread_8h=+0.493% net_24h=+1.320% APR=+160.624%
+  - TLMUSDT      SHORT binance (-0.275%) / LONG gate (-0.652%) spread_8h=+0.377% net_24h=+0.970% APR=+118.043%
+  - BOTUSDT      SHORT gate (+0.010%) / LONG binance (-0.214%) spread_8h=+0.224% net_24h=+0.512% APR=+62.255%
+  - MAVUSDT      SHORT gate (+0.231%) / LONG binance (+0.010%) spread_8h=+0.221% net_24h=+0.502% APR=+61.089%
+  - KORUUSDT     SHORT binance (+0.215%) / LONG gate (+0.010%) spread_8h=+0.205% net_24h=+0.454% APR=+55.260%
+  - DUSKUSDT     SHORT binance (+0.005%) / LONG gate (-0.173%) spread_8h=+0.178% net_24h=+0.375% APR=+45.649%
+  - SOXSUSDT     SHORT gate (+0.010%) / LONG binance (-0.162%) spread_8h=+0.172% net_24h=+0.355% APR=+43.156%
+  - CATUSDT      SHORT gate (+0.010%) / LONG binance (-0.149%) spread_8h=+0.159% net_24h=+0.318% APR=+38.718%
+  - EULUSDT      SHORT binance (-0.390%) / LONG gate (-0.546%) spread_8h=+0.157% net_24h=+0.310% APR=+37.720%
+
+=== RISK REMINDER ===
+  Funding arbs are delta-neutral but have real risks:
+  - funding interval mismatch (4h vs 8h) between exchanges
+  - liquidation if margin imbalance grows
+  - withdrawal delays / exchange outages
+  - small-cap symbols may have wide spreads / thin liquidity
+  Verify live before trading. Research only, not financial advice.
+
+--- dispatching to alert channels ---
+{
+  "email": [
+    false,
+    "email not configured"
+  ],
+  "telegram": [
+    false,
+    "telegram not configured"
+  ],
+  "discord": [
+    false,
+    "discord not configured"
+  ]
+}
+
+########## DIGEST 2026-07-28 09:00:02 CST ##########
+world-trader daily digest  2026-07-28 09:00 CST
+
+=== FUNDING ARB (single-exchange spot-vs-perp) ===
+  scanner error: <urlopen error Remote end closed connection without response>
+Traceback (most recent call last):
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1501, in connect
+    super().connect()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1042, in connect
+    self._tunnel()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1000, in _tunnel
+    (version, code, message) = response._read_status()
+                               ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 305, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+                             " response")
+http.client.RemoteDisconnected: Remote end closed connection without response
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/daily_digest.py", line 26, in build_digest
+    rows = funding_arb.scan()
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 73, in scan
+    funding_rows = all_perp_funding()
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 26, in all_perp_funding
+    return _get("https://fapi.binance.com/fapi/v1/premiumIndex")
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 21, in _get
+    return json.load(urllib.request.urlopen(req, timeout=timeout))
+                     ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error Remote end closed connection without response>
+
+
+=== CROSS-EXCHANGE FUNDING SPREAD ===
+  exchanges: binance=802, bybit_funding=0, okx_funding=0, gate=0, bitget=0
+  no cross-exchange spread cleared the bar.
+
+=== RISK REMINDER ===
+  Funding arbs are delta-neutral but have real risks:
+  - funding interval mismatch (4h vs 8h) between exchanges
+  - liquidation if margin imbalance grows
+  - withdrawal delays / exchange outages
+  - small-cap symbols may have wide spreads / thin liquidity
+  Verify live before trading. Research only, not financial advice.
+
+--- dispatching to alert channels ---
+{
+  "email": [
+    false,
+    "email not configured"
+  ],
+  "telegram": [
+    false,
+    "telegram not configured"
+  ],
+  "discord": [
+    false,
+    "discord not configured"
+  ]
+}
+
+########## DIGEST 2026-07-30 09:00:01 CST ##########
+world-trader daily digest  2026-07-30 09:00 CST
+
+=== FUNDING ARB (single-exchange spot-vs-perp) ===
+  scanner error: <urlopen error timed out>
+Traceback (most recent call last):
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1501, in connect
+    super().connect()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1032, in connect
+    self.sock = self._create_connection(
+                ~~~~~~~~~~~~~~~~~~~~~~~^
+        (self.host,self.port), self.timeout, self.source_address)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 874, in create_connection
+    raise exceptions[0]
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 859, in create_connection
+    sock.connect(sa)
+    ~~~~~~~~~~~~^^^^
+TimeoutError: timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/daily_digest.py", line 26, in build_digest
+    rows = funding_arb.scan()
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 73, in scan
+    funding_rows = all_perp_funding()
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 26, in all_perp_funding
+    return _get("https://fapi.binance.com/fapi/v1/premiumIndex")
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 21, in _get
+    return json.load(urllib.request.urlopen(req, timeout=timeout))
+                     ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error timed out>
+
+
+=== CROSS-EXCHANGE FUNDING SPREAD ===
+  exchanges: binance_funding=0, bybit_funding=0, okx_funding=0, gate=0, bitget=0
+  no cross-exchange spread cleared the bar.
+
+=== RISK REMINDER ===
+  Funding arbs are delta-neutral but have real risks:
+  - funding interval mismatch (4h vs 8h) between exchanges
+  - liquidation if margin imbalance grows
+  - withdrawal delays / exchange outages
+  - small-cap symbols may have wide spreads / thin liquidity
+  Verify live before trading. Research only, not financial advice.
+
+--- dispatching to alert channels ---
+{
+  "email": [
+    false,
+    "email not configured"
+  ],
+  "telegram": [
+    false,
+    "telegram not configured"
+  ],
+  "discord": [
+    false,
+    "discord not configured"
+  ]
+}
+
+########## DIGEST 2026-07-31 09:00:05 CST ##########
+world-trader daily digest  2026-07-31 09:00 CST
+
+=== FUNDING ARB (single-exchange spot-vs-perp) ===
+  scanner error: <urlopen error timed out>
+Traceback (most recent call last):
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1501, in connect
+    super().connect()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1032, in connect
+    self.sock = self._create_connection(
+                ~~~~~~~~~~~~~~~~~~~~~~~^
+        (self.host,self.port), self.timeout, self.source_address)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 874, in create_connection
+    raise exceptions[0]
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 859, in create_connection
+    sock.connect(sa)
+    ~~~~~~~~~~~~^^^^
+TimeoutError: timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/daily_digest.py", line 26, in build_digest
+    rows = funding_arb.scan()
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 73, in scan
+    funding_rows = all_perp_funding()
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 26, in all_perp_funding
+    return _get("https://fapi.binance.com/fapi/v1/premiumIndex")
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 21, in _get
+    return json.load(urllib.request.urlopen(req, timeout=timeout))
+                     ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error timed out>
+
+
+=== CROSS-EXCHANGE FUNDING SPREAD ===
+  exchanges: binance_funding=0, bybit_funding=0, okx_funding=0, gate=0, bitget=0
+  no cross-exchange spread cleared the bar.
+
+=== RISK REMINDER ===
+  Funding arbs are delta-neutral but have real risks:
+  - funding interval mismatch (4h vs 8h) between exchanges
+  - liquidation if margin imbalance grows
+  - withdrawal delays / exchange outages
+  - small-cap symbols may have wide spreads / thin liquidity
+  Verify live before trading. Research only, not financial advice.
+
+--- dispatching to alert channels ---
+{
+  "email": [
+    false,
+    "email not configured"
+  ],
+  "telegram": [
+    false,
+    "telegram not configured"
+  ],
+  "discord": [
+    false,
+    "discord not configured"
+  ]
+}
+
+########## DIGEST 2026-08-01 09:00:02 CST ##########
+world-trader daily digest  2026-08-01 09:00 CST
+
+=== FUNDING ARB (single-exchange spot-vs-perp) ===
+  scanner error: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+Traceback (most recent call last):
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1501, in connect
+    super().connect()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1032, in connect
+    self.sock = self._create_connection(
+                ~~~~~~~~~~~~~~~~~~~~~~~^
+        (self.host,self.port), self.timeout, self.source_address)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 850, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+               ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 987, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno 8] nodename nor servname provided, or not known
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/daily_digest.py", line 26, in build_digest
+    rows = funding_arb.scan()
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 73, in scan
+    funding_rows = all_perp_funding()
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 26, in all_perp_funding
+    return _get("https://fapi.binance.com/fapi/v1/premiumIndex")
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 21, in _get
+    return json.load(urllib.request.urlopen(req, timeout=timeout))
+                     ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+
+
+=== CROSS-EXCHANGE FUNDING SPREAD ===
+  exchanges: binance_funding=0, bybit_funding=0, okx_funding=0, gate=0, bitget=0
+  no cross-exchange spread cleared the bar.
+
+=== RISK REMINDER ===
+  Funding arbs are delta-neutral but have real risks:
+  - funding interval mismatch (4h vs 8h) between exchanges
+  - liquidation if margin imbalance grows
+  - withdrawal delays / exchange outages
+  - small-cap symbols may have wide spreads / thin liquidity
+  Verify live before trading. Research only, not financial advice.
+
+--- dispatching to alert channels ---
+{
+  "email": [
+    false,
+    "email not configured"
+  ],
+  "telegram": [
+    false,
+    "telegram not configured"
+  ],
+  "discord": [
+    false,
+    "discord not configured"
+  ]
+}
+
+########## DIGEST 2026-08-02 09:00:04 CST ##########
+world-trader daily digest  2026-08-02 09:00 CST
+
+=== FUNDING ARB (single-exchange spot-vs-perp) ===
+  scanner error: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+Traceback (most recent call last):
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1501, in connect
+    super().connect()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1032, in connect
+    self.sock = self._create_connection(
+                ~~~~~~~~~~~~~~~~~~~~~~~^
+        (self.host,self.port), self.timeout, self.source_address)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 850, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+               ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 987, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno 8] nodename nor servname provided, or not known
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/daily_digest.py", line 26, in build_digest
+    rows = funding_arb.scan()
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 73, in scan
+    funding_rows = all_perp_funding()
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 26, in all_perp_funding
+    return _get("https://fapi.binance.com/fapi/v1/premiumIndex")
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 21, in _get
+    return json.load(urllib.request.urlopen(req, timeout=timeout))
+                     ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+
+
+=== CROSS-EXCHANGE FUNDING SPREAD ===
+  exchanges: binance_funding=0, bybit_funding=0, okx_funding=0, gate=0, bitget=0
+  no cross-exchange spread cleared the bar.
+
+=== RISK REMINDER ===
+  Funding arbs are delta-neutral but have real risks:
+  - funding interval mismatch (4h vs 8h) between exchanges
+  - liquidation if margin imbalance grows
+  - withdrawal delays / exchange outages
+  - small-cap symbols may have wide spreads / thin liquidity
+  Verify live before trading. Research only, not financial advice.
+
+--- dispatching to alert channels ---
+{
+  "email": [
+    false,
+    "email not configured"
+  ],
+  "telegram": [
+    false,
+    "telegram not configured"
+  ],
+  "discord": [
+    false,
+    "discord not configured"
+  ]
+}
+
+########## DIGEST 2026-08-03 09:00:01 CST ##########
+world-trader daily digest  2026-08-03 09:00 CST
+
+=== FUNDING ARB (single-exchange spot-vs-perp) ===
+  scanner error: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+Traceback (most recent call last):
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1501, in connect
+    super().connect()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1032, in connect
+    self.sock = self._create_connection(
+                ~~~~~~~~~~~~~~~~~~~~~~~^
+        (self.host,self.port), self.timeout, self.source_address)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 850, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+               ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 987, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno 8] nodename nor servname provided, or not known
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/daily_digest.py", line 26, in build_digest
+    rows = funding_arb.scan()
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 73, in scan
+    funding_rows = all_perp_funding()
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 26, in all_perp_funding
+    return _get("https://fapi.binance.com/fapi/v1/premiumIndex")
+  File "/Users/daxu/software/world-trader/tools/wt/funding_arb.py", line 21, in _get
+    return json.load(urllib.request.urlopen(req, timeout=timeout))
+                     ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+
+
+=== CROSS-EXCHANGE FUNDING SPREAD ===
+  exchanges: binance_funding=0, bybit_funding=0, okx_funding=0, gate=0, bitget=0
+  no cross-exchange spread cleared the bar.
+
+=== RISK REMINDER ===
+  Funding arbs are delta-neutral but have real risks:
+  - funding interval mismatch (4h vs 8h) between exchanges
+  - liquidation if margin imbalance grows
+  - withdrawal delays / exchange outages
+  - small-cap symbols may have wide spreads / thin liquidity
+  Verify live before trading. Research only, not financial advice.
+
+--- dispatching to alert channels ---
+{
+  "email": [
+    false,
+    "email not configured"
+  ],
+  "telegram": [
+    false,
+    "telegram not configured"
+  ],
+  "discord": [
+    false,
+    "discord not configured"
+  ]
+}
+
+########## DIGEST 2026-08-04 09:00:04 CST ##########
+world-trader daily digest  2026-08-04 09:00 CST
+
+=== FUNDING ARB (single-exchange spot-vs-perp) ===
+  1 candidates:
+  - VICUSDT      fr_8h=-0.104% basis=+0.073% net_24h=+0.048% APR=+5.811% (long_perp_short_spot)
+
+=== CROSS-EXCHANGE FUNDING SPREAD ===
+  exchanges: binance=806, bybit=683, okx=0, gate=867, bitget=0
+  25 candidates:
+  - ONUSDT       SHORT bybit (+2.500%) / LONG gate (+0.005%) spread_8h=+2.495% net_24h=+7.325% APR=+891.208%
+  - SNXXUSDT     SHORT bybit (+0.000%) / LONG binance (-1.142%) spread_8h=+1.142% net_24h=+3.266% APR=+397.397%
+  - LSKUSDT      SHORT binance (-0.032%) / LONG gate (-0.701%) spread_8h=+0.669% net_24h=+1.846% APR=+224.610%
+  - B3USDT       SHORT binance (+0.000%) / LONG bybit (-0.543%) spread_8h=+0.543% net_24h=+1.470% APR=+178.812%
+  - WAXPUSDT     SHORT binance (-0.809%) / LONG bybit (-1.301%) spread_8h=+0.492% net_24h=+1.317% APR=+160.258%
+  - BNCUSDT      SHORT binance (+0.481%) / LONG bybit (+0.000%) spread_8h=+0.481% net_24h=+1.282% APR=+155.940%
+  - FLOCKUSDT    SHORT bybit (+0.005%) / LONG gate (-0.464%) spread_8h=+0.469% net_24h=+1.247% APR=+151.682%
+  - XLKUSDT      SHORT gate (+0.007%) / LONG bybit (-0.427%) spread_8h=+0.434% net_24h=+1.143% APR=+139.078%
+  - COTIUSDT     SHORT bybit (+0.001%) / LONG gate (-0.426%) spread_8h=+0.427% net_24h=+1.122% APR=+136.516%
+  - DELLUSDT     SHORT binance (+0.000%) / LONG bybit (-0.409%) spread_8h=+0.409% net_24h=+1.066% APR=+129.678%
+
+=== RISK REMINDER ===
+  Funding arbs are delta-neutral but have real risks:
+  - funding interval mismatch (4h vs 8h) between exchanges
+  - liquidation if margin imbalance grows
+  - withdrawal delays / exchange outages
+  - small-cap symbols may have wide spreads / thin liquidity
+  Verify live before trading. Research only, not financial advice.
+
+--- dispatching to alert channels ---
+{
+  "email": [
+    false,
+    "email not configured"
+  ],
+  "telegram": [
+    false,
+    "telegram not configured"
+  ],
+  "discord": [
+    false,
+    "discord not configured"
+  ]
+}
+

@@ -1,0 +1,24 @@
+--------- ITER37 tsmom-maw driver (2026-09-19 session 18). FINDINGS_PRECOMMIT.md sha16 a8ea3922b5e64de3 sealed BEFORE this run.
+FROZEN-BLOCK check vs driver_iter36.py: fit_relw/apply_cap/project_wmax/build_book text-identical
+Champion sha16 pre-run: 8559fa55ee9a3417 / weights d2d11c92a98683df / precommit a8ea3922b5e64de3
+ANCHOR A1 regen MAW=189 vs saved: maxdev=9.996344e-17 (inner n=4947)
+ANCHOR A2 projection-identity on incumbent: maxdev=0.0 (need exactly 0)
+ANCHOR A2 weights maxdev=8.327e-17 (need <1e-12)
+ANCHOR A2 bytes   maxdev=9.996e-17 (need <1e-12) n=4806
+ANCHOR A2 grossmax=1.000000000  fit rows=1809  k_covered=11
+ANCHOR A2 incumbent Wmax_sf(x11)=1.8115x  IS-SR=4.198632 (continuity 4.198632)  QAxasts share=7.5906 pct
+
+CELL SWEEP: MAW grid on the E1 de-truncated 5-leg cross-asset TSMOM (panel/RET_PAN/vt10 frozen), every other slot frozen per precommit; one sleeve (QAxasts), one scalar
+MAW    regen-dev   is_sr     IS-ann pct  IS-MDD pct  negy  Wmax_sf   adm
+126    6.093e-02  4.162711    18.112       -2.63    0/9  1.8751x  no  blk=0.3000
+157    4.168e-02  4.170947    18.102       -2.61    0/9  1.8526x  no  blk=0.3000
+ANCHOR CELL MAW=189: weights dev vs committed 7.856e-09 (need <1e-6); book dev vs champ 4.877e-10 (need <1e-9); block share=0.300000
+189    9.996e-17  4.198632    18.122       -2.56    0/9  1.8115x  no (anchor)  blk=0.3000
+220    6.944e-02  4.190418    18.115       -2.53    0/9  1.8352x  no  blk=0.3000
+252    6.943e-02  4.192827    18.116       -2.52    0/9  1.8343x  no  blk=0.3000
+
+ADMITTED: 0 / 5 (jitter tolerance 1e-4 on the IS bar)
+NO cell admitted -> HONEST NEGATIVE, no reveal (per precommit STOP RULE).
+
+VERDICT: NO-ADMISSION (IS level) -> honest negative, no reveal (per precommit stop rule)
+Champion sha16 post-run: 8559fa55ee9a3417 / weights d2d11c92a98683df (pre==post: True)

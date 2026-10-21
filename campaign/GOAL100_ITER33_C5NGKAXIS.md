@@ -1,0 +1,2 @@
+<!-- ITER47 SUPERSEDE (2026-09-19, session 27): champion of record moved to the A5r2 vt024 upper-edge extension (sha16 3c456aa53193eb89 / weights 8313bee1ad8a72fe; FS SR 3.784099, ann 23.77% at 2dp = 23.766797% precise, gross 1.0, MDD -3.7012, 0 neg yrs, G7 5/5 positive bins). Figures below that quote the ITER43 vt015 vintage (23.6813% / SR 3.764764) are SUPERSEDED history -- prior champion preserved byte-exact in coord/ITER47_A5R2_VTEXT/prior_champion_backup/. See campaign/GOAL100_ITER47_A5R2VTEXT.md. -->
+

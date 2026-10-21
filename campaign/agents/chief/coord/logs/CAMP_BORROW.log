@@ -1,0 +1,175 @@
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260906195203c6e4d65821874d12]
+=== CAMP_BORROW round 1 end Sun Sep  6 19:52:03 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907015132ab22547f15134768]
+=== CAMP_BORROW rate-limited or errored (attempt 1, rc=1); backing off ===
+Round 2 complete. Summary of what was done and found:
+
+## CAMP_BORROW Round 2 — executed per charter
+
+**(a) Margin + gross on the causal re-emit — PASS.** Committed net reconciles byte-exactly (max dev 0.00e+00) to an independent rebuild from raw sleeve files — no tautology, unlike the R1 audit_C2 trap. Margin drag on (gross−1)=0.6 at 4.5%/yr is **2.70%/yr = 1.0714 bps/day, unchanged**. Charter (c) fail-closed gate: **|gross−1.6| max = 1.11e-15 across all 4,805 days, zero days beyond even 1e-12 — no flag, no re-emit regression.**
+
+**(b) Call-rate ladder published** (only the margin term moves; linearity 0.60pp/+1pp verified to 1e-9):
+
+| rate | ann | SR_d | MDD | neg yrs | Δann |
+|---|---|---|---|---|---|
+| 4.5% | **39.85%** | 3.296 | −6.84% | 0/19 | — |
+| 5.5% | 39.02% | 3.238 | −6.85% | 0/19 | −0.84pp |
+| 6.5% | 38.18% | 3.180 | −6.86% | 0/19 | −1.67pp |
+| 8.0% | 36.95% | 3.093 | −6.87% | 0/19 | −2.90pp |
+
+Goal-irrelevant: 0 negative years and MDD < 7% even at an 8% call rate. Committed file is priced at exactly 4.5% (dev 0.0 vs 2.38e-05+ at stressed rungs).
+
+**(c) Borrow reality — 2 corrections to R1, both immaterial.** R1's "borrow charged inside pool sleeve files" holds for only **2/13** slots (diescrack + CFX4 metas declare it; the rest are futures/ETF shorts correctly carrying no stock-loan fee). R1's "dualmom has equity short exposure" was **wrong** — it's long-only, contradicted by R1's own section 9. Real HTB stress on the only cash-borrow leg (diescrack): MEDIUM 2% → **+0.24bps/yr**, HARD 8% → **+1.22bps/yr** champion-level.
+
+**TDD:** new `bt/borrow.py` + `test_camp_borrow_round2.py` (9 tests, incl. a doctored-stream test proving the gross flag actually fires) → full suite **82 → 91 passed, 0 failed**. Harness C1–C7 ALL PASS; `--verify` IDENTICAL. FINDINGS.md appended, last line exactly `ROUND 2 DONE`.
+=== CAMP_BORROW round 2 end Mon Sep  7 02:25:19 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907080654410d8b4f229840ca]
+=== CAMP_BORROW rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070811077c33646e0cb146ff]
+=== CAMP_BORROW rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907083550cc0e241c4232408c]
+=== CAMP_BORROW rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907090229123d234d46f740ce]
+=== CAMP_BORROW rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907091305d0c239fb81d3469f]
+=== CAMP_BORROW rate-limited or errored (attempt 5, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907094421999d073f983d4b7b]
+=== CAMP_BORROW rate-limited or errored (attempt 6, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907095715f5a4a457233f4ca8]
+=== CAMP_BORROW rate-limited or errored (attempt 7, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907100447eed1040271004ad1]
+=== CAMP_BORROW rate-limited or errored (attempt 8, rc=1); backing off ===
+Round 3 complete. Summary:
+
+**The round's main event was a stale-champion catch, not the scenarios themselves.** The morning session (09:39–09:52) had already built the round-3 machinery, but anchored to champion blob `e6d8b9c0…` (ann 39.851% / SR 3.296). At 11:24, commit `b268e52` re-emitted the champion with the cost fix — FULL |dW|@6.4bps on all 13 sleeves; the old blob undercharged the brwt family ~150–190bps/yr. New book of record: **`4358dfab…`, ann 37.195% / SR 3.1810 / MDD −6.69% / 0 neg years**, reproduced by the unchanged builder to 9.996e-17. The 09:52 ops JSON was still publishing scenario tables priced on a champion that no longer exists.
+
+**TDD RED → GREEN re-anchor:**
+- RED: pinning the JSON to the costfix headline made 2 tests fail — gap = **2.6556pp exactly** (39.851% − 37.195%)
+- GREEN: re-anchored `run_financing_r3.py`; added a fail-closed sha guard in both the test and the script (it now *refuses to run* against any other champion sha, forcing a re-anchor on future re-emits); retired the obsolete frozen-input two-variant machinery (those 4 sleeves are committed at HEAD); the superseded 09:52 numbers are recorded, not silently deleted
+
+**Charter (a) — rate paths on the costfix champion, zero gate moves anywhere:**
+
+| scenario | ann | MDD | neg yrs |
+|---|---|---|---|
+| base 4.5% | 37.195% | −6.692% | 0/19 |
+| 12%×90d (2008-style) | 37.080% | −6.692% | 0/19 |
+| 8%×30d (2020-style) | 37.178% | −6.692% | 0/19 |
+| 6%×1y (hike cycle) | 37.131% | −6.692% | 0/19 |
+| oracle worst-ann (exhaustive, 4,716 placements) | 37.080% | −6.692% | 0/19 |
+| oracle worst-MDD | 37.080% | **−6.760%** | 0/19 |
+
+MDD never breaches −7%; closed-form drags (1.6071%/0.25%/0.90% NAV) match the machinery exactly.
+
+**Charter (b) — blend support delivered** with the RED fixture failing a sign-flipped (subsidy) blender, margin charged once on blended gross, linear==rebuilt to <1e-10. Honest wrinkle worth flagging: SR_d *rises* monotonically as leverage falls (3.181 → 3.448 unlevered) — the 1.6× gear buys ann, not risk-adjusted quality. No champion or builder changes.
+
+**Verification:** round-3 file 18 tests, full suite **290 passed, 0 failed**. DEAD_IDEAS (106 rows) read first; the one apparent overlap ("champion-blend integration", dead per HUNT_VOL2-R3) is a candidate-sleeve family — this round delivered blend *infrastructure* only, no candidate, no re-tuning. `FINDINGS.md` ends with `ROUND 3 DONE`.
+=== CAMP_BORROW round 3 end Mon Sep  7 15:05:25 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907225248f6396578c6ef4e89]
+=== CAMP_BORROW rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090723233320c2f482bf954609]
+=== CAMP_BORROW rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609072334424747e44037c34e59]
+=== CAMP_BORROW rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609072342205531ecc9e91f4d76]
+=== CAMP_BORROW rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609080016327a541d4ff39e4982]
+=== CAMP_BORROW rate-limited or errored (attempt 5, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260908002214a440889f5cdf4aa1]
+=== CAMP_BORROW rate-limited or errored (attempt 6, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090800435320630e2eea304f96]
+=== CAMP_BORROW rate-limited or errored (attempt 7, rc=1); backing off ===
+Round 4 executed per charter. Summary:
+
+## Round 4 — productize the R3 financing ladder: `campaign/bt/financing_stress.py`
+
+**Pre-flight (charter-mandated first reads):** GATES_CONTRACT.md read; DEAD_IDEAS.csv read — now 119 data rows (charter said 108; concurrent hunts grew it). No dead family touched — this round packages already-adopted cost infrastructure, zero signal families.
+
+**Found on arrival:** a prior CAMP_BORROW session (00:13–00:37 tonight) had drafted the tool + tests + work_r4 JSONs, all untracked, no FINDINGS entry — and left them in a live **TDD RED** state.
+
+**RED → GREEN (two real defects, fixed via TDD):**
+1. `NameError: 'sys' is not defined` at `financing_stress.py:316/320` — `__main__` block called `sys.exit` with no `import sys`; every CLI invocation (even success) died in a traceback. → added the import.
+2. `TypeError: stress_table() got an unexpected keyword argument 'rungs'` — the CLI's `--rungs` flag was dead plumbing. → added the parameter, forwarded to `rung_ladder`.
+
+Result: **2 failed/29 passed → 31/31 passed**; full bt suite **386 passed, 0 failed** (46.3s, no regressions).
+
+**Charter validation pins (all ran, zero skips):**
+- R3 ops-JSON reproduction on committed champion: max |diff| **7.105e-15 < 1e-12 PASS**
+- R1/R2 table on pre-costfix stream: 39.851/39.02/38.18% geometric, slope **−0.84/−0.83pp per +1pp**; arithmetic slope exactly **−0.60pp/+1pp**
+- Fail-closed: 10-way parametrized invalid inputs all raise; CLI exits nonzero on missing `--net`
+
+**Champion of record re-verified** (sha256[:16] = `4358dfab95679b97`): base ann 37.1954% / SR_d 3.1810 / MDD −6.6922% / 0 neg yrs; ladder −0.82pp ann per +1pp call rate, no gate moves to 8%; borrow tiers +1.545/+7.725 bps/yr, no gate moves. Regenerated `work_r4/financing_stress_champion_4358dfab95679b97.json` through the fixed CLI.
+
+FINDINGS.md appended with exact numbers and ends with `ROUND 4 DONE`.
+=== CAMP_BORROW round 4 end Tue Sep  8 00:58:40 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260908072449b3e66ddc41064c2d]
+=== CAMP_BORROW rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609080803437af56128ffc44b4a]
+=== CAMP_BORROW rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260908081906b5a72f2ec0234cb0]
+=== CAMP_BORROW rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260908082433d621a8daf05e4a11]
+=== CAMP_BORROW rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090808294837ad7c7cb30d414e]
+=== CAMP_BORROW rate-limited or errored (attempt 5, rc=1); backing off ===
+Round 5 executed per charter. FINDINGS.md ends with exactly `ROUND 5 DONE`.
+
+## What was done
+
+**Arrival state (honesty):** a dead prior CAMP_BORROW session (07:00–08:08 today) had left untrusted `work_r5/` artifacts with no FINDINGS entry. I audited rather than trusted them: both scripts re-executed fresh with all fail-closed asserts green, and the dead session's rate-ladder JSON regenerated through `bt.financing_stress` CLI to **max|dev| = 0.0**.
+
+**Charter (a) — freshness re-derivation, PASS:**
+- Champion sha re-verified `4358dfab95679b97`; builder rebuild max|dev| 9.996e-17 (n=4805)
+- Margin re-derived exactly: **2.700000%/yr = 1.0714 bps/day** on (gross−1)=0.6; single distinct daily value; gross max dev 1.110e-15
+- Committed file priced at exactly 4.5% (residual 1.00e-16, vs 2.38e-05 at 5.5%)
+- **Borrow census measured, not asserted:** zero negative slot weights on all 4,805 days; the only embedded stock-loan borrow is diescrack (733/4,605 rows charged −0.005/252, verified to 1e-9); champion-level drag **0.2195 bps/yr**; HTB 8% tier → 3.2931 bps/yr; CFX4 carries weight 0.0 every day (unfunded slot)
+
+**Charter (b) — drift flags: all 4 exceed the 10% relative bar → FLAGGED** (FRED DFF 3.63%, SOFR 3.66% fresh through 2026-09-03):
+| flag | modeled | implied | rel |
+|---|---|---|---|
+| call vs DFF+1.5pp | 4.50% | 5.13% | +14.00% |
+| call vs DFF+2.0pp | 4.50% | 5.63% | +25.11% |
+| call vs SOFR+1.5pp | 4.50% | 5.16% | +14.67% |
+| drag vs true DFF path | 2.70%/yr | 1.76%/yr | −34.86% |
+
+Substantive finding: vs today's rates the 4.5% model is **conservative** (current-environment ann −0.52pp → 36.68%), but over the full backtest window the flat-4.5% convention **understates** period ann by +1.30pp. No gate moves in any scenario (0 neg years, MDD never worse than −6.70%).
+
+**Citation limitation, stated plainly:** IBKR's own pages were unreachable (curl exit 7 direct and `--noproxy`, WebFetch domain-blocked, webReader 500) — the spread band is carried from R1's recorded rationale against FRED-sourced benchmarks; the flag script has a documented replay path.
+
+**Constraints honored:** no dead-family re-tests (130 DEAD_IDEAS rows recounted myself), bt/ untouched (its `M` entries are AUDIT_FWBUGS' pre-existing edits), no champion edits. bt suite: **401 passed, 0 failed**.
+=== CAMP_BORROW round 5 end Tue Sep  8 08:54:33 CST 2026 exit 0 ===
+Round 6 complete. FINDINGS.md ends with exactly `ROUND 6 DONE`.
+
+## What I did
+
+**Pre-flight:** GATES_CONTRACT_V2 read first; DEAD_IDEAS recounted myself — **142 data rows** at round start (charter said 137; dynamic per V2 preamble — a concurrent HUNT_CREDIT2-R6 append took it to 143 mid-round). Champion sha re-verified unchanged: `4358dfab95679b97`. bt suite: **410 passed / 0 failed**. Zero bt/ or results/ edits.
+
+**(a) Docs-only disclosure — DONE.** Appended `## FINANCING CONVENTION DISCLOSURE (2026-09-08)` to `campaign/GOAL100_CHAMPION.md`: the 4 R5 rate-drift flags with exact numbers (+14.00%/+25.11%/+14.67% relative vs today's DFF/SOFR+spread; −34.86% vs the true DFF path), the both-directions reading (conservative vs today by ~0.5–0.9pp of ann; understates the 2008–2026 period by +1.30pp), 0/19 negative years in every scenario, borrow immateriality (0.2196 bps/yr at 2× borrow rate). Insert-only: file grew 23,489→25,919 chars; my append is the last 40 of the +77 diff lines (the other 37 are the coordinator's pre-existing banners).
+
+**(b) Fraud-catch on DATA_FREDMORE R5 — VERDICTS CONFIRMED, NO FRAUD.** Reproduced with my own code (`work_r6/r6_fredmore_fraudcatch.py`, 37 PASS / 0 FAIL, exit 0) from published artifacts + live FRED/ALFRED: level lint exact (n=166/158/511), live re-pull byte-value-equal, vintage counts/lags/holes exact (61/61/136; lag_min 136/136/37 vs floors 130/130/35; WPU hole = exactly {2015-10-01}), WPU census re-derived independently (587 obs, 3 absent-slot structure events, 9 swings, first 1990-01 +95.8%).
+
+**The catch that mattered:** a concurrent **DATA_ORGANIZE team agent** (session 13:44:52, pyc 14:10) destroyed all three `tools/quant/data/alfred/<SID>/vintage.csv` artifacts — FREDMORE's verifier passed 64/0 at 09:04 and now crashes with FileNotFoundError — and truncated `alfred/manifest.csv` to 0 bytes (crash-mid-write) plus regenerated `more_fred/manifest.csv` losing the 6 R5 lag-floor rows. The files were never git-tracked, and DATA_ORGANIZE's own charter forbids CSV deletion (their session has no DONE marker). **Remediation delivered:** I rebuilt all three vintage CSVs from live ALFRED (format-exact) into `work_r6/vintage_rebuilt/` with restore instructions, plus three escalation points for the coordinator (track/inventory untracked data blobs; the reserved-subdir layout test will re-flag PIT dirs; manifest writes need atomic rename).
+
+New files: `coord/CAMP_BORROW/work_r6/` (script, output, scorecard, rebuilt vintages) + the charter-named champion doc append.
+=== CAMP_BORROW round 6 end Tue Sep  8 14:45:35 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090821434644ef40c328b74e26]
+=== CAMP_BORROW rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260908214806227559c188b84404]
+=== CAMP_BORROW rate-limited or errored (attempt 2, rc=1); backing off ===
+Round 7 complete. FINDINGS.md appended (441 lines, ends exactly with `ROUND 7 DONE`).
+
+## Summary
+
+**Pre-flight**: GATES_CONTRACT_V2 read (leak flip executed, V3 placebo still a proposal — not depended on); DEAD_IDEAS recounted by me: **151 rows at round start → 152 after my append** (charter said 145-146; dynamic). Champion sha `4358dfab95679b97` unchanged. bt suite **444/0**.
+
+**(a) Fraud-catch re-run of FXCARRY2-R6 treasfut repro — REPRODUCED BIT-FOR-BIT**
+- Copied their shipped script with only OUT redirected (their scorecard untouched, sha `ffad4b6c6756e5d7`), re-ran: **all 19 books × every cell + drift block = max |diff| 0.0 exactly** vs their published scorecard.
+- DEFECT-#1 (double-net convention) reconfirmed 19/19 — honest verdict: 0/19 SR≥1.0, max 0.4407, family dead either way. DEFECT-#2 (plateau CSVs = k=5 copies) reconfirmed 4/4. **DEFECT-#3 RESOLVED**: row 142 exists (coordinator re-append, disclosing the clobber), absence re-verified from HEAD (64 rows), pickaxe (0 commits), and bak_standup1300 (143 rows).
+- Two new nits disclosed: the shipped 14:29 script revision **crashes in section C as-is** (reads `date`, CSVs index `auction_date`); and the pinned tauctions bytes (`b0e243c4e4681e32`) no longer exist anywhere in the tree after the 14:07 refresh — though I proved the refresh content-neutral for consumed columns (bit-exact rebuild + 0 value diffs on 29 overlapping btc dates vs their probe).
+
+**(b) Borrow lane — all 4 drift flags STILL FLAGGED; borrow pin exact**
+- Fresh FRED: DFF 3.63% (09-03, unchanged), **SOFR 3.65% (09-04, one new print)**. Flags re-measured: **+14.00 / +25.11 / +14.44 / -34.86% relative** — all above the 10% bar. 0 neg years, MDD never worse than -6.7024% in any re-price.
+- NEW 12m-tail re-price: at today's path mean (5.2581%), last-12m ann −0.5985pp — the conservative flag is the live direction currently.
+- **0.2195 bps/yr embedded borrow re-pinned EXACT** (drift vs R5 pin = 0.0): 733 charged rows (331/173/229), signature dev 1e-16; HTB tiers 0.6586/3.2931 bps/yr; 0 slot-level shorts re-certified.
+
+**Integrity notes**: quarantined a dead-session drift script with a real defect (positions≠0 method drops the 229 cost-only rows); self-caught and repaired my own CRLF/blank-line ledger artifact — final ledger state verified 152 data rows, 0 blanks, trailing LF. No bt/, champion, or their-artifact edits.
+=== CAMP_BORROW round 7 end Tue Sep  8 22:27:22 CST 2026 exit 0 ===

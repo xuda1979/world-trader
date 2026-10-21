@@ -1,0 +1,32 @@
+=== no-lookahead probes ===
+  credit: True
+  breakeven: True
+  curve: True
+  credit_trunc_rebuild: True
+
+=== (a) LQD-TLT credit-spread momentum, k-scan {63,126,252} (a-priori 126) ===
+  k=63:-0.24  k=126:-0.31*  k=252:-0.17
+  plateau@126: False {'reason': 'nonpositive_peak', 'peak': -0.1731546131965047}
+[CREDIT2_lqdltt_k126] n=6064 2002-07-31->2026-09-04 SR=-0.31 ann=-4.2% vol=11.7% H1=-0.24 H2=-0.44 negyr=13 worst=-32.7% scram_p=0.000 lag_p=1.000 corrChamp=0.141 SR_08+=-0.17
+    gates: SR>=1:False halves:False yearly:False scramble:True |corr|<0.15:True  PASS=False
+
+=== (b) T10YIE breakeven trend TLT/TIP tilt, k-scan (a-priori 63) ===
+  k=21:-1.21  k=63:-0.80*  k=126:-0.44  k=252:-0.25
+  plateau@63: False {'reason': 'nonpositive_peak', 'peak': -0.24761178250175384}
+[CREDIT2_be_tlttip_k63] n=5720 2003-12-08->2026-09-02 SR=-0.80 ann=-9.7% vol=11.9% H1=-1.10 H2=-0.45 negyr=21 worst=-35.3% scram_p=0.000 lag_p=1.000 corrChamp=-0.050 SR_08+=-0.77
+    gates: SR>=1:False halves:False yearly:False scramble:True |corr|<0.15:True  PASS=False
+
+=== (c) 2s10s steepener IEF/TLT barbell, k-scan (a-priori 21) ===
+  k=5:-1.38  k=10:-0.93  k=21:-0.54*  k=42:-0.45  k=63:-0.38
+  plateau@21: False {'reason': 'nonpositive_peak', 'peak': -0.37704472394059885}
+[CREDIT2_curve2s10s_k21] n=6064 2002-07-31->2026-09-04 SR=-0.54 ann=-5.1% vol=9.1% H1=-0.59 H2=-0.50 negyr=21 worst=-17.9% scram_p=0.000 lag_p=1.000 corrChamp=-0.127 SR_08+=-0.53
+    gates: SR>=1:False halves:False yearly:False scramble:True |corr|<0.15:True  PASS=False
+
+=== (d) HY-stress gate overlay on champion ===
+  gate=BAA10Y N=252 z>2.0->0.7x: champ SR 3.181 -> 3.365 (delta +0.184); days gated 323/4805
+  gate=BAA N=252 z>2.0->0.7x: champ SR 3.181 -> 3.181 (delta +0.000); days gated 0/4805
+
+=== summary ===
+  cred_lqdltt_k126: SR=-0.31 PASS=False
+  be_tlttip_k63: SR=-0.80 PASS=False
+  curve2s10s_etf_k21: SR=-0.54 PASS=False

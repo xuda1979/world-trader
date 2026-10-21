@@ -1,0 +1,416 @@
+=== MONEY-LOOP scan started 2026-07-23 21:18:49 ===
+=== WORLD-TRADER GLOBAL SCAN  2026-07-23T13:18:49+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+-- OPEN NOW: 12 markets --
+   + BR (Brazil (B3))
+   + CH (Switzerland (SIX))
+   + CRYPTO (Crypto (24/7))
+   + DE (Germany (Xetra))
+   + ES (Spain (BME))
+   + FR (France (Euronext Paris))
+   + FUT (Futures (CME/GLOBEX: commodities, bonds, index))
+   + FX (FX (24/5))
+   + IT (Italy (Borsa Italiana))
+   + NL (Netherlands (Euronext Amsterdam))
+   + SE (Sweden (Nasdaq Stockholm))
+   + UK (UK (LSE))
+
+-- REGIME: RISK-ON  (score +0.49) --
+   VIX=17.05(+0.20)  HY=2.69(+0.91)  10Y-2Y=0.36(+0.36)
+   crypto fear&greed: 31 (Fear)
+   [+spillover: 2 cross-asset candidates from 2 themes]
+
+-- LIVE QUOTES: 400 instruments fetched (crypto RT, US, China A-share live, Taiwan live, FX)  [+wide US: 4097 of 12427 tickers pre-screened -> top 150]  [+wide CN A-share: 599 of 600 liquid names -> top 120, backtested] --
+
+=== OPPORTUNITIES (ranked by per-trade expected Sharpe = E[R]/sigma) ===
+  markets open now (2026-07-23T13:27:20+00:00): BR, CH, CRYPTO, DE, ES, FR, FUT, FX, IT, NL, SE, UK
+  YOUR BAR to qualify: E[R]>=+1%/trade, sigma<=7%*sqrt(h/5), Sharpe>=0.40, n>=20, t>=2 (Bonferroni-adj.), OOS Sharpe>0
+  >> markets open (BR, CH, CRYPTO, DE, ES, FR, FUT, FX, IT, NL, SE, UK) but no positive-expectancy edge measured this scan -- stand aside. An empty table is the honest answer.
+
+-- MACRO / RATES / CREDIT (FRED) --
+  US 3M yield                3.8700000000  (2026-07-21)
+  US 2Y yield                4.2600000000  (2026-07-21)
+  US 10Y yield               4.6300000000  (2026-07-21)
+  US 30Y yield               5.1300000000  (2026-07-21)
+  10Y-2Y spread                    0.36  (2026-07-22)
+  10Y-3M spread                    0.78  (2026-07-22)
+  Fed funds                  3.6300000000  (2026-07-21)
+  VIX                             17.05  (2026-07-21)
+  US HY credit spread              2.69  (2026-07-21)
+  US IG credit spread              0.78  (2026-07-21)
+  WTI oil                         84.38  (2026-07-20)
+  Brent oil                       86.99  (2026-07-20)
+  USD/EUR                         1.144  (2026-07-17)
+  Broad USD index              120.5315  (2026-07-17)
+  Fin conditions index         -0.55200  (2026-07-17)
+  Fed balance sheet             6743028  (2026-07-15)
+  M2 money supply               23052.3  (2026-05-01)
+  Unemployment rate                 4.2  (2026-06-01)
+  CPI                           332.568  (2026-06-01)
+  5Y inflation breakeven            2.3  (2026-07-22)
+  UST curve: 3M 3.87%  2Y 4.26%  10Y 4.63%  30Y 5.13%
+  BTC perp funding: +0.0014%  OI 101,981
+  CFTC COT large-spec net: WTI +62,683  Gold +186,682  BTC +201  ES -38,938
+
+-- CATALYST CALENDAR (next 14d; today=2026-07-23) --
+  2026-07-23  (7)
+    [DIV] AGX      div $0.5000 (CD) $0.50
+    [DIV] AMDY     div $0.7213 (CD) $0.72
+    [DIV] CVS      div $0.6650 (CD) $0.67
+    [DIV] INYY     div $0.7759 (CD) $0.78
+    [DIV] MRSH     div $0.9900 (CD) $0.99
+    [DIV] PYPY     div $0.5880 (CD) $0.59
+    [DIV] TEN      div $1.0000 (CD) $1.00
+  2026-07-24  (9)
+    [IPO] SCTX     IPO Scribe Therapeutics, Inc. $?
+    [DIV] CNND     div $5.6000 (CD) $5.60
+    [DIV] COST     div $1.4700 (CD) $1.47
+    [DIV] KALU     div $0.7700 (CD) $0.77
+    [DIV] KNTK     div $0.8100 (CD) $0.81
+    [DIV] LKFN     div $0.5200 (CD) $0.52
+    [DIV] PG       div $1.0885 (CD) $1.09
+    [DIV] UNM      div $0.5050 (CD) $0.51
+  2026-07-27  (7)
+    [DIV] ADX      div $0.5000 (CD) $0.50
+    [DIV] BNY      div $0.6300 (CD) $0.63
+    [DIV] HLRD     div $7.5000 (CD) $7.50
+    [DIV] LPG      div $1.0000 (SC) $1.00
+    [DIV] PEO      div $0.5400 (CD) $0.54
+    [DIV] RY       div $1.7600 (CD) $1.76
+    [DIV] USAC     div $0.5250 (CD) $0.53
+  2026-07-28  (5)
+    [DIV] ASML     div $2.1507 (CD) $2.15
+    [DIV] NEXA     div $0.1321 (SC) $0.13
+    [DIV] OJOC     div $2.0000 (SC) $2.00
+    [DIV] PAYX     div $1.1900 (CD) $1.19
+    [DIV] SND      div $0.1000 (SC) $0.10
+  2026-07-29  (1)
+    [DIV] CPRN     div $0.6506 (CD) $0.65
+  2026-07-30  (50)
+    [ERN] AAMI     Q2 2026 EPS est 1.0455 EPS~1.0455
+    [ERN] AAON     Q2 2026 EPS est 0.5039 EPS~0.5039
+
+-- NEWS (expanded feeds) --
+  [MarketWatch]
+    - The FDA is about to decide which peptides could soon become widely available in the U.S. Here’s what happens next.
+    - AI stocks are echoing a 1990s market split. JPMorgan warns the next few weeks are critical.
+    - Japan’s $1.8 trillion pension giant might bring money home. That could jolt U.S. stocks and the Fed.
+  [Nasdaq-Mkts]
+    - Should You Buy Coca-Cola Stock Before July 28?
+    - ASML Owns AI's Critical Bottleneck. Is the Stock Worth the Price?
+    - 1 Brilliant Dividend ETF to Build Long-Term Passive Income
+  [Nasdaq-Stocks]
+    - Stocks Settle Lower as Crude Oil Prices Jump
+    - OneWater Marine Reaches Analyst Target Price
+    - LW Crosses Above Average Analyst Target
+  [SeekingAlpha]
+    - CLOs: Dispersion Was The 2Q Story, Selection Is The Edge
+    - UniCredit S.p.A. (UNCRY) Q2 2026 Earnings Call Transcript
+    - Ambiq Micro: Turning Out To Become An AI Derivative After All
+  [Investing]
+    - Mizuho Favors These 2 Medical Device & Diagnostics Stocks Into Q2
+    - Why is Yelp stock surging today?
+    - Blackstone beats profit estimates with AI gains as assets hit $1.35 trillion
+  [Yahoo-Fin]
+    - These high-flying tech stocks are down 60% — here's how to shop the sell-off: One Big Investment Idea
+    - Vita Coco buys coconut-water maker Copra
+    - Top Trump official invests over $15,000 in ETF that tracks Democratic lawmaker trading
+  [Benzinga]
+    - Best Stocks Under $20
+    - Best Tech Stocks Right Now
+    - Best Stocks Under $10
+  [Zerohedge]
+    - Oil Soars As Trump Warns Iran Will Pay For Future Houthi Shipping Attacks, Rubio Rules Out Deal
+    - AIpocalypse No! Initial Jobless Claims Collapse To Lowest Since 1969
+    - ECB Keeps Rates Unchanged (As Expected), Warns 'Full Energy Inflationary Shock Yet To Come'
+  [WSJ-Markets]
+    - The FDA is about to decide which peptides could soon become widely available in the U.S. Here’s what happens next.
+    - AI stocks are echoing a 1990s market split. JPMorgan warns the next few weeks are critical.
+    - Japan’s $1.8 trillion pension giant might bring money home. That could jolt U.S. stocks and the Fed.
+  [FT-Markets]
+    - Oil hits $100 for first time since May
+    - Oil price surge drives global bond sell-off
+    - Houthi attacks threaten Saudi Arabia’s oil lifeline
+  [CNBC-Top]
+    - Dow futures tumble 600 points as Brent crude tops $100, Alphabet and Tesla drop: Live updates
+    - Alphabet and Tesla test Wall Street's patience as AI spending overshadows growth
+    - Trump says Saudi nuclear deal contingent on relations with Israel, does not include enrichment
+  [CNBC-Markets]
+    - Cyclospora outbreak tests RFK Jr.'s promise to overhaul food system, rebuild trust in CDC
+    - American Airlines slashes 2026 earnings outlook as fuel costs spike
+    - Comcast earnings highlight NBCUniversal strength ahead of planned split
+  [FedPress]
+    - Agencies issue joint statement on handling of highly sensitive information during bank examinations
+    - Federal Reserve Board issues enforcement action with former chief lending officer of Heritage State Bank
+    - Minutes of the Board's discount rate meetings on June 8 and June 17, 2026
+  [ECB]
+    - Christine Lagarde, Boris Vujčić: Monetary policy statement
+    - Monetary policy decisions
+    - ECB appoints Boris Kisselevsky as Director General Secretariat
+  [BoE]
+    - PRA consults on updated guidance for friendly society amalgamations and transfers
+    - PRA fines HDI Global SE £4,165,000 for inaccurate reporting of FSCS Liabilities and FSCS Fee Tariff data
+    - PRA and FCA propose new captive insurance regime to drive UK growth and competitiveness
+  [BoJ]
+    - Developments in Real Exports and Real Imports
+    - Japanese Government Bonds Held by the Bank of Japan
+    - (BOJ Review) The Development and Strengthening of International Forums in Asia with the Participation of the Bank of Japan
+  [Cointelegraph]
+    - Strategy-led group pledges $15M to quantum-proof Bitcoin network
+    - Binance joins STOP THE TRAFFIK in anti-human trafficking effort
+    - BitMEX token crashes 90% as exchange announces shutdown
+  [Decrypt]
+    - Southeast Asian Scam Networks Cost Victims Up to $114B in a Year: UN
+    - Morning Minute: Wall Street Moving Onchain Will Drive the Next Bull Market
+    - Crypto 'Wrench Attacks' Cost Victims $124M in Six Months, Up 12x: CertiK
+  [TheBlock]
+    - LayerZero, Keeta enable tokenized bank deposits across Ethereum, Solana and Base
+    - Flow Traders pilots Lombard’s new bitcoin-backed credit strategy for stablecoin borrowing
+    - Not currently the right capital solution: Smarter Web sells 178 bitcoin to repay $11.7M convertible instrument
+  [CoinDesk]
+    - The KIDS Act is way worse than digital carding — it is a mass surveillance system
+    - BlackRock, Coinbase, Strategy in group pledging $15 million to prepare Bitcoin for quantum threats
+    - Abu Dhabi's Mubadala Capital joins tokenization push as Coinbase takes stake in onchain fund
+  [ForexLive]
+    - US stocks continue to be under intense pressure in premarket trading
+    - ECB's Lagarde: Recent data points to some improvement in economic activity.
+    - Canada Retail sales for May 1.0% versus 1.0% expected
+  [FXStreet]
+    - Mexican Peso: Slightly stronger MXN outlook – Commerzbank
+    - ECB Press Conference: Lagarde speaks on policy outlook after leaving key rates unchanged
+    - Lagarde speech: Some asked whether we should consider a hike
+  [Mining.com]
+    - De Beers output surges even as diamond slump persists
+    - New Pacific Metals updates PEA for Carangas project in Bolivia
+    - Nth Cycle to go public in SPAC merger deal
+  [JapanTimes]
+    - Japan and Solomon Islands leaders agree to bolster ties
+    - Japan weighs regulating Pokemon cards amid trading mania
+    - Japan and Russia to resume youth exchanges after seven-year hiatus
+  [SCMP-Biz]
+    - China’s Geely partners with Ford to revive Spain plant and deepen European EV drive
+    - Path opened for Malaysian firms to pursue secondary share listings in Hong Kong
+    - HSBC summit turns future trends into wealth strategies
+  [ET-Markets]
+    - AI-led boom in IPOs raises concerns about a bust
+    - Sebi proposes allowing portfolio managers to invest overseas, in to-be-listed securities
+    - Gulshan Group to invest Rs 1,000 cr on new housing project in Ghaziabad
+  [Livemint]
+    - AMC profits rise on stronger core business and treasury gains
+    - Sebi proposes MF-only portfolio management service, wider investment universe
+    - SBI Mutual Fund trims stake in Ather Energy to 5% after partial profit booking. Details here
+  [SpaceNews]
+    - Airbus space business takes advantage of growing demand for satellite systems
+    - China’s Shijian-31 satellite is sweeping GEO using a unique orbit
+    - FCC approves sweeping space reforms while clearing more C-band for 5G
+  [TechCrunch]
+    - Experts say exploiting Anthropics Fable isnt how Kimi K3 got so good
+    - ServiceNow bets $40 million on Indian banking software specialist to expand its financial services push
+    - After shocking quarter, IBM insists that AI isnt killing the mainframe
+  [TheRegister]
+    - One ChatGPT link could smuggle a rogue AI agent into your company
+    - If you get knocked on the head and get all your devices stolen and have amnesia, Google will let you back in with a selfie
+    - Swiss train maker tells ransomware crooks to get off at the next stop
+  [BioPharma]
+    - <a href="/pharma/jj-bispecific-combo-slashes-myeloma-progression-risk-89-phase-3-trial" hreflang="en">J&J’s bispecific combo slashes myeloma progression risk by 89% in phase 3 trial</a>
+    - <a href="/biotech/australian-biopharma-clinuvel-shed-20-workforce-move-us" hreflang="en">Australian biopharma Clinuvel to shed up to 20% of workforce in move to US</a>
+    - <a href="/biotech/substantially-better-new-report-highlights-indias-opportunity-seize-string-recent" hreflang="en">‘Substantially better than before’: Why India has golden opportunity to build on innovative R&D wins</a>
+  [PV-Magazine]
+    - Hybrid PPAs see growing adoption in Europe despite a 24% premium over solar PPAs
+    - Southern Africa shifts toward competitive wholesale electricity markets
+    - Hail storm damages PV systems across Italy’s Marche region
+  [Electrek]
+    - IEA: Global power demand is surging – and renewables are passing coal
+    - Deliveries, automation, and the gateway drug to electrification with BIG JOE
+    - Tesla still has no real plan for Hardware 3 owners promised FSD
+  [Investing-UK]
+    - Bond yields rise as persistent energy shock fuels hawkish ECB and Fed hike bets
+    - Euro adds to losses after ECB holds rates steady; dollar firms on safe-haven boost
+    - Sterling today: Pound eases as Middle East risk underpins dollar before ECB
+  [CityAM]
+    - Is ABBA Voyage suitable for children? You bet it is!
+    - Burnham accused of gutting tech departments biggest strength
+    - Sport documentaries muddle grey area of storytelling vs reality
+  [Handelsblatt]
+    - Notenbank: Jetzt live: EZB-Chefin Lagarde erklärt die neue Zinsentscheidung
+    - Geldpolitik: Die Energiekrise ist zurück – doch die EZB lässt sich Zeit
+    - Rohstoffe: Ölpreis steigt erstmals seit Mai auf 100 Dollar pro Barrel
+  [Investing-DE]
+    - Mizuho Favors These 2 Medical Device & Diagnostics Stocks Into Q2
+    - Why is Yelp stock surging today?
+    - Blackstone beats profit estimates with AI gains as assets hit $1.35 trillion
+  [Investing-IT]
+    - Oil prices top $100 a barrel after Houthis attack Saudi tankers in Red Sea
+    - Gold drops with oil price jump, upcoming Fed meeting in focus
+    - Trump says US-Saudi nuclear deal conditional on country joining Abraham Accords
+  [NikkeiAsia]
+    - Geely and Ford team up to revive Spanish auto plant
+    - Hyundai profit falls 21% on US tariffs, supply chain disruption
+    - Thailand's new investment jumps 37% in Jan-June on AI boom
+  [JijiPress]
+    - 高市首相のＸ、行政文書に当たらず　政府
+    - 元プロテニスの平木理化容疑者逮捕　特殊詐欺関与か、容疑否認―高知県警
+    - サッカー日本代表、大岩剛氏の監督就任決定　森保一監督が半年間続投
+  [EconTimes]
+    - Gulshan Group to invest Rs 1,000 cr on new housing project in Ghaziabad
+    - Mahindra Lifespace Developers Q1 profit rises 67% YoY to Rs 86 crore
+    - Kuwait raises $6 billion in three-tranche bond sale, finance ministry says
+  [MoneyControl]
+    - Uncle Sam is wrong, India and China are doing their bit to fight climate change
+  [LiveMint]
+    - Sebi proposes faster online dispute resolution, bigger role for exchanges and depositories
+    - AMC profits rise on stronger core business and treasury gains
+    - Sebi proposes MF-only portfolio management service, wider investment universe
+  [BusinessStd]
+    - Suryoday SFB's PAT rises over twofold to Rs 75 crore in Q1 FY27
+    - Indigo posts net loss of Rs 2,380 crore in Q1 FY27
+    - International Gemological Institute consolidated net profit rises 30.99% in the June 2026 quarter
+  [HinduBiz]
+    - Q1 Results Today LIVE: Infosys con. PAT up 12%, IndiGo loss at ₹382 cr, Cipla Q1 PAT declines, PVR INOX logs profit, Mphasis, Meesho, Cyient to announce Q1 results today
+    - Milky Mist set to launch IPO in early August
+    - Diversified crude sourcing helped MRPL navigate geopolitical risks in FY26
+  [EM-Investing]
+    - MEXC’s "Kickoff Fest" Trading Event Concludes with Top Individual Reward of 27,352 USDT
+    - Grid Trading on Zoomex: How to Profit From Sideways Markets
+    - Stand-On Announces Expanded Modular Exhibition Flooring Solutions for Modern Exhibition and Event Spaces
+  [Brazil-Exame]
+    - Ações da Nestlé caem mais de 7% após balanço, o pior tombo desde 2020; entenda
+    - Gabriel Pec sofre fratura na perna em estreia como titular pelo Cruzeiro
+    - Ex-vendedor de batata compra empresa gaúcha de WhatsApp para faturar R$ 8 milhões a mais
+  [MiningCom]
+    - De Beers output surges even as diamond slump persists
+    - New Pacific Metals updates PEA for Carangas project in Bolivia
+    - Nth Cycle to go public in SPAC merger deal
+  [MetalMiner]
+    - How Aclara Plans to Build a Rare Earth Supply Chain Without China by 2028
+    - How to Judge Forecast Performance in Metals: Setting up an MCP for Metal Prices
+    - What Ideal Metal Price Forecasting Looks Like for Decision-Makers
+  [FarmProgress]
+    - Bin it to win it? Why you shouldn’t bet the ’26 crop on storage alone
+    - EPA manure emissions reporting exemption faces legal challenge
+    - How the Missouri State Fair is celebrating America
+  [CoinTelegraph]
+    - Strategy-led group pledges $15M to quantum-proof Bitcoin network
+    - Binance joins STOP THE TRAFFIK in anti-human trafficking effort
+    - BitMEX token crashes 90% as exchange announces shutdown
+  [CryptoSlate]
+    - Latest $3.8 billion RWA recovery shows how quickly DeFi absorbed the KelpDAO shock
+    - XRP’s $1.16 recovery gets support from whales and a $285 million ETF streak
+    - Bitcoin rose 2% on CLARITY progress while Coinbase, Circle jumped over 8%  but why?
+  [BeInCrypto]
+    - New EU Sanctions Make Crypto Harder for Russian Users
+    - Elon Musk Names the Real Force Behind His European Politics, and Its Not the Far-Right
+    - Bitrue Becomes the First to Launch AI Tokenized Stocks Earn: Beating Dividends With a Flat 7% Return
+  [NewsBTC]
+    - Arbitrum Fast Feed Proposal Would Route 97% Of Revenue To DAO Treasury
+    - Grayscale Solana Trust Amendment Would Add Quarterly Staking Reward Payouts
+    - Sky Protocol Revenue Nears $419M Annualized As USDS Demand Supports DeFi Income
+  [BitcoinMag]
+    - Swiss Bank BancaStato Launches Bitcoin Trading Through Sygnum and Avaloq
+    - Nasdaq-listed Zhibao Technology to Take 3,500 Bitcoin in Proposed PIPE Financing
+    - Cryptos US Workforce Is Tiny, But Industry Punches Above Its Weight: Report
+  [TheDefiant]
+    - SummerFi to Wind Down After Seven Years, Citing Exploit
+    - eToro Takes Strategic Stake in Onchain Derivatives Exchange Extended, Plans Zengo Tie-Up
+    - NEAR Governance Votes to Scrap Developer Gas Rebate
+  [Investing-FX]
+    - Bond yields rise as persistent energy shock fuels hawkish ECB and Fed hike bets
+    - Euro adds to losses after ECB holds rates steady; dollar firms on safe-haven boost
+    - Sterling today: Pound eases as Middle East risk underpins dollar before ECB
+  [Pandaily]
+    - Beijing Releases Groundbreaking Agent AI Policy: 10 Measures That Signal a New Economic Framework for AI Agent Infrastructure and Token Economy
+    - Security and AI Communities in Uproar as GPT Autonomously Hacks Hugging Face, Hugging Face Finally Rescued by Chinese Open-Source Model Zhipu GLM 5.2
+    - Digua Robot Sunri S600 Mass Production Ecosystem Expands: The Infrastructure Logic Behind Embodied Intelligence Industrialization in the Age of 100K Robot Deployments
+  [TechNode]
+    - Microsoft reportedly evaluates Moonshot AIs Kimi K3 for Copilot
+    - iQIYI launches Chinas first licensed AIGC online story film
+    - Ford and Geely reportedly reach deal to produce EVs at Spanish plant
+  [ChinaBriefing]
+    - The Greater Bay Area IIT Subsidy for 2026 Kickstarts in Shenzhen
+    - US-China Relations in the Trump 2.0 Era: A Timeline
+    - Why China is Still the Top 1 Manufacturing Destination in Asia
+  [VentureBeat-AI]
+    - The AI compute gap: Enterprises are buying infrastructure faster than they can measure what it costs
+    - The agent security gap: 54% of enterprises have already had an AI agent incident, and most still let agents share credentials
+    - The AI context gap: Enterprise AI organizations have a trust problem, not a retrieval problem — and most are still building the fix
+
+-- SEC 8-K MATERIAL CATALYSTS (last 3 days) --
+  2026-07-23 CNTN   [1.01,2.01,8.01,9.01]  Canton Strategic Holdings, Inc.  (CNTN)
+  2026-07-23 ----   [1.01,3.02,5.02,5.03,]  B&R Technology Merger Corp.  (BRTM, BRTM
+  2026-07-22 ----   [1.02,2.01,3.01,3.03,]  National Storage Affiliates Trust  (NSA,
+  2026-07-22 BSAI   [1.01,5.02,9.01]  BLUSKY AI INC.  (BSAI)
+  2026-07-22 KAPA   [1.01,8.01,9.01]  Kairos Pharma, LTD.  (KAPA)
+  2026-07-22 ----   [1.01,5.02,9.01]  ALPHA MODUS HOLDINGS, INC.  (AMOD, AMODW
+  2026-07-21 ----   [1.01,2.01,5.02,5.07,]  Vicarious Surgical Inc.  (RBOT, RBOTW)
+  2026-07-21 ISSC   [1.01,2.01,2.03,8.01,]  INNOVATIVE SOLUTIONS & SUPPORT INC  (ISS
+  2026-07-21 NNDM   [1.01,5.01,5.02,5.07,]  Nano Dimension Ltd.  (NNDM)
+  2026-07-21 GOCOQ  [9.01]  GoHealth, Inc.  (GOCOQ)
+  2026-07-21 ----   [1.01,1.02,2.01,2.03,]  KORE Group Holdings, Inc.  (KORE, KORGW)
+  2026-07-21 AMAC   [1.01,3.02,5.02,5.03,]  AMR Resources Acquisition Corp.  (AMAC)
+  2026-07-21 IPW    [1.01,8.01,9.01]  iPower Inc.  (IPW)
+  2026-07-20 ATER   [1.01,1.02,2.01,3.02,]  Aterian, Inc.  (ATER)
+  2026-07-20 APM    [2.01,3.03,5.02,5.03,]  Niki BioSolutions, Inc.  (APM)
+
+-- INSIDER CLUSTER BUYS (last 30d, >=2 insiders) --
+  CLBK    16 insiders / 16 buys  val=$4779K  2026-07-20  Columbia Financial, Inc./Md/
+  TSM     2 insiders / 2 buys  val=$448K  2026-07-21  Taiwan Semiconductor Manufactu
+
+-- DEFI STABLECOIN YIELDS (top 8 by APY, TVL >=$10M) --
+  saturn             SUSDAT         APY= 28.4%  TVL=$75.0M  Ethereum
+  accountable        USDC           APY= 17.8%  TVL=$90.2M  Monad
+  aerodrome-slipstream MSUSD-USDC     APY= 17.7%  TVL=$16.3M  Base
+  stake-dao          FRXUSD-MSUSD   APY= 14.3%  TVL=$10.0M  Ethereum
+  apyx-protocol      APXUSD         APY= 13.9%  TVL=$155.1M  Ethereum
+  mystic-finance-lending COREUSDT0      APY= 13.5%  TVL=$20.6M  Flare
+  morpho-blue        STEAKUSDTBETHENA APY= 13.1%  TVL=$12.3M  Ethereum
+  tori-finance       STRUSD         APY= 13.1%  TVL=$25.2M  Ethereum
+
+-- SHORT SQUEEZE WATCH (SI% float >= 10%) --
+  (no high-SI names found)
+
+-- ENERGY SNAPSHOT (FRED weekly) --
+  Gasoline retail: $4.001/gal  (4w: +2.2%)
+  WTI crude:       $84.38/bbl  (4w: +4.9%)
+  Heating oil:     $3.984/gal
+  Natgas:          $2.8/MMBtu
+
+research only, not financial advice. verify before acting.
+
+[scan task log]
+  - 21:18:49  regime: gathering FRED macro / VIX / fear-greed
+  - 21:19:01  regime: RISK-ON score=+0.49
+  - 21:19:01  quotes: collecting global universe (crypto/US/CN/TW/HK/FX/futures/indices + region/macro ETFs)
+  - 21:21:50  quotes: 129 curated instruments fetched
+  - 21:21:50  wide US funnel: pulling ~12k tickers from Polygon, pre-screening top 150
+  - 21:22:13  wide US funnel: 4097 of 12427 -> top 150 backtested
+  - 21:22:13  spillover funnel: scanning RSS headlines for theme keywords -> peer candidates
+  - 21:22:43  spillover funnel: 12 candidates across 2 themes -> 11 fetched
+  - 21:22:43  wide CN funnel: pulling ~5,500 A-shares, pre-screening top 120
+  - 21:22:57  wide CN funnel: 599 of 600 -> top 120 backtested
+  - 21:22:57  opportunities: building candidate set from quotes + regime
+  - 21:22:57  opportunities: 256 raw candidates
+  - 21:22:57  backtest: enriching with technicals + E[R]/sigma/Sharpe
+  - 21:26:42  backtest: per-candidate family m=13 (global total=306) -> Bonferroni t>=2.89
+  - 21:26:42  news enrichment: Finnhub headlines + Polygon sentiment per candidate
+  - 21:26:42  news enrichment: done (0 candidates have fresh headlines)
+  - 21:26:42  catalyst enrichment: scanning Finnhub earnings/FDA/IPO + Polygon dividends
+  - 21:26:46  catalyst enrichment: 2 candidates have a near-term catalyst (+2 new)
+  - 21:26:46  PEAD confirmation: looking up recent earnings surprises for PEAD setups
+  - 21:26:46  PEAD confirmation: 0 PEAD setups confirmed by earnings surprise (+0 new)
+  - 21:26:46  options enrichment: pulling ATM straddles (CBOE) for top US candidates
+  - 21:26:54  options enrichment: 9 candidates have an RV/IV signal (+9 new)
+  - 21:26:54  country crisis: scanning 32 country ETFs for crisis signals
+  - 21:27:20  country crisis: 0 candidates in crisis (+0 new)
+  - 21:27:20  veto gate: 50 rows vetoed (50 crash-in-progress, 0 news-contradicts) -> PASS rows 2 -> 2
+  - 21:27:20  catalysts: printing freshest company news for top candidates
+  - 21:27:20  alt-data: pulling FRED macro/rates/credit, treasury curve, BTC funding, COT
+  - 21:27:39  catalyst calendar: Finnhub earnings/FDA/IPO + Polygon dividends (14d)
+  - 21:27:42  expanded news: sweeping all RSS feeds (equities/macro/CB/crypto/FX/commodities/regional)
+  - 21:28:18  expanded news: 61 feeds ok, 38 feeds failed
+  - 21:28:18  GDELT: 24h global market tone sweep
+  - 21:28:30  altdata2: SEC 8-K + insider clusters + DeFi yields + short squeeze + energy
+  - 21:28:32  SEC 8-K: 15 filings with material items (last 3d)
+  - 21:28:36  insider clusters: 2 tickers with >=2 insider buyers (30d)
+  - 21:28:49  DeFi yields: 8 stablecoin pools
+  - 21:29:09  energy: gas=$4.001 crude=$84.38 gas4w=2.22% crude4w=4.9%

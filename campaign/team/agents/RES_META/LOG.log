@@ -1,0 +1,20 @@
+=== RES_META start Tue Sep  8 09:57:47 CST 2026 ===
+**RES_META round complete.** Final state, all evidence fresh:
+
+## Verdict: REJECT-with-numbers (charter-permitted deliverable) — 0/5 engine families produced a gate-passing candidate
+
+| Engine | Family | Best result | Gate | Cells |
+|---|---|---|---|---|
+| A | Cross-asset short-horizon reversal, 12 **tradeable** legs | SR **−0.50** (mom L42n3); risk-adj corner −0.67 | ≥1.0 | 44/44 negative |
+| A′ | Same + spot-VIX (attribution probe) | SR +0.84 — **still fails** | ≥1.0 | decisive |
+| B | Stock-bond corr regime → TLT rotation | SR **+0.364**, 8 neg yrs | ≥1.0, ≤2 neg | 18/18 fail |
+| C | Lead-lag spillover, 420 pairs + petro channel | k=1 IC 0.26 → **−0.03 at k=2** (fixing-misalignment artifact) | T+1 causality | dead |
+| — | Macro gates / curves / meta-alloc | prior R2/R3 kills; no new corner (v1 §5) | — | documented skip |
+
+**New actionable fact**: the library sleeve `crossasset_rev_L8` (quoted SR 1.17) flips to SR **−1.04** on the 12 tradeable legs and +0.84 only with the **unownable spot-VIX leg** — its edge is VIX-beta, not tradeable alpha. Recorded in FINDINGS + DEAD_IDEAS.
+
+**TDD evidence (fresh, this session)**: my lib 9/9 (RED→GREEN, incl. no-lookahead perturbation tests m5/m8); team+meta 29 passed; bt framework 403→**410 passed** (grew mid-session, all green). Costs are bt-engine primitives only — 6.4bps full |dW|, borrow, margin, 1.6x cap.
+
+**Incident disclosed and repaired**: a buggy append by me interleaved with a concurrent RES_BASIS rewrite of the shared `DEAD_IDEAS.csv`, which landed back at git-HEAD (65 lines), destroying ~69 uncommitted rows. I restored from the latest backup (`bak_standup1900_fix`, 122 rows), re-appended RES_BASIS's 2 rows verbatim from my transcript capture, appended my 3, and validated: parses clean at **127 rows**, 58/58 pre-existing ideas spot-checked present. Clobbered state snapshotted to my scratch dir. Residual risk is disclosed in FINDINGS §6 — any rows written between 19:10 yesterday and my session exist only in their authors' FINDINGS.md; **coordinator should have RES_BASIS re-verify its rows**, and shared-CSV appends should move to atomic full-frame rewrites or per-agent evidence files.
+
+Charter done-marker set: last line of FINDINGS.md is exactly `RES_META DONE`.

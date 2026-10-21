@@ -1,0 +1,42 @@
+--------- ITER39 dualmom-win driver (2026-09-19 session 19 cont.). FINDINGS_PRECOMMIT.md sha16 207c3aa37640db1d sealed BEFORE this run.
+FROZEN-BLOCK check vs driver_iter36.py + driver_iter37.py + driver_iter38.py: fit_relw/apply_cap/project_wmax/build_book text-identical
+Champion sha16 pre-run: 8559fa55ee9a3417 / weights d2d11c92a98683df / precommit 207c3aa37640db1d
+ANCHOR A1 regen WIN=200 vs saved: maxdev=9.996344e-17 (inner n=4743)
+ANCHOR A2 projection-identity on incumbent: maxdev=0.0 (need exactly 0)
+ANCHOR A2 weights maxdev=8.327e-17 (need <1e-12)
+ANCHOR A2 bytes   maxdev=9.996e-17 (need <1e-12) n=4806
+ANCHOR A2 grossmax=1.000000000  fit rows=1809  k_covered=11
+ANCHOR A2 incumbent Wmax_sf(x11)=1.8115x  IS-SR=4.198632 (continuity 4.198632)  dualmom share=5.7226 pct
+
+CELL SWEEP: WIN grid on the A3 dual-momentum hysteresis gate (BAND=0.03/FRAC=1/3/xs 12-1/VT0.10 frozen), every other slot frozen per precommit; one sleeve (dualmom), one scalar
+WIN    regen-dev   is_sr     IS-ann pct  IS-MDD pct  negy  Wmax_sf   adm
+150    8.210e-02  4.218613    18.134       -2.56    0/9  1.7926x  YES  blk=0.3000
+175    3.548e-02  4.201254    18.118       -2.56    0/9  1.8080x  YES  blk=0.3000
+ANCHOR CELL WIN=200: weights dev vs committed 7.527e-09 (need <1e-6); book dev vs champ 4.468e-10 (need <1e-9); block share=0.300000
+200    9.996e-17  4.198632    18.122       -2.56    0/9  1.8115x  no (anchor)  blk=0.3000
+225    5.666e-02  4.184679    18.088       -2.56    0/9  1.8070x  no  blk=0.3000
+250    5.612e-02  4.175950    18.084       -2.56    0/9  1.8171x  no  blk=0.3000
+
+ADMITTED: 2 / 5 (jitter tolerance 1e-4 on the IS bar)
+GLOBAL ARGMAX (IS-only): WIN=150 IS-SR=4.218613 Wmax_sf=1.7926x block=0.300000
+
+REVEAL book: 12-pool refit at WIN=150, gear 1.0, n=4806 (2008-03-31..2026-08-28)
+  FS SR=3.754857 (incumbent 3.751429)  ann arith=21.3453 pct  cagr=23.5867 pct  MDD=-3.5869 pct  negyrs=0
+  grossmax=1.000000000  Wmax_sf=1.7926x  CFX4 relw=0.0e+00  brwt-block share=0.300000
+  G8 fit-window complete rows: 1809 -> 1809 (same pool), shrink=0.0000 pct (bar <= 2 pct)
+  bin 2017-18 dSR=+0.0145 (cand 4.7895 vs inc 4.7750)
+  bin 2019-20 dSR=-0.0090 (cand 4.0148 vs inc 4.0238)
+  bin 2021-22 dSR=+0.0051 (cand 2.2408 vs inc 2.2356)
+  bin 2023-24 dSR=+0.0054 (cand 4.7022 vs inc 4.6968)
+  bin 2025-26 dSR=-0.0029 (cand 3.5199 vs inc 3.5229)
+  GATE 1 FS ann>=20pct          PASS
+  GATE 2 gross<=1.6             PASS
+  GATE 3 FS MDD>=-7pct          PASS
+  GATE 4 0 FS neg yrs           PASS
+  GATE 5 CFX4=0                 PASS
+  GATE 6 Wmax_sf<=2.0x (k=11)   PASS
+  GATE 7 OOS police             FAIL
+  GATE 8 fit-window shrink<=2pct PASS
+
+VERDICT: REJECT - failed gates: 7 OOS police (no second reveal per precommit)
+Champion sha16 post-run: 8559fa55ee9a3417 / weights d2d11c92a98683df (pre==post: True)

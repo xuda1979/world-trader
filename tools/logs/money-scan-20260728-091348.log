@@ -1,0 +1,231 @@
+=== MONEY-LOOP scan started 2026-07-28 09:13:48 ===
+=== WORLD-TRADER GLOBAL SCAN  2026-07-28T01:13:48+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+-- OPEN NOW: 8 markets --
+   + AU (Australia (ASX))
+   + CRYPTO (Crypto (24/7))
+   + FUT (Futures (CME/GLOBEX: commodities, bonds, index))
+   + FX (FX (24/5))
+   + JP (Japan (TSE))
+   + KR (Korea (KRX))
+   + SG (Singapore (SGX))
+   + TW (Taiwan (TWSE))
+
+-- REGIME: NEUTRAL  (score +0.00) --
+
+-- LIVE QUOTES: 84 instruments fetched (crypto RT, US, China A-share live, Taiwan live, FX)  [wide US unavailable: net: Remote end closed connection without response]  [wide CN unavailable: RemoteDisconnected: Remote end closed connection without response] --
+
+=== OPPORTUNITIES (ranked by per-trade expected Sharpe = E[R]/sigma) ===
+  markets open now (2026-07-28T01:14:54+00:00): AU, CRYPTO, FUT, FX, JP, KR, SG, TW
+  YOUR BAR to qualify: E[R]>=+1%/trade, sigma<=7%*sqrt(h/5), Sharpe>=0.40, n>=20, t>=2 (Bonferroni-adj.), OOS Sharpe>0
+  >> markets open (AU, CRYPTO, FUT, FX, JP, KR, SG, TW) but no positive-expectancy edge measured this scan -- stand aside. An empty table is the honest answer.
+
+-- SHORT-RESTRICTED MARKETS -> shortable proxy --
+  * Taiwan: TSMC 台積電 (2330): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+  * Taiwan: Hon Hai/Foxconn 鴻海 (2317): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+
+-- MACRO / RATES / CREDIT (FRED) --
+  US IG credit spread              0.80  (2026-07-24)
+  WTI oil                         84.38  (2026-07-20)
+  Brent oil                       86.99  (2026-07-20)
+  USD/EUR                    1.1385000000  (2026-07-24)
+  Broad USD index            120.7105000000  (2026-07-24)
+  Fin conditions index         -0.55200  (2026-07-17)
+  Fed balance sheet          6747378.0000000000  (2026-07-22)
+  M2 money supply               23052.3  (2026-05-01)
+  Unemployment rate                 4.2  (2026-06-01)
+  CPI                           332.568  (2026-06-01)
+  5Y inflation breakeven           2.18  (2026-07-27)
+  UST curve: 3M 3.96%  2Y 4.33%
+  BTC perp funding: +0.0018%  OI 105,692
+  CFTC COT large-spec net: Gold -509  ES -42,142  WTI +81,689  BTC -1,785
+
+-- CATALYST CALENDAR (next 14d; today=2026-07-28) --
+  (no actionable upcoming catalysts found)
+  errors: earnings: net: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081); ipo: net: Remote end closed connection without response; fda: net: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081); dividends: net: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081)
+
+-- NEWS (expanded feeds) --
+  [MarketWatch]
+    - ‘Time will tell whether that was a good bet’: My adviser got me a full SpaceX IPO allocation. Was I lucky?
+    - ‘It’s a high price to pay’: My adviser says I don’t need a withdrawal plan for my $2.3 million portfolio. Is he right?
+    - ‘I feel lucky’: I’m 71 and inherited $20,000. What should I do with this money?
+  [SeekingAlpha]
+    - TSMC Deserves Much More Respect From The Market
+    - Develop Global Limited (VTEXF) Q4 2026 Earnings Call Transcript
+    - Happen, Inc. (HAPN) Q2 2026 Earnings Call Transcript
+  [Investing]
+    - FAA proposes checks on Boeing 737 MAX jets over improperly installed seats
+    - Samsung, SK Hynix slide amid Nvidia financing worries, China competition
+    - U.S. stock futures steady as investors await Fed, megacap earnings
+  [Yahoo-Fin]
+    - After 80 stores close, 63-year-old chain gives Chapter 11 warning
+    - Intel Corp Shows Strong Q2 Results and Free Cash Flow - Shorting INTC Puts is Still the Best Play
+    - Shein flags tariff hits after posting quarterly loss ahead of Hong Kong IPO
+  [Benzinga]
+    - Myro (MYRO) Price Prediction: 2025, 2026, 2030
+    - Toncoin (TON) Price Prediction 2025, 2026, 2027-2030
+    - PancakeSwap (CAKE) Price Prediction: 2025, 2026, 2030
+  [Zerohedge]
+    - Washington Gets A Win After Post-Maduro Venezuela Withdraws From ICC
+    - Ex-Wife In Korea's $645M "Divorce Of The Century" Gets Iced Out Of AI Boom
+    - The Left Is Using Kids As A Trojan Horse For Total Online Surveillance
+  [WSJ-Markets]
+    - ‘Time will tell whether that was a good bet’: My adviser got me a full SpaceX IPO allocation. Was I lucky?
+    - ‘It’s a high price to pay’: My adviser says I don’t need a withdrawal plan for my $2.3 million portfolio. Is he right?
+    - ‘I feel lucky’: I’m 71 and inherited $20,000. What should I do with this money?
+  [FT-Markets]
+    - Big Tech credit risks rise sharply as AI spending soars
+    - Nvidia bets $5bn on Ilya Sutskever’s AI breakthrough
+    - France and Spain brace for more extreme heat as wildfires rage
+  [CNBC-Top]
+    - Apple ends day as world's most valuable company, passing Nvidia
+    - Shares of SK Hynix plunge 10% in Seoul as semiconductor selloff deepens
+    - Trump administration asks Supreme Court to intervene to allow mail-in voting restrictions
+  [CNBC-Markets]
+    - JetBlue overhauls fare options, from basic first to flexible economy. Here's what to know
+    - Consolidated food supply may be worsening cyclospora outbreaks, experts say
+    - NBCUniversal and YouTube ink deal to embed Peacock in the video platform for premium subscribers
+  [FedPress]
+    - Agencies issue joint statement on handling of highly sensitive information during bank examinations
+    - Federal Reserve Board issues enforcement action with former chief lending officer of Heritage State Bank
+    - Minutes of the Board's discount rate meetings on June 8 and June 17, 2026
+  [ECB]
+    - Philip R. Lane: Outlook for the euro area economy
+    - Decisions taken by the Governing Council of the ECB (in addition to decisions setting interest rates)
+    - ECB to extend use of climate factors in Eurosystem collateral framework to non-financial corporate credit claims
+  [BoE]
+    - Letter from the Governor to the Daily Mail
+    - PRA consults on updated guidance for friendly society amalgamations and transfers
+    - PRA fines HDI Global SE £4,165,000 for inaccurate reporting of FSCS Liabilities and FSCS Fee Tariff data
+  [BoJ]
+    - (IMES Newsletter) 2026 BOJ-IMES Conference
+    - Services Producer Price Index (June)
+    - Developments in Real Exports and Real Imports
+  [Cointelegraph]
+    - New York AG warns CLARITY Act could weaken state crypto enforcement
+    - Cross River to enable P2P payments, banking services for X Money
+    - Bitmine keeps buying Ether as ETH outperforms Bitcoin
+  [Decrypt]
+    - Elon Musk: Humans Will Lose Control of AI Within a Decade
+    - OpenAI’s GPT-6 Will Arrive by September, Markets Predict
+    - Searchable NYC Property Database Puts Wealthy Residents at Risk, Critics Warn
+  [TheBlock]
+    - NFL urges CFTC to strengthen rules on sports prediction markets: report
+    - NY Attorney General Letitia James warns Clarity Act would dilute states ability to go after fraud as pressure mounts
+    - Ethereum, Solana and Avalanche get busier and cheaper even as token prices fall: Bitwise
+  [Mining.com]
+    - Stormlands re‑rates Odienné with 153% NPV surge
+    - Op-Ed: Copper supply gap — good news on borrowed time
+    - Brixton hits extraordinary 5,015g silver over 20m near Cobalt
+  [ET-Markets]
+    - Lower crude, firmer rupee and easing volatility drive sharp rebound in Indian equities
+    - Juniper Green Energy sets price band for Rs 1,800-cr IPO at Rs 214–225
+    - Home First Finance Q1 profit Up 35% on higher income
+  [Livemint]
+    - Crude oil prices extend losses on US-Iran peace talks; Brent below $90 per barrel
+    - Covered calls: how funds are shielding their capital in a tough market
+    - Where are HCC shares headed in 2027?
+  [TechCrunch]
+    - Anthropics Dario Amodei responds: doesnt oppose open-weight models, but fears Chinese AI
+    - Satya Nadella says companies that trust one AI for everything may not survive
+    - Thea Energy lands $20M federal grant to build its magnets for fusion reactors
+  [Investing-UK]
+    - USD/JPY and USD/CAD lead G10 FX volatility as yen hits 40-year low
+    - Dollar rises slightly as traders eye crucial Fed decision later in the week
+    - Global yields retreat as crude slide eases inflation fears ahead of Fed, BOE calls
+  [CityAM]
+    - Trawlerman can overhaul Scandinavia for Goodwood gold
+    - Look to Lexington to Blitz his Goodwood sprint rivals
+    - Industry hits out at rumours as No 10 denies plan to abolish stamp duty and council tax
+  [Handelsblatt]
+    - Marc Tüngler: Aktionärsschützer: „2026 könnte die Harmonie vor dem Sturm gewesen sein“
+    - Deep Read: Grüner Rekord trotz fossiler Wette: Amerikas paradoxer Erneuerbaren-Boom
+    - +++ Iran-Krieg +++: Trump vermeldet „gute Gespräche“ mit dem Iran – Ölpreis fällt weiter
+  [Investing-IT]
+    - Oil prices fall 1% as investors weigh pause in US strikes on Iran
+    - Trump says US and Tehran having ’good talks’ as drones hit Iran’s neighbours
+    - Gold prices rise slightly as pause in Middle East fighting weighs on oil
+  [NikkeiAsia]
+    - For Philippine women in Taiwan's tech factories, motherhood is 'impossible'
+    - Takaichi's $2.3tn plan draws mixed response from Japan businesses
+    - Japanese university startups develop AI robot arms for delicate tasks
+  [JijiPress]
+    - 米、フランス国連大使の発言中に退席　人権高等弁務官再任巡り―国連安保理
+    - 「セクストーション」相談急増　脅迫し金銭要求、男性多く―支援団体「絶対応じないで」
+    - 親密な写真送らせて脅迫する「セクストーション」、被害は１８～２４歳男性が最多 豪
+  [EconTimes]
+    - Global Market Today: Asian stocks fall on AI jitters, oil extends drop
+    - CXMT's 466% listing pop makes it China's most valuable firm
+    - Lower crude, firmer rupee and easing volatility drive sharp rebound in Indian equities
+  [LiveMint]
+    - Crude oil prices extend losses on US-Iran peace talks; Brent below $90 per barrel
+    - Covered calls: how funds are shielding their capital in a tough market
+    - Where are HCC shares headed in 2027?
+  [BusinessStd]
+    - Crypto exchanges, companies welcome new crypto-asset reporting framework
+    - CBDT's crypto asset tax reporting: What it means for exchanges, investors
+    - HDFC Bank concludes internal review on MSRDC arrangement
+  [CoinTelegraph]
+    - New York AG warns CLARITY Act could weaken state crypto enforcement
+    - Cross River to enable P2P payments, banking services for X Money
+    - Bitmine keeps buying Ether as ETH outperforms Bitcoin
+  [CryptoSlate]
+    - Compromised contract let hackers print 5.2 million WEMIX stablecoins, forcing a complete network freeze
+    - Lawsuit claims BitMEX used server freezes and internal trading to seize 622 Bitcoin ahead of its September closure
+    - On-chain data shows 5,280 ETH draining into single address following quiet Triple-A wallet breach
+  [TheDefiant]
+    - SummerFi to Wind Down After Seven Years, Citing Exploit
+    - eToro Takes Strategic Stake in Onchain Derivatives Exchange Extended, Plans Zengo Tie-Up
+    - NEAR Governance Votes to Scrap Developer Gas Rebate
+
+-- SEC 8-K MATERIAL CATALYSTS (last 3 days) --
+  (unavailable: net: Remote end closed connection without response)
+
+-- INSIDER CLUSTER BUYS (last 30d, >=2 insiders) --
+  (unavailable: IncompleteRead: IncompleteRead(10584 bytes read))
+
+-- DEFI STABLECOIN YIELDS (top 8 by APY, TVL >=$10M) --
+  (unavailable: net: Remote end closed connection without response)
+
+-- SHORT SQUEEZE WATCH (SI% float >= 10%) --
+  (no high-SI names found)
+
+-- ENERGY SNAPSHOT (FRED weekly) --
+  (unavailable: no data (FRED_KEY missing or all series failed))
+
+research only, not financial advice. verify before acting.
+
+[scan task log]
+  - 09:13:48  regime: gathering FRED macro / VIX / fear-greed
+  - 09:13:52  regime: NEUTRAL score=+0.00
+  - 09:13:52  quotes: collecting global universe (crypto/US/CN/TW/HK/FX/futures/indices + region/macro ETFs)
+  - 09:14:32  quotes: 84 curated instruments fetched
+  - 09:14:32  wide US funnel: pulling ~12k tickers from Polygon, pre-screening top 150
+  - 09:14:34  wide US funnel: 0 of 0 -> top 150 backtested [err: net: Remote end closed connection without response]
+  - 09:14:34  spillover funnel: scanning RSS headlines for theme keywords -> peer candidates
+  - 09:14:47  spillover funnel: 6 candidates across 1 themes -> 0 fetched
+  - 09:14:47  wide CN funnel: pulling ~5,500 A-shares, pre-screening top 120
+  - 09:14:47  wide CN funnel: 0 of 0 -> top 120 backtested [err: RemoteDisconnected: Remote end closed connection without response]
+  - 09:14:47  opportunities: building candidate set from quotes + regime
+  - 09:14:47  opportunities: 4 raw candidates
+  - 09:14:47  backtest: enriching with technicals + E[R]/sigma/Sharpe
+  - 09:14:50  backtest: per-candidate family m=7 (global total=3) -> Bonferroni t>=2.69
+  - 09:14:50  news enrichment: Finnhub headlines + Polygon sentiment per candidate
+  - 09:14:50  news enrichment: done (0 candidates have fresh headlines)
+  - 09:14:50  catalyst enrichment: scanning Finnhub earnings/FDA/IPO + Polygon dividends
+  - 09:14:50  catalyst enrichment: 0 candidates have a near-term catalyst (+0 new)
+  - 09:14:50  PEAD confirmation: looking up recent earnings surprises for PEAD setups
+  - 09:14:50  PEAD confirmation: 0 PEAD setups confirmed by earnings surprise (+0 new)
+  - 09:14:50  options enrichment: pulling ATM straddles (CBOE) for top US candidates
+  - 09:14:50  options enrichment: 0 candidates have an RV/IV signal (+0 new)
+  - 09:14:50  country crisis: scanning 32 country ETFs for crisis signals
+  - 09:14:54  country crisis: 0 candidates in crisis (+0 new)
+  - 09:14:54  veto gate: 1 rows vetoed (1 crash-in-progress, 0 news-contradicts) -> PASS rows 0 -> 0
+  - 09:14:54  catalysts: printing freshest company news for top candidates
+  - 09:14:54  alt-data: pulling FRED macro/rates/credit, treasury curve, BTC funding, COT
+  - 09:15:00  catalyst calendar: Finnhub earnings/FDA/IPO + Polygon dividends (14d)
+  - 09:15:00  expanded news: sweeping all RSS feeds (equities/macro/CB/crypto/FX/commodities/regional)
+  - 09:15:13  expanded news: 33 feeds ok, 74 feeds failed
+  - 09:15:13  GDELT: 24h global market tone sweep
+  - 09:15:25  altdata2: SEC 8-K + insider clusters + DeFi yields + short squeeze + energy

@@ -1,0 +1,14 @@
+=== agent I1_stock attempt 1 start Wed Sep 16 14:46:38 CST 2026 ===
+**I1_stockecon complete — VERDICT: REJECT.**
+
+**What was built:** Daily cross-sectional tail L/S over **258 large-cap names** (twelve_big 299 ∩ SPY holdings snapshot, mean 235 names/day, breadth floor 100, survivorship disclosed). Signals: rolling-60d return skew + ES95 tail-loss, cross-sectional z-combined, gross-1 dollar-neutral, strictly T+1. Full cost stack applied: 6bps×|dW| (20.7 turns/yr → 1.24%/yr) + 0.5%/yr borrow on ~0.49 short notional + 4.5%/yr margin (nil, gross≤1).
+
+**Key numbers (n=4,935 days, 2007→2026-08):**
+- **Briefed direction (long stable/high-skew, short crash-prone): ann −5.60%, SR −0.682, MaxDD −68.6%** — the lottery/low-vol anomaly runs the other way; sign error is in the thesis, not costs (pre-cost SR −0.50).
+- Reversed (short lottery): best variant ES-only 21d-smoothed = ann +7.0%, **SR 0.661**, MaxDD −19.3%, champ-corr 0.114. Recent-3y SR 1.32 but full-sample fails.
+- 11 variants tested (quantile books, weekly rebal, vol-target, component splits); **best SR 0.661 vs gate 1.5 → REJECT on SR**; corr gate passes (0.114 < 0.5) but not binding.
+- Champion in-window: ann +60.6%, SR 5.20 (reproduces record).
+- cboe_options/latest: 9 tickers, single-day snapshot — no usable cross-section, not used.
+
+**Deliverables written:** `campaign/agents/I1_stockecon_results/I1_report.md` (verdict at top, all REJECT numbers logged) + stats JSONs + A-variant return dump. No `I1_sleeve.csv` — SR gate failed, per conditional-deliverable rule. Report ends `DONE I1_stockecon`.
+=== agent I1_stock attempt 1 end Wed Sep 16 14:55:58 CST 2026 exit 0 ===

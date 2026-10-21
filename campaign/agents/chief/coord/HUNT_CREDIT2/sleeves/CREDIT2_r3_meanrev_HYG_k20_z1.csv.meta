@@ -1,0 +1,8 @@
+GATES_CONTRACT fail-closed: T+1 W.shift(1); shortability_pregate EASY tier (ETFs, verified); VT10% trailing-only clip<=3.0; 6.4bps FULL |dW| incl day-1 entry; borrow 0.5%/yr short notional. R3 verdict: FAIL all gates. scram_p=0.000 disclosed as re-costing artifact (permuted daily +-1 weights churn 2825bps/yr vs 390 real -> gate trivially passes, uninformative); the decisive negatives are gross SR ~ 0 and era-split failures.
+HUNT_CREDIT2 R3 (iii) weekly buy-the-dip HYG: long when px < k20SMA - 1.0sd (W-FRI)
+TDD-designed anti-momentum: on monotonic ramps px-SMA z is CONSTANT +-1.606 -> z_thr=1.0 can never long an uptrend (test_meanrev_signal_is_antimomentum)
+netSR -0.13 grossSR -0.02 H1/H2 -0.18/-0.08 negyr 8 worst -19.8% corr -0.134
+eraSR 2008-12 -0.22 / 2013-19 +0.23 / 2020-26 -0.20 (charter add-on FAIL)
+zt-scan 0.5 -0.11 / 1.0 -0.13 / 1.5 -0.03 / 2.0 +0.19: plateau FAIL (peak elsewhere)
+T+1-corrected -0.32; zt=2.0 cell +0.19 vs 200 random weekly masks p=0.035 -> the only positive cell is thin (95th pct +0.154) AND fails every contract gate anyway
+TDD 5/5; repro scripts/HUNT_CREDIT2_round3.py + _kills.py

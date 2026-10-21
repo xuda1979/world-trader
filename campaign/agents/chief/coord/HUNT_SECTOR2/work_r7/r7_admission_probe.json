@@ -1,0 +1,125 @@
+{
+ "corner": "R7 (a) FINRA bi-weekly short-interest -> sector SI level/slope, monthly rebalance (pre-registered)",
+ "probed_at": "2026-09-08T20:35:17",
+ "inception_bound": "2013-01-01 (GATES_CONTRACT_V2 9a)",
+ "routes": [
+  {
+   "route": "api.finra.org POST consolidatedShortInterest (charter/altdata6)",
+   "http_code": "307",
+   "redirect": "https://api.finra.org/data/group/otcMarket/name/error.waf.finra.org",
+   "verdict": "UNREACHABLE_WAF (307 -> error.waf.finra.org; host-level",
+   "roster_fetcher_err": "HTTP 307",
+   "roster_fetcher_rows": null
+  },
+  {
+   "route": "api.finra.org host-level controls",
+   "controls": [
+    {
+     "path": "api-root GET",
+     "http_code": "307",
+     "redirect": "https://api.finra.org/error.waf.finra.org"
+    },
+    {
+     "path": "alt group equityShortInterest POST",
+     "http_code": "307",
+     "redirect": "https://api.finra.org/data/group/equityShortInterest/name/error.waf.finra.org"
+    },
+    {
+     "path": "docs GET",
+     "http_code": "307",
+     "redirect": "https://api.finra.org/error.waf.finra.org"
+    },
+    {
+     "path": "cdn.finra.org Reg SHO daily GET",
+     "http_code": "307",
+     "redirect": "https://cdn.finra.org/equity/regsho/daily/error.waf.finra.org"
+    }
+   ],
+   "verdict": "UNREACHABLE_WAF host-level"
+  },
+  {
+   "route": "NYSE Group Short Interest file (covers NYSE Arca SPDRs)",
+   "page_http": "302",
+   "purchase_now_marker": true,
+   "page_states_history_1988": true,
+   "sample_data_only": true,
+   "verdict": "PAID_SUBSCRIPTION (keyless route ABSENT; page offers 'Purchase Now', history from Jan 1988 behind paywall)"
+  },
+  {
+   "route": "api.nasdaq.com /quote/<sym>/short-interest",
+   "xlk_etf_msg": "Short interest is not available. Short interest is only supported for Nasdaq Listed stocks",
+   "xlk_etf_rejected": true,
+   "aapl_rows": 23,
+   "aapl_span": [
+    "2025-09-15",
+    "2026-08-14"
+   ],
+   "aapl_years": 0.91,
+   "verdict": "COVERED_UNIVERSE_REJECTS_SPDRS (Nasdaq-listed only) + INCEPTION_FAIL (served span 0.9 y from ['2025-09-15', '2026-08-14'])"
+  },
+  {
+   "route": "finnhub /stock/short-interest (repo key present)",
+   "http_code": 403,
+   "verdict": "PREMIUM_GATED (403 free tier)"
+  },
+  {
+   "route": "cdn.cboe.com Bats_Listed_Short_Interest-finra-*.csv (keyless, FINRA-derived, BZX-listed universe)",
+   "archive_dates_served": [
+    [
+     "20150511",
+     "200"
+    ],
+    [
+     "20150515",
+     "200"
+    ],
+    [
+     "20160104",
+     "200"
+    ],
+    [
+     "20220103",
+     "200"
+    ],
+    [
+     "20260904",
+     "200"
+    ]
+   ],
+   "archive_dates_refused": [
+    [
+     "20150506",
+     "403"
+    ]
+   ],
+   "archive_start": "between 2015-05-06 and 2015-05-11",
+   "inception_vs_2013_bound": "FAIL (starts > 2013-01-01 by ~2.4y)",
+   "file_20220103_rows": 515,
+   "spdrs_in_bzx_file": [],
+   "bzx_quasi_sector_etfs_2022": [
+    "ITB",
+    "IYJ",
+    "IYLD",
+    "IYT",
+    "IYZ"
+   ],
+   "verdict": "INCEPTION_FAIL (archive starts 2015-05) AND UNIVERSE_MISMATCH (BZX-only: 0/11 SPDRs, 5/1557 names in 2022 file are XL*/IY*)",
+   "ondisk_regsho_files": 181,
+   "ondisk_regsho_months": {
+    "201901": 21,
+    "201902": 11,
+    "202401": 21,
+    "202402": 20,
+    "202403": 20,
+    "202404": 22,
+    "202405": 22,
+    "202406": 19,
+    "202407": 22,
+    "202408": 3
+   },
+   "ondisk_verdict": "REAL_VINTAGE but 2 disjoint windows (2019-01..02 + 2024-01..08) -> max 8 contiguous monthly obs -> UNJUDGEABLE (V2 9b), diagnostic only"
+  }
+ ],
+ "admissible_routes": 0,
+ "VERDICT": "CORNER_DEAD_ON_ADMISSION: 0/6 keyless routes construct an admissible series (inception<=2013-01-01, 11-sector cross-section); per V2 9a not hunt-eligible; diagnostic leg on the on-disk Reg SHO vintage is reported separately and is UNJUDGEABLE (V2 9b), never a gate"
+}

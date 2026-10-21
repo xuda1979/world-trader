@@ -1,0 +1,220 @@
+=== MONEY-LOOP scan started 2026-07-13 21:27:58 ===
+=== WORLD-TRADER GLOBAL SCAN  2026-07-13T13:27:59+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+-- REGIME: RISK-ON  (score +0.51) --
+   VIX=15.84(+0.28)  HY=2.7(+0.90)  10Y-2Y=0.35(+0.35)
+   crypto fear&greed: 28 (Fear)
+   [+spillover: 11 cross-asset candidates from 3 themes]
+
+-- LIVE QUOTES: 405 instruments fetched (crypto RT, US, China A-share live, Taiwan live, FX)  [+wide US: 4008 of 12398 tickers pre-screened -> top 150]  [+wide CN A-share: 600 of 600 liquid names -> top 120, backtested] --
+
+=== OPPORTUNITIES (ranked by per-trade expected Sharpe = E[R]/sigma) ===
+  markets open now (2026-07-13T13:37:51+00:00): CRYPTO, FX, US
+  YOUR BAR to qualify: E[R]>=+1%/trade, sigma<=7%*sqrt(h/5), Sharpe>=0.40, n>=20, t>=2 (Bonferroni-adj.), OOS Sharpe>0
+  >> NOTHING cleared your bar this scan. The rows below are the best
+     MEASURED edges only -- they are NOT signals. DO NOT trade them.
+
+-- TRADE PLAN --
++---+------------+------+-----+------+-------------+-------+--------------+-------+-------+-------+--------+-----+-------+-------------+
+| # | Instrument | Sym  | Mkt | Dir  | Setup       | Price | Quote(Local) |  Chg% | Entry |  Stop | Target | R:R | Risk% | Catalyst    |
++===+============+======+=====+======+=============+=======+==============+=======+=======+=======+========+=====+=======+=============+
+| 1 | US: SPCE   | SPCE | US  | Long | ConnorsLong | 2.550 | 07-13 09:33  | -0.8% | 2.550 | 2.397 |  2.856 | 2.0 | 6.00% | rocketreuse |
++---+------------+------+-----+------+-------------+-------+--------------+-------+-------+-------+--------+-----+-------+-------------+
+
+-- EDGE & RISK (evidence for the SAME numbered rows) --
++---+------+---------+-------+--------+--------+-----+------+------+----+------+--------+-------+-------+
+| # | Sym  | Verdict | E[R]% | sigma% | Sharpe |   t | oosS | Win% |  n | ATR% | Kelly% | RV/IV | Data  |
++===+======+=========+=======+========+========+=====+======+======+====+======+========+=======+=======+
+| 1 | SPCE | below   | 0.19% |  7.45% |   0.03 | 0.2 | 0.09 |  41% | 94 | 9.8% |  12.2% |    -- | RT 1m |
++---+------+---------+-------+--------+--------+-----+------+------+----+------+--------+-------+-------+
+  note: 56 live instruments have no free daily history (China A-share/Taiwan) -> no expectancy, excluded from ranking.
+
+-- CATALYSTS (latest company news for top candidates; verify before acting) --
+  SPCE    Long  [+]  Space Stocks Get Torched: Short Seller Calls Them 'Sci-Fi Wishes'
+          why: Stock surged 13.3% in after-hours trading; company strengthened balance sheet by redeeming $30.5 million in note…
+
+-- MACRO / RATES / CREDIT (FRED) --
+  US 3M yield                      3.83  (2026-07-09)
+  US 2Y yield                      4.16  (2026-07-09)
+  US 10Y yield                     4.54  (2026-07-09)
+  US 30Y yield                     5.05  (2026-07-09)
+  10Y-2Y spread                    0.35  (2026-07-10)
+  10Y-3M spread                    0.71  (2026-07-10)
+  Fed funds                        3.62  (2026-07-09)
+  VIX                             15.84  (2026-07-09)
+  US HY credit spread              2.70  (2026-07-09)
+  US IG credit spread              0.76  (2026-07-09)
+  WTI oil                          69.6  (2026-07-06)
+  Brent oil                       69.56  (2026-07-06)
+  USD/EUR                        1.1448  (2026-07-02)
+  Broad USD index              120.6902  (2026-07-02)
+  Fin conditions index         -0.51500  (2026-07-03)
+  Fed balance sheet             6735609  (2026-07-08)
+  M2 money supply               23052.3  (2026-05-01)
+  Unemployment rate                 4.2  (2026-06-01)
+  CPI                           333.979  (2026-05-01)
+  5Y inflation breakeven           2.28  (2026-07-10)
+  UST curve: 3M 3.83%  2Y 4.16%  10Y 4.54%  30Y 5.05%
+
+-- CATALYST CALENDAR (next 14d; today=2026-07-13) --
+  2026-07-13  (46)
+    [ERN] AMFC     Q2 2026 EPS est None
+    [ERN] ANVI     Q1 2026 EPS est None
+    [ERN] ASRE     Q3 2026 EPS est None
+    [ERN] AXXA     Q4 2026 EPS est None
+    [ERN] BSFC     Q1 2026 EPS est None
+    [ERN] BTCY     Q4 2026 EPS est -0.0816 EPS~-0.0816
+    [ERN] BZYR     Q1 2027 EPS est None
+    [ERN] CAHO     Q4 2025 EPS est None
+  2026-07-14  (24)
+    [ERN] AEHR     Q4 2026 EPS est -0.0077 EPS~-0.0077
+    [ERN] AIR      Q4 2026 EPS est 1.3938 EPS~1.3938
+    [ERN] ANGO     Q4 2026 EPS est -0.0918 EPS~-0.0918
+    [ERN] BAC      Q2 2026 EPS est 1.129 EPS~1.129
+    [ERN] BRLL     Q2 2026 EPS est None
+    [ERN] C        Q2 2026 EPS est 2.7565 EPS~2.7565
+    [ERN] CANB     Q4 2025 EPS est None
+    [ERN] CRSB     Q2 2026 EPS est 1.3032 EPS~1.3032
+  2026-07-15  (42)
+    [ERN] ADX      Q2 2026 EPS est None
+    [ERN] BLK      Q2 2026 EPS est 12.669 EPS~12.669
+    [ERN] BNY      Q2 2026 EPS est 2.2023 EPS~2.2023
+    [ERN] BVFL     Q2 2026 EPS est None
+    [ERN] CCTG     Q4 2026 EPS est None
+    [ERN] CTAS     Q4 2026 EPS est 1.2661 EPS~1.2661
+    [ERN] CWBC     Q2 2026 EPS est 0.3101 EPS~0.3101
+    [ERN] CZBT     Q2 2026 EPS est None
+  2026-07-16  (59)
+    [ERN] AA       Q2 2026 EPS est 2.2932 EPS~2.2932
+    [ERN] ABT      Q2 2026 EPS est 1.2922 EPS~1.2922
+    [ERN] ADN      Q1 2026 EPS est None
+    [ERN] AN       Q2 2026 EPS est 5.6035 EPS~5.6035
+    [ERN] ASII     Q1 2026 EPS est None
+    [ERN] ATLO     Q2 2026 EPS est 0.6732 EPS~0.6732
+
+-- NEWS (expanded feeds) --
+  [MarketWatch]
+    - Geopolitical shock exposes SK Hynix leverage after hot ADR debut
+    - These biggest and ‘least loved’ stocks are the ones to pick ahead of earnings
+    - Why prediction markets like Polymarket and Kalshi often fail the average investor
+  [Nasdaq-Mkts]
+    - Silver Surged, Then Slumped, in the First Half of 2026. Here's My Prediction of What's Ahead for the Precious Metal.
+    - The Social Security COLA Watch Has Begun for 2027: Key Indicators to Track This Summer
+    - Canadian Market May Open With Negative Bias
+  [Nasdaq-Stocks]
+    - Stock Indexes Settle Higher as Geopolitical Risks Ease
+    - CALM Crosses Above Average Analyst Target
+    - TBBB Crosses Above Average Analyst Target
+  [SeekingAlpha]
+    - Associated Banc-Corp's ASBA Is Looking Good
+    - NIE: High Tech Exposure Poses Risks For This High Yielding CEF
+    - BTC And ETH: May Was Not That Simple
+  [WSJ-Markets]
+    - Geopolitical shock exposes SK Hynix leverage after hot ADR debut
+    - These biggest and ‘least loved’ stocks are the ones to pick ahead of earnings
+    - Why prediction markets like Polymarket and Kalshi often fail the average investor
+  [CNBC-Top]
+    - Trump: U.S. should be reimbursed for guarding Strait of Hormuz
+    - Big banks poised to report booming revenue propelled by SpaceX IPO, Iran war volatility
+    - S&P 500 slides as chipmakers fall, oil prices rise: Live updates
+  [CNBC-Markets]
+    - Big banks poised to report booming revenue propelled by SpaceX IPO, Iran war volatility
+    - A tiny GLP-1 implant is the latest bet to help patients maintain their weight loss
+    - Delta expects higher airfare to last, bringing 2026 profit goal in reach, CEO says
+  [FedPress]
+    - Federal Reserve announces the leadership and objectives of its task forces to advance the conduct of monetary policy
+    - Federal Reserve Board issues enforcement action with TS Banking Group, Inc. and TS Contrarian Bancshares, Inc.
+    - Minutes of the Federal Open Market Committee, June 16-17, 2026
+  [ECB]
+    - Meeting of 10-11 June 2026
+    - Philip R. Lane: AI and monetary policy
+    - Christine Lagarde: Interview with Les Échos
+  [BoE]
+    - UK financial regulators to begin overseeing Critical Third Parties announced by HM Treasury
+    - Minutes of the UK Money Markets Code Sub-Committee – June 2026
+    - Letter from the Governor to Joe Powell MP
+  [BoJ]
+    - Basic Figures on Fails (June)
+    - Corporate Goods Price Index (June)
+    - Regional Economic Report (Summary) (July 2026)
+  [Cointelegraph]
+    - Coinbase Ventures tops crypto VC list for H1 2026
+    - Strategy sells $467M in MSTR shares, leaves 843,775 BTC stack untouched
+    - UK tokenization push could add as much as $44B to annual output by 2035: Report
+  [Decrypt]
+    - Morning Minute: BTC and ETH ETFs Flip Green After Lengthy Outflow Stretch
+    - Chinese Prosecutors Float Treating Crypto Mixer, Privacy Coin Use as Sign of Money Laundering
+    - How to Make Product Ads With AI for TikTok and YouTube—For (Almost) Free
+  [TheBlock]
+    - Tom Lee says users starting to see Ethereum as money as Bitmine adds 27,801 ETH
+    - Robinhood Chain draws over $3 billion in weekly DEX volume to join top five chains: Bernstein
+    - Strategy sells $467 million in MSTR shares, makes no bitcoin purchases as USD reserve hits $3 billion
+  [ForexLive]
+    - USDCHF tests key resistance after buyers defend moving average support
+    - US 2-year yields touched the highest since February 2025
+    - The USD is mixed to start the NA session. What are the technicals telling traders?
+  [FXStreet]
+    - Gold declines as renewed US-Iran hostilities boost Oil prices, Fed rate hike bets
+    - Iran warns US against Hormuz transit
+    - Silver Price Forecast: XAG/USD remains range-bound with a bearish bias
+  [OilPrice]
+    - Masdar Secures $5.1 Billion for World’s Largest Solar-and-Battery Project
+    - France Cuts 6.4 GW of Nuclear Power as Heatwave Grips the Country
+    - Nigeria’s Oil Production Hits Six-Year High as Middle East Risks Return
+  [Mining.com]
+    - De Beers idles South Africas top diamond mine for two years
+    - Gold price loses its grip: Worlds 50 biggest mining companies shed $228 billion in Q2
+    - Guardian Metal, Montana Mining Association forge US tungsten processing alliance
+  [SpaceNews]
+    - Reditus Space completes first reentry vehicle
+    - Voyager completes acquisition of Astrobotic
+    - Getting ready for lunar planetary defense
+  [TechCrunch]
+    - Uber’s robotaxi lobbying effort puts it on a collision course with Waymo
+    - TechCrunch Mobility: A robotaxi ultimatum
+    - Reed Jobs would rather talk about curing cancer than his last name
+  [BioPharma]
+    - <a href="/sponsored/9-top-10-pharma-manufacturers-partner-redi-health-lead-next-generation-patient-experience" hreflang="en">9 of the Top 10 Pharma Manufacturers Partner with Redi Health to Lead the Next-Generation Patient Experience</a>
+    - <a href="/sponsored/decision-readiness-next-ai-advantage" hreflang="en">Decision readiness is the next AI advantage</a>
+    - <a href="/sponsored/clinical-success-no-longer-one-number" hreflang="en">Clinical Success Is No Longer One Number</a>
+  [PV-Magazine]
+    - Passive mooring system enables floating PV to track water-level changes
+    - Smart controllers help Brazilian PV projects bypass reverse power flow constraints
+    - Philippines proposes transmission grid reforms, updates to net-metering
+  [Electrek]
+    - Samsungs Texas fab enters production for Teslas AI5 chip on 2nm
+    - Germany wants rental e-scooter companies to pay for accidents
+    - Vanlife: Vantrack promises a Kia PV5 camper you can actually buy
+
+research only, not financial advice. verify before acting.
+
+[scan task log]
+  - 21:27:59  regime: gathering FRED macro / VIX / fear-greed
+  - 21:28:36  regime: RISK-ON score=+0.51
+  - 21:28:36  quotes: collecting curated universe (crypto/US-core/CN/TW/FX)
+  - 21:34:05  quotes: 124 curated instruments fetched
+  - 21:34:05  wide US funnel: pulling ~12k tickers from Polygon, pre-screening top 150
+  - 21:34:13  wide US funnel: 4008 of 12398 -> top 150 backtested
+  - 21:34:13  spillover funnel: scanning RSS headlines for theme keywords -> peer candidates
+  - 21:34:30  spillover funnel: 13 candidates across 3 themes -> 12 fetched
+  - 21:34:30  wide CN funnel: pulling ~5,500 A-shares, pre-screening top 120
+  - 21:34:33  wide CN funnel: 600 of 600 -> top 120 backtested
+  - 21:34:33  opportunities: building candidate set from quotes + regime
+  - 21:34:33  opportunities: 247 raw candidates
+  - 21:34:33  backtest: enriching with technicals + E[R]/sigma/Sharpe
+  - 21:37:43  backtest: per-candidate family m=10 (global total=286) -> Bonferroni t>=2.81
+  - 21:37:43  news enrichment: Finnhub headlines + Polygon sentiment per candidate
+  - 21:37:46  news enrichment: done (1 candidates have fresh headlines)
+  - 21:37:46  catalyst enrichment: scanning Finnhub earnings/FDA/IPO + Polygon dividends
+  - 21:37:47  catalyst enrichment: 1 candidates have a near-term catalyst (+1 new)
+  - 21:37:47  PEAD confirmation: looking up recent earnings surprises for PEAD setups
+  - 21:37:47  PEAD confirmation: 0 PEAD setups confirmed by earnings surprise (+0 new)
+  - 21:37:47  options enrichment: pulling ATM straddles (CBOE) for top US candidates
+  - 21:37:51  options enrichment: 10 candidates have an RV/IV signal (+10 new)
+  - 21:37:51  catalysts: printing freshest company news for top candidates
+  - 21:37:51  alt-data: pulling FRED macro/rates/credit, treasury curve, BTC funding, COT
+  - 21:38:21  catalyst calendar: Finnhub earnings/FDA/IPO + Polygon dividends (14d)
+  - 21:38:23  expanded news: sweeping all RSS feeds (equities/macro/CB/crypto/FX/commodities/regional)
+  - 21:38:38  expanded news: 23 feeds ok, 25 feeds failed
+  - 21:38:38  GDELT: 24h global market tone sweep

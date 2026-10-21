@@ -1,0 +1,244 @@
+=== MONEY-LOOP scan started 2026-07-08 10:57:52 ===
+=== WORLD-TRADER GLOBAL SCAN  2026-07-08T02:58:01+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+-- REGIME: RISK-ON  (score +0.52) --
+   VIX=15.57(+0.30)  HY=2.72(+0.89)  10Y-2Y=0.36(+0.36)
+   crypto fear&greed: 20 (Extreme Fear)
+
+-- LIVE QUOTES: 403 instruments fetched (crypto RT, US, China A-share live, Taiwan live, FX)  [+wide US: 4234 of 12477 tickers pre-screened -> top 150]  [+wide CN A-share: 598 of 600 liquid names -> top 120, backtested] --
+
+=== OPPORTUNITIES (ranked by per-trade expected Sharpe = E[R]/sigma) ===
+  markets open now (2026-07-08T03:04:21+00:00): CN-A, CRYPTO, FX, HK, TW
+  YOUR BAR to qualify: E[R]>=+1%/trade, sigma<=7%*sqrt(h/5), Sharpe>=0.40, n>=20, t>=2 (Bonferroni-adj.), OOS Sharpe>0
+  >> 2 candidate(s) CLEARED your bar (#1-#2). Rows below #2 are near-misses -- NOT actionable.
+
+-- TRADE PLAN --
++----+--------------+----------+------+------+-------------+--------+--------------+--------+--------+--------+--------+-----+-------+----------+
+|  # | Instrument   | Sym      | Mkt  | Dir  | Setup       |  Price | Quote(Local) |   Chg% |  Entry |   Stop | Target | R:R | Risk% | Catalyst |
++====+==============+==========+======+======+=============+========+==============+========+========+========+========+=====+=======+==========+
+|  1 | CN: 德福科技 | sz301511 | CN-A | Long | Pullback    | 120.28 | 07-08 11:01  |  -4.8% | 120.28 | 113.06 | 138.32 | 2.5 | 6.00% |          |
+|  2 | CN: 泰晶科技 | sh603738 | CN-A | Long | TrendRide50 | 47.190 | 07-08 11:01  |  -4.9% | 47.190 | 44.359 | 55.684 | 3.0 | 6.00% |          |
+|  3 | CN: 欣锐科技 | sz300745 | CN-A | Long | Breakout    | 50.220 | 07-08 11:01  | -10.3% | 50.220 | 47.207 | 59.260 | 3.0 | 6.00% |          |
+|  4 | CN: 立昂微   | sh605358 | CN-A | Long | Pullback    | 58.440 | 07-08 11:01  |  -3.5% | 58.440 | 54.934 | 67.206 | 2.5 | 6.00% |          |
+|  5 | CN: 美利信   | sz301307 | CN-A | Long | Rebreak     | 83.610 | 07-08 11:01  |  -6.2% | 83.610 | 78.593 | 98.660 | 3.0 | 6.00% |          |
+|  6 | CN: 海川智能 | sz300720 | CN-A | Long | range       | 100.33 | 07-08 11:01  |  -3.2% | 100.33 | 94.100 | 114.94 | 2.3 | 6.21% |          |
+|  7 | CN: 力量钻石 | sz301071 | CN-A | Long | range       | 82.750 | 07-08 11:01  |  -2.8% | 82.750 | 79.000 | 92.830 | 2.7 | 4.53% |          |
+|  8 | CN: 西安奕材 | sh688783 | CN-A | Long | range       | 49.880 | 07-08 11:01  |  -6.3% | 49.880 | 46.680 | 57.150 | 2.3 | 6.42% |          |
+|  9 | CN: 三环集团 | sz300408 | CN-A | Long | range       | 134.64 | 07-08 11:01  |  -3.8% | 134.64 | 130.10 | 147.53 | 2.8 | 3.37% |          |
+| 10 | CN: 深科技   | sz000021 | CN-A | Long | range       | 52.110 | 07-08 11:01  |  -3.6% | 52.110 | 49.330 | 57.780 | 2.0 | 5.33% |          |
+| 11 | CN: 麦捷科技 | sz300319 | CN-A | Long | range       | 21.810 | 07-08 11:01  |  -4.8% | 21.810 | 21.200 | 24.000 | 3.6 | 2.80% |          |
+| 12 | CN: 有研新材 | sh600206 | CN-A | Long | range       | 55.170 | 07-08 11:01  |  -1.4% | 55.170 | 53.680 | 61.440 | 4.2 | 2.70% |          |
++----+--------------+----------+------+------+-------------+--------+--------------+--------+--------+--------+--------+-----+-------+----------+
+
+-- EDGE & RISK (evidence for the SAME numbered rows) --
++----+----------+---------+-------+--------+--------+-----+------+------+-----+-------+--------+-------+-------+
+|  # | Sym      | Verdict | E[R]% | sigma% | Sharpe |   t | oosS | Win% |   n |  ATR% | Kelly% | RV/IV | Data  |
++====+==========+=========+=======+========+========+=====+======+======+=====+=======+========+=======+=======+
+|  1 | sz301511 | PASS    | 6.26% |  8.51% |   0.74 | 3.3 | 0.47 |  70% |  20 | 14.4% |  58.0% |    -- | RT 0m |
+|  2 | sh603738 | PASS    | 2.66% |  5.41% |   0.49 | 3.2 | 0.78 |  60% |  42 | 12.0% |  46.0% |    -- | RT 0m |
+|  3 | sz300745 | below   | 4.00% |  9.70% |   0.41 | 2.1 | 1.27 |  46% |  26 |  7.8% |  28.2% |    -- | RT 0m |
+|  4 | sh605358 | below   | 1.09% |  5.24% |   0.21 | 1.1 | 0.62 |  63% |  27 | 10.6% |  48.1% |    -- | RT 0m |
+|  5 | sz301307 | below   | 4.63% |  9.47% |   0.49 | 2.4 | 0.45 |  56% |  25 |  8.5% |  41.3% |    -- | RT 0m |
+|  6 | sz300720 | below   | 2.43% |  7.69% |   0.32 | 6.3 | 0.44 |  57% | 394 |  9.9% |  38.1% |    -- | RT 0m |
+|  7 | sz301071 | below   | 1.26% |  6.15% |   0.21 | 4.1 | 0.42 |  49% | 394 | 11.9% |  30.0% |    -- | RT 0m |
+|  8 | sh688783 | below   | 0.74% |  7.08% |   0.10 | 1.3 | 0.41 |  48% | 162 | 12.4% |  24.4% |    -- | RT 0m |
+|  9 | sz300408 | below   | 0.67% |  4.75% |   0.14 | 2.8 | 0.37 |  46% | 394 | 10.6% |  26.6% |    -- | RT 0m |
+| 10 | sz000021 | below   | 1.15% |  5.87% |   0.20 | 3.9 | 0.35 |  51% | 394 |  9.7% |  27.0% |    -- | RT 0m |
+| 11 | sz300319 | below   | 0.46% |  4.51% |   0.10 | 2.0 | 0.32 |  42% | 394 | 14.0% |  25.4% |    -- | RT 0m |
+| 12 | sh600206 | below   | 0.69% |  5.12% |   0.13 | 2.7 | 0.30 |  38% | 394 | 11.5% |  23.4% |    -- | RT 0m |
++----+----------+---------+-------+--------+--------+-----+------+------+-----+-------+--------+-------+-------+
+  note: 78 live instruments have no free daily history (China A-share/Taiwan) -> no expectancy, excluded from ranking.
+
+-- SHORT-RESTRICTED MARKETS -> shortable proxy --
+  * China: Kweichow Moutai 贵州茅台 (sh600519): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: China Merchants Bank 招商银行 (sh600036): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: SMIC (STAR) 中芯国际 (sh688981): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Yangtze Power 长江电力 (sh600900): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: BYD 比亚迪 (sz002594): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * Taiwan: TSMC 台積電 (2330): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+  * Taiwan: Quanta 廣達 (2382): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+  * Taiwan: CTBC Financial 中信金 (2891): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+
+-- MACRO / RATES / CREDIT (FRED) --
+  US 3M yield                      3.87  (2026-07-06)
+  US 2Y yield                      4.13  (2026-07-06)
+  US 10Y yield                     4.48  (2026-07-06)
+  US 30Y yield                     4.99  (2026-07-06)
+  10Y-2Y spread                    0.36  (2026-07-07)
+  10Y-3M spread                    0.69  (2026-07-07)
+  Fed funds                        3.63  (2026-07-06)
+  VIX                             15.57  (2026-07-06)
+  US HY credit spread              2.72  (2026-07-06)
+  US IG credit spread              0.75  (2026-07-06)
+  WTI oil                         71.87  (2026-06-29)
+  Brent oil                       71.59  (2026-06-29)
+  USD/EUR                        1.1448  (2026-07-02)
+  Broad USD index              120.6902  (2026-07-02)
+  Fin conditions index         -0.50400  (2026-06-26)
+  Fed balance sheet             6724564  (2026-07-01)
+  M2 money supply               23052.3  (2026-05-01)
+  Unemployment rate                 4.2  (2026-06-01)
+  CPI                           333.979  (2026-05-01)
+  5Y inflation breakeven           2.28  (2026-07-07)
+  UST curve: 3M 3.87%  2Y 4.13%  10Y 4.48%  30Y 4.99%
+  BTC perp funding: +0.0018%  OI 99,839
+  CFTC COT large-spec net: ES -2,385  WTI +110,531  Gold -14,945  BTC +3,770
+
+-- CATALYST CALENDAR (next 14d; today=2026-07-08) --
+  2026-07-08  (22)
+    [ERN] ACZT     Q2 2026 EPS est None
+    [ERN] ARTW     Q2 2026 EPS est None
+    [ERN] AZZ      Q1 2027 EPS est 1.7109 EPS~1.7109
+    [ERN] BKSC     Q2 2026 EPS est None
+    [ERN] CAG      Q4 2026 EPS est 0.4616 EPS~0.4616
+    [ERN] DVTC     Q2 2026 EPS est None
+    [ERN] ETWO     Q1 2027 EPS est 0.0408 EPS~0.0408
+    [ERN] HELE     Q1 2027 EPS est -0.0102 EPS~-0.0102
+  2026-07-09  (30)
+    [ERN] BYRN     Q2 2026 EPS est -0.1199 EPS~-0.1199
+    [ERN] CBFC     Q2 2026 EPS est None
+    [ERN] CCEL     Q2 2026 EPS est 0 EPS~0
+    [ERN] CIBH     Q2 2026 EPS est None
+    [ERN] CNBB     Q2 2026 EPS est None
+    [ERN] EDUC     Q1 2027 EPS est None
+    [ERN] EVOH     Q3 2025 EPS est None
+    [ERN] FBSI     Q2 2026 EPS est None
+  2026-07-10  (24)
+    [ERN] AMBK     Q2 2026 EPS est None
+    [ERN] BUKS     Q4 2026 EPS est None
+    [ERN] DAL      Q2 2026 EPS est 1.4736 EPS~1.4736
+    [ERN] FGFH     Q2 2026 EPS est None
+    [ERN] GDHG     Q2 2026 EPS est None
+    [ERN] GDST     Q4 2025 EPS est None
+    [ERN] HIFS     Q2 2026 EPS est None
+    [ERN] KISB     Q2 2026 EPS est None
+  2026-07-13  (42)
+    [ERN] AMFC     Q2 2026 EPS est None
+    [ERN] ANVI     Q1 2026 EPS est None
+    [ERN] ASRE     Q3 2026 EPS est None
+    [ERN] AXXA     Q4 2026 EPS est None
+    [ERN] BSFC     Q1 2026 EPS est None
+    [ERN] BTCY     Q4 2026 EPS est -0.0816 EPS~-0.0816
+
+-- NEWS (expanded feeds) --
+  [MarketWatch]
+    - Plot twist: Gen Z is buying houses after all. Here’s how they’re doing it.
+    - Rivian’s stock sale triggers worst rout for the shares in nearly two years
+    - ‘Our family is broken beyond repair’: My brother took over my parents’ finances. What can I do?
+  [Nasdaq-Mkts]
+    - Better Buy: SpaceX vs. These 2 AI Stocks
+    - Why Eli Lilly Stock Climbed to a Record High Today
+    - Thai Bourse May Give Up Support At 1,600 Points
+  [Nasdaq-Stocks]
+    - West African Weather Risks Underpin Cocoa Prices
+    - Cattle Push Lower on Tuesday
+    - Cotton Extends Rally to Tuesday, Nearing Limit Gains
+  [SeekingAlpha]
+    - Netskope: AI Demand And Platform Adoption Still Support Buy
+    - Gold Mining Stocks: Winners And Losers At The Start Of H2 2026
+    - MMT: Why Narrow Credit Spreads Make This Leveraged CEF A 'Sell' (Downgrade)
+  [Investing]
+    - BHP iron ore workers vote to strike on July 18 at Port Hedland
+    - Asia stocks slip as AI valuation fears, higher oil prices weigh on sentiment
+    - Wall St futures steady with focus on Iran tensions, Fed meeting mins
+  [Yahoo-Fin]
+    - Best Buy and Apple flag a price shock for shoppers
+    - KKR & Co. (KKR) Fell 27% Despite a Strong Recovery in March
+    - Lean Hog Prices Are Sizzling Higher as Cattle Prices Flag Risk of Collapse
+  [Benzinga]
+    - Credible Review
+    - Toncoin (TON) Price Prediction 2025, 2026, 2027-2030
+    - Myro (MYRO) Price Prediction: 2025, 2026, 2030
+  [Zerohedge]
+    - How Interceptor Missiles Work: The Technology Behind Stopping Missiles In Mid-Air
+    - Revolutionary War Cannons Hidden For 240 Years Go On Display
+    - Condomnation: WaPo Hits Platner With Fresh 'Sneaky Stealthing' Accusation
+  [FedPress]
+    - Federal Reserve Board requests comment on a proposal to amend its requirements for banks to maintain anti-money laundering programs
+    - Federal Reserve Board issues enforcement action with Small Business Bank and announces termination enforcement actions with BNP Paribas S.A., BNP Paribas USA, Inc., BNP Paribas Securities Corp., and Community Bankshares, Inc.
+    - Federal Reserve issues initial findings from its 2025 triennial payments study
+  [ECB]
+    - Philip R. Lane: AI and monetary policy
+    - Christine Lagarde: Interview with Les Échos
+    - Piero Cipollone: The digital transformation of money, payments and finance
+  [BoE]
+    - Financial Policy Committee Record – July 2026
+    - Bank of England appoints Rhys Phillips as the new Chief Cashier
+    - Minutes of the London FXJSC Main Committee Meeting – 26 March 2026
+  [BoJ]
+    - Loans, Debt Securities, and Deposits by Maturity (End of September 2025)
+    - Principal Figures of Financial Institutions (June)
+    - Direct Investment by Region and Industry (1st quarter 2026)
+  [Cointelegraph]
+    - Strike launches ‘volatility-proof’ Bitcoin loans amid bear market, but at a cost
+    - SEC crypto rule changes are high on its 2026 agenda
+    - Ether climbs toward $2K as Bitmine buys ETH, Robinhood L2 boost
+  [Decrypt]
+    - Anthropic Removes Hidden Claude Code Tracker After Researchers Raise Privacy Concerns
+    - SEC's Long-Promised Crypto Safe Harbor to Be Introduced as Soon as This Month
+    - Tether Invests $20 Million in Mercado Bitcoin to Fuel Expansion Across Latin America
+  [TheBlock]
+    - Kraken wins $22 million arbitration against auditor Mazars for ditching the firm during Operation Choke Point 2.0
+    - CFTC charges North Carolina man over alleged $14 million crypto, futures fraud
+    - Jack Mallers Strike launches volatility-proof bitcoin loans built to protect against liquidation
+  [CoinDesk]
+    - BlackRock-backed Securitize slides 40% after SPAC debut despite tokenization boom
+    - Crypto exchange Kraken is trying to become a bank in Europe
+    - SpaceX IPO powers record $3.86 billion in tokenized equities trading in June
+  [ForexLive]
+    - Iran vows crushing response as CENTCOM says US hit over 80 targets
+    - NZD has jumped after the RBNZ rate hike and indication that further rate risers are ahead
+    - RBNZ lifts OCR to 2.50% and flags more hikes as inflation risks linger
+  [FXStreet]
+    - Iran's Parliament Speaker Ghalibaf: Accuses US of violating MoU
+    - United States Dollar Index holds above 101.00 following US strikes on Iran
+    - Breman Speech: RBNZ Governor due to address press conference, take media questions
+  [Mining.com]
+    - Yen shorts just hit a 19-year high. Gold did this last time
+    - Op-ed: The paradigm shift in critical mineral investment –Tungsten is just the beginning.
+    - South32 clears key US hurdle for $2B Arizona mine
+  [JapanTimes]
+    - America’s battlefield dominance is under serious threat
+    - China’s DeepSeek developing its own AI chip, sources say
+    - U.S. Rust Belt factories get shock as Big Tech data centers drive up power bills
+  [SCMP-Biz]
+    - Mainland China markets follow US in embracing tech stock dominance
+    - Hong Kong’s property market set to cool despite run of record-breaking deals
+    - How Hong Kong is fighting to redefine its future with an institutional moat, wealth surge
+  [ET-Markets]
+    - Oil Price Today (July 8): Crude oil tops 5% in two days as ‘powerful’ US strikes on Iran revive supply fears. What’s unfolding?
+    - Will Trent shares rebound after Q1 update triggers 13% crash? Here's what technical charts indicate
+    - Titan dividend alert! Last day to buy shares for Rs 15 dividend payout. Do you own?
+  [Livemint]
+    - Vaishali Parekh recommends three intraday stocks to buy or sell on Wednesday — 8 July 2026
+    - Stock market today: Gift Nifty hints weak start; eight day trading stocks to buy on Wednesday, 8 July
+    - Stocks to watch: Cochin Shipyard, Premier Energies, ideaForge Tech among shares in focus today; check list here
+
+research only, not financial advice. verify before acting.
+
+[scan task log]
+  - 10:58:01  regime: gathering FRED macro / VIX / fear-greed
+  - 10:58:19  regime: RISK-ON score=+0.52
+  - 10:58:19  quotes: collecting curated universe (crypto/US-core/CN/TW/FX)
+  - 11:00:43  quotes: 133 curated instruments fetched
+  - 11:00:43  wide US funnel: pulling ~12k tickers from Polygon, pre-screening top 150
+  - 11:01:06  wide US funnel: 4234 of 12477 -> top 150 backtested
+  - 11:01:07  wide CN funnel: pulling ~5,500 A-shares, pre-screening top 120
+  - 11:01:19  wide CN funnel: 598 of 600 -> top 120 backtested
+  - 11:01:19  opportunities: building candidate set from quotes + regime
+  - 11:01:19  opportunities: 264 raw candidates
+  - 11:01:19  backtest: enriching with technicals + E[R]/sigma/Sharpe
+  - 11:04:06  backtest: per-candidate family m=4 (global total=196) -> Bonferroni t>=2.50
+  - 11:04:06  news enrichment: Finnhub headlines + Polygon sentiment per candidate
+  - 11:04:06  news enrichment: done (0 candidates have fresh headlines)
+  - 11:04:06  catalyst enrichment: scanning Finnhub earnings/FDA/IPO + Polygon dividends
+  - 11:04:12  catalyst enrichment: 0 candidates have a near-term catalyst (+0 new)
+  - 11:04:12  options enrichment: pulling ATM straddles (CBOE) for top US candidates
+  - 11:04:21  options enrichment: 9 candidates have an RV/IV signal (+9 new)
+  - 11:04:21  catalysts: printing freshest company news for top candidates
+  - 11:04:21  alt-data: pulling FRED macro/rates/credit, treasury curve, BTC funding, COT
+  - 11:04:41  catalyst calendar: Finnhub earnings/FDA/IPO + Polygon dividends (14d)
+  - 11:04:52  expanded news: sweeping all RSS feeds (equities/macro/CB/crypto/FX/commodities/regional)
+  - 11:05:02  expanded news: 23 feeds ok, 3 feeds failed
+  - 11:05:02  GDELT: 24h global market tone sweep

@@ -1,0 +1,19 @@
+=== agent CHAMP_AUDIT_LEAK round 1 start Mon Sep 14 14:09:50 CST 2026 ===
+**CHAMP_AUDIT_LEAK Round 1 complete — VERDICT: PASS.** All 4 charter attacks on the RAWEW13v2 champion failed to break causality:
+
+**T1 — Same-day-leak forensics: PASS**
+- Rebuilt Wg exactly per `build()`; pooled **corr(dW_t, r_t) = −0.0100** (52,313 sleeve-days) vs 0.78 for the historical leak. Per-year range [−0.114, +0.072]; worst sleeve brwt10 at −0.1229 (antipersistent = leak-*hostile* sign).
+- Control: corr(dW_t, r_{t−1}) = **+0.5903** — NAV drift chases yesterday's winners, correctly lagged.
+- **Detector power proven**: rebuilding the old leaked construction (nav without shift) reproduces corr = **+0.5902** and ann 40.44% vs 39.50% — the removed leak was worth +0.94pp/yr, so the −0.01 reading is a powered pass, not a blind spot.
+
+**T2 — Extra-lag probe: PASS**
+- +1 day on all 12 sleeve inputs: SR **3.218 → 3.218** (+0.000), ann 39.50% → 39.50%, MaxDD −6.52% unchanged, H1/H2 both invariant, weights drift ≤6.1e−4. The book has zero day-level timing content (turnover 4.77bp/yr) — nothing to leak at blend level.
+
+**T3 — Zero-run forensics: PASS**
+- Every interior zero-run maps to coded gates: brwt/diescrack |z|>1.5/2.0 gate-off (longest 14d/93d — diescrack's measured 93d matches its meta *exactly*), dualmom ±3% hysteresis band (250d), C5ngsum Apr–Oct seasonal (111d winter flat, code line `pos[~idx.month.isin(MONTHS)]=0`), A5r2 rate-shock regime (112d), a6r7 long-flat 378d trend (461d). Missing data is NaN (dropped), never zero-filled. Also confirmed CFX4 relw = 0.0000 — champion effectively holds 11 sleeves.
+
+**T4 — 30-row cross-check: PASS**
+- max|committed − recomputed| = **9.54e−17** (30 random rows, seed 20260914); 1.00e−16 across all 4806 rows; gross exactly 1.600000, 0 days above cap.
+
+Weakest finding (honestly reported): brwt10 corr(dW,r) = −0.1229 — negative-signed, cost-reducing, not a leak. FINDINGS.md written with full tables + numbered summary; repro saved at `probe/audit_r1_repro.py`. Last line is exactly `ROUND 1 DONE`.
+=== agent CHAMP_AUDIT_LEAK round 1 end Mon Sep 14 14:16:44 CST 2026 exit 0 ===

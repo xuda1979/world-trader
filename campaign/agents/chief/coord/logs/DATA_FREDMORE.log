@@ -1,0 +1,161 @@
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090619524934e7ea37082e40ae]
+=== DATA_FREDMORE round 1 end Sun Sep  6 19:52:49 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090701512769cf49de012f4b7d]
+=== DATA_FREDMORE rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090702072886fbcb01347943a3]
+=== DATA_FREDMORE rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070240566d3663cb62594b08]
+=== DATA_FREDMORE rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070314028482524b313e4e86]
+=== DATA_FREDMORE rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907031911e5dc601522e04790]
+=== DATA_FREDMORE rate-limited or errored (attempt 5, rc=1); backing off ===
+Round 2 executed per charter. Summary:
+
+**State found:** a prior R2 attempt had crashed mid-run — BAMLH backup made but file still truncated, DEXJPUS/DEXUSUK/DTWEXBGS never written, manifest stale (claimed `lint_pass=True` on files that actually fail lint).
+
+**(a) Must-fetch — exact outcomes:**
+- **BAMLH0A0HYM2 full history: structurally impossible via FRED.** Direct curl probe: `observation_start=1996` still returns first=2023-09-05 (n=795). Series notes: *"Starting in April 2026, this series will only include 3 years of observations"* — family-wide (BAMLC0A0CM, BAMLHE00EHYIOAS identical); ALFRED has no older vintages. The 3-year window (n=787, lint PASS) is the legitimate maximum. Documented permanent fail.
+- **DEXJPUS** PASS after head-trim: n=13795, 1971-08-31..2026-08-28 (raw had one contiguous 11-bday hole @1971-08-16, Nixon-shock FX closure — R1 VIXCLS trim precedent, no splice).
+- **DEXUSUK** PASS after head-trim: n=13801, 1971-08-23..2026-08-28 (5-bday hole, same closure).
+- **DTWEXBGS**: mid-series holes (4bd@2010-02-08, 3bd@2016-01-22, Fed Board blizzard closures) — not head-trimmable; trimmed 2016+ PASS (n=2645), full span documented permanent fail. Discontinued DTWEXB has identical holes → structural.
+- **NEW: TWEXBMTH** monthly broad dollar index, n=564, 1973-2019, **zero holes** — the long-span substitute.
+- T10YIE/UMCSENT/RSAFS/HOUST/PERMIT/USREC/DEXUSEU/DEXCAUS: all verified PASS.
+
+**(b) R1 fail retries:** IRLTLT01NZM156N → **PASS** (n=561, trim to 1979-10-01). NROU/LNS11300060/CPILFESL → permanent fails documented with evidence (NROU carries forecast rows to 2036; the others have the upstream 2025-10-01 BLS-shutdown hole, verified as `.` in raw payloads — same hole in CPIAUCSL/UNRATE/UNRATENSA/RRSFS).
+
+**(c) Lint discipline:** 26 manifest verdict corrections — the honesty pass flipped CPIAUCSL/UNRATE/UNRATENSA/RRSFS/TEDRATE/MORTGAGE30US/GFDEGDQ188S to **False**, backfilled 14 R1 files that had no manifest row, added 5 explicit structural-fail rows. Final: **141 rows = 125 PASS / 16 FAIL**, PASS↔file consistency verified.
+
+**TDD:** red first (4 failing), then green — `test_fred_round2.py` **11/11**, framework `test_fred_dl.py` **19/19**.
+
+Deliverables: 4 new CSVs + reconciled `manifest.csv` in `tools/quant/data/more_fred/`, `MANIFEST_R2.md` + `FINDINGS.md` in the charter dir (FINDINGS ends with `ROUND 2 DONE`). One flag for downstream teams: 7 pre-R1 lint-failing files remain on disk (not mine to delete) — consumers must filter on `manifest.lint_pass==True`.
+=== DATA_FREDMORE round 2 end Mon Sep  7 04:17:44 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907080722347a37c0bd23401a]
+=== DATA_FREDMORE rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907081225de53f422f25e48b7]
+=== DATA_FREDMORE rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907081703279eb3fb84d544e9]
+=== DATA_FREDMORE rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090708215570dc4240170f425f]
+=== DATA_FREDMORE rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070829185013f551497d4982]
+=== DATA_FREDMORE rate-limited or errored (attempt 5, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090708363114343d6f887c4bbf]
+=== DATA_FREDMORE rate-limited or errored (attempt 6, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090708512759f1e9eac94f4f4c]
+=== DATA_FREDMORE rate-limited or errored (attempt 7, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907101931a32d684fd9d34f0c]
+=== DATA_FREDMORE rate-limited or errored (attempt 8, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609071531119d633fb937e641ea]
+=== DATA_FREDMORE rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090715554448da42793c974566]
+=== DATA_FREDMORE rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907163621f16b843e1772405a]
+=== DATA_FREDMORE rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907164128dcca6f49b1564ba6]
+=== DATA_FREDMORE rate-limited or errored (attempt 4, rc=1); backing off ===
+Round 3 executed and verified. FINDINGS.md ends with `ROUND 3 DONE`.
+
+## What happened
+
+The prior session (15:20–16:33 today) had left R3 partially built: `alfred_dl.py`, 6 vintage files, the fetcher, a 28-test suite, and a **broken truncated test stub**. I trusted none of it — re-verified every claim from disk + live FRED myself, found and fixed **2 defects under TDD**, and saved a standalone verifier so every claim reproduces.
+
+**(a) ALFRED vintages — PASS 6/6.** PAYEMS 856 / UNRATE 797 / CPIAUCSL 648 / ICSA 901 / RSXFS 302 / IPMAN 224 rows, one row per observation, per-row lag ≥ charter floor (28–93d observed vs 4–41d floors). Live ot4 re-pull equality: **0 mismatches** on PAYEMS/ICSA; UNRATE's 85 string diffs were "5" vs "5.0" formatting only. PIT sanity: PAYEMS 2020-03 → 151786 @2020-04-03, UNRATE 2020-04 → 14.7 @2020-05-08. SP500 dropped **loudly** (no ALFRED metadata, HTTP 400); corrected the prior draft's false claim that VIXCLS/DGS10/DEXJPUS lack vintages (they have 3927/5103/651).
+
+**(b) FAIL7 reconciled — 5 stay FAIL, 2 reclassified PASS.** MORTGAGE30US (holiday-shifted weekly, max spacing 9d) and GFDEGDQ188S (241/241 quarterly slots, 0 off-grid) were linter artifacts — fixed the linter under TDD, data untouched. CPIAUCSL/UNRATE/UNRATENSA/RRSFS stay FAIL on the unbackfilled 2025-10 BLS shutdown hole (RSAFS has 2025-10 = 731051, grep-proven, so a splice was possible and refused). TEDRATE stays FAIL: 5 Christmas-closure len-3 runs (1993/1999/2004/2010/2021).
+
+**Defect 1 (real, mine to catch):** the fetcher's TEDRATE reason claimed *"1986-01-20 has data"* — grep proves it's **absent** (MLK Day, first federal observance). False claim in an evidence string; fixed via red test (**2 failed, 28 passed** → fetcher fix → **31/31**). Along the way my first red run also caught a bug in my *own* test (calendar-day vs missing-bday run counting) — fixed my test, not the data, since the linter's bday accounting was correct.
+
+**Defect 2:** broken stub `coord/test_fred_round3.py` replaced with a pointer; its PASS-row⇒file invariant carried into the canonical suite as a real test (136 bare-name + 6 repo-relative manifest paths, all resolve — my initial "131 missing files" alarm was my own path-join bug, confirmed benign).
+
+**Final numbers:** R3 suite **31/31**, R2+fred_dl regression **30/30** (61 combined), verifier `verify_round3.py` → **84 checks PASS / 0 FAIL, exit 0**. No dead-family retests (data round); no splices, no deletions; the 2025-10 hole remains the single honest gap, now documented in the manifest rows and FINDINGS.md with exact numbers.
+=== DATA_FREDMORE round 3 end Mon Sep  7 17:13:20 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090722540910728ca0e21a4b66]
+=== DATA_FREDMORE rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609072304106baffbe6a2d5463c]
+=== DATA_FREDMORE rate-limited or errored (attempt 2, rc=1); backing off ===
+Round 4 (DATA_CBOEHIST) complete. Summary:
+
+**Headline answer (what redirects the round-4 plan):** per-symbol CBOE put/call volume + pc_ratio **history is NOT keyless-feasible — proven with exact probe evidence**, not assumed. Chains are snapshot-only. The feasible deliverable, now on disk, is the **per-symbol implied-vol index family (VX{SYM})** — the historical ATM-IV class — plus the **options-strategy index family back to 1986**.
+
+**Probe evidence** (all reproducible via `work_r4/probe_history_endpoints.py`):
+- `put_call_ratios/_all.json` and `/SPY.json` → HTTP 403 S3 AccessDenied (matches DEAD_IDEAS row 108, re-probed live)
+- `charts/historical/SPY.json` → 200 but keys are exactly `date,open,high,low,close,volume` of the **underlying** (5,707 rows, 2004+) — no put/call/IV fields
+- `options/SPY.json` → 12,086 contracts with payload timestamp → snapshot-only
+- `charts/historical/volumes/...` and `/_all.json` → 403
+- Control `VIX_History.csv` → 200 (472,309B), network path proven
+
+**Delivered:** `tools/quant/data/cboe_opts/` — 22 linted CSVs, 28 manifest rows (22 PASS / 6 honest FAIL). Class 1 (per-symbol IV): VXAPL/VXGS/VXIBM n=3934 2011+, VXEEM n=3888; VXPFE/WMT/VXX PASS but honestly end 2022-11-07 (discontinued); VXGDX/VXSLV/VXFXI era-split around real 3.3y upstream holes (never spliced). Class 2 (strategy indexes): BXMD/PPUT 1986, BXY 1988, PUTR 2001, BXM 2002, WPUT/LOVOL 2006, CLL era-split; CLL_era1 (n=61) fail-closed at MIN_N=100. PUT dedup'd against `cboe_flow`, not re-fetched. Exactly 8 PASS rows meet start≤2010.
+
+**Gates:** TDD red→green, 21/21 tests; standalone verifier 69 PASS / 0 FAIL, exit 0 (exit captured un-piped); era no-fabrication arithmetic (e.g. 4494 = 1134+3299+61 undelivered) verified. No signal tested → no GATES claims. Three of my own check bugs were caught and fixed along the way (mangled first test draft, wrong hole arithmetic, CLL 3-eras-not-2).
+
+FINDINGS.md appended and ends with exactly `ROUND 4 DONE`; `MANIFEST_R4.md` written.
+=== DATA_FREDMORE round 4 end Mon Sep  7 23:46:00 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260908072406b82b0c449f4a44b0]
+=== DATA_FREDMORE rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090807543082f7de05333648ee]
+=== DATA_FREDMORE rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260908081226724ac6838e6e4937]
+=== DATA_FREDMORE rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260908083059627ce79f92fe44a5]
+=== DATA_FREDMORE rate-limited or errored (attempt 4, rc=1); backing off ===
+Round 5 executed per charter. Summary:
+
+## ROUND 5 — DATA_FREDMORE (charter a): materialize + PIT-lint NEW FRED series for the R5 corners
+
+**Read first:** GATES_CONTRACT_V2 (RATIFIED, V1 gates 1-5 unchanged) + DEAD_IDEAS recounted myself: **130 rows** at round start (charter said 120 — dynamic, as the contract §5 states).
+
+**Pre-registered corner (data-backed):** bank **delinquency-rate cycle** (credit-QUALITY class — distinct from the dead mortgage-spread/NFCI/CP-OIS families in the HUNT_CREDIT2-R5 row) and the **PPI propane index** (monthly level, distinct from the dead DPROPANEMBTX daily-spot families in the HUNT_CMDT2-R5 rows). No signal hunting.
+
+**Delivered 3/3 PASS** (actual fetcher output):
+| series | span | n | PIT vintage | lag | break gate |
+|---|---|---|---|---|---|
+| DRALACBS | 1985-01..2026-04 | 166 | n=61 | 136-166d (floor 130) | clean |
+| DRCLACBS | 1987-01..2026-04 | 158 | n=61 | 136-166d (floor 130) | clean |
+| WPU05320104 | 1984-01..2026-07 | 511 | n=136 | 37-105d (floor 35) | refuse=False, 9 market swings disclosed, 0 coincident |
+
+Three-gate lint as chartered: gap structure (`fred_dl.lint`, all gaps=0) + PIT lag (`alfred_dl.lint_vintage`) + source-transition BREAK gate (DATA_COTMORE R4 pattern, TDD'd: ≥30% step counts only if it coincides with a publication-structure event). WPU's 1983 quarterly-publication interlude (dots 1983-04/08/12) → head-trim to 1984, no splice.
+
+**Real catch of the round:** WPU obs 2015-10-01 was suppressed at first release (live ot4 dot block 2015-12-11→2016-03-14) and the backfill block is absent from ALFRED — vintage stream honestly has n=136 with exactly that one coverage hole, pinned by a dedicated test.
+
+**TDD:** RED first (12 failed) → my own bugs caught and fixed (keyword `pass` in dict literal; wrong unpack of `fetch_first_release`'s `((rows,n),err)` tuple) → **13/13 green** + regressions 19/19 fred_dl, R4 suite ALL PASS.
+
+**Independent verifier** `work_r5/verify_round5.py` → **64 PASS / 0 FAIL, exit 0** (un-piped), incl. live equality re-pull against api.stlouisfed.org for all 3 files. Two verifier iterations were my own check bugs (vintage-CSV header shape; a 502 transient), both fixed before final green.
+
+**Bookkeeping:** manifest 160→166 rows (level + ALFRED: convention, lag_days=floor), PASS⇒file invariant verified whole-file; DEAD_IDEAS 130→132 (+2 `data-acquired`, source DATA_FREDMORE-R5). Writes confined to my dirs + the 3 charter series; dead-family staging files (mtime Sep 4, HUNT_CREDIT2's) untouched. FINDINGS.md ends with exactly `ROUND 5 DONE`.
+=== DATA_FREDMORE round 5 end Tue Sep  8 09:07:50 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090815314441376a6b297a4241]
+=== DATA_FREDMORE rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260908154826c10844abc7f84209]
+=== DATA_FREDMORE rate-limited or errored (attempt 2, rc=1); backing off ===
+Round 6 complete. FINDINGS.md ends with exactly `ROUND 6 DONE`.
+
+## What was done
+
+**Round start discipline**: Read GATES_CONTRACT_V2.md + recounted DEAD_IDEAS.csv myself — **145 data rows (146 lines incl. header)**, mtime 14:55 today. Charter's "137 at R5-end" → dynamic +8 (V2 recount rule). A prior DATA_FREDMORE session today had left `work_r6/` with a verifier but **no FINDINGS entry** — I audited its script line-by-line, then re-executed everything fresh rather than trusting the stale output.
+
+**(a) Fraud-catch cross-verification — both sibling R5 verdicts CONFIRMED GENUINE:**
+
+- **DATA_ETF_MORE (bench pack)**: trio pins re-hashed byte-identical (SPY `d35d7280…`, IEF `603cb2a5…`, CTA `d7f3b5cd…`); all 7 candidates re-measured from raw CSVs with my own loader (UUP 0.1833, GLD 0.2043, TIP control correctly rejected at corr_ief 0.7635 > 0.5) — every number matches to 4dp; greedy pick UUP+GLD proven *forced* (gold-complex pairs 0.797–0.997 all > 0.7). **The catch**: `bench_r5/manifest.csv` was clobbered today 14:10–14:40 by DATA_ORGANIZE's layout sweep (10 rows → 47-byte stub). **New discriminator test this session**: re-ran *their* committed `build()` with output redirected to my evidence dir — fresh rebuild hashes `326afe5a28db2809` == their claimed sha, byte-identical. Their claim is deterministic and genuine; the loss is a legitimate sweep, not fraud. Evidence preserved; **flagged for the coordinator** to decide stub-vs-restore (I did not touch their file).
+- **DATA_COTMORE (trader panel)**: 29,051×51×35 reproduced with my own reader; delta = exactly +34 rows, **0 changed cnt_ cells across 29,017 shared rows** (pure append, zero CFTC revisions); BREAK anchors exact (nat_gas 281→40, lumber 21→43). My own live CFTC spot-fetch: fresh zip sha `70e18ad5a7e61745` == pin. CBOE PCR freeze re-verified live: 403 on the API, all 3 archive CSVs byte-identical to disk.
+
+**(b) FRED health census — refresh lane NOT blocked**: live DFF 2026-09-03 = 3.63, SOFR 2026-09-03 = 3.66 (both fresh, endpoint healthy); DJFUELUSGULF 09-01, WTISPLC 08-01 reachable. Only blockers are on-disk staleness (more_fred DFF ends 09-01, SOFR 09-02) — documented, not refreshed (quiet data tree). One honesty caveat logged: verifier check C4's name ("no revision") overstates a cross-date comparison.
+
+**Final verifier re-run this session**: **99 PASS / 0 FAIL, exit 0** (live FRED + CFTC + CBOE fetches included). No dead-family re-tests, no signal hunting, bt/ untouched, champion `4358dfab95679b97` re-hashed and untouched.
+=== DATA_FREDMORE round 6 end Tue Sep  8 16:01:47 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609082213455b835f6bc1264c4f]
+=== DATA_FREDMORE rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609082315071c10390dd8c043a0]
+=== DATA_FREDMORE rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260908234516e766d81ae1194791]
+=== DATA_FREDMORE rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609082353408a5e6c5fbb40406f]
+=== DATA_FREDMORE rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260909000819176b38fe16b44f91]
+=== DATA_FREDMORE rate-limited or errored (attempt 5, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260909001526f5098cb3df9f482c]
+=== DATA_FREDMORE rate-limited or errored (attempt 6, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260909003604de3428df0ebd44de]
+=== DATA_FREDMORE rate-limited or errored (attempt 7, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260909004448ff4d21c3373546e0]
+=== DATA_FREDMORE rate-limited or errored (attempt 8, rc=1); backing off ===

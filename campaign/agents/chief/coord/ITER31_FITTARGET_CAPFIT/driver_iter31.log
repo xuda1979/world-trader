@@ -1,0 +1,39 @@
+# ITER31 estimator-at-cap driver (2026-09-19 session #13). FINDINGS_PRECOMMIT.md sha16 70c776c7f82a96c8 sealed BEFORE this run.
+# Champion sha16 pre-run: 8559fa55ee9a3417 / weights d2d11c92a98683df / precommit 70c776c7f82a96c8
+ANCHOR projection-identity on incumbent: maxdev=0.0 (need exactly 0)
+ANCHOR weights maxdev=8.327e-17 (need <1e-12)
+ANCHOR bytes   maxdev=9.996e-17 (need <1e-12) n=4806
+ANCHOR grossmax=1.000000000  days>1.6: 0
+ANCHOR incumbent Wmax_sf(x11)=1.8115x (feasible under corrected invariant)
+ANCHOR incumbent IS-SR=4.198632 (continuity 4.198632)
+ANCHOR fit rows=1809 k_covered=11
+
+arm  target       s_used   unproj-IS-SR  proj-IS-SR  IS-ann pct  IS-MDD pct  negy  Wmax_sf   adm
+A3   constvar     0.7000     4.2444      4.2443     18.494       -2.32    0/9  2.0000x  YES
+     REPRO vs ITER29 saved arm: maxdev=6.939e-17 (need <1e-9); moved mass 0.017560
+A4   diag-lw04    0.0293     4.2274      4.2261     18.422       -2.51    0/9  2.0000x  YES
+     REPRO vs ITER29 saved arm: maxdev=6.939e-17 (need <1e-9); moved mass 0.015211
+
+ADMITTED: 2 / 2 (jitter tolerance 1e-4 on the IS bar)
+GLOBAL ARGMAX (IS-only): A3 (constvar, s=0.7000) IS-SR=4.244277 Wmax_sf=2.0000x
+
+REVEAL book: 12-pool refit under A3 target at invariant cap, gear 1.0, n=4806 (2008-03-31..2026-08-28)
+  FS SR=3.787991 (incumbent 3.751429)  ann arith=21.4716%  cagr=23.7438%  MDD=-3.8237%  negyrs=0
+  grossmax=1.000000000  Wmax_sf=2.0000x  CFX4 relw=0.0e+00
+  G8 fit-window complete rows: 1809 -> 1809 (same pool), shrink=0.0000% (bar <= 2%)
+  bin 2017-18 dSR=+0.0452 (cand 4.8202 vs inc 4.7750)
+  bin 2019-20 dSR=+0.0336 (cand 4.0574 vs inc 4.0238)
+  bin 2021-22 dSR=-0.0031 (cand 2.2326 vs inc 2.2356)
+  bin 2023-24 dSR=-0.0788 (cand 4.6180 vs inc 4.6968)
+  bin 2025-26 dSR=-0.0179 (cand 3.5050 vs inc 3.5229)
+  GATE 1 FS ann>=20pct          PASS
+  GATE 2 gross<=1.6             PASS
+  GATE 3 FS MDD>=-7pct          PASS
+  GATE 4 0 FS neg yrs           PASS
+  GATE 5 CFX4=0                 PASS
+  GATE 6 Wmax_sf<=2.0x (k=11)   PASS
+  GATE 7 OOS police             FAIL
+  GATE 8 fit-window shrink<=2pct PASS
+
+VERDICT: REJECT - failed gates: 7 OOS police (no second reveal per pre-commit)
+# Champion sha16 post-run: 8559fa55ee9a3417 / weights d2d11c92a98683df (pre==post: True)

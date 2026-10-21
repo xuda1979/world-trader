@@ -1,0 +1,22 @@
+# FINDINGS - ITER58 ETP-POOLFIT (post-run; sealed precommit 26794451425eb4fb)
+Cell: closure-falsification audit no.2 - the reference-bucketed more_etf futures-ETP family (13 candidates, census-fittable, sha-pinned) was never pool-fitted under the current objective; measured 2026-09-20 session 38 with ONE frozen construction (tsmom-189 vt015 single-stream transplant, ITER57 machinery verbatim).
+
+# ANCHORS (all exact)
+Frozen-block text-identity vs driver_iter41/36/49 (fit_relw/apply_cap/project_wmax/build_book); precommit seal byte-exact pre-run; A1a canonical vt015 regen 9.996e-17 inner 4947; A2 committed-frame continuity weights 7.633e-17 / bytes 9.991e-17 / n 4806 / rows 1809 / k 11 / IS-SR 4.218504 = bar; stream seals 13/13 + source-CSV sha16s 13/13; champion pair pre==post cfa9ec4d38158691 / a384d6b92e258fd5.
+
+# RESULT: 2/13 admitted at the IS bar; ARGMAX REVEAL FIRED (first since ITER49) and DIED on G7 - ITER17-law kill no.12.
+Admitted: UNG relw 2.211pct IS-SR 4.224282 (bar +0.005778); DBP relw 1.375pct IS-SR 4.219268 (bar +0.000764). DBP UNREVEALED BY LAW (sealed stop rule).
+REVEAL (13-pool + UNG, gear 1.0, n 4806): FS SR 3.813340 < 3.820357 (-0.0070); cagr 23.8128 >= 20 PASS; gross 1.000000000 PASS; MDD -3.5754 PASS; 0 negyrs PASS; CFX4 0 PASS; Wmax_sf 2.0000x wall-adjacent PASS; g8 0 PASS; G7 bins [-0.0004, -0.0361, +0.0206, +0.0668, -0.0033] = 2/5 positive (min -0.0361 above the -0.10 floor) => FAIL on the 4/5-positivity prong => REJECT per sealed stop rule.
+Structural rows (for the ledger): late-start 5 (BNO/CORN/SOYB/WEAT/USCI) post IS-SRs ABOVE the bar (4.2331..4.2471 - the agri complex IS signal is real) and are G8-killed structurally (fit-row shrink 12.8..30.6pct) exactly as sealed-predicted; USO and DBE assigned relw 0.00000 EXACTLY (pure re-expression of the diescrack/C5ng energy exposure - the 13-duplicate lesson at one-step precision); UUP earned 1.064pct at IS-SR 4.218564 = bar +0.00006 and is DENIED by the 1e-4 jitter filter (bar-equality class, ITER29 A2 precedent); CANE/CPER hygiene-excluded pre-seal (stale runs 6d/8d; copper DATA-BLOCKED in this vintage, not signal-blocked).
+
+# PREDICTION SCORECARD (sealed) 
+P1 late-start G8 structural: HELD EXACTLY (5/5, shrink band as predicted). P2 energy near-zero: PARTIAL - USO/DBE exactly zero (held), UNG GENUINELY ADMITTED (wrong: natgas futures trend is NOT a diescrack/C5ng duplicate - the fit discriminates WITHIN the energy class). P3 UUP zero: WRONG IN DETAIL - nonzero 1.064pct, but jitter-denied at bar equality; the filter, not zero weight, answered it. P4 broad/agri-only-live: PARTIAL - DBP (precious metals) admitted, UNG (energy) admitted. P5 modal NO-ADMISSION: WRONG - the reveal fired for the first time since ITER49 and the police answered it.
+
+# READINGS
+1. #148's consumer-role bucketing had exactly the #147-class gap it was asked to have: reference-bucketed does NOT mean measured. The closure statement survives in amended form - inventory measured now INCLUDING the reference bucket's futures family; 33 axes.
+2. The pool fit at gross 1.0 continues to price novel sleeves at zero or shadow-noise unless the exposure is genuinely marginal; natgas trend is the first exposure to earn real weight since credit (ITER25/26) - and the OOS police killed it on the same 2019-20 regime fragility (gas-glut chop) that killed bund 2022 and credit 2019-20.
+3. The agri/single-commodity complex is an IS-live, frame-incompatible family (2010-11 launches vs the 2008-03-31 union frame): measured-refused on comparability (G8), NOT on signal. If a future operator rule ever re-frames the IS window, this is the first place to re-measure - recorded, not chased.
+4. G7 police: 12 kills / 14 reveals judged (2 KEEP: A5r2-vt, tsmom-vt). The 2-of-12 KEEP price-tag curve gains a 12th refused point.
+
+# LANDING
+coord/ITER58_ETP_POOLFIT complete (FINDINGS_PRECOMMIT 26794451425eb4fb sealed pre-candidate; probe_iter58.py/log 0d76e76b44c17618; driver_iter58.py; driver_iter58.log b449ecf3f96d374b; 13 candidate weights CSVs; NO adopted candidate daily CSV - verdict REJECT); test_iter58_etp_poolfit.py 5 pins mutation-proven RED x2 (log tamper -> exactly 2 targeted pins; manifest revert -> exactly PIN 5), byte-exact restores sha-verified -> GREEN; manifest LEDGER += (etf-fut-etp,[58]), LEDGER_AXES 32->33, internal pin message updated, same-landing era-pin duty discharged; memo GOAL100_ITER58_ETP_POOLFIT.md; STANDUP; ledger #149 + memory.

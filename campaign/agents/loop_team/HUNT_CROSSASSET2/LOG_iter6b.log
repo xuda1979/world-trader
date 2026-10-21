@@ -1,0 +1,25 @@
+=== HUNT_CROSSASSET2 relaunch Thu Sep  3 10:39:31 CST 2026 ===
+Relaunch agenda executed: family screens s10-s12 (sector 216 cfg, rates 84+32, credit 106+32 cfg),
+finals s13-s16 in FXD1-frozen per-leg convention, diag s17. 3 scramble-implementation bugs caught
+via FXD1 sanity check + day-level diff (net-vs-raw double-apply, concat column aliasing, double-shift).
+Deliverable: SEC3_sector_trio (6/7, yearly-gate near-miss) + full negative ledger for steepener/credit.
+FINDINGS.md written; DEAD_IDEAS.csv extended (6 rows). Repro verified byte-identical (SR 0.6669).
+Hunt complete. Summary of the relaunch session:
+
+## HUNT_CROSSASSET2 — Final Report
+
+**Pivot executed as chartered** (DEX cross z-reversion not redone). All three uncharted families screened with the FXD1-frozen convention (T+1, 6bps/side per-leg, borrow 0.5%/yr), ~600 configs total:
+
+**Family 1 — Sector-basket: one NEAR-MISS delivered (not a PASS)**
+- **SEC3_sector_trio** (XLB-XLF / XLB-XLI / XLF-XLI log-spread z-rev, lb15, gate 1.5, z-scaled sizing): **SR 0.667, H1 0.89/H2 0.33, scramble p=0.000 (3×200x), ac1 -0.052, uniqR 1.000, corr +0.016 → 6/7 gates**; **fails yearly gate 8/19 neg years** (all > -3.7%). Disclosed: OOS17+ SR 0.266 (edge is 2008–2016 concentrated), LOYO 2016 -1.055, and a data-quality flag on twelvedata XLF pre-2010 (2008 file vol 71% vs SPY 41%). Delivered sleeve+meta+frozen repro (byte-identical rerun, SR 0.6669) for chair review per FXD1 precedent.
+- Sector **relative momentum** itself: dead (≤0.43). XLE legs poison the basket (SR 0.115) — oil-redundant vs existing Brent-WTI sleeves.
+
+**Family 2 — Rates steepener: DEAD.** Best 2s5s sign lb21 SR 0.459 with H1 0.08; 2s10s/5s30s ≤0.30 with huge 2008/2010 losses; real-ETF DV01 books (IEF/TLT) all negative. Decorrelated (-0.002 corr) but zero alpha.
+
+**Family 3 — Credit-OAS on real HYG/LQD: DEAD.** Best 0.269 (9 negy); BAML OAS files are 2023+ only (span-blocked); baa-aaa signal fails on ETF PnL.
+
+**Methodology audit:** 3 scramble bugs caught via an FXD1 sanity check (known p=0.000) — scrambling net returns, pandas duplicate-column aliasing, double-shift. All quoted p-values from the corrected implementation.
+
+FINDINGS.md written with exact numbers, instrument/price paths, dead-ledger extended (6 rows in DEAD_IDEAS.csv).
+
+HUNT_CROSSASSET2 DONE

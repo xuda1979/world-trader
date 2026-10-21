@@ -1,0 +1,26 @@
+=== agent CHAMP_HUNT_CONSTRUCTION round 1 start Mon Sep 14 14:09:50 CST 2026 ===
+Round 1 complete (2026-09-14): charter jobs 1-3 executed in order.
+J1 SPEC audit PASS (gross 1.600000000000 exact / MDD -6.5232% / 0 neg yrs / FULL|dW@6.4 / IS-only + T+1 causal bit-proven, --verify 1e-16 IDENTICAL).
+J2 shrink_d sweep {0.90,0.95,0.98,0.995} IS-only: OOS ann 36.5290/36.5566/36.5719/36.5793 — 0.05pp grid spread, NO candidate; rule selects 0.98 as committed.
+J3 COST-HONESTY clean: reconstruction err 0.000e+00, turnover 4.766bp/yr + 270bp margin; energy core 21.8%/yr per-gross on 1.520/1.6 gross, decorr adds 0.081 gross at ~7%.
+No sleeve emitted (no candidate); FINDINGS.md written, last line ROUND 1 DONE.
+Round 1 complete. Summary of what was executed and found:
+
+## Charter execution summary (CHAMP_HUNT_CONSTRUCTION)
+
+**Job 1 — SPEC-COMPLIANCE AUDIT: PASS (all 5 sub-checks)**
+- Gross **exactly 1.600000000000** on all 4806 days, zero overshoot
+- MaxDD **-6.5232%** (within -7.00%), **0 negative years** (worst year 2013 at +5.62%)
+- Costs: FULL |dW| × 6.4bps + margin on (gross-1) — bit-level reconstruction error **0.000e+00**, no hidden charge
+- Weights IS-only (IS_END 2017-01-01): OOS-perturbation ×7 leaves relw **bit-identical**; T+1 causality of NAV-drift weights also bit-proven (`nav.shift(1)`)
+- `--verify`: byte-identical to committed champion (max diff 1e-16)
+
+**Job 2 — WEIGHT-SENSITIVITY: NO CANDIDATE**
+- shrink_d ∈ {0.90, 0.95, 0.98, 0.995}, all fitted IS-only → OOS ann 36.5290 / 36.5566 / **36.5719** / 36.5793 (%): the entire grid spans **0.05pp** and NAV corr ≥ 0.9998 to champion. No variant clears a +0.5pp materiality bar. The pre-committed rule (max IS ann s.t. IS SR ≥ 3.5) selects 0.98 exactly as committed; 0.995 fails the IS SR floor (3.4970 < 3.5). Honest flag: shrink 0.90's nicer FULL SR (3.2403) is post-hoc OOS-mining if picked. **ITER15/19 fit confirmed optimal.**
+
+**Job 3 — COST-HONESTY: CLEAN**
+- True turnover **4.766 bp/yr** (5.479 IS / 4.119 OOS) + 270 bp/yr margin ≈ 275 bp/yr total drag; legacy 0.5×@6bps counterfactual differs by only 0.0253pp/yr at current turnover
+- Per-gross: energy core (brwt block ~26%/yr per-gross, block 21.8% net) employs 1.520/1.6 gross; decorrelated adds (QAxasts 9.67, dualmom 9.65, a6r7 5.52, carryv2 3.71 %/yr per-gross) hold just 0.081 gross; CFX4 held at 0 (discredited vendor feed). brwt5/7/10 mutual corr +0.75..0.85 is spec-fixed, not relaxable.
+
+**Verdict:** champion of record unchanged; no sleeve emitted because no candidate exists in this family — all exact numbers recorded. `FINDINGS.md` written with the last line exactly `ROUND 1 DONE`. (~11 tool calls used.)
+=== agent CHAMP_HUNT_CONSTRUCTION round 1 end Mon Sep 14 14:15:01 CST 2026 exit 0 ===

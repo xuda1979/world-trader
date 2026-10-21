@@ -1,0 +1,24 @@
+/Users/daxu/software/world-trader/campaign/scripts/hunt_sector2_r3.py:373: Pandas4Warning: Sorting by default when concatenating all DatetimeIndex is deprecated.  In the future, pandas will respect the default of `sort=False`. Specify `sort=True` or `sort=False` to silence this message. If you see this warnings when not directly calling concat, report a bug to pandas.
+  out["invvol"] = blend_dynamic(pd.concat({"a": A, "b": B}, axis=1), rebal="monthly",
+============================================================================================================
+R3 (a): internal composite of PUBLISHED sleeves — corr first, then 3 blend splits
+============================================================================================================
+overlap 2018-06-20..2026-08-12 n=2047 corr(A,B)=+0.718
+[COMP_50/50|daily] n=2047 SR=0.608 ann=6.2% vol=10.1% H1=0.56 H2=0.75 negyr=1/9 worst=-7.3% corr=-0.115 lib=0.78 ctl_p=0.010 plateau=PASS -> FAIL_SR|FAIL_NEGYR
+[COMP_60/40|daily] n=2047 SR=0.641 ann=6.6% vol=10.3% H1=0.59 H2=0.80 negyr=2/9 worst=-6.0% corr=-0.111 lib=0.76 ctl_p=0.010 plateau=PASS -> FAIL_SR|FAIL_NEGYR
+[COMP_50/50|monthly] n=2047 SR=0.613 ann=6.2% vol=10.2% H1=0.56 H2=0.75 negyr=1/9 worst=-7.3% corr=-0.114 lib=0.78 ctl_p=0.010 plateau=PASS -> FAIL_SR|FAIL_NEGYR
+[COMP_50/50|never] n=2047 SR=0.602 ann=6.1% vol=10.2% H1=0.55 H2=0.75 negyr=1/9 worst=-7.3% corr=-0.114 lib=0.78 ctl_p=0.010 plateau=PASS -> FAIL_SR|FAIL_NEGYR
+[COMP_invvol] n=2047 SR=0.648 ann=6.4% vol=9.9% H1=0.58 H2=0.82 negyr=1/9 worst=-6.0% corr=-0.115 lib=0.79 ctl_p=0.010 plateau=PASS -> FAIL_SR|FAIL_NEGYR
+
+============================================================================================================
+R3 (b): cross-verify HUNT_FXCARRY2 R2 carry_nominal_EW negative
+============================================================================================================
+n=5680 SR=-0.004 ann=-0.02% H1=-0.13 H2=0.16 negyr=11/23 worst=-19.4% corr_champ=0.028
+their claim: SR=-0.004 ann=-0.18% H=(-0.133,0.164) negyr=11 worst=-19.4% corr 0.0276 -> 
+
+=== FINAL ===
+COMP_50/50|daily       SR=0.608 ann=6.2% H=(0.56,0.75) negyr=1/9 worst=-7.3% corr=-0.115 ctl_p=0.01 plateau=PASS -> FAIL_SR|FAIL_NEGYR
+COMP_60/40|daily       SR=0.641 ann=6.6% H=(0.59,0.8) negyr=2/9 worst=-6.0% corr=-0.111 ctl_p=0.01 plateau=PASS -> FAIL_SR|FAIL_NEGYR
+COMP_50/50|monthly     SR=0.613 ann=6.2% H=(0.56,0.75) negyr=1/9 worst=-7.3% corr=-0.114 ctl_p=0.01 plateau=PASS -> FAIL_SR|FAIL_NEGYR
+COMP_50/50|never       SR=0.602 ann=6.1% H=(0.55,0.75) negyr=1/9 worst=-7.3% corr=-0.114 ctl_p=0.01 plateau=PASS -> FAIL_SR|FAIL_NEGYR
+COMP_invvol            SR=0.648 ann=6.4% H=(0.58,0.82) negyr=1/9 worst=-6.0% corr=-0.115 ctl_p=0.01 plateau=PASS -> FAIL_SR|FAIL_NEGYR

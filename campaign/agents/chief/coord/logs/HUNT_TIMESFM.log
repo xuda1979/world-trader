@@ -1,0 +1,103 @@
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907183458c56c2c5ff83845ac]
+=== HUNT_TIMESFM rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609071841520f90323bfa0b44de]
+=== HUNT_TIMESFM rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907212213f21ce53728f3437e]
+=== HUNT_TIMESFM rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090722050170d7504438134dfa]
+=== HUNT_TIMESFM rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609072223322d15f4dc2fe147bd]
+=== HUNT_TIMESFM rate-limited or errored (attempt 3, rc=1); backing off ===
+Round 4 executed and closed out. Summary of what happened:
+
+## Step 0 — Feasibility (fail-closed first)
+- `/tmp/tfvenv` alive, `import timesfm, jax` → **OK, jax 0.11.1** (charter pin intact), checkpoint `google/timesfm-2.5-200m-flax` previously verified. **FEASIBLE** → proceeded.
+
+## Family (a) — forecast-direction L/S: **DEAD**
+All 6 liquid ETFs (QQQ/XLE/XLF/TLT/GLD/EEM), strict T+1, VT10, 6.4bps full-|dW| + borrow + margin:
+- Per-asset net SR **−0.173 to −0.800**, scramble p 0.455–0.94; EW6 book **SR −0.848, H1 −0.715 / H2 −0.963, 15 negyr, worst −13.34%**, scramble p 0.495
+- Anatomy: gross SR +0.20 (QQQ) annihilated by **112–154x annual turnover**; direction hit ≈0.50 (5/6 assets binomial p>0.26; QQQ p=0.0017 but hit_up 0.5561 ≈ base-up 0.5580)
+- Charter dead-family check: agrees with naive 1d momentum only **0.488–0.513** (chance) — **novel, not a momentum re-test**, just alpha-less
+
+## Family (b) — forecast-magnitude champion overlay: **NOT ADOPTED**
+- Surface result: dSR **+0.174** (book SR 3.355 vs champ 3.181), but failed every kill test:
+  - **Plateau FAIL both grids** (`bt.gates.plateau_ok`): thr-neighbors +0.098/+0.118 vs required ≥0.1395; scale-neighbor +0.120 vs ≥0.1767
+  - **Era fragility**: top delta days all 2020-03 (+17.78% 03-19, +14.03% 03-20…); **dSR excl Mar–Apr 2020 = −0.039**, excl all-2020 = −0.037, negative yearly delta in 15/19 years
+  - Controls: beat b1 own-vol mask by +1.886 dSR (95% CI [1.454, 2.284], P>0=1.000) — statistically real but a single-6-week-window crisis de-lever, not a repeatable sleeve
+
+## Process integrity
+- 8/8 TDD tests pass; champion re-verified **SR 3.181 / ann 37.20% / 0 negyr** (unmodified)
+- Found+fixed 2 bugs in my own save script via failing-first runs (pandas length mismatch; `%`-format collision) — no framework bugs
+- Evidence archived: 2 sleeve CSVs + metas (`TIMESFM_DIR_EW6_daily` DEAD, `TIMESFM_MAG_OVL_daily` NOT-ADOPTED), 6 log files, 6 forecast CSVs; DEAD_IDEAS rows drafted for coordinator (did not touch the shared CSV directly)
+
+**Verdict: 0/2 adoptable** — expected negative outcome confirmed. FINDINGS.md appended with exact numbers; last line verified byte-exact as `ROUND 4 DONE`.
+=== HUNT_TIMESFM round 4 end Mon Sep  7 22:36:48 CST 2026 exit 0 ===
+Round 5 executed per charter. Summary:
+
+## ROUND 5 — HUNT_TIMESFM: 0/4 adoptable (honest negative)
+
+**Pre-registration first** (charter requirement): grid, signals, controls, and tradeability caveats written to FINDINGS.md before any TimesFM-vs-return number existed. `{NKY, PROP} × {h1, h5}` = 4 configs, weekly decision cadence (last trading day of ISO week), VT frozen at decision date, full cost stack.
+
+**Feasibility**: `/tmp/tfvenv` alive (jax 0.11.1 pin intact), 2.5-200m flax checkpoint cached. Dead-ideas bookkeeping done first: DEAD_IDEAS recounted at **133** (my R4 rows present at 117/118 — nothing to re-register), champion sha `4358dfab95679b97` re-verified.
+
+**TDD**: 13/13 green, RED-first. The RED phase caught 2 real library defects: unsigned per-unit division breaking `gates.run`'s `sig*r_pu==net` contract for shorts, and exit turnover landing on flat days where the battery would silently miss it (fail-open) — both fixed with locking tests. Full dir 21/21 incl. R4 regression.
+
+**Data**: NKY 20,166 rows, 976 Tokyo-holiday NaNs dropped (never filled); propane 8,559 rows clean. Forecasts: 3,918 + 1,677 weekly decisions, 0 NaN, signal scale sane (m5 std 0.0055 vs realized 0.0270).
+
+**Results** (full V2 battery: `sig=`, explicit `leak_check=True`, `beats_passive` trio, ref=champion):
+
+| Config | SR | halves | negyr | scr_p | bp_ok | PASS |
+|---|---|---|---|---|---|---|
+| NKY_f1 1949-2026 | 0.028 | +0.66/−0.35 | 36 | 0.945 | F | **FAIL** |
+| NKY_f5 | 0.018 | +0.50/−0.27 | 37 | 0.870 | F | **FAIL** |
+| PROP_f1 | 0.455 | +0.58/+0.33 | 10 | 0.555 | F | **FAIL** |
+| PROP_f5 | 0.283 | +0.19/+0.38 | 11 | 0.585 | F | **FAIL** |
+
+Every config fails SR≥1.0, halves, neg-years, scramble, and beats-passive; only decorrelation (irrelevant without alpha) and leak_ok pass. Dead-family probe: 0.55–0.62 agreement with naive momentum — novel but alpha-less, same verdict as R4. Best cell (PROP_f1 SR 0.455) is below even the retired 0.6 scale and its h1/h2 split mirrors CMDT2's documented pre/post-2007 propane regime break.
+
+**Bookkeeping**: 2 honest-negative DEAD_IDEAS rows appended (133→134→135 after a dedupe-checker bug of mine initially skipped the propane row — fixed with asset-specific matching). Positions, signals, metas (vintages pinned), logs, and results JSON all archived. FINDINGS.md ends with exactly `ROUND 5 DONE`.
+
+One note: git shows `campaign/agents/chief/coord/HUNT_TIMESFM/` as untracked and `DEAD_IDEAS.csv` modified — I haven't committed anything, since committing wasn't in my charter. Frontier unchanged: champion 37.195% / SR 3.181 stands.
+=== HUNT_TIMESFM round 5 end Tue Sep  8 10:30:44 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090816592379c2c09eb0224bb0]
+=== HUNT_TIMESFM rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609081728139289912ef3084acf]
+=== HUNT_TIMESFM rate-limited or errored (attempt 2, rc=1); backing off ===
+ROUND 6 complete. All charter items executed; FINDINGS.md ends with exactly `ROUND 6 DONE`.
+
+## Summary
+
+**Round-6 start-state honesty note:** a prior launcher incarnation of this round (16:47–17:24 today) had drafted `env_note.md` + a buggy `fraudcatch_r6.py` with no FINDINGS entry. I adopted the env_note after re-verifying every claim fresh, and rewrote the harness TDD-red-first.
+
+**(a) Environment (charter: document or declare):** `/tmp/tfvenv` probed functional this session (timesfm 3.0.1, jax/jaxlib 0.11.1 pin intact, orbax 0.12.4 fix in place); HF checkpoint cache 818MB, snapshot `b99e9f6c...` matching the R4 download. **Declared EPHEMERAL-WITH-PROVEN-RECIPE** — cache is persistent (home dir), venv rebuildable in ~5–10 min (charter ENV block + the required `orbax-checkpoint` upgrade step). Family CLOSED 0/8, no new model corners.
+
+**(b) FRAUD-CATCH — both R5 verdicts reproduce CLEAN, zero fraud:**
+- **Leg1** (12 published books, my metrics): |dSR| ≤ 0.0004 everywhere (COT2 C9 0.5898 vs claimed 0.590 with halves 0.788/0.554 exact to 3 decimals). 4 INTL2 neg-year counts differ 1–3 (calendar-bucketing definitional variance) — non-verdict-changing.
+- **Leg2** (raw rebuilds, my own engine): INTL2 **4/4 EXACT** (corr 1.0000, |dSR| ≤ 0.0001, identical n/spans — e.g. MOM_252_LF n=18788 from 1950-12-15). COT2 3/3: C9 exact, C1/C3 corr 0.9990/0.9998, |dSR| ≤ 0.0025 after I reproduced their published spec piecewise (panel-z source verified corr 1.0/maxdiff 0.0 vs fresh re-derivation; break families segmented-first; legs live-from-first-release).
+- **Leg3** (verdicts): every config FAILs on my rebuild exactly as claimed — including INTL2's structural finding (MOM_252_LF pre-1990 +1.209 vs post-1990 +0.257 reproduced independently). C9 through the shared `bt.gates.run` V2 battery: sr 0.58, pass=False, same verdict.
+
+**5 TDD catches, all mine, RED-first** (33/33 green; draft's `scramble_p` Series-index bug; wrong VT convention vs bt.engine; COT2 break-precedence/live-mask deviations measured at dSR −0.196 before fix; z-column naming; 2 weak fixtures — module untouched for those).
+
+**(c) DEAD_IDEAS curation:** recounted via csv module — **145 data rows** (my initial FINDINGS draft said 137 from the charter; I corrected the entry). My 4 rows (lines 128–131) verified verbatim, all repro paths resolve on disk, no duplicates. I made no edits to the file (none needed; the ` M` git state is other agents'/standup processes).
+
+**Champion untouched:** sha re-read this session = `4358dfab95679b97`. Nothing outside `HUNT_TIMESFM/` modified. Frontier unchanged (ann 37.195% / SR 3.181).
+=== HUNT_TIMESFM round 6 end Tue Sep  8 18:23:06 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260908235340e157d7cd27254a07]
+=== HUNT_TIMESFM rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090823571987a8cbb2a6d04378]
+=== HUNT_TIMESFM rate-limited or errored (attempt 2, rc=1); backing off ===
+Round 7 executed and closed. Summary of what was done:
+
+**R7(a) — own-code audit of DATA_COTMORE's trader-count panel: ALL PASS** (`work_r7/r7_cotmore_audit.py`, exit 0)
+- Recount from disk: 29,051 × 51 cols × 35 families, sha16 `9e2c82303acf4c24`, span 2010-01-05..2026-09-01, 0 malformed, 0 dup keys — matches their claims exactly.
+- Independent rebuild from the 34 raw CFTC zips (my own parser + content-dispatching date normalizer, since the 2010 zip headers' date-format labels lie): 697,224 cnt/OI cells — **0 mismatches**; 384,805 z cells re-derived to max dev **3.375e-14**.
+- EXN break gates: my own boundary detector walked 18 source-name transitions, fired **exactly 2** — nat_gas 2022-02-08 281→40 (−85.77%) and lumber 2023-04-25 21→43 (+104.76%) — matching the sanctioned exceptions and claimed magnitudes. Fail-closed confirmed.
+- **New disclosure finding**: 8 same-name ≥30% weekly count jumps the rename-seam gate by design can't see; 7/8 are RAW-SINGLE (in the CFTC source itself). The 8th is the lumber rename seam, where the panel's priority choice is the fail-closed direction (opposite choice → +23% → EXN would not fire).
+- 5 bugs in my own audit code caught and fixed TDD-style along the way (float-formatted cells, `b'\\n'` escape bug, z warmup semantics, column prefix, dead draft blocks) — zero defects in their code.
+
+**R7(b) — env honesty**: re-probed read-only — `/tmp/tfvenv` imports OK (jax 0.11.1, mtime unchanged), 818 MB flax checkpoint cache intact; declaration EPHEMERAL-WITH-PROVEN-RECIPE unchanged; no rebuild, no model run, family stays CLOSED (`work_r7/env_note.md`).
+
+**R7(c) — curation**: ledger recounted **152 rows**, sha16 `d6873418ffa0da5e`, 0 malformed, 0 byte-dup; rows 135-137 verified verbatim-in-content with repro paths resolving on disk; my 4 rows intact at lines 128-131, all 15 repro paths resolve, 3 test files re-ran **21/21 green**; one path-typo correction disclosed in my own R6 prose (ledger cells carry numbers, not paths — no edit owed). No DEAD_IDEAS appends needed.
+
+FINDINGS.md appended and verified to end with exactly `ROUND 7 DONE`. Champion sha re-read `4358dfab95679b97` untouched; the bt/ dirty state predates my session (other agent's); all my writes confined to `HUNT_TIMESFM/`.
+=== HUNT_TIMESFM round 7 end Wed Sep  9 00:42:01 CST 2026 exit 0 ===

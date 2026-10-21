@@ -1,0 +1,182 @@
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609061950581f21b2a2f7384e99]
+=== CAMP_COST round 1 end Sun Sep  6 19:50:59 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090701513304c19f780598447f]
+=== CAMP_COST rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070155100ce598afcb6443ee]
+=== CAMP_COST rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070204532016bfc51aa94a30]
+=== CAMP_COST rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907025249c8dea3402c644b1d]
+=== CAMP_COST rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090703090688680416e283417c]
+=== CAMP_COST rate-limited or errored (attempt 5, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907032507f7b7e6b322b74490]
+=== CAMP_COST rate-limited or errored (attempt 6, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070346402ceb80a200e4438d]
+=== CAMP_COST rate-limited or errored (attempt 7, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907035557cf194bc8c23844f8]
+=== CAMP_COST rate-limited or errored (attempt 8, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907061717351e867ad9f1497b]
+=== CAMP_COST rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070621411d10e2e5b1e6410c]
+=== CAMP_COST rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070626034155763360e34558]
+=== CAMP_COST rate-limited or errored (attempt 3, rc=1); backing off ===
+Round 2 executed per charter. Summary:
+
+## (a) Sleeve-internal cost models — TDD, fixes confirmed
+Prior session had written RED tests + fixed 4 builders (diescrack `zrev`, dualmom `QA_dualmom_band121.py`, brwt15 leg of `e1_idea2`, `r6lib.wback_rb`). I verified every step independently:
+- **4× BYTE-EXACT recon** of the committed (pre-fix) CSVs under the original half-turn@6.0 convention (maxdev 1.0e-16, n=4605/4743/6547/4947) — proof the reconstructions are the true generators.
+- All 4 re-emitted streams re-verified as full-|dW|@6.4 recon (maxdev 1.0e-16).
+
+## (b) Before/after (sleeve ann, corrected sleeves re-emitted on byte-identical index)
+| sleeve | ann before → after | extra charge |
+|---|---|---|
+| diescrack | 7.825% → 7.475% (−0.349pp) | 32.5 bps/yr |
+| dualmom | 9.459% → 9.353% (−0.106pp) | 9.7 bps/yr |
+| brwt15 | 29.318% → 27.960% (−1.358pp) | 105.6 bps/yr |
+| QAxasts | 11.541% → 11.392% (−0.150pp) | 13.4 bps/yr |
+
+**Champion composite untouched** (charter). In-memory projection: 39.69% vs 39.85% committed (−0.16pp), SR 3.289, MDD −6.79%, 0/19 neg.
+
+Two defects I caught and fixed in the staged work: the first diescrack emit had **59 spurious rows** (4664 vs 4605 — index-drift invariant violation); re-emitted on the archive index (sha c940b230541f3668). And the `cost_grows_only` test was written at the wrong level — pointwise ordering provably doesn't survive path-dependent vol-target scaling (0 core violations vs up to 2164 scaled violations); re-leveled to exact invariants (identical index + aggregate monotonicity).
+
+## (c) 13-sleeve sweep — per-sleeve charge table (empirical byte-recon)
+- **Clean, byte-exact proven (6):** a6r7, A5r2, C5ng, C5ngsum (FULL|dW|@6.0 — rate residual only); carryv2, CFX4 (full 2-leg turnover @6.0 — conservative overcharge).
+- **Fixed+re-emitted (4):** diescrack, dualmom, brwt15, QAxasts.
+- **New finding: brwt10/7/5 have NO committed generator** (built 2026-09-01 by an uncommitted script); every recipe in the family charges `0.5*|dpos|` half-turn, and byte-recon fails under all conventions (maxdev 1.3e-01 ≫ cost delta ~2e-5 = Sep-1 data vintage drift). I did **not** blind-re-emit — a cost-only edit is impossible. The pool gate test now **fails closed** naming them until the coordinator rebuilds.
+
+Final suite: **12 failed / 179 passed** — 11 reds are champion-composite pins that un-red when you re-emit the champion from the corrected sleeves, plus 1 intentional fail-closed gate (brwt10/7/5). Also fixed a latent cwd-relative `ARCHIVE` path bug that made the R2 pins false-fail outside the repo root.
+
+FINDINGS.md written with full evidence and exact numbers, last line `ROUND 2 DONE`.
+=== CAMP_COST round 2 end Mon Sep  7 07:19:01 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907081937d380970e54de4530]
+=== CAMP_COST rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070832113affdb94151344b9]
+=== CAMP_COST rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907090439e99c91d547dd410d]
+=== CAMP_COST rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907090935dc2fbcc2e50f4d90]
+=== CAMP_COST rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070917067fcd69cfc4274f38]
+=== CAMP_COST rate-limited or errored (attempt 5, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907094053346e0a5cf2a54267]
+=== CAMP_COST rate-limited or errored (attempt 6, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907100539d427801439db48a1]
+=== CAMP_COST rate-limited or errored (attempt 7, rc=1); backing off ===
+Round 3 complete. Summary:
+
+## ROUND 3 RESULTS
+
+**(a') Independent re-verification of the coordinator's 07:28 emit — PASS.** My own generator (no reuse of `rawew13v2_build`) reproduces the committed champion to **9.996e-17**, weights to 2.2e-16, stats ann 39.69% / SR 3.289 / MDD -6.79% / 0/19 neg years, gross exactly 1.6, causality probe CAUSAL, mutation probe 4.047e-03 (champion genuinely consumes brwt slots). Also fixed a fail-soft bug in my own probe (ROOT-doubled paths silently skipped the mutation test).
+
+**(c') Primary mandate — brwt10/7/5 generators RECOVERED.** The recipe defeating R2 was the **z-band ±1.0, not the family's ±1.5** (±1.5 → maxdev 1.3e-01; ±1.0 → 9.996e-17). R2's "vintage drift" theory is **refuted**: current FRED data alone is byte-exact on all overlap rows; the 5 tail dates exist only in the EIA daily spot files, and FRED↔EIA overlap is byte-identical (maxdiff 0.000000), so a splice reproduces all rows. TDD: 10 tests written RED first, all 10 GREEN after freezing `campaign/scripts/brwt_ens_build.py` (legacy half@6.0 kept behind an explicit flag for byte-proof only). Corrected FULL|dW|@6.4 sleeves cost **2.1–2.6pp per sleeve** (151–187 bps/yr extra — the largest costfix cohort in the campaign). Re-emit candidates in `work_r3/`: 13-slot **37.20%** (-2.49pp), 10-slot drop variant **30.20%** with *worse* MDD (-9.99% vs -6.79%) — recommendation: re-emit 13-slot, don't drop.
+
+**(b) Turnover attribution — exact, no residual** (shares sum to 100.000000%, reconciles to builder cost stream <1e-9). Champion total: **4.96 bps/yr**. Top-5: brwt10 16.2%, C5ng 15.3%, brwt5 12.8%, brwt7 12.7%, C5ngsum 11.7% — **the brwt family is 51.6% of champion cost**, exactly where the undercharge was. One finding flagged: CFX4's 0.0 is structural (data starts 2019-09, after IS_END → IS-SR=0 → zero weight), so the "13-sleeve" champion is effectively 12.
+
+**Suite: 13 failed / 251 passed** — 12 are pre-existing `test_beats_passive` failures (verified red on clean HEAD via stash, not mine); 1 is my intentional gate, red only until the coordinator swaps `rawew13v2_build.PATHS` to the corrected CSVs. All 76 champion pins green; committed champion and results/ untouched. FINDINGS.md ends with `ROUND 3 DONE`.
+=== CAMP_COST round 3 end Mon Sep  7 11:08:57 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609072302598bf8e11921674840]
+=== CAMP_COST rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907233519fc19dfc58cc34233]
+=== CAMP_COST rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609080007126e1749eb64b8440a]
+=== CAMP_COST rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090800180311c029a1bbc64427]
+=== CAMP_COST rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609080034339e3be253cd4f403b]
+=== CAMP_COST rate-limited or errored (attempt 5, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260908004241527b15c86baa4f43]
+=== CAMP_COST rate-limited or errored (attempt 6, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260908010125a1ee0844756948b3]
+=== CAMP_COST rate-limited or errored (attempt 7, rc=1); backing off ===
+Round 4 executed and FINDINGS.md appended, ending with `ROUND 4 DONE`.
+
+## What I did
+
+**State on arrival:** R4 work from last night already existed in `work_r4/` (CFX4_SLOT_DECISION.md + 3 scripts + the brwt hardening), but FINDINGS.md had no round-4 entry and nothing was re-verified. Rather than trust it, I reproduced every claim from live runs this session.
+
+**R4-1 CFX4 slot decision** (analysis-only, no champion bytes touched — git-verified):
+- Champion of record re-verified: `rawew13v2_build.py --verify` → 4805/4805 rows, 9.996e-17 byte-exact, turnover 5.2622 bp/yr
+- OPT-A (keep) = OPT-B (drop) to 2.776e-17 — a zero-relw slot is algebraically inert; dropping it would rewrite 3941/4805 CSV rows for nothing
+- OPT-C1's −0.8941pp is an idle-capital artifact (true inception-corrected effect −0.0378pp); OPT-C2 walk-forward moves SR +0.0018 (noise)
+- **Independent from-scratch check:** I rebuilt the walk-forward weight and the builder's actual per-slot-NAV math myself — capital share max **0.6879%** / mean **0.5499%** over 1280 active days, matching the doc to 4 decimals. (My first proxy attempt gave 10.3% — wrong because I used the champion NAV for all slots instead of each sleeve's own; disclosed in FINDINGS.)
+- **Recommendation: OPT-A keep-as-is** — OPT-C is structurally impotent (any 2019+ sleeve is capped at ≤0.69% capital in this NAV-drift engine); if late-start sleeves should matter, that's a deliberate engine change for coordinator+user, not a slot call
+
+**R4-2 brwt hardening:** silent-empty start-bound failure modes now fail-closed; `test_camp_cost_r4_brwt_startbound.py` → **7 passed**, including the diescrack-class leading-rows verify rejection.
+
+**R4-3 Full sweep:** `pytest campaign/bt/tests/` → **386 passed, 0 failed** (the R3 intentional gate is now green post-re-emit); acceptance harness `verify_champion.py` → **ok TRUE, 7/7**, with `implied_over_full_ratio 1.0000000000008` confirming FULL |dW| and causality `sameday_max_dev 4.9e-3 ≠ 0` ruling out same-day lookahead. DEAD_IDEAS now 119 rows; no dead family touched (carry rows 5/63/93 checked, CFX4 stays a slot question only).
+=== CAMP_COST round 4 end Tue Sep  8 01:22:24 CST 2026 exit 0 ===
+Round 5 (guard round) executed per charter. All gates green:
+
+## (a) Guard results — PASS
+
+**cost_reconciliation on champion of record** — `verify_champion_r3_cmd.sh`: **ok=true 7/7**. Half-turn hypothesis stays REJECTED: max_dev_full **1.2457e-16** vs max_dev_half **1.6798e-05** (5 orders of magnitude apart), implied_over_full_ratio **1.0000000000008**, charged **5.2622 bp/yr** — exactly the charter's expected value. Stats re-derived live: ann 37.1954% / SR 3.1810 / MDD −6.6922% / 0 neg yrs / n=4805. Builder `--verify` byte-exact (9.996e-17). All 34 CAMP_COST-owned regression tests green.
+
+**Byte-stability — 16/16 byte-stable, two layers of proof:**
+- Round-start → end-of-round shas identical: champion `4358dfab95679b97` ✓, weights `149164b3b01aa110` ✓ (both match charter's round-start values), builder + all 13 sleeves unchanged.
+- Belt-and-suspenders: all 16 files `git hash-object` == HEAD blob (**16/16 COMMITTED-BYTE-EXACT**) — pinned at the commit level, so drift would require both a new commit and a working-tree edit. Two of my own wiring bugs caught en route: wrong sys.path (campaign/ vs campaign/scripts/), and a wrong `software/world-trader/` git pathspec prefix (repo root is /Users/daxu; pathspecs resolve relative to world-trader/).
+
+**V2 s6 Step-1 leak_probe** (explicit, not default-dependent) — both probes `leak=False`: wide 13-sleeve weights-vs-returns same-period corr **−0.0196** (<0.20), lag-0 not argmax (argmax is lag −1 = +0.658, the causal T+1 signature); scalar |dWg| probe +0.0156, p=0.28. Two wiring errors fixed first (relw CSV is the 13-row table, not daily weights; wide probe needs a wide return frame) — both disclosed in FINDINGS.
+
+## (b) Out-of-scope — documented only
+
+- **DEAD_IDEAS.csv recount: 130 data rows** (charter said 120 — 10 more appended by hunt agents; V2's "recount, don't trust quoted counts" rule applied). No dead family touched.
+- Sleeve feed staleness table recorded: champion ends 2026-08-27; brwt15 is now the stalest at 27 days, carryv2 24d, CFX4 22d. Refreshing any is a re-emit event — flagged for coordinator scheduling, not touched.
+- Zero bytes changed in champion/weights/builder/sleeve inputs/results/bt/ — only writes were this FINDINGS.md entry and work_r5/ artifacts (`sha_snapshot.py`, `verify_champion_r5.json`, `leak_probe_r5.json`, both sha snapshots).
+
+FINDINGS.md appended; last line is exactly `ROUND 5 DONE`.
+=== CAMP_COST round 5 end Tue Sep  8 07:28:17 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609081537332b7ba1e797e24267]
+=== CAMP_COST rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090815520653ceabb346a44ed3]
+=== CAMP_COST rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090816335450d85c732fdf44f2]
+=== CAMP_COST rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260908165126a103cbcf416b476e]
+=== CAMP_COST rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260908171903056092cceca2425c]
+=== CAMP_COST rate-limited or errored (attempt 5, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090817252451c802ae526a40c4]
+=== CAMP_COST rate-limited or errored (attempt 6, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609081741513a1d2d6a1a7a4d2e]
+=== CAMP_COST rate-limited or errored (attempt 7, rc=1); backing off ===
+Round 6 complete. FINDINGS.md updated, last line `ROUND 6 DONE`.
+
+## R6 summary (adoption study + refresh)
+
+**(a) RB_hobr adoption study → VERDICT: NOT-ADOPTABLE on 8c.** The 14-sleeve candidate (pure re-solve, the only construction `verify_champion.py` can certify since weights_repro recomputes relw from the sleeves) passes **7/7** live this session — weights_repro 2.2e-16, byte_repro 1.0e-16, cost model=full_dw (half-turn rejected at 1.97e-05), causality truncation 0.0, gross rides the cap exactly at 1.6000000000006 with 0 days over, 0 neg years, MDD −6.24% — and HOBR's w≤15% cap holds as an outcome (max NAV share 9.98%). But the hard gate fails: **dAnn −0.9069pp** (37.195→36.289%), despite dSR +0.0909, dMDD +0.46pp, and positive delta halves (+0.238/+0.022). Every number re-verified live; battery re-run bit-identical (8/8 key values, dev 0.0e+00).
+
+Key reconciliations, all independently re-derived this session with my own algebra:
+- The coordinator's **+4.21pp is a fill-0 artifact** — reproduced exactly (+4.2128pp) but it breaches 8e at every rung (gross 1.6+w up to 1.85); not a constructible book. Every capital-real construction gives dAnn<0.
+- **8e resolved**: gross is *constructed* at exactly 1.6 by weight normalization — there is no headroom to "re-lever into"; the question was whether the cited blend respects the cap (it didn't).
+- **§8h placebo (Class B per VOL2's R6 memo)**: B1 level-matched null, 200 draws — real dSR at percentile 1.00 (timing is real) but real dAnn at percentile 0.00 (worse than its own no-timing null for CAGR). Circular shift collapses to 0/200 under real capital. Instrument, gates, and verdict align.
+
+**(b) Refresh staged, source-limited before the 09-05 target**: brwt10/7/5 extend to 08-28 (+14 rows; EIA spots end 09-01, T+1 payoff needs a later price), diescrack to 08-24 (+10; diesel/HO newdata end 08-25 — disclosed as unreachable). All 4 recons byte-exact (≤9.999e-17), prefix maxdev 0.0, staged in `work_r6/refresh/` only — adoption is a champion-re-emit decision left to the coordinator.
+
+**Closeout**: CAMP_SHORT's escalated flag on my R5 scalar probe was **correct** — the faithful |dWg| number is +0.2034 (not +0.0156); generator now saved and bit-reproducing; verdict unchanged (leak=False via the lag-0-argmax leg).
+
+Round-end: 16/16 champion-of-record artifacts byte-stable, champion 4358dfab95679b97 untouched, CAMP_COST tests 42/42, full suite **426/0**.
+=== CAMP_COST round 6 end Tue Sep  8 18:06:13 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260908212324e086fc3a25ee497e]
+=== CAMP_COST rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609082139592c3eec00675643fe]
+=== CAMP_COST rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260908220343159765ffedd34662]
+=== CAMP_COST rate-limited or errored (attempt 3, rc=1); backing off ===
+Round 7 executed and FINDINGS.md closed with `ROUND 7 DONE`.
+
+## What happened
+
+A same-round twin session (21:01–22:00) had already staged the R7 work — candidate builder, battery, verify JSONs — but wrote **no FINDINGS entry** and its first battery run died on a SyntaxError. I treated all of it as unverified and re-ran everything live.
+
+**Centerpiece — RAWEW15_REFRESH_CANDIDATE (13-sleeve re-solve with the 4 R6-staged refreshed sleeves):**
+- **Byte-stability 20/20**: champion `4358dfab95679b97`, weights `149164b3b01aa110`, builder `1095b4f896b9bebb`, 13 sleeves all byte-stable; HOBR files untouched (`4a662985a408129b`/`dc0dc87fea2ef4b0`, == R6 record)
+- **7/7 verify_champion.py GREEN live**: candidate ann **37.4923%** / SR **3.1951** / MDD **−6.6922%** / 0 neg yrs, dAnn **+0.3068pp**, dSR **+0.0145**, dMDD ±0.0, cost full-dW ratio 1.0000, gross rides cap at 1.6000000000007, no charter regression
+- **Prefix identity 9.996e-17** (no history relabel); re-solve weights == committed weights exactly (maxdev 0.0)
+- **V2 battery bit-identical across sessions**: leak probes all `leak=False` (lag-1 dominates in every scan), 8i trivially clean, halves delta confined to H2-2026
+
+**The honest catch:** the Class-A placebo puts the real dSR at the **6.5th percentile of its own null** (93.5% of mistimed draws reproduce-or-beat it) — the +0.31pp is mean-injection arithmetic, not timing value. And the diescrack refresh is a **provable book no-op** (10 all-zero tail rows; brwt-only vs full-candidate book maxdev **0.0 exactly**). My verdict for the coordinator: gates all pass, but the honest label is *maintenance* (calendar currency + mechanical ann gain at +0.0112 bp/yr cost), not alpha.
+
+**Gaps I closed:** the twin's rung ladder had no generator (§10 violation) — I wrote `work_r7/rung_ladder.py`, reproduced its numbers exactly, and proved the diescrack no-op. Tests: CAMP_COST **50/50** (42 + the twin's 8 new R7 pins), full bt suite **444/0**. DEAD_IDEAS recounted: **151 rows**. Champion of record untouched.
+=== CAMP_COST round 7 end Tue Sep  8 22:32:24 CST 2026 exit 0 ===

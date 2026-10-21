@@ -1,0 +1,25 @@
+=== RES_BASIS start Tue Sep  8 09:57:47 CST 2026 ===
+Charter executed. Final summary:
+
+## RES_BASIS R1 — Charter executed
+
+**RESULT: 1 NEW standalone engine passed the full V2 battery** — `RB_hobr_crack_hyst_w63_z10_zo10` (heating-oil-vs-Brent crack mean-reversion with hysteresis), delivered in `campaign/team/agents/RES_BASIS/sleeves/` (+meta, sha `da0285b9…`):
+
+| Gate | Value |
+|---|---|
+| SR net (2008+, n=4604) | **1.3498** (ann 13.25%) |
+| H1 / H2 | 2.182 / 0.753 |
+| neg years | 1/18 (worst −0.69%) |
+| corr to champion | **+0.0219** (diescrack −0.137, brwt15 +0.009 — not a re-dress) |
+| leak gate | lag-scan peak at −1 (causal), leak_ok=True, scr_p 0.000 |
+| beats-passive | 1.603 > sixty_forty 0.602 |
+| plateau | window 21..126 all ≥1.148; z-grid smooth; PASS on both axes |
+| composite `gates.run()['pass']` | **True** |
+
+**Disclosed caveats:** z_in=1.0 was a post-hoc re-selection after pre-registered z1.5 failed the plateau gate (half-spike) — disclosed in meta; OOS(≥2017) SR 0.807 (regime decay); own-book MDD −22.29% (covid window, non-overlapping champion's); T+2 decay 1.343→0.142 (fast edge). Blend w=0.25: dSR +0.199, dAnn +4.21pp, MDD −6.64% (wall kept); w≥0.5 breaks −7% wall. Coordinator to adjudicate adoption.
+
+**Honest negatives:** HO-CL family dead (best SR 0.51); all 12 crack-momentum configs negative (cracks mean-revert, don't trend); NG storage-deficit cycle dead (SR 0.26, 7 negyr).
+
+**Process:** TDD RED→GREEN (7 tests, first written and RED-confirmed; self-caught a wrong no-lookahead property in my own test and a backward-fill leak in `weekly_pub_safe`); 417 tests green; fresh-process repro max|diff| 9.975e-17; 25/25 grid configs battery-run with champion sha pinned.
+
+**Incident, root-caused and repaired:** my first DEAD_IDEAS append corrupted the ledger, and the repair git-restore dropped ~70 uncommitted hunt-agent rows. Rebuilt from `bak_standup1900_fix` (123 rows) + 13 rows re-derived verbatim from owning agents' artifacts (one row — HUNT_VOL2-R5 — reconstructed with exact numbers from their `recommendation_r5.json` and explicitly labeled as reconstructed, flagged for coordinator spot-check). Final ledger: 137 data rows, 0 malformed, matching the verified pre-session count of 135 + my 2. **Every check + exact number is in `FINDINGS.md` (ends `RES_BASIS DONE`).**

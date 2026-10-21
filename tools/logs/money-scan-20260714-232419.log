@@ -1,0 +1,280 @@
+=== MONEY-LOOP scan started 2026-07-14 23:24:19 ===
+=== WORLD-TRADER GLOBAL SCAN  2026-07-14T15:24:19+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+-- REGIME: RISK-ON  (score +0.48) --
+   VIX=17.16(+0.19)  HY=2.69(+0.91)  10Y-2Y=0.36(+0.36)
+   crypto fear&greed: 22 (Extreme Fear)
+   [+spillover: 13 cross-asset candidates from 3 themes]
+
+-- LIVE QUOTES: 412 instruments fetched (crypto RT, US, China A-share live, Taiwan live, FX)  [+wide US: 4135 of 12411 tickers pre-screened -> top 150]  [+wide CN A-share: 600 of 600 liquid names -> top 120, backtested] --
+
+=== OPPORTUNITIES (ranked by per-trade expected Sharpe = E[R]/sigma) ===
+  markets open now (2026-07-14T15:33:27+00:00): CRYPTO, FX, US
+  YOUR BAR to qualify: E[R]>=+1%/trade, sigma<=7%*sqrt(h/5), Sharpe>=0.40, n>=20, t>=2 (Bonferroni-adj.), OOS Sharpe>0
+  >> NOTHING cleared your bar this scan. The rows below are the best
+     MEASURED edges only -- they are NOT signals. DO NOT trade them.
+
+-- TRADE PLAN --
++---+------------+------+-----+------+-------------+--------+--------------+-------+--------+--------+--------+-----+-------+------------+
+| # | Instrument | Sym  | Mkt | Dir  | Setup       |  Price | Quote(Local) |  Chg% |  Entry |   Stop | Target | R:R | Risk% | Catalyst   |
++===+============+======+=====+======+=============+========+==============+=======+========+========+========+=====+=======+============+
+| 1 | US: ARM    | ARM  | US  | Long | range       | 286.43 | 07-14 11:26  | -4.2% | 286.43 | 278.44 | 318.49 | 4.0 | 2.79% | aicapex    |
+| 2 | US: NIO    | NIO  | US  | Long | range       |  5.060 | 07-14 11:26  |  2.6% |  5.060 |  5.030 |  5.210 | 5.0 | 0.59% | evpricewar |
+| 3 | US: MRVL   | MRVL | US  | Long | ConnorsLong | 226.17 | 07-14 11:26  |  4.0% | 226.17 | 212.60 | 253.31 | 2.0 | 6.00% | aicapex    |
+| 4 | US: LI     | LI   | US  | Long | range       | 12.490 | 07-14 11:26  |  2.5% | 12.490 | 12.410 | 12.685 | 2.4 | 0.64% | evpricewar |
+| 5 | US: SMCI   | SMCI | US  | Long | BullDiv     | 27.850 | 07-14 11:26  |  0.7% | 27.850 | 26.179 | 32.863 | 3.0 | 6.00% | aicapex    |
++---+------------+------+-----+------+-------------+--------+--------------+-------+--------+--------+--------+-----+-------+------------+
+
+-- EDGE & RISK (evidence for the SAME numbered rows) --
++---+------+---------+-------+--------+--------+-----+-------+------+-----+-------+--------+-------+-------+
+| # | Sym  | Verdict | E[R]% | sigma% | Sharpe |   t |  oosS | Win% |   n |  ATR% | Kelly% | RV/IV | Data  |
++===+======+=========+=======+========+========+=====+=======+======+=====+=======+========+=======+=======+
+| 1 | ARM  | below   | 0.72% |  5.56% |   0.13 | 2.7 |  0.25 |  32% | 434 | 10.5% |  15.7% |    -- | RT 0m |
+| 2 | NIO  | below   | 0.34% |  1.61% |   0.21 | 4.5 |  0.15 |  29% | 434 |  4.0% |  14.3% |    -- | RT 0m |
+| 3 | MRVL | below   | 1.31% |  7.07% |   0.19 | 1.3 |  0.14 |  47% |  51 | 10.1% |  20.6% |    -- | RT 0m |
+| 4 | LI   | below   | 0.05% |  1.05% |   0.04 | 0.9 | -0.09 |  35% | 434 |  3.1% |   8.0% |    -- | RT 0m |
+| 5 | SMCI | below   | 2.40% |  9.80% |   0.24 | 1.7 | -0.09 |  45% |  49 |  6.8% |  26.5% |    -- | RT 0m |
++---+------+---------+-------+--------+--------+-----+-------+------+-----+-------+--------+-------+-------+
+  note: 59 live instruments have no free daily history (China A-share/Taiwan) -> no expectancy, excluded from ranking.
+
+-- CATALYSTS (latest company news for top candidates; verify before acting) --
+  ARM     Long  [+]  Arteris Expands Its Partnership With Arm To Improve Security Assurance For Processor Core Development
+          (6h ago  3 src  26 articles/7d)
+          why: Highlighted for joining Open Compute Project board and introducing vendor-neutral chiplet standard in 2025, enab…
+  NIO     Long  [+]  Goldman Sachs Upgrades NIO Inc. - Depositary Receipt (NIO)
+          (11h ago  3 src  6 articles/7d)
+          why: Listed among top SDV market players, benefiting from the industry's shift toward software-centric vehicle platfo…
+  MRVL    Long  [+]  Reported Earlier: 'New York Becomes First State To Impose Data Center Moratorium; Gov. Kathy Hochul (D)…
+          (5h ago  5 src  121 articles/7d)
+          why: Recognized as a hungry challenger with focused strategy on custom chips and optical interconnect technology, rec…
+  LI      Long  [+]  XPeng: Strong June Deliveries Create Upside
+          (40h ago  1 src  2 articles/7d)
+          why: Identified as a leading company in the SDV market, indicating strong positioning in the high-growth software-def…
+  SMCI    Long       Super Micro: A Value Trap
+          (6h ago  4 src  41 articles/7d)
+
+-- MACRO / RATES / CREDIT (FRED) --
+  US 3M yield                      3.85  (2026-07-10)
+  US 2Y yield                      4.21  (2026-07-10)
+  US 10Y yield                     4.56  (2026-07-10)
+  US 30Y yield                     5.06  (2026-07-10)
+  10Y-2Y spread                    0.36  (2026-07-13)
+  10Y-3M spread                    0.73  (2026-07-13)
+  Fed funds                        3.62  (2026-07-10)
+  VIX                             17.16  (2026-07-13)
+  US HY credit spread              2.69  (2026-07-13)
+  US IG credit spread              0.78  (2026-07-13)
+  WTI oil                          69.6  (2026-07-06)
+  Brent oil                       69.56  (2026-07-06)
+  USD/EUR                        1.1438  (2026-07-10)
+  Broad USD index              120.5046  (2026-07-10)
+  Fin conditions index         -0.51500  (2026-07-03)
+  Fed balance sheet             6735609  (2026-07-08)
+  M2 money supply               23052.3  (2026-05-01)
+  Unemployment rate                 4.2  (2026-06-01)
+  CPI                           332.568  (2026-06-01)
+  5Y inflation breakeven           2.31  (2026-07-13)
+  UST curve: 3M 3.85%  2Y 4.21%  10Y 4.56%  30Y 5.06%
+  BTC perp funding: +0.0054%  OI 104,768
+  CFTC COT large-spec net: WTI +75,749  Gold -15,463  BTC +3,500  ES -10,947
+
+-- CATALYST CALENDAR (next 14d; today=2026-07-14) --
+  2026-07-14  (25)
+    [ERN] AEHR     Q4 2026 EPS est -0.0077 EPS~-0.0077
+    [ERN] AIR      Q4 2026 EPS est 1.3938 EPS~1.3938
+    [ERN] ANGO     Q4 2026 EPS est -0.0918 / act -0.07 EPS~-0.0918
+    [ERN] BAC      Q2 2026 EPS est 1.129 / act 1.21 EPS~1.129
+    [ERN] BRLL     Q2 2026 EPS est None
+    [ERN] C        Q2 2026 EPS est 2.7565 / act 3.15 EPS~2.7565
+    [ERN] CANB     Q4 2025 EPS est None
+    [ERN] CRSB     Q2 2026 EPS est 1.3032 EPS~1.3032
+  2026-07-15  (42)
+    [ERN] ADX      Q2 2026 EPS est None
+    [ERN] BLK      Q2 2026 EPS est 12.669 EPS~12.669
+    [ERN] BNY      Q2 2026 EPS est 2.2271 EPS~2.2271
+    [ERN] BVFL     Q2 2026 EPS est None
+    [ERN] CCTG     Q4 2026 EPS est None
+    [ERN] CTAS     Q4 2026 EPS est 1.2661 EPS~1.2661
+    [ERN] CWBC     Q2 2026 EPS est 0.3101 EPS~0.3101
+    [ERN] CZBT     Q2 2026 EPS est None
+  2026-07-16  (58)
+    [ERN] AA       Q2 2026 EPS est 2.2932 EPS~2.2932
+    [ERN] ABT      Q2 2026 EPS est 1.2922 EPS~1.2922
+    [ERN] ADN      Q1 2026 EPS est None
+    [ERN] AN       Q2 2026 EPS est 5.6035 EPS~5.6035
+    [ERN] ASII     Q1 2026 EPS est None
+    [ERN] ATLO     Q2 2026 EPS est 0.6732 EPS~0.6732
+    [ERN] BANF     Q2 2026 EPS est 1.8326 EPS~1.8326
+    [ERN] BCBP     Q2 2026 EPS est 0.2618 EPS~0.2618
+  2026-07-17  (21)
+    [ERN] ACU      Q2 2026 EPS est 0.5858 EPS~0.5858
+    [ERN] ALV      Q2 2026 EPS est 2.4483 EPS~2.4483
+    [ERN] BALY     Q2 2026 EPS est -1.3518 EPS~-1.3518
+    [ERN] BOTJ     Q2 2026 EPS est None
+    [ERN] CCBC     Q2 2026 EPS est None
+    [ERN] CCFN     Q2 2026 EPS est None
+
+-- NEWS (expanded feeds) --
+  [MarketWatch]
+    - My husband and I are retired. Our financial adviser, who is in his 30s, called us ‘you guyses.’ Is that unprofessional?
+    - Lindsey Graham died from a rare heart condition. Here’s how to know if you’re at risk.
+    - Jamie Dimon says ‘booming’ markets and a ‘fine’ consumer fueled JPMorgan’s blowout profits
+  [Nasdaq-Mkts]
+    - Why Micron Technology Stock Rallied on Tuesday
+    - October 16th Options Now Available For Best Buy (BBY)
+    - Dow Movers: IBM, HONIV
+  [Nasdaq-Stocks]
+    - Wheat Falling Back on Tuesday
+    - Soybeans Fading Back on Tuesday AM Trade, as Conditions Recover
+    - Stocks Settle Lower as Chipmakers Routed and US-Iran Tensions Escalate
+  [Investing]
+    - Wells Fargo beats profit on trading boom, loan growth
+    - Exclusive-Data center firm Switch taps banks for IPO that could value it up to $80 billion, sources say
+    - Ally Financial shares may move 6.4% on July 21 earnings report
+  [Yahoo-Fin]
+    - Target's problems aren't what you think they are
+    - Stock market today: S&P 500, Nasdaq rise after cooler-than-expected CPI report
+    - 'We are committed to the 2% inflation goal,' Warsh tells House lawmakers
+  [Benzinga]
+    - Toncoin (TON) Price Prediction 2025, 2026, 2027-2030
+    - Myro (MYRO) Price Prediction: 2025, 2026, 2030
+    - PancakeSwap (CAKE) Price Prediction: 2025, 2026, 2030
+  [Zerohedge]
+    - Trump's Election Integrity Efforts Meet Resistance In Courts
+    - Here Is What America's Largest Banks Reported In Their Q2 Earnings Reports
+    - Big Blew It! IBM Crashes Most Since '60s Amid CapEx Woes; Goldman Warns Over 'Software Bear Case'
+  [WSJ-Markets]
+    - My husband and I are retired. Our financial adviser, who is in his 30s, called us ‘you guyses.’ Is that unprofessional?
+    - Lindsey Graham died from a rare heart condition. Here’s how to know if you’re at risk.
+    - Jamie Dimon says ‘booming’ markets and a ‘fine’ consumer fueled JPMorgan’s blowout profits
+  [FT-Markets]
+    - IBM shares plunge 23% as customers shift spending to AI
+    - Wall Street banks post blockbuster profits as equities trading booms
+    - Democrats are not in great shape
+  [CNBC-Top]
+    - Warsh pledges Fed policy 'regime change' to rid inflation 'tax' on American people
+    - Oil gives up gain after Trump abandons 20% fee on Strait of Hormuz traffic
+    - Jamie Dimon says AI has helped JPMorgan cut up to 40% of jobs in certain roles: Live updates
+  [CNBC-Markets]
+    - Frontier Airlines to debut in-flight Wi-Fi in 2027 with SpaceX's Starlink
+    - Jamie Dimon says AI has helped JPMorgan cut up to 40% of jobs in certain roles: Live updates
+    - United Airlines' new upsell: Keeping other travelers out of the middle seat
+  [FedPress]
+    - Federal Reserve announces the leadership and objectives of its task forces to advance the conduct of monetary policy
+    - Federal Reserve Board issues enforcement action with TS Banking Group, Inc. and TS Contrarian Bancshares, Inc.
+    - Minutes of the Federal Open Market Committee, June 16-17, 2026
+  [ECB]
+    - ECB selects 36 payment service providers to join digital euro pilot
+    - Piero Cipollone: Interview with Jornal de Negocios
+    - Isabel Schnabel: How to foster growth and resilience in Europe
+  [BoE]
+    - PRA and FCA propose new captive insurance regime to drive UK growth and competitiveness
+    - Minutes of the Money Market Committee meeting – June 2026
+    - UK financial regulators to begin overseeing Critical Third Parties announced by HM Treasury
+  [BoJ]
+    - Japanese Government Bonds Held by the Bank of Japan
+    - Bank of Japan Accounts (July 10)
+    - Basic Figures on Fails (June)
+  [Cointelegraph]
+    - Anchorage Digital expands Tron support with institutional TRX staking
+    - Bitcoin jumps on lowest US CPI since 2020 as traders stay wary of $64K failure
+    - OpenAI quietly adds Kalshi World Cup odds to ChatGPT: Report
+  [Decrypt]
+    - Bitcoin Ticks Up to $64K Following Largest Inflation Slowdown in Six Years
+    - UK to Defer Capital Gains Tax on DeFi Lending, Liquidity Pool Deposits
+    - Morning Minute: Saylor's Strategy Hoards Cash, Doesn't Buy BTC
+  [TheBlock]
+    - Soft print, hard regime: Bitcoin climbs toward $64,000 as June CPI falls 0.4% in largest monthly drop since 2020
+    - Benchmark sees ‘long pathway for growth’ in Hut 8, raises target to $165 on $16.8 billion AI data center deals
+    - Tether leads $7 million round in Pact Labs to boost USAT stablecoin adoption
+  [CoinDesk]
+    - JPMorgan says Hyperliquid's rise threatens Circle's USDC economics
+    - Ethereum Foundation spinout EthSystems targets banks with blockchain privacy technology
+    - For pension funds, tokenization’s real play is balance-sheet management, Fidelity’s Lai says
+  [ForexLive]
+    - Trump TACOs on the 20% toll in Hormuz
+    - AUDUSD trades to a new high. Risk on flows helps to push the price higher
+    - Warsh Q&A: Inflation is a choice, we will deliver price stability
+  [FXStreet]
+    - Natural gas: European prices climb on Gulf risks – ING
+    - Fed Chair Warsh reaffirms they will deliver price stability
+    - Gold rises 2% as soft US CPI cools Fed rate-hike bets
+  [Mining.com]
+    - SuperCritical lands US Govt licence for seawater uranium
+    - Canada bets on digital hub to speed mine permitting
+    - Genesis boss says Vault merger is the perfect pairing
+  [JapanTimes]
+    - Egg-free school meals scramble politics in India
+    - International conference on bluefin tuna fails to strike agreement
+    - Careless smoker accused of causing fatal Osaka fire in 2025
+  [SCMP-Biz]
+    - Louis Vuitton takes China’s trademark regulator to court as legal drive continues
+    - China’s power exports to Asean surge 40% in first half of 2026 amid Hormuz tensions
+    - As IPOs surge, Hong Kong’s audit regulator vows tougher scrutiny
+  [ET-Markets]
+    - Market Trading Guide: Adani Green among 4 stocks recommendations for Wednesday
+    - IIAS opposes Ujjivan SFB RSU plan over disclosure concerns
+    - Buffett to offload Berkshire stake in 8 years, Gates snubbed
+  [Livemint]
+    - Govt reviews fresh bids for IDBI Bank as stake sale process gathers pace
+    - Alpine Texworld IPO off to a slow start; subscribed 0.28 times on Day 1; GMP indicates modest listing
+    - IBM shares plunge 26% after Q2 earnings forecast falls short of estimates
+  [SpaceNews]
+    - Antaris™ Establishes Aeonyx™ to Advance All-Domain Mission Virtualization for Defense
+    - U.K. government preparing to release new space strategy
+    - Flexell Space raises $20 Million in Series A round
+  [TechCrunch]
+    - New York State halts construction of all new data centers
+    - Iran abused mobile networks vulnerabilities to locate U.S. military in the Middle East, report says
+    - Im de-influencing you from buying the RingConn 3 (even though its pretty)
+  [TheRegister]
+    - RISC-V firmware project wants every board booting from the same hymn sheet
+    - IBM's mainframe sales get mugged by AI hardware panic, stock loses more than a quarter of its value
+    - Sun sets on Vulcan Centaur as NASA moves SunRISE to SpaceX Falcon Heavy
+  [BioPharma]
+    - <a href="/pharma/fierce-pharma-regulatory-tracker-2026-h2" hreflang="en">Regulatory tracker: Eisai, Biogen scoop up subQ Leqembi starter dose nod</a>
+    - <a href="/pharma/huyabio-scores-opdivo-combo-milestone-skin-cancer-trial" hreflang="en">Huyabio scores with Opdivo combo in 'milestone' skin cancer trial</a>
+    - <a href="/pharma/cellares-recent-automated-cell-therapy-wins-have-opened-biotech-floodgates" hreflang="en">Cellares' recent automated cell therapy wins have 'opened the biotech floodgates'</a>
+  [PV-Magazine]
+    - Ampace launches co-branded CI energy storage product at Intersolar Europe 2026
+    - GameChange targets 30% of revenue from beyond solar trackers within three years
+    - Port of Valencia activates first 500 kW floating offshore PV unit
+  [Electrek]
+    - These Volkswagen EVs could soon disappear, including Audi and Porsche models
+    - Tesla moves to guarantee resale value for buyers after price cuts
+    - US EV fast charging has entered Charging 2.0 – heres what that means
+
+research only, not financial advice. verify before acting.
+
+[scan task log]
+  - 23:24:19  regime: gathering FRED macro / VIX / fear-greed
+  - 23:24:30  regime: RISK-ON score=+0.48
+  - 23:24:30  quotes: collecting curated universe (crypto/US-core/CN/TW/FX)
+  - 23:26:01  quotes: 129 curated instruments fetched
+  - 23:26:01  wide US funnel: pulling ~12k tickers from Polygon, pre-screening top 150
+  - 23:26:25  wide US funnel: 4135 of 12411 -> top 150 backtested
+  - 23:26:25  spillover funnel: scanning RSS headlines for theme keywords -> peer candidates
+  - 23:26:46  spillover funnel: 18 candidates across 3 themes -> 18 fetched
+  - 23:26:46  wide CN funnel: pulling ~5,500 A-shares, pre-screening top 120
+  - 23:26:52  wide CN funnel: 600 of 600 -> top 120 backtested
+  - 23:26:52  opportunities: building candidate set from quotes + regime
+  - 23:26:52  opportunities: 248 raw candidates
+  - 23:26:52  backtest: enriching with technicals + E[R]/sigma/Sharpe
+  - 23:32:32  backtest: per-candidate family m=10 (global total=321) -> Bonferroni t>=2.81
+  - 23:32:32  news enrichment: Finnhub headlines + Polygon sentiment per candidate
+  - 23:32:45  news enrichment: done (5 candidates have fresh headlines)
+  - 23:32:45  catalyst enrichment: scanning Finnhub earnings/FDA/IPO + Polygon dividends
+  - 23:32:50  catalyst enrichment: 1 candidates have a near-term catalyst (+1 new)
+  - 23:32:50  PEAD confirmation: looking up recent earnings surprises for PEAD setups
+  - 23:32:50  PEAD confirmation: 0 PEAD setups confirmed by earnings surprise (+0 new)
+  - 23:32:50  options enrichment: pulling ATM straddles (CBOE) for top US candidates
+  - 23:32:59  options enrichment: 9 candidates have an RV/IV signal (+9 new)
+  - 23:32:59  country crisis: scanning 32 country ETFs for crisis signals
+  - 23:33:27  country crisis: 0 candidates in crisis (+0 new)
+  - 23:33:27  catalysts: printing freshest company news for top candidates
+  - 23:33:27  alt-data: pulling FRED macro/rates/credit, treasury curve, BTC funding, COT
+  - 23:33:47  catalyst calendar: Finnhub earnings/FDA/IPO + Polygon dividends (14d)
+  - 23:34:01  expanded news: sweeping all RSS feeds (equities/macro/CB/crypto/FX/commodities/regional)
+  - 23:34:31  expanded news: 32 feeds ok, 16 feeds failed
+  - 23:34:31  GDELT: 24h global market tone sweep

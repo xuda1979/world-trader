@@ -1,0 +1,17 @@
+=== agent CHAMP_AUDIT_METRICS round 1 start Mon Sep 14 14:09:50 CST 2026 ===
+Audit complete — 9 tool calls, all 5 charter items executed in order, FINDINGS.md written with the numbered summary and final line `ROUND 1 DONE`.
+
+**What I found (all numbers on the on-disk champion of record, 2008-03-31..2026-08-28, n=4806):**
+
+| # | Audit | Key numbers | Verdict |
+|---|-------|-------------|---------|
+| 1 | Block-bootstrap SR (3000 draws, 12m blocks) | SR 3.2176, **95% CI [2.757, 3.942]**, P(SR<2.0)=0.0000; CI floor 2.757 > prior CI ceiling 2.53 | **PASS** — decisively robust |
+| 2 | Sub-windows | 2008-15: 3.33 SR / -5.95% MDD · 2016-19: 4.49 / -6.52% · 2020-23: 2.45 / -4.94% · 2024-26: 3.45 / -5.48% | **PASS** — no regime collapse |
+| 3 | Negative-year margin | **0 neg years/19**; worst 2013 **+5.62%** (+5.62pp margin), then +7.84% (2021), +9.64% (2011); worst rolling 12m **+0.92%** | **PASS** (flagged: 19/19 positive years is extraordinary) |
+| 4 | Leverage & cost | gross sum\|w\| **exactly 1.600000000000 all 4806 days**, 0 overshoot; margin exactly 2.70%/yr; NAV turnover 7,447 bp/yr → 0.48pp/yr at 6.4bps FULL\|dW; rebuild max\|Δ\|=1e-16 | **PASS** — fully honest |
+| 5 | MaxDD regime | -6.52% = Jun 19→25, 2018 (recovered Jul 20); top-3 DDs **all brwt-complex-driven** (brwt = median **78.4% of gross**, max 90%; effective #sleeves ~4.4) | **PASS with caveat** — one-family concentration |
+
+**Two honesty notes recorded:** (a) headline ann is now **33.85%**, not the charter's 39.50% — the delta is the legitimate costfix (6.4bps FULL\|dW) + T+1 causal re-emit + ITER19 prune; SR 3.22 matches. (b) Skeptic probe: dropping the top 1/5/10/20 return days *raises* SR to 3.39/3.51/3.50/3.44 — the edge is **not** tail-carried (top days are COVID-era +17.7%/+14.0% longs that dilute Sharpe).
+
+**Overall verdict:** the champion's SR 3.22 / 33.85% ann is statistically robust; the residual risk is the brwt (Brent-WTI) concentration, not the statistics. No sleeve CSV emitted — charter is read-only.
+=== agent CHAMP_AUDIT_METRICS round 1 end Mon Sep 14 14:15:30 CST 2026 exit 0 ===

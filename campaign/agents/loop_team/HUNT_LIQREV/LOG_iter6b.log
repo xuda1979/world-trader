@@ -1,0 +1,18 @@
+=== loop_team/HUNT_LIQREV start Thu Sep  3 11:12:55 CST 2026 ===
+HUNT_LIQREV: clean NEGATIVE. xs reversal sign-INVERTED on twelve_liq (98 names) exactly as EQMOM on twelve_big. 16/16 grid cells inverted; best zero-cost SR 0.271 (IC cont terc), best net -0.073 — all far below 0.6 gate. Charter STOP clause invoked, no delivery. TDD 5/5 with revert-to-RED proof. See FINDINGS.md.
+## HUNT_LIQREV Summary — CLEAN NEGATIVE, charter STOP clause invoked
+
+**Verdict:** Short-term reversal is **sign-INVERTED on the liquidity-filtered twelve_liq panel exactly as EQMOM found on twelve_big**. No delivery — nothing was remotely admissible.
+
+**Key exact numbers (all freshly verified, quoted in FINDINGS.md):**
+- **Data lint:** 123 files → **98 names** pass ≥4900-row universe; 5002 rows, 2006-09-26..2026-08-12; 0 nonpositive prices; EW-long sanity +15.53% ann gross 2008+ (orientation correct)
+- **Idea 1 (xs reversal):** RAW rev tercile lb1 **SR −2.316**, lb5 **−1.241**; VOLNORM/decile all negative; continuation also negative (cost-dominated: ~18%/yr drag at 1.2 turn/day). Gross REV lb5 = **−9.87% ann** (losers keep losing)
+- **Ideas 2/3 (overnight/intraday):** all 16 grid cells net-negative (−0.073 best); **zero-cost bounds**: IC cont **+0.271** (best), ON cont −0.310, IC fade −0.614 — best family is 2× below the 0.6 gate *before any cost*
+- **One survivor rejected:** ON-cont decile earning next-day-intraday-only = **+0.619 zero-cost SR** (+12.99% ann gross) but **−2.111 net** after 17.3%/yr costs; collapses to +0.369 in the liquid half
+- **TDD:** 5 failing tests watched RED → 5/5 GREEN, with revert-to-RED regression proof (T1 day0 `0.0 != −0.00064`, T2 `0.05013454331723912 != 0.05013477950668375`)
+- **Bugs root-caused:** NaN-skip entry-cost undercharge (same class as committed BLOTTER audit finding) + my probe's axis-confusion mask; both fixed with failing-test evidence
+- **Honesty:** no sleeve emitted, DEAD_IDEAS entry drafted, budget preserved per charter STOP
+
+FINDINGS.md, liqrev_lib.py, tests_tdd.py, probe1.py, probe2.py delivered in HUNT_LIQREV/.
+
+HUNT_LIQREV DONE

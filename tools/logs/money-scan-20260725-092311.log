@@ -1,0 +1,331 @@
+=== MONEY-LOOP scan started 2026-07-25 09:23:11 ===
+=== WORLD-TRADER GLOBAL SCAN  2026-07-25T01:23:11+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+-- OPEN NOW: 1 markets --
+   + CRYPTO (Crypto (24/7))
+
+-- REGIME: NEUTRAL  (score +0.22) --
+   VIX=18.7(+0.09)  10Y-2Y=0.36(+0.36)
+   [+spillover: 13 cross-asset candidates from 3 themes]
+
+-- LIVE QUOTES: 369 instruments fetched (crypto RT, US, China A-share live, Taiwan live, FX)  [+wide US: 4098 of 12427 tickers pre-screened -> top 150]  [+wide CN A-share: 100 of 100 liquid names -> top 120, backtested] --
+
+=== OPPORTUNITIES (ranked by per-trade expected Sharpe = E[R]/sigma) ===
+  markets open now (2026-07-25T01:26:23+00:00): CRYPTO
+  YOUR BAR to qualify: E[R]>=+1%/trade, sigma<=7%*sqrt(h/5), Sharpe>=0.40, n>=20, t>=2 (Bonferroni-adj.), OOS Sharpe>0
+  >> NOTHING cleared your bar this scan. The rows below are the best
+     MEASURED edges only -- they are NOT signals. DO NOT trade them.
+
+-- TRADE PLAN --
++---+-------------+-----+--------+-------+------------------+---------+--------------+-------+---------+---------+---------+-----+-------+----------+
+| # | Instrument  | Sym | Mkt    | Dir   | Setup            |   Price | Quote(Local) |  Chg% |   Entry |    Stop |  Target | R:R | Risk% | Catalyst |
++===+=============+=====+========+=======+==================+=========+==============+=======+=========+=========+=========+=====+=======+==========+
+| 1 | Crypto: ADA | ADA | CRYPTO | Short | TrendRide50Short | 0.16390 | 07-25 01:23  | -1.6% | 0.16390 | 0.17304 | 0.13649 | 3.0 | 5.57% |          |
+| 2 | Crypto: SOL | SOL | CRYPTO | Short | TrendRide50Short |  73.980 | 07-25 01:23  |    -- |  73.980 |  76.704 |  65.808 | 3.0 | 3.68% |          |
+| 3 | Crypto: XRP | XRP | CRYPTO | Short | TrendRide50Short |   1.092 | 07-25 01:23  | -1.4% |   1.092 |   1.131 | 0.97520 | 3.0 | 3.58% |          |
++---+-------------+-----+--------+-------+------------------+---------+--------------+-------+---------+---------+---------+-----+-------+----------+
+
+-- EDGE & RISK (evidence for the SAME numbered rows) --
++---+-----+---------+--------------+---------+-------+--------+--------+-----+-------+------+----+------+--------+-------+-------+
+| # | Sym |   Price | Quote(Local) | Verdict | E[R]% | sigma% | Sharpe |   t |  oosS | Win% |  n | ATR% | Kelly% | RV/IV | Data  |
++===+=====+=========+==============+=========+=======+========+========+=====+=======+======+====+======+========+=======+=======+
+| 1 | ADA | 0.16390 | 07-25 01:23  | below   | 2.59% |  5.85% |   0.44 | 2.3 |  0.42 |  74% | 27 | 4.6% |  65.4% |    -- | RT 1m |
+| 2 | SOL |  73.980 | 07-25 01:23  | below   | 1.03% |  6.14% |   0.17 | 1.0 |  0.10 |  56% | 36 | 3.1% |  40.7% |    -- | RT 1m |
+| 3 | XRP |   1.092 | 07-25 01:23  | below   | 0.02% |  5.29% |   0.00 | 0.0 | -0.62 |  44% | 32 | 3.0% |  25.0% |    -- | RT 1m |
++---+-----+---------+--------------+---------+-------+--------+--------+-----+-------+------+----+------+--------+-------+-------+
+  note: 89 live instruments have no free daily history (China A-share/Taiwan) -> no expectancy, excluded from ranking.
+
+-- MACRO / RATES / CREDIT (FRED) --
+  US 2Y yield                4.3700000000  (2026-07-23)
+  US 10Y yield               4.7100000000  (2026-07-23)
+  10Y-2Y spread                    0.36  (2026-07-24)
+  10Y-3M spread                    0.73  (2026-07-24)
+  Fed funds                  3.6300000000  (2026-07-23)
+  VIX                              18.7  (2026-07-23)
+  US IG credit spread              0.79  (2026-07-23)
+  Brent oil                       86.99  (2026-07-20)
+  USD/EUR                         1.144  (2026-07-17)
+  Fin conditions index         -0.55200  (2026-07-17)
+  Fed balance sheet          6747378.0000000000  (2026-07-22)
+  M2 money supply               23052.3  (2026-05-01)
+  UST curve: 3M 3.95%  2Y 4.37%  10Y 4.71%  30Y 5.17%
+
+-- CATALYST CALENDAR (next 14d; today=2026-07-25) --
+  2026-07-30  (2)
+    [IPO] JMKE     IPO Jersey Mike's Subs Inc. $?
+    [IPO] REF      IPO Reformation Inc. $?
+  (source errors: earnings: net: Remote end closed connection without response; dividends: net: Remote end closed connection without response)
+
+-- NEWS (expanded feeds) --
+  [MarketWatch]
+    - ‘It’s nothing personal’: Should I tell my 96-year-old stepmother that I don’t want her inheritance?
+    - ‘We are not romantically involved’: I’m marrying my platonic best friend of 20 years. Should I leave him my home?
+    - Would you take $65,000 today, or flip a coin for a chance to win $1.3 million?
+  [Nasdaq-Mkts]
+    - Big Banks Cash In, IBM Crashes Out
+    - Michael Saylor's Strategy Just Unveiled a New Bitcoin Banking Index. Here's What That Signals for MSTR Stock.
+    - This Industrial Stock Is Up 533% in 2 Years. I Predict It Will Join the Dow if Caterpillar Issues a Stock Split.
+  [Nasdaq-Stocks]
+    - Wheat Pulls Off Early Friday Lows, Still See Pressure to Close the Week
+    - Chip Stock Sell-off Puts Downward Pressure on Broader Market
+    - Soybeans Extend Buying into the End of the Week
+  [SeekingAlpha]
+    - Chicago Fed National Activity Index: Economic Growth Increased In June
+    - First Hawaiian, Inc. 2026 Q2 - Results - Earnings Call Presentation
+    - First Western Financial, Inc. 2026 Q2 - Results - Earnings Call Presentation
+  [Investing]
+    - Nvidia, SK Group unveil $500 billion-plus AI data centers initiative, memory partnership
+    - BofA Names Top Infrastructure Software Stocks Led by Datadog
+    - Nasdaq lags on angst over AI spending ahead of earnings reports
+  [Yahoo-Fin]
+    - World’s quietest metal just dropped a huge bullish signal
+    - Forget Nvidia. Apple May Be the AI Stock Wall Street Is Quietly Betting On.
+    - Claude AI Refused to Sell ServiceNow (NOW) While Wall Street Panicked. Q2 Earnings Just Proved Why
+  [Benzinga]
+    - Best Binary Options Brokers in May 2026
+    - Toncoin (TON) Price Prediction 2025, 2026, 2027-2030
+    - Myro (MYRO) Price Prediction: 2025, 2026, 2030
+  [Zerohedge]
+    - Health Officials Urge States To End Mercury-Containing Dental Fillings
+    - Death Toll Revised Lower: Trump Admin Accused Of Playing Politics With Iran War Casualties
+    - Why Were Americans Funding Jobs For Transgender Workers In Nepal?
+  [WSJ-Markets]
+    - ‘It’s nothing personal’: Should I tell my 96-year-old stepmother that I don’t want her inheritance?
+    - ‘We are not romantically involved’: I’m marrying my platonic best friend of 20 years. Should I leave him my home?
+    - Would you take $65,000 today, or flip a coin for a chance to win $1.3 million?
+  [FT-Markets]
+    - Healey under pressure to raise taxes or cut UK spending as fiscal headroom shrinks
+    - Number 10 North is no ‘gimmick’, says Andy Burnham
+    - Met Office chief Penny Endersby: ‘There is not going to be a usual summer’
+  [CNBC-Top]
+    - Trump threatens EU with 'substantial TARIFF' for 'ROBBING' U.S. tech giants
+    - CDC says massive cyclospora outbreak is now in nine states
+    - Trump sued hours after new tariffs take effect, as experts say they may not hold up
+  [CNBC-Markets]
+    - Paramount agrees to delay WBD acquisition to as late as June 2027 amid legal challenge
+    - Moody's says 'unprecedented' AI spending threatens credit quality of Amazon, Meta, Alphabet and others
+    - CDC says massive cyclospora outbreak is now in nine states
+  [FedPress]
+    - Agencies issue joint statement on handling of highly sensitive information during bank examinations
+    - Federal Reserve Board issues enforcement action with former chief lending officer of Heritage State Bank
+    - Minutes of the Board's discount rate meetings on June 8 and June 17, 2026
+  [ECB]
+    - Philip R. Lane: Outlook for the euro area economy
+    - Decisions taken by the Governing Council of the ECB (in addition to decisions setting interest rates)
+    - ECB to extend use of climate factors in Eurosystem collateral framework to non-financial corporate credit claims
+  [BoE]
+    - Letter from the Governor to the Daily Mail
+    - PRA consults on updated guidance for friendly society amalgamations and transfers
+    - PRA fines HDI Global SE £4,165,000 for inaccurate reporting of FSCS Liabilities and FSCS Fee Tariff data
+  [BoJ]
+    - Developments in Real Exports and Real Imports
+    - Japanese Government Bonds Held by the Bank of Japan
+    - (BOJ Review) The Development and Strengthening of International Forums in Asia with the Participation of the Bank of Japan
+  [Cointelegraph]
+    - EU authorities include HTX exchange in Russian sanctions
+    - Strive’s SATA recovers most of June decline, trades within 3% of par
+    - House passes bill on lawmakers using insider information for stock trading
+  [Decrypt]
+    - Stocks Just Topped Crypto on Hyperliquid. ARK Says That Changes Everything
+    - Samsung Wallet Will Add Stablecoin Support, Including USDC
+    - Claude Opus 5 Outscores Fable 5 on Most Benchmarks—At Half the Price
+  [TheBlock]
+    - Bitcoin Policy Institute, Palantir and Anduril join US State Departments Freedom Tech Excellence Program
+    - Cardano co-founder Hoskinson says Bitcoin could lose top spot if governance fails quantum test
+    - Wise plans to resubmit national trust bank application under GENIUS Act framework
+  [CoinDesk]
+    - Senate Dems should accept the victory they won on Trump's crypto limits: White House
+    - Sam Altman-backed World Network secures $52.5 million in fresh funding to fight online AI deepfakes
+    - Institutional crypto trading platform LMAX is exploring sale, IPO
+  [ForexLive]
+    - investingLive Americas FX news wrap 24 Jul: Geopolitics remain the focus for traders.
+    - US indices close mixed. Dow up. S&P unchanged. Nasdaq down
+    - Next week's earnings calendar heats up
+  [FXStreet]
+    - Singapore Dollar: MAS seen on hold with cautious inflation tone – OCBC
+    - EUR/JPY Price Forecast: Cross consolidates under 187.00, bulls target 188.00
+    - Malaysia: Solid fundamentals support Ringgit and bonds – DBS
+  [Mining.com]
+    - MAX Power Mining increases landholding at Lawson hydrogen project in Saskatchewan
+    - American Mineral Resources bets on diversified project portfolio as US juniors struggle to raise capital
+    - US Department of Energy commits $65.5M to boost domestic oil and gas production
+  [JapanTimes]
+    - LeBron James chooses to play for 76ers with ‘last decision’
+    - Russian warplane violates Japanese airspace over islets claimed by Tokyo
+    - Yen’s worst week since May brings it close to ¥165 vs. dollar
+  [SCMP-Biz]
+    - Chinese battery giant CATL posts record quarterly profits amid green energy boom
+    - China places former deputy of top financial regulator under investigation
+    - Tencent fires WeChat manager after 7-figure bonus leaks online, sparks uproar
+  [ET-Markets]
+    - US stocks today: Nasdaq lags on angst over AI spending ahead of earnings reports
+    - American Express Q2 profit rises driven by higher spending and fewer delinquencies
+    - ACC Q1 Results: Profit plunges 60% to Rs 147 crore on lower sales
+  [Livemint]
+    - Mint Explainer| Will Sebi's proposed changes lift the portfolio management industry?
+    - Yields ease, but Iran war keeps rate-hike bets alive
+    - Yen records biggest weekly drop in over two months, dollar climbs for the week
+  [SpaceNews]
+    - SpaceX conducts 13th Starship test flight
+    - ULA deals with financial challenges caused by Vulcan grounding
+    - LatConnect 60 Unveils Proprietary AI Capabilities Following Growing Indo-Pacific Defence Interest in SWIRSAT
+  [TechCrunch]
+    - I tried out OpenAIs new AI keypad — which will be fun for some coders and slightly mystifying to everyone else
+    - SpaceX launches new V3 Starlink satellites but suffers another booster failure
+    - Prentis, new AI lab co-founded by Reid Hoffman, Mark Pincus in talks to raise $100M
+  [TheRegister]
+    - Anthropic debuts Opus 5 at half the price of its Fable sibling
+    - Pope's official prayer app commits cardinal sin, leaks 700K+ users' info
+    - AMD vibe codes its way past the CUDA moat with ROCm.AI
+  [BioPharma]
+    - <a href="/marketing/gastroenterologists-spot-treatment-gaps-clinical-remission-rates-durability-among-ibd" hreflang="en">Gastroenterologists flag clinical remission and its durability as unmet needs in IBD care: survey</a>
+    - <a href="/pharma/peptide-adcomm-day-2-emideltide-voted-down-panels-1st-peptide-pushback" hreflang="en">Peptide adcomm Day 2: Emideltide voted down in panel's 1st pushback</a>
+    - <a href="/pharma/oral-glp-1-tracker-launch-trajectories-lilly-foundayo-novo-wegovy-pill" hreflang="en">The Oral GLP-1 Tracker: Obesity prescriptions jump for both Novo and Lilly</a>
+  [PV-Magazine]
+    - China adopts tougher mandatory energy limits for polysilicon plants
+    - How to win and how not to lose: What the Football World Cup final teaches us about leading the energy transition
+    - Tunisia authorizes residential solar-plus-storage amid heatwave
+  [Handelsblatt]
+    - Kabinettsumbildung: Kommunikative Wirrungen: Wie die Entlassung des Verkehrsministers für den Kanzler zum Desaster wurde
+    - Kommentar: Lehrjahr eines Kanzlers – Wo Merz‘ wirkliches Problem liegt
+    - Entertainment: Paramount setzt Warner-Übernahme vorerst aus
+  [Investing-DE]
+    - Nvidia, SK Group unveil $500 billion-plus AI data centers initiative, memory partnership
+    - BofA Names Top Infrastructure Software Stocks Led by Datadog
+    - Nasdaq lags on angst over AI spending ahead of earnings reports
+  [Investing-IT]
+    - US missiles hit Iran as path towards de-escalation uncertain
+    - Trump says he won’t proceed with nuclear deal unless Saudis join Abraham Accords
+    - Gold snaps two-week losing run as technical buying offsets inflationary pressures
+  [NikkeiAsia]
+    - The culinary stars align in Hangzhou
+    - Thai military digs in along Cambodian border as peace remains elusive
+    - India's banned Sikh activist film finds audience in Punjab villages
+  [JijiPress]
+    - 維新・吉村氏発言は「国会軽視」　国民・玉木氏が猛反発
+    - サウジがイエメン・フーシ派拠点攻撃　紅海「封鎖」に対抗
+    - 「反維新」で野党結束　自民も不満募らす
+  [EconTimes]
+    - US stocks today: Nasdaq lags on angst over AI spending ahead of earnings reports
+    - American Express Q2 profit rises driven by higher spending and fewer delinquencies
+    - ACC Q1 Results: Profit plunges 60% to Rs 147 crore on lower sales
+  [LiveMint]
+    - Mint Explainer| Will Sebi's proposed changes lift the portfolio management industry?
+    - Yields ease, but Iran war keeps rate-hike bets alive
+    - Yen records biggest weekly drop in over two months, dollar climbs for the week
+  [BusinessStd]
+    - Ifsca eyes independent arbitration centre to boost GIFT City's appeal
+    - Neogen Chemicals board approves fund raising up to Rs 600 via QIP issue
+    - S&S Power Switchgear arm bags over Rs 8-cr order from Siemens Energy India
+  [HinduBiz]
+    - Lord’s Mark Industries to issue shares at ₹158 apiece
+    - Q1 Results Today Highlights: Tata Consumer con. PAT up 28.4%, ACC PAT declines 61.5%, Shriram Finance, Hindustan Zinc, SBI Life, SBI Cards, Laurus Labs Q1 profit rise
+    - Manipal Hospitals group rolls out healthcare’s largest IPO at ₹9,275 crore; price band set at ₹560-590
+  [EM-Investing]
+    - Quote Trade Announces Native Support for XDC Network and Circle-Issued USDC on XDC
+    - MEXC Expands Ondo Tokenized Stock Offerings with AI Infrastructure and Mining Assets
+    - SHIBCAT Expands the Robinhood Chain Ecosystem with the Launch of Its Community-Driven Meme Token
+  [Brazil-Exame]
+    - Justiça suspende credenciamento do Uber Moto em São Paulo
+    - A lei do spray de pimenta e o recorde de feminicídios
+    - Curtume catarinense bate recorde em selo ambiental e amplia presença global
+  [MiningCom]
+    - MAX Power Mining increases landholding at Lawson hydrogen project in Saskatchewan
+    - American Mineral Resources bets on diversified project portfolio as US juniors struggle to raise capital
+    - US Department of Energy commits $65.5M to boost domestic oil and gas production
+  [MetalMiner]
+    - How Aclara Plans to Build a Rare Earth Supply Chain Without China by 2028
+    - How to Judge Forecast Performance in Metals: Setting up an MCP for Metal Prices
+    - What Ideal Metal Price Forecasting Looks Like for Decision-Makers
+  [FarmProgress]
+    - Wheat takes a break from the bulls
+    - Pork struggles to win over U.S. consumers despite protein boom
+    - Heat worries wheat farmers as crop prices surge
+  [CoinTelegraph]
+    - EU authorities include HTX exchange in Russian sanctions
+    - Strive’s SATA recovers most of June decline, trades within 3% of par
+    - House passes bill on lawmakers using insider information for stock trading
+  [CryptoSlate]
+    - Strategy now publishes the Bitcoin return threshold below which it may have to restructure
+    - FBI used Google cookies, 500 food orders and a Monero seed phrase to identify Steam malware funder
+    - BlackRock’s IBIT accounted for 90% of a $225 million Bitcoin ETF reversal after a seven-day buying streak
+  [BeInCrypto]
+    - Big Tech Earnings Week is Over. Who Won and Lost?
+    - Intel Beat Earnings by $1.7 Billion and Fell 11% as Cramer Turned Bullish
+    - 3 Real Reasons Why BitMEX is Shutting Down, and Who Could Be Next
+  [NewsBTC]
+    - BitMEX Faces Proposed Class Action Seeking Return Of 622 BTC
+    - CLARITY Act Delay Shows Crypto Market Structure Fight Is Not Over
+    - Robinhood CEO X Hack Shows Why Crypto Scams Still Target Trusted Names
+  [BitcoinMag]
+    - Morgan Stanley Bitcoin ETF Nearly Notches $400M in Assets
+    - $7 Trillion Investment Giant Fidelity Backs New Crypto Clarity Act
+    - State Department to Debut Freedom Tech Program with Bitcoin Policy Institute, Palantir as Founding Partners
+  [Investing-FX]
+    - Dollar set for biggest weekly gain in over a month; yen eyes worst week since May
+    - Canadian dollar slips as oil retreats, Fed decision looms
+    - South African rand nears 17 per dollar after rate decision
+  [ChinaBriefing]
+    - The Greater Bay Area IIT Subsidy for 2026 Kickstarts in Shenzhen
+    - US-China Relations in the Trump 2.0 Era: A Timeline
+    - Why China is Still the Top 1 Manufacturing Destination in Asia
+  [VentureBeat-AI]
+    - Google just redesigned the search box for the first time in 25 years — here’s why it matters more than you think.
+    - Railway secures $100 million to challenge AWS with AI-native cloud infrastructure
+    - Claude Code costs up to $200 a month. Goose does the same thing for free.
+
+-- SEC 8-K MATERIAL CATALYSTS (last 3 days) --
+  (unavailable: RemoteDisconnected: Remote end closed connection without response)
+
+-- INSIDER CLUSTER BUYS (last 30d, >=2 insiders) --
+  (unavailable: RemoteDisconnected: Remote end closed connection without response)
+
+-- DEFI STABLECOIN YIELDS (top 8 by APY, TVL >=$10M) --
+  (unavailable: IncompleteRead: IncompleteRead(1974272 bytes read, 9066581 more ex)
+
+-- SHORT SQUEEZE WATCH (SI% float >= 10%) --
+  (no high-SI names found)
+
+-- ENERGY SNAPSHOT (FRED weekly) --
+  Gasoline retail: $None/gal  (4w: +2.2%)
+  WTI crude:       $84.38/bbl  (4w: +4.9%)
+  Heating oil:     $3.984/gal
+  Natgas:          $2.8/MMBtu
+
+research only, not financial advice. verify before acting.
+
+[scan task log]
+  - 09:23:11  regime: gathering FRED macro / VIX / fear-greed
+  - 09:23:15  regime: NEUTRAL score=+0.22
+  - 09:23:15  quotes: collecting global universe (crypto/US/CN/TW/HK/FX/futures/indices + region/macro ETFs)
+  - 09:24:00  quotes: 114 curated instruments fetched
+  - 09:24:00  wide US funnel: pulling ~12k tickers from Polygon, pre-screening top 150
+  - 09:24:04  wide US funnel: 4098 of 12427 -> top 150 backtested
+  - 09:24:04  spillover funnel: scanning RSS headlines for theme keywords -> peer candidates
+  - 09:24:18  spillover funnel: 18 candidates across 3 themes -> 17 fetched
+  - 09:24:18  wide CN funnel: pulling ~5,500 A-shares, pre-screening top 120
+  - 09:24:19  wide CN funnel: 100 of 100 -> top 120 backtested
+  - 09:24:19  opportunities: building candidate set from quotes + regime
+  - 09:24:19  opportunities: 228 raw candidates
+  - 09:24:19  backtest: enriching with technicals + E[R]/sigma/Sharpe
+  - 09:26:14  backtest: per-candidate family m=13 (global total=271) -> Bonferroni t>=2.89
+  - 09:26:14  news enrichment: Finnhub headlines + Polygon sentiment per candidate
+  - 09:26:14  news enrichment: done (0 candidates have fresh headlines)
+  - 09:26:14  catalyst enrichment: scanning Finnhub earnings/FDA/IPO + Polygon dividends
+  - 09:26:15  catalyst enrichment: 0 candidates have a near-term catalyst (+0 new)
+  - 09:26:15  PEAD confirmation: looking up recent earnings surprises for PEAD setups
+  - 09:26:15  PEAD confirmation: 0 PEAD setups confirmed by earnings surprise (+0 new)
+  - 09:26:15  options enrichment: pulling ATM straddles (CBOE) for top US candidates
+  - 09:26:17  options enrichment: 5 candidates have an RV/IV signal (+5 new)
+  - 09:26:17  country crisis: scanning 32 country ETFs for crisis signals
+  - 09:26:23  country crisis: 0 candidates in crisis (+0 new)
+  - 09:26:23  veto gate: 36 rows vetoed (36 crash-in-progress, 0 news-contradicts) -> PASS rows 4 -> 4
+  - 09:26:23  catalysts: printing freshest company news for top candidates
+  - 09:26:23  alt-data: pulling FRED macro/rates/credit, treasury curve, BTC funding, COT
+  - 09:26:29  catalyst calendar: Finnhub earnings/FDA/IPO + Polygon dividends (14d)
+  - 09:26:30  expanded news: sweeping all RSS feeds (equities/macro/CB/crypto/FX/commodities/regional)
+  - 09:26:43  expanded news: 54 feeds ok, 47 feeds failed
+  - 09:26:43  GDELT: 24h global market tone sweep
+  - 09:26:43  altdata2: SEC 8-K + insider clusters + DeFi yields + short squeeze + energy
+  - 09:26:53  energy: gas=$None crude=$84.38 gas4w=2.22% crude4w=4.9%

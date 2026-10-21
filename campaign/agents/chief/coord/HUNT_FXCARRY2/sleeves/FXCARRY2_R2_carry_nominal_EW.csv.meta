@@ -1,0 +1,9 @@
+name=FXCARRY2_R2_carry_nominal_EW
+source=HUNT_FXCARRY2 round-2 (campaign/scripts/HUNT_FXCARRY2_round2.py)
+data=tools/quant/data/more_fx DEX daily FX + IRSTCI01 monthly immediate rates (FRED, linted, manifest in dir)
+window=2004-01-01+ (charter-specified; 5680 obs)
+engine=monthly carry sign( r_fgn - r_usd ) from IRSTCI01 immediate rates, T+1, EW 8 pairs (AUD EUR GBP JPY CAD CHF NOK KRW vs USD)
+costs=6.4bps FULL |dW| incl day-1 entry + borrow 0.5%/yr short + margin 4.5%/yr on (gross-1); carry accrual credited (interest-rate-parity daily rate-diff/252)
+verdict=FAIL: net SR=-0.004 ann=-0.0018 H=(-0.133,0.164) neg_years=11 worst=-0.194 corrChamp=0.0276 scramble_p=0.76 (gate fails: SR<1.0, halves, yearly)
+rationale=Economic rationale (contract 3h): carry premium = uncovered-interest-parity compensation for crash risk; expected positive drift, but post-2004 it is offset by crash losses (2008 -19.4%) and by IRSTCI01 month-end sampling lag.
+gates=ALL FAIL (sr_ok=False, halves_ok=False, yearly_ok=False, corr_ok=True, scramble p=0.76>=0.05)

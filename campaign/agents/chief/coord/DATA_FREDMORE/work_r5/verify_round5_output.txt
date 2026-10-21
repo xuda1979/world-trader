@@ -1,0 +1,66 @@
+PASS level:DRALACBS exists
+PASS level:DRALACBS n/start/end
+PASS level:DRALACBS gap-lint PASS
+PASS level:DRALACBS no dot/no-NaN
+PASS level:DRALACBS strictly-ordered
+PASS level:DRCLACBS exists
+PASS level:DRCLACBS n/start/end
+PASS level:DRCLACBS gap-lint PASS
+PASS level:DRCLACBS no dot/no-NaN
+PASS level:DRCLACBS strictly-ordered
+PASS level:WPU05320104 exists
+PASS level:WPU05320104 n/start/end
+PASS level:WPU05320104 gap-lint PASS
+PASS level:WPU05320104 no dot/no-NaN
+PASS level:WPU05320104 strictly-ordered
+PASS wpu:no-1983-rows
+PASS vintage:DRALACBS exists
+PASS vintage:DRALACBS lag_min>=floor(130)
+PASS vintage:DRALACBS ordered
+PASS vintage:DRALACBS coverage holes == documented set
+PASS vintage:DRCLACBS exists
+PASS vintage:DRCLACBS lag_min>=floor(130)
+PASS vintage:DRCLACBS ordered
+PASS vintage:DRCLACBS coverage holes == documented set
+PASS vintage:WPU05320104 exists
+PASS vintage:WPU05320104 lag_min>=floor(35)
+PASS vintage:WPU05320104 ordered
+PASS vintage:WPU05320104 coverage holes == documented set
+PASS vintage:DRALACBS n=61
+PASS vintage:DRCLACBS n=61
+PASS vintage:WPU05320104 n=136
+PASS wpu-artifact: full n=587 dots=3
+PASS wpu: 1983 dots detected as structure events
+PASS wpu: refuse=False (interlude values continuous)
+PASS wpu: 9 market swings >=30% disclosed, none coincide
+PASS wpu: first swing 1990-01 +95.8 pct
+PASS brk:DRALACBS no events, no coincident breaks
+PASS brk:DRCLACBS no events, no coincident breaks
+PASS live:DRALACBS delivered values equal FRED (n=166)
+PASS live:DRALACBS delivered end == live max
+PASS live:DRCLACBS delivered values equal FRED (n=158)
+PASS live:DRCLACBS delivered end == live max
+PASS live:WPU05320104 delivered values equal FRED (n=511)
+PASS live:WPU05320104 delivered end == live max
+PASS manifest:DRALACBS exactly-once
+PASS manifest:DRCLACBS exactly-once
+PASS manifest:WPU05320104 exactly-once
+PASS manifest:ALFRED:DRALACBS exactly-once
+PASS manifest:ALFRED:DRCLACBS exactly-once
+PASS manifest:ALFRED:WPU05320104 exactly-once
+PASS manifest:DRALACBS lint_pass + file-on-disk
+PASS manifest:ALFRED:DRALACBS lag floor recorded
+PASS manifest:DRCLACBS lint_pass + file-on-disk
+PASS manifest:ALFRED:DRCLACBS lag floor recorded
+PASS manifest:WPU05320104 lint_pass + file-on-disk
+PASS manifest:ALFRED:WPU05320104 lag floor recorded
+PASS manifest: global PASS=>file sweep
+PASS manifest: 166 rows total (160+6)
+PASS dead_ideas: 2 DATA_FREDMORE-R5 rows
+PASS dead_ideas: both data-acquired
+PASS dead_ideas: DRALACBS + WPU05320104 named
+PASS dead_ideas: total rows 132
+PASS corner: delivered classes distinct from dead families (no mortgage-RV/NFCI/CP-OIS/daily-spot-propane re-test)
+PASS corner: no dead-family files written THIS round
+
+VERIFY ROUND 5: 64 PASS / 0 FAIL

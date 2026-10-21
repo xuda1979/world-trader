@@ -1,0 +1,145 @@
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260906195057fe55b22b0f86444e]
+=== CAMP_SHORT round 1 end Sun Sep  6 19:50:58 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090702011791c60015482a4d43]
+=== CAMP_SHORT rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907020548eab5b2e5b5f945bb]
+=== CAMP_SHORT rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090702262239d996e8a85740be]
+=== CAMP_SHORT rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070236121f486b5cdacd4fea]
+=== CAMP_SHORT rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070258107ced06d56c7a4824]
+=== CAMP_SHORT rate-limited or errored (attempt 5, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070325271aacc10bb38d4808]
+=== CAMP_SHORT rate-limited or errored (attempt 6, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090704012649f00b2551024d91]
+=== CAMP_SHORT rate-limited or errored (attempt 7, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090704081330c513726804448b]
+=== CAMP_SHORT rate-limited or errored (attempt 8, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070510343274126136454b08]
+=== CAMP_SHORT rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070517205aecee725831449c]
+=== CAMP_SHORT rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907055743b01003c593824b19]
+=== CAMP_SHORT rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907060244d433087766e84e29]
+=== CAMP_SHORT rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070613198c98c1ef60c1489b]
+=== CAMP_SHORT rate-limited or errored (attempt 5, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070619460638b6b0c7d64811]
+=== CAMP_SHORT rate-limited or errored (attempt 6, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907063559ca07fc974718432c]
+=== CAMP_SHORT rate-limited or errored (attempt 7, rc=1); backing off ===
+Round 2 complete. Summary of what was done:
+
+## R2(a) Integration snippet — PASS
+Published in FINDINGS.md for other agents: `shortability_pregate` wired as `signal → T+1 weights → pregate → costs → gates`, with fail-closed tiering (unknown tier = NONE, never silently EASY). Contract pinned by 7 tests, and verified end-to-end on the **real diescrack stream** (338 short days): HARD tier prices 0.5796%/yr = 8% × 6.9% mean short frac; NONE drops the leg.
+
+## R2(b) Champion under tiered borrow — PASS, sensitivity ≈ 0
+Champion weights rebuilt from 13 sleeves pinned **git-HEAD byte-exact** to the committed CSV (max|diff| 1e-16). Census: 10 futures/spot/ETF slots, 2 long-only, 2 stock-loan — and **CFX4 carries zero champion weight** (starts 2019-09, after the 2017 IS cut), so real exposure is diescrack at 0.19% of NAV. Result at the harshest rung (0.5/2/8% ladder): REALISTIC **−0.02pp**, deliberate-overstatement BOUND **−2.11pp**, gates never move (0/19 neg years, MDD > −7% everywhere).
+
+## R2(c) Ops runbook — PASS
+`results/CAMP_SHORT_SHORTABILITY_R2.json` now carries an `ops_runbook` block (entry point, pipeline order, headroom 0.02pp/2.11pp, gate-move threshold, escalation), pinned by 4 tests.
+
+## Bugs caught and fixed (TDD)
+1. **REALISTIC/BOUND collapse** — `.get(n, 0.0)` default made REALISTIC identical to BOUND; would have published **−2.10pp instead of the true −0.02pp** (100× overstatement). Caught by the 06:32 RED tests, fixed.
+2. **Delta-vs-base conflation** — rungs were diffed against the committed headline while computed on a rebuilt base, folding 0.16pp rebuild drift into the "borrow" number. Now diffed against rebuilt T0 with the gap reported separately.
+3. **Repro drift** — CAMP_COST's 06:09 costfix regenerated 4 champion-input sleeves after champion commit; fixed by pinning inputs to git HEAD.
+
+**Tests: 38/38 green in my lane.** One flag for the coordinator (untouched by me): CAMP_COST's regen breaks 12 exact-repro pins in AUDIT/COST/BORROW lanes — either a champion re-emit on costfixed inputs or the same git-HEAD-pinning treatment is needed there.
+
+FINDINGS.md written; last line is `ROUND 2 DONE`.
+=== CAMP_SHORT round 2 end Mon Sep  7 07:08:02 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090708183343b40e855fb44c0b]
+=== CAMP_SHORT rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907082231ec5b22b8d86b43ce]
+=== CAMP_SHORT rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090708390778362136ac4b4d63]
+=== CAMP_SHORT rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090710065479282c833d224338]
+=== CAMP_SHORT rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907101224389e766acad84ab2]
+=== CAMP_SHORT rate-limited or errored (attempt 5, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609071018504804f97430424660]
+=== CAMP_SHORT rate-limited or errored (attempt 6, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907102609877f7cb8e4a0437d]
+=== CAMP_SHORT rate-limited or errored (attempt 7, rc=1); backing off ===
+Round 3 complete. All three charter items delivered, with exact numbers in FINDINGS.md ending `ROUND 3 DONE`.
+
+## Summary
+
+**R3(a) Library borrow census — PASS.** `campaign/results/CAMP_SHORT_LIBRARY_BORROW_CENSUS.json`: 36 rows (top-30 library sleeves by recomputed SR + 6 blend-intake candidates), pinned by 17 new TDD tests (RED→GREEN). Every sleeve either got a byte-exact short-leg reconstruction (tol 2e-4, dual 6/12bps cost-era) or a loud **SHORT_LEG_UNKNOWN → NOT_INTEGRABLE** flag — 11 MEASURED / 18 STRUCTURAL / 7 fail-closed.
+
+Two headline findings:
+1. **`strat_ls_equity.py:134` flip bug** — the library's "L/S" books (130/30, 120/20, Dollar_Neutral, volmanaged) have measured |short| = 0.0000 because the generator flips short weights long. Borrow-clean by bug, not design.
+2. **XGB1y_deploy** is the one real, sized, un-priced short leg (|short|/NAV = 1.0, zero borrow charged): 8% HARD tier = 8.0%/yr drag on a 15.3% ann sleeve. `ls_n10r14_2018` is the contrast case done right (already charges call-rate+ETB; EASY rung is a −0.38pp credit).
+
+**R3(b) BLEND_PREGATE.md published** to `work_r3/` for HUNT_VOL2 — including the correction that its `blend_r3_lib.py:322` "already costed" assumption is false for library equity books.
+
+**R3(c) Champion re-emit caught and handled — PASS.** The champion changed **twice mid-run** (worktree 10:59, then coordinator commit b268e52 at 14:27:09 → 37.1954%, 0/19 neg). I re-ran the R2(b) ladder against the NEW champion (rebuild byte-exact at 9.996e-17): REALISTIC −0.02pp, BOUND upper bound −2.15pp at 8%, **gates never move** (0/19 neg years, MDD > −7% at every rung). The R2 ops-runbook JSON was refreshed to match; all 55 lane tests green.
+=== CAMP_SHORT round 3 end Mon Sep  7 14:59:43 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907214353e4939559a1e54c32]
+=== CAMP_SHORT rate-limited or errored (attempt 1, rc=1); backing off ===
+Round 4 executed per charter. FINDINGS.md appended, last line is exactly `ROUND 4 DONE`.
+
+**R4(1) — TDD RED→GREEN fix — PASS.** Discovered a prior 21:40 attempt of this same agent had died on a launcher 429 after writing the test file but before touching code — I re-witnessed RED myself rather than trusting it. RED: 4/4 failed with `no negative weights anywhere — short legs flipped long`. Fix: `strat_ls_equity.py:139` now `neg / |neg|.sum() * short_scale` — shorts stay negative, per the cited convention (`core.py`: "positive=long, negative=short"; module docstring "130/30 = 130% long, 30% short"). GREEN: 4/4, full bt suite **348 passed**, lane suite **56 passed**. Since I repaired one over-reaching assertion during GREEN, I proved the corrected tests still catch the bug: stash-fix → 4 failed, pop → 4 passed.
+
+**R4(2) — MHX impact re-run — what changed: nothing, proven three ways.** (A0) AST audit: `xgb_multi_horizon.py` doesn't import `strat_ls_equity`. (A1) Rebuilt MHX from the surviving prediction pickle — byte-exact vs committed sleeve at **9.983e-17** (n=4682), proving the committed bytes contain no buggy code path. (A2) Borrow re-priced on the measured short book: mean |short|/NAV **0.2960** (vol-targeted) → EASY 0.148% / MEDIUM 0.592% / HARD 2.368%/yr — R1's "~75bps/yr" flag bracketed by my rungs, now reproducible. Champion impact **0.000pp** (MHX was removed from the pool). I caught and corrected one of my own errors mid-round: first pass read the return-difference convention as a K/n allocation, understating borrow ~30×.
+
+**R4(3) — the fix's real blast radius (found by measurement).** Buggy-sign replication byte-validates the committed library books at ~5e-16 — direct proof they ARE the bug's output. Fixed rebuilds: **L_S_Market_Neutral/Dollar_Neutral published +23–25% ann (SR 0.81–0.87) collapse to −1.12% ann (SR 0.00) when actually neutral** — pure sign-flip artifact. Contrast: 130/30's honest MDD improves 16.9pp (−45.8%→−28.9%) once the short leg actually hedges. Champion CSVs, sleeve library bytes, and COORD sleeves all untouched (verified via git status + mtimes); my only production diff is the one tool file (+6/−1).
+=== CAMP_SHORT round 4 end Mon Sep  7 22:43:30 CST 2026 exit 0 ===
+Round 5 complete. Summary:
+
+## ROUND 5 — CAMP_SHORT (per charter, both items PASS)
+
+**Read-first discipline:** GATES_CONTRACT_V2.md (RATIFIED 09-08) read; DEAD_IDEAS.csv recounted myself: **126 data rows** (charter said 120 — grew by 6 uncommitted overnight rows, none mine). DEAD row 11 ("MHX annual retrain") NOT re-run; the banner's ask is a composition audit, which is measurement. bt/ kept QUIET — all writes in `work_r5/`.
+
+**Champion integrity, fresh:** `verify_champion_r3_cmd.sh` re-run exit 0, **ok=true 7/7** — ann 37.1954% / SR 3.1810 / MDD −6.6922% / 0 neg yrs / n=4805, sha `4358dfab95679b97`, cost ratio 1.0000000000008, gross max 1.6000000000007. Matches the charter's quote exactly.
+
+**R5(a) — single-name short exposure post-costfix: NO, proven at 3 levels.**
+- All 7 relw moves measured from git (charter's 4 + brwt10/7/5 source-swaps −0.0501/−0.0577/−0.0668); every moved slot's short legs are futures/FX-fungible.
+- Slot level: rebuilt Wg pins the champion byte-exact (**1.11e-16**); **0 negative slot-weight days** in 13×4805.
+- dualmom (the only single-name panel, 298 names measured): costfix generator re-run — **0 negative weights** in target matrix and live T+1 stream (long top tercile, mean 90.4 names). Long-only re-proven.
+- diescrack/CFX4 re-measured: futures-spread and FX books. MHX still absent from the champion; its borrow caveat quantified for the CHAMPION20Y_V2 rebuild (EASY 0.148% / HARD 2.368%/yr, carried from R4).
+- Borrow re-price: diescrack short notional 0.196% of NAV → HARD tier delta **+0.0147pp/yr** — immaterial.
+
+**R5(b) — harness C5: ok=True**, 13/13 instrument classes verified, "dualmom LONG-ONLY ⇒ no single-name short". Top gross shares confirmed: **brwt10 22.95% / brwt7 19.96% / brwt5 16.97%** (brwt15 13.23%, C5ng 8.80%). Full C1–C7 green; bonus V2 §6 leak_probe on the byte-exact Wg: **leak=False**, same-period corr −0.0329, lag argmax −1.
+
+**Tests: 64/64 PASS** (59 lane + 5 new pins in `work_r5/test_r5_audit_pins.py`). Flagged for AUDIT_CHAMP2: C5's message hard-codes two pre-costfix constants (VIXS 35.1% vs fresh 35.21%; QAxasts slot 2.16% vs 2.345%, VIX leg 0.452%). Self-corrected mid-round: I initially called 2.34% the "VIX leg" share — it's the slot share; correction is disclosed in FINDINGS.md.
+
+FINDINGS.md ends with exactly `ROUND 5 DONE`.
+=== CAMP_SHORT round 5 end Tue Sep  8 07:06:25 CST 2026 exit 0 ===
+Round 6 complete. Summary:
+
+## R6(a) — FRAUD-CATCH cross-verification: both verdicts CONFIRMED
+
+**CAMP_BORROW R5** — reproduced with my own algebra (`work_r6/r6_repro_borrow.py`, zero imports of their modules): **75/75 checks, 0 mismatches**, worst dev 8.0e-15. Independently re-derived: champion byte-rebuild 9.996e-17; margin 2.70%/yr = 1.0714 bps/day single-value; priced at exactly 4.5% (resid 1e-16); **0 negative slot weights in 62,465 slot-days**; diescrack borrow line re-derived from my own zrev+VT reconstruction → **733/4605 rows at exactly 0.005/252 (331/173/229 split)**; HTB tiers 0.6586/3.2931 bps/yr; all 4 drift flags (+14.00/+25.11/+14.67/−34.86% rel) and all 4 champion reprices (36.6784/36.2695/36.6538/38.4910%) exact; ladder incl. −0.60pp/+1pp slope to 1.6e-15.
+
+**CAMP_COST R5** — **46/46 checks, 0 mismatches**: 7/7 verify fields re-derived (full_dw vs half 1.68e-05 → half-turn rejected; 5.2622 bp/yr; day-1 uncharged), 16/16 byte-stable AND 16/16 git-HEAD byte-exact, wide leak probe bracketed in 3 conventions with leak=False in all.
+
+**1 escalation filed (verdict-preserving):** their scalar probe (`+0.0156/p 0.2796`, labeled "aggregate |dWg|") doesn't reproduce from the described input — faithful |dWg| gives +0.2034 with the causal lag−1 signature; their number matches the **signed float-noise sum** (+0.01525/p 0.291), so a degenerate series was almost certainly fed in, and no generator script for `leak_probe_r5.json` exists. Leak=False holds in every construction, so the verdict stands.
+
+## R6(b) — DEAD_IDEAS curation: DONE
+26/143 short/borrow rows audited: **zero families died from borrow cost** (all died on signal/turnover). Row 133 (RB_hobr, pending adoption) is futures-spread class — borrow immaterial to that decision. Curation row appended: ledger 143→144, no dups, sha16 pinned. Lane suite: **413 passed, 0 failed**.
+
+FINDINGS.md ends with `ROUND 6 DONE`. One honesty note recorded in FINDINGS: 3 of my own first-pass units bugs were caught by my own checks and fixed before any verdict was recorded.
+=== CAMP_SHORT round 6 end Tue Sep  8 14:50:39 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609082043570c3eed17d8154ce9]
+=== CAMP_SHORT rate-limited or errored (attempt 1, rc=1); backing off ===
+Round 7 executed per charter. Summary:
+
+## R7(a) — AUDIT_GATES2 spot-recompute (2 of 5 lanes, own code)
+
+**Lane A — HUNT_CMDT2 R5 "0/28" (propane):** All 28 `prop_*.csv` held books re-stat'ed with my own parsers/algebra — 27/28 headline-exact (the 1 is my own 2dp rounding tie, SR dev 0.0002, matching AG2's reported max dev); all 28 `v2_corrected` lines pass=false/bp_ok=False → **0/28 adoptable CONFIRMED**. AG2's three prose-defect numbers verified from CSVs: held-book SRs −0.196/−0.109/−0.017/0.370 (not the superseded −0.324/−0.104/0.609/0.465 quotes).
+
+**Lane E — RES_BASIS row-137 standalone V2-PASS:** sha `da0285b9a7a5e6a2` unchanged; all meta headline stats reproduce (SR 1.3498, MDD −22.29%, H1/H2 2.182/0.753, IS/OOS 2.145/0.807); rebuild from FRED raws dev 9.97e-17; v2 battery re-run with `sig=` explicit → PASS=True, leak_corr0 +0.1071 with causal lag-argmax at −1; plateau 1.356/1.357/1.350/1.302/1.148 exact; blend arithmetic reproduces in **both** conventions (champ-span +0.199 dSR/+4.21pp; AG2-JSON variant 0.204/4.50 — convention difference, not error).
+
+## R7(b) — Capability refresh
+
+- **62,465 slot-days, 0 net-short** — invariant holds on the current tree; dualmom (only single-name panel) min weight +0.008826, still long-only; champion sha `4358dfab95679b97` unchanged.
+- **8% HTB tier re-pinned at 3.2931 bps/yr** (2% → 0.6586, embedded 0.2195) via my own borrow-line isolation, dev < 5e-4.
+- **All 4 CAMP_BORROW drift flags re-verified against a fresh FRED fetch I made** (DFF 3.63/SOFR 3.66, last obs 2026-09-03 — identical to their artifacts): +14.00/+25.11/+14.67/−34.86% rel; reprices 36.6784/36.2695/36.6538/38.4910% ann, 0 neg yrs in all four. Still open, disclosed, immaterial.
+
+## Discipline notes
+3 self-caught bugs (name-strip, plateau live-start reuse, DFF %/fraction) — each caught by my own checks/pin tests before any verdict was recorded; the last one was caught *by* the new pin test after a wrong JSON hit disk, then fixed and re-derived. Pins **12/12**, bt suite **436/0**, DEAD_IDEAS 150→**151** rows (clean append, 0 dups), FINDINGS.md ends with exactly `ROUND 7 DONE`. Zero verdict escalations; bt/, champion files, and other agents' artifacts untouched.
+=== CAMP_SHORT round 7 end Tue Sep  8 21:07:50 CST 2026 exit 0 ===

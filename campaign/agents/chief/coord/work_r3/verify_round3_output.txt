@@ -1,0 +1,92 @@
+=== (a) vintages: structure, lag floor, live equality ===
+  [PASS] PAYEMS n>=200 n=856
+  [PASS] PAYEMS unique obs (PIT) 
+  [PASS] PAYEMS lag>=27 all rows min=28 max=80
+  [PASS] PAYEMS sorted by (rel,obs) 
+  [PASS] PAYEMS live==disk first-release disk_n=856 live_n=856 mismatches=0 []
+  [PASS] UNRATE n>=200 n=797
+  [PASS] UNRATE unique obs (PIT) 
+  [PASS] UNRATE lag>=27 all rows min=28 max=80
+  [PASS] UNRATE sorted by (rel,obs) 
+  [PASS] UNRATE live==disk first-release disk_n=797 live_n=797 mismatches=0 []
+  [PASS] CPIAUCSL n>=200 n=648
+  [PASS] CPIAUCSL unique obs (PIT) 
+  [PASS] CPIAUCSL lag>=35 all rows min=37 max=62
+  [PASS] CPIAUCSL sorted by (rel,obs) 
+  [PASS] CPIAUCSL live==disk first-release disk_n=648 live_n=648 mismatches=0 []
+  [PASS] ICSA n>=200 n=901
+  [PASS] ICSA unique obs (PIT) 
+  [PASS] ICSA lag>=4 all rows min=4 max=54
+  [PASS] ICSA sorted by (rel,obs) 
+  [PASS] ICSA live==disk first-release disk_n=901 live_n=901 mismatches=0 []
+  [PASS] RSXFS n>=200 n=302
+  [PASS] RSXFS unique obs (PIT) 
+  [PASS] RSXFS lag>=37 all rows min=38 max=85
+  [PASS] RSXFS sorted by (rel,obs) 
+  [PASS] RSXFS live==disk first-release disk_n=302 live_n=302 mismatches=0 []
+  [PASS] IPMAN n>=200 n=224
+  [PASS] IPMAN unique obs (PIT) 
+  [PASS] IPMAN lag>=41 all rows min=42 max=93
+  [PASS] IPMAN sorted by (rel,obs) 
+  [PASS] IPMAN live==disk first-release disk_n=224 live_n=224 mismatches=0 []
+=== (a2) PIT sanity vs historical release record ===
+  [PASS] PAYEMS 2020-03 first print 151786 @2020-04-03 ['2020-04-03', '2020-03-01', '151786']
+  [PASS] UNRATE 2020-04 first print 14.7 @2020-05-08 ['2020-05-08', '2020-04-01', '14.7']
+  [PASS] ICSA wk2020-03-21 first print 3283000 @2020-03-26 ['2020-03-26', '2020-03-21', '3283000']
+=== (a3) 2025-10 BLS hole reflected in vintages ===
+  [PASS] UNRATE vintage has no 2025-10-01 
+  [PASS] CPIAUCSL vintage has no 2025-10-01 
+=== (b) FAIL7 reconciliation: data facts ===
+  [PASS] GFDEGDQ188S 100% on quarterly grid 
+  [PASS] GFDEGDQ188S 241/241 slots slots=241 rows=241
+  [PASS] MORTGAGE30US max spacing <=9d (no absent week) max=9d
+  [PASS] TEDRATE max missing-bday run == 3 distinct run lens=[3, 2, 1]
+  [PASS] TEDRATE len-3 runs == 5 Christmas clusters 
+  [PASS] TEDRATE 1986-01-20 ABSENT (MLK 1986) 
+  [PASS] TEDRATE 1986-01-20 isolated 1-bday gap (neighbors present) 
+  [PASS] RSAFS HAS 2025-10 (731051) / RRSFS missing it 
+  [PASS] CPALTT01USM657N (CPI deflator) absent 2025-09..11 
+=== (c) manifest honesty ===
+  [PASS] no duplicate series_id rows rows=160
+  [PASS] header covers all row keys (no truncated write) 
+  [PASS] CPIAUCSL reconciled_r3=True 
+  [PASS] CPIAUCSL reason>=30 chars 
+  [PASS] UNRATE reconciled_r3=True 
+  [PASS] UNRATE reason>=30 chars 
+  [PASS] UNRATENSA reconciled_r3=True 
+  [PASS] UNRATENSA reason>=30 chars 
+  [PASS] RRSFS reconciled_r3=True 
+  [PASS] RRSFS reason>=30 chars 
+  [PASS] TEDRATE reconciled_r3=True 
+  [PASS] TEDRATE reason>=30 chars 
+  [PASS] MORTGAGE30US reconciled_r3=True 
+  [PASS] MORTGAGE30US reason>=30 chars 
+  [PASS] GFDEGDQ188S reconciled_r3=True 
+  [PASS] GFDEGDQ188S reason>=30 chars 
+  [PASS] TEDRATE reason no false '1986-01-20 has data' 
+  [PASS] MORTGAGE30US reclassified PASS (holiday-tolerant weekly) 
+  [PASS] GFDEGDQ188S reclassified PASS (quarterly) 
+  [PASS] CPIAUCSL stays FAIL (lint is law) 
+  [PASS] CPIAUCSL backfill reason recorded 
+  [PASS] UNRATE stays FAIL (lint is law) 
+  [PASS] UNRATE backfill reason recorded 
+  [PASS] UNRATENSA stays FAIL (lint is law) 
+  [PASS] UNRATENSA backfill reason recorded 
+  [PASS] RRSFS stays FAIL (lint is law) 
+  [PASS] RRSFS backfill reason recorded 
+  [PASS] TEDRATE stays FAIL (lint is law) 
+  [PASS] TEDRATE structural-why recorded 
+  [PASS] no files deleted 
+  [PASS] ALFRED:PAYEMS vintage=True lag_days 
+  [PASS] ALFRED:UNRATE vintage=True lag_days 
+  [PASS] ALFRED:CPIAUCSL vintage=True lag_days 
+  [PASS] ALFRED:ICSA vintage=True lag_days 
+  [PASS] ALFRED:RSXFS vintage=True lag_days 
+  [PASS] ALFRED:IPMAN vintage=True lag_days 
+  [PASS] ALFRED:SP500 loud drop recorded 
+  [PASS] ALFRED:VIXCLS no false no-vintages claim 
+  [PASS] ALFRED:DGS10 no false no-vintages claim 
+  [PASS] ALFRED:DEXJPUS no false no-vintages claim 
+  [..] PASS-row=>file invariant swept all rows
+
+VERIFY OK: all round-3 charter claims reproduce from disk + live FRED.

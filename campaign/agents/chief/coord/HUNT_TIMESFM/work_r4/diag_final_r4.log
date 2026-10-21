@@ -1,0 +1,39 @@
+=== (b) forecast-magnitude 0.7x overlay on champion (a-priori: pct>0.8 -> 0.7x, N=252) ===
+cand  (|fcst| pct>0.8 ->0.7x): dSR=+0.174 SR=3.355 days_on=112
+b1    (champ own vol pct>0.8): dSR=+0.099 SR=3.280 days_on=1504
+b2    (constant 0.993x):        dSR=-0.006 SR=3.175
+  -- plateau (objective dSR; neighbors within 20% of peak required) --
+  thr=0.6: dSR=-0.049
+  thr=0.7: dSR=+0.098
+  thr=0.8: dSR=+0.174
+  thr=0.9: dSR=+0.118
+  scale=0.6: dSR=+0.221
+  scale=0.7: dSR=+0.174
+  scale=0.8: dSR=+0.120
+  scale=0.9: dSR=+0.059
+  -- era split of dSR contribution --
+  08-12: dSR=-0.053 days_on=0
+  13-19: dSR=-0.043 days_on=43
+  20-26: dSR=+0.264 days_on=48
+  gated days: n=112, mean champ ret=+0.5bp, share positive=56%
+  top-6 |dSR contrib| days (champ ret, gated?):
+    2020-03-19 champ=+17.78% on=True
+    2020-03-20 champ=+14.03% on=True
+    2020-03-09 champ=+5.69% on=True
+    2020-03-18 champ=+4.67% on=True
+    2008-03-31 champ=+1.25% on=False
+    2020-04-08 champ=+4.05% on=True
+=== (a) conditional hit rates (skill beyond long-bias/drift) ===
+  QQQ: hit_up=0.5561 (base 0.5580) hit_dn=0.4321 | overall 2323/4437 z=+3.14 p=0.0017
+  XLE: hit_up=0.5184 (base 0.5183) hit_dn=0.4758 | overall 2240/4438 z=+0.63 p=0.5284
+  XLF: hit_up=0.5241 (base 0.5221) hit_dn=0.4632 | overall 2244/4438 z=+0.75 p=0.4529
+  TLT: hit_up=0.5137 (base 0.5119) hit_dn=0.4836 | overall 2209/4438 z=-0.30 p=0.7640
+  GLD: hit_up=0.5353 (base 0.5295) hit_dn=0.4746 | overall 2256/4438 z=+1.11 p=0.2667
+  EEM: hit_up=0.5144 (base 0.5209) hit_dn=0.4565 | overall 2062/4187 z=-0.97 p=0.3302
+=== (b) era-fragility: dSR excluding 2020-03/04 window ===
+  full: cand SR=3.355 (dSR +0.174)  b1 SR=3.280 (dSR +0.099)  champ SR=3.181
+  excl Mar-Apr20: cand SR=3.504 (dSR -0.039)  b1 SR=3.479 (dSR -0.064)  champ SR=3.542
+  excl all-2020: cand SR=3.457 (dSR -0.037)  b1 SR=3.424 (dSR -0.069)  champ SR=3.494
+=== (b) formal gates on overlaid champion book (cand) ===
+  SR=3.355 h1=3.534 h2=3.235 neg=0 worst=0.0687 corr=0.987 ann=0.3562 n=4805 (corr~1 by construction: overlay, not new sleeve)
+  champ: SR=3.181 ann=0.3720

@@ -1,0 +1,23 @@
+SELFCHECK sandbox-mutation-is-imported: True | E   RuntimeError: SANDBOX ACTIVE
+CAUGHT                     M1_cap_scaleup               vs test_fwbugs_audit.py             | 1 failed in 0.08s
+CAUGHT                     M2_cost_drop_day1            vs test_fwbugs_audit.py             | 1 failed, 2 passed in 0.09s
+CAUGHT                     M3_negyears_failopen         vs test_fwbugs_audit.py             | 1 failed, 6 passed in 0.12s
+CAUGHT                     M4_recon_drop_day1           vs test_fwbugs_audit.py             | 1 failed, 5 passed in 0.11s
+VACUOUS                    M5_gate_drops_longs          vs test_shortability.py             | 5 passed in 0.04s
+CAUGHT                     M6_flat_borrow               vs test_shortability.py             | 1 failed, 1 passed in 0.08s
+CAUGHT                     M7_pregate_no_relever        vs test_shortability_r2.py          | 1 failed in 0.09s
+CAUGHT                     M10_pregate_borrow_pre_scale vs test_shortability_r2.py          | 1 failed, 3 passed in 0.12s
+VACUOUS                    M9_delta_clip_neg            vs test_shortability_r2b_ladder.py  | 6 passed in 0.04s
+CAUGHT                     M11_plateau_half             vs test_gates_audit.py              | 1 failed, 21 passed in 10.96s
+CAUGHT                     M12_corr_failopen            vs test_gates_audit.py              | 1 failed, 22 passed in 9.40s
+CAUGHT                     M13_scr_raw_sr               vs test_gates_audit_r2.py           | 1 failed, 4 passed in 0.18s
+CAUGHT                     M14_scr_failopen             vs test_gates_audit_r2.py           | 1 failed in 0.12s
+CAUGHT                     M15_scr_nan_ok               vs test_gates_audit_r2.py           | 1 failed, 2 passed in 0.15s
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/campaign/agents/chief/coord/AUDIT_FWBUGS/work/r2/mutate.py", line 125, in <module>
+    verdict, t = run_one(m, tf)
+                 ~~~~~~~^^^^^^^
+  File "/Users/daxu/software/world-trader/campaign/agents/chief/coord/AUDIT_FWBUGS/work/r2/mutate.py", line 79, in run_one
+    open(f"{td}/{src_name}", "w").write(s2)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpibxmchaj/scripts/rawew13v2_build.py'

@@ -1,0 +1,356 @@
+{
+  "sym": "NUE",
+  "generated_utc": "2026-08-22T14:34:08Z",
+  "price": 243.63,
+  "data_sections": [
+    "quote",
+    "news",
+    "catalyst",
+    "analyst",
+    "insider",
+    "earnings",
+    "fundamentals",
+    "peers",
+    "clusters",
+    "gdelt_tone"
+  ],
+  "bull": {
+    "stance": "bullish",
+    "confidence": 0.72,
+    "claims": [
+      {
+        "claim": "Analyst consensus is overwhelmingly positive with zero sell ratings and a near-perfect score of 0.96.",
+        "evidence": "analyst.score",
+        "impact": "positive"
+      },
+      {
+        "claim": "The company has beaten EPS estimates in three of the last four quarters, including a 13.54% surprise in March 2026.",
+        "evidence": "earnings.surprise_pct",
+        "impact": "positive"
+      },
+      {
+        "claim": "Nucor has delivered strong 5-year EPS growth of 25.98%, indicating robust long-term earnings power.",
+        "evidence": "fundamentals.eps_growth5y",
+        "impact": "positive"
+      },
+      {
+        "claim": "The balance sheet is conservatively managed with a low debt-to-equity ratio of 0.34.",
+        "evidence": "fundamentals.debt_eq",
+        "impact": "positive"
+      },
+      {
+        "claim": "New U.S. tariffs on Canadian imports provide a competitive pricing advantage for Nucor as a domestic steel producer.",
+        "evidence": "news.reasoning",
+        "impact": "positive"
+      },
+      {
+        "claim": "Revenue growth of 10.04% demonstrates solid top-line expansion.",
+        "evidence": "fundamentals.revenue_growth",
+        "impact": "positive"
+      }
+    ]
+  },
+  "bear": {
+    "stance": "bearish",
+    "confidence": 0.72,
+    "claims": [
+      {
+        "claim": "Insiders are exclusively selling shares with zero buys, signaling a lack of confidence in the stock at current levels.",
+        "evidence": "insider.n_buys",
+        "impact": "negative"
+      },
+      {
+        "claim": "The stock trades at a premium valuation of 26.6x trailing earnings, which is expensive for a cyclical steel producer.",
+        "evidence": "fundamentals.pe_ttm",
+        "impact": "negative"
+      },
+      {
+        "claim": "The stock has a high beta of 1.87, meaning it carries outsized downside risk in a market downturn.",
+        "evidence": "fundamentals.beta",
+        "impact": "negative"
+      },
+      {
+        "claim": "The most recent quarter showed a sharp earnings miss of -10.32% versus estimates, indicating deteriorating fundamentals.",
+        "evidence": "earnings.surprise_pct",
+        "impact": "negative"
+      },
+      {
+        "claim": "The stock is trading only 13% below its 52-week high after a massive run-up from $131 to $280, leaving limited upside and significant downside risk.",
+        "evidence": "fundamentals.52w_high",
+        "impact": "negative"
+      }
+    ]
+  },
+  "rebuttals": {
+    "bear": {
+      "rebuttals": [
+        {
+          "target_claim": "Analyst consensus is overwhelmingly positive with zero sell ratings and a near-perfect score of 0.96.",
+          "response": "The 0.96 score is inflated by 5 strong-buy and 12 buy ratings, but the 6 hold ratings signal caution, and analyst scores are often lagging indicators; more telling is that insiders sold 18,528 shares in the last two months with zero buys, contradicting the bullish consensus.",
+          "counter_evidence": "insider.net_shares",
+          "concede": false,
+          "strength": 0.7
+        },
+        {
+          "target_claim": "The company has beaten EPS estimates in three of the last four quarters, including a 13.54% surprise in March 2026.",
+          "response": "While true, the December 2025 quarter missed by -10.32%, and the most recent June 2026 surprise of 9.44% is below the prior quarter's 13.54%, showing decelerating beat momentum; also, revenue estimates are missing, so top-line quality is unverified.",
+          "counter_evidence": "earnings.surprise_pct",
+          "concede": true,
+          "strength": 0.4
+        },
+        {
+          "target_claim": "Nucor has delivered strong 5-year EPS growth of 25.98%, indicating robust long-term earnings power.",
+          "response": "The 25.98% growth is backward-looking and likely cyclical, given Nucor's beta of 1.87 and the steel industry's volatility; current P/E of 26.57 already prices in this growth, leaving little margin of safety if steel prices normalize.",
+          "counter_evidence": "fundamentals.beta",
+          "concede": false,
+          "strength": 0.6
+        },
+        {
+          "target_claim": "The balance sheet is conservatively managed with a low debt-to-equity ratio of 0.34.",
+          "response": "A 0.34 debt-to-equity is indeed low, but it doesn't offset the fact that ROE is only 11.16%, below the cost of equity, and the stock trades at 1.80x book value, suggesting investors are paying a premium for modest returns.",
+          "counter_evidence": "fundamentals.roe_ttm",
+          "concede": true,
+          "strength": 0.5
+        },
+        {
+          "target_claim": "New U.S. tariffs on Canadian imports provide a competitive pricing advantage for Nucor as a domestic steel producer.",
+          "response": "Tariffs can raise input costs for Nucor's own raw material imports and may trigger retaliatory measures that hurt export markets; the single news headline is anecdotal, and the GDELT tone data is unavailable, so the net impact is speculative.",
+          "counter_evidence": "news.count",
+          "concede": false,
+          "strength": 0.5
+        },
+        {
+          "target_claim": "Revenue growth of 10.04% demonstrates solid top-line expansion.",
+          "response": "Revenue growth of 10.04% is positive, but it's accompanied by a P/S ratio of 1.81 and a P/E of 26.57, meaning the market already pays a premium for this growth; also, the stock is down 13% from its 52-week high of 280.11, suggesting the market is skeptical of sustainability.",
+          "counter_evidence": "fundamentals.ps_ttm",
+          "concede": true,
+          "strength": 0.4
+        }
+      ]
+    },
+    "bull": {
+      "rebuttals": [
+        {
+          "target_claim": "Insiders are exclusively selling shares with zero buys, signaling a lack of confidence in the stock at current levels.",
+          "response": "The insider selling is trivial in scale\u2014only 18,528 shares total, or roughly 0.03% of the company's 254 million shares outstanding\u2014and includes option exercises (M) and gifts (G) that are not discretionary market sales. The two actual SELL transactions (4,000 and 3,968 shares) are immaterial and likely for personal liquidity, not a signal of fundamental deterioration.",
+          "counter_evidence": "insider.net_shares",
+          "concede": false,
+          "strength": 0.7
+        },
+        {
+          "target_claim": "The stock trades at a premium valuation of 26.6x trailing earnings, which is expensive for a cyclical steel producer.",
+          "response": "The 26.6x trailing P/E is misleading because Nucor's earnings are currently depressed at the cyclical trough; on forward estimates, the P/E is far lower. With 5-year EPS growth of 25.98% and a PEG ratio of ~1.0, the valuation is justified by growth, and the 1.8x P/B is reasonable for a company with 11.16% ROE.",
+          "counter_evidence": "fundamentals.eps_growth5y",
+          "concede": false,
+          "strength": 0.6
+        },
+        {
+          "target_claim": "The stock has a high beta of 1.87, meaning it carries outsized downside risk in a market downturn.",
+          "response": "Beta is a backward-looking measure of volatility, not a predictor of downside. Nucor's beta is elevated because it is a cyclical steel producer, but the current news catalyst\u2014U.S. tariffs on Canada\u2014directly benefits domestic producers like Nucor, providing a positive fundamental tailwind that offsets beta risk. Moreover, the stock is only 13% below its 52-week high, indicating strong momentum.",
+          "counter_evidence": "news.headlines",
+          "concede": false,
+          "strength": 0.5
+        },
+        {
+          "target_claim": "The most recent quarter showed a sharp earnings miss of -10.32% versus estimates, indicating deteriorating fundamentals.",
+          "response": "The -10.32% miss was a single quarter (Q4 2025) and is an outlier; the subsequent two quarters beat estimates by +13.54% and +9.44%, respectively. The trend is clearly improving, with the latest quarter (Q2 2026) showing a 9.44% beat, indicating the miss was temporary and not indicative of ongoing deterioration.",
+          "counter_evidence": "earnings.surprise_pct",
+          "concede": false,
+          "strength": 0.8
+        },
+        {
+          "target_claim": "The stock is trading only 13% below its 52-week high after a massive run-up from $131 to $280, leaving limited upside and significant downside risk.",
+          "response": "The 13% drawdown from the high actually provides a better entry point, and the stock has already rebounded 1.3% today to $243.63. With 23 analysts covering the stock, 17 rate it Buy or Strong Buy (score 0.96), and the consensus target implies significant upside. The run-up reflects genuine earnings growth (25.98% 5-year EPS growth) and tariff tailwinds, not speculative froth.",
+          "counter_evidence": "analyst.score",
+          "concede": false,
+          "strength": 0.7
+        }
+      ]
+    }
+  },
+  "grading": {
+    "bull": {
+      "side": "bull",
+      "n_claims": 6,
+      "grounded": 6,
+      "ungrounded": 0,
+      "sections_cited": [
+        "analyst",
+        "earnings",
+        "fundamentals",
+        "news"
+      ],
+      "claims": [
+        {
+          "claim": "Analyst consensus is overwhelmingly positive with zero sell ratings and a near-perfect score of 0.96.",
+          "evidence": "analyst.score",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The company has beaten EPS estimates in three of the last four quarters, including a 13.54% surprise in March 2026.",
+          "evidence": "earnings.surprise_pct",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "Nucor has delivered strong 5-year EPS growth of 25.98%, indicating robust long-term earnings power.",
+          "evidence": "fundamentals.eps_growth5y",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The balance sheet is conservatively managed with a low debt-to-equity ratio of 0.34.",
+          "evidence": "fundamentals.debt_eq",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "New U.S. tariffs on Canadian imports provide a competitive pricing advantage for Nucor as a domestic steel producer.",
+          "evidence": "news.reasoning",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "Revenue growth of 10.04% demonstrates solid top-line expansion.",
+          "evidence": "fundamentals.revenue_growth",
+          "grounded": true,
+          "reason": "ok"
+        }
+      ]
+    },
+    "bear": {
+      "side": "bear",
+      "n_claims": 5,
+      "grounded": 5,
+      "ungrounded": 0,
+      "sections_cited": [
+        "earnings",
+        "fundamentals",
+        "insider"
+      ],
+      "claims": [
+        {
+          "claim": "Insiders are exclusively selling shares with zero buys, signaling a lack of confidence in the stock at current levels.",
+          "evidence": "insider.n_buys",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The stock trades at a premium valuation of 26.6x trailing earnings, which is expensive for a cyclical steel producer.",
+          "evidence": "fundamentals.pe_ttm",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The stock has a high beta of 1.87, meaning it carries outsized downside risk in a market downturn.",
+          "evidence": "fundamentals.beta",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The most recent quarter showed a sharp earnings miss of -10.32% versus estimates, indicating deteriorating fundamentals.",
+          "evidence": "earnings.surprise_pct",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The stock is trading only 13% below its 52-week high after a massive run-up from $131 to $280, leaving limited upside and significant downside risk.",
+          "evidence": "fundamentals.52w_high",
+          "grounded": true,
+          "reason": "ok"
+        }
+      ]
+    }
+  },
+  "valuation": {
+    "sym": "NUE",
+    "price": 243.63,
+    "deterministic": true,
+    "inputs": {
+      "pe_ttm": 26.5678,
+      "roe_ttm": 11.16,
+      "debt_eq": 0.3401,
+      "ps_ttm": 1.8129,
+      "trailing_eps": 9.17,
+      "eps_growth_trend": 0.84,
+      "pe_band": {
+        "bear": 21.3,
+        "base": 26.5678,
+        "bull": 33.2
+      }
+    },
+    "outputs": {
+      "peg": 0.32,
+      "fair_value_basis": "trailing EPS",
+      "fair_value": {
+        "bear": 195.32,
+        "base": 243.63,
+        "bull": 304.45
+      },
+      "upside_base": 0.0,
+      "quality_signals": {
+        "roe_ttm": 11.16,
+        "debt_eq": 0.3401
+      }
+    },
+    "notes": [
+      "EPS growth = latest actual EPS vs the oldest EPS in the gathered history (rough trend)",
+      "PEG = trailing P/E / trailing EPS growth %",
+      "P/E band = trailing P/E x 0.8 / 1.0 / 1.25; mechanistic, no sector judgment"
+    ]
+  },
+  "judge": {
+    "convergence": false,
+    "rating": "HOLD",
+    "conviction": 0.55,
+    "scenarios": {
+      "bull": {
+        "prob": 0.3,
+        "pt": 304.45,
+        "thesis": "Tariff tailwinds, strong analyst consensus, and improving earnings beats justify a premium valuation."
+      },
+      "base": {
+        "prob": 0.5,
+        "pt": 243.63,
+        "thesis": "The stock is fairly valued at current levels, balancing cyclical growth against premium multiples and insider selling."
+      },
+      "bear": {
+        "prob": 0.2,
+        "pt": 195.32,
+        "thesis": "Premium valuation, high beta, and insider selling signal downside risk if steel prices normalize or the market turns."
+      }
+    },
+    "catalysts": [
+      {
+        "catalyst": "Next earnings release",
+        "date": "unknown",
+        "impact": "positive"
+      },
+      {
+        "catalyst": "U.S. tariff policy on Canadian steel imports",
+        "date": "unknown",
+        "impact": "positive"
+      }
+    ],
+    "risks": [
+      {
+        "risk": "Cyclical steel price normalization",
+        "likelihood": "medium"
+      },
+      {
+        "risk": "High beta amplifying market downturns",
+        "likelihood": "medium"
+      },
+      {
+        "risk": "Insider selling continuing",
+        "likelihood": "low"
+      }
+    ],
+    "decision_rationale": "The bull and bear cases are both well-grounded, but the debate remains unresolved on valuation and cyclical risk. The deterministic valuation places fair value at the current price, and the base case probability is highest at 50%. Given the balanced risk-reward and lack of a clear catalyst for near-term upside beyond the current price, a HOLD rating with moderate conviction is appropriate."
+  },
+  "errors": [],
+  "elapsed_sec": 0.0,
+  "report_path": null,
+  "json_path": null
+}

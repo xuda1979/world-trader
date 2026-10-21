@@ -1,0 +1,33 @@
+=== loop_team/HUNT_VXV_TERM start Thu Sep  3 19:49:07 CST 2026 ===
+TDD: scratch/test_overlay.py RED (ModuleNotFoundError) -> overlay.py -> 3 passed;
+     revert/restore regression: 1 failed / 3 passed. bt suite fresh: 28 passed (no bt changes).
+recon1 lint+screen: VIX/VXV/GVZ/OVX spans verified; predictive corr max +0.0676 (dvxv21, non-monotone).
+recon2/3/7 overlay battery: 31 variants, ALL real dSR<0 @3.367x charge; best real -0.2924
+     (THROT0.5 ratio_z<-1.0); best @1x -0.1247; 2 degenerate never-fire gates disclosed (dSR 0.0000).
+recon4 scramble-input bug found (net-series passed as positions, realSR +6.57 impossible) ->
+     ROOT CAUSE wrong input not framework; recon4b corrects (raw executed weights x raw SPY rets).
+recon4b/5 satellites: SPY 6 variants, IAU/USO 7 variants, controls: ALL FAIL gates.
+     Best A contango SR 0.612, neg 4/19, poslag p 0.080; vs control +0.061 SR = drift not timing.
+recon6 ledger LEDGER_VXV_CONTANGO_SPY.csv: sum|qty|==charged (0.000e+00), PnL recompose 0.000e+00.
+DEAD_IDEAS.csv +2 rows (clean 4-col). FINDINGS.md written with exact numbers.
+VERDICT: NO DELIVERY. Term-structure = the last untested overlay family, now tested and DEAD.
+=== HUNT_VXV_TERM end ===
+All checks complete. Summary of the hunt:
+
+## HUNT_VXV_TERM — Final Report
+
+**VERDICT: NO DELIVERY — the VIX/VXV term-structure family (the last untested overlay family per DEAD_IDEAS/HUNT_VOLOVERLAY) is now tested and DEAD.**
+
+**TDD evidence**: failing test first (RED: `ModuleNotFoundError: overlay`), minimal `overlay.py` → 3/3 GREEN, revert→fail→restore→pass regression proof (1 failed / 3 passed). bt framework suite: **28 passed** (no bt changes). Champion baseline re-verified fresh: 2008+ n=4,774, **SR_d 3.9397**, ann_geo 43.75%, MDD −4.92%, 0/19 neg — unchanged.
+
+**Overlay (A)**: 31 variants (slope z, ratio z, contango sign, VXV 1d/21d chg, GVZ/OVX z, combos, throttles, ramps, 2-day confirmations), T+1 via `bt.lag_signal`, exact cost |Δm|·6.4bps·3.367 gross. Predictive |corr| max **+0.0676**; **every real overlay dSR < 0** — best real **−0.2924** (bar +0.15), still −0.1247 at the cheapest 1x charge. Two never-fire degenerate gates (dSR exactly 0.0000) disclosed, not counted.
+
+**Satellite (B)**: 16 variants on SPY/IAU/USO (REAL closes) via bt machinery (6.4bps, borrow 0.5%, ≤1.6x). Best = long-contango SPY: SR **0.612** but neg-yrs **4/19** (bar ≤2) and poslag p **0.080** (bar <0.05) — and only **+0.061 SR** over the always-on long control (p=1.000): drift, not timing. All IAU/USO regime variants fail (SR −0.514..0.538).
+
+**Methodology bug caught** (systematic-debugging): recon4 passed net returns as scramble positions (impossible realSR +6.57); root cause = wrong input, fixed in recon4b to raw executed weights × raw returns (realSR +0.65) — numbers above are the corrected ones.
+
+**Trade record**: `LEDGER_VXV_CONTANGO_SPY.csv` (264 rows, SPY, REAL price = t−1 close) — Σ|qty| == charged turnover **|diff|=0.000e+00**; ledger-recomposed PnL vs engine **0.000e+00**.
+
+FINDINGS.md has all gate cards with exact numbers; DEAD_IDEAS.csv +2 clean rows (45 total); champion untouched.
+
+HUNT_VXV_TERM DONE

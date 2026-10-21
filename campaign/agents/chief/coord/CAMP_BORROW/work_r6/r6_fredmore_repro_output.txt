@@ -1,0 +1,39 @@
+PASS V1 DRALACBS exists
+PASS V1 DRALACBS n==166 start==1985-01-01 end==2026-04-01
+PASS V1 DRALACBS gaps==0 ordered no-dot
+PASS V1 DRCLACBS exists
+PASS V1 DRCLACBS n==158 start==1987-01-01 end==2026-04-01
+PASS V1 DRCLACBS gaps==0 ordered no-dot
+PASS V1 WPU05320104 exists
+PASS V1 WPU05320104 n==511 start==1984-01-01 end==2026-07-01
+PASS V1 WPU05320104 gaps==0 ordered no-dot
+PASS V2 DRALACBS delivered==live n=166
+PASS V2 DRCLACBS delivered==live n=158
+PASS V2 WPU05320104 delivered==live n=511
+PASS V3 DRALACBS live fetch ok
+PASS V3 DRALACBS vintage n==61
+PASS V3 DRALACBS lag_min>=floor(130) (got min 136)
+PASS V3 DRALACBS ordered
+PASS V3 DRALACBS coverage holes == []
+PASS V3 DRCLACBS live fetch ok
+PASS V3 DRCLACBS vintage n==61
+PASS V3 DRCLACBS lag_min>=floor(130) (got min 136)
+PASS V3 DRCLACBS ordered
+PASS V3 DRCLACBS coverage holes == []
+PASS V3 WPU05320104 live fetch ok
+PASS V3 WPU05320104 vintage n==136
+PASS V3 WPU05320104 lag_min>=floor(35) (got min 37)
+PASS V3 WPU05320104 ordered
+PASS V3 WPU05320104 coverage holes == ['2015-10-01']
+PASS V4 artifact is flat list n==587
+PASS V4 absent-grid-slot structure events == exactly 1983-04/08/12
+PASS V4 disclosed swings==9
+PASS V4 first swing 1990-01 +95.8%
+PASS V4 no swing coincides with a structure event
+PASS V4 interlude continuous within 30% (refuse=False)
+PASS V5 DEAD_IDEAS DATA_FREDMORE-R5 rows==2
+PASS V5 both status=data-acquired
+PASS V5 DRALACBS + WPU05320104 named
+PASS V5 DEAD_IDEAS dynamic count sane (>=142 at R6 start, no dup ideas)
+
+REPRODUCED: 37 PASS / 0 FAIL

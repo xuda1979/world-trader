@@ -1,0 +1,14 @@
+=== loop_team/AUDIT_LEVFRONTIER start Thu Sep  3 11:12:55 CST 2026 ===
+All charter tasks complete with fresh verification evidence. Summary of what AUDIT_LEVFRONTIER delivered:
+
+**Setup (rigor contract):** Re-verified both frozen builders before any work — `honest13_build.py --verify/--verify-v3` reproduced all 6 committed CSVs (max|diff| 9.986e-17..9.996e-17), `honest11_build.py` FIX re-emit byte-identical (git diff empty). TDD observed RED (cap gate failed at gross 11.39, margin gate at 0.00pp delta) before GREEN: 9/9 gates PASS (byte-repros ~1e-16, cap max = 1.600000 exact, margin delta −2.901pp, cost identity 1.7e-18).
+
+**Task 1 — frontier at ≤1.6x + honest financing:** V3 BAL falls 43.61% → **16.99%** (4.5% margin; 17.98% @3%, 16.02% @6%); V2 BAL 17.16%; POOL11 BAL 19.04% (20.05% @3%). The charter's ~17-20% ceiling is confirmed exactly. All stay 0/19 neg yrs, MDD −3.4..−5.0%.
+
+**Tasks 2+3 — hunting target:** Closed form ann_geo = exp(1.6·v·s − 2.7% − (1.6v)²/2K) − 1 (verified −0.005pp on the real path) proves ann is **K-independent** under a gross cap; diversification buys only SR/MDD. To hit 80%/SR5/DD7 needs **~10 new engines of net SR ≥3.9 at 10% vol, corr≈0** (best engine ever found: CFX4 at 1.91 → a full book of those = 32%/yr). Single-engine path needs SR>11 (MDD-bound). Verdict: 5-goal set infeasible on any domain tried.
+
+**Task 4 — cost model audit + new lowest-leverage build:** Full 14-sleeve ledger with instruments/price-sources; found gross>1 in the champion comes solely from vt overlays (41.6bps/yr turnover). New **RAW-EW14** (slot 1/14 each, gross ≤1.0x by construction): 18.57%/SR 4.31/MDD −2.55%.
+
+**Task 5 — recommendation:** **RAW-EW13 (FF2 dropped) geared to exactly 1.6x**: ann_geo **28.89%**, SR **3.88**, MDD **−4.25%**, 0/19 neg, margin honestly charged — dominates the capped champion (16.99%/3.63) and passes 3 of 5 goals (DD, leverage, profit≥0). Emitted with a 67,242-record trade blotter reconciling exactly (|qty|==turnover 3.7e-9; PnL identical 0.0; 69.2% REAL-priced). All FINDINGS.md numbers are fresh-quoted; bugs found during build (arith-vs-geo ann, budget-fill clamp, seed-noise solver cells, round-off "days>1.6") were root-caused and documented.
+
+FINDINGS.md written with exact numbers; last line: **AUDIT_LEVFRONTIER DONE**

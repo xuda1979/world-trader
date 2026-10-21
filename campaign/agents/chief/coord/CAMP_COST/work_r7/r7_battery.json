@@ -1,0 +1,82 @@
+{
+ "real": {
+  "dSR": 0.014549320205535121,
+  "dSR_H1_byhalf": -3.9968028886505635e-15,
+  "dSR_H2_byhalf": 0.027899485913533528,
+  "dAnn_pp": 0.306773384130814,
+  "dMDD_pp": 0.0,
+  "neg_years_c15": 0,
+  "n_c15": 4805,
+  "end_c15": "2026-08-27"
+ },
+ "tail_corr_to_champion": {
+  "brwt10": 0.8300115056430936,
+  "brwt7": 0.794171421215608,
+  "brwt5": 0.8093647456722226,
+  "diescrack": NaN
+ },
+ "excl_8i": {
+  "window": [
+   "2018-06-19",
+   "2018-07-20"
+  ],
+  "trough_date": "2018-06-25",
+  "window_days": 24,
+  "dMDD_pp_excl": -1.1546319456101628e-14,
+  "relief_ge_0.5pp": false,
+  "dMDD_pp_full": 0.0
+ },
+ "placebo_A_class": {
+  "instrument": "circular shift of each refreshed sleeve's TAIL P&L (post-2026-08-10) within [08-11, 08-28], 200 draws, FULL re-solve machinery (V2 s8h, Class-A domain per VOL2 R6 memo: correlated refresh overlay)",
+  "real_dSR": 0.014549320205535121,
+  "real_dAnn_pp": 0.306773384130814,
+  "null_dSR_mean": 0.01827680325585562,
+  "null_dSR_p50": 0.018736569650010804,
+  "null_dSR_p95": 0.021056796035317803,
+  "null_dAnn_p50": 0.28973160987896307,
+  "real_dSR_percentile": 0.065,
+  "real_dAnn_percentile": 0.6,
+  "reproduced_frac_dSR": 0.935,
+  "note": "reproduced_frac high => arithmetic; right-tail real => timing real"
+ },
+ "leak_probes": {
+  "wide_13slot": {
+   "same_period_corr": -0.03324886975313464,
+   "p": 4.736094185330712e-07,
+   "lag_scan": {
+    "-2": -0.0425399461883242,
+    "-1": 0.7951026471908658,
+    "0": -0.03324886975313464,
+    "1": -0.012271406553716438,
+    "2": 0.0009287607818118077
+   },
+   "leak": false
+  },
+  "scalar_signed_dWg_vs_book": {
+   "same_period_corr": 0.0148514481783051,
+   "p": 0.30325385023568047,
+   "lag_scan": {
+    "-2": 0.0019716742067321423,
+    "-1": 0.011632419285862047,
+    "0": 0.0148514481783051,
+    "1": -0.03518312256155314,
+    "2": 0.022409913866793318
+   },
+   "leak": false
+  },
+  "scalar_turnover_abs_dWg_vs_book": {
+   "same_period_corr": 0.2026414945826749,
+   "p": 1.1813120938215784e-46,
+   "lag_scan": {
+    "-2": 0.003829781556633358,
+    "-1": 0.46255058552653405,
+    "0": 0.2026414945826749,
+    "1": 0.0806088091315044,
+    "2": 0.06162225251207273
+   },
+   "leak": false,
+   "note": "|dWg| same-period corr can exceed 0.20 (turnover covaries with same-day vol); verdict rides the lag-0-argmax leg"
+  },
+  "wiring": "explicit bt.leakcheck probes on the CANDIDATE book (V2 s6 Step-1 rule; thresholds 0.20/0.05/lag-0-argmax, MIN_OBS 30)"
+ }
+}

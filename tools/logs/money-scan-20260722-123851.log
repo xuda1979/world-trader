@@ -1,0 +1,208 @@
+=== MONEY-LOOP scan started 2026-07-22 12:38:51 ===
+=== WORLD-TRADER GLOBAL SCAN  2026-07-22T04:38:51+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+-- OPEN NOW: 9 markets --
+   + AU (Australia (ASX))
+   + CRYPTO (Crypto (24/7))
+   + FUT (Futures (CME/GLOBEX: commodities, bonds, index))
+   + FX (FX (24/5))
+   + IN (India (NSE/BSE))
+   + JP (Japan (TSE))
+   + KR (Korea (KRX))
+   + SG (Singapore (SGX))
+   + TW (Taiwan (TWSE))
+
+-- REGIME: NEUTRAL  (score +0.00) --
+
+-- LIVE QUOTES: 168 instruments fetched (crypto RT, US, China A-share live, Taiwan live, FX)  [wide US unavailable: RemoteDisconnected: Remote end closed connection without response]  [+wide CN A-share: 100 of 100 liquid names -> top 120, backtested] --
+
+=== OPPORTUNITIES (ranked by per-trade expected Sharpe = E[R]/sigma) ===
+  markets open now (2026-07-22T04:41:05+00:00): AU, CRYPTO, FUT, FX, IN, JP, KR, SG, TW
+  YOUR BAR to qualify: E[R]>=+1%/trade, sigma<=7%*sqrt(h/5), Sharpe>=0.40, n>=20, t>=2 (Bonferroni-adj.), OOS Sharpe>0
+  >> markets open (AU, CRYPTO, FUT, FX, IN, JP, KR, SG, TW) but no positive-expectancy edge measured this scan -- stand aside. An empty table is the honest answer.
+
+-- SHORT-RESTRICTED MARKETS -> shortable proxy --
+  * China: Ping An Insurance 中国平安 (sh601318): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: China Merchants Bank 招商银行 (sh600036): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: SMIC (STAR) 中芯国际 (sh688981): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: LONGi Green Energy 隆基绿能 (sh601012): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * CN: 星宸科技 星宸科技 (sz301536): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * CN: 全志科技 全志科技 (sz300458): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * CN: 盛科通信 盛科通信 (sh688702): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * CN: 中船特气 中船特气 (sh688146): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+
+-- MACRO / RATES / CREDIT (FRED) --
+
+-- CATALYST CALENDAR (next 14d; today=2026-07-22) --
+  (no actionable upcoming catalysts found)
+  errors: earnings: net: Remote end closed connection without response; ipo: net: Remote end closed connection without response; dividends: net: Remote end closed connection without response
+
+-- NEWS (expanded feeds) --
+  [Yahoo-Fin]
+    - Spain just opened a door America slammed shut
+    - How to file a renters insurance claim — and what to do if a claim is denied
+    - As the AI Selloff Worsens, Time-Tested Procter & Gamble Stock Could Be the Biggest Winner
+  [WSJ-Markets]
+    - Super Micro’s stock soars as its margins unexpectedly double
+    - This is the ideal retirement strategy if you want to keep your healthcare costs down
+    - SpaceX’s stock snaps brutal losing streak ahead of key Starship rocket launch
+  [CNBC-Top]
+    - Trump plans steep tariffs on generic drugs starting in 2028 to spur U.S. production
+    - Wistron shares surge in Taiwan after opening of Texas AI superchip plant to supply Nvidia
+    - Nike to cut off thousands of online distributors in China, restructure digital footprint
+  [CNBC-Markets]
+    - Nike to cut off thousands of online distributors in China, restructure digital footprint
+    - RFK Jr. says cyclospora outbreak is 'under control'
+    - Goldman Sachs creates private markets platform as rich investors seek the next SpaceX and Stripe
+  [ECB]
+    - ECB appoints Boris Kisselevsky as Director General Secretariat
+    - July 2026 euro area bank lending survey
+    - Survey on the Access to Finance of Enterprises: lending conditions tightened
+  [BoJ]
+    - Bank of Japan Accounts (July 20)
+    - Meeting on the Fifth Market Functioning Survey concerning Climate Change
+    - Statistics on Securities Financing Transactions in Japan
+  [Decrypt]
+    - DAT Went Wrong: Satsuma to Unwind Bitcoin Treasury, Sell Off $43 Million in BTC
+    - OpenAI Models Escaped Locked Test Environment, Hacked Hugging Face to Cheat on Benchmark
+    - Pavel Durov Wants to Give a Billion Telegram Users a Crypto Wallet
+  [FXStreet]
+    - India Gold price today: Gold rises, according to FXStreet data
+    - UK CPI set to show inflation slowed in June, bolstering case for BoE rate hold
+    - British Pound bounces off one-week low vs USD amid Iran diplomacy hopes, ahead of UK CPI
+  [OilPrice]
+    - Oil Prices Climb as U.S.-Iran Conflict Shows No Signs of Slowing
+    - Chinas Next Move Could Decide Where Oil Prices Go This Year
+    - Fossil Fuels Still Generate 57% of the Worlds Electricity
+  [JapanTimes]
+    - 24 hours in a Ukrainian hospital buckling under the toll of war
+    - Investors see pollution plan silver lining in EU carbon overhaul
+    - In Gaza, a mother’s hunt for water lays bare a worsening health crisis
+  [Livemint]
+    - Jindal Steel to NTPC - Jay Thakkar suggests 3 stocks to buy or sell for short-term in F&O segment
+    - Bandhan Bank share price slips over 14% on weak margin outlook. Should you buy, sell or hold the stock after Q1 results?
+    - Eternal share price edges higher ahead of Q1 results 2026. Should you buy or sell?
+  [Electrek]
+    - Electrek Formula Sun Grand Prix 2026: Day 1 results and gallery
+    - GM just added ChargePoint to its EV apps
+    - Kia PV5 High Roof spotted in public for the first time [Video]
+  [Investing-UK]
+    - Asia FX: Yen slides past 163 as oil risks pressure importers; won holds resilient
+    - Dollar up on safe-haven boost; fiscal worries weigh on pound, yen at 40-year low
+    - Large currency options set to expire Wednesday
+  [CityAM]
+    - Let the machines do the grunt work, so that we can do the great work
+    - Manchester was Burnham rehearsal  now get ready to pay the bill
+    - We are going to run out: Mitie marks eleventh mega takeover of 2026
+  [Investing-DE]
+    - Contract chipmaker TSMC to raise prices by up to 10% in 2027, sources say
+    - Samsung in talks to invest in Mistral at 20 billion euro valuation, FT reports
+    - Zhongji Innolight targets $7bn in Hong Kong share sale
+  [Investing-IT]
+    - Oil extends gains on fresh Mideast supply risks
+    - New York army veteran in custody after fire set outside ICE offices
+    - Hormuz vessel crossings fall further as security concerns linger
+  [NikkeiAsia]
+    - Rubio stresses US commitment to Asia at ASEAN meeting
+    - Yen falls to 39-year low of 163 per dollar on Iran tensions, Takaichi plan
+    - Indonesia's free meal scheme hit by further turmoil as program boss quits
+  [JijiPress]
+    - ウクライナ大統領、軍総司令官を解任　前国防相と対立、抗議デモも
+    - 骨太方針「高市カラー」鮮明　防衛・情報重視、消費減税先送り
+    - イラン山岳地帯「近く攻撃」　トランプ氏、圧力で譲歩迫る―地下に核関連施設か
+  [EconTimes]
+    - Bandhan Bank shares crash 10% after Q1 results, RoA guidance cut. Time to sell?
+    - Q1 Results today: Eternal, Nestle, IndusInd Bank among 63 companies announcing June earnings. What to expect?
+    - Sterlite Tech shares tumble 27% from June peak after 400% surge in 2026. Should you catch this falling knife?
+  [BusinessStd]
+    - India reaffirms commitment to a transparent multilateral trading system
+    - Caliber Mining and Logistics IPO ends with 146.64 times subscription
+    - Sagility slips after Q1 PAT slides 16% QoQ to Rs 217 cr
+  [HinduBiz]
+    - Sensex today | Stock Market Live: Sensex sheds 550 pts, Nifty near 24,000; Nifty Pharma down 2%
+    - Gabriel India shares slide 6% as company announces ₹3,166 crore dual acquisition deal
+    - Rupee falls 11 paise to 96.36 against US dollar in early trade
+  [EM-Investing]
+    - Centrino Capital Announces Mauritius FSC License Approval for Regulated Global Expansion
+    - KeychainX Study Finds $2.7B in Presale ETH Never Moved
+    - Noble Transfer Highlights Convenient Travel Options Between Lucerne and Engelberg for Visitors Exploring Central Switzerland
+  [MetalMiner]
+    - How Aclara Plans to Build a Rare Earth Supply Chain Without China by 2028
+    - How to Judge Forecast Performance in Metals: Setting up an MCP for Metal Prices
+    - What Ideal Metal Price Forecasting Looks Like for Decision-Makers
+  [FarmProgress]
+    - Corn found some Tuesday traction
+    - Consider flying cereal rye into standing corn
+    - Crop progress: Corn ratings shift slightly lower
+  [CoinTelegraph]
+    - Balance Coin crashes 99% after reported $915K exploit
+    - OpenAI says AI models escaped containment to hack Hugging Face
+    - Balaji’s Network School turns to Kazakhstan amid Malaysia setback
+  [BeInCrypto]
+    - Prediction Markets and Casinos Are Both Betting Big on Washington
+    - How Much Has the Iran War Cost the US? Defence Secretary Puts a Number on It
+    - Digital Chamber Sues Illinois Over 0.2% Crypto Tax Law
+  [NewsBTC]
+    - CFTC Self-Reporting Guidelines Could Change Crypto Enforcement Incentives
+    - Ostium Halts Trading After $18M Oracle Key Breach
+    - SEC And CFTC Open Joint Consultation On Crypto Derivatives Rules
+  [BitcoinMag]
+    - Bitcoin is NOT Changed by Proof Of Node
+    - Bitcoin Maxi Jack Dorsey Unveils New Open Source Group Chat App
+    - Coinbase Wants To Be Canadas Everything Exchange — With Crypto, Stocks, and Prediction Markets
+  [Investing-FX]
+    - Asia FX: Yen slides past 163 as oil risks pressure importers; won holds resilient
+    - Dollar up on safe-haven boost; fiscal worries weigh on pound, yen at 40-year low
+    - Large currency options set to expire Wednesday
+
+-- SEC 8-K MATERIAL CATALYSTS (last 3 days) --
+  (unavailable: net: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081))
+
+-- INSIDER CLUSTER BUYS (last 30d, >=2 insiders) --
+  (unavailable: RemoteDisconnected: Remote end closed connection without response)
+
+-- DEFI STABLECOIN YIELDS (top 8 by APY, TVL >=$10M) --
+  (unavailable: net: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081))
+
+-- SHORT SQUEEZE WATCH (SI% float >= 10%) --
+  (no high-SI names found)
+
+-- ENERGY SNAPSHOT (FRED weekly) --
+  (altdata2 error: TypeError: unsupported format string passed to NoneType.__for)
+
+research only, not financial advice. verify before acting.
+
+[scan task log]
+  - 12:38:51  regime: gathering FRED macro / VIX / fear-greed
+  - 12:38:55  regime: NEUTRAL score=+0.00
+  - 12:38:55  quotes: collecting global universe (crypto/US/CN/TW/HK/FX/futures/indices + region/macro ETFs)
+  - 12:40:27  quotes: 75 curated instruments fetched
+  - 12:40:27  wide US funnel: pulling ~12k tickers from Polygon, pre-screening top 150
+  - 12:40:35  wide US funnel: 0 of 0 -> top 150 backtested [err: RemoteDisconnected: Remote end closed connection without response]
+  - 12:40:35  spillover funnel: scanning RSS headlines for theme keywords -> peer candidates
+  - 12:40:43  spillover funnel: 6 candidates across 1 themes -> 0 fetched
+  - 12:40:43  wide CN funnel: pulling ~5,500 A-shares, pre-screening top 120
+  - 12:40:44  wide CN funnel: 100 of 100 -> top 120 backtested
+  - 12:40:44  opportunities: building candidate set from quotes + regime
+  - 12:40:44  opportunities: 56 raw candidates
+  - 12:40:44  backtest: enriching with technicals + E[R]/sigma/Sharpe
+  - 12:41:03  backtest: per-candidate family m=13 (global total=96) -> Bonferroni t>=2.89
+  - 12:41:03  news enrichment: Finnhub headlines + Polygon sentiment per candidate
+  - 12:41:03  news enrichment: done (0 candidates have fresh headlines)
+  - 12:41:03  catalyst enrichment: scanning Finnhub earnings/FDA/IPO + Polygon dividends
+  - 12:41:04  catalyst enrichment: 0 candidates have a near-term catalyst (+0 new)
+  - 12:41:04  PEAD confirmation: looking up recent earnings surprises for PEAD setups
+  - 12:41:04  PEAD confirmation: 0 PEAD setups confirmed by earnings surprise (+0 new)
+  - 12:41:04  options enrichment: pulling ATM straddles (CBOE) for top US candidates
+  - 12:41:04  options enrichment: 0 candidates have an RV/IV signal (+0 new)
+  - 12:41:04  country crisis: scanning 32 country ETFs for crisis signals
+  - 12:41:05  country crisis: 0 candidates in crisis (+0 new)
+  - 12:41:05  veto gate: 0 rows vetoed (0 crash-in-progress, 0 news-contradicts) -> PASS rows 1 -> 1
+  - 12:41:05  catalysts: printing freshest company news for top candidates
+  - 12:41:05  alt-data: pulling FRED macro/rates/credit, treasury curve, BTC funding, COT
+  - 12:41:08  catalyst calendar: Finnhub earnings/FDA/IPO + Polygon dividends (14d)
+  - 12:41:09  expanded news: sweeping all RSS feeds (equities/macro/CB/crypto/FX/commodities/regional)
+  - 12:41:21  expanded news: 29 feeds ok, 76 feeds failed
+  - 12:41:21  GDELT: 24h global market tone sweep
+  - 12:41:34  altdata2: SEC 8-K + insider clusters + DeFi yields + short squeeze + energy

@@ -1,0 +1,275 @@
+=== MONEY-LOOP scan started 2026-07-14 22:43:42 ===
+=== WORLD-TRADER GLOBAL SCAN  2026-07-14T14:43:42+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+-- REGIME: RISK-ON  (score +0.48) --
+   VIX=17.16(+0.19)  HY=2.69(+0.91)  10Y-2Y=0.36(+0.36)
+   crypto fear&greed: 22 (Extreme Fear)
+   [+spillover: 5 cross-asset candidates from 1 themes]
+
+-- LIVE QUOTES: 404 instruments fetched (crypto RT, US, China A-share live, Taiwan live, FX)  [+wide US: 4135 of 12411 tickers pre-screened -> top 150]  [+wide CN A-share: 600 of 600 liquid names -> top 120, backtested] --
+
+=== OPPORTUNITIES (ranked by per-trade expected Sharpe = E[R]/sigma) ===
+  markets open now (2026-07-14T14:53:01+00:00): CRYPTO, FX, US
+  YOUR BAR to qualify: E[R]>=+1%/trade, sigma<=7%*sqrt(h/5), Sharpe>=0.40, n>=20, t>=2 (Bonferroni-adj.), OOS Sharpe>0
+  >> NOTHING cleared your bar this scan. The rows below are the best
+     MEASURED edges only -- they are NOT signals. DO NOT trade them.
+
+-- TRADE PLAN --
++---+------------+------+-----+------+-------+--------+--------------+------+--------+--------+--------+-----+-------+------------+
+| # | Instrument | Sym  | Mkt | Dir  | Setup |  Price | Quote(Local) | Chg% |  Entry |   Stop | Target | R:R | Risk% | Catalyst   |
++===+============+======+=====+======+=======+========+==============+======+========+========+========+=====+=======+============+
+| 1 | US: NIO    | NIO  | US  | Long | range |  5.100 | 07-14 10:45  | 3.4% |  5.100 |  5.070 |  5.210 | 3.7 | 0.59% | evpricewar |
+| 2 | US: XPEV   | XPEV | US  | Long | range | 13.430 | 07-14 10:46  | 3.7% | 13.430 | 13.360 | 13.649 | 3.1 | 0.52% | evpricewar |
+| 3 | US: LI     | LI   | US  | Long | range | 12.500 | 07-14 10:45  | 2.6% | 12.500 | 12.410 | 12.695 | 2.2 | 0.72% | evpricewar |
++---+------------+------+-----+------+-------+--------+--------------+------+--------+--------+--------+-----+-------+------------+
+
+-- EDGE & RISK (evidence for the SAME numbered rows) --
++---+------+---------+-------+--------+--------+-----+-------+------+-----+------+--------+-------+-------+
+| # | Sym  | Verdict | E[R]% | sigma% | Sharpe |   t |  oosS | Win% |   n | ATR% | Kelly% | RV/IV | Data  |
++===+======+=========+=======+========+========+=====+=======+======+=====+======+========+=======+=======+
+| 1 | NIO  | below   | 0.17% |  1.26% |   0.13 | 2.7 |  0.06 |  30% | 434 | 4.0% |  11.4% |    -- | RT 1m |
+| 2 | XPEV | below   | 0.16% |  1.03% |   0.16 | 3.3 | -0.04 |  35% | 434 | 3.9% |  14.8% |    -- | RT 0m |
+| 3 | LI   | below   | 0.01% |  1.09% |   0.01 | 0.3 | -0.09 |  36% | 434 | 3.1% |   6.0% |    -- | RT 1m |
++---+------+---------+-------+--------+--------+-----+-------+------+-----+------+--------+-------+-------+
+  note: 61 live instruments have no free daily history (China A-share/Taiwan) -> no expectancy, excluded from ranking.
+
+-- CATALYSTS (latest company news for top candidates; verify before acting) --
+  NIO     Long  [+]  Goldman Sachs Upgrades NIO Inc. - Depositary Receipt (NIO)
+          (11h ago  3 src  6 articles/7d)
+          why: Listed among top SDV market players, benefiting from the industry's shift toward software-centric vehicle platfo…
+  XPEV    Long  [+]  XPeng: Strong June Deliveries Create Upside
+          (39h ago  1 src  3 articles/7d)
+          why: Identified as a leading company in the SDV market, well-positioned to capitalize on the 16.0% CAGR growth throug…
+  LI      Long  [+]  XPeng: Strong June Deliveries Create Upside
+          (39h ago  1 src  2 articles/7d)
+          why: Identified as a leading company in the SDV market, indicating strong positioning in the high-growth software-def…
+
+-- MACRO / RATES / CREDIT (FRED) --
+  US 3M yield                      3.85  (2026-07-10)
+  US 2Y yield                      4.21  (2026-07-10)
+  US 10Y yield                     4.56  (2026-07-10)
+  US 30Y yield                     5.06  (2026-07-10)
+  10Y-2Y spread                    0.36  (2026-07-13)
+  10Y-3M spread                    0.73  (2026-07-13)
+  Fed funds                        3.62  (2026-07-10)
+  VIX                             17.16  (2026-07-13)
+  US HY credit spread              2.69  (2026-07-13)
+  US IG credit spread              0.78  (2026-07-13)
+  WTI oil                          69.6  (2026-07-06)
+  Brent oil                       69.56  (2026-07-06)
+  USD/EUR                        1.1438  (2026-07-10)
+  Broad USD index              120.5046  (2026-07-10)
+  Fin conditions index         -0.51500  (2026-07-03)
+  Fed balance sheet             6735609  (2026-07-08)
+  M2 money supply               23052.3  (2026-05-01)
+  Unemployment rate                 4.2  (2026-06-01)
+  CPI                           332.568  (2026-06-01)
+  5Y inflation breakeven           2.31  (2026-07-13)
+  UST curve: 3M 3.85%  2Y 4.21%  10Y 4.56%  30Y 5.06%
+  BTC perp funding: +0.0050%  OI 103,418
+  CFTC COT large-spec net: WTI +75,749  Gold -15,463  BTC +3,500  ES -10,947
+
+-- CATALYST CALENDAR (next 14d; today=2026-07-14) --
+  2026-07-14  (25)
+    [ERN] AEHR     Q4 2026 EPS est -0.0077 EPS~-0.0077
+    [ERN] AIR      Q4 2026 EPS est 1.3938 EPS~1.3938
+    [ERN] ANGO     Q4 2026 EPS est -0.0918 / act -0.07 EPS~-0.0918
+    [ERN] BAC      Q2 2026 EPS est 1.129 / act 1.21 EPS~1.129
+    [ERN] BRLL     Q2 2026 EPS est None
+    [ERN] C        Q2 2026 EPS est 2.7565 / act 3.15 EPS~2.7565
+    [ERN] CANB     Q4 2025 EPS est None
+    [ERN] CRSB     Q2 2026 EPS est 1.3032 EPS~1.3032
+  2026-07-15  (42)
+    [ERN] ADX      Q2 2026 EPS est None
+    [ERN] BLK      Q2 2026 EPS est 12.669 EPS~12.669
+    [ERN] BNY      Q2 2026 EPS est 2.2271 EPS~2.2271
+    [ERN] BVFL     Q2 2026 EPS est None
+    [ERN] CCTG     Q4 2026 EPS est None
+    [ERN] CTAS     Q4 2026 EPS est 1.2661 EPS~1.2661
+    [ERN] CWBC     Q2 2026 EPS est 0.3101 EPS~0.3101
+    [ERN] CZBT     Q2 2026 EPS est None
+  2026-07-16  (58)
+    [ERN] AA       Q2 2026 EPS est 2.2932 EPS~2.2932
+    [ERN] ABT      Q2 2026 EPS est 1.2922 EPS~1.2922
+    [ERN] ADN      Q1 2026 EPS est None
+    [ERN] AN       Q2 2026 EPS est 5.6035 EPS~5.6035
+    [ERN] ASII     Q1 2026 EPS est None
+    [ERN] ATLO     Q2 2026 EPS est 0.6732 EPS~0.6732
+    [ERN] BANF     Q2 2026 EPS est 1.8326 EPS~1.8326
+    [ERN] BCBP     Q2 2026 EPS est 0.2618 EPS~0.2618
+  2026-07-17  (21)
+    [ERN] ACU      Q2 2026 EPS est 0.5858 EPS~0.5858
+    [ERN] ALV      Q2 2026 EPS est 2.4483 EPS~2.4483
+    [ERN] BALY     Q2 2026 EPS est -1.3518 EPS~-1.3518
+    [ERN] BOTJ     Q2 2026 EPS est None
+    [ERN] CCBC     Q2 2026 EPS est None
+    [ERN] CCFN     Q2 2026 EPS est None
+
+-- NEWS (expanded feeds) --
+  [MarketWatch]
+    - IBM’s stock is having its worst day ever after the surprise release of an earnings miss
+    - Jamie Dimon says ‘booming’ markets and a ‘fine’ consumer fueled JPMorgan’s blowout profits
+    - Social Security says it’s handling disability claims better. But it may just be pushing more people  away.
+  [Nasdaq-Mkts]
+    - The AI-Driven Rise in Power Bills Are Causing a $25 Billion Problem for Utility Stocks
+    - Greg Abel Tied 30% of Berkshire's $348 Billion Portfolio to 2 AI Stocks
+    - Alibaba Stock Is Picking Up Steam: Is It Overdue for a Big Rally?
+  [Nasdaq-Stocks]
+    - Wheat Falling Back on Tuesday
+    - Cotton Facing Early Tuesday Weakness
+    - Corn Slipping Lower on Tuesday Morning, as Crop Ratings Improve
+  [SeekingAlpha]
+    - Snapchat: The Profit Era May Soon Begin
+    - AppLovin: The Growth Math Does Not Add Up
+    - Lumentum: An Optical Company Trading Like A Semiconductor
+  [Investing]
+    - Why is Arm stock sliding today?
+    - Why is HCA Healthcare stock sliding today?
+    - D.R. Horton stock may move 4.4% on July 21 earnings report
+  [Yahoo-Fin]
+    - Target's problems aren't what you think they are
+    - Tech stocks live updates: Tech stocks fall as AI trade faces scrutiny, SK Hynix falls
+    - CleanSpark Lands First HPC Lease Worth Nearly $7 Bil. Bitcoin Leads CPI-Fueled Crypto Surge.
+  [Benzinga]
+    - Toncoin (TON) Price Prediction 2025, 2026, 2027-2030
+    - Myro (MYRO) Price Prediction: 2025, 2026, 2030
+    - PancakeSwap (CAKE) Price Prediction: 2025, 2026, 2030
+  [Zerohedge]
+    - Warren Buffett Cuts Gates Foundation From Annual Stock Giving As Epstein Scandal Shadows Over Bill Gates
+    - Iran Launches 'Brazen' Attacks On More Tankers In Hormuz, Killing Sailors, After Araghchi Mocked Trump's Toll Plan
+    - Rate-Hike Odds Slump As US Consumer Prices Plunge Most Since COVID In June
+  [WSJ-Markets]
+    - IBM’s stock is having its worst day ever after the surprise release of an earnings miss
+    - Jamie Dimon says ‘booming’ markets and a ‘fine’ consumer fueled JPMorgan’s blowout profits
+    - Social Security says it’s handling disability claims better. But it may just be pushing more people  away.
+  [FT-Markets]
+    - IBM shares plunge 23% as customers shift spending to AI
+    - Wall Street banks post blockbuster profits as equities trading booms
+    - Democrats are not in great shape
+  [CNBC-Top]
+    - Warsh promises inflation will be a 'thing of the past,' cites 'mistake' of prior policy
+    - Jamie Dimon says AI has helped JPMorgan cut up to 40% of jobs in certain roles: Live updates
+    - Consumer prices rose 3.5% annually in June, less than expected as energy prices eased
+  [CNBC-Markets]
+    - Frontier Airlines to debut in-flight Wi-Fi in 2027 with SpaceX's Starlink
+    - Jamie Dimon says AI has helped JPMorgan cut up to 40% of jobs in certain roles: Live updates
+    - United Airlines' new upsell: Keeping other travelers out of the middle seat
+  [FedPress]
+    - Federal Reserve announces the leadership and objectives of its task forces to advance the conduct of monetary policy
+    - Federal Reserve Board issues enforcement action with TS Banking Group, Inc. and TS Contrarian Bancshares, Inc.
+    - Minutes of the Federal Open Market Committee, June 16-17, 2026
+  [ECB]
+    - ECB selects 36 payment service providers to join digital euro pilot
+    - Piero Cipollone: Interview with Jornal de Negocios
+    - Isabel Schnabel: How to foster growth and resilience in Europe
+  [BoE]
+    - PRA and FCA propose new captive insurance regime to drive UK growth and competitiveness
+    - Minutes of the Money Market Committee meeting – June 2026
+    - UK financial regulators to begin overseeing Critical Third Parties announced by HM Treasury
+  [BoJ]
+    - Japanese Government Bonds Held by the Bank of Japan
+    - Bank of Japan Accounts (July 10)
+    - Basic Figures on Fails (June)
+  [Cointelegraph]
+    - OpenAI quietly adds Kalshi World Cup odds to ChatGPT: Report
+    - Strategy became a symbol of the dot-com crash: Could history repeat?
+    - Humanity Protocol to prioritize operational security following $36M hack
+  [Decrypt]
+    - Morning Minute: Saylor's Strategy Hoards Cash, Doesn't Buy BTC
+    - US Government Moves $288M in Seized Crypto to Coinbase Prime
+    - Stop Over-Prompting: OpenAI’s New GPT-5.6 Guidelines Change Everything
+  [TheBlock]
+    - Tether leads $7 million round in Pact Labs to boost USAT stablecoin adoption
+    - Dragonfly, FirstMark lead $38 million Series A for stablecoin startup Velocity with support from Coinbase, Ripple and more
+    - Decentralized AI project Nous Research in talks to raise $75M at $1.5B valuation: report
+  [CoinDesk]
+    - Ethereum Foundation spinout EthSystems targets banks with blockchain privacy technology
+    - For pension funds, tokenization’s real play is balance-sheet management, Fidelity’s Lai says
+    - Hut 8 price target hiked to $165 at Benchmark as AI pivot reshapes valuation
+  [ForexLive]
+    - Warsh Q&A: Inflation is a choice, we will deliver price stability
+    - Where are the markets as Warsh testimony begins?
+    - RBC bumps up Canadian and US growth forecasts, sees Fed and BoC frozen through 2026
+  [FXStreet]
+    - Canada: Cyclical rebound and steady BoC stance – RBC
+    - British Pound strengthens after US CPI surprises to the downside
+    - Fed Chair Warsh to note they have no tolerance for persistently elevated inflation
+  [Mining.com]
+    - Canada bets on digital hub to speed mine permitting
+    - Genesis boss says Vault merger is the perfect pairing
+    - CHART: Mining vs AI – Nvidia sneezes, sheds five BHPs
+  [JapanTimes]
+    - Egg-free school meals scramble politics in India
+    - International conference on bluefin tuna fails to strike agreement
+    - Careless smoker accused of causing fatal Osaka fire in 2025
+  [SCMP-Biz]
+    - Louis Vuitton takes China’s trademark regulator to court as legal drive continues
+    - China’s power exports to Asean surge 40% in first half of 2026 amid Hormuz tensions
+    - As IPOs surge, Hong Kong’s audit regulator vows tougher scrutiny
+  [ET-Markets]
+    - IIAS opposes Ujjivan SFB RSU plan over disclosure concerns
+    - Buffett to offload Berkshire stake in 8 years, Gates snubbed
+    - RBI proposes easing rules for mutual funds, insurers to acquire higher stake in banks
+  [Livemint]
+    - Alpine Texworld IPO off to a slow start; subscribed 0.28 times on Day 1; GMP indicates modest listing
+    - IBM shares plunge 26% after Q2 earnings forecast falls short of estimates
+    - SBI Funds Management IPO subscribed 0.71x on Day 1; NII portion leads demand, GMP signals 16% listing premium
+  [SpaceNews]
+    - U.K. government preparing to release new space strategy
+    - Flexell Space raises $20 Million in Series A round
+    - Defense spending lifts Europe’s space economy
+  [TechCrunch]
+    - Im de-influencing you from buying the RingConn 3 (even though its pretty)
+    - Reflection inks $1B compute deal with Nebius
+    - The real AI race may no longer be at the frontier
+  [TheRegister]
+    - IBM's mainframe sales get mugged by AI hardware panic
+    - Sun sets on Vulcan Centaur as NASA moves SunRISE to SpaceX Falcon Heavy
+    - Engineer shoves Linux peg through Sega 32X-shaped hole
+  [BioPharma]
+    - <a href="/pharma/fierce-pharma-regulatory-tracker-2026-h2" hreflang="en">Regulatory tracker: Eisai, Biogen scoop up subQ Leqembi starter dose nod</a>
+    - <a href="/pharma/huyabio-scores-opdivo-combo-milestone-skin-cancer-trial" hreflang="en">Huyabio scores with Opdivo combo in 'milestone' skin cancer trial</a>
+    - <a href="/pharma/cellares-recent-automated-cell-therapy-wins-have-opened-biotech-floodgates" hreflang="en">Cellares' recent automated cell therapy wins have 'opened the biotech floodgates'</a>
+  [PV-Magazine]
+    - Ampace launches co-branded CI energy storage product at Intersolar Europe 2026
+    - GameChange targets 30% of revenue from beyond solar trackers within three years
+    - Port of Valencia activates first 500 kW floating offshore PV unit
+  [Electrek]
+    - These Volkswagen EVs could soon disappear, including Audi and Porsche models
+    - Tesla moves to guarantee resale value for buyers after price cuts
+    - US EV fast charging has entered Charging 2.0 – heres what that means
+
+research only, not financial advice. verify before acting.
+
+[scan task log]
+  - 22:43:42  regime: gathering FRED macro / VIX / fear-greed
+  - 22:43:54  regime: RISK-ON score=+0.48
+  - 22:43:54  quotes: collecting curated universe (crypto/US-core/CN/TW/FX)
+  - 22:45:34  quotes: 129 curated instruments fetched
+  - 22:45:34  wide US funnel: pulling ~12k tickers from Polygon, pre-screening top 150
+  - 22:45:52  wide US funnel: 4135 of 12411 -> top 150 backtested
+  - 22:45:52  spillover funnel: scanning RSS headlines for theme keywords -> peer candidates
+  - 22:46:14  spillover funnel: 6 candidates across 1 themes -> 6 fetched
+  - 22:46:14  wide CN funnel: pulling ~5,500 A-shares, pre-screening top 120
+  - 22:46:24  wide CN funnel: 600 of 600 -> top 120 backtested
+  - 22:46:24  opportunities: building candidate set from quotes + regime
+  - 22:46:24  opportunities: 251 raw candidates
+  - 22:46:24  backtest: enriching with technicals + E[R]/sigma/Sharpe
+  - 22:51:53  backtest: per-candidate family m=10 (global total=313) -> Bonferroni t>=2.81
+  - 22:51:53  news enrichment: Finnhub headlines + Polygon sentiment per candidate
+  - 22:52:02  news enrichment: done (3 candidates have fresh headlines)
+  - 22:52:02  catalyst enrichment: scanning Finnhub earnings/FDA/IPO + Polygon dividends
+  - 22:52:13  catalyst enrichment: 1 candidates have a near-term catalyst (+1 new)
+  - 22:52:13  PEAD confirmation: looking up recent earnings surprises for PEAD setups
+  - 22:52:13  PEAD confirmation: 0 PEAD setups confirmed by earnings surprise (+0 new)
+  - 22:52:13  options enrichment: pulling ATM straddles (CBOE) for top US candidates
+  - 22:52:32  options enrichment: 9 candidates have an RV/IV signal (+9 new)
+  - 22:52:32  country crisis: scanning 32 country ETFs for crisis signals
+  - 22:53:01  country crisis: 0 candidates in crisis (+0 new)
+  - 22:53:01  catalysts: printing freshest company news for top candidates
+  - 22:53:01  alt-data: pulling FRED macro/rates/credit, treasury curve, BTC funding, COT
+  - 22:53:27  catalyst calendar: Finnhub earnings/FDA/IPO + Polygon dividends (14d)
+  - 22:53:33  expanded news: sweeping all RSS feeds (equities/macro/CB/crypto/FX/commodities/regional)
+  - 22:53:49  expanded news: 33 feeds ok, 15 feeds failed
+  - 22:53:49  GDELT: 24h global market tone sweep

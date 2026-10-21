@@ -1,0 +1,19 @@
+=== MONEY-LOOP scan started 2026-07-12 12:24:27 ===
+=== WORLD-TRADER GLOBAL SCAN  2026-07-12T04:24:38+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+-- REGIME: RISK-ON  (score +0.51) --
+   VIX=15.84(+0.28)  HY=2.7(+0.90)  10Y-2Y=0.35(+0.35)
+   crypto fear&greed: 26 (Fear)
+
+-- LIVE QUOTES: 405 instruments fetched (crypto RT, US, China A-share live, Taiwan live, FX)  [+wide US: 4007 of 12398 tickers pre-screened -> top 150]  [+wide CN A-share: 600 of 600 liquid names -> top 120, backtested] --
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 359, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 239, in main
+    scored = report.enrich_with_technicals(scored, regime, vix=vix)
+  File "/Users/daxu/software/world-trader/tools/wt/report.py", line 463, in enrich_with_technicals
+    s["p_win"] = orb["p_win"]
+                 ~~~^^^^^^^^^
+KeyError: 'p_win'

@@ -1,0 +1,68 @@
+/Users/daxu/software/world-trader/tools/loop_scan.py:131: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:14s} fr_1h={r['fr_pct_1h']:+.4f}% APR={r['apr_pct']:+.1f}% OI=\${r['oi_usd']/1e6:.1f}M")
+/Users/daxu/software/world-trader/tools/loop_scan.py:142: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:8s} avg=\${r['avg_price']:.5f} depeg={r['depeg_bps']:+.1f}bps "
+/Users/daxu/software/world-trader/tools/loop_scan.py:143: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:143: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:154: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:154: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:167: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"straddle=\${r['straddle_cost']:.2f} ({r['trade']})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:181: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:181: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+=== LOOP SCAN 2026-07-06 22:42:48 CST ===
+
+--- Funding arb (single-exchange, relaxed) — 2 candidates ---
+  BELUSDT      fr_8h=-0.6806% basis=-0.015% net_24h=+1.837% APR=+223.5% (long_perp_short_spot)
+  REUSDT       fr_8h=-0.2426% basis=-0.280% net_24h=+0.258% APR=+31.3% (long_perp_short_spot)
+
+--- Cross-exchange funding — 25 candidates (exchanges: ['binance', 'bitget', 'bybit', 'gate', 'okx']) ---
+  RPLUSDT      SHORT bybit (-0.1303%) / LONG gate (-0.3407%) net_24h=+0.471% APR=+57.3%
+  LABUSDT      SHORT binance (-0.2707%) / LONG bybit (-0.4319%) net_24h=+0.323% APR=+39.4%
+  NFPUSDT      SHORT binance (+0.0000%) / LONG gate (-0.1451%) net_24h=+0.275% APR=+33.5%
+  SLXUSDT      SHORT binance (-0.1153%) / LONG bybit (-0.2505%) net_24h=+0.246% APR=+29.9%
+  PUFFERUSDT   SHORT gate (+0.0050%) / LONG bybit (-0.1116%) net_24h=+0.190% APR=+23.1%
+  CLOUSDT      SHORT gate (+0.1180%) / LONG bybit (+0.0050%) net_24h=+0.179% APR=+21.8%
+  KORUUSDT     SHORT bybit (+0.1077%) / LONG binance (+0.0000%) net_24h=+0.163% APR=+19.8%
+  BNTUSDT      SHORT bybit (+0.0021%) / LONG binance (-0.0942%) net_24h=+0.129% APR=+15.7%
+
+--- Spot arb (order-book verified) — 0 candidates ---
+
+--- Quarterly basis (cash and carry) — 4 candidates ---
+  BTCUSDT_261225         basis=+1.650% days=171 APR=+3.52% net_APR=+3.12% (long_spot_short_quarterly)
+  BTCUSDT_260925         basis=+0.773% days=80 APR=+3.52% net_APR=+2.66% (long_spot_short_quarterly)
+  ETHUSDT_261225         basis=+1.234% days=171 APR=+2.63% net_APR=+2.23% (long_spot_short_quarterly)
+  ETHUSDT_260925         basis=+0.359% days=80 APR=+1.64% net_APR=+0.77% (long_spot_short_quarterly)
+
+--- Triangular arb (Binance spot) — 0 candidates ---
+
+--- Perp-spot basis (single-exchange) — 2 candidates ---
+  SYNUSDT      basis=-0.213% fr_8h=+0.0050% net_24h=+0.023% APR=+2.7% (short_spot_long_perp)
+  VANRYUSDT    basis=-0.169% fr_8h=-0.0070% net_24h=+0.000% APR=+0.1% (short_spot_long_perp)
+
+--- Hyperliquid funding (1h interval) — 1 candidates ---
+  MINA           fr_1h=-0.0126% APR=-110.2% OI=\$0.7M
+
+--- Stablecoin depeg — 4 candidates ---
+  USTC     avg=\$0.00560 depeg=-9944.0bps (hi binance \$0.00563 / lo bybit \$0.00559)
+  FRAX     avg=\$0.23967 depeg=-7603.3bps (hi gate \$0.23990 / lo bybit \$0.23940)
+  SUSD     avg=\$0.31975 depeg=-6802.5bps (hi gate \$0.63950 / lo binance \$0.00000)
+  FDUSD    avg=\$0.99795 depeg=-20.5bps (hi binance \$0.99800 / lo gate \$0.99790)
+
+--- DEX-CEX arb (Uniswap V3 vs Binance) — 0 candidates ---
+
+--- Options RV/IV edge — 0 candidates ---
+
+--- Kimchi premium (Korean BTC vs Binance) — 2 candidates ---
+  bithumb_krw    premium=-1.602% (KRW=93400000 USD~=\$61006.52 vs Binance \$62000.00)
+  upbit_krw      premium=-1.588% (KRW=93414000 USD~=\$61015.66 vs Binance \$62000.00)
+
+--- alert dispatched ---
+
+--- kimchi alert dispatched ---

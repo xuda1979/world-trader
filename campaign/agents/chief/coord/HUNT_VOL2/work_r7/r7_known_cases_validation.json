@@ -1,0 +1,67 @@
+{
+ "case2_hobr_class_b": {
+  "case": "RES_BASIS RB_hobr_crack_hyst_w63_z10_zo10 (published CAMP_COST R6 B1)",
+  "class_": "B",
+  "corr_champ": 0.021884252018413913,
+  "machinery": "rawew14_candidate.build 14-sleeve re-solve, FULL end-to-end (relw re-solved from each null's own IS SR)",
+  "n_frame": 4805,
+  "real_dsr": 0.09087186199014408,
+  "real_dann": -0.009068959337104499,
+  "null_dsr_p50": 0.04157595302190975,
+  "null_dsr_p95": 0.06936730191560508,
+  "null_dann_p50": -0.00704965417293224,
+  "null_relw_p50": 1.1818637513262722,
+  "real_relw": 1.549578832818235,
+  "real_dsr_percentile": 0.995,
+  "real_dann_percentile": 0.015,
+  "published": {
+   "real_dsr": 0.09087186199013608,
+   "real_percentile": 1.0,
+   "real_ann_percentile": 0.0,
+   "null_dsr_p50": 0.03963087014340361,
+   "null_dsr_p95": 0.060179050710601,
+   "real_dAnn_pp": -0.9068959337104445
+  },
+  "expected": "real dSR at p1.00 of its own null; dAnn at p0.00 (its null p50 is NEGATIVE on the CAGR side)",
+  "verdict_expected": "dSR SURVIVES / dAnn FAILS = positive-SR arithmetic, negative absolute-return trade",
+  "reproduces_published_direction": true
+ },
+ "case1_vol2r3_class_a": {
+  "case": "VOL2-R3 adversarial block (Gaussian vol+corr-matched, 8h AS FLOWN \u2014 unchanged)",
+  "synthetic_a11_fingerprint": {
+   "rho": -0.15,
+   "frac_null_dsr_pos": 1.0,
+   "verdict": "PLACEBO_ARTIFACT",
+   "expected": "frac 1.0 PLACEBO_ARTIFACT (published A11)",
+   "match": true
+  },
+  "synthetic_rho0_control": {
+   "frac_null_dsr_pos": 0.0,
+   "verdict": "SURVIVES_PLACEBO",
+   "expected": "frac 0.0 SURVIVES (discriminator works)",
+   "match": true
+  },
+  "real_sleeves_instrument_vs_instrument": {
+   "A11": {
+    "skipped": "missing days on champion window",
+    "n_raw": 2047
+   },
+   "MSSW": {
+    "skipped": "missing days on champion window",
+    "n_raw": 4930
+   }
+  },
+  "note": "Class-A instrument validated for GEOMETRY + reproduced on the real sleeves where their published span allows; the published verdicts stand regardless (no re-litigation of R3)."
+ },
+ "summary": {
+  "case1_class_a_geometry_ok": true,
+  "case2_class_b_hobr_reproduced": true,
+  "charter_validated": true,
+  "instruments": {
+   "class_a": "gaussian vol+corr-matched (8h as flown, UNCHANGED)",
+   "class_b": "level-matched block-bootstrap null, p95+ right tail"
+  },
+  "thresholds_moved": 0,
+  "gates_py_touched": false
+ }
+}

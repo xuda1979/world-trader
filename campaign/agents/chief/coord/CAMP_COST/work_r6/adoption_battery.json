@@ -1,0 +1,125 @@
+{
+ "real": {
+  "dSR": 0.09087186199013608,
+  "dSR_H1": -0.36740070400529584,
+  "dSR_H2": -1.3144337547485039,
+  "dAnn_pp": -0.9068959337104445,
+  "dMDD_pp": 0.4568064514563259,
+  "neg_years_c14": 0,
+  "dSR_H1_byhalf": 0.23762359167477198,
+  "dSR_H2_byhalf": 0.02231597407689767,
+  "dH2_ge_0_8d": true
+ },
+ "rung_grid_8g": [
+  {
+   "w_mean_share": 0.05,
+   "achieved_mean_share": 0.050001678570748394,
+   "dAnn_pp": -0.7858439775002068,
+   "dSR": 0.07988340504225899,
+   "dMDD_pp": 0.39644138175486443,
+   "neg_years": 0
+  },
+  {
+   "w_mean_share": 0.1,
+   "achieved_mean_share": 0.09993156739076083,
+   "dAnn_pp": -1.592448699484578,
+   "dSR": 0.14539436061944633,
+   "dMDD_pp": 0.7950677581339827,
+   "neg_years": 0
+  },
+  {
+   "w_mean_share": 0.15,
+   "achieved_mean_share": 0.14954268201682808,
+   "dAnn_pp": -2.415808915182936,
+   "dSR": 0.19113747460270014,
+   "dMDD_pp": 1.1929665087879737,
+   "neg_years": 0
+  },
+  {
+   "w_mean_share": "natural(adopted)",
+   "achieved_mean_share": 0.057582199090409264,
+   "dAnn_pp": -0.9068959337104445,
+   "dSR": 0.09087186199013608,
+   "dMDD_pp": 0.4568064514563259,
+   "neg_years": 0
+  }
+ ],
+ "excl_8i": {
+  "window": [
+   "2018-06-19",
+   "2018-07-20"
+  ],
+  "trough_date": "2018-06-25",
+  "window_days": 24,
+  "dMDD_pp_excl": 0.5218691137346299,
+  "relief_ge_0.5pp": true,
+  "dMDD_pp_full": 0.4568064514563259
+ },
+ "placebo_B1": {
+  "instrument": "level-matched block-bootstrap null (VOL2 R6 memo Class-B B1), 200 draws, L=20, moments re-matched to HOBR (mean/vol), full re-solve machinery",
+  "null_dSR_mean": 0.04141621116287381,
+  "null_dSR_p05": 0.022994419658935894,
+  "null_dSR_p50": 0.03963087014340361,
+  "null_dSR_p95": 0.060179050710601,
+  "real_dSR": 0.09087186199013608,
+  "real_percentile": 1.0,
+  "right_tail_p95_pass": true,
+  "null_dAnn_p50": -0.7037844798140931,
+  "real_dAnn_pp": -0.9068959337104445,
+  "real_ann_percentile": 0.0,
+  "matched": {
+   "mean": 0.0005098932017541215,
+   "vol": 0.0059519319234761356,
+   "ac1": -0.11232588631220972,
+   "skew": 3.6313609418740076
+  }
+ },
+ "placebo_C_circular": {
+  "instrument": "circular shift of HOBR stream, 200 draws, full re-solve machinery (adopted w)",
+  "reproduced_frac": 0.0,
+  "null_dSR_p50": 0.03950328230769662,
+  "real_dSR": 0.09087186199013608,
+  "note": "mean-injection-dominated by construction for an orthogonal candidate; B1 above is the decision instrument per VOL2 R6 memo (Class B)"
+ },
+ "leak_probes": {
+  "wide_14slot": {
+   "same_period_corr": -0.04383801976688111,
+   "p": 2.449463659145175e-12,
+   "lag_scan": {
+    "-2": -0.05084340964404869,
+    "-1": 0.7990713215236287,
+    "0": -0.04383801976688111,
+    "1": -0.011250362468195467,
+    "2": 0.0014475779990297825
+   },
+   "leak": false
+  },
+  "scalar_signed_dWg_vs_book": {
+   "same_period_corr": 0.008869980091649491,
+   "p": 0.5387221844847486,
+   "lag_scan": {
+    "-2": -0.010311736594785329,
+    "-1": 0.011663291740682221,
+    "0": 0.008869980091649491,
+    "1": -0.022491100782053516,
+    "2": 0.017880075845233257
+   },
+   "leak": false,
+   "note": "R5-comparable convention (signed sum; R5 pinned +0.0156 leak=False)"
+  },
+  "scalar_turnover_abs_dWg_vs_book": {
+   "same_period_corr": 0.22549260608597557,
+   "p": 6.651428288152036e-58,
+   "lag_scan": {
+    "-2": 0.02532946014714397,
+    "-1": 0.48815150296681903,
+    "0": 0.22549260608597557,
+    "1": 0.0860797403404068,
+    "2": 0.06711833116061468
+   },
+   "leak": false,
+   "note": "|dWg| (true turnover) convention: |corr| leg CAN exceed 0.20 because turnover covaries with same-day vol (bigger moves -> bigger |dW|); verdict still rides the lag-0-argmax leg, which fails (lag -1 dominates = the causal weights-chase-yesterday's-NAV signature)"
+  },
+  "note": "wide: 14 weight cols vs 14 same-period sleeve rets. Explicit sig/leak_check wiring per V2 s6; thresholds 0.20/0.05/lag-0-argmax (V2 6b)."
+ }
+}

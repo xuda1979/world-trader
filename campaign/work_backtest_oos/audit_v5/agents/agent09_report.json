@@ -1,0 +1,81 @@
+{
+  "agent": "09_correlation_diversification",
+  "checks": [
+    {
+      "check": "Mean IS pairwise corr < 0.10",
+      "status": "PASS",
+      "detail": "mean=0.0125"
+    },
+    {
+      "check": "Max IS pairwise corr < 0.35",
+      "status": "PASS",
+      "detail": "max=0.3324"
+    },
+    {
+      "check": "Mean OOS pairwise corr < 0.15",
+      "status": "PASS",
+      "detail": "mean=0.0507"
+    },
+    {
+      "check": "Max OOS pairwise corr < 0.50",
+      "status": "FAIL",
+      "detail": "max=0.7587"
+    },
+    {
+      "check": "Mean daily IS corr < 0.10",
+      "status": "PASS",
+      "detail": "mean=0.0215"
+    },
+    {
+      "check": "Correlation stable (IS vs OOS diff < 0.20)",
+      "status": "PASS",
+      "detail": "mean diff=0.1695"
+    },
+    {
+      "check": "Diversification ratio > 1.5",
+      "status": "PASS",
+      "detail": "DR=3.548"
+    },
+    {
+      "check": "Diversification ratio > 2.0",
+      "status": "PASS",
+      "detail": "DR=3.548"
+    },
+    {
+      "check": "1st PC < 40% variance",
+      "status": "PASS",
+      "detail": "PC1=28.4%"
+    },
+    {
+      "check": "1st PC < 30% variance",
+      "status": "PASS",
+      "detail": "PC1=28.4%"
+    },
+    {
+      "check": "Effective N (PCA) > 8",
+      "status": "FAIL",
+      "detail": "eff_n=7.8"
+    },
+    {
+      "check": "No OOS corr > 0.70",
+      "status": "FAIL",
+      "detail": "count=1"
+    },
+    {
+      "check": "Portfolio monthly vol < 3%",
+      "status": "PASS",
+      "detail": "vol=0.79%"
+    },
+    {
+      "check": "Portfolio monthly vol > 0.5%",
+      "status": "PASS",
+      "detail": "vol=0.79%"
+    },
+    {
+      "check": "Max sleeve-port corr < 0.80",
+      "status": "PASS",
+      "detail": "max=0.5155"
+    }
+  ],
+  "overall": "FAIL"
+}

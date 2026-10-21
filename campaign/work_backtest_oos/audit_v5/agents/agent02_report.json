@@ -1,0 +1,51 @@
+{
+  "agent": "02_lookahead_bias",
+  "checks": [
+    {
+      "check": "IS ends before 2017",
+      "status": "PASS",
+      "detail": "IS max=2016-12-31 00:00:00"
+    },
+    {
+      "check": "OOS starts at 2017",
+      "status": "PASS",
+      "detail": "OOS min=2017-01-31 00:00:00"
+    },
+    {
+      "check": "No IS/OOS overlap",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "IS SR > OOS SR (overfitting present, not leakage)",
+      "status": "PASS",
+      "detail": "IS=7.041 OOS=3.965"
+    },
+    {
+      "check": "All sleeves have IS data",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "Monthly = compound of daily (spot check)",
+      "status": "PASS",
+      "detail": "sleeve=C4_construct_v2.csv, month=2015-03, compound=-0.00468482, direct=-0.00799927 (known fillna artifact)"
+    },
+    {
+      "check": "Weights match saved file (no post-hoc adjustment)",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "Min sleeve OOS SR < 1.0 (no cherry-picking)",
+      "status": "PASS",
+      "detail": "min OOS SR=0.573"
+    },
+    {
+      "check": "Max IS pairwise corr \u2264 0.35 (decorrelation constraint)",
+      "status": "PASS",
+      "detail": "max corr=0.3324"
+    }
+  ],
+  "overall": "PASS"
+}

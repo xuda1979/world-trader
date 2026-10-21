@@ -1,0 +1,12 @@
+=== agent F2_overnight attempt 1 start Wed Sep 16 14:41:37 CST 2026 ===
+**F2_overnight complete. Verdict: REJECT.**
+
+**Deliverables** → `campaign/agents/F2_overnight_results/`: `F2_report.md` (verdict at top, `DONE F2_overnight` last line) + `f2_run.py` (reproducible). No `F2_sleeve.csv` — gate FAIL means no sleeve file, per spec.
+
+**Key numbers:**
+- **Decomposition (a)** — valid and real: SPY overnight drift **+6.27%/yr (t=2.37)** vs intraday **+4.39%/yr (t=1.30)**, corr(on,id)=0.045, overnight premium concentrated 2016+. Cross-check on 17 polygon names (not 18 as briefed — logged): mean on +5.9%/yr vs id −10.3%/yr, directionally consistent.
+- **(b) T+1 ON/ID L/S momentum** — dead: best SR **0.088** (K=63 full-day); overnight-only variants SR −2.0 to −2.7. Structural kill: nightly round-trip = 12bps/day = **30.2%/yr cost floor** vs 6.27%/yr gross anomaly.
+- **(c) Vol sleeve** — vol-targeting lifts long-SPY SR only 0.55→**0.585**; best of entire family is the ON-drift-gated 5d-hold at **SR 0.731**, ann 10.0%, MaxDD −26.8%, regime-dependent (0.36/0.58/1.28 by third).
+- **Corr gate (corr<0.5)** passes everywhere (0.09–0.23, n=4513) but **SR≥1.5 fails with ≥0.77 margin on every variant** → REJECT, champion (verified SR 5.182, ann 61.67%, MaxDD −7.31%) untouched.
+- **Data integrity**: brief's `more_etf/SPY.csv` doesn't exist — substituted `tools/quant/data/twelvedata/SPY.csv` (clean: 0 dups/NaN/weekends; partial last row dropped). Champion stats recomputed and match brief.
+=== agent F2_overnight attempt 1 end Wed Sep 16 14:51:53 CST 2026 exit 0 ===

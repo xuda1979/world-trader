@@ -1,0 +1,325 @@
+=== MONEY-LOOP scan started 2026-07-21 21:37:31 ===
+=== WORLD-TRADER GLOBAL SCAN  2026-07-21T13:37:31+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+-- OPEN NOW: 14 markets --
+   + BR (Brazil (B3))
+   + CA (Canada (TSX))
+   + CH (Switzerland (SIX))
+   + CRYPTO (Crypto (24/7))
+   + DE (Germany (Xetra))
+   + ES (Spain (BME))
+   + FR (France (Euronext Paris))
+   + FUT (Futures (CME/GLOBEX: commodities, bonds, index))
+   + FX (FX (24/5))
+   + IT (Italy (Borsa Italiana))
+   + NL (Netherlands (Euronext Amsterdam))
+   + SE (Sweden (Nasdaq Stockholm))
+   + UK (UK (LSE))
+   + US (US equities)
+
+-- REGIME: RISK-ON  (score +0.46) --
+   VIX=18.65(+0.09)  HY=2.73(+0.89)  10Y-2Y=0.39(+0.39)
+   crypto fear&greed: 25 (Extreme Fear)
+   [+spillover: 14 cross-asset candidates from 3 themes]
+
+-- LIVE QUOTES: 247 instruments fetched (crypto RT, US, China A-share live, Taiwan live, FX)  [wide US unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)]  [+wide CN A-share: 600 of 600 liquid names -> top 120, backtested] --
+
+=== OPPORTUNITIES (ranked by per-trade expected Sharpe = E[R]/sigma) ===
+  markets open now (2026-07-21T13:47:03+00:00): BR, CA, CH, CRYPTO, DE, ES, FR, FUT, FX, IT, NL, SE, UK, US
+  YOUR BAR to qualify: E[R]>=+1%/trade, sigma<=7%*sqrt(h/5), Sharpe>=0.40, n>=20, t>=2 (Bonferroni-adj.), OOS Sharpe>0
+  >> NOTHING cleared your bar this scan. The rows below are the best
+     MEASURED edges only -- they are NOT signals. DO NOT trade them.
+
+-- TRADE PLAN --
++---+------------+-----+-----+------+-----------------+--------+--------------+-------+--------+--------+--------+-----+-------+----------------+
+| # | Instrument | Sym | Mkt | Dir  | Setup           |  Price | Quote(Local) |  Chg% |  Entry |   Stop | Target | R:R | Risk% | Catalyst       |
++===+============+=====+=====+======+=================+========+==============+=======+========+========+========+=====+=======+================+
+| 1 | US: SLB    | SLB | US  | Long | ConnorsLong     | 45.530 | 07-21 09:44  | -1.9% | 45.530 | 44.484 | 47.622 | 2.0 | 2.30% | oilsupplyshock |
+| 2 | US: GD     | GD  | US  | Long | High52wPullback | 365.04 | 07-21 09:44  | -1.5% | 365.04 | 357.74 | 386.94 | 3.0 | 2.00% | geopolitical   |
++---+------------+-----+-----+------+-----------------+--------+--------------+-------+--------+--------+--------+-----+-------+----------------+
+
+-- EDGE & RISK (evidence for the SAME numbered rows) --
++---+-----+--------+--------------+---------+-------+--------+--------+-----+-------+------+----+------+--------+-------+-------+
+| # | Sym |  Price | Quote(Local) | Verdict | E[R]% | sigma% | Sharpe |   t |  oosS | Win% |  n | ATR% | Kelly% | RV/IV | Data  |
++===+=====+========+==============+=========+=======+========+========+=====+=======+======+====+======+========+=======+=======+
+| 1 | SLB | 45.530 | 07-21 09:44  | below   | 0.51% |  4.32% |   0.12 | 0.9 | -0.48 |  47% | 57 | 2.3% |  21.1% |  0.69 | RT 1m |
+| 2 | GD  | 365.04 | 07-21 09:44  | below   | 0.14% |  2.35% |   0.06 | 0.4 | -5.91 |  45% | 44 | 2.0% |  27.3% |  1.39 | RT 1m |
++---+-----+--------+--------------+---------+-------+--------+--------+-----+-------+------+----+------+--------+-------+-------+
+  RV/IV > 1.0 = options CHEAP vs realized vol (long-gamma tailwind)
+  note: 7 live instruments have no free daily history (China A-share/Taiwan) -> no expectancy, excluded from ranking.
+
+-- CATALYSTS (latest company news for top candidates; verify before acting) --
+  SLB     Long  [+]  SLB (SLB) Sees a More Significant Dip Than Broader Market: Some Facts to Know
+          (16h ago  3 src  19 articles/7d)
+          why: Stock is down 23% from recent highs, presenting a buying opportunity. Management views Middle East disruptions a…
+  GD      Long  [+]  Defense Tech May Be in a Bubble as Legacy Defense Stocks Offer Value
+          (23h ago  2 src  18 articles/7d)
+          why: Well-positioned to capitalize on growing defense and naval autonomous systems demand, which is a key growth driv…
+
+-- MACRO / RATES / CREDIT (FRED) --
+  US 3M yield                      3.85  (2026-07-17)
+  US 2Y yield                      4.18  (2026-07-17)
+  US 10Y yield                     4.55  (2026-07-17)
+  US 30Y yield                     5.06  (2026-07-17)
+  10Y-2Y spread                    0.39  (2026-07-20)
+  10Y-3M spread                    0.74  (2026-07-20)
+  Fed funds                        3.63  (2026-07-17)
+  VIX                             18.65  (2026-07-20)
+  US HY credit spread              2.73  (2026-07-17)
+  US IG credit spread              0.79  (2026-07-17)
+  WTI oil                          79.2  (2026-07-13)
+  Brent oil                       81.62  (2026-07-13)
+  USD/EUR                         1.144  (2026-07-17)
+  Broad USD index              120.5315  (2026-07-17)
+  Fin conditions index         -0.53800  (2026-07-10)
+  Fed balance sheet             6743028  (2026-07-15)
+  M2 money supply               23052.3  (2026-05-01)
+  Unemployment rate                 4.2  (2026-06-01)
+  CPI                           332.568  (2026-06-01)
+  5Y inflation breakeven           2.28  (2026-07-20)
+  UST curve: 3M 3.85%  2Y 4.18%  10Y 4.55%  30Y 5.06%
+
+-- CATALYST CALENDAR (next 14d; today=2026-07-21) --
+  2026-07-21  (1)
+    [IPO] NCOU     IPO Southern Cross Acquisition I Corp. $?
+  2026-07-27  (92)
+    [ERN] AGYS     Q1 2027 EPS est 0.4104 EPS~0.4104
+    [ERN] AHT      Q2 2026 EPS est -7.8477 EPS~-7.8477
+    [ERN] AIN      Q2 2026 EPS est 0.7121 EPS~0.7121
+    [ERN] AMED     Q2 2026 EPS est 1.5453 EPS~1.5453
+    [ERN] AMKR     Q2 2026 EPS est 0.4833 EPS~0.4833
+    [ERN] AMNF     Q2 2026 EPS est 0.1479 EPS~0.1479
+    [ERN] APLD     Q4 2026 EPS est -0.22 EPS~-0.22
+    [ERN] ARLP     Q2 2026 EPS est 0.6452 EPS~0.6452
+  2026-07-28  (185)
+    [ERN] AAT      Q2 2026 EPS est 0.1212 EPS~0.1212
+    [ERN] AB       Q2 2026 EPS est 0.8537 EPS~0.8537
+    [ERN] ABG      Q2 2026 EPS est 6.37 EPS~6.37
+    [ERN] ACGL     Q2 2026 EPS est 2.4791 EPS~2.4791
+    [ERN] ACHC     Q2 2026 EPS est 0.3538 EPS~0.3538
+    [ERN] ACR      Q2 2026 EPS est 0.1784 EPS~0.1784
+    [ERN] AKR      Q2 2026 EPS est 0.0505 EPS~0.0505
+    [ERN] ALDF     Q2 2026 EPS est None
+  2026-07-29  (305)
+    [ERN] ADAM     Q2 2026 EPS est 0.2074 EPS~0.2074
+    [ERN] ADPT     Q2 2026 EPS est -0.1364 EPS~-0.1364
+    [ERN] AER      Q2 2026 EPS est 4.1107 EPS~4.1107
+    [ERN] AES      Q2 2026 EPS est 0.5181 EPS~0.5181
+    [ERN] ALGN     Q2 2026 EPS est 2.6652 EPS~2.6652
+    [ERN] ALKT     Q2 2026 EPS est 0.1559 EPS~0.1559
+    [ERN] ALRS     Q2 2026 EPS est 0.7711 EPS~0.7711
+    [ERN] AM       Q2 2026 EPS est 0.2936 EPS~0.2936
+  2026-07-30  (370)
+    [ERN] AAMI     Q2 2026 EPS est 1.0455 EPS~1.0455
+    [ERN] AAON     Q2 2026 EPS est 0.5039 EPS~0.5039
+    [ERN] AAPL     Q3 2026 EPS est 1.9299 EPS~1.9299
+    [ERN] ABUS     Q2 2026 EPS est -0.0306 EPS~-0.0306
+    [ERN] ACCS     Q2 2026 EPS est 0.0765 EPS~0.0765
+  (source errors: dividends: ConnectionResetError: [Errno 54] Connection reset by peer)
+
+-- NEWS (expanded feeds) --
+  [MarketWatch]
+    - If timing the stock market were easy, the Iran war would have proven it. It’s done the opposite.
+    - Americans are skipping lettuce and salads as investigation into cyclospora outbreak continues
+    - Welcome to the ‘Roaring ’20s’: Here’s how this earnings season will keep the bull market strong
+  [Nasdaq-Mkts]
+    - GE Vernova Stock Is Up 560% in 2 Years. Here's What Wall Street Price Targets Say Happens Next
+    - Micron Technology, Sandisk, and Western Digital Are Down Big in the Past Month. Is Now the Time to Buy?
+    - West Coast Community Bancorp Reports Retreat In Q2 Bottom Line
+  [Nasdaq-Stocks]
+    - Stocks Pressured as Middle East Hostilities Boost Inflation Risks
+    - This "Dividend Magnet" Gave Us a 28.5% Gain in 3 Weeks. Here Are Its Next 2 Buys
+    - Here's How Much You'd Have If You Invested $1000 in Cintas a Decade Ago
+  [SeekingAlpha]
+    - Small Caps Challenge Momentum Factor's Throne
+    - Apple: Moat Keeps Doing The Heavy Lifting
+    - Fresenius Medical Care: More Favorable Patient Outcomes Will Drive Growth
+  [WSJ-Markets]
+    - If timing the stock market were easy, the Iran war would have proven it. It’s done the opposite.
+    - Americans are skipping lettuce and salads as investigation into cyclospora outbreak continues
+    - Welcome to the ‘Roaring ’20s’: Here’s how this earnings season will keep the bull market strong
+  [CNBC-Top]
+    - Greer hints new Trump tariffs coming on dozens of countries: 'Expect action soon'
+    - U.S. strikes Iran and Houthis threaten Saudi Arabia shipping as mediators push 10-day ceasefire
+    - Novo Nordisk sues Eli Lilly, alleging misleading GLP-1 advertising
+  [CNBC-Markets]
+    - GM beats on earnings, raises guidance amid 'resilient' consumer, pricing
+    - Novo Nordisk sues Eli Lilly, alleging misleading GLP-1 advertising
+    - Wall Street is selling more rental homes, as buying ban takes effect
+  [FedPress]
+    - Agencies issue joint statement on handling of highly sensitive information during bank examinations
+    - Federal Reserve Board issues enforcement action with former chief lending officer of Heritage State Bank
+    - Minutes of the Board's discount rate meetings on June 8 and June 17, 2026
+  [ECB]
+    - July 2026 euro area bank lending survey
+    - Survey on the Access to Finance of Enterprises: lending conditions tightened
+    - Piero Cipollone: The cooperative spirit at the heart of the digital euro
+  [BoE]
+    - PRA fines HDI Global SE £4,165,000 for inaccurate reporting of FSCS Liabilities and FSCS Fee Tariff data
+    - PRA and FCA propose new captive insurance regime to drive UK growth and competitiveness
+    - Minutes of the Money Market Committee meeting – June 2026
+  [BoJ]
+    - Loan Disbursement under the Funds-Supplying Operations to Support Financing for Climate Change Responses
+    - Senior Loan Officer Opinion Survey (July)
+    - BOJ Current Account Balances by Sector (June)
+  [Cointelegraph]
+    - Robinhood-backed DEX Arcus expands with tokenized assets, perps
+    - Here’s what happened in crypto today
+    - Morpho launches fixed-rate lending protocol on Base
+  [Decrypt]
+    - Galaxy Commits Up to $5 Million to Prepare Bitcoin for Quantum Threat
+    - Morning Minute: The Clarity Act Has New Life
+    - Pakistan Launches Crypto Investigation Unit to Fight Money Laundering
+  [TheBlock]
+    - Jack Mallers leaves Twenty One as Strike exits Tethers three-way bitcoin merger
+    - Arcus rolls out 24/7 tokenized US stocks and perpetual markets on Robinhood Chain
+    - Aztec upgrades to V5 in alpha, adding full private execution environment to decentralized Ethereum L2
+  [ForexLive]
+    - USTR Greer: Canada is giving other countries better trade deals
+    - Pres. Trump: Reportedly rejects proposal for a 10 day cease-fire with Iran
+    - US Treas Sec Bessent: Says 3% growth is not unreasonable.
+  [FXStreet]
+    - New Zealand Dollar: CPI supports further RBNZ hikes – BBH
+    - Aluminium: Output declines on regional disruptions – ING
+    - US ADP Employment Change 4-week average drops to 16.5K
+  [OilPrice]
+    - Ryanair Profit Falls 36% as Unhedged Jet Fuel Costs Double
+    - Oil Prices Top $90 as Kuwaiti Tanker Hit in Strait of Hormuz
+    - UK Scraps 5% VAT on Electricity
+  [SpaceNews]
+    - UK and Florida commit $400,000 to joint space projects
+    - German component supplier deltaVision raises 10.2 million euros
+    - Agile Space Industries Appoints new CTO and Board member.
+  [TechCrunch]
+    - Music streamer Deezer says more than 50% of daily uploads are AI-generated
+    - Bluecore Energy raises $10M to build portable nuclear reactors on barges
+    - Gritt exits stealth with $34 million for robots to build solar plants — then, everything else
+  [BioPharma]
+    - <a href="/marketing/novo-accuses-lilly-running-false-and-misleading-glp-1-ads" hreflang="en">Novo Nordisk files lawsuit accusing rival Eli Lilly of running ‘false and misleading’ GLP-1 ads</a>
+    - <a href="/marketing/jjs-tremfya-remains-top-q2-pharma-ad-spending-league-overall-spend-drops" hreflang="en">J&J’s Tremfya remains on top in Q2 pharma ad spending league as overall outlay drops </a>
+    - <a href="/marketing/sanofi-survey-uncovers-type-1-diabetes-misconceptions-and-screening-gaps" hreflang="en">Sanofi survey uncovers Type 1 diabetes misconceptions and screening gaps</a>
+  [PV-Magazine]
+    - Acciona Energía tests hybrid battery-ultracapacitor storage in Spain
+    - Germany launches first capacity auction
+    - Kyrgyzstan plans 2 GW solar cell manufacturing plant
+  [Electrek]
+    - Volkswagen enters the smart e-bike game with radar, cameras, HUD glasses, and more
+    - Tesla puts Starlink antenna in Cybercab
+    - The Hyundai IONIQ 5 is flying off dealer lots, and its getting harder to find
+  [CityAM]
+    - Brazen Burnham should call an election and put his ten year plan to the voters
+    - A brief history of time: Bremonts new Stephen Hawking watch
+    - Francis Hotel Bath: Old-world glamour meets new-school cool
+  [MoneyControl]
+    - Uncle Sam is wrong, India and China are doing their bit to fight climate change
+  [HinduBiz]
+    - SBI Funds pares listing gains, ends first day 6.2% above IPO price
+    - Q1 Results Today Live: ATGL Q1 PAT down 14%, Adani Energy PAT zooms, TVS Motor, Bajaj Auto & Granules India profit rise, CRISIL, Mastek to announce Q1 results
+    - Choice International bags ₹191 crore in government contracts in Q1 FY27
+  [FarmProgress]
+    - Dreaming of beans in the teens? Be wary
+    - Bayer subsidiary drops tariff request after farmer pushback
+    - Why average isn't good enough in beef production
+  [CoinTelegraph]
+    - Robinhood-backed DEX Arcus expands with tokenized assets, perps
+    - Here’s what happened in crypto today
+    - Morpho launches fixed-rate lending protocol on Base
+  [BeInCrypto]
+    - Circle CEO Jeremy Allaire Suggests Stablecoins Will Become Invisible Soon
+    - How Stablecoins are Quietly Replacing Broken Banking Infrastructure
+    - Tether Rethinks XXIs Bitcoin Treasury Model After Just 7 Months
+  [NewsBTC]
+    - Aave Picks Chainlink CCIP As Default Standard For Cross-Chain sGHO
+    - Tesla Earnings Put 11,509 BTC Treasury Back In Focus
+    - Bitcoin BIP-361 Draft Puts Quantum Security Back On The Agenda
+  [BitcoinMag]
+    - Russia Passes Landmark Crypto Law, Setting State-Run Rails for Sanctioned Trade
+    - Galaxy (GLXY) Commits $5 Million to Prepare Bitcoin for the Quantum Threat
+    - Jack Mallers Steps Down as CEO of Bitcoin Treasury Twenty One Capital
+  [TheDefiant]
+    - SummerFi to Wind Down After Seven Years, Citing Exploit
+    - eToro Takes Strategic Stake in Onchain Derivatives Exchange Extended, Plans Zengo Tie-Up
+    - NEAR Governance Votes to Scrap Developer Gas Rebate
+  [Pandaily]
+    - Zhipu AI Computing Ambitions Surface: 1GW Data Center, Hundreds of Millions in Infrastructure Acquisition, and Self-Developed Chip Plans Signal Nvidia Independence Push
+    - XPower Technology Defies Big-Chip Orthodoxy: Small RPP Architecture Chips Use Distributed Computing to Beat Giants at AI Inference
+    - Tencent ProLaViT Teaches Multimodal LLMs to Reason Step-by-Step in Latent Space, Ending Swallowing-Whole Visual Reasoning Failures
+  [TechNode]
+    - BrainCo demos thought-controlled robots at WAIC 2026
+    - Moore Threads packs 256 GPUs into its MTT C256 system
+    - Alibaba outlines Qwen3.8 with 2.4 trillion parameters
+  [ChinaBriefing]
+    - The Greater Bay Area IIT Subsidy for 2026 Kickstarts in Shenzhen
+    - US-China Relations in the Trump 2.0 Era: A Timeline
+    - Why China is Still the Top 1 Manufacturing Destination in Asia
+  [VentureBeat-AI]
+    - The AI compute gap: Enterprises are buying infrastructure faster than they can measure what it costs
+    - The agent security gap: 54% of enterprises have already had an AI agent incident, and most still let agents share credentials
+    - The AI context gap: Enterprise AI organizations have a trust problem, not a retrieval problem — and most are still building the fix
+
+-- SEC 8-K MATERIAL CATALYSTS (last 3 days) --
+  2026-07-21 ----   [1.01,2.03,5.02,7.01,]  Neostellar Capital Corp.  (NSLR, NSLRL)
+  2026-07-21 PHIO   [5.02,8.01,9.01]  Phio Pharmaceuticals Corp.  (PHIO)
+  2026-07-21 UTZ    [8.01,9.01]  Utz Brands, Inc.  (UTZ)
+  2026-07-21 ----   [1.01,3.02,5.03,8.01,]  Jones Ventures INTL Acquisition1 Corp  (
+  2026-07-20 ATER   [1.01,1.02,2.01,3.02,]  Aterian, Inc.  (ATER)
+  2026-07-20 APM    [2.01,3.03,5.02,5.03,]  Niki BioSolutions, Inc.  (APM)
+  2026-07-20 BGDE   [1.01,2.01,7.01,9.01]  Big Digital Energy, Inc.  (BGDE)
+  2026-07-20 WNC    [1.01,2.03,3.02,8.01,]  WABASH NATIONAL Corp  (WNC)
+  2026-07-20 ----   [1.01,2.03,5.02,9.01]  COLLECTIVE ACQUISITION CORP.  (CCAQ, CCA
+  2026-07-20 HASI   [1.01,1.02,2.03,8.01,]  HA Sustainable Infrastructure Capital, I
+  2026-07-20 ----   [1.01,2.03,3.02,5.02,]  Vulcan Infrastructure & Power Inc.  (GRE
+  2026-07-20 MRAI   [1.01,8.01,9.01]  Marpai, Inc.  (MRAI)
+  2026-07-20 GORO   [2.01,3.01,3.03,5.01,]  GOLD RESOURCE CORP  (GORO)
+  2026-07-20 ASTS   [1.01,2.03,3.02,8.01,]  AST SpaceMobile, Inc.  (ASTS)
+  2026-07-20 ----   [1.01,8.01,9.01]  WORLD OMNI AUTO RECEIVABLES LLC
+
+-- INSIDER CLUSTER BUYS (last 30d, >=2 insiders) --
+  (unavailable: timeout)
+
+-- DEFI STABLECOIN YIELDS (top 8 by APY, TVL >=$10M) --
+  (unavailable: timeout)
+
+-- SHORT SQUEEZE WATCH (SI% float >= 10%) --
+  (no high-SI names found)
+
+-- ENERGY SNAPSHOT (FRED weekly) --
+  (altdata2 error: TypeError: unsupported format string passed to NoneType.__for)
+
+research only, not financial advice. verify before acting.
+
+[scan task log]
+  - 21:37:31  regime: gathering FRED macro / VIX / fear-greed
+  - 21:37:59  regime: RISK-ON score=+0.46
+  - 21:37:59  quotes: collecting global universe (crypto/US/CN/TW/HK/FX/futures/indices + region/macro ETFs)
+  - 21:44:48  quotes: 113 curated instruments fetched
+  - 21:44:48  wide US funnel: pulling ~12k tickers from Polygon, pre-screening top 150
+  - 21:44:59  wide US funnel: 0 of 0 -> top 150 backtested [err: JSONDecodeError: Expecting value: line 1 column 1 (char 0)]
+  - 21:44:59  spillover funnel: scanning RSS headlines for theme keywords -> peer candidates
+  - 21:45:26  spillover funnel: 18 candidates across 3 themes -> 18 fetched
+  - 21:45:26  wide CN funnel: pulling ~5,500 A-shares, pre-screening top 120
+  - 21:45:30  wide CN funnel: 600 of 600 -> top 120 backtested
+  - 21:45:30  opportunities: building candidate set from quotes + regime
+  - 21:45:30  opportunities: 79 raw candidates
+  - 21:45:30  backtest: enriching with technicals + E[R]/sigma/Sharpe
+  - 21:46:32  backtest: per-candidate family m=7 (global total=105) -> Bonferroni t>=2.69
+  - 21:46:32  news enrichment: Finnhub headlines + Polygon sentiment per candidate
+  - 21:46:37  news enrichment: done (2 candidates have fresh headlines)
+  - 21:46:37  catalyst enrichment: scanning Finnhub earnings/FDA/IPO + Polygon dividends
+  - 21:46:46  catalyst enrichment: 0 candidates have a near-term catalyst (+0 new)
+  - 21:46:46  PEAD confirmation: looking up recent earnings surprises for PEAD setups
+  - 21:46:46  PEAD confirmation: 0 PEAD setups confirmed by earnings surprise (+0 new)
+  - 21:46:46  options enrichment: pulling ATM straddles (CBOE) for top US candidates
+  - 21:46:49  options enrichment: 7 candidates have an RV/IV signal (+7 new)
+  - 21:46:49  country crisis: scanning 32 country ETFs for crisis signals
+  - 21:47:03  country crisis: 0 candidates in crisis (+0 new)
+  - 21:47:03  veto gate: 0 rows vetoed (0 crash-in-progress, 0 news-contradicts) -> PASS rows 1 -> 1
+  - 21:47:03  catalysts: printing freshest company news for top candidates
+  - 21:47:03  alt-data: pulling FRED macro/rates/credit, treasury curve, BTC funding, COT
+  - 21:47:22  catalyst calendar: Finnhub earnings/FDA/IPO + Polygon dividends (14d)
+  - 21:47:30  expanded news: sweeping all RSS feeds (equities/macro/CB/crypto/FX/commodities/regional)
+  - 21:47:53  expanded news: 35 feeds ok, 66 feeds failed
+  - 21:47:53  GDELT: 24h global market tone sweep
+  - 21:48:05  altdata2: SEC 8-K + insider clusters + DeFi yields + short squeeze + energy
+  - 21:48:06  SEC 8-K: 15 filings with material items (last 3d)

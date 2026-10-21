@@ -1,0 +1,278 @@
+=== MONEY-LOOP scan started 2026-07-13 23:55:18 ===
+=== WORLD-TRADER GLOBAL SCAN  2026-07-13T15:55:18+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+-- REGIME: RISK-ON  (score +0.53) --
+   VIX=15.03(+0.33)  HY=2.69(+0.91)  10Y-2Y=0.35(+0.35)
+   crypto fear&greed: 28 (Fear)
+   [+spillover: 11 cross-asset candidates from 3 themes]
+
+-- LIVE QUOTES: 416 instruments fetched (crypto RT, US, China A-share live, Taiwan live, FX)  [+wide US: 4008 of 12398 tickers pre-screened -> top 150]  [+wide CN A-share: 600 of 600 liquid names -> top 120, backtested] --
+
+=== OPPORTUNITIES (ranked by per-trade expected Sharpe = E[R]/sigma) ===
+  markets open now (2026-07-13T16:02:16+00:00): CRYPTO, FX, US
+  YOUR BAR to qualify: E[R]>=+1%/trade, sigma<=7%*sqrt(h/5), Sharpe>=0.40, n>=20, t>=2 (Bonferroni-adj.), OOS Sharpe>0
+  >> NOTHING cleared your bar this scan. The rows below are the best
+     MEASURED edges only -- they are NOT signals. DO NOT trade them.
+
+-- TRADE PLAN --
++---+------------+------+-----+------+-------------+--------+--------------+-------+--------+--------+--------+-----+-------+------------------------+
+| # | Instrument | Sym  | Mkt | Dir  | Setup       |  Price | Quote(Local) |  Chg% |  Entry |   Stop | Target | R:R | Risk% | Catalyst               |
++===+============+======+=====+======+=============+========+==============+=======+========+========+========+=====+=======+========================+
+| 1 | US: SLB    | SLB  | US  | Long | NR7break    | 48.160 | 07-13 11:56  |  0.8% | 48.160 | 47.019 | 51.013 | 2.5 | 2.37% | ERN 10d/oilsupplyshock |
+| 2 | US: OXY    | OXY  | US  | Long | range       | 53.860 | 07-13 11:56  |  1.8% | 53.860 | 53.445 | 54.862 | 2.4 | 0.77% | oilsupplyshock         |
+| 3 | US: RKLB   | RKLB | US  | Long | ConnorsLong | 77.610 | 07-13 11:56  | -4.2% | 77.610 | 72.953 | 86.923 | 2.0 | 6.00% | rocketreuse            |
+| 4 | US: SPCE   | SPCE | US  | Long | ConnorsLong |  2.530 | 07-13 11:56  | -1.6% |  2.530 |  2.378 |  2.834 | 2.0 | 6.00% | rocketreuse            |
++---+------------+------+-----+------+-------------+--------+--------------+-------+--------+--------+--------+-----+-------+------------------------+
+
+-- EDGE & RISK (evidence for the SAME numbered rows) --
++---+------+---------+-------+--------+--------+-----+------+------+-----+-------+--------+-------+-------+
+| # | Sym  | Verdict | E[R]% | sigma% | Sharpe |   t | oosS | Win% |   n |  ATR% | Kelly% | RV/IV | Data  |
++===+======+=========+=======+========+========+=====+======+======+=====+=======+========+=======+=======+
+| 1 | SLB  | below   | 1.16% |  4.12% |   0.28 | 1.5 | 0.51 |  57% |  30 |  2.4% |  39.3% |  1.05 | RT 0m |
+| 2 | OXY  | below   | 0.06% |  1.25% |   0.05 | 1.1 | 0.20 |  35% | 434 |  2.8% |   7.8% |    -- | RT 0m |
+| 3 | RKLB | below   | 1.00% |  8.70% |   0.12 | 0.8 | 0.13 |  39% |  44 | 10.6% |   8.0% |    -- | RT 0m |
+| 4 | SPCE | below   | 0.19% |  7.45% |   0.03 | 0.2 | 0.09 |  41% |  94 |  9.9% |  12.2% |    -- | RT 0m |
++---+------+---------+-------+--------+--------+-----+------+------+-----+-------+--------+-------+-------+
+  RV/IV > 1.0 = options CHEAP vs realized vol (long-gamma tailwind)
+  note: 54 live instruments have no free daily history (China A-share/Taiwan) -> no expectancy, excluded from ranking.
+
+-- CATALYSTS (latest company news for top candidates; verify before acting) --
+  SLB     Long  [+]  SLB OneSubsea Wins Eni's Major Umbilical Contract for Offshore Growth
+          (3h ago  4 src  12 articles/7d)
+          why: Stock is down 23% from recent highs, presenting a buying opportunity. Management views Middle East disruptions a…
+  OXY     Long  [=]  Oil Prices Jump As U.S.-Iran Escalation Tests Market Calm
+          (3h ago  6 src  42 articles/7d)
+          why: Rare double-upgrade recommendation from underperform to outperform by Evercore ISI analyst, with price target ra…
+  RKLB    Long  [+]  Rocket Lab (RKLB) Announces Full Mission Success on VICTUS HAZE mission
+          (6h ago  4 src  56 articles/7d)
+          why: Strong operational momentum with record 31 launch contracts in Q1 2026, 64% sales growth to $200M, narrowing los…
+  SPCE    Long  [+]  Space Stocks Get Torched: Short Seller Calls Them 'Sci-Fi Wishes'
+          why: Stock surged 13.3% in after-hours trading; company strengthened balance sheet by redeeming $30.5 million in note…
+
+-- MACRO / RATES / CREDIT (FRED) --
+  US 3M yield                      3.83  (2026-07-09)
+  US 2Y yield                      4.16  (2026-07-09)
+  US 10Y yield                     4.54  (2026-07-09)
+  US 30Y yield                     5.05  (2026-07-09)
+  10Y-2Y spread                    0.35  (2026-07-10)
+  10Y-3M spread                    0.71  (2026-07-10)
+  Fed funds                        3.62  (2026-07-09)
+  VIX                             15.03  (2026-07-10)
+  US HY credit spread              2.69  (2026-07-10)
+  US IG credit spread              0.77  (2026-07-10)
+  WTI oil                          69.6  (2026-07-06)
+  Brent oil                       69.56  (2026-07-06)
+  USD/EUR                        1.1448  (2026-07-02)
+  Broad USD index              120.6902  (2026-07-02)
+  Fin conditions index         -0.51500  (2026-07-03)
+  Fed balance sheet             6735609  (2026-07-08)
+  M2 money supply               23052.3  (2026-05-01)
+  Unemployment rate                 4.2  (2026-06-01)
+  CPI                           333.979  (2026-05-01)
+  5Y inflation breakeven           2.28  (2026-07-10)
+  UST curve: 3M 3.83%  2Y 4.16%  10Y 4.54%  30Y 5.05%
+  BTC perp funding: +0.0100%  OI 106,908
+  CFTC COT large-spec net: WTI +75,749  Gold -15,463  BTC +3,500  ES -10,947
+
+-- CATALYST CALENDAR (next 14d; today=2026-07-14) --
+  2026-07-14  (24)
+    [ERN] AEHR     Q4 2026 EPS est -0.0077 EPS~-0.0077
+    [ERN] AIR      Q4 2026 EPS est 1.3938 EPS~1.3938
+    [ERN] ANGO     Q4 2026 EPS est -0.0918 EPS~-0.0918
+    [ERN] BAC      Q2 2026 EPS est 1.129 EPS~1.129
+    [ERN] BRLL     Q2 2026 EPS est None
+    [ERN] C        Q2 2026 EPS est 2.7565 EPS~2.7565
+    [ERN] CANB     Q4 2025 EPS est None
+    [ERN] CRSB     Q2 2026 EPS est 1.3032 EPS~1.3032
+  2026-07-15  (42)
+    [ERN] ADX      Q2 2026 EPS est None
+    [ERN] BLK      Q2 2026 EPS est 12.669 EPS~12.669
+    [ERN] BNY      Q2 2026 EPS est 2.2023 EPS~2.2023
+    [ERN] BVFL     Q2 2026 EPS est None
+    [ERN] CCTG     Q4 2026 EPS est None
+    [ERN] CTAS     Q4 2026 EPS est 1.2661 EPS~1.2661
+    [ERN] CWBC     Q2 2026 EPS est 0.3101 EPS~0.3101
+    [ERN] CZBT     Q2 2026 EPS est None
+  2026-07-16  (59)
+    [ERN] AA       Q2 2026 EPS est 2.2932 EPS~2.2932
+    [ERN] ABT      Q2 2026 EPS est 1.2922 EPS~1.2922
+    [ERN] ADN      Q1 2026 EPS est None
+    [ERN] AN       Q2 2026 EPS est 5.6035 EPS~5.6035
+    [ERN] ASII     Q1 2026 EPS est None
+    [ERN] ATLO     Q2 2026 EPS est 0.6732 EPS~0.6732
+    [ERN] BANF     Q2 2026 EPS est 1.8326 EPS~1.8326
+    [ERN] BCBP     Q2 2026 EPS est 0.2618 EPS~0.2618
+  2026-07-17  (21)
+    [ERN] ACU      Q2 2026 EPS est 0.5858 EPS~0.5858
+    [ERN] ALV      Q2 2026 EPS est 2.4483 EPS~2.4483
+    [ERN] BALY     Q2 2026 EPS est -1.3518 EPS~-1.3518
+    [ERN] BOTJ     Q2 2026 EPS est None
+    [ERN] CCBC     Q2 2026 EPS est None
+    [ERN] CCFN     Q2 2026 EPS est None
+
+-- NEWS (expanded feeds) --
+  [MarketWatch]
+    - Micron and other chip stocks feel the pain of imported volatility — blame SK Hynix
+    - Can big banks’ ‘cheap’ stocks keep rising? We’ll find out when JPMorgan and an unusual number of others report earnings Tuesday
+    - Global oil prices top $80 a barrel after Trump reimposes Strait of Hormuz blockade and charges 20% fee for cargo shipped through
+  [Nasdaq-Mkts]
+    - Why Did Nio Stock Jump Today?
+    - Here's What a $5,000 Investment in SpaceX Could Be Worth by 2028
+    - Great News for IBM Stock Investors!
+  [Nasdaq-Stocks]
+    - Stocks Fall on Weakness in Chipmakers and Renewed US-Iran Hostilities
+    - Hogs Look to New Week
+    - Hogs Closed Mixed on Friday, as Pork Sees Some Strength
+  [SeekingAlpha]
+    - Flex: Priced For The SpinCo, Waiting For Weakness
+    - 7 Numbers That Should Make A Prudent Investor Say 'Whoa!'
+    - Trump Media & Technology's Hidden Asset - What It Might Mean For Shareholders
+  [Investing]
+    - California offering $3,500 EV rebates to first-time buyers
+    - California, 11 states suing to block Paramount’s $110 billion Warner Bros deal
+    - TransDigm stock falls after Stellant acquisition withdrawal
+  [Yahoo-Fin]
+    - This is how rich SpaceX workers are after the IPO
+    - Stock market today: Dow rises, S&P 500 and Nasdaq slip as US and Iran exchange fire, oil jumps
+    - Arm And Marvell Tumble As Chip Stocks Sell Off
+  [Benzinga]
+    - Toncoin (TON) Price Prediction 2025, 2026, 2027-2030
+    - Myro (MYRO) Price Prediction: 2025, 2026, 2030
+    - PancakeSwap (CAKE) Price Prediction: 2025, 2026, 2030
+  [Zerohedge]
+    - Mamdani's Affordability Agenda Flops As NYC Rents Surge To Record Highs
+    - Obama Appointed Federal Judge Blocks Trump Admin's Anti-DEI Grant Conditions
+    - Trump Reinstates Iranian Blockade, Stuns With 20% 'Reimbursement Plan' On Cargo Transit, Oil Prices Surge
+  [WSJ-Markets]
+    - Micron and other chip stocks feel the pain of imported volatility — blame SK Hynix
+    - Can big banks’ ‘cheap’ stocks keep rising? We’ll find out when JPMorgan and an unusual number of others report earnings Tuesday
+    - Global oil prices top $80 a barrel after Trump reimposes Strait of Hormuz blockade and charges 20% fee for cargo shipped through
+  [FT-Markets]
+    - Dubai plans new port to bypass Strait of Hormuz
+    - US to resume Strait of Hormuz blockade and charge fees on ships, Trump says
+    - Ukraine’s drone swarms test Moscow air defences
+  [CNBC-Top]
+    - Trump proposes 20% toll on cargo through Strait of Hormuz; restarts Iran blockade
+    - Trump recommends Lindsey Graham's sister serve as interim senator for South Carolina
+    - SpaceX stock sinks for a second-straight day, nearing $135 IPO price
+  [CNBC-Markets]
+    - Paramount-WBD merger expected to face lawsuit from multiple states, sources say
+    - Big banks poised to report booming revenue propelled by SpaceX IPO, Iran war volatility
+    - A tiny GLP-1 implant is the latest bet to help patients maintain their weight loss
+  [FedPress]
+    - Federal Reserve announces the leadership and objectives of its task forces to advance the conduct of monetary policy
+    - Federal Reserve Board issues enforcement action with TS Banking Group, Inc. and TS Contrarian Bancshares, Inc.
+    - Minutes of the Federal Open Market Committee, June 16-17, 2026
+  [ECB]
+    - Meeting of 10-11 June 2026
+    - Philip R. Lane: AI and monetary policy
+    - Christine Lagarde: Interview with Les Échos
+  [BoE]
+    - UK financial regulators to begin overseeing Critical Third Parties announced by HM Treasury
+    - Minutes of the UK Money Markets Code Sub-Committee – June 2026
+    - Letter from the Governor to Joe Powell MP
+  [BoJ]
+    - Basic Figures on Fails (June)
+    - Corporate Goods Price Index (June)
+    - Regional Economic Report (Summary) (July 2026)
+  [Cointelegraph]
+    - Bitcoin threatens $62K in risk-asset rout as Donald Trump says US will 'run' closed Hormuz Strait
+    - Here’s what happened in crypto today
+    - Coinbase Ventures tops crypto VC list for H1 2026
+  [Decrypt]
+    - BitMine Buys $49 Million in Ethereum as Tom Lee Hails Early Robinhood Chain Demand
+    - Strategy Pads Cash Reserves to $3 Billion, Skipping Bitcoin Buy for Third Week
+    - Bank of Thailand Flags Abnormal Stablecoin Trades in 'Grey Economy' Crackdown
+  [TheBlock]
+    - President Trump, White House press Senate to advance the Clarity Act while ethics fight looms
+    - Chinese prosecutors call for more proactive approach to investigating crypto money laundering
+    - Japan’s largest security token platform moves nearly $3 billion to Avalanche blockchain
+  [CoinDesk]
+    - Bitcoin panic-selling may be ending as sellers' profit margins disappear
+    - Strategy pauses its Bitcoin buying spree to hoard a massive $3 billion cash cushion
+    - Robinhood built a blockchain for tokenized stocks. Memecoins took over
+  [ForexLive]
+    - European stock markets tread water despite Hormuz uncertainty
+    - The declines in the Nasdaq has tilted the short term bias more into neutral territory. S&P remains more bullish.
+    - New Prop Firm DojoTraders Launches and Aims to Simplify Trading Across Markets
+  [FXStreet]
+    - Gold eyes $4,000 as renewed US-Iran hostilities boost Oil prices, Fed rate hike bets
+    - Canadian Dollar gains as Oil prices surge on Middle East supply risks
+    - Commodities: Forward curves and carry framework – Societe Generale
+  [Mining.com]
+    - Regis quits Vault chase, clearing way for Genesis takeover
+    - Codelco chair puts profit ahead of copper output
+    - De Beers idles South Africas top diamond mine for two years
+  [JapanTimes]
+    - A pension shift in Japan may hurt some foreign money managers
+    - Heavy floods submerge roads in northern China as Bavi weakens to tropical storm
+    - Akzo Nobel rejects $8.6 billion Nippon Paint offer for paint business
+  [SCMP-Biz]
+    - Reaching for the Stars – An Iconic Art Installation Showcased at Cheung Kong Center II
+    - Futu expects mainland brokerage business to shrink but vows to keep Hong Kong outlets
+    - China’s Midea dispatches 20,000 air conditioners in race to cool heat-stricken France
+  [ET-Markets]
+    - Ahead of Market: 10 things that will decide stock market action on Tuesday
+    - SK Hynix US-listed shares slip nearly 8% as Nasdaq debut euphoria cools
+    - Ahead of IPO, Millworks Tech raises nearly Rs 44 cr from anchor investors
+  [Livemint]
+    - Gold, silver prices today: Comex gold, silver extend losses as Middle East tensions lift Fed rate hike fears
+    - Small-cap stock under  ₹50 hits upper circuit after this AI update
+    - Laser Power & Infra IPO: Issue booked 41 times on Day 03; NII, QIB portions see strong demand
+  [SpaceNews]
+    - Accel and Prosus backed QOSMIC raises $3.33 Million to Build Optical Ground Stations for the Orbital Data Economy
+    - Reditus Space completes first reentry vehicle
+    - Voyager completes acquisition of Astrobotic
+  [TechCrunch]
+    - As TV-tracking app TV Time shuts down, its founder builds Bingers, a new home for fans
+    - Anthropic starts localizing Claude pricing for India, its biggest market after the US
+    - SpaceX cleared to fly Starship again after booster failure in May
+  [TheRegister]
+    - SREs to AI agents: Prove yourself before you touch production
+    - Sticker shock has execs rethinking this whole AI thing
+    - Lucky 13: SpaceX aims for July 16 Starship flight test
+  [BioPharma]
+    - <a href="/manufacturing/fda-moves-streamline-registration-drug-manufacturing-facilities-us" hreflang="en">FDA's latest onshoring move homes in on streamlined facility registration, foreign plant scrutiny</a>
+    - <a href="/manufacturing/lupin-recalls-more-25m-bottles-eye-drops-due-possible-contamination" hreflang="en">Lupin recalls more than 2.5M prescription eye drop bottles, citing possible contamination</a>
+    - <a href="/pharma/gsk-seek-fda-approval-jemperli-small-high-profile-cancer-use-after-phase-2-win" hreflang="en">GSK to seek FDA approval for Jemperli in small but high-profile cancer use after phase 2 win</a>
+  [PV-Magazine]
+    - How EPCs can de-risk solar carport projects
+    - Passive mooring system enables floating PV to track water-level changes
+    - Smart controllers help Brazilian PV projects bypass reverse power flow constraints
+  [Electrek]
+    - Tesla Semi adds another fleet as Paper Transport starts Chicago pilot
+    - Hyundais electric hatch starts at under $30,000, and interest is already sky-high
+    - A $5M startup claims rare earth-free electric motor breakthrough
+
+research only, not financial advice. verify before acting.
+
+[scan task log]
+  - 23:55:18  regime: gathering FRED macro / VIX / fear-greed
+  - 23:55:24  regime: RISK-ON score=+0.53
+  - 23:55:24  quotes: collecting curated universe (crypto/US-core/CN/TW/FX)
+  - 23:56:24  quotes: 135 curated instruments fetched
+  - 23:56:24  wide US funnel: pulling ~12k tickers from Polygon, pre-screening top 150
+  - 23:56:34  wide US funnel: 4008 of 12398 -> top 150 backtested
+  - 23:56:34  spillover funnel: scanning RSS headlines for theme keywords -> peer candidates
+  - 23:56:49  spillover funnel: 13 candidates across 3 themes -> 12 fetched
+  - 23:56:49  wide CN funnel: pulling ~5,500 A-shares, pre-screening top 120
+  - 23:56:52  wide CN funnel: 600 of 600 -> top 120 backtested
+  - 23:56:52  opportunities: building candidate set from quotes + regime
+  - 23:56:52  opportunities: 260 raw candidates
+  - 23:56:52  backtest: enriching with technicals + E[R]/sigma/Sharpe
+  - 00:01:48  backtest: per-candidate family m=7 (global total=304) -> Bonferroni t>=2.69
+  - 00:01:48  news enrichment: Finnhub headlines + Polygon sentiment per candidate
+  - 00:01:56  news enrichment: done (4 candidates have fresh headlines)
+  - 00:01:56  catalyst enrichment: scanning Finnhub earnings/FDA/IPO + Polygon dividends
+  - 00:01:59  catalyst enrichment: 2 candidates have a near-term catalyst (+2 new)
+  - 00:01:59  PEAD confirmation: looking up recent earnings surprises for PEAD setups
+  - 00:01:59  PEAD confirmation: 0 PEAD setups confirmed by earnings surprise (+0 new)
+  - 00:01:59  options enrichment: pulling ATM straddles (CBOE) for top US candidates
+  - 00:02:16  options enrichment: 10 candidates have an RV/IV signal (+10 new)
+  - 00:02:16  catalysts: printing freshest company news for top candidates
+  - 00:02:16  alt-data: pulling FRED macro/rates/credit, treasury curve, BTC funding, COT
+  - 00:02:33  catalyst calendar: Finnhub earnings/FDA/IPO + Polygon dividends (14d)
+  - 00:02:36  expanded news: sweeping all RSS feeds (equities/macro/CB/crypto/FX/commodities/regional)
+  - 00:02:49  expanded news: 33 feeds ok, 15 feeds failed
+  - 00:02:49  GDELT: 24h global market tone sweep

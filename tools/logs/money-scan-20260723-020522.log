@@ -1,0 +1,123 @@
+=== MONEY-LOOP scan started 2026-07-23 02:05:22 ===
+=== WORLD-TRADER GLOBAL SCAN  2026-07-22T18:05:23+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+-- OPEN NOW: 7 markets --
+   + BR (Brazil (B3))
+   + CA (Canada (TSX))
+   + CRYPTO (Crypto (24/7))
+   + FUT (Futures (CME/GLOBEX: commodities, bonds, index))
+   + FX (FX (24/5))
+   + MX (Mexico (BMV))
+   + US (US equities)
+
+-- REGIME: NEUTRAL  (score +0.00) --
+   [+spillover: 4 cross-asset candidates from 2 themes]
+
+-- LIVE QUOTES: 152 instruments fetched (crypto RT, US, China A-share live, Taiwan live, FX)  [wide US unavailable: net: Remote end closed connection without response]  [+wide CN A-share: 100 of 100 liquid names -> top 120, backtested] --
+
+=== OPPORTUNITIES (ranked by per-trade expected Sharpe = E[R]/sigma) ===
+  markets open now (2026-07-22T18:07:00+00:00): BR, CA, CRYPTO, FUT, FX, MX, US
+  YOUR BAR to qualify: E[R]>=+1%/trade, sigma<=7%*sqrt(h/5), Sharpe>=0.40, n>=20, t>=2 (Bonferroni-adj.), OOS Sharpe>0
+  >> markets open (BR, CA, CRYPTO, FUT, FX, MX, US) but no positive-expectancy edge measured this scan -- stand aside. An empty table is the honest answer.
+
+-- MACRO / RATES / CREDIT (FRED) --
+  Fed balance sheet             6743028  (2026-07-15)
+  M2 money supply               23052.3  (2026-05-01)
+
+-- CATALYST CALENDAR (next 14d; today=2026-07-23) --
+  (no actionable upcoming catalysts found)
+  errors: earnings: net: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081); ipo: net: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081); fda: net: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081); dividends: net: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081)
+
+-- NEWS (expanded feeds) --
+  [CNBC-Markets]
+    - Senate panel advances China auto bill that could bar Mercedes-Benz from U.S.
+    - EU antitrust regulators clear Paramount-WBD merger as it faces challenge by U.S. states
+    - Renting a yacht in the Mediterranean this summer just got cheaper
+  [ECB]
+    - ECB appoints Boris Kisselevsky as Director General Secretariat
+    - July 2026 euro area bank lending survey
+    - Survey on the Access to Finance of Enterprises: lending conditions tightened
+  [CoinDesk]
+    - New Clarity Act emerges that's a start on the final draft, makes ethics rule temporary
+    - Revolut hits $115 billion valuation in employee share sale: WSJ
+    - SEC's Peirce warns some DeFi vaults, onchain lending may fall under securities laws
+  [FXStreet]
+    - Euro gains against British Pound after mixed UK inflation report,ECB decision looms
+    - One bridge per tanker: The Dow Jones Industrial Average rallies as escalation gets a price list
+    - British Pound steadies as cooler UK CPI meets Oil shock
+  [ET-Markets]
+    - UltraTech Cement comes up with a record June quarter, profit surges 17%
+    - CSB Bank Q1 profit jumps 27% YoY to Rs 150 crore as provisions decline
+    - PRISM's premium hotel push emerges as next leg of India growth ahead of IPO
+  [Livemint]
+    - Lohia Corp raises  ₹492 crore from anchor investors ahead of IPO opening on Thursday
+    - Gold, silver prices today: Comex gold tops $4,170; silver extends winning streak as safe-haven demand rises
+    - Super Micro Computer shares jump 25% after securing over $60 billion in Q4 orders
+  [TechCrunch]
+    - Menlo Ventures’ Matt Murphy explains why Anthropic is winning (and its not the model)
+    - Monday.com lays off hundreds to focus on AI
+    - Google is making it easier to switch from iPhone to Android
+  [BioPharma]
+    - <a href="/pharma/trump-floats-countdown-200-tariff-rate-generic-drugs-imported-us" hreflang="en">Trump floats countdown to 200% tariffs on generic drugs imported to US</a>
+    - <a href="/pharma/summit-therapeutics-updates-ivonescimab-survival-data-ahead-fda-decision-date" hreflang="en">Summit Therapeutics updates ivonescimab survival data ahead of FDA decision date</a>
+    - <a href="/pharma/look-out-ionis-here-comes-rival-arrowhead-competitive-hypertriglyceridemia-data" hreflang="en">Look out Ionis, here comes Arrowhead with promising hypertriglyceridemia data</a>
+  [Investing-DE]
+    - Nvidia, SpaceX among market cap stock movers on Wednesday
+    - Exclusive-Panama weighs creation of state-owned miner to pave way for Cobre Panama re-opening
+    - Initial jobless claims headline Thursday’s economic calendar
+  [HinduBiz]
+    - UTI AMC Q1 profit rises 24% to ₹294 cr on lower costs
+    - India creates ₹40,000 crore corpus for coal mine closure
+    - After equities and mutual funds, it’s time for bond SIPs
+
+-- SEC 8-K MATERIAL CATALYSTS (last 3 days) --
+  (unavailable: net: Remote end closed connection without response)
+
+-- INSIDER CLUSTER BUYS (last 30d, >=2 insiders) --
+  (unavailable: RemoteDisconnected: Remote end closed connection without response)
+
+-- DEFI STABLECOIN YIELDS (top 8 by APY, TVL >=$10M) --
+  (unavailable: net: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081))
+
+-- SHORT SQUEEZE WATCH (SI% float >= 10%) --
+  (no high-SI names found)
+
+-- ENERGY SNAPSHOT (FRED weekly) --
+  (unavailable: no data (FRED_KEY missing or all series failed))
+
+research only, not financial advice. verify before acting.
+
+[scan task log]
+  - 02:05:23  regime: gathering FRED macro / VIX / fear-greed
+  - 02:05:24  regime: NEUTRAL score=+0.00
+  - 02:05:24  quotes: collecting global universe (crypto/US/CN/TW/HK/FX/futures/indices + region/macro ETFs)
+  - 02:05:49  quotes: 57 curated instruments fetched
+  - 02:05:49  wide US funnel: pulling ~12k tickers from Polygon, pre-screening top 150
+  - 02:05:49  wide US funnel: 0 of 0 -> top 150 backtested [err: net: Remote end closed connection without response]
+  - 02:05:49  spillover funnel: scanning RSS headlines for theme keywords -> peer candidates
+  - 02:06:05  spillover funnel: 12 candidates across 2 themes -> 4 fetched
+  - 02:06:05  wide CN funnel: pulling ~5,500 A-shares, pre-screening top 120
+  - 02:06:06  wide CN funnel: 100 of 100 -> top 120 backtested
+  - 02:06:06  opportunities: building candidate set from quotes + regime
+  - 02:06:06  opportunities: 92 raw candidates
+  - 02:06:06  backtest: enriching with technicals + E[R]/sigma/Sharpe
+  - 02:06:58  backtest: per-candidate family m=22 (global total=98) -> Bonferroni t>=3.05
+  - 02:06:58  news enrichment: Finnhub headlines + Polygon sentiment per candidate
+  - 02:06:58  news enrichment: done (0 candidates have fresh headlines)
+  - 02:06:58  catalyst enrichment: scanning Finnhub earnings/FDA/IPO + Polygon dividends
+  - 02:06:59  catalyst enrichment: 0 candidates have a near-term catalyst (+0 new)
+  - 02:06:59  PEAD confirmation: looking up recent earnings surprises for PEAD setups
+  - 02:06:59  PEAD confirmation: 0 PEAD setups confirmed by earnings surprise (+0 new)
+  - 02:06:59  options enrichment: pulling ATM straddles (CBOE) for top US candidates
+  - 02:06:59  options enrichment: 0 candidates have an RV/IV signal (+0 new)
+  - 02:06:59  country crisis: scanning 32 country ETFs for crisis signals
+  - 02:07:00  country crisis: 0 candidates in crisis (+0 new)
+  - 02:07:00  veto gate: 8 rows vetoed (8 crash-in-progress, 0 news-contradicts) -> PASS rows 0 -> 0
+  - 02:07:00  catalysts: printing freshest company news for top candidates
+  - 02:07:00  alt-data: pulling FRED macro/rates/credit, treasury curve, BTC funding, COT
+  - 02:07:02  catalyst calendar: Finnhub earnings/FDA/IPO + Polygon dividends (14d)
+  - 02:07:03  expanded news: sweeping all RSS feeds (equities/macro/CB/crypto/FX/commodities/regional)
+  - 02:07:14  expanded news: 10 feeds ok, 98 feeds failed
+  - 02:07:14  GDELT: 24h global market tone sweep
+  - 02:07:14  altdata2: SEC 8-K + insider clusters + DeFi yields + short squeeze + energy

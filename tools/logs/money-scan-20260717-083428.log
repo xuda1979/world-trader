@@ -1,0 +1,212 @@
+=== MONEY-LOOP scan started 2026-07-17 08:34:28 ===
+=== WORLD-TRADER GLOBAL SCAN  2026-07-17T00:34:29+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+-- OPEN NOW: 6 markets --
+   + AU (Australia (ASX))
+   + CRYPTO (Crypto (24/7))
+   + FUT (Futures (CME/GLOBEX: commodities, bonds, index))
+   + FX (FX (24/5))
+   + JP (Japan (TSE))
+   + KR (Korea (KRX))
+
+-- REGIME: RISK-ON  (score +0.90) --
+   HY=2.71(+0.90)
+   crypto fear&greed: 27 (Fear)
+
+-- LIVE QUOTES: 274 instruments fetched (crypto RT, US, China A-share live, Taiwan live, FX)  [+wide US: 4142 of 12435 tickers pre-screened -> top 150]  [wide CN unavailable: ConnectionResetError: [Errno 54] Connection reset by peer] --
+
+=== OPPORTUNITIES (ranked by per-trade expected Sharpe = E[R]/sigma) ===
+  markets open now (2026-07-17T00:46:51+00:00): AU, CRYPTO, FUT, FX, JP, KR
+  YOUR BAR to qualify: E[R]>=+1%/trade, sigma<=7%*sqrt(h/5), Sharpe>=0.40, n>=20, t>=2 (Bonferroni-adj.), OOS Sharpe>0
+  >> markets open (AU, CRYPTO, FUT, FX, JP, KR) but no positive-expectancy edge measured this scan -- stand aside. An empty table is the honest answer.
+
+-- MACRO / RATES / CREDIT (FRED) --
+  US 3M yield                      3.83  (2026-07-15)
+  Fed funds                        3.63  (2026-07-15)
+  US HY credit spread              2.71  (2026-07-15)
+  US IG credit spread              0.79  (2026-07-15)
+  WTI oil                          79.2  (2026-07-13)
+  Brent oil                       81.62  (2026-07-13)
+  Fin conditions index         -0.53800  (2026-07-10)
+  Fed balance sheet             6743028  (2026-07-15)
+  M2 money supply               23052.3  (2026-05-01)
+  Unemployment rate                 4.2  (2026-06-01)
+  CPI                           332.568  (2026-06-01)
+  5Y inflation breakeven           2.24  (2026-07-16)
+  UST curve: 10Y 4.55%  30Y 5.08%
+
+-- CATALYST CALENDAR (next 14d; today=2026-07-17) --
+  (no actionable upcoming catalysts found)
+  errors: earnings: net: [Errno 54] Connection reset by peer; ipo: net: [Errno 54] Connection reset by peer; fda: net: [Errno 54] Connection reset by peer; dividends: net: [Errno 54] Connection reset by peer
+
+-- NEWS (expanded feeds) --
+  [Nasdaq-Mkts]
+    - Why Union Pacific Stock Chugged Almost 4% Higher on Thursday
+    - Losses May Accelerate For Singapore Shares
+    - Why Newell Brands Stock Raced More Than 5% Higher Today
+  [Nasdaq-Stocks]
+    - Corn Fades Back Loser on Thursday
+    - Soybeans Give Back Some Recent Gains on Thursday
+    - Cotton Falls Back on Thursday
+  [SeekingAlpha]
+    - Retail Sales Rise For Fifth Straight Month
+    - Nephros, Inc. (NEPH) Discusses Evolving Water Safety Strategies and Expansion Beyond Filtration Transcript
+    - Intuitive Surgical, Inc. (ISRG) Q2 2026 Earnings Call Transcript
+  [CNBC-Top]
+    - Trump is set to deliver an election-focused national address tonight. Here's what to know
+    - Netflix stock falls as earnings forecast disappoints, company says it will give fewer engagement updates
+    - Elon Musk's Memphis AI empire is the epicenter of the data center backlash
+  [Decrypt]
+    - Leaks Reveal Suno Fed Thousands of Hours of Deezer, YouTube and Pond5 Data Into Its AI
+    - Morgan Stanley Launches Bitcoin, Ethereum, and Solana Trading on E*Trade
+    - Bitcoin Q-Day Recovery Proposal Aims to Let Users Prove Ownership After Quantum Attack
+  [TheBlock]
+    - MegaETH sunsets Mega Mafia accelerator program, noting most of its successful apps left
+    - JPMorgan says bitcoin outlook sees encouraging sign as Strategy boosts cash reserves
+    - Were going to get it done: Crypto bill faces what could be final test over Trump conflicts of interest
+  [ForexLive]
+    - Singapore June exports rise 20.7% but miss forecasts on non-electronics weakness
+    - Equities selling off, Nikkei down 3%. US equities lower also
+    - PBOC is expected to set the USD/CNY reference rate at 6.7734 – Reuters estimate
+  [FXStreet]
+    - Iran tells Houthis to close Red Sea oil route if US hits power network — Reuters
+    - Gold tumbles to eight-month low below $4,000 as Middle East tensions reinforce US rate hike bets
+    - Fed’s Jefferson: Current policy is well positioned to respond, based on incoming data
+  [OilPrice]
+    - The No.1 Commodity Story of the Year Is Flying Under Wall Street’s Radar
+    - China Could Be About to Remove Oils Biggest Safety Net
+    - India, South Africa To Boost Their Strategic Petroleum Reserves
+  [SpaceNews]
+    - SpaceX aborts Starship Flight 13 launch attempt
+    - SpaceX launches 21 satellites for military data network
+    - Nature study identifies a new way to spot nuclear weapons in orbit
+  [TechCrunch]
+    - San Francisco mayor pushes for tougher rules after the Waymo traffic fiasco
+    - SpaceX suddenly aborts second Starship V3 launch after ignition
+    - Coca-Cola suspended production at its Fairlife dairy after a ransomware attack
+  [BioPharma]
+    - <a href="/manufacturing/huahai-poaches-quality-chief-hengrui-amid-fda-manufacturing-citations" hreflang="en">Huahai poaches quality chief from Hengrui amid FDA manufacturing citations</a>
+    - <a href="/marketing/vanda-shifts-nereus-marketing-high-gear-schumacher-indycar-sponsorship" hreflang="en">Vanda shifts Nereus marketing into high gear with Schumacher IndyCar sponsorship</a>
+    - <a href="/manufacturing/bipartisan-senate-bill-seeks-build-vigilance-around-foreign-companies-making-drugs-us" hreflang="en">Bipartisan Senate bill seeks to build vigilance around foreign companies making drugs in US</a>
+  [PV-Magazine]
+    - Xpanner introduces excavator-mounted automation tool to ease utility-scale installation bottlenecks
+    - Rise in solar module prices comes to a halt
+    - Alfen, CATL to deploy 5 GWh of sodium-ion battery storage in Europe
+  [Electrek]
+    - Tesla finally launches a bike — but its not what fans wanted
+    - The BMW iX4 looks more like a grand tourer than an SUV [Images]
+    - Tesla (TSLA) shareholders are begging Musk to explain missed goals
+  [CityAM]
+    - Oura Ring 5 vs Google Fitbit Air: The battle of the fitness trackers
+    - Tiktok confident ahead of Ofcom child safety probe
+    - World Cup demand pushes price of private jet charters up 30 per cent
+  [Brazil-Exame]
+    - Flávio Bolsonaro anuncia plano de governo para mulheres com plataforma digital e IA própria
+    - Messi e Mbappé estão com o mesmo número de gols na Copa, mas argentino lidera ranking - entenda
+    - Tuchel seguirá como treinador da Inglaterra mesmo após eliminação na Copa
+  [MiningCom]
+    - Copper price slides as monster storm bears down on Chile and Iran flare-up rattles metals
+    - Canada’s first diamond mine to shut down
+    - Acid test: IEA warns copper supply outlook has “worsened considerably”
+  [FarmProgress]
+    - Rally fizzles on mostly disappointing export data
+    - Top Tips: Here’s what’s moving grain prices and how farmers can reward the rally
+    - Screwworm costs Mexican ranchers $2.8B as U.S. cattle ban continues
+  [CoinTelegraph]
+    - Bitcoin liquidity clusters determine BTC’s price direction as futures flow fuels price
+    - Citadel Securities invests $400M in Crypto.com at $20B valuation
+    - Polygon CEO announces job cuts amid Coinme acquisition
+  [BeInCrypto]
+    - Claude Fable 5 Slips to Second in AI Coding Leaderboard
+    - Tom Lee Says Ethereums Biggest Bull Case Is No Longer Crypto
+    - Trumps Teleprompter Operator Made $100,000 Betting on a President Who Ignores the Script
+  [NewsBTC]
+    - Kraken Pro Launches API Partner Program Supporting Specialized Integrations
+    - Solana Holds Near $77 As Traders Look For Real Demand Behind The Bounce
+    - Dogecoin Reclaims $0.073 As Meme Traders Look For A Cleaner Rebound
+  [BitcoinMag]
+    - Crypto.com Secures $400M Investment From Citadel Securities at $20B Valuation
+    - T. Rowe Price Debuts New ETF With Bitcoin and Crypto Exposure
+    - Fed Chair Warsh: No Bailout for Crypto Industry in Crisis
+  [TheDefiant]
+    - SummerFi to Wind Down After Seven Years, Citing Exploit
+    - eToro Takes Strategic Stake in Onchain Derivatives Exchange Extended, Plans Zengo Tie-Up
+    - NEAR Governance Votes to Scrap Developer Gas Rebate
+
+-- SEC 8-K MATERIAL CATALYSTS (last 3 days) --
+  2026-07-16 ----   [1.01,2.01,5.02,9.01]  SpringBig Holdings, Inc.  (SBIG, SBIGW)
+  2026-07-16 QUCY   [2.01,7.01,8.01,9.01]  Quantum Cyber N.V.  (QUCY)
+  2026-07-16 GTLS   [2.01,3.01,3.03,5.01,]  CHART INDUSTRIES INC  (GTLS)
+  2026-07-16 BKR    [1.01,1.02,2.01,2.03,]  Baker Hughes Co  (BKR)
+  2026-07-15 GCTK   [1.01,2.01,2.03,3.02,]  Glucotrack, Inc.  (GCTK)
+  2026-07-15 ----   [1.01,3.02,5.02,5.03,]  Samos Energy Acquisition Corp  (SAMO, SA
+  2026-07-15 NUVL   [2.01,3.01,3.03,5.01,]  Nuvalent, Inc.  (NUVL)
+  2026-07-15 JSDA   [5.02,8.01,9.01]  JONES SODA CO.  (JSDA)
+  2026-07-14 ----   [1.02,2.01,3.01,3.03,]  XOMA Royalty Corp  (XOMA, XOMAO, XOMAP)
+  2026-07-14 WSR    [1.02,2.01,3.01,3.03,]  Whitestone REIT  (WSR)
+  2026-07-14 EEX    [1.02,2.01,3.01,3.03,]  Emerald Holding, Inc.  (EEX)
+  2026-07-14 RACD   [1.01,3.02,5.02,5.03,]  Research Alliance Corp IV  (RACD)
+  2026-07-14 RPAY   [1.01,5.02,7.01,9.01]  Repay Holdings Corp  (RPAY)
+  2026-07-14 NXTC   [1.01,2.05,5.01,5.02,]  NextCure, Inc.  (NXTC)
+  2026-07-14 ----   [1.01,2.01,2.03,7.01,]  LIGAND PHARMACEUTICALS INC  (LGND, LGNDZ
+
+-- INSIDER CLUSTER BUYS (last 30d, >=2 insiders) --
+  (unavailable: no table found)
+
+-- DEFI STABLECOIN YIELDS (top 8 by APY, TVL >=$10M) --
+  saturn             SUSDAT         APY= 31.4%  TVL=$71.6M  Ethereum
+  accountable        USDC           APY= 17.9%  TVL=$61.4M  Monad
+  aave-v3            USDC           APY= 15.5%  TVL=$65.0M  Ethereum
+  tori-finance       STRUSD         APY= 13.8%  TVL=$25.1M  Ethereum
+  apyx-protocol      APXUSD         APY= 13.7%  TVL=$149.4M  Ethereum
+  curve-dex          APYUSD-APXUSD  APY= 13.7%  TVL=$17.5M  Ethereum
+  mystic-finance-lending COREUSDT0      APY= 12.8%  TVL=$21.8M  Flare
+  re                 REUSDE         APY= 12.2%  TVL=$20.1M  Ethereum
+
+-- SHORT SQUEEZE WATCH (SI% float >= 10%) --
+  (no high-SI names found)
+
+-- ENERGY SNAPSHOT (FRED weekly) --
+  Gasoline retail: $None/gal  (4w: -4.9%)
+  WTI crude:       $None/bbl  (4w: +10.7%)
+  Heating oil:     $None/gal
+  Natgas:          $2.83/MMBtu
+
+research only, not financial advice. verify before acting.
+
+[scan task log]
+  - 08:34:29  regime: gathering FRED macro / VIX / fear-greed
+  - 08:35:07  regime: RISK-ON score=+0.90
+  - 08:35:07  quotes: collecting global universe (crypto/US/CN/TW/HK/FX/futures/indices + region/macro ETFs)
+  - 08:43:24  quotes: 124 curated instruments fetched
+  - 08:43:24  wide US funnel: pulling ~12k tickers from Polygon, pre-screening top 150
+  - 08:43:27  wide US funnel: 4142 of 12435 -> top 150 backtested
+  - 08:43:27  spillover funnel: scanning RSS headlines for theme keywords -> peer candidates
+  - 08:43:50  spillover funnel: 6 candidates across 1 themes -> 0 fetched
+  - 08:43:50  wide CN funnel: pulling ~5,500 A-shares, pre-screening top 120
+  - 08:43:50  wide CN funnel: 0 of 0 -> top 120 backtested [err: ConnectionResetError: [Errno 54] Connection reset by peer]
+  - 08:43:50  opportunities: building candidate set from quotes + regime
+  - 08:43:50  opportunities: 183 raw candidates
+  - 08:43:50  backtest: enriching with technicals + E[R]/sigma/Sharpe
+  - 08:46:37  backtest: per-candidate family m=13 (global total=164) -> Bonferroni t>=2.89
+  - 08:46:37  news enrichment: Finnhub headlines + Polygon sentiment per candidate
+  - 08:46:37  news enrichment: done (0 candidates have fresh headlines)
+  - 08:46:37  catalyst enrichment: scanning Finnhub earnings/FDA/IPO + Polygon dividends
+  - 08:46:41  catalyst enrichment: 6 candidates have a near-term catalyst (+6 new)
+  - 08:46:41  PEAD confirmation: looking up recent earnings surprises for PEAD setups
+  - 08:46:41  PEAD confirmation: 0 PEAD setups confirmed by earnings surprise (+0 new)
+  - 08:46:41  options enrichment: pulling ATM straddles (CBOE) for top US candidates
+  - 08:46:44  options enrichment: 10 candidates have an RV/IV signal (+10 new)
+  - 08:46:44  country crisis: scanning 32 country ETFs for crisis signals
+  - 08:46:51  country crisis: 0 candidates in crisis (+0 new)
+  - 08:46:51  catalysts: printing freshest company news for top candidates
+  - 08:46:51  alt-data: pulling FRED macro/rates/credit, treasury curve, BTC funding, COT
+  - 08:47:06  catalyst calendar: Finnhub earnings/FDA/IPO + Polygon dividends (14d)
+  - 08:47:09  expanded news: sweeping all RSS feeds (equities/macro/CB/crypto/FX/commodities/regional)
+  - 08:47:38  expanded news: 23 feeds ok, 75 feeds failed
+  - 08:47:38  GDELT: 24h global market tone sweep
+  - 08:47:47  altdata2: SEC 8-K + insider clusters + DeFi yields + short squeeze + energy
+  - 08:47:48  SEC 8-K: 15 filings with material items (last 3d)
+  - 08:47:51  DeFi yields: 8 stablecoin pools
+  - 08:48:00  energy: gas=$None crude=$None gas4w=-4.86% crude4w=10.72%

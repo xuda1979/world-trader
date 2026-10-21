@@ -1,0 +1,16 @@
+=== agent CHAMP_DATA_FRESH round 1 start Mon Sep 14 14:09:50 CST 2026 ===
+[2026-09-14] round1 audit complete. --verify IDENTICAL (9.996e-17). All 12 sleeves stale vs 2026-09-12 (tails 08-03..08-28); 81.06% of relw refreshable on-disk to 09-01; CFX4 FX books absent from disk (zero-weight justified). REGRESSION FLAG: HEAD=ITER15 13-sleeve book, disk=ITER19 12-sleeve champion UNCOMMITTED (7 files M). Artifacts: audit_freshness.py, FINDINGS.md (last line ROUND 1 DONE).
+## Round-1 execution summary (CHAMP_DATA_FRESH)
+
+Charter executed in order, ~10 tool calls. Artifacts: `campaign/agents/CHAMP_DATA_FRESH/FINDINGS.md`, `audit_freshness.py` (repro), LOG_1.log note.
+
+**1. Freshness** — All 12 champion sleeves are stale vs 2026-09-12 (last completed trading day 09-11). Last trading rows range 2026-08-03 (carryv2) → 2026-08-28 (brwt10/7/5); champion blend tail = **08-28, gap 15 cal days**. Tail zeros (diescrack 28, A5r2 28, brwt7 5 rows) are by-design gate-off, not missing data.
+
+**2. Coverage** — rows <2017: 1,835 (A5r2) to 6,754 (a6r7), all sufficient for the weight fit; CFX4 has **0** IS rows → relw 0 by the coverage rule (by design).
+
+**3. Provenance / refreshability** — 81.06% of relw (brwt 51.0%, C5ng/C5ngsum 20.8%, diescrack 9.3%) is extendable from **on-disk** sources (EIA spot dailies → 09-01); a6r7/QAxasts/dualmom/A5r2 are already at their on-disk source bounds (08-11…08-27); ff_factors daily itself is stale (2026-06-30); **CFX4's four FX books are absent from disk entirely** — unrefreshable, independently confirming its deliberate zero weight. On-disk refresh ceiling for the blend: 09-01; reaching 09-11 needs network (documented, not fetched per charter).
+
+**4. Regression** — `--verify`: champion max|new-old| = **9.996e-17 IDENTICAL**, weights 6.939e-17 IDENTICAL, gross exactly 1.6, turnover 4.766 bp/yr. **But one real flag: 7 files are uncommitted vs HEAD** — git HEAD still holds the 13-sleeve ITER15 book (weights include brwt15=0.0967) while disk holds the ITER19 12-sleeve champion (re-emitted 09-09). Disk is the self-consistent champion of record; **it is not currently reproducible from git alone and should be committed by the coordinator**.
+
+**Verdict**: no sleeve injects wrong values — the exposure is a 15-day monitoring/coverage gap, cheaply fixable via the existing `CAMP_COST/work_r7` refresh pipeline; no stale sleeve corrupts the champion tail. FINDINGS.md ends with `CHAMP_DATA_FRESH DONE` and the required final line `ROUND 1 DONE`.
+=== agent CHAMP_DATA_FRESH round 1 end Mon Sep 14 14:18:38 CST 2026 exit 0 ===

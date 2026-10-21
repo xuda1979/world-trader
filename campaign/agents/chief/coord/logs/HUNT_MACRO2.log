@@ -1,0 +1,176 @@
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260906195255e04653504c7344a3]
+=== HUNT_MACRO2 round 1 end Sun Sep  6 19:52:55 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070158500ebbcb17e4024ed0]
+=== HUNT_MACRO2 rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070211595d5aafdcba8a4a84]
+=== HUNT_MACRO2 rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907022007e228e7389d3448f3]
+=== HUNT_MACRO2 rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090702400501f388d68d2f41d5]
+=== HUNT_MACRO2 rate-limited or errored (attempt 4, rc=1); backing off ===
+Round 1 executed and logged. Summary:
+
+## What happened
+
+**Inherited state:** the prior session left `work_r1/HUNT_MACRO2_round1.py` + 8 TDD tests **red** (2 failures) and no FINDINGS.md — R1 was never actually run.
+
+**Framework repairs (TDD, red→green, 8/8):**
+1. **Genuine engine bug** — `net_of()` paired W/R via `R.reindex(columns=W.columns).fillna(0)`; disjoint labels (`sig` vs `qqq`) silently zeroed gross → every sleeve read as pure cost churn (net = −0.00128/day exactly = 6.4bps × 2.0 turnover). Same bug broke the scramble permutation. Fixed with `pair_wr()`: by-name on full overlap, positional on disjoint, **raise** on partial overlap (fail-closed).
+2. **Test-spec bug** — the multi-leg test expected +0.03/day but its own data gives +0.01 gross minus borrow 0.5%/252 minus margin (2−1)×4.5%/252 = 0.0098015873, exactly what the engine produced. Engine was contract-correct; fixed the expectation.
+
+**R1 results — all four charter composites DEAD (0/17 variants pass):**
+
+| Family | Best variant | SR | negyr | corr_champ |
+|---|---|---|---|---|
+| (a) credit-cycle | dbaa_only→QQQ | **0.28** | 9 | 0.043 |
+| (b) activity-nowcast | →DBC | 0.13 | 8 | 0.036 |
+| (c) policy/real-rate | breakeven→TLT | −0.03 (dfii→IEF **−0.69**) | 10–15 | −0.02–0.07 |
+| (d) liquidity | →QQQ | 0.26 (H1 −0.53 / H2 +0.64 regime flip) | 6 | −0.019 |
+
+Best of 17 is **3.6× below the SR≥1.0 gate**; halves and yearly gates fail everywhere. |corr|<0.15 passed everywhere — decorrelation was never the problem; edge was.
+
+**Honesty flags:**
+- `scram_p=0.000` on all 17 is **vacuous**: permuted books churn 3.16 bps/d vs 0.21 real (15×) → scramble SR≈−18 is pure cost. Flagged in FINDINGS so it can't be read as signal validation.
+- Verified on disk: `BAMLH0A0HYM2` truncated by FRED to 2023-09-05+ (788 rows) — charter's long-history HY-OAS composite is untestable back-history; the 2023+ variant changes nothing (SR 0.21 vs 0.26).
+- Contract item 4 was unmet (`save_sleeve` never called) — saved 4 representative sleeve CSVs + `.meta` with econ rationale and results.
+
+**Deliverables:** FINDINGS.md appended with the full 17-row table and ends with `ROUND 1 DONE`; DEAD_IDEAS row text included for coordinator submission; 8/8 tests green.
+=== HUNT_MACRO2 round 1 end Mon Sep  7 03:01:40 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907035305aae2cadf54a04028]
+=== HUNT_MACRO2 rate-limited or errored (attempt 1, rc=1); backing off ===
+Round 2 executed per charter. Summary:
+
+## Round 2 results — FRED overlays on the champion
+
+**Entry state was degraded**: `work_r2/` held only a 202-byte `.pyc` stub — the prior session died before writing the module, so all 17 pre-written tests were silently SKIPPING. I recovered the pre-specified API from the test file.
+
+**Framework repairs (all TDD, 25/25 green)**:
+- **7 test-spec bugs** in the never-executed r2 test file — same-day-visibility leak asserted as correct (`d[t]==print[t]`), mutually-unsatisfiable turnover/margin expectations, VIX "sustained" semantics that its own pinned cases disprove, a T+1 baseline bug, etc. Each fix documented inline.
+- **1 engine sign bug** (mine, caught pre-acceptance): `d_mdd = pc−po` against `bt.metrics.max_dd` which returns *negative* numbers — first run mislabeled all 28 variants as failing.
+
+**Champion verified**: rebuilt byte-identical (diff 1e-16), ann 39.85% / SR 3.30 / MDD −6.84% / 0 neg years / gross exactly 1.6.
+
+**Verdict — 4/28 variants pass, all via the MDD arm** (none meets the ann arm):
+
+| variant | dMDD | dAnn | scramble p |
+|---|---|---|---|
+| **book T10Y2Y z63<−2 ×0.6** | **+1.11pp** (→−5.73%) | −2.05pp | 0.015 |
+| **book JOINT (VIXsus21 ∪ T10Y2Y) ×0.6** | **+1.38pp** (→−5.46%) | −3.66pp | 0.000 |
+
+Mechanism verified, not hand-waved: the champion's max-dd is a 4-day Jun-2018 episode that is **96% brwt\* energy-basis slots** (my "defensive" bucket), which is why every risk-on-only slot overlay gives +0.006pp of nothing — book-level de-risk is the honest form. Param plateau 7/9, ×0.9→×0.6 scale grid monotone, gross ≤0.96.
+
+Dead: (a) USREC-1yr (fires only 2009-10, after the damage), (b) T5YIFR tilt (a6r7 is flat on every trigger day — cosmetic), (d) TOTALSL, VIX standalone (0.000 MDD relief — no dd inside their windows). Both passes are saved as sleeves + metas; they trade 2–3.7pp ann for 1.1–1.4pp MDD on a book already inside the −7% goal, so adoption is flagged as a coordinator decision. FINDINGS.md appended with exact numbers and DEAD_IDEAS rows, ending `ROUND 2 DONE`.
+=== HUNT_MACRO2 round 2 end Mon Sep  7 04:42:12 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907080043631578ffa0de4a27]
+=== HUNT_MACRO2 rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070809083ca6275035e94f1f]
+=== HUNT_MACRO2 rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090708173322debad25b9441d1]
+=== HUNT_MACRO2 rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090708341168f73fa499d94c8b]
+=== HUNT_MACRO2 rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907091142a3e017646e0d4737]
+=== HUNT_MACRO2 rate-limited or errored (attempt 5, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090709192817ffcaf1d57d4f28]
+=== HUNT_MACRO2 rate-limited or errored (attempt 6, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090709255748e92faea7ae4fd8]
+=== HUNT_MACRO2 rate-limited or errored (attempt 7, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907093946ea310fdb0816413e]
+=== HUNT_MACRO2 rate-limited or errored (attempt 8, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907135445719c89ca4bb5433f]
+=== HUNT_MACRO2 rate-limited or errored (attempt 1, rc=1); backing off ===
+Round 3 complete. Summary of what happened:
+
+## Entry state
+The prior session died mid-TDD: real ALFRED data + a 315-line engine + a 16KB test spec existed, but the suite was **6 failed / 30 passed** and the grid had never run.
+
+## Charter 3(a) — data authenticity: PASS
+9 FRED ALFRED vintage cubes, all HTTP 200, 24,838 rows, vintages 2005→2026-09. PAYEMS anchor verified on disk: obs 2009-11-01 first visible 2009-12-04 (the true first-Friday release). No synthetic substitutes needed.
+
+## TDD repair (before any evaluation)
+7 test-spec bugs repaired + 2 engine bugs fixed, all documented inline:
+- **Engine (fail-open reporting):** `evaluate()` early branches returned verdict under `pass_` while every reader uses `pass` — a too-short book's verdict was a key nothing read. Fixed to `pass: False`.
+- **Engine (log honesty):** clamp log printed the floor as `first.min()` *after* filtering, naming a real release date as the clamp floor.
+- Spec bugs included a lookahead in the expected surprise (prev value 104 was the *next* obs, unpublished at that release) and a clamp-fixture contradicting its own rule.
+- Final: **36/36 green**.
+
+## Charter 3(b) — macro-surprise standalone: **DEAD, 0/252**
+Best sleeve ICSA→QQQ thr2.0 **SR 0.321, ann +0.21%**, halves 0.12/0.44 — 3.1× below the SR≥1.0 gate; halves gate fails 252/252; FOLLOW (−0.199 mean SR) vs FADE (−0.166): no direction wins; |corr|<0.085 everywhere; position-scramble p<0.05 only 10/252. Failure is not event scarcity (22–32% of releases fire |z|≥1) — the T+1 move after a vintage surprise is already priced.
+
+## Charter 3(c) — VOL2 negatives: **CONFIRMED 34/34**
+Independent re-derivation of all 34 gates without their lib: trigger fracs match to 2.7e-03, all 34 verdicts agree, best dAnn −0.114pp vs their −0.144pp. Notably: their scan ran against the pre-costfix champion (39.851%); the 11:24 re-emit (b268e52, 37.195%) shifts deltas up to 0.63pp but nothing crosses the bar. My own first draft had a double-scaling bug producing a phantom +27.7pp — the cross-check itself caught it (gates matched, pnl couldn't).
+
+## Side-finding
+R2's two MDD-arm overlay passers re-verified on the new champion: T10Y2Y x0.6 dMDD +1.016pp/scramble 0.015 and JOINT x0.6 dMDD +1.494pp/scramble 0.000 — **both still pass**; an apparent ann-flip was diagnosed as a saved-series-vs-new-base artifact, not real.
+
+FINDINGS.md appended with exact numbers, evidence commands, a DEAD_IDEAS row for the coordinator, and the last line is exactly `ROUND 3 DONE`.
+=== HUNT_MACRO2 round 3 end Mon Sep  7 14:51:26 CST 2026 exit 0 ===
+Round 4 executed per charter. Summary:
+
+## ROUND 4 RESULT: 0/10 overlays PASS — own-vol control confirms NO macro content (DEAD)
+
+**Setup (TDD first):** `work_r4/` didn't exist. I wrote `tests/test_macro_r4_events.py` as a pre-registration spec (red: module missing), then implemented `HUNT_MACRO2_round4.py`. Final: **44/44 tests green** (36 prior + 8 new). Champion of record re-verified: 37.195% ann / SR 3.181 / MDD -6.692% / 0 neg yrs, rebuild dev 9.996e-17.
+
+**Event study (332 event T+1 days = 6.91% of window, top-quintile |z|≥1.2816 across the 9 ALFRED series):**
+- Event-day book pnl is **above** average: 15.78bp vs 13.70bp (+2.08bp, t=0.41 NS) — de-levering macro-release days sells premium, not risk
+- Only |t|≥2 slot was C5ngsum (-0.79bp, t=-2.03) — exactly the false-positive rate in action (P(|t|≥2.03)=0.043 → 0.56 expected among 13 slots)
+
+**Overlay grid (all fail both acceptance arms):**
+
+| variant | dAnn | dMDD | SR |
+|---|---|---|---|
+| DELEVER book x0.8 / x0.6 | -1.394 / -2.794pp | **+0.000pp** | 3.11 / 3.04 |
+| ROTATE signed ±(1.1/0.9 … 0.85/1.15) | -0.106..-0.169pp | +0.000pp | 3.17 |
+| DELEVER all-slots x0.8 / x0.6 | -1.386 / -2.787pp | +0.000pp | 3.12 / 3.04 |
+| **CONTROL ownvol x0.8 / x0.6** (freq-matched 6.62%) | -1.622 / -3.261pp | +0.000pp | **3.32 / 3.44** |
+
+**Mechanism:** the champion max-dd (2018-06-19→25, -6.692%) contains **zero** macro event days; 0/10 top-10 dd days are event days. So dMDD is exactly +0.000pp everywhere — same failure mode as R2.
+
+**Charter kill-test verdict:** at matched on-frequency, the content-free own-vol control delivers identical MDD relief (zero) but *higher* SR (3.32/3.44 vs 3.11/3.04). Random same-freq masks get +0.713pp dMDD at p95 by pure luck. The macro trigger is indistinguishable-from/worse-than a generic vol mask → **macro-release event conditioning is DEAD**, as the charter's falsifier directs. An 18-cell exploratory per-series scan (labeled as such, no selection) found no rescue: all dAnn<0, all dMDD 0.000.
+
+FINDINGS.md appended with exact numbers, the DEAD_IDEAS.csv row for the coordinator, and evidence paths (`r4_event_study.csv`, `r4_overlay_results.csv`). Last line is exactly `ROUND 4 DONE`.
+=== HUNT_MACRO2 round 4 end Mon Sep  7 18:43:59 CST 2026 exit 0 ===
+ROUND 5 complete. All charter obligations met:
+
+**R5 verdict: 0/37 PASS — Eurostat/BLS/WorldBank regime-covariate overlays are DEAD**, with the full V2 battery, era-splits, and the own-vol control kill-test all executed.
+
+**What was done:**
+- **Data (live, data-backed):** 5/5 keyless endpoints fetched HTTP 200 with sha-pinned row counts — Eurostat HICP (301 rows, 2000-12..2025-12), BLS CPI-U SA + PPI (30/31 rows, 2024+ only — the keyless v1 API serves just 3 years), WorldBank GDP growth + CPI (36/35 rows, 1990+). One endpoint quirk recorded with exact evidence: the WB `date=A:B` range shape 502s three times while the no-date shape returns 200.
+- **TDD:** red-first (9 errors) → 10/10 green; full suite **54/54**. Three test-spec bugs of mine repaired with inline documentation (2024+-series at a 2019 cutoff, ffilled-index cutoff semantics, a 0→0 fixture flip). One engine bug caught before any verdict was read (mask semantics made the book flat off-trigger → −29..−37pp pathology).
+- **Exact numbers:** every variant has dAnn < 0 (−0.02..−2.33pp) and **dMDD exactly +0.000pp** at all six scales; era-split shows 2020-26 worst (DEFLev x0.6 dSR −0.19); own-vol controls at matched frequency get *higher* dSR (+0.27..+0.31) than every macro gate — content-free conditioning dominates, third family in a row.
+- **Mechanism:** the champion's −6.69% dd (2018-06-19..25) sits at US CPI 1.26 vs q85 3.84, GDP 1.82 vs q15 0.11 — zero trigger days in window, 0/10 top-dd days. Low-frequency regime variables structurally cannot see this book's short idiosyncratic risk windows.
+- **Corner (b)** not triggered — nothing to advance standalone per the charter's own condition.
+- **Artifacts:** `work_r5/` (fetcher, engine, 37-row results CSV, leak probe json with leak_ok=True corr=−0.0031), champion re-verified at sha `4358dfab95679b97`, honest-negative row appended to DEAD_IDEAS.csv (125 rows, now well-formed — my first append had a quoting bug, fixed and re-validated), FINDINGS.md ends with exactly `ROUND 5 DONE`.
+
+Five rounds now: FRED composites, FRED overlays, ALFRED surprises, ALFRED cross-sleeve events, and these cubes — zero adoptable macro alpha on this champion at 6.4bps full-|dW|, T+1, PIT.
+=== HUNT_MACRO2 round 5 end Tue Sep  8 05:38:46 CST 2026 exit 0 ===
+Round 6 complete. Summary of what was done and found:
+
+## Round 6 (Consolidation) — executed per charter
+
+**(a) Fraud-catch cross-verification — both verdicts CONFIRMED with my own code:**
+
+- **HUNT_INTERNATIONAL2 R5 (9 NKY sleeves):** Rebuilt all 9 from raw `NIKKEI225.csv` (sha pin `92f09efca6eeb9fa` verified, 20,166 rows) with my own builders and my own cost/scoring code. **SR exact to 4 decimals on 9/9** (max |dSR| 0.0000), pre/post-1990 sub-span exact 9/9, verdict agreement FAIL 9/9, corr-to-champion max dev 0.0006. Their H1/H2/neg-year claims use the battery-feed convention they disclosed in `feed_notes` — I reconciled them exactly, and the exact-net deltas run in the conservative direction (their sleeves look *worse* on exact net). No fraud.
+- **HUNT_SECTOR2 R5 (A11 attention overlay):** Every headline number reproduces **exactly** with my own code and my own placebo seed — base 0.6793, overlay 0.8205, dSR +0.1412, halves +0.407/−1.087, excl-2020 −0.979, leak probe matching to 4dp, corr −0.0629 exact.
+- **One real catch (interpretation, not verdict):** their sentence "placebo p=0.000 (200 matched random gates reproduce the entire lift)" is **inverted** — p=0/200 means random gates *never* beat the overlay; my placebo shows matched random de-risk timing *destroys* SR (mean dSR −0.473, overlay beats 200/200 draws, z=5.04). The disposition still stands on the era-concentration evidence (single-episode 2020 lift, NOT_HUNT_ELIGIBLE, FAIL_SR 0.821), so no escalation was required — the correction is recorded in a `verified` DEAD_IDEAS row.
+
+**(b) DEAD_IDEAS curation:** 143 rows at round start → my own R5 macro row (37-variant family) was missing and is now filed after re-verifying from the artifact (`16d6bae3a9535567`); a concurrent dedup by HUNT_CMDT2-R6CUR removed the 5 byte-dup macro rows mid-round (disclosed with exact sequence); final ledger 140 data rows, zero dups. **(c)** No new macro corner — none pre-registered.
+
+All artifacts in `work_r6/` (`verify_intl2_r5.py`, `verify_sector2_r5.py` + outputs); FINDINGS.md ends with `ROUND 6 DONE`.
+=== HUNT_MACRO2 round 6 end Tue Sep  8 13:21:48 CST 2026 exit 0 ===
+ROUND 7 complete. All charter gates survive.
+
+## Round 7 summary
+
+**R7(a) — CAMP_SHORT-R6 scorecard re-derivation (the charter centerpiece): PASS**
+- RED-first TDD: spec written first, 8 errors on the missing engine confirmed RED, then `r7_repro_engine.py` (own algebra, zero agent/bt imports) went **9/9 GREEN**
+- **BORROW: 75/75 checks reproduce, 0 mismatches** — own 13-sleeve rebuild matches the committed champion to 9.996e-17; 62,465 slot-days zero shorts; diescrack 733 embedded-borrow rows (331/173/229) re-derived from my own zrev+VT reconstruction; −0.60pp/+1pp ladder slope exact
+- **COST: 46/46 checks reproduce, 0 mismatches** — full_dw cost model re-identified by my own algebra (resid 1.2e-16 vs half 1.7e-05); 16/16 files byte-exact vs git HEAD; wide leak probe bracketed in 3 conventions, leak=False everywhere
+- **Charter-named numbers, third-party confirmed**: faithful |dWg| **+0.2034** vs published **+0.0156** = signed float-noise sum (series std 3.35e-16) — my numbers match CAMP_COST's own R6 closeout to **0.0 / 1.2e-15 / 0.0** deviation, so the R6 escalation is a closed three-way triangle, escalation queue empty; borrow-immaterial **0.2195 bps/yr** confirmed (tier8 HTB 3.29 bps/yr, three orders below gate-moving)
+
+**R7(b) — no corner opened, with measurement not assertion**: the only candidate (FOMC calendar) is already on disk (119 rows) and already dead-family (row 14, coord_fomc.py, my R4 own-vol-control kill). New decisive fact: **0/10 champion top-drawdown days are FOMC decision days** (trough 2018-06-25 = energy basis) — no data-backed gap exists, so opening it would be banned p-hacking. Honest negative as the charter expected.
+
+**Champion of record re-verified fresh**: canonical 13-sleeve verify exit 0, **7/7 ok, sha 4358dfab95679b97, ann 37.1954 / SR 3.1810 / MDD −6.6922 / 0 neg / n=4805**. DEAD_IDEAS recounted myself: **147 data rows**, clean, zero dups. My lane suites: 54 + 9 passed, 0 failed. One disclosed write outside my dir: CAMP_COST's closeout generator re-run, byte-identical (deterministic read-back verification).
+
+FINDINGS.md appended (624→737 lines), ends with exactly `ROUND 7 DONE` + trailing newline.
+=== HUNT_MACRO2 round 7 end Tue Sep  8 19:55:50 CST 2026 exit 0 ===

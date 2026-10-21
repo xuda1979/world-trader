@@ -1,0 +1,24 @@
+=== agent J1_gold attempt 1 start Wed Sep 16 14:46:18 CST 2026 ===
+**VERDICT: REJECT** — deliverables written.
+
+## Summary
+
+**Verdict at top of `campaign/agents/J1_goldterrain_results/J1_report.md`: REJECT. This is a resample artifact, not a new terrain.**
+
+**Gates (fail-closed, exact numbers):**
+- SR ≥ 1.5 full 1968+: best achieved **0.693** (B2 terrain vol-target) → FAIL by 0.807
+- SR ≥ 1.5 on 2008+: best achieved **0.623** (B1 terrain L/F) → FAIL by 0.877
+- corr < 0.5 to champion: 0.09–0.139 across all 8 candidates (passes, moot)
+- Champion verified from disk: SR 5.182, ann 61.67%, MaxDD −7.31% ✓
+
+**What was tested (8 pre-registered + 4 discrete variants, 1968-04→2026-09, n=14,676 clean fixings):**
+- (a) TSMOM 12m & 12-1, L/F and L/S: SR 0.27–0.50 full window
+- (b) Terrain (63d vol vs trailing median × trend, carry=0 null): best variant SR 0.693 — beats raw TSMOM and halves MaxDD (−31% vs −72%) but nowhere near gate
+- (c) 2008+ subsample (mirrors the dead-idea futures window on independent spot data): SR 0.18–0.62 — confirms the dead verdict
+
+**Why the extension doesn't help:** every candidate's full-window SR is carried entirely by **1971–1980** (Nixon-shock regime; best era SR 1.69) while **1981–1999 bear zeroes momentum** (≤0.24) and **2008+ is weak** (0.18–0.62). Always-long gold baseline reproduces at SR 0.509/0.613 (matches DEAD_IDEAS row 115's SR 0.56). Clean T+1 causality: +1-day extra lag never improves any SR.
+
+**Costs applied:** 6bps × full |dW|, 4.5%/yr margin on (gross−1), 0.5%/yr borrow on shorts — engine in `j1_engine.py`, one file, offline.
+
+**Artifacts:** `J1_report.md` (ends `DONE J1_gold`), `j1_engine.py` repro; ledger row `J1_GOLDTERRAIN-R1` appended to `campaign/results/DEAD_IDEAS.csv`; **no J1_sleeve.csv** (conditional deliverable, gate unmet — per fail-closed rules).
+=== agent J1_gold attempt 1 end Wed Sep 16 14:54:12 CST 2026 exit 0 ===

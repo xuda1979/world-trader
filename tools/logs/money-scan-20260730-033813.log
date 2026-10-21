@@ -1,0 +1,217 @@
+=== MONEY-LOOP scan started 2026-07-30 03:38:13 ===
+=== WORLD-TRADER GLOBAL SCAN  2026-07-29T19:38:13+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+-- OPEN NOW: 7 markets --
+   + BR (Brazil (B3))
+   + CA (Canada (TSX))
+   + CRYPTO (Crypto (24/7))
+   + FUT (Futures (CME/GLOBEX: commodities, bonds, index))
+   + FX (FX (24/5))
+   + MX (Mexico (BMV))
+   + US (US equities)
+
+-- REGIME: RISK-ON  (score +0.43) --
+   VIX=18.21(+0.12)  HY=2.84(+0.83)  10Y-2Y=0.35(+0.35)
+
+-- LIVE QUOTES: 363 instruments fetched (crypto RT, US, China A-share live, Taiwan live, FX)  [+wide US: 4179 of 12482 tickers pre-screened -> top 150]  [+wide CN A-share: 500 of 500 liquid names -> top 120, backtested] --
+
+=== OPPORTUNITIES (ranked by per-trade expected Sharpe = E[R]/sigma) ===
+  markets open now (2026-07-29T19:50:16+00:00): BR, CA, CRYPTO, FUT, FX, MX, US
+  YOUR BAR to qualify: E[R]>=+1%/trade, sigma<=7%*sqrt(h/5), Sharpe>=0.40, n>=20, t>=2 (Bonferroni-adj.), OOS Sharpe>0
+  >> markets open (BR, CA, CRYPTO, FUT, FX, MX, US) but no positive-expectancy edge measured this scan -- stand aside. An empty table is the honest answer.
+
+-- MACRO / RATES / CREDIT (FRED) --
+  US 3M yield                3.9600000000  (2026-07-27)
+  US 2Y yield                4.3100000000  (2026-07-27)
+  US 10Y yield               4.6500000000  (2026-07-27)
+  US 30Y yield               5.1200000000  (2026-07-27)
+  10Y-2Y spread                    0.35  (2026-07-28)
+  10Y-3M spread                    0.71  (2026-07-28)
+  Fed funds                  3.6300000000  (2026-07-27)
+  VIX                             18.21  (2026-07-28)
+  US HY credit spread              2.84  (2026-07-28)
+  US IG credit spread              0.81  (2026-07-28)
+  WTI oil                         84.25  (2026-07-27)
+  Brent oil                       91.82  (2026-07-27)
+  USD/EUR                    1.1385000000  (2026-07-24)
+  Broad USD index            120.7105000000  (2026-07-24)
+  Fin conditions index         -0.55400  (2026-07-24)
+  Fed balance sheet          6747378.0000000000  (2026-07-22)
+  Unemployment rate                 4.2  (2026-06-01)
+  CPI                           332.568  (2026-06-01)
+  5Y inflation breakeven           2.16  (2026-07-28)
+  UST curve: 30Y 5.12%
+
+-- CATALYST CALENDAR (next 14d; today=2026-07-30) --
+  2026-07-30  (2)
+    [IPO] JMKE     IPO Jersey Mike's Subs Inc. $?
+    [IPO] REF      IPO Reformation Inc. $?
+  2026-07-31  (1)
+    [IPO] APMD     IPO Apnimed, Inc. $?
+  (source errors: earnings: net: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1081); fda: net: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1081); dividends: net: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1081))
+
+-- NEWS (expanded feeds) --
+  [Nasdaq-Stocks]
+    - Stocks Tumble as Chipmakers Plunge, Oil Spikes
+    - Corn Facing Wednesday Weakness
+    - Stocks Pressured by Renewed US-Iran Hostilities
+  [WSJ-Markets]
+    - I’m managing a former colleague who just can’t keep up with her workload. How do I handle this without being a jerk?
+    - Americans are living longer than our retirement system can handle — and many of us are unprepared
+    - The big focus now is on the potential for a September rate hike after the Fed stands pat
+  [CNBC-Top]
+    - Fed meeting live updates: Warsh says Fed 'will not hesitate' to act on inflation
+    - Divided Fed holds interest rates steady, but three members voted to hike
+    - Dow falls 1,100 points as rates jump after Fed stays on sidelines of inflation fight: Live updates
+  [CNBC-Markets]
+    - Starbucks is about to report earnings. Here's what to expect
+    - Chipotle Mexican Grill is about to report earnings. Here's what to expect
+    - Nike was once China's sneaker king. Here's why its sales have fallen 30%
+  [FedPress]
+    - Federal Reserve issues FOMC statement
+    - Agencies issue joint statement on handling of highly sensitive information during bank examinations
+    - Federal Reserve Board issues enforcement action with former chief lending officer of Heritage State Bank
+  [ECB]
+    - ECB wage tracker at 2.7% in Q1 2027, indicating stable negotiated wage pressures
+    - Philip R. Lane: Outlook for the euro area economy
+    - Decisions taken by the Governing Council of the ECB (in addition to decisions setting interest rates)
+  [BoE]
+    - Letter from the Governor to the Daily Mail
+    - PRA consults on updated guidance for friendly society amalgamations and transfers
+    - PRA fines HDI Global SE £4,165,000 for inaccurate reporting of FSCS Liabilities and FSCS Fee Tariff data
+  [BoJ]
+    - Average Contract Interest Rates on Loans and Discounts (June)
+    - Indicators for Core CPI
+    - (IMES Newsletter) 2026 BOJ-IMES Conference
+  [Cointelegraph]
+    - Binance launches regulated gold, silver options through ADGM exchange
+    - Bitcoin price wedged into ‘most divided’ FOMC as Iran war spikes oil prices 8%
+    - MoonPay vault enables ChatGPT and Claude users to authorize crypto transactions
+  [Decrypt]
+    - MoonPay's PayBox Puts a Crypto Wallet Inside Claude and ChatGPT—And Lets It Pay for Things
+    - Bitcoin, Ethereum Wobble as Fed Holds Rates Steady
+    - Ethereum Price Stalls as Fed Rate Decision Looms
+  [TheBlock]
+    - Fed holds rates steady as 3 officials push for hike while crypto market stays flat
+    - Pump.fun token graduation rate jumps after BOOST changes launch incentives
+    - Ethereum Cypherpunk Manifesto author joins Ethereum Foundation as fourth board member
+  [ForexLive]
+    - Fed Warsh: the economy is showing impressive resilience. We remain resolute to deliver price stability
+    - Watch the Fed Chair Warsh Press conference.
+    - Fed keeps rates unchanged at 3.75%.
+  [Mining.com]
+    - Gold price rebounds from sub-$4,000 dip as split Fed holds fire, silver jumps
+    - First Quantum adds 1,000 jobs as Cobre Panama restart nears
+    - South32 breaks decade-long US permit curse at Arizona project
+  [SpaceNews]
+    - Space Force awards All Points $250 million to expand satellite processing at Vandenberg
+    - LatConnect 60 Accelerates SWIRSAT Constellation Growth Anchored in Western Australia with Expansion into Malaysia and UAE
+    - Fortastra and Hadrian join forces to streamline satellite production
+  [TechCrunch]
+    - The Hugging Face AI break-in, as told through an increasingly committed bear metaphor
+    - Claude Opus 5 became downright ruthless when tasked with running a vending machine
+    - Sorry, haters. Ferrari’s first EV is doing just fine
+  [BioPharma]
+    - <a href="/pharma/fierce-pharma-regulatory-tracker-2026-h2" hreflang="en">Regulatory tracker: AbbVie scores 1st Rinvoq alopecia nod in EU</a>
+    - <a href="/pharma/biogen-flips-its-26-guidance-expected-decline-increase" hreflang="en">Biogen flips '26 guidance from expected decline to sales increase</a>
+    - <a href="/pharma/boosted-cms-settlement-incyte-expects-opzelura-cross-1b-2026" hreflang="en">Boosted by CMS settlement, Incyte expects Opzelura to cross $1B in 2026</a>
+  [PV-Magazine]
+    - China’s solar market heads for first annual contraction since 2019
+    - CAB® Solar highlights solar cable hanger solutions for agricultural projects
+    - US bans foreign-produced solar inverters
+  [Brazil-Exame]
+    - Método STAR: a fórmula gratuita para não travar na pergunta mais temida da entrevista de emprego
+    - Bolsonaro diz ao STF que não permitiu vídeo de IA na convenção de Flávio
+    - Limitar horários de alimentação pode ajudar a preservar a memória na terceira idade, mostra estudo
+  [MiningCom]
+    - Gold price rebounds from sub-$4,000 dip as split Fed holds fire, silver jumps
+    - First Quantum adds 1,000 jobs as Cobre Panama restart nears
+    - South32 breaks decade-long US permit curse at Arizona project
+  [FarmProgress]
+    - Forecast throws bucket of cold water on soybean rally
+    - Why we shouldn’t rule out a record soybean crop
+    - USDA to reopen Mexican border for cattle imports Aug. 24
+  [CoinTelegraph]
+    - US prosecutors propose changes to CLARITY as voting window narrows: Report
+    - Binance launches regulated gold, silver options through ADGM exchange
+    - Bitcoin price wedged into ‘most divided’ FOMC as Iran war spikes oil prices 8%
+  [NewsBTC]
+    - BitMEX Faces Proposed Class Action Seeking Return Of 622 BTC
+    - CLARITY Act Delay Shows Crypto Market Structure Fight Is Not Over
+    - Robinhood CEO X Hack Shows Why Crypto Scams Still Target Trusted Names
+  [TheDefiant]
+    - SummerFi to Wind Down After Seven Years, Citing Exploit
+    - eToro Takes Strategic Stake in Onchain Derivatives Exchange Extended, Plans Zengo Tie-Up
+    - NEAR Governance Votes to Scrap Developer Gas Rebate
+  [Pandaily]
+    - BYD AI Team Revealed for First Time: HyWorldVLA Hybrid World Model Achieves SOTA on NAVSIM v1 With 90.59 PDMS Marking BYD Entry Into Autonomous Driving Foundation Models
+    - AI Teammates Enter the Enterprise: Tencent Cloud CodeBuddy NPC Reimagines Next-Generation R&D Workflow With AI Native Git Paradigm
+    - Alibaba Tencent and 360 Simultaneously Enter the AI Office Agent Arena: Your Desktop Becomes the New Battleground as WorkBuddy Qianwen Office and 360 AI Target Productivity Dominance
+  [TechNode]
+    - Samsung weighs using Chinese-made DRAM to expand share in China’s budget smartphone market
+    - Chinas Robotaxi enters London for first time as Baidus Apollo Go begins UK road tests with Uber and Lyft
+    - InfiMaker seeks to bring industrial manufacturing to every desktop with AI
+  [ChinaBriefing]
+    - The Greater Bay Area IIT Subsidy for 2026 Kickstarts in Shenzhen
+    - US-China Relations in the Trump 2.0 Era: A Timeline
+    - Why China is Still the Top 1 Manufacturing Destination in Asia
+  [VentureBeat-AI]
+    - Google just redesigned the search box for the first time in 25 years — here’s why it matters more than you think.
+    - Railway secures $100 million to challenge AWS with AI-native cloud infrastructure
+    - Claude Code costs up to $200 a month. Goose does the same thing for free.
+
+-- SEC 8-K MATERIAL CATALYSTS (last 3 days) --
+  (unavailable: net: [Errno 54] Connection reset by peer)
+
+-- INSIDER CLUSTER BUYS (last 30d, >=2 insiders) --
+  (unavailable: no table found)
+
+-- DEFI STABLECOIN YIELDS (top 8 by APY, TVL >=$10M) --
+  (unavailable: ConnectionResetError: [Errno 54] Connection reset by peer)
+
+-- SHORT SQUEEZE WATCH (SI% float >= 10%) --
+  (no high-SI names found)
+
+-- ENERGY SNAPSHOT (FRED weekly) --
+  Gasoline retail: $4.096/gal  (4w: +6.9%)
+  WTI crude:       $84.25/bbl  (4w: -2.1%)
+  Heating oil:     $None/gal
+  Natgas:          $None/MMBtu
+
+research only, not financial advice. verify before acting.
+
+[scan task log]
+  - 03:38:13  regime: gathering FRED macro / VIX / fear-greed
+  - 03:38:51  regime: RISK-ON score=+0.43
+  - 03:38:51  quotes: collecting global universe (crypto/US/CN/TW/HK/FX/futures/indices + region/macro ETFs)
+  - 03:47:01  quotes: 93 curated instruments fetched
+  - 03:47:01  wide US funnel: pulling ~12k tickers from Polygon, pre-screening top 150
+  - 03:47:06  wide US funnel: 4179 of 12482 -> top 150 backtested
+  - 03:47:06  spillover funnel: scanning RSS headlines for theme keywords -> peer candidates
+  - 03:47:28  spillover funnel: 6 candidates across 1 themes -> 0 fetched
+  - 03:47:28  wide CN funnel: pulling ~5,500 A-shares, pre-screening top 120
+  - 03:47:30  wide CN funnel: 500 of 500 -> top 120 backtested
+  - 03:47:30  opportunities: building candidate set from quotes + regime
+  - 03:47:30  opportunities: 255 raw candidates
+  - 03:47:30  backtest: enriching with technicals + E[R]/sigma/Sharpe
+  - 03:49:46  backtest: per-candidate family m=10 (global total=229) -> Bonferroni t>=2.81
+  - 03:49:46  news enrichment: Finnhub headlines + Polygon sentiment per candidate
+  - 03:49:46  news enrichment: done (0 candidates have fresh headlines)
+  - 03:49:46  catalyst enrichment: scanning Finnhub earnings/FDA/IPO + Polygon dividends
+  - 03:49:48  catalyst enrichment: 1 candidates have a near-term catalyst (+1 new)
+  - 03:49:48  PEAD confirmation: looking up recent earnings surprises for PEAD setups
+  - 03:49:48  PEAD confirmation: 0 PEAD setups confirmed by earnings surprise (+0 new)
+  - 03:49:48  options enrichment: pulling ATM straddles (CBOE) for top US candidates
+  - 03:50:00  options enrichment: 0 candidates have an RV/IV signal (+0 new)
+  - 03:50:00  country crisis: scanning 32 country ETFs for crisis signals
+  - 03:50:16  country crisis: 0 candidates in crisis (+0 new)
+  - 03:50:16  veto gate: 53 rows vetoed (53 crash-in-progress, 0 news-contradicts) -> PASS rows 2 -> 2
+  - 03:50:16  catalysts: printing freshest company news for top candidates
+  - 03:50:16  alt-data: pulling FRED macro/rates/credit, treasury curve, BTC funding, COT
+  - 03:50:46  catalyst calendar: Finnhub earnings/FDA/IPO + Polygon dividends (14d)
+  - 03:50:47  expanded news: sweeping all RSS feeds (equities/macro/CB/crypto/FX/commodities/regional)
+  - 03:51:13  expanded news: 27 feeds ok, 79 feeds failed
+  - 03:51:13  GDELT: 24h global market tone sweep
+  - 03:51:23  altdata2: SEC 8-K + insider clusters + DeFi yields + short squeeze + energy
+  - 03:51:43  energy: gas=$4.096 crude=$84.25 gas4w=6.92% crude4w=-2.08%

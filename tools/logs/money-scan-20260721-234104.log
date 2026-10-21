@@ -1,0 +1,178 @@
+=== MONEY-LOOP scan started 2026-07-21 23:41:04 ===
+=== WORLD-TRADER GLOBAL SCAN  2026-07-21T15:41:04+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+-- OPEN NOW: 7 markets --
+   + BR (Brazil (B3))
+   + CA (Canada (TSX))
+   + CRYPTO (Crypto (24/7))
+   + FUT (Futures (CME/GLOBEX: commodities, bonds, index))
+   + FX (FX (24/5))
+   + MX (Mexico (BMV))
+   + US (US equities)
+
+-- REGIME: RISK-ON  (score +0.46) --
+   VIX=18.65(+0.09)  HY=2.69(+0.91)  10Y-2Y=0.39(+0.39)
+   crypto fear&greed: 25 (Extreme Fear)
+
+-- LIVE QUOTES: 192 instruments fetched (crypto RT, US, China A-share live, Taiwan live, FX)  [wide US unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)]  [+wide CN A-share: 100 of 100 liquid names -> top 120, backtested] --
+
+=== OPPORTUNITIES (ranked by per-trade expected Sharpe = E[R]/sigma) ===
+  markets open now (2026-07-21T15:49:56+00:00): BR, CA, CRYPTO, FUT, FX, MX, US
+  YOUR BAR to qualify: E[R]>=+1%/trade, sigma<=7%*sqrt(h/5), Sharpe>=0.40, n>=20, t>=2 (Bonferroni-adj.), OOS Sharpe>0
+  >> markets open (BR, CA, CRYPTO, FUT, FX, MX, US) but no positive-expectancy edge measured this scan -- stand aside. An empty table is the honest answer.
+
+-- MACRO / RATES / CREDIT (FRED) --
+  US 3M yield                      3.85  (2026-07-17)
+  US 2Y yield                      4.18  (2026-07-17)
+  US 10Y yield                     4.55  (2026-07-17)
+  US 30Y yield                     5.06  (2026-07-17)
+  10Y-2Y spread                    0.39  (2026-07-20)
+  10Y-3M spread                    0.74  (2026-07-20)
+  Fed funds                        3.63  (2026-07-17)
+  VIX                             18.65  (2026-07-20)
+  US HY credit spread              2.69  (2026-07-20)
+  US IG credit spread              0.78  (2026-07-20)
+  WTI oil                          79.2  (2026-07-13)
+  Brent oil                       81.62  (2026-07-13)
+  USD/EUR                         1.144  (2026-07-17)
+  Broad USD index              120.5315  (2026-07-17)
+  Fin conditions index         -0.53800  (2026-07-10)
+  Fed balance sheet             6743028  (2026-07-15)
+  CPI                           332.568  (2026-06-01)
+  UST curve: 30Y 5.06%
+
+-- CATALYST CALENDAR (next 14d; today=2026-07-21) --
+  2026-07-21  (1)
+    [IPO] NCOU     IPO Southern Cross Acquisition I Corp. $?
+  (source errors: earnings: ConnectionResetError: [Errno 54] Connection reset by peer; dividends: ConnectionResetError: [Errno 54] Connection reset by peer)
+
+-- NEWS (expanded feeds) --
+  [CNBC-Top]
+    - SpaceX sets earnings date, triggering first lock-up expiration for millions of shares
+    - Greer hints new Trump tariffs coming on dozens of countries: 'Expect action soon'
+    - U.S. strikes Iran and Houthis threaten Saudi Arabia shipping as mediators push 10-day ceasefire
+  [BoE]
+    - PRA fines HDI Global SE £4,165,000 for inaccurate reporting of FSCS Liabilities and FSCS Fee Tariff data
+    - PRA and FCA propose new captive insurance regime to drive UK growth and competitiveness
+    - Minutes of the Money Market Committee meeting – June 2026
+  [BoJ]
+    - Loan Disbursement under the Funds-Supplying Operations to Support Financing for Climate Change Responses
+    - Senior Loan Officer Opinion Survey (July)
+    - BOJ Current Account Balances by Sector (June)
+  [SpaceNews]
+    - UK and Florida commit $400,000 to joint space projects
+    - German component supplier deltaVision raises 10.2 million euros
+    - Agile Space Industries Appoints new CTO and Board member.
+  [TechCrunch]
+    - US threatens sanctions against Chinese AI models over IP theft
+    - Light made a flip phone. Its colorful and its cheap.
+    - After TikTok, Snap settles social media addiction case
+  [PV-Magazine]
+    - POWEROAD builds eco-partnerships to strengthen its presence in European market
+    - Germany’s degraded peatlands offer up to 268 GW of solar potential
+    - Acciona Energía tests hybrid battery-ultracapacitor storage in Spain
+  [Electrek]
+    - BYD unveils its latest luxury EV with sleek fastback styling and 570 miles of range
+    - Teslas 2026 Summer Update: auto navigation, Grok phone calls, Caraoke scoring, and more
+    - Tesla adds Robotaxi in Tampa and Orlando as Austin stalls at 17 cars
+  [CityAM]
+    - Will Ibai take home a Toast the City Award?
+    - Calanda can give Graffard a third King George
+    - Chance things Fall right for Sunshine and Commanche
+  [MiningCom]
+    - Lundin keeps forecast despite Chile winter storm shutting Caserones
+    - Eldorado crushes first ore at Skouries, eyes Q3 output
+    - Barrick makes Golden Triangle bet with 9.9% Kingfisher stake
+  [FarmProgress]
+    - Consider flying cereal rye into standing corn
+    - Crop progress: Corn ratings shift slightly lower
+    - Dreaming of beans in the teens? Be wary
+  [CoinTelegraph]
+    - Bitcoin nears seven-week high as stocks ignore Iran strikes, Trump 10% tariff plans
+    - CoinShares debuts Bitcoin mining ETF in Europe entrance
+    - Robinhood-backed DEX Arcus expands with tokenized assets, perps
+  [BeInCrypto]
+    - Charles Schwab July Earnings Reveal Record $7.1 Billion Revenue, How Will Stock React?
+    - GRAM Jumps 10% as Pavel Durov Unveils New Product for Telegram Users
+    - Wanchain Bridge Breach Sends Midnight Token to All-Time Low
+  [NewsBTC]
+    - CFTC Self-Reporting Guidelines Could Change Crypto Enforcement Incentives
+    - Ostium Halts Trading After $18M Oracle Key Breach
+    - SEC And CFTC Open Joint Consultation On Crypto Derivatives Rules
+  [BitcoinMag]
+    - Bitcoin Price Closes in on $67,000, Lifting Strategy and Other Crypto Stocks
+    - U.S. Treasury Freezes $130 Million Iran-Linked IRGC Crypto Wallet, Tracks Ayatollahs Assets
+    - Russia Passes Landmark Crypto Law, Setting State-Run Rails for Sanctioned Trade
+  [TheDefiant]
+    - SummerFi to Wind Down After Seven Years, Citing Exploit
+    - eToro Takes Strategic Stake in Onchain Derivatives Exchange Extended, Plans Zengo Tie-Up
+    - NEAR Governance Votes to Scrap Developer Gas Rebate
+  [Pandaily]
+    - Zhipu AI Computing Ambitions Surface: 1GW Data Center, Hundreds of Millions in Infrastructure Acquisition, and Self-Developed Chip Plans Signal Nvidia Independence Push
+    - XPower Technology Defies Big-Chip Orthodoxy: Small RPP Architecture Chips Use Distributed Computing to Beat Giants at AI Inference
+    - Tencent ProLaViT Teaches Multimodal LLMs to Reason Step-by-Step in Latent Space, Ending Swallowing-Whole Visual Reasoning Failures
+  [TechNode]
+    - BrainCo demos thought-controlled robots at WAIC 2026
+    - Moore Threads packs 256 GPUs into its MTT C256 system
+    - Alibaba outlines Qwen3.8 with 2.4 trillion parameters
+  [ChinaBriefing]
+    - The Greater Bay Area IIT Subsidy for 2026 Kickstarts in Shenzhen
+    - US-China Relations in the Trump 2.0 Era: A Timeline
+    - Why China is Still the Top 1 Manufacturing Destination in Asia
+  [VentureBeat-AI]
+    - The AI compute gap: Enterprises are buying infrastructure faster than they can measure what it costs
+    - The agent security gap: 54% of enterprises have already had an AI agent incident, and most still let agents share credentials
+    - The AI context gap: Enterprise AI organizations have a trust problem, not a retrieval problem — and most are still building the fix
+
+-- SEC 8-K MATERIAL CATALYSTS (last 3 days) --
+  (unavailable: ConnectionResetError: [Errno 54] Connection reset by peer)
+
+-- INSIDER CLUSTER BUYS (last 30d, >=2 insiders) --
+  (unavailable: no table found)
+
+-- DEFI STABLECOIN YIELDS (top 8 by APY, TVL >=$10M) --
+  (unavailable: net: [Errno 54] Connection reset by peer)
+
+-- SHORT SQUEEZE WATCH (SI% float >= 10%) --
+  (no high-SI names found)
+
+-- ENERGY SNAPSHOT (FRED weekly) --
+  Gasoline retail: $4.001/gal  (4w: +2.2%)
+  (altdata2 error: TypeError: unsupported format string passed to NoneType.__for)
+
+research only, not financial advice. verify before acting.
+
+[scan task log]
+  - 23:41:04  regime: gathering FRED macro / VIX / fear-greed
+  - 23:41:44  regime: RISK-ON score=+0.46
+  - 23:41:44  quotes: collecting global universe (crypto/US/CN/TW/HK/FX/futures/indices + region/macro ETFs)
+  - 23:48:35  quotes: 102 curated instruments fetched
+  - 23:48:35  wide US funnel: pulling ~12k tickers from Polygon, pre-screening top 150
+  - 23:48:38  wide US funnel: 0 of 0 -> top 150 backtested [err: JSONDecodeError: Expecting value: line 1 column 1 (char 0)]
+  - 23:48:38  spillover funnel: scanning RSS headlines for theme keywords -> peer candidates
+  - 23:49:06  spillover funnel: 0 candidates across 0 themes -> ? fetched
+  - 23:49:06  wide CN funnel: pulling ~5,500 A-shares, pre-screening top 120
+  - 23:49:07  wide CN funnel: 100 of 100 -> top 120 backtested
+  - 23:49:07  opportunities: building candidate set from quotes + regime
+  - 23:49:07  opportunities: 68 raw candidates
+  - 23:49:07  backtest: enriching with technicals + E[R]/sigma/Sharpe
+  - 23:49:36  backtest: per-candidate family m=7 (global total=91) -> Bonferroni t>=2.69
+  - 23:49:36  news enrichment: Finnhub headlines + Polygon sentiment per candidate
+  - 23:49:36  news enrichment: done (0 candidates have fresh headlines)
+  - 23:49:36  catalyst enrichment: scanning Finnhub earnings/FDA/IPO + Polygon dividends
+  - 23:49:37  catalyst enrichment: 0 candidates have a near-term catalyst (+0 new)
+  - 23:49:37  PEAD confirmation: looking up recent earnings surprises for PEAD setups
+  - 23:49:37  PEAD confirmation: 0 PEAD setups confirmed by earnings surprise (+0 new)
+  - 23:49:37  options enrichment: pulling ATM straddles (CBOE) for top US candidates
+  - 23:49:37  options enrichment: 0 candidates have an RV/IV signal (+0 new)
+  - 23:49:37  country crisis: scanning 32 country ETFs for crisis signals
+  - 23:49:56  country crisis: 0 candidates in crisis (+0 new)
+  - 23:49:56  veto gate: 0 rows vetoed (0 crash-in-progress, 0 news-contradicts) -> PASS rows 1 -> 1
+  - 23:49:56  catalysts: printing freshest company news for top candidates
+  - 23:49:56  alt-data: pulling FRED macro/rates/credit, treasury curve, BTC funding, COT
+  - 23:50:18  catalyst calendar: Finnhub earnings/FDA/IPO + Polygon dividends (14d)
+  - 23:50:20  expanded news: sweeping all RSS feeds (equities/macro/CB/crypto/FX/commodities/regional)
+  - 23:50:45  expanded news: 19 feeds ok, 83 feeds failed
+  - 23:50:45  GDELT: 24h global market tone sweep
+  - 23:50:56  altdata2: SEC 8-K + insider clusters + DeFi yields + short squeeze + energy

@@ -1,0 +1,18 @@
+=== loop_team/AUDIT_FRAMEWORK start Thu Sep  3 15:00:31 CST 2026 ===
+**AUDIT_FRAMEWORK complete.** Summary of the adversarial audit of `campaign/bt`:
+
+**Verdict: framework NOT yet trustworthy as the single engine — 10 confirmed bugs, all TDD-locked as RED regression tests (10 failed / 9 GREEN locks passed in 0.26s), plus 3 fail-open reconciliation gates.**
+
+Most severe findings (exact numbers in FINDINGS.md):
+- **A1 (BLOCKING)**: `cost_turnover` charges 0.5·|dw|·6.4bps = 3.2bps/unit; the frozen champion (`honest13_build.py` line 94/99) charges |dw|·6.0bps one-side and TRADE_RECORD_STANDARD requires 6.4bps/side → bt undercharges ~41.7% vs champion convention; PnL from bt cannot reconcile.
+- **A2**: entry trade (0→w) never charged in `backtest.sleeve/book` (NaN row0 → NaN diff): verified first net 0.0 vs honest −2.56e-4.
+- **A6/A7/A8**: reconcile gates fail OPEN — fabricated qty vs zero turnover passes (rel NaN→0), 1-of-2-day ledger coverage passes byte-repro (inner join, no n check), NaN-row mismatches dropped.
+- **A5**: single −200% day → `ann_geo` = **+432.10%** (negative product, fractional power).
+- A3/A4: `vol_target_scale` row0 NaN despite "NaN-free" docstring; `window` param dead (max|Δ| = 0.0, window 10 vs 200).
+- A9/A10: cap strict-bound overshoot 2.2204e-16 (deterministic input); borrow docstring 0.5× vs code 1.0×.
+- Verified GOOD (GREEN locks): no-lookahead vol-target perturbation, 0.2/3.0 bounds, constant-vol scale exact (0.6278651952650581), margin on (gross−1)+, same-day kappa, scramble == hand-rolled reference (p=0.56 both), NaN fail-closed gates.
+- Process finding: `bt/backtest.py` + 3 tests materialized mid-audit (15:02–15:03, uncommitted, concurrent writer) — root-caused the 23→26 test-count shift; none of my REDs flipped.
+
+Deliverables: `tests_audit_bt.py` (19 TDD tests), `FINDINGS.md` (full bug table, root causes, 6 recommendations), README.md audit note appended. Fixed 3 of my own test bugs (float equality, boundary assumption, allclose NaN false-negative) before claiming — RED/GREEN evidence quoted with exact numbers throughout.
+
+AUDIT_FRAMEWORK DONE

@@ -1,0 +1,23 @@
+# ITER32 DUR-axis driver (2026-09-19 session 14). FINDINGS_PRECOMMIT.md sha16 8ebb2c3da5faf91f sealed BEFORE this run.
+# Champion sha16 pre-run: 8559fa55ee9a3417 / weights d2d11c92a98683df / precommit 8ebb2c3da5faf91f
+ANCHOR A2 legacy generator DUR=1.90 vs saved: maxdev=9.975e-17 (need <1e-12) inner_n=9168 gen_n=9168 saved_n=9168
+ANCHOR A3 projection-identity on incumbent: maxdev=0.0 (need exactly 0)
+ANCHOR A3 weights maxdev=8.327e-17 (need <1e-12)
+ANCHOR A3 bytes   maxdev=9.996e-17 (need <1e-12) n=4806
+ANCHOR A3 grossmax=1.000000000  fit rows=1809  k_covered=11
+ANCHOR A3 incumbent Wmax_sf(x11)=1.8115x  IS-SR=4.198632 (continuity 4.198632)
+
+CELL SWEEP: DUR grid, every other slot frozen per precommit
+dur    regen-dev   is_sr     IS-ann pct  IS-MDD pct  negy  Wmax_sf   adm
+1.40   1.350e-02  4.192924    17.859       -2.55    0/9  1.6129x  no
+1.65   1.149e-02  4.196927    18.004       -2.56    0/9  1.7204x  no
+ANCHOR CELL DUR=1.90: weights dev vs committed 5.483e-09 (need <1e-6); book dev vs champ 2.477e-10 (need <1e-9)
+1.90   9.975e-17  4.198632    18.122       -2.56    0/9  1.8115x  no (anchor)
+2.15   1.351e-02  4.197999    18.178       -2.56    0/9  1.8551x  no
+2.40   2.612e-02  4.197272    18.226       -2.56    0/9  1.8941x  no
+
+ADMITTED: 0 / 5 (jitter tolerance 1e-4 on the IS bar)
+NO cell admitted -> HONEST NEGATIVE, no reveal (per precommit STOP RULE).
+
+VERDICT: NO-ADMISSION (IS level) -> honest negative, no reveal (per precommit stop rule)
+# Champion sha16 post-run: 8559fa55ee9a3417 / weights d2d11c92a98683df (pre==post: True)

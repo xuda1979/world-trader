@@ -1,0 +1,36 @@
+--------- ITER43 A5r2 VT-axis sweep driver (2026-09-19 session 23). FINDINGS_PRECOMMIT.md sha16 2d9dd522e87f6088 sealed BEFORE this run.
+FROZEN-BLOCK check: fit_relw/apply_cap/project_wmax/build_book text-identical to driver_iter41.py AND driver_iter36.py
+Champion sha16 pre-run: 8559fa55ee9a3417 / weights d2d11c92a98683df / precommit 2d9dd522e87f6088
+D17 pre-patch applied: harness data.panel wrapped (skip manifest.csv) BEFORE a5 module import
+a5_r2 module imported save-free (save guarded under __main__); G.net = frozen VT=0.10 stream
+A1a anchor-vs-module maxdev=0.000e+00 (module n=4249, anchor n=4249) need <1e-12
+A1b committed-CSV recon ok=True maxdev=9.975e-17 inner=4249 committed_nonnan=4249
+ARM VT=0.06: rows=1809 k=11 projid=0.000e+00 IS-SR=4.188280 IS-MDD=-2.5513 pct negyrs=0 Wmax_sf=1.7210x grossmax=1.000000000
+ARM VT=0.08: rows=1809 k=11 projid=0.000e+00 IS-SR=4.194835 IS-MDD=-2.5556 pct negyrs=0 Wmax_sf=1.7765x grossmax=1.000000000
+ARM VT=0.10: rows=1809 k=11 projid=0.000e+00 IS-SR=4.198632 IS-MDD=-2.5583 pct negyrs=0 Wmax_sf=1.8115x grossmax=1.000000000
+ARM VT=0.12: rows=1809 k=11 projid=0.000e+00 IS-SR=4.201156 IS-MDD=-2.5601 pct negyrs=0 Wmax_sf=1.8356x grossmax=1.000000000
+ARM VT=0.15: rows=1809 k=11 projid=0.000e+00 IS-SR=4.203733 IS-MDD=-2.5620 pct negyrs=0 Wmax_sf=1.8604x grossmax=1.000000000
+A2 committed-frame continuity (Amendment 1 repair): projid=0.000e+00 weights maxdev=8.327e-17 bytes maxdev=9.996e-17 n=4806 rows=1809 k=11 IS-SR=4.198632 (bar 4.198632)
+A2b regen-vs-committed fit-landing jitter (Amendment 1 disclosure): weights 9.913e-09  IS-SR 7.050e-10
+
+IS admission: [0.12, 0.15] (bar 4.198632, anchor arm ineligible by construction)
+
+REVEAL arm VT=0.15 (IS-argmax of admitted), gear 1.0, n=4806 (2008-03-31..2026-08-28)
+  FS SR=3.764764 (incumbent 3.751429)  ann arith=21.4222 pct  cagr=23.6813 pct  MDD=-3.6603 pct  negyrs=0
+  grossmax=1.000000000  turnover=4.0913 bp/yr  margin=0.0000 pct/yr  Wmax_sf=1.8604x (k=11)  CFX4=0.0e+00
+  bin 2017-18 dSR=+0.0067 (cand 4.7817 vs inc 4.7750)
+  bin 2019-20 dSR=+0.0231 (cand 4.0469 vs inc 4.0238)
+  bin 2021-22 dSR=+0.0060 (cand 2.2416 vs inc 2.2356)
+  bin 2023-24 dSR=-0.0134 (cand 4.6835 vs inc 4.6968)
+  bin 2025-26 dSR=+0.0110 (cand 3.5339 vs inc 3.5229)
+  GATE 1 FS ann>=20pct                PASS
+  GATE 2 gross<=1.6                   PASS
+  GATE 3 FS MDD>=-7pct                PASS
+  GATE 4 0 FS neg yrs                 PASS
+  GATE 5 CFX4=0                       PASS
+  GATE 6 Wmax_sf<=2.0x (k=11)         PASS
+  GATE 7 OOS police                   PASS
+  GATE 8 fit-window shrink<=2pct      PASS
+
+VERDICT: ADOPTABLE (8/8) -> proceed to full battery per precommit
+Champion sha16 post-run: 8559fa55ee9a3417 / weights d2d11c92a98683df (pre==post: True)

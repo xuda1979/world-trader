@@ -1,0 +1,111 @@
+{
+  "audit": "OPT_20V5-honest 10-Agent Audit",
+  "total_checks": 154,
+  "total_pass": 149,
+  "total_fail": 5,
+  "pass_rate": "96.8%",
+  "agents": {
+    "agent_01": {
+      "name": "01_weight_integrity",
+      "overall": "PASS",
+      "pass": 13,
+      "fail": 0,
+      "total": 13
+    },
+    "agent_02": {
+      "name": "02_lookahead_bias",
+      "overall": "PASS",
+      "pass": 9,
+      "fail": 0,
+      "total": 9
+    },
+    "agent_03": {
+      "name": "03_pnl_reconstruction",
+      "overall": "PASS",
+      "pass": 14,
+      "fail": 0,
+      "total": 14
+    },
+    "agent_04": {
+      "name": "04_blotter_trades",
+      "overall": "PASS",
+      "pass": 18,
+      "fail": 0,
+      "total": 18
+    },
+    "agent_05": {
+      "name": "05_robustness_stability",
+      "overall": "PASS",
+      "pass": 21,
+      "fail": 0,
+      "total": 21
+    },
+    "agent_06": {
+      "name": "06_sleeve_quality",
+      "overall": "FAIL",
+      "pass": 8,
+      "fail": 2,
+      "total": 10
+    },
+    "agent_07": {
+      "name": "07_cost_stress",
+      "overall": "PASS",
+      "pass": 19,
+      "fail": 0,
+      "total": 19
+    },
+    "agent_08": {
+      "name": "08_overfitting_detection",
+      "overall": "PASS",
+      "pass": 18,
+      "fail": 0,
+      "total": 18
+    },
+    "agent_09": {
+      "name": "09_correlation_diversification",
+      "overall": "FAIL",
+      "pass": 12,
+      "fail": 3,
+      "total": 15
+    },
+    "agent_10": {
+      "name": "10_reproducibility_edge",
+      "overall": "PASS",
+      "pass": 17,
+      "fail": 0,
+      "total": 17
+    }
+  },
+  "real_failures": [
+    {
+      "agent": 6,
+      "agent_name": "06_sleeve_quality",
+      "check": "Not all sleeves OOS SR > 0 (realistic)",
+      "detail": "all positive: True"
+    },
+    {
+      "agent": 6,
+      "agent_name": "06_sleeve_quality",
+      "check": "Metadata exists for all sleeves",
+      "detail": "missing=['brwt7.csv', 'inter_gasreg_nyh_gulf_L60Z1.0.csv', 'calendar_vixterm_9_3_L40Z1.5.csv', 'calendar_vixterm_3_6_L20Z1.5.csv', 'crack_crack321_nyh_L60Z1.0.csv', 'diescrack__prefix.csv', 'cnpair_M0_RM0_L60Z1.5.csv', 'inter_dieseljet_L60Z1.0.csv']"
+    },
+    {
+      "agent": 9,
+      "agent_name": "09_correlation_diversification",
+      "check": "Max OOS pairwise corr < 0.50",
+      "detail": "max=0.7587"
+    },
+    {
+      "agent": 9,
+      "agent_name": "09_correlation_diversification",
+      "check": "Effective N (PCA) > 8",
+      "detail": "eff_n=7.8"
+    },
+    {
+      "agent": 9,
+      "agent_name": "09_correlation_diversification",
+      "check": "No OOS corr > 0.70",
+      "detail": "count=1"
+    }
+  ]
+}

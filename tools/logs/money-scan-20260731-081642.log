@@ -1,0 +1,78 @@
+=== MONEY-LOOP scan started 2026-07-31 08:16:42 ===
+=== WORLD-TRADER GLOBAL SCAN  2026-07-31T00:16:43+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+-- OPEN NOW: 6 markets --
+   + AU (Australia (ASX))
+   + CRYPTO (Crypto (24/7))
+   + FUT (Futures (CME/GLOBEX: commodities, bonds, index))
+   + FX (FX (24/5))
+   + JP (Japan (TSE))
+   + KR (Korea (KRX))
+
+-- REGIME: NEUTRAL  (score +0.00) --
+
+-- LIVE QUOTES: 0 instruments fetched (crypto RT, US, China A-share live, Taiwan live, FX)  [wide US unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)]  [wide CN unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)] --
+
+=== OPPORTUNITIES (ranked by per-trade expected Sharpe = E[R]/sigma) ===
+  markets open now (2026-07-31T00:25:28+00:00): AU, CRYPTO, FUT, FX, JP, KR
+  YOUR BAR to qualify: E[R]>=+1%/trade, sigma<=7%*sqrt(h/5), Sharpe>=0.40, n>=20, t>=2 (Bonferroni-adj.), OOS Sharpe>0
+  >> markets open (AU, CRYPTO, FUT, FX, JP, KR) but no positive-expectancy edge measured this scan -- stand aside. An empty table is the honest answer.
+
+-- MACRO / RATES / CREDIT (FRED) --
+
+-- CATALYST CALENDAR (next 14d; today=2026-07-31) --
+  (no actionable upcoming catalysts found)
+  errors: earnings: net: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1081); ipo: net: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1081); fda: net: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1081); dividends: net: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1081)
+
+-- NEWS (expanded feeds) --
+
+-- SEC 8-K MATERIAL CATALYSTS (last 3 days) --
+  (unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0))
+
+-- INSIDER CLUSTER BUYS (last 30d, >=2 insiders) --
+  (unavailable: no table found)
+
+-- DEFI STABLECOIN YIELDS (top 8 by APY, TVL >=$10M) --
+  (unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0))
+
+-- SHORT SQUEEZE WATCH (SI% float >= 10%) --
+  (no high-SI names found)
+
+-- ENERGY SNAPSHOT (FRED weekly) --
+  (unavailable: no data (FRED_KEY missing or all series failed))
+
+research only, not financial advice. verify before acting.
+
+[scan task log]
+  - 08:16:43  regime: gathering FRED macro / VIX / fear-greed
+  - 08:17:20  regime: NEUTRAL score=+0.00
+  - 08:17:20  quotes: collecting global universe (crypto/US/CN/TW/HK/FX/futures/indices + region/macro ETFs)
+  - 08:24:43  quotes: 0 curated instruments fetched
+  - 08:24:43  wide US funnel: pulling ~12k tickers from Polygon, pre-screening top 150
+  - 08:24:47  wide US funnel: 0 of 0 -> top 150 backtested [err: JSONDecodeError: Expecting value: line 1 column 1 (char 0)]
+  - 08:24:47  spillover funnel: scanning RSS headlines for theme keywords -> peer candidates
+  - 08:25:08  spillover funnel: 0 candidates across 0 themes -> ? fetched
+  - 08:25:08  wide CN funnel: pulling ~5,500 A-shares, pre-screening top 120
+  - 08:25:08  wide CN funnel: 0 of 0 -> top 120 backtested [err: JSONDecodeError: Expecting value: line 1 column 1 (char 0)]
+  - 08:25:08  opportunities: building candidate set from quotes + regime
+  - 08:25:08  opportunities: 0 raw candidates
+  - 08:25:08  backtest: enriching with technicals + E[R]/sigma/Sharpe
+  - 08:25:20  news enrichment: Finnhub headlines + Polygon sentiment per candidate
+  - 08:25:20  news enrichment: done (0 candidates have fresh headlines)
+  - 08:25:20  catalyst enrichment: scanning Finnhub earnings/FDA/IPO + Polygon dividends
+  - 08:25:20  catalyst enrichment: 0 candidates have a near-term catalyst (+0 new)
+  - 08:25:20  PEAD confirmation: looking up recent earnings surprises for PEAD setups
+  - 08:25:20  PEAD confirmation: 0 PEAD setups confirmed by earnings surprise (+0 new)
+  - 08:25:20  options enrichment: pulling ATM straddles (CBOE) for top US candidates
+  - 08:25:20  options enrichment: 0 candidates have an RV/IV signal (+0 new)
+  - 08:25:20  country crisis: scanning 32 country ETFs for crisis signals
+  - 08:25:28  country crisis: 0 candidates in crisis (+0 new)
+  - 08:25:28  veto gate: 0 rows vetoed (0 crash-in-progress, 0 news-contradicts) -> PASS rows 0 -> 0
+  - 08:25:28  catalysts: printing freshest company news for top candidates
+  - 08:25:28  alt-data: pulling FRED macro/rates/credit, treasury curve, BTC funding, COT
+  - 08:25:42  catalyst calendar: Finnhub earnings/FDA/IPO + Polygon dividends (14d)
+  - 08:25:43  expanded news: sweeping all RSS feeds (equities/macro/CB/crypto/FX/commodities/regional)
+  - 08:26:14  expanded news: 0 feeds ok, 21 feeds failed
+  - 08:26:14  GDELT: 24h global market tone sweep
+  - 08:26:23  altdata2: SEC 8-K + insider clusters + DeFi yields + short squeeze + energy

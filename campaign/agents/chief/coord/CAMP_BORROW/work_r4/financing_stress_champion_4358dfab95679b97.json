@@ -1,0 +1,93 @@
+{
+  "convention": "margin charged daily on max(gross-1,0) at the rate r_t/252 (elementwise path, never the time-average); re-pricing only the margin term: stressed_t = net_t - max(gross_t-1,0)*(r_t-base_rate)/252",
+  "inputs": {
+    "n_days": 4805,
+    "start": "2008-03-31",
+    "end": "2026-08-27",
+    "base_rate": 0.045
+  },
+  "gross_check": {
+    "ok": true,
+    "gross_min": 1.6,
+    "gross_max": 1.6,
+    "n_days": 4805
+  },
+  "base": {
+    "ann": 0.3719539675684982,
+    "ann_arith": 0.3213733812888786,
+    "sr_d": 3.180994199561701,
+    "mdd": -0.06692185534307193,
+    "neg_years": 0,
+    "worst_year": 0.07310363900638817
+  },
+  "rungs": [
+    {
+      "rate": 0.045,
+      "margin_drag_ann_pct": 2.700000000000001,
+      "ann": 0.3719539675684982,
+      "ann_arith": 0.3213733812888786,
+      "sr_d": 3.180994199561701,
+      "mdd": -0.06692185534307193,
+      "neg_years": 0,
+      "worst_year": 0.07310363900638817,
+      "delta_ann_pp": 0.0,
+      "delta_ann_arith_pp": 0.0,
+      "delta_sr_d": 0.0,
+      "delta_mdd_pp": 0.0,
+      "gate_moves": false
+    },
+    {
+      "rate": 0.055,
+      "margin_drag_ann_pct": 3.3000000000000007,
+      "ann": 0.36375689891393437,
+      "ann_arith": 0.3153733812888786,
+      "sr_d": 3.121605443962761,
+      "mdd": -0.06701227605585702,
+      "neg_years": 0,
+      "worst_year": 0.066457429623767,
+      "delta_ann_pp": -0.8197068654563822,
+      "delta_ann_arith_pp": -0.6000000000000005,
+      "delta_sr_d": -0.05938875559894008,
+      "delta_mdd_pp": -0.009042071278508867,
+      "gate_moves": false
+    },
+    {
+      "rate": 0.065,
+      "margin_drag_ann_pct": 3.9000000000000012,
+      "ann": 0.35560861241914,
+      "ann_arith": 0.3093733812888786,
+      "sr_d": 3.0622166883638204,
+      "mdd": -0.06710269019711179,
+      "neg_years": 0,
+      "worst_year": 0.05985222643960664,
+      "delta_ann_pp": -1.6345355149358198,
+      "delta_ann_arith_pp": -1.200000000000001,
+      "delta_sr_d": -0.1187775111978806,
+      "delta_mdd_pp": -0.018083485403985744,
+      "gate_moves": false
+    },
+    {
+      "rate": 0.08,
+      "margin_drag_ann_pct": 4.800000000000002,
+      "ann": 0.343477017153506,
+      "ann_arith": 0.30037338128887864,
+      "sr_d": 2.9731335549654103,
+      "mdd": -0.06723829908807122,
+      "neg_years": 0,
+      "worst_year": 0.05002075738004352,
+      "delta_ann_pp": -2.847695041499221,
+      "delta_ann_arith_pp": -2.099999999999996,
+      "delta_sr_d": -0.20786064459629072,
+      "delta_mdd_pp": -0.03164437449992841,
+      "gate_moves": false
+    }
+  ],
+  "rate_paths": {},
+  "borrow_tiers": [],
+  "meta": {
+    "source": "python3 -m bt.financing_stress",
+    "net_csv": "/Users/daxu/software/world-trader/campaign/results/GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv",
+    "gear": 1.6,
+    "base_rate": 0.045
+  }
+}

@@ -1,0 +1,17 @@
+HUNT_FF2 sleeve FF2_DUALGATE_poolvt (iter5, 2026-09-02) — 7/7 charter gates PASS.
+Construction: 2-book Fama-French DAILY factor vol-gate blend, EW sum of raw nets, T+1
+(pos.shift(1)*r), 6bps/side on half-turnover, borrow 0.5%/yr on short notional (books are
+long/flat => 0 in practice), then POOL VT: scale = (0.08 / trailing-60d-std(incl zeros)*sqrt252)
+clip upper 3.0, shift(1), applied to the blend.
+Book A: long FF daily MOM when rv63-z(expanding252 ref, min40d, shift1) < 0 (on 56.2% of days).
+Book D: long FF daily Mkt-RF when rv63-z(1) < 0.5 AND VIX-vix_daily.csv 252d-MA z(1) < 0 (on 56.9%).
+Data: tools/quant/data/ff_factors/*_daily.csv (202606 CRSP vintage, ends 2026-06-30) +
+alphaportfolio_replication/data/vix_daily.csv (verified identical to FRED VIXCLS).
+Stats 2008-01-02..2026-06-30 (n=4652): SR_d 1.0303, SR_m 1.1835, ann_geo 8.94%, MDD -11.24%,
+vol 8.68%, neg yrs 2/19 (2015 -1.10%, 2022 -1.42%), H1 0.880 / H2 1.177, ac1 -0.0722,
+uniqR 0.7603, corr to GOAL100_HONEST13V2_BALANCED +0.1449 (overlap n=4652), OOS17+ arith 10.27%.
+Position-lag scramble (200 perms x seeds 7/11/23): p=0.000. Block-boot SR CI [0.629,1.464].
+Gates: SR>=0.6 PASS | H1/H2 PASS | negy PASS | scramble PASS | corr<0.15 PASS (margin 0.005) |
+ac1 PASS | uniqR PASS. Robustness + disclosures: FINDINGS.md (2022+ SR 0.454 disclosed; data
+ends 2026-06-30; factor-proxy execution realism UNVERIFIED).
+Repro: campaign/agents/loop_team/HUNT_FF2/scratch/final1.py (byte-exact generator).

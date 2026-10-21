@@ -1,0 +1,157 @@
+{
+  "tool": "bt/verify_champion.py",
+  "ok": true,
+  "errors": [],
+  "checks": {
+    "weights_repro": {
+      "ok": true,
+      "max_dev": 8.326672684688674e-17,
+      "tol": 1e-09
+    },
+    "byte_repro": {
+      "ok": true,
+      "max_dev": 1.0408340855860843e-16,
+      "tol": 1e-12
+    },
+    "cost_reconciliation": {
+      "ok": true,
+      "model": "full_dw",
+      "max_dev": 1.0465939096274135e-16,
+      "max_dev_half": 1.6203709676916897e-05,
+      "implied_over_full_ratio": 1.0000000000057043,
+      "tol": 1e-12,
+      "charged_bp_sum": 79.79726301255057,
+      "bp_per_year": 4.184126150470816,
+      "turnover_full_dw_bp_per_year": 4.184126150446947,
+      "day1_entry_charged": 8.673617379884035e-14
+    },
+    "causality": {
+      "ok": true,
+      "mechanism": "nav.shift(1)",
+      "matched_mechanism": "causal",
+      "causal_max_dev": 1.0408340855860843e-16,
+      "sameday_max_dev": 0.005619074086265337,
+      "tol": 1e-12,
+      "truncation": {
+        "ok": true,
+        "n_probes": 7,
+        "max_dev": 0.0,
+        "tol": 1e-15,
+        "probes": [
+          {
+            "t": 0,
+            "date": "2008-03-31",
+            "dev": 0.0
+          },
+          {
+            "t": 1,
+            "date": "2008-04-01",
+            "dev": 0.0
+          },
+          {
+            "t": 2,
+            "date": "2008-04-02",
+            "dev": 0.0
+          },
+          {
+            "t": 1201,
+            "date": "2012-11-05",
+            "dev": 0.0
+          },
+          {
+            "t": 2403,
+            "date": "2017-06-14",
+            "dev": 0.0
+          },
+          {
+            "t": 3604,
+            "date": "2022-01-20",
+            "dev": 0.0
+          },
+          {
+            "t": 4805,
+            "date": "2026-08-28",
+            "dev": 0.0
+          }
+        ]
+      }
+    },
+    "gross": {
+      "ok": true,
+      "limit": 1.0,
+      "max": 1.0000000000005833,
+      "weights_max": 1.0000000000000007,
+      "financing_implied_max": 1.0000000000005833,
+      "margin_implied_pct_yr": 1.2159577239144372e-13,
+      "margin_expected_pct_yr": 0.0,
+      "n_over": 0
+    },
+    "yearly": {
+      "ok": true,
+      "neg_years": 0,
+      "worst_year": 0.07667089986074194,
+      "neg_by_year": {},
+      "gates_contract_d_new_sleeve_ok": true
+    },
+    "mdd": {
+      "ok": true,
+      "mdd": -0.03701204431908023,
+      "limit": -0.07
+    }
+  },
+  "is_end": {
+    "value": "2017-01-01",
+    "inferred": false,
+    "p": 0.55,
+    "start": "2008-03-31",
+    "weight_rule": "minsharpe",
+    "shrink": 0.7,
+    "brwt_cap": 0.3
+  },
+  "stats": {
+    "n_days": 4806,
+    "start": "2008-03-31",
+    "end": "2026-08-28",
+    "ann_arith_pct": 21.490783254805034,
+    "ann_cagr_pct": 23.766796770250043,
+    "sr": 3.7840994002149047,
+    "mdd_pct": -3.701204431908023,
+    "neg_years": 0
+  },
+  "inputs": {
+    "champion": "/Users/daxu/software/world-trader/campaign/agents/chief/coord/ITER47_A5R2_VTEXT/canonical_vt024_daily.csv",
+    "weights": "/Users/daxu/software/world-trader/campaign/agents/chief/coord/ITER47_A5R2_VTEXT/canonical_vt024_weights.csv",
+    "sleeves": {
+      "brwt10": "/Users/daxu/software/world-trader/campaign/agents/chief/coord/CAMP_COST/sleeves/brwt10_2000__costfix.csv",
+      "brwt7": "/Users/daxu/software/world-trader/campaign/agents/chief/coord/CAMP_COST/sleeves/brwt7__costfix.csv",
+      "brwt5": "/Users/daxu/software/world-trader/campaign/agents/chief/coord/CAMP_COST/sleeves/brwt5__costfix.csv",
+      "C5ng": "/Users/daxu/software/world-trader/campaign/agents/E1_20yspan/sleeves/E1_C5ng_weekday_prem.csv",
+      "C5ngsum": "/Users/daxu/software/world-trader/campaign/agents/E1_20yspan/sleeves/E1_C5ng_summer_weekday.csv",
+      "A5r2": "/Users/daxu/software/world-trader/campaign/agents/chief/coord/ITER47_A5R2_VTEXT/arm_vt024_stream.csv",
+      "a6r7": "/Users/daxu/software/world-trader/campaign/agents/E1_20yspan/sleeves/E1_a6r7_bond2y_trend_1990.csv",
+      "QAxasts": "/Users/daxu/software/world-trader/campaign/agents/E1_20yspan/sleeves/E1_QAxasts_tsmom189_2006.csv",
+      "carryv2": "/Users/daxu/software/world-trader/campaign/agents/E1_20yspan/sleeves/E1_carryv2_GLD_2006.csv",
+      "dualmom": "/Users/daxu/software/world-trader/campaign/agents/A3_xs_quality/sleeves/QA_dualmom_band121.csv",
+      "diescrack": "/Users/daxu/software/world-trader/campaign/agents/loop_team/HUNT_BASIS2/sleeves/diescrack_L40Z20_net.csv",
+      "CFX4": "/Users/daxu/software/world-trader/campaign/agents/loop_team/HUNT_CARRYFX/sleeves/CFX4_DTF21_63_raw_daily.csv"
+    }
+  },
+  "params": {
+    "gear": 1.0,
+    "rate": 0.045,
+    "bps": 6.4,
+    "p": 0.55,
+    "start": "2008-03-31",
+    "tol": 1e-12,
+    "truncation_probes": [
+      0,
+      1,
+      2,
+      1201,
+      2403,
+      3604,
+      4805
+    ],
+    "weight_rule": "minsharpe"
+  }
+}

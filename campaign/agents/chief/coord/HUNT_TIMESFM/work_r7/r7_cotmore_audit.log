@@ -1,0 +1,55 @@
+== 1. panel recount ==
+sha16 9e2c82303acf4c24  bytes 11154696  endswith_nl True
+[PASS] header cols == 51  got 51
+[PASS] data rows == 29051  got 29051
+[PASS] 0 malformed-width rows  widths {51: 29051}
+[PASS] families == 35  got 35
+[PASS] span 2010-01-05..2026-09-01  2010-01-05..2026-09-01
+[PASS] 0 dup (family,report_date) keys  []
+== 2. own-code rebuild from raw zips ==
+[PASS] 34 canonical zips (+2 baks not parsed)  zips 34 baks 2
+matched raw rows: 29244
+resolved (family,date) rows: 29051
+[PASS] key set == panel key set  panel-only 0 mine-only 0
+[PASS] cnt_* + OI cells all match (697224 cells)  0 mismatched []
+== 3. PIT expanding-z re-derivation ==
+[PASS] z re-derivation max abs dev < 1e-9  max_dev 3.375e-14 over 384805 non-blank z cells
+== 4. EXN break gates - own boundary detector ==
+name transitions walked: 18
+breaks fired: 2
+   lumber 2023-04-25 Traders_Tot_All 21->43 (+104.8%)
+   nat_gas_nymex 2022-02-08 Traders_Tot_All 281->40 (-85.8%)
+[PASS] EXN set == {nat_gas_nymex 2022-02-08 -86%, lumber 2023-04-25 +105%}  got [('lumber', '2023-04-25', 'Traders_Tot_All', 21, 43), ('nat_gas_nymex', '2022-02-08', 'Traders_Tot_All', 281, 40)]
+[PASS] nat_gas magnitude rounds to -86%  -85.77%
+[PASS] lumber magnitude rounds to +105%  +104.76%
+== 5. same-name |dTotAll|>=30 weekly jumps -> raw provenance ==
+same-name >=30% weekly jumps: 8; of those with >1 raw revision row: 1
+   eurodollar_3m 2023-04-18 110->74 (-32.7%)  RAW-SINGLE
+   jpy 2011-08-09 112->76 (-32.1%)  RAW-SINGLE
+   lumber 2014-06-03 49->66 (+34.7%)  RAW-SINGLE
+   lumber 2020-03-03 57->39 (-31.6%)  RAW-SINGLE
+   lumber 2022-11-01 35->23 (-34.3%)  RAW-SINGLE
+   lumber 2022-11-08 23->31 (+34.8%)  RAW-SINGLE
+   lumber 2023-04-18 31->21 (-32.3%)  REVIEWS=2
+   rough_rice 2019-02-19 46->60 (+30.4%)  RAW-SINGLE
+== 6. eurodollar_3m ==
+[PASS] eurodollar_3m ends 2023-06-13  n=674 last=2023-06-13
+== 7. DEAD_IDEAS ledger ==
+[PASS] ledger header == 4 fields  ['idea', 'status', 'evidence', 'source']
+[PASS] 0 malformed ledger rows  []
+[PASS] 0 byte-dup (idea,source) pairs  []
+ledger data rows: 152  sha16 d6873418ffa0da5e  endswith_nl True
+status census: {'R2 dead': 3, 'R3 dead': 2, 'blocked': 7, 'data-acquired': 4, 'dead': 128, 'dead (adoption REJECTED on 8c / R7-audited)': 1, 'dead/NOT-ADOPTED': 1, 'verified': 6}
+[PASS] row 135 source == HUNT_COT2-R6  HUNT_COT2-R6
+[PASS] row 136 source == HUNT_COT2-R6  HUNT_COT2-R6
+[PASS] row 137 source == HUNT_COT2-R6  HUNT_COT2-R6
+[PASS] row 135 idea is the positioning curation  COT/TFF/CIT positioning + R5 positioning-corner rows - ROUND 6 fraud-catch curat
+[PASS] row 136 idea is the CREDIT2 correction  CREDIT2 R5 credit-carry corner - evidence-cell correction (verdict unchanged, 0/
+[PASS] row 137 idea is the CMDT2 correction  CMDT2 R5 propane corner - evidence-cell correction (verdict unchanged, 0/28)
+[PASS] exactly 4 HUNT_TIMESFM rows  [128, 129, 130, 131]
+   line 128: [dead] TimesFM 2.5-200m h=1 forecast-direction L/S 6-ETF (novel, NOT momentum...
+   line 129: [dead/NOT-ADOPTED] TimesFM |fcst| pct>0.8->0.7x champion overlay...
+   line 130: [dead] TimesFM weekly forecast-direction NKY 77y (h1/h5)...
+   line 131: [dead] TimesFM weekly forecast-direction propane spot DPROPANEMBTX (h1/h5)...
+
+AUDIT VERDICT: ALL PASS

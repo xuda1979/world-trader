@@ -1,0 +1,7 @@
+GATES_CONTRACT fail-closed: T+1 W.shift(1); shortability_pregate EASY tier (ETFs, verified); VT10% trailing-only clip<=3.0; 6.4bps FULL |dW| incl day-1 entry; borrow 0.5%/yr short notional. R3 verdict: FAIL all gates. scram_p=0.000 disclosed as re-costing artifact (permuted daily +-1 weights churn 2825bps/yr vs 390 real -> gate trivially passes, uninformative); the decisive negatives are gross SR ~ 0 and era-split failures.
+HUNT_CREDIT2 R3 (i) HY-vs-IG spread momentum HYG/LQD k=63 a-priori, +1/-1 dollar
+netSR -0.87 grossSR -0.35 H1/H2 -0.74/-1.07 negyr 18 worst -27.5% corr 0.018
+eraSR 2008-12 -0.55 / 2013-19 -0.59->-0.70 / 2020-26 -1.03 (all<0, charter add-on FAIL)
+k-scan 21 -1.28 / 63 -0.87 / 126 -0.36 / 252 -0.47: plateau FAIL nonpositive_peak
+sign-flip k=63 netSR -0.18: dead both ways (structural: 63d HY-IG spread moves mean-revert)
+TDD 5/5 work_r3/test_credit2_r3.py; repro scripts/HUNT_CREDIT2_round3.py
