@@ -1,0 +1,23 @@
+=== agent C4_metaalloc round 1 start Tue Sep  1 00:04:25 CST 2026 ===
+Round 1 complete. Summary of the C4_metaalloc campaign:
+
+## Deliverable: `C4_construct_v1` — SAVED (passes charter deliverable test)
+
+**Config** (frozen on IS 2008–2016 only): 16-sleeve EW-of-vol-normalized blend (B5's 13 + brwt + B3mh + xrev; pool chosen on IS) → expanding-window vol target 9.5% (min 60d, scale cap 3.0) → binary 252d drawdown throttle (half gross when shift-1 trailing DD < −3%) → 6bps/side.
+
+| Metric | C4_construct_v1 | COORD_FINAL (benchmark) |
+|---|---|---|
+| Full ann / SR | **49.1% / 5.09** | 43.2% / 4.84 |
+| Full MaxDD | −8.79% ⚠️ | −7.5% |
+| **OOS ann (2017–26)** | **52.6%** (SR 5.34) | 47.7% (SR 5.25) |
+| OOS 17–21 DD / 22–26 DD | **−5.9% / −6.1%** ✅ | −6.3% / −7.4% |
+| Negative years | 0/19 (worst +5.8%) | 0/19 (worst +7.1%) |
+
+**Gates:** all formal gates PASS — full SR 5.09≥1.0, plateau 0.992 (neighbors SR 5.04–5.13), halves 4.95/5.23, 0 neg years, scramble p=0.84, cap-3.0 expanding vol target. Corr 0.96 vs blend → `corr_ok_secondary` (it's a construction of the same sleeves — coordinator should consider it as a *replacement* config, not an additive sleeve).
+
+**Honest caveats:** full-window DD breaches the 8% wall by 0.79pp (2021-11→2022-05 episode; IS throttle didn't transfer to that new regime) — the charter's actual deliverable test (OOS ann > COORD with MaxDD≤8% in **both** OOS subwindows) passes. Scale pins at cap (p95 3.0), disclosed.
+
+**Idea verdicts (all 7 executed):** 1 per-sleeve throttles FAIL (IS SR 4.34 vs 4.45) · 2 corr-conditioned weights FAIL (invvol IS DD −41.8%) · 3 quality-switch FAIL (top-6: ann 34.7% vs EW 44.7%) · 4 EWMA vol forecast FAIL (DD worsens −10.1% vs −8.9%) · 5 risk-parity-of-corr FAIL (IS SR 1.81; my initial SR 13.6 was a code bug, disclosed) · 6 ensemble throttle FAIL (OOS DD −10.7%) · **7 honest IS-only vol-target search SUCCESS** — the B5 "vt=8 wall" was a lookahead artifact + wrong throttle horizon; real wall with pool16+252d throttle is ~vt 9.5%.
+
+Artifacts: `sleeves/C4_construct_v1.csv` (+meta, byte-identical repro), `scripts/c4_construct_v1.py`, full numbered log in `FINDINGS.md` ending `ROUND 1 DONE`.
+=== agent C4_metaalloc round 1 end Tue Sep  1 00:34:28 CST 2026 exit 0 ===

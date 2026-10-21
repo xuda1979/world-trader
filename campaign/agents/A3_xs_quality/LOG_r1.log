@@ -1,0 +1,22 @@
+=== agent A3_xs_quality round r1 start Fri Aug 28 20:52:42 CST 2026 ===
+Warning: no stdin data received in 3s, proceeding without it. If piping from a slow command, redirect stdin explicitly: < /dev/null to skip, or wait longer.
+Round r1 complete. Summary of what happened:
+
+**Setup (~6 calls):** Read brief + charter, verified data (panel 298 names 2006-2026; fundamentals cogs coverage only 31% → strict Novy-Marx GP infeasible, used op_income/TA with NI/TA fallback; daily_features cover 2016+). Built shared PIT engine (`engine.py`: T+1 monthly rebalance, 6bps/side, vol-target from trailing expanding window only) and self-tested it on 12-1 momentum — sane mechanics, confirmed with independent IC diagnostics.
+
+**Idea-by-idea results (all gates FAILED, zero sleeves saved — per the honesty contract):**
+
+| Idea | Family | FULL SR | Killer gate | Mean IC |
+|---|---|---|---|---|
+| 1 Profitability (op_inc/TA, PIT 6m) | 1 | **-0.21** | c, d, e (12 neg yrs, worst -19.6%) | -0.0029 |
+| 2 Asset growth L-H | 2 | **-0.05** | all (worst -25.3%) | -0.0026 |
+| 3 Composite quality | 3 | **+0.04** | all (8 neg yrs) | +0.0025 |
+| 4 Low idio-vol L/S | 4 | **-0.50** | all (inverted; 9 neg yrs, -31% in 2020) | ICIR -0.39 |
+| 5 Inverse-risk blend (record) | 4 | 0.61 (40/40) | d fails: 2022 = -6.0% < -5%; H1 0.37 — refused on rationale too | — |
+
+**Brutal finding:** it's the panel, not the engine. Every IC screen shows quality/investment/low-risk premia are at-zero or *sign-inverted* on a current-S&P-500 (survivorship-biased) universe — shorting "bad" names here shorts future megacaps. Two engine bugs found and fixed along the way (vol-target must be computed after trimming the pre-signal zero period; scramble-test reshape).
+
+**Recommendation logged for r2:** rebuild a PIT universe (delistings) before retrying fundamentals, or use quality as a tilt overlay; do not save the inverse-risk trade despite its 0.61 SR (regime-chasing, weak rationale, fails yearly gate).
+
+`campaign/agents/A3_xs_quality/FINDINGS.md` written with all numbers, scripts saved (`idea1..5_*.py`, `engine.py`), LOG.md updated, last line is exactly `ROUND r1 DONE`. ~27 tool calls used of 100.
+=== agent A3_xs_quality round r1 end Fri Aug 28 21:09:09 CST 2026 exit 0 ===

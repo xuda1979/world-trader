@@ -1,0 +1,13 @@
+=== agent A2_fx_carry round r7 start Mon Aug 31 14:41:15 CST 2026 ===
+Round r7 complete. Summary of what was done (~35 tool calls):
+
+**Data audit (the decisive fact):** `data_fred_new` delivers 1990+ daily US rates (DGS1/2/10, DFF, DTB3) and long FX spots (DEXJPUS 1990+, DEXUSEU 1999+, DTWEXBGS 2006+), but foreign yields on disk remain **monthly and start 2018** — the charter's "1999–2026 carry with real 20y history" was honestly infeasible. All carry tests ran on a disclosed 8.5y live window; momentum/dollar tests got the full 1990+ history.
+
+**Charter execution (ideas 36–44):**
+- **(1) Carry:** W-rebalanced top1/bot1 + daily rate accrual = **first A2 sleeve ever to clear ALL campaign-brief gates**: official eval SR 0.82, H1 0.45/H2 1.19, 2/9 neg yrs (worst −5.0%), plateau genuine (0.61–0.88 across rebal/size; all 5 US-rate proxies identical 0.85), scramble p=0.042, corr 0.07 to champion / 0.10 max to library. **SAVED** `A2_fx_carry_W11_accrual.csv` — but the charter's SR≥1.0 bar was NOT met (0.85), and that plus the 8.5y-window/no-2008-crash-test caveat is written into the .meta.
+- **(2) FX momentum, 36y:** dead everywhere (best 0.39 of 20+ configs) — full history *confirms* r1's negative verdict.
+- **(3) Dollar-fade:** FX basket deeply negative (−0.48..−0.78); the SPY-timing variant hit SR 1.19/0 neg yrs on 2016+ but **collapsed to 0.70, H1=0.26, p=0.05 on the honest 2006–26 window** — regime artifact caught by window expansion (with 1d publication lag for H.10 prints).
+- **(4) Carry-trend blend:** trend gates destroy carry (−0.05..0.70 vs 0.85 always-on), same as r1.
+
+FINDINGS.md appended with the full numbered table, the saved-sleeve disclosure, and 5 lessons (incl. the repeat `df * Series` column-alignment trap). Last line is exactly `ROUND r7 DONE`.
+=== agent A2_fx_carry round r7 end Mon Aug 31 15:10:55 CST 2026 exit 0 ===

@@ -1,13 +1,26 @@
+# Python
 __pycache__/
 *.py[cod]
 *.egg-info/
 .venv/
+build/
+dist/
+
+# Environment / secrets
 .env
 .env.*
 !.env.example
-build/
-dist/
+.env.local
+
+# Local caches and results (regenerable)
 data/
 *.sqlite3*
 coverage.json
 .coverage
+
+# Real-data history cache (regenerable via tools/quant/data_history.py)
+tools/quant/data/
+# L/S backtest results (regenerable, 133MB+)
+tools/quant/ls/results/
+# bigmove regenerable data caches (parquet feature/prediction caches, 363MB)
+tools/quant/bigmove/data/

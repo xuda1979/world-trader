@@ -1,0 +1,17 @@
+=== L16_AUDIT start Wed Sep  2 15:57:57 CST 2026 ===
+Audit complete. All writes confined to `campaign/agents/loop_team/L16_AUDIT/` (the pre-existing modified files are outside campaign and predate this session). Summary of what was verified adversarially:
+
+**Verified (exact numbers in FINDINGS.md):**
+- **Provenance**: Committed L16 CSVs are unmodified since commit 63da4bd (sha256 match). I recovered the exact recipe — per-sleeve vt 0.08 applied to both returns AND the Sn scale book — reproducing all three files at max|diff| = 1.0e-16. **Gap found**: no L16 builder is committed; the frozen `honest11_build.py` (per-sleeve 0.10) does NOT build the current champion (max|diff| 4.8e-05).
+- **Headline**: ann 47.55%, SR_d 4.177, SR_m 4.173, MaxDD -4.85% (worst 3y subwindow also -4.85%), **0/19 neg years CONFIRMED** (worst 2011 +15.28%). BAL = (SAFE+AGGR)/2 exactly.
+- **Honesty checks pass**: no flattening (uniqR 1.0000, ac1 -0.074), no lookahead (lead-lag corr at t+1/t+2 ≈ 0/-0.03), T+1-lagged probe degrades negligibly (47.5%/4.16), all 11 sleeves pass gates, XGB1y absent.
+
+**Material findings:**
+1. **Leverage definition hole**: "1.59x" reproduces as a full-sample mean under the published def only — 44.7% of days exceed 1.6x (max 3.35x); capital-real all-in gross is **3.43x mean / 10.6x max**. The published def excludes the global scalar, so raising the dial to get 75.7% ann leaves pub-def leverage unchanged at 1.595x — the ≤1.6 constraint as stated doesn't bind Ann at all.
+2. **Calendar inner-join**: 57 genuine trading days dropped (adverse-selected: +4.94bp vs +7.60bp mean). Fixed build: MaxDD -5.53% (vs -4.85), still 0/19 neg.
+3. **brwt zero-gating**: 36.5–66.8% exact-zero rows (19 runs ≥20d in brwt15); verified as design (|z|>1.5 gate), not flattening — but 2020-09-01 gave a 24.3σ +14.4% day; DD-based gates understate this tail.
+4. **Bug in campaign/audit_harness.py**: the interior-zero-run check is dtype-broken (bool→object, `~` yields -1/-2) and has reported zRuns=0 vacuously — brwt15 has 19 runs ≥20d, longest 33d.
+5. **X804 provenance UNVERIFIED**: committed stats verify (80.5%/4.22/0 neg/-6.73%) but no builder exists; my reconstructions give 72–76% ann at ~4.6–5.2x capital-real gross, not the claimed ~2.5x.
+6. **Uncharged vt-rebalance cost ~0.93%/yr** (fixed: 46.2% ann) — same convention caveat as STRICTAUDIT_EXECUTION.
+
+FINDINGS.md is at `campaign/agents/loop_team/L16_AUDIT/FINDINGS.md` with final line exactly `L16_AUDIT DONE`.

@@ -1,0 +1,21 @@
+=== agent E2_eventcal round 1 start Tue Sep  1 10:50:00 CST 2026 ===
+ROUND 1 COMPLETE — E2_eventcal. All 6 charter ideas executed, 0 sleeves saved (none cleared the gates), FINDINGS.md closed with `ROUND 1 DONE`.
+
+## Numbered summary
+
+1. **Quad-witching / opex week (SPY, 14 windows × L/S, 1993–2026)** — FAIL. Best cell: short opex-day SR **0.85** net (ann 5.5%, dd −10.6%, H1 0.63/H2 1.06, negYr 5/33, scramble p=0.024, corr −0.04). Fails only gate (a): 0.85 < 1.0. The anomaly itself is exceptionally robust: opex-day SPX **−58.7bp** vs +5.2bp (Welch t=**−7.50**, median −52.9bp, negative in every decade).
+
+2. **Monthly-opex-day vol (385 days)** — FAIL. Edge real but weaker: −21.4bp (t=−5.0); best book SR **0.52**.
+
+3. **Treasury refunding cycle (rule-based 1st-Wed Feb/May/Aug/Nov, 10y TR synth from DGS10)** — FAIL. Announcement-day Δy −0.29bp (≈nothing); best window [0,+5] long SR **0.21**; all 20 grid cells ≤0.22.
+
+4. **Turn-of-quarter flows (SPY + EW 298-name panel)** — FAIL. In-window +14.4bp vs +3.7bp out, but long/cash SR **0.31** (panel 0.31, dd −19.2%).
+
+5. **Holiday drift (corrected NYSE rule calendar)** — FAIL. Found A4's Monday-classification artifact: post-holiday is actually **+8.6bp (t=3.53)**, pre +7.7bp (t=2.80) — but 8 events/yr each → net SR −0.13/+0.08.
+
+6. **Composite of micro-effects (24-cell weight grid)** — FAIL. Best SR **0.44**. Panel check shows opex short is an index-only effect (EW panel t=−0.33), blocking panel diversification.
+
+**Rescue attempt (multi-index opex short)** — FAIL: only SPY+QQQ exist in the panel (QQQ −10.2bp, t=−2.23 confirms the effect); quad multi-leg SR 0.58.
+
+**Verdict:** calendar-event effects are real (opex-day is the standout) but 4–16 events/year mathematically caps net SR at ~0.85 vs the 1.0 gate at 6bps/side. Correct save decision: nothing saved; honest plateau documented with round-2 threads (opex + VIX-options microstructure frequency boost, SPX-vs-basket spread, single-name gamma-flip).
+=== agent E2_eventcal round 1 end Tue Sep  1 11:09:13 CST 2026 exit 0 ===

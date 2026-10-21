@@ -1,0 +1,28 @@
+=== agent A1_trend_cta round r1 start Fri Aug 28 20:52:42 CST 2026 ===
+Warning: no stdin data received in 3s, proceeding without it. If piping from a slow command, redirect stdin explicitly: < /dev/null to skip, or wait longer.
+# Round r1 Report — A1_trend_cta
+
+**Verdict: NO sleeve saved. Every charter idea was iterated to a genuine gate failure.** ~30 tool calls used. Full numbers in `campaign/agents/A1_trend_cta/FINDINGS.md`.
+
+## What was tried (net of 6bps/side, T+1, trailing-only vol)
+
+| Idea | Best config | SR (net) | Halves | Neg yrs | Failing gate |
+|---|---|---|---|---|---|
+| 1. TSMOM on FRED macro ×7 | LB[63,126,252], rb=5 | 0.59 (ex-natgas) | 0.53/0.64 | 7 | a + d |
+| 2. Dual momentum (63∧252) | core-6, rb=5 | 0.47 | 0.40/0.54 | 6 | a + d |
+| 3. Trend on FF factors | L=126, rb=5 | 0.37 | 0.55/**0.17** | 7 | b + c + d |
+| 4. Gated long-only RP | 4-asset SPX/US10y⁻/US2y⁻/XAU, L=252 | 0.84 | 0.63/1.03 | 3 (2020 −10.8%) | d only |
+| FX TSMOM (in scope) | 8 pairs, all L/rb | −0.59…+0.14 | — | 4–8 | a (panel 2019+) |
+| Composite A+B | 50/50, exp 10% scale | **0.937** | **0.72/1.14** | **2 (−0.6%, −3.2%)** | **e only** |
+
+The composite passed 4 of 5 gates with a wide plateau (11/11 neighbors ≥80% of peak) but failed the scramble test: **p=0.179** (1000 rotations through identical cost/vol pipelines) — its 2008 edge is standing vol-scaled exposure, not timing.
+
+## Two honesty findings worth the whole round
+1. **Flip-invariance bug class**: ratio momentum on negated levels (yields→"returns") is a no-op (`(−a)/(−b)=a/b`), silently building *anti*-momentum with inverted returns (SR −0.48 before fix). Any sleeve trading inverted series must flip the trend *sign*, not the levels.
+2. **Same-day vol scaling lookahead** in per-asset inverse-vol weights — fixed with `.shift(1)`; flagged for audit of existing library CTA sleeves. Also: `data.ff_mom()` is broken (parse error) — workaround documented.
+
+## Left for r2
+Rejected-candidate base kept at `agents/A1_trend_cta/scripts/cta_gated_program_v1.py` (marked NOT SAVED). Directions: make BookB timing-only (bond TSMOM, no cash-beta), tilt weight toward the pure-L/S BookA, and 5–10k-draw scramble power if boundary cases reappear. Also recommended to coordinator: gate-d as written rejects *every* trend construct with SR>0.55 (library CTAs have 4–13 neg years) — worth recalibrating for the CTA family.
+
+`FINDINGS.md` last line is exactly `ROUND r1 DONE`.
+=== agent A1_trend_cta round r1 end Fri Aug 28 21:33:35 CST 2026 exit 0 ===

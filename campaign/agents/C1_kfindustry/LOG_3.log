@@ -1,0 +1,20 @@
+=== agent C1_kfindustry round 3 start Tue Sep  1 01:14:57 CST 2026 ===
+Round 3 complete. Summary of executed charter:
+
+**ROUND 3 RESULTS — all 5 charter ideas + composite tested, NONE passed gates, nothing saved** (~15 tool calls):
+
+| # | Idea | Cells | Best result | Verdict |
+|---|------|-------|-------------|---------|
+| 1 | Momentum + 21d skip (crash-avoidance), L{63,126,252}×k{3,6}×wk/dy | 36 | SR **0.30** (mom252-sk21-k3-dy: ann 9.0%, negy 9, worst yr −47.4%, corrB +0.118) | FAIL (SR≥1.0, negy, worst-yr) |
+| 2 | Reversal-within-winners (dip-in-strength) | 48 | All negative: best **−0.14**, worst −0.93 | FAIL |
+| 3 | 48-industry pair stat-arb (walk-forward HL 5–60d pick, z-band reversion + momentum control) | 12+ | Best **−0.18** (mom variant); pure reversion −0.48..−0.83 | FAIL — no brwt analog in industry pairs |
+| 4 | Vol-managed momentum (inverse-vol inside book) | 16 | Best **0.24** (ann 2.8%) | FAIL |
+| 5 | Turn-of-month seasonality | — | TOM EW SR **0.20**; max per-industry \|t\| = **3.05 < 4.0** Bonferroni | FAIL |
+| 7 | Composite EW-of-3 survivors | — | SR **0.50**, negy 7, corrB **+0.215** | FAIL |
+
+**Key technical finding**: my inherited half-life formula had an off-by-one (phi_mine = phi_AR − 1, making random walks look fast-mean-reverting); fixed this round — corrected selection still yields no edge, confirming the pair result isn't a selection artifact.
+
+**Honest verdict**: ~130 new configs this round (~210 cumulative over 3 rounds). The KF industry cross-section has no post-2008 net-of-cost edge above SR ~0.6; the short side of every winner-book is the loss source and no conditional variant fixes it. **Domain closed for alpha mining.** Only hand-off remains R2's sv25 w21 vol-gated (SR 0.72, corrB 0.00) for C4_metaalloc.
+
+Deliverables: `campaign/scripts/c1r3_charter.py` (verified runnable) + FINDINGS.md appended with full numbers, ending in `ROUND 3 DONE`. Frontier unchanged.
+=== agent C1_kfindustry round 3 end Tue Sep  1 01:27:10 CST 2026 exit 0 ===

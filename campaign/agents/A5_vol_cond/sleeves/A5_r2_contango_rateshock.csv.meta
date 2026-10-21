@@ -1,0 +1,26 @@
+name: A5_r2_contango_rateshock
+agent: A5_vol_cond (round r2)
+rule: long SPY while VIX/VIX3M<1.02 (exit >1.07); exposure=0 when us10y>2.75% AND
+  us10y - us10y(150d ago) > +25bps (trailing rate-shock, lag 1d); vol-target 10% ann
+  expanding trailing (min 60d, cap 2.0); T+1; 6bps/side on turnover.
+window: 2009-09-16..2026-08-11 (vix3m constraint), n=4249
+validation (r2, all gates):
+  a) FULL SR=1.02 (ann 9.0%, vol 8.8%) PASS
+  b) plateau: 27/27 grid cells (W 100-175, chg +10/+25/+40bp, lvl 2.5/2.75/3.0)
+     SR>=0.805 (=79-100% of peak 1.019); mult axis monotone 0.86/0.92/0.98/1.01/1.02
+     for mult 1.0/0.75/0.5/0.25/0.0; contango gate itself is r1 plateau (th1.02 hyst0.05).
+     Caveat: two far corners (175,+10bp) 0.805-0.808 sit at the 0.8 boundary - smooth
+     surface, no isolated spike; chosen cell is interior, not corner-driven.
+  c) halves: H1=0.94 (2009-2018-02) / H2=1.10 PASS
+  d) yearly: 2 neg years only - 2011 -0.16%, 2022 -1.87% (both > -5%) PASS
+  e) signal-scramble: 200 perms of positions vs real SPY returns (costs re-applied),
+     p=0.000 (real SR >> 95th pctile) PASS
+  g) vol target 10% expanding trailing-only (min 60d) built into construction PASS
+correlation: |corr|<=0.14 to 28/42 library sleeves (CTA/stat-arb/credit/MA families);
+  0.63-0.68 to legacy L_S equity books (expected - equity-premium core); 0.03 to XGB1y_deploy.
+rationale: VIX futures term-structure contango is a carry premium (short vol risk
+  premium) harvested via SPY; its historical drawdowns (2018 QT bear, 2022 rates bear)
+  occur in persistent-contango grinding bears. Rate-hike shocks (10y yield >2.75% and
+  rising >25bps/150d) are the common macro driver of those two regimes; standing flat
+  during them removes the tail while keeping ~79% of exposure days. No lookahead
+  (all signals lag-1d), costs trivial (~1-2bps/day effective turnover ~0.7x).

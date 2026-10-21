@@ -1,0 +1,1721 @@
+########## RUN 2026-06-28 00:00:00 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-27T16:00:01+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+Traceback (most recent call last):
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1501, in connect
+    super().connect()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1042, in connect
+    self._tunnel()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1000, in _tunnel
+    (version, code, message) = response._read_status()
+                               ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 297, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 729, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+TimeoutError: timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 189, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 114, in main
+    quotes = report.collect_quotes()
+  File "/Users/daxu/software/world-trader/tools/wt/report.py", line 48, in collect_quotes
+    for label, sym, native, q, err in sources.fetch_many(sources.sina_quote, inst.CHINA_A, workers=8):
+                                      ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 272, in fetch_many
+    return list(p.map(one, items))
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 639, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 311, in _result_or_cancel
+    return fut.result(timeout)
+           ~~~~~~~~~~^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 450, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 395, in __get_result
+    raise self._exception
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 269, in one
+    q, err = fn(sym)
+             ~~^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 54, in sina_quote
+    txt = http_get(f"https://hq.sinajs.cn/list={code}",
+                   headers={"Referer": "https://finance.sina.com.cn"}, decode="gbk")
+  File "/Users/daxu/software/world-trader/tools/wt/core.py", line 20, in http_get
+    with urllib.request.urlopen(req, timeout=timeout, context=CTX) as r:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error timed out>
+########## RUN 2026-06-28 01:00:01 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-27T17:00:01+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+Traceback (most recent call last):
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1501, in connect
+    super().connect()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1042, in connect
+    self._tunnel()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1000, in _tunnel
+    (version, code, message) = response._read_status()
+                               ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 297, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 729, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+TimeoutError: timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 189, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 114, in main
+    quotes = report.collect_quotes()
+  File "/Users/daxu/software/world-trader/tools/wt/report.py", line 48, in collect_quotes
+    for label, sym, native, q, err in sources.fetch_many(sources.sina_quote, inst.CHINA_A, workers=8):
+                                      ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 272, in fetch_many
+    return list(p.map(one, items))
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 639, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 311, in _result_or_cancel
+    return fut.result(timeout)
+           ~~~~~~~~~~^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 450, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 395, in __get_result
+    raise self._exception
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 269, in one
+    q, err = fn(sym)
+             ~~^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 54, in sina_quote
+    txt = http_get(f"https://hq.sinajs.cn/list={code}",
+                   headers={"Referer": "https://finance.sina.com.cn"}, decode="gbk")
+  File "/Users/daxu/software/world-trader/tools/wt/core.py", line 20, in http_get
+    with urllib.request.urlopen(req, timeout=timeout, context=CTX) as r:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error timed out>
+########## RUN 2026-06-28 02:00:01 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-27T18:00:01+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+Traceback (most recent call last):
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1501, in connect
+    super().connect()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1042, in connect
+    self._tunnel()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1000, in _tunnel
+    (version, code, message) = response._read_status()
+                               ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 297, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 729, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+TimeoutError: timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 189, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 114, in main
+    quotes = report.collect_quotes()
+  File "/Users/daxu/software/world-trader/tools/wt/report.py", line 48, in collect_quotes
+    for label, sym, native, q, err in sources.fetch_many(sources.sina_quote, inst.CHINA_A, workers=8):
+                                      ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 272, in fetch_many
+    return list(p.map(one, items))
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 639, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 311, in _result_or_cancel
+    return fut.result(timeout)
+           ~~~~~~~~~~^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 450, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 395, in __get_result
+    raise self._exception
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 269, in one
+    q, err = fn(sym)
+             ~~^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 54, in sina_quote
+    txt = http_get(f"https://hq.sinajs.cn/list={code}",
+                   headers={"Referer": "https://finance.sina.com.cn"}, decode="gbk")
+  File "/Users/daxu/software/world-trader/tools/wt/core.py", line 20, in http_get
+    with urllib.request.urlopen(req, timeout=timeout, context=CTX) as r:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error timed out>
+########## RUN 2026-06-28 03:00:01 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-27T19:00:04+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+Traceback (most recent call last):
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1501, in connect
+    super().connect()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1042, in connect
+    self._tunnel()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1000, in _tunnel
+    (version, code, message) = response._read_status()
+                               ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 297, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 729, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+TimeoutError: timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 189, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 114, in main
+    quotes = report.collect_quotes()
+  File "/Users/daxu/software/world-trader/tools/wt/report.py", line 48, in collect_quotes
+    for label, sym, native, q, err in sources.fetch_many(sources.sina_quote, inst.CHINA_A, workers=8):
+                                      ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 272, in fetch_many
+    return list(p.map(one, items))
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 639, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 311, in _result_or_cancel
+    return fut.result(timeout)
+           ~~~~~~~~~~^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 450, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 395, in __get_result
+    raise self._exception
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 269, in one
+    q, err = fn(sym)
+             ~~^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 54, in sina_quote
+    txt = http_get(f"https://hq.sinajs.cn/list={code}",
+                   headers={"Referer": "https://finance.sina.com.cn"}, decode="gbk")
+  File "/Users/daxu/software/world-trader/tools/wt/core.py", line 20, in http_get
+    with urllib.request.urlopen(req, timeout=timeout, context=CTX) as r:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error timed out>
+########## RUN 2026-06-28 04:00:04 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-27T20:00:05+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+Traceback (most recent call last):
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1501, in connect
+    super().connect()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1042, in connect
+    self._tunnel()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1000, in _tunnel
+    (version, code, message) = response._read_status()
+                               ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 297, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 729, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+TimeoutError: timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 189, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 114, in main
+    quotes = report.collect_quotes()
+  File "/Users/daxu/software/world-trader/tools/wt/report.py", line 48, in collect_quotes
+    for label, sym, native, q, err in sources.fetch_many(sources.sina_quote, inst.CHINA_A, workers=8):
+                                      ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 272, in fetch_many
+    return list(p.map(one, items))
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 639, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 311, in _result_or_cancel
+    return fut.result(timeout)
+           ~~~~~~~~~~^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 450, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 395, in __get_result
+    raise self._exception
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 269, in one
+    q, err = fn(sym)
+             ~~^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 54, in sina_quote
+    txt = http_get(f"https://hq.sinajs.cn/list={code}",
+                   headers={"Referer": "https://finance.sina.com.cn"}, decode="gbk")
+  File "/Users/daxu/software/world-trader/tools/wt/core.py", line 20, in http_get
+    with urllib.request.urlopen(req, timeout=timeout, context=CTX) as r:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error timed out>
+########## RUN 2026-06-28 05:00:04 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-27T21:00:04+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+Traceback (most recent call last):
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1501, in connect
+    super().connect()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1042, in connect
+    self._tunnel()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1000, in _tunnel
+    (version, code, message) = response._read_status()
+                               ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 297, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 729, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+TimeoutError: timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 189, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 114, in main
+    quotes = report.collect_quotes()
+  File "/Users/daxu/software/world-trader/tools/wt/report.py", line 48, in collect_quotes
+    for label, sym, native, q, err in sources.fetch_many(sources.sina_quote, inst.CHINA_A, workers=8):
+                                      ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 272, in fetch_many
+    return list(p.map(one, items))
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 639, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 311, in _result_or_cancel
+    return fut.result(timeout)
+           ~~~~~~~~~~^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 450, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 395, in __get_result
+    raise self._exception
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 269, in one
+    q, err = fn(sym)
+             ~~^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 54, in sina_quote
+    txt = http_get(f"https://hq.sinajs.cn/list={code}",
+                   headers={"Referer": "https://finance.sina.com.cn"}, decode="gbk")
+  File "/Users/daxu/software/world-trader/tools/wt/core.py", line 20, in http_get
+    with urllib.request.urlopen(req, timeout=timeout, context=CTX) as r:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error timed out>
+########## RUN 2026-06-28 06:00:01 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-27T22:00:01+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+Traceback (most recent call last):
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1501, in connect
+    super().connect()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1042, in connect
+    self._tunnel()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1000, in _tunnel
+    (version, code, message) = response._read_status()
+                               ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 297, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 729, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+TimeoutError: timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 189, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 114, in main
+    quotes = report.collect_quotes()
+  File "/Users/daxu/software/world-trader/tools/wt/report.py", line 48, in collect_quotes
+    for label, sym, native, q, err in sources.fetch_many(sources.sina_quote, inst.CHINA_A, workers=8):
+                                      ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 272, in fetch_many
+    return list(p.map(one, items))
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 639, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 311, in _result_or_cancel
+    return fut.result(timeout)
+           ~~~~~~~~~~^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 450, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 395, in __get_result
+    raise self._exception
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 269, in one
+    q, err = fn(sym)
+             ~~^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 54, in sina_quote
+    txt = http_get(f"https://hq.sinajs.cn/list={code}",
+                   headers={"Referer": "https://finance.sina.com.cn"}, decode="gbk")
+  File "/Users/daxu/software/world-trader/tools/wt/core.py", line 20, in http_get
+    with urllib.request.urlopen(req, timeout=timeout, context=CTX) as r:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error timed out>
+########## RUN 2026-06-28 07:00:01 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-27T23:00:01+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+Traceback (most recent call last):
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1501, in connect
+    super().connect()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1042, in connect
+    self._tunnel()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1000, in _tunnel
+    (version, code, message) = response._read_status()
+                               ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 297, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 729, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+TimeoutError: timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 189, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 114, in main
+    quotes = report.collect_quotes()
+  File "/Users/daxu/software/world-trader/tools/wt/report.py", line 48, in collect_quotes
+    for label, sym, native, q, err in sources.fetch_many(sources.sina_quote, inst.CHINA_A, workers=8):
+                                      ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 272, in fetch_many
+    return list(p.map(one, items))
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 639, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 311, in _result_or_cancel
+    return fut.result(timeout)
+           ~~~~~~~~~~^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 450, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 395, in __get_result
+    raise self._exception
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 269, in one
+    q, err = fn(sym)
+             ~~^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 54, in sina_quote
+    txt = http_get(f"https://hq.sinajs.cn/list={code}",
+                   headers={"Referer": "https://finance.sina.com.cn"}, decode="gbk")
+  File "/Users/daxu/software/world-trader/tools/wt/core.py", line 20, in http_get
+    with urllib.request.urlopen(req, timeout=timeout, context=CTX) as r:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error timed out>
+########## RUN 2026-06-28 08:00:05 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-28T00:00:05+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+Traceback (most recent call last):
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1501, in connect
+    super().connect()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1032, in connect
+    self.sock = self._create_connection(
+                ~~~~~~~~~~~~~~~~~~~~~~~^
+        (self.host,self.port), self.timeout, self.source_address)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 850, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+               ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 987, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno 8] nodename nor servname provided, or not known
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 189, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 114, in main
+    quotes = report.collect_quotes()
+  File "/Users/daxu/software/world-trader/tools/wt/report.py", line 48, in collect_quotes
+    for label, sym, native, q, err in sources.fetch_many(sources.sina_quote, inst.CHINA_A, workers=8):
+                                      ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 272, in fetch_many
+    return list(p.map(one, items))
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 639, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 311, in _result_or_cancel
+    return fut.result(timeout)
+           ~~~~~~~~~~^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 443, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 395, in __get_result
+    raise self._exception
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 269, in one
+    q, err = fn(sym)
+             ~~^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 54, in sina_quote
+    txt = http_get(f"https://hq.sinajs.cn/list={code}",
+                   headers={"Referer": "https://finance.sina.com.cn"}, decode="gbk")
+  File "/Users/daxu/software/world-trader/tools/wt/core.py", line 20, in http_get
+    with urllib.request.urlopen(req, timeout=timeout, context=CTX) as r:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+########## RUN 2026-06-28 09:00:03 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-28T01:00:03+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+Traceback (most recent call last):
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1501, in connect
+    super().connect()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1042, in connect
+    self._tunnel()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1000, in _tunnel
+    (version, code, message) = response._read_status()
+                               ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 297, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 729, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+ConnectionResetError: [Errno 54] Connection reset by peer
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 189, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 114, in main
+    quotes = report.collect_quotes()
+  File "/Users/daxu/software/world-trader/tools/wt/report.py", line 48, in collect_quotes
+    for label, sym, native, q, err in sources.fetch_many(sources.sina_quote, inst.CHINA_A, workers=8):
+                                      ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 272, in fetch_many
+    return list(p.map(one, items))
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 639, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 311, in _result_or_cancel
+    return fut.result(timeout)
+           ~~~~~~~~~~^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 450, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 395, in __get_result
+    raise self._exception
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 269, in one
+    q, err = fn(sym)
+             ~~^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 54, in sina_quote
+    txt = http_get(f"https://hq.sinajs.cn/list={code}",
+                   headers={"Referer": "https://finance.sina.com.cn"}, decode="gbk")
+  File "/Users/daxu/software/world-trader/tools/wt/core.py", line 20, in http_get
+    with urllib.request.urlopen(req, timeout=timeout, context=CTX) as r:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error [Errno 54] Connection reset by peer>
+########## RUN 2026-06-28 10:00:03 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-28T02:00:03+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+Traceback (most recent call last):
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1501, in connect
+    super().connect()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1042, in connect
+    self._tunnel()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1000, in _tunnel
+    (version, code, message) = response._read_status()
+                               ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 297, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 729, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+TimeoutError: timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 189, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 114, in main
+    quotes = report.collect_quotes()
+  File "/Users/daxu/software/world-trader/tools/wt/report.py", line 48, in collect_quotes
+    for label, sym, native, q, err in sources.fetch_many(sources.sina_quote, inst.CHINA_A, workers=8):
+                                      ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 272, in fetch_many
+    return list(p.map(one, items))
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 639, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 311, in _result_or_cancel
+    return fut.result(timeout)
+           ~~~~~~~~~~^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 450, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 395, in __get_result
+    raise self._exception
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 269, in one
+    q, err = fn(sym)
+             ~~^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 54, in sina_quote
+    txt = http_get(f"https://hq.sinajs.cn/list={code}",
+                   headers={"Referer": "https://finance.sina.com.cn"}, decode="gbk")
+  File "/Users/daxu/software/world-trader/tools/wt/core.py", line 20, in http_get
+    with urllib.request.urlopen(req, timeout=timeout, context=CTX) as r:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error timed out>
+########## RUN 2026-06-28 11:00:04 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-28T03:00:05+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+Traceback (most recent call last):
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1501, in connect
+    super().connect()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1042, in connect
+    self._tunnel()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1000, in _tunnel
+    (version, code, message) = response._read_status()
+                               ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 297, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 729, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+TimeoutError: timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 189, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 114, in main
+    quotes = report.collect_quotes()
+  File "/Users/daxu/software/world-trader/tools/wt/report.py", line 48, in collect_quotes
+    for label, sym, native, q, err in sources.fetch_many(sources.sina_quote, inst.CHINA_A, workers=8):
+                                      ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 272, in fetch_many
+    return list(p.map(one, items))
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 639, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 311, in _result_or_cancel
+    return fut.result(timeout)
+           ~~~~~~~~~~^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 450, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 395, in __get_result
+    raise self._exception
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 269, in one
+    q, err = fn(sym)
+             ~~^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 54, in sina_quote
+    txt = http_get(f"https://hq.sinajs.cn/list={code}",
+                   headers={"Referer": "https://finance.sina.com.cn"}, decode="gbk")
+  File "/Users/daxu/software/world-trader/tools/wt/core.py", line 20, in http_get
+    with urllib.request.urlopen(req, timeout=timeout, context=CTX) as r:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error timed out>
+########## RUN 2026-06-28 12:00:05 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-28T04:00:06+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+Traceback (most recent call last):
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1501, in connect
+    super().connect()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1042, in connect
+    self._tunnel()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1000, in _tunnel
+    (version, code, message) = response._read_status()
+                               ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 297, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 729, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+TimeoutError: timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 189, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 114, in main
+    quotes = report.collect_quotes()
+  File "/Users/daxu/software/world-trader/tools/wt/report.py", line 48, in collect_quotes
+    for label, sym, native, q, err in sources.fetch_many(sources.sina_quote, inst.CHINA_A, workers=8):
+                                      ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 272, in fetch_many
+    return list(p.map(one, items))
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 639, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 311, in _result_or_cancel
+    return fut.result(timeout)
+           ~~~~~~~~~~^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 450, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 395, in __get_result
+    raise self._exception
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 269, in one
+    q, err = fn(sym)
+             ~~^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 54, in sina_quote
+    txt = http_get(f"https://hq.sinajs.cn/list={code}",
+                   headers={"Referer": "https://finance.sina.com.cn"}, decode="gbk")
+  File "/Users/daxu/software/world-trader/tools/wt/core.py", line 20, in http_get
+    with urllib.request.urlopen(req, timeout=timeout, context=CTX) as r:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error timed out>
+########## RUN 2026-06-28 13:00:04 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-28T05:00:05+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+Traceback (most recent call last):
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1501, in connect
+    super().connect()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1042, in connect
+    self._tunnel()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1000, in _tunnel
+    (version, code, message) = response._read_status()
+                               ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 297, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 729, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+TimeoutError: timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 189, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 114, in main
+    quotes = report.collect_quotes()
+  File "/Users/daxu/software/world-trader/tools/wt/report.py", line 48, in collect_quotes
+    for label, sym, native, q, err in sources.fetch_many(sources.sina_quote, inst.CHINA_A, workers=8):
+                                      ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 272, in fetch_many
+    return list(p.map(one, items))
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 639, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 311, in _result_or_cancel
+    return fut.result(timeout)
+           ~~~~~~~~~~^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 450, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 395, in __get_result
+    raise self._exception
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 269, in one
+    q, err = fn(sym)
+             ~~^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 54, in sina_quote
+    txt = http_get(f"https://hq.sinajs.cn/list={code}",
+                   headers={"Referer": "https://finance.sina.com.cn"}, decode="gbk")
+  File "/Users/daxu/software/world-trader/tools/wt/core.py", line 20, in http_get
+    with urllib.request.urlopen(req, timeout=timeout, context=CTX) as r:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error timed out>
+########## RUN 2026-06-28 14:00:05 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-28T06:00:06+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+====================================================================================================================================================================================================================================================
+=== OPPORTUNITY TABLE (ranked by per-trade EXPECTED SHARPE) ===
+   YOUR BAR: E[R]>=+1%/trade  sigma<=5%  Sharpe>=0.40  sample n>=20  horizon<=5d  t>=2 (Bonferroni-adj.)  OOS edge>0
+   E[R]=NET backtested expected return (after costs)  sigma=std-dev of outcomes (the risk)  Sharpe=E[R]/sigma
+   t=significance of E[R]>0 (>=2 ~ 95%, raised for #tests)  oosS=out-of-sample Sharpe (recent 30% held out; must stay positive)
+Instrument                  中文/名   Sym        Market  Dir             Price (ET)    Chg%   E[R]%  sigma%   Sharpe t-stat   oosS   Win%     n    R:R  Risk%   ATR%  Kelly%      Stop    Target  Tech              News        Data     
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  (no trade cleared the expected-Sharpe bar this scan -- correct when no high-E[R]/low-sigma edge exists; showing best measured edges)
+US: WDCX                              WDCX       US      Long        35.97 16:00 ET -17.73%   4.48%  12.59%     0.36    3.5   0.58    25%    99   10.1  2.70% 24.96%   17.8%     35.00     45.72  RSI54 mix RS+13   . n0        STALE 34.2h
+US: WDC                               WDC        US      Long       586.45 16:00 ET  -8.82%   1.60%   4.81%     0.33    6.9   0.42    31%   434    9.8  1.18% 11.00%   23.8%    579.51    654.36  RSI57 mix RS+14   + n157 11h  STALE 34.2h
+US: STX                               STX        US      Long       899.90 16:00 ET  -9.52%   1.61%   5.45%     0.29    6.1   0.37    39%   434    6.0  2.16%  9.50%   28.7%    880.49   1015.89  RSI54 mix RS+6    + n87 12h   STALE 34.2h
+US: QBTZ                              QBTZ       US      Long         4.29 16:00 ET -12.80%   2.35%   7.18%     0.33    4.3   0.37    16%   175   27.0  0.70% 19.89%   12.9%      4.26      5.10  RSI46 mix RS+29   . n0        STALE 34.2h
+US: SNDG                              SNDG       US      Long        22.51 16:00 ET  -7.29%   3.75%  10.05%     0.37    1.9   0.34    27%    26    9.0  2.27% 20.80%   18.8%     22.00     27.10  RSI59 RS+42       . n0        STALE 34.2h
+US: SWMR                              SWMR       US      Short       41.01 16:00 ET  12.91%   1.86%   8.06%     0.23    1.9   0.30    28%    65    4.9  3.10% 15.38%   12.9%     42.28     34.79  RSI27os mix RS-24  . n0        STALE 34.2h
+US: SDOT                              SDOT       US      Short       21.45 16:00 ET  86.52%   3.29%  13.68%     0.24    5.0   0.29    43%   434   10.0  6.06% 51.58%   37.6%     22.75      8.51  RSI55 mix RS+576  . n6 33h    STALE 34.2h
+US: BE                                BE         US      Long       252.02 16:00 ET -14.43%   1.68%   7.39%     0.23    4.7   0.28    21%   434   11.9  1.70% 12.70%   14.3%    247.74    302.81  RSI48 mix RS-10   . n18 8h    STALE 34.2h
+US: WSHP                              WSHP       US      Short        8.00 16:00 ET  66.67%   2.89%  14.52%     0.20    2.4   0.27    31%   147    7.8  5.87%  9.05%   22.5%      8.47      4.33  RSI66ob mix RS+20  . n3 35h    STALE 34.2h
+US: AIIO                              AIIO       US      Short        4.37 16:00 ET  13.51%   0.94%  11.99%     0.08    1.6   0.24    40%   434    2.5  8.24% 11.42%   15.9%      4.73      3.48  RSI71ob up RS+65  . n6 38h    STALE 34.2h
+  (46 instruments shown without expectancy -- no free daily history (China A-share/Taiwan); cannot estimate Sharpe, excluded from rank)
+
+-- SHORT-RESTRICTED MARKETS -> shortable proxy --
+  * China: CATL 宁德时代 (sz300750): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Midea Group 美的集团 (sz000333): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Yangtze Power 长江电力 (sh600900): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: BYD 比亚迪 (sz002594): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * Taiwan: MediaTek 聯發科 (2454): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+  * Taiwan: Chunghwa Telecom 中華電 (2412): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+
+-- CATALYSTS (latest company news for top candidates; verify before acting) --
+  WDC     Long  [+]  Fox Advisors Downgrades Western Digital Corporation (WDC) – Here’s Why
+          (11h ago  5 src  157 articles/7d)
+          why: Added 4.9% as storage maker benefits from memory supply tightness and AI infrastructure demand.
+  STX     Long  [+]  Fox Advisors Downgrades Seagate Technology (STX) – Here’s Why
+          (12h ago  5 src  87 articles/7d)
+          why: Riding strong demand tailwind with 44% year-over-year revenue growth and record 47% adjusted gross margin. New M…
+  SDOT    Short      Friday's after hours session: top gainers and losers
+          (33h ago  2 src  6 articles/7d)
+  BE      Long       Bloom Energy: Friday's 18% Plunge Is A Warning
+          (8h ago  3 src  18 articles/7d)
+  WSHP    Short      Top movers analysis one hour before the close of the markets on 2026-06-26: top gainers and losers in to…
+          (35h ago  2 src  3 articles/7d)
+  AIIO    Short      Robo.ai Files Prospectus For Offering 22.344M Class B Ordinary Shares On Behalf Of Selling Shareholders
+          (38h ago  3 src  6 articles/7d)
+
+research only, not financial advice. verify before acting.
+
+########## RUN 2026-06-28 15:00:03 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-28T07:00:04+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+=======================================================================================================================================================================================================================================================================
+=== OPPORTUNITY TABLE (ranked by per-trade EXPECTED SHARPE) ===
+   YOUR BAR: E[R]>=+1%/trade  sigma<=5%  Sharpe>=0.40  sample n>=20  horizon<=5d  t>=2 (Bonferroni-adj.)  OOS edge>0
+   E[R]=NET backtested expected return (after costs)  sigma=std-dev of outcomes (the risk)  Sharpe=E[R]/sigma
+   t=significance of E[R]>0 (>=2 ~ 95%, raised for #tests)  oosS=out-of-sample Sharpe (recent 30% held out; must stay positive)
+Instrument                  中文/名   Sym        Market  Dir             Price now (date ET)    Chg%   E[R]%  sigma%   Sharpe t-stat   oosS   Win%     n    R:R  Risk%   ATR%  Kelly%     Entry      Stop  Exit/Tgt  Tech              News        Data     
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  (no trade cleared the expected-Sharpe bar this scan -- correct when no high-E[R]/low-sigma edge exists; showing best measured edges)
+US: WDCX                              WDCX       US      Long      35.97 2026-06-26 16:00 ET -17.73%   4.48%  12.59%     0.36    3.5   0.58    25%    99   10.1  2.70% 24.96%   17.8%     35.97     35.00     45.72  RSI54 mix RS+13   . n0        STALE 35.2h
+US: WDC                               WDC        US      Long     586.45 2026-06-26 16:00 ET  -8.82%   1.60%   4.81%     0.33    6.9   0.42    31%   434    9.8  1.18% 11.00%   23.8%    586.45    579.51    654.36  RSI57 mix RS+14   + n157 12h  STALE 35.2h
+US: STX                               STX        US      Long     899.90 2026-06-26 16:00 ET  -9.52%   1.61%   5.45%     0.29    6.1   0.37    39%   434    6.0  2.16%  9.50%   28.7%    899.90    880.49   1015.89  RSI54 mix RS+6    + n87 13h   STALE 35.2h
+US: SNDG                              SNDG       US      Long      22.51 2026-06-26 16:00 ET  -7.29%   3.75%  10.05%     0.37    1.9   0.34    27%    26    9.0  2.27% 20.80%   18.8%     22.51     22.00     27.10  RSI59 RS+42       . n0        STALE 35.2h
+US: SWMR                              SWMR       US      Short     41.01 2026-06-26 16:00 ET  12.91%   1.86%   8.06%     0.23    1.9   0.30    28%    65    4.9  3.10% 15.38%   12.9%     41.01     42.28     34.79  RSI27os mix RS-24  . n0        STALE 35.2h
+US: SDOT                              SDOT       US      Short     21.45 2026-06-26 16:00 ET  86.52%   3.29%  13.68%     0.24    5.0   0.29    43%   434   10.0  6.06% 51.58%   37.6%     21.45     22.75      8.51  RSI55 mix RS+576  . n6 34h    STALE 35.2h
+US: WSHP                              WSHP       US      Short      8.00 2026-06-26 16:00 ET  66.67%   2.89%  14.52%     0.20    2.4   0.27    31%   147    7.8  5.87%  9.05%   22.5%      8.00      8.47      4.33  RSI66ob mix RS+20  . n3 36h    STALE 35.2h
+US: AIIO                              AIIO       US      Short      4.37 2026-06-26 16:00 ET  13.51%   0.94%  11.99%     0.08    1.6   0.24    40%   434    2.5  8.24% 11.42%   15.9%      4.37      4.73      3.48  RSI71ob up RS+65  . n6 39h    STALE 35.2h
+US: NOWL                              NOWL       US      Short      4.31 2026-06-26 16:00 ET  18.08%   0.82%   4.93%     0.17    2.6   0.23    14%   234   17.8  0.93% 12.08%    8.8%      4.31      4.35      3.60  RSI32os mix RS-21  . n0        STALE 35.2h
+US: EIKN                              EIKN       US      Short     11.45 2026-06-26 16:00 ET  16.36%   0.18%   5.95%     0.03    0.3   0.23    13%    92    7.9  2.03%  7.74%    2.1%     11.45     11.68      9.61  RSI76ob mix RS+15  . n2 3d     STALE 35.2h
+  (47 instruments shown without expectancy -- no free daily history (China A-share/Taiwan); cannot estimate Sharpe, excluded from rank)
+
+-- SHORT-RESTRICTED MARKETS -> shortable proxy --
+  * China: CATL 宁德时代 (sz300750): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Midea Group 美的集团 (sz000333): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Yangtze Power 长江电力 (sh600900): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: BYD 比亚迪 (sz002594): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * Taiwan: MediaTek 聯發科 (2454): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+  * Taiwan: Chunghwa Telecom 中華電 (2412): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+
+-- CATALYSTS (latest company news for top candidates; verify before acting) --
+  WDC     Long  [+]  Fox Advisors Downgrades Western Digital Corporation (WDC) – Here’s Why
+          (12h ago  5 src  157 articles/7d)
+          why: Added 4.9% as storage maker benefits from memory supply tightness and AI infrastructure demand.
+  STX     Long  [+]  Fox Advisors Downgrades Seagate Technology (STX) – Here’s Why
+          (13h ago  5 src  87 articles/7d)
+          why: Riding strong demand tailwind with 44% year-over-year revenue growth and record 47% adjusted gross margin. New M…
+  SDOT    Short      Friday's after hours session: top gainers and losers
+          (34h ago  2 src  6 articles/7d)
+  WSHP    Short      Top movers analysis one hour before the close of the markets on 2026-06-26: top gainers and losers in to…
+          (36h ago  2 src  3 articles/7d)
+  AIIO    Short      Robo.ai Files Prospectus For Offering 22.344M Class B Ordinary Shares On Behalf Of Selling Shareholders
+          (39h ago  3 src  6 articles/7d)
+  EIKN    Short      12 Health Care Stocks Moving In Thursday's After-Market Session
+          (3d ago  1 src  2 articles/7d)
+
+research only, not financial advice. verify before acting.
+
+########## RUN 2026-06-28 16:00:05 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-28T08:00:06+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+Traceback (most recent call last):
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1501, in connect
+    super().connect()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1042, in connect
+    self._tunnel()
+    ~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1000, in _tunnel
+    (version, code, message) = response._read_status()
+                               ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 297, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 729, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+TimeoutError: timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 189, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 114, in main
+    quotes = report.collect_quotes()
+  File "/Users/daxu/software/world-trader/tools/wt/report.py", line 74, in collect_quotes
+    for label, sym, native, q, err in sources.fetch_many(sources.sina_quote, inst.CHINA_A, workers=8):
+                                      ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 272, in fetch_many
+    return list(p.map(one, items))
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 639, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 311, in _result_or_cancel
+    return fut.result(timeout)
+           ~~~~~~~~~~^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 450, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 395, in __get_result
+    raise self._exception
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 269, in one
+    q, err = fn(sym)
+             ~~^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 54, in sina_quote
+    txt = http_get(f"https://hq.sinajs.cn/list={code}",
+                   headers={"Referer": "https://finance.sina.com.cn"}, decode="gbk")
+  File "/Users/daxu/software/world-trader/tools/wt/core.py", line 20, in http_get
+    with urllib.request.urlopen(req, timeout=timeout, context=CTX) as r:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error timed out>
+########## RUN 2026-06-28 17:00:01 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-28T09:00:02+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+=======================================================================================================================================================================================================================================================================
+=== OPPORTUNITY TABLE (ranked by per-trade EXPECTED SHARPE) ===
+   MARKETS OPEN NOW (2026-06-28T09:11:14+00:00): CRYPTO
+   RULE: only instruments whose market is OPEN/just-closed with a FRESH quote are shown -- stale prices are never actionable.
+   YOUR BAR: E[R]>=+1%/trade  sigma<=5%  Sharpe>=0.40  sample n>=20  horizon<=5d  t>=2 (Bonferroni-adj.)  OOS edge>0
+   E[R]=NET backtested expected return (after costs)  sigma=std-dev of outcomes (the risk)  Sharpe=E[R]/sigma
+   t=significance of E[R]>0 (>=2 ~ 95%, raised for #tests)  oosS=out-of-sample Sharpe (recent 30% held out; must stay positive)
+Instrument                  中文/名   Sym        Market  Dir             Price now (date ET)    Chg%   E[R]%  sigma%   Sharpe t-stat   oosS   Win%     n    R:R  Risk%   ATR%  Kelly%     Entry      Stop  Exit/Tgt  Tech              News        Data     
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  (only CRYPTO is open right now and no positive-expectancy crypto edge was measured -- stand aside until equity/FX sessions open.)
+  (48 instruments shown without expectancy -- no free daily history (China A-share/Taiwan); cannot estimate Sharpe, excluded from rank)
+
+-- SHORT-RESTRICTED MARKETS -> shortable proxy --
+  * China: CATL 宁德时代 (sz300750): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Midea Group 美的集团 (sz000333): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Yangtze Power 长江电力 (sh600900): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: BYD 比亚迪 (sz002594): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * Taiwan: MediaTek 聯發科 (2454): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+  * Taiwan: Chunghwa Telecom 中華電 (2412): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+
+research only, not financial advice. verify before acting.
+
+########## RUN 2026-06-28 18:00:05 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-28T10:00:06+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+=======================================================================================================================================================================================================================================================================
+=== OPPORTUNITY TABLE (ranked by per-trade EXPECTED SHARPE) ===
+   MARKETS OPEN NOW (2026-06-28T10:11:15+00:00): CRYPTO
+   RULE: only instruments whose market is OPEN/just-closed with a FRESH quote are shown -- stale prices are never actionable.
+   YOUR BAR: E[R]>=+1%/trade  sigma<=5%  Sharpe>=0.40  sample n>=20  horizon<=5d  t>=2 (Bonferroni-adj.)  OOS edge>0
+   E[R]=NET backtested expected return (after costs)  sigma=std-dev of outcomes (the risk)  Sharpe=E[R]/sigma
+   t=significance of E[R]>0 (>=2 ~ 95%, raised for #tests)  oosS=out-of-sample Sharpe (recent 30% held out; must stay positive)
+Instrument                  中文/名   Sym        Market  Dir             Price now (date ET)    Chg%   E[R]%  sigma%   Sharpe t-stat   oosS   Win%     n    R:R  Risk%   ATR%  Kelly%     Entry      Stop  Exit/Tgt  Tech              News        Data     
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  (only CRYPTO is open right now and no positive-expectancy crypto edge was measured -- stand aside until equity/FX sessions open.)
+  (46 instruments shown without expectancy -- no free daily history (China A-share/Taiwan); cannot estimate Sharpe, excluded from rank)
+
+-- SHORT-RESTRICTED MARKETS -> shortable proxy --
+  * China: CATL 宁德时代 (sz300750): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Midea Group 美的集团 (sz000333): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Yangtze Power 长江电力 (sh600900): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: BYD 比亚迪 (sz002594): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * Taiwan: MediaTek 聯發科 (2454): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+  * Taiwan: Chunghwa Telecom 中華電 (2412): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+
+research only, not financial advice. verify before acting.
+
+########## RUN 2026-06-28 19:00:02 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-28T11:00:03+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+=======================================================================================================================================================================================================================================================================
+=== OPPORTUNITY TABLE (ranked by per-trade EXPECTED SHARPE) ===
+   MARKETS OPEN NOW (2026-06-28T11:11:01+00:00): CRYPTO
+   RULE: only instruments whose market is OPEN/just-closed with a FRESH quote are shown -- stale prices are never actionable.
+   YOUR BAR: E[R]>=+1%/trade  sigma<=5%  Sharpe>=0.40  sample n>=20  horizon<=5d  t>=2 (Bonferroni-adj.)  OOS edge>0
+   E[R]=NET backtested expected return (after costs)  sigma=std-dev of outcomes (the risk)  Sharpe=E[R]/sigma
+   t=significance of E[R]>0 (>=2 ~ 95%, raised for #tests)  oosS=out-of-sample Sharpe (recent 30% held out; must stay positive)
+Instrument                  中文/名   Sym        Market  Dir             Price now (date ET)    Chg%   E[R]%  sigma%   Sharpe t-stat   oosS   Win%     n    R:R  Risk%   ATR%  Kelly%     Entry      Stop  Exit/Tgt  Tech              News        Data     
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  (only CRYPTO is open right now and no positive-expectancy crypto edge was measured -- stand aside until equity/FX sessions open.)
+  (48 instruments shown without expectancy -- no free daily history (China A-share/Taiwan); cannot estimate Sharpe, excluded from rank)
+
+-- SHORT-RESTRICTED MARKETS -> shortable proxy --
+  * China: CATL 宁德时代 (sz300750): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Midea Group 美的集团 (sz000333): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Yangtze Power 长江电力 (sh600900): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: BYD 比亚迪 (sz002594): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * Taiwan: MediaTek 聯發科 (2454): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+  * Taiwan: Chunghwa Telecom 中華電 (2412): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+
+research only, not financial advice. verify before acting.
+
+########## RUN 2026-06-28 20:00:02 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-28T12:00:03+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+=======================================================================================================================================================================================================================================================================
+=== OPPORTUNITY TABLE (ranked by per-trade EXPECTED SHARPE) ===
+   MARKETS OPEN NOW (2026-06-28T12:10:55+00:00): CRYPTO
+   RULE: only instruments whose market is OPEN/just-closed with a FRESH quote are shown -- stale prices are never actionable.
+   YOUR BAR: E[R]>=+1%/trade  sigma<=5%  Sharpe>=0.40  sample n>=20  horizon<=5d  t>=2 (Bonferroni-adj.)  OOS edge>0
+   E[R]=NET backtested expected return (after costs)  sigma=std-dev of outcomes (the risk)  Sharpe=E[R]/sigma
+   t=significance of E[R]>0 (>=2 ~ 95%, raised for #tests)  oosS=out-of-sample Sharpe (recent 30% held out; must stay positive)
+Instrument                  中文/名   Sym        Market  Dir             Price now (date ET)    Chg%   E[R]%  sigma%   Sharpe t-stat   oosS   Win%     n    R:R  Risk%   ATR%  Kelly%     Entry      Stop  Exit/Tgt  Tech              News        Data     
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  (only CRYPTO is open right now and no positive-expectancy crypto edge was measured -- stand aside until equity/FX sessions open.)
+  (48 instruments shown without expectancy -- no free daily history (China A-share/Taiwan); cannot estimate Sharpe, excluded from rank)
+
+-- SHORT-RESTRICTED MARKETS -> shortable proxy --
+  * China: CATL 宁德时代 (sz300750): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Midea Group 美的集团 (sz000333): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Yangtze Power 长江电力 (sh600900): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: BYD 比亚迪 (sz002594): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * Taiwan: MediaTek 聯發科 (2454): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+  * Taiwan: Chunghwa Telecom 中華電 (2412): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+
+research only, not financial advice. verify before acting.
+
+########## RUN 2026-06-28 21:00:01 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-28T13:00:02+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+=======================================================================================================================================================================================================================================================================
+=== OPPORTUNITY TABLE (ranked by per-trade EXPECTED SHARPE) ===
+   MARKETS OPEN NOW (2026-06-28T13:11:00+00:00): CRYPTO
+   RULE: only instruments whose market is OPEN/just-closed with a FRESH quote are shown -- stale prices are never actionable.
+   YOUR BAR: E[R]>=+1%/trade  sigma<=5%  Sharpe>=0.40  sample n>=20  horizon<=5d  t>=2 (Bonferroni-adj.)  OOS edge>0
+   E[R]=NET backtested expected return (after costs)  sigma=std-dev of outcomes (the risk)  Sharpe=E[R]/sigma
+   t=significance of E[R]>0 (>=2 ~ 95%, raised for #tests)  oosS=out-of-sample Sharpe (recent 30% held out; must stay positive)
+Instrument                  中文/名   Sym        Market  Dir             Price now (date ET)    Chg%   E[R]%  sigma%   Sharpe t-stat   oosS   Win%     n    R:R  Risk%   ATR%  Kelly%     Entry      Stop  Exit/Tgt  Tech              News        Data     
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  (only CRYPTO is open right now and no positive-expectancy crypto edge was measured -- stand aside until equity/FX sessions open.)
+  (47 instruments shown without expectancy -- no free daily history (China A-share/Taiwan); cannot estimate Sharpe, excluded from rank)
+
+-- SHORT-RESTRICTED MARKETS -> shortable proxy --
+  * China: CATL 宁德时代 (sz300750): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Midea Group 美的集团 (sz000333): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Yangtze Power 长江电力 (sh600900): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: BYD 比亚迪 (sz002594): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * Taiwan: MediaTek 聯發科 (2454): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+  * Taiwan: Chunghwa Telecom 中華電 (2412): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+
+research only, not financial advice. verify before acting.
+
+########## RUN 2026-06-28 22:00:03 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-28T14:00:04+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+=======================================================================================================================================================================================================================================================================
+=== OPPORTUNITY TABLE (ranked by per-trade EXPECTED SHARPE) ===
+   MARKETS OPEN NOW (2026-06-28T14:10:01+00:00): CRYPTO
+   RULE: only instruments whose market is OPEN/just-closed with a FRESH quote are shown -- stale prices are never actionable.
+   YOUR BAR: E[R]>=+1%/trade  sigma<=5%  Sharpe>=0.40  sample n>=20  horizon<=5d  t>=2 (Bonferroni-adj.)  OOS edge>0
+   E[R]=NET backtested expected return (after costs)  sigma=std-dev of outcomes (the risk)  Sharpe=E[R]/sigma
+   t=significance of E[R]>0 (>=2 ~ 95%, raised for #tests)  oosS=out-of-sample Sharpe (recent 30% held out; must stay positive)
+Instrument                  中文/名   Sym        Market  Dir             Price now (date ET)    Chg%   E[R]%  sigma%   Sharpe t-stat   oosS   Win%     n    R:R  Risk%   ATR%  Kelly%     Entry      Stop  Exit/Tgt  Tech              News        Data     
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  (only CRYPTO is open right now and no positive-expectancy crypto edge was measured -- stand aside until equity/FX sessions open.)
+  (48 instruments shown without expectancy -- no free daily history (China A-share/Taiwan); cannot estimate Sharpe, excluded from rank)
+
+-- SHORT-RESTRICTED MARKETS -> shortable proxy --
+  * China: CATL 宁德时代 (sz300750): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Midea Group 美的集团 (sz000333): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Yangtze Power 长江电力 (sh600900): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: BYD 比亚迪 (sz002594): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * Taiwan: MediaTek 聯發科 (2454): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+  * Taiwan: Chunghwa Telecom 中華電 (2412): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+
+research only, not financial advice. verify before acting.
+
+########## RUN 2026-06-28 23:00:01 CST ##########
+=== WORLD-TRADER GLOBAL SCAN  2026-06-28T15:00:02+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+=======================================================================================================================================================================================================================================================================
+=== OPPORTUNITY TABLE (ranked by per-trade EXPECTED SHARPE) ===
+   MARKETS OPEN NOW (2026-06-28T15:12:08+00:00): CRYPTO
+   RULE: only instruments whose market is OPEN/just-closed with a FRESH quote are shown -- stale prices are never actionable.
+   YOUR BAR: E[R]>=+1%/trade  sigma<=5%  Sharpe>=0.40  sample n>=20  horizon<=5d  t>=2 (Bonferroni-adj.)  OOS edge>0
+   E[R]=NET backtested expected return (after costs)  sigma=std-dev of outcomes (the risk)  Sharpe=E[R]/sigma
+   t=significance of E[R]>0 (>=2 ~ 95%, raised for #tests)  oosS=out-of-sample Sharpe (recent 30% held out; must stay positive)
+Instrument                  中文/名   Sym        Market  Dir             Price now (date ET)    Chg%   E[R]%  sigma%   Sharpe t-stat   oosS   Win%     n    R:R  Risk%   ATR%  Kelly%     Entry      Stop  Exit/Tgt  Tech              News        Data     
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  (only CRYPTO is open right now and no positive-expectancy crypto edge was measured -- stand aside until equity/FX sessions open.)
+  (49 instruments shown without expectancy -- no free daily history (China A-share/Taiwan); cannot estimate Sharpe, excluded from rank)
+
+-- SHORT-RESTRICTED MARKETS -> shortable proxy --
+  * China: CATL 宁德时代 (sz300750): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Midea Group 美的集团 (sz000333): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Yangtze Power 长江电力 (sh600900): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: BYD 比亚迪 (sz002594): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * Taiwan: MediaTek 聯發科 (2454): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+  * Taiwan: Chunghwa Telecom 中華電 (2412): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+
+research only, not financial advice. verify before acting.
+

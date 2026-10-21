@@ -1,0 +1,20 @@
+=== agent A6_reversal round r6 start Sun Aug 30 13:44:55 CST 2026 ===
+r6 executed: idea1 pairs 7 cfgs (SR .15-.33), idea2 leadlag 9 cfgs (SR -.79...42, +beta-ranked variant h10 SR .62 fail gate d/corr), idea3 52wh 7 cfgs (SR -.27...17), idea4 drift 6 cfgs (SR -.23...26). 0 saves. see FINDINGS.md.
+Round r6 complete. Summary of what happened:
+
+## ROUND r6 — NEW-FAMILY directive: 0/4 ideas saved, all killed at gate (a)
+
+**Idea 1 — Pair-trading lite** (top-40 same-cluster pairs via corr-clustering proxy — no sector metadata exists in the repo; `buffett_sectors.json` turned out to be a boolean map, not a sector classification): 7 configs of z-entry/exit/window/topN → **SR 0.15–0.33 net**, worst year −8% to −23.4%, negYr 6–11. Independent confirmation: the library's own StatArb_40pairs sleeves on this universe are SR −0.46/−0.09. CorrM ≈ 0 — the edge is simply absent, not mis-sized.
+
+**Idea 2 — Lead-lag mega→small**: 9 configs (liquidity-ranked, both-side, reverse, corr-ranked). Best honest variant (corr-ranked, 10d signal): SR 0.62, but worst year −19.4% (11pp past the −8% floor) and corrM6 +0.36 > 0.35 — and at h10 it degenerates into a small-cap trend book, not lead-lag. No 1d lead-lag premium exists here.
+
+**Idea 3 — 52w-high momentum**: 7 configs (monthly/weekly, EW/inv-vol, ±mom>0, MA150 gate): SR −0.27 to 0.17, recurring 2014 −29% / 2025 −12 to −16%. Anomaly absent in this 298 mega-cap panel.
+
+**Idea 4 — Earnings-drift proxy**: annual fundamentals have no filing dates → conservative PIT (+182d after FY-end). Rev-growth × new-52w-high, 6 configs: SR −0.23 to 0.26. Also flagged: the fundamentals file looks like current constituents (501 symbols) → survivorship bias makes even these numbers optimistic. The no-fundamental control scores the same → overlay adds nothing.
+
+**Key post-mortem** (the r1/r3 methodology): gross-vs-net decomposition shows gross SRs of 0.48–0.65 across all four ideas' best configs — even gross, nothing reaches the 0.7 gate. Cost drag was modest (0.6–2.6%/yr). The killer is the **premium, not costs**; scramble/plateau gates were never reached (all 22+ configs dead at gate a).
+
+**Infra**: `r6_lib.py` (gates + 6-leg champion corr + scramble), 4 idea scripts, and a verified one-shot repro `campaign/scripts/a6_r6_new_families.py` (reproduces every headline number above). One pandas broadcasting bug (`.gt(series, axis=0)` misalignment) and one heredoc-induced syntax error caught and fixed before any numbers were reported.
+
+FINDINGS.md appended with the numbered summary; last line is exactly `ROUND r6 DONE`. Honest bottom line for the coordinator: A6 has now exhausted both assigned families (40+ ideas, 6 rounds, 2 saves — both champion-internal r2 pairs); the r4/r5 recommendation stands (champion-level re-budget of the A6_pair_fm leg to vt18), and any further A6 round should carry an external-family mandate.
+=== agent A6_reversal round r6 end Sun Aug 30 14:13:48 CST 2026 exit 0 ===

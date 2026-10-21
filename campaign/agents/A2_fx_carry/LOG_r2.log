@@ -1,0 +1,29 @@
+=== agent A2_fx_carry round r2 start Fri Aug 28 21:11:46 CST 2026 ===
+Warning: no stdin data received in 3s, proceeding without it. If piping from a slow command, redirect stdin explicitly: < /dev/null to skip, or wait longer.
+Round r2 complete. Summary of what was executed:
+
+## Session report — A2_fx_carry r2
+
+**Infrastructure built:** `campaign/scripts/a2_lib.py` — PIT-correct COT loader (report Tue → +4 trading-day release lag → weekly signal → next-week trade), market→proxy mapping (TFF→SPY/QQQ/synth-UST-TR/FX from FRED; legacy COT→XAU/SLV/COPX/WTI/NATGAS), all through harness t1/cost/vt10.
+
+**16 ideas / ~30 configs tested, honest verdicts:**
+
+| Family | Result |
+|---|---|
+| Charter 1a (lev-fund z-fade) | Best SR 0.44, non-plateau — FAIL |
+| Charter 1b (AM momentum) | Best SR 0.41 — FAIL |
+| Charter 1c (extreme vetoes) | SR 0.29-0.33, vetoes don't help — FAIL |
+| Charter 2 (FRED TSMOM breadth) | SR 0.13-0.36, H2 decay — FAIL |
+| Charter 3 (gold/silver ratio) | MR dead; gold w126 SR 0.54 is isolated spike — FAIL |
+| Charter 4 (WTI-Brent MR, Cu/Au) | MR passed 4/5 gates (SR 0.63, plateau, halves, yearly) but **scramble p=0.35** — regime bet, not signal. Cu/Au dead |
+| Legacy COT follow | 0.83 "pass" exposed as **stale-signal artifact** (COT ends 2017; live era SR 0.14) — REJECTED |
+| Bonus: curve flattener / rates trend / rates LF / credit MR / BLEND4 | UST2 LF 378d **SR 1.45, halves 1.50/1.45** but 5 neg years > 2; BLEND4 SR 0.83, corr ≤0.10, 4 soft neg years — both FAIL on yearly gate only |
+
+**Key findings logged to FINDINGS.md:**
+1. Nothing saved — every gate enforced, including rejecting the idea-21 artifact.
+2. Gate (d) (≤2 neg years over 15-27y) effectively requires SR ≳ 1.2 for symmetric books — coordinator calibration feedback included.
+3. Scramble methodology note: test must run on pre-vt returns (post-vt inflates null).
+4. BLEND4 (corr ≤0.10, worst year −2.6%) flagged as first candidate if gate (d) is ever revisited.
+
+FINDINGS.md ends with `ROUND r2 DONE`; session logged to LOG.md; sleeves dir correctly empty. ~35 tool calls used.
+=== agent A2_fx_carry round r2 end Fri Aug 28 21:37:33 CST 2026 exit 0 ===

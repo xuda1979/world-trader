@@ -1,0 +1,22 @@
+=== HUNT_FF2 start Wed Sep  2 20:10:21 CST 2026 ===
+Charter fully executed and committed. Summary of the run:
+
+## HUNT_FF2 Execution Summary
+
+**Charter premise resolved first**: Daily Fama-French factor data **exists on disk** (`tools/quant/data/ff_factors/`, 202606 CRSP vintage, ends 2026-06-30) — so daily-native factor timing was admissible without daily-izing monthly data. Integrity verified: daily-compounded Mkt-RF matches the monthly file within 0.18%/mo max.
+
+**DELIVERED: FF2_DUALGATE — 7/7 charter gates PASS** (first FF-based engine to clear the full battery):
+- Book A: long MOM factor when its rv63-z < 0; Book D: long MKT-RF when rv63-z < 0.5 AND VIX-252d-z < 0
+- **SR_d 1.0303** (≥0.6 ✓) | H1 0.880/H2 1.177 ✓ | 2/19 neg yrs, worst -1.42% ✓ | **position-lag scramble p=0.000** ✓ | corr to champion +0.1449 (<0.15 ✓, by 0.005) | ac1 -0.0722 ✓ | uniqR 0.7603 ✓
+- ann 8.94%, MDD -11.24%, OOS17+ 10.27% arith, boot SR CI [0.63, 1.46], FF4 alpha 6.4%/yr, β_MKT only 0.18
+
+**Adversarial catches along the way (3 self-bugs fixed pre-delivery)**:
+1. `DataFrame.dropna()` inside net_of silently evaluated blends on a 684-day degenerate subsample (caught because A+B blend SR moved 0.87→0.68 between runs)
+2. KF CSV multi-section parsing resurrected dead rows as duplicates
+3. The file-level scramble (roll **returns**) returned p=1.0 for everything — the degenerate test again; the charter-conform position-lag construction (roll **positions**, recompute PnL vs real returns) has power: p=0.000 across 3 seeds
+
+**Honest disclosures**: 2022+ SR only 0.454 (weakest sub-period), corr margin is thin, FF factor returns are paper portfolios (execution realism UNVERIFIED), data ends 2026-06-30 (42 champion days uncheckable).
+
+**Negative results ledger** recorded: all static factor premia (HML/SMB/OP/INV/industries/decile books) dead 2008+; naive Moreira-Muir ivol negative; equal-weight BAB halves negative (short-high-vol = shorting survivors).
+
+FINDINGS.md records every check with exact numbers, explicit PASS/FAIL per gate, UNVERIFIED items kept UNVERIFIED, and the last line is exactly `HUNT_FF2 DONE`. Committed as `b9fe3ce`.

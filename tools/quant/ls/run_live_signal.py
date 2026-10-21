@@ -1,0 +1,225 @@
+"""Live portfolio signal for the frozen CAPM-alpha strategy.
+
+Loads the champion config (validation_test/mkt_full), runs the full
+walk-forward pipeline on the LATEST available data, and prints the
+current recommended portfolio: 13 long / 13 short with weights, net
+and gross exposure, beta, and the trend-gate state (risk-on/off).
+
+Honesty: the pipeline uses only data up to each signal date (future-
+function guards + T+1 execution inside the runner); the printed
+portfolio is the last walk-forward decision, not a re-fit on today.
+
+Usage:
+  python -m tools.quant.ls.run_live_signal            # print + save JSON
+"""
+from __future__ import annotations
+import os, sys, json
+
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
+if ROOT not in sys.path:
+    sys.path.insert(0, ROOT)
+
+from tools.quant.ls.config import Config
+from tools.quant.ls import runner
+
+# 2026-08-13: MIGRATED to the polygon champion (n10_r14, SR 1.61 on
+# current data, scramble PASS). The twelvedata config FAILS on the
+# extended panel (SR -0.19 on 20y, +0.03 on 8y — RESEARCH_LOG
+# 2026-08-12). Backup of the old config: run_live_signal.py.bak.2026-08-13
+CHAMPION_CFG = os.path.join(ROOT, "tools/quant/ls/results/live_signal_polygon/config.json")
+OUT_JSON = os.path.join(ROOT, "tools/quant/ls/results/live_signal.json")
+SCREEN_STATE = os.path.join(ROOT, "tools/quant/ls/results/live_screen_state.json")
+
+
+def check_screen_state(kept: list, baseline_path: str = SCREEN_STATE) -> dict:
+    """Screen-stability guard: alert when the IC screen's kept factor set
+    drifts materially from the last known-good state (the 2026-08-12 panel
+    extension shrank the h21 screen from 3 factors to vol_60d only - a
+    silent live-config degradation risk). Status: ok | shrunken | changed.
+    """
+    import collections
+    kept = sorted(kept)
+    baseline = {}
+    if os.path.exists(baseline_path):
+        try:
+            with open(baseline_path) as f:
+                baseline = json.load(f)
+        except Exception:
+            baseline = {}
+    prev = sorted(baseline.get("kept_factors", []))
+    status, warning = "ok", None
+    if prev and set(kept) != set(prev):
+        if set(kept) < set(prev) and len(kept) < len(prev):
+            status = "shrunken"
+            warning = (f"IC screen factor set SHRUNK: {prev} -> {kept}. "
+                       f"Model quality may have degraded (panel/data state change?).")
+        else:
+            status = "changed"
+            warning = f"IC screen factor set changed: {prev} -> {kept}."
+    with open(baseline_path, "w") as f:
+        json.dump({"kept_factors": kept, "as_of": __import__("datetime").date.today().isoformat()},
+                  f, indent=2)
+    return {"kept_factors": kept, "screen_status": status, "screen_warning": warning}
+
+
+def main() -> int:
+    with open(CHAMPION_CFG) as f:
+        d = json.load(f)
+    d.pop("name", None)
+    d.pop("out_dir", None)
+    d["plot"] = False
+    d["data_dir"] = "tools/quant/data/polygon"
+    d["verbose"] = False
+    cfg = Config(**d)
+    cfg.name = "live_signal"
+
+    res = runner.run(cfg)
+    m = res.get("metrics", {})
+    result = res.get("result") or {}
+    holdings = result.get("holdings")
+    risk_log = result.get("risk_log")
+    screen = check_screen_state(list(res.get("kept_factors", [])))
+
+    # ------------------------------------------------------------------
+    # SCREEN-STABILITY HARD GUARD (incident 2026-08-13 hardening).
+    # The polygon champion's edge depended on the ICIR screen selecting the
+    # ORIGINAL 5-factor set [liq_turnover mom_12_1m range_vol_60d
+    # resid_mom_6m vol_60d]. When the screen degrades / falls back to a
+    # momentum-heavy set, SR collapsed to negative (RESEARCH_LOG 2026-08-13).
+    # Never emit a tradable long/short on a degraded screen: mark the signal
+    # HOLD and zero the holdings so an operator cannot act on it.
+    # ------------------------------------------------------------------
+
+    # ------------------------------------------------------------------
+    # DECOMMISSION GATE (2026-08-13 CAPSTONE). RESEARCH_LOG 2026-08-13:
+    # the polygon champion's edge is PROVEN ILLUSORY - a sub-basis-point
+    # (0.00007%) volume-rounding difference (polygon exact-share-count vs
+    # twelvedata round-to-nearest-100) inverts SR from +0.35 to -0.10, and
+    # the ensemble mean is -0.36 (0% positive). `liq_turnover` is a kept
+    # factor yet is pure rounding noise; every reported SR (1.686/0.86/0.49/
+    # 0.35) was a data-precision artifact. DO NOT TRADE THIS STRATEGY until
+    # it is re-derived on a volume-consistent feed AND cross-validated such
+    # that an independent volume feed does not invert SR (the acceptance
+    # gate). Force HOLD unconditionally.
+    # ------------------------------------------------------------------
+    DECOMMISSIONED = True
+    if DECOMMISSIONED:
+        print("!!! DECOMMISSION GATE: polygon champion edge proven illusory "
+              "(sub-bp volume artifact, RESEARCH_LOG 2026-08-13). "
+              "Forcing HOLD.")
+        as_of = "unknown"
+        if holdings is not None and not holdings.empty:
+            as_of = str(holdings.index[-1].date())
+        _hold = {
+            "as_of": as_of,
+            "trend_gate": "HOLD (decommissioned: illusory edge)",
+            "kept_factors": list(screen["kept_factors"]),
+            "screen_status": "decommissioned",
+            "screen_warning": ("polygon champion edge proven illusory "
+                               "(0.00007% volume-rounding artifact inverts SR); "
+                               "strategy decommissioned until re-derived + "
+                               "cross-validated on volume-consistent feed"),
+            "gross_exposure": 0.0,
+            "net_exposure": 0.0,
+            "avg_abs_beta": 0.0,
+            "annualized_sharpe_daily_returns": m.get("sharpe"),
+            "annualized_return": m.get("annual_return"),
+            "max_drawdown": m.get("max_drawdown"),
+            "longs": [],
+            "shorts": [],
+            "action": "HOLD",
+        }
+        with open(OUT_JSON, "w") as f:
+            json.dump(_hold, f, indent=2)
+        print(f"Saved HOLD signal -> {OUT_JSON} (decommissioned, no positions)")
+        return 0
+
+    GOOD_SCREEN = {"liq_turnover", "mom_12_1m", "range_vol_60d",
+                   "resid_mom_6m", "vol_60d"}
+    kept_now = set(screen["kept_factors"])
+    screen_ok = len(kept_now) >= 3 and kept_now == GOOD_SCREEN
+    if not screen_ok:
+        print("!!! SCREEN-STABILITY GUARD TRIPPED: kept factors = "
+              f"{screen['kept_factors']} (expected {sorted(GOOD_SCREEN)}).")
+        print("    Emitting HOLD (flat) — refusing to act on a degraded factor screen.")
+        as_of = "unknown"
+        if holdings is not None and not holdings.empty:
+            as_of = str(holdings.index[-1].date())
+        signal = {
+            "as_of": as_of,
+            "trend_gate": "HOLD (screen-guard)",
+            "kept_factors": list(kept_now),
+            "screen_status": "guarded",
+            "screen_warning": (screen["screen_warning"]
+                               or "kept factor set differs from known-good champion set"),
+            "gross_exposure": 0.0,
+            "net_exposure": 0.0,
+            "avg_abs_beta": 0.0,
+            "annualized_sharpe_daily_returns": m.get("sharpe"),
+            "annualized_return": m.get("annual_return"),
+            "max_drawdown": m.get("max_drawdown"),
+            "longs": [],
+            "shorts": [],
+            "action": "HOLD",
+        }
+        with open(OUT_JSON, "w") as f:
+            json.dump(signal, f, indent=2)
+        print(f"Saved HOLD signal -> {OUT_JSON} (no positions)")
+        return 0
+
+    if holdings is None or holdings.empty:
+        print("No holdings available (no valid predictions).")
+        return 1
+
+    last_date = holdings.index[-1]
+    w = holdings.iloc[-1]
+    longs = w[w > 0].sort_values(ascending=False)
+    shorts = w[w < 0].sort_values()
+
+    # Trend-gate state: most recent trend_gate event
+    gate_state = "risk-on"
+    if risk_log is not None and not risk_log.empty and "type" in risk_log.columns:
+        tg = risk_log[risk_log["type"] == "trend_gate"]
+        if not tg.empty:
+            last_tg = tg.iloc[-1]
+            gate_state = "RISK-OFF (flat)" if bool(last_tg.get("trend_off", False)) else "risk-on"
+
+    signal = {
+        "as_of": str(last_date.date()),
+        "trend_gate": gate_state,
+        "action": "TRADE",
+        "kept_factors": screen["kept_factors"],
+        "screen_status": screen["screen_status"],
+        "screen_warning": screen["screen_warning"],
+        "gross_exposure": float(holdings.iloc[-1].abs().sum()),
+        "net_exposure": float(holdings.iloc[-1].sum()),
+        "avg_abs_beta": m.get("avg_abs_beta"),
+        "annualized_sharpe_daily_returns": m.get("sharpe"),
+        "annualized_return": m.get("annual_return"),
+        "max_drawdown": m.get("max_drawdown"),
+        "longs": [{"ticker": t, "weight": round(float(weight), 4)}
+                  for t, weight in longs.items()],
+        "shorts": [{"ticker": t, "weight": round(float(weight), 4)}
+                   for t, weight in shorts.items()],
+    }
+    with open(OUT_JSON, "w") as f:
+        json.dump(signal, f, indent=2)
+
+    print(f"=== LIVE SIGNAL — CAPM-alpha strategy (as of {signal['as_of']}) ===")
+    print(f"Trend gate : {gate_state}")
+    print(f"IC screen  : kept {screen['kept_factors']} [{screen['screen_status']}]")
+    if screen["screen_warning"]:
+        print(f"  !! {screen['screen_warning']}")
+    print(f"Gross      : {signal['gross_exposure']:.2f}  Net: {signal['net_exposure']:.3f}")
+    print(f"Backtest   : ann. Sharpe (daily ret) {signal['annualized_sharpe_daily_returns']:.2f} | "
+          f"ann. return {signal['annualized_return']*100:.1f}% | max DD {signal['max_drawdown']*100:.1f}%")
+    print("\nLONG  (weight):", ", ".join(f"{t} {weight:+.3f}" for t, weight in
+                                        [(x["ticker"], x["weight"]) for x in signal["longs"]]))
+    print("SHORT (weight):", ", ".join(f"{t} {weight:+.3f}" for t, weight in
+                                       [(x["ticker"], x["weight"]) for x in signal["shorts"]]))
+    print(f"\nSaved -> {OUT_JSON}")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

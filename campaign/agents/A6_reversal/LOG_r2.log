@@ -1,0 +1,21 @@
+=== agent A6_reversal round r2 start Fri Aug 28 21:25:43 CST 2026 ===
+Round r2 executed. Summary:
+
+## Results
+
+**Mission 1 — faster regime exit for gated resid-mom: FAIL (documented)**
+- VIX 21d-percentile veto is the wrong tool (fires ~30–40% of days by construction; latch kept the sleeve out for months, SR 0.06–0.31); vix>vix63ma veto improved 2022 to −8.1% but collapsed SR to 0.60; MA126/180 no better than MA150.
+- **New finding (mine): ddEntry gate** — require 20d (not 10d) re-entry confirmation when market is >15% below its 252d high. Kills the Dec-2022 bear-rally trap, lifts raw SR to 1.08 (best of the campaign for this family), and 2022-ex-Jan is only −3.6% — but Jan-2022 pre-exit (−9.0% in <15 trading days) is structurally unreachable without lookahead.
+- **Caught one artifact before it lied to me**: a "2022 −0.1%, SR 0.96 PASS" came from scaling by price-level std (~5000–14000) instead of return std, which clipped the 10% vol-target to its 5x leverage cap. Honest return-based scaling leaves 2022 at −10.5 to −12.3%. Also: expanding-window vol targeting *amplifies* Jan-2022 (quiet 2021 → max leverage into the crash: raw −12.3% → −16.0%).
+
+**Mission 2 — beta-conditioned LO-reversal / 130/30: FAIL**
+- Low-beta losers make 2008 *worse* (−16 to −24%, falling knives); 130/30 short overlays fix 2022 but detonate 2007 (−19%, quant quake) and 2008. Family remains unsalvageable to gate d.
+
+**Mission 3 — PAIR sleeves: 2 SAVED, first A6 sleeves of the campaign**
+- **Critical gate fix**: lib6's scramble was degenerate (path-shuffling realized returns preserves mean/std → p=0.91 on pure noise; every scramble result to date was meaningless). Replaced with proper 200x circular weight-path signal-scramble.
+- `a6_r2_pair_residmom_fm1926` (0.5 gated resid-mom + 0.5 FactorMom_1926): **SR 0.91**, H1 0.92/H2 0.91, 1 neg year (−0.7%), 2022 +0.4%, scramble p=0.000, 13-neighbor plateau min 0.80 vs peak 0.99.
+- `a6_r2_pair_residmom_msew` (+ Multi_Strategy_EW): **SR 0.88**, H1 0.70/H2 1.11, worst year −3.7%, scramble p=0.000, plateau min 0.82 vs peak 0.92.
+- Both saved with reproducible scripts in `campaign/scripts/`, CSV+meta in sleeves/, verified through the shared `eval.py`. Six other pair combinations rejected on gates (worst: rm+L_S_130_30, 2009 −28.5%).
+
+FINDINGS.md appended and ends with exactly `ROUND r2 DONE`.
+=== agent A6_reversal round r2 end Fri Aug 28 21:52:35 CST 2026 exit 0 ===

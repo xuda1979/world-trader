@@ -1,0 +1,19 @@
+=== STATS_REVIEW start Wed Sep  2 15:57:57 CST 2026 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609021610056989231a68c343aa]
+=== STATS_REVIEW start Wed Sep  2 18:41:54 CST 2026 ===
+Charter executed in full. Summary of what was done and found:
+
+**Verification approach:** computed everything on the committed-file bytes with my own code (scratch scripts saved), plus independent builder reproduction.
+
+**Key results (BAL, 2008-03-31..2026-08-27, n=4616):**
+- ann 45.66% | SR_d 4.029 CI [3.549,4.549] | SR_m 4.095 CI [3.578,4.794] | MaxDD -5.60% (= worst 3y subwindow) | worst 1y window **+11.20%** | 0/19 neg years, worst 2011 +15.12% | OOS17+/20+/23+ = 51.8/50.3/52.0% ann — no OOS decay
+- **SR≥5 FAILS on CI grounds** (upper CI 4.55 daily, 4.79 monthly)
+- **DSR at N=500 is anchor-dependent:** survives (DSR>0.95) only if cross-trial SR dispersion ≤1.178; measured 11-sleeve dispersion 1.442 → DSR 0.078. Not certifiable; PSR vs 0 is certain though
+- Ljung-Box(10) p=1.1e-4 rejects white noise but with **conservative** sign (ac1 −0.070 → AR(1)-consistent SR 4.32); squared returns implausibly clean (p=0.99995) — disclosed
+- 24σ day: Student-t (df 2.14) says once/~34y, Poisson bound once/~6y; **a −14.4% day breaches MaxDD≤7% from every state** (−19.2% from current DD); EVT fits degenerate and rejected
+- **Leverage FAIL:** capital-real gross mean 3.37x (p95 6.95, max 10.64, 90.9% of days >1.6, 19/19 years >1.6); ≤1.6x caps ann at **~18.9%**; ann 80% unreachable even at 5.13x gross (76.94% with DD wall breached at −7.13%)
+- Final table: **FAIL** on Ann≥80, SR≥5, lev≤1.6; **PASS** on MaxDD≤7 (history) and 0-neg-years; binding definition = capital-real all-in gross
+
+**New findings:** FIX CSVs are untracked in git (provenance hole until committed — recipe reproduces at 1e-16, so commit closes it); charter metadata wrong (n is 4616 comparable-span not 4522; data end 2026-08-27 not 2026-07); Good-Friday kept rows are conservative (+5.6bp mean; dropping them would *raise* ann); honesty fixes cost −1.98pp ann vs L16 on common span.
+
+FINDINGS.md written with all exact numbers, UNVERIFIED items listed, last line `STATS_REVIEW DONE`.

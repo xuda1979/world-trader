@@ -1,0 +1,22 @@
+=== agent A3_xs_quality round r4 start Sun Aug 30 12:34:08 CST 2026 ===
+Round r4 complete. **0 of 4 charter ideas saved — every verdict is a genuine gate failure, verified with the corrected pipeline.**
+
+## Summary
+
+| # | Idea | Key numbers | Verdict |
+|---|------|-------------|---------|
+| 0 | QA_dualmom re-vol vt15 (fast win) | SR 0.89 stays, but 2022 scales −4.3%→**−6.4%**; max vt passing gate(d) = 11.6% (0.997-corr duplicate) | **FAIL gate (d)** + duplicate |
+| 1 | 12-1 momentum LO top-quintile, MA gate, vt15 | Best SR 0.99, H1 1.12/H2 0.83, but worst year −8.6%; worst-year spans −2.2…−12.7% across adjacent grid cells (param lottery); all 54 cells corr **0.63-0.68** to champion | **FAIL gates (b)/(d) + corr cap** |
+| 2 | PIT stat-sector-mom top-2 clusters, gated vt15 | Best cell K20: SR **1.10**, 1 neg yr (−1.7%), ann 17.5%, scramble p=0.995 — passes all standard gates, but corr **0.395 to champion** (>0.3), **0.604 to my own dualmom** (redundant), K has no plateau (K8/12: 2-7 neg yrs) | **FAIL mission corr + duplicate + no plateau** |
+| 3 | Earnings-mom proxy (6-1 mom × fresh PIT fundamentals) | 0/8 cells pass; best SR 0.87, H2 0.61, 4 neg yrs, worst −13.3%; fresh24≈fresh14 → conditioning is **inert**, it's just momentum | **FAIL** |
+
+## Honest-process notes
+- **Caught my own bug before any verdict**: first idea-0 run forgot the r1 lesson (trim to active window before vol targeting), showing vt10 SR 0.85; corrected to 0.89 exactly matching the saved sleeve, then re-ran everything through `r4lib`.
+- **No gate-shopping**: idea 1 had gw200 cells that "passed" — rejected the whole family because neighbors fail and corr cap binds everywhere. Idea 2's tempting SR-1.10 cell rejected on corr/duplicate/no-plateau despite passing gates a-f and scramble.
+- **Charter's premise was gate-blind**: vt15 raise is arithmetically SR-neutral but tails scale linearly, so ann≥12% + worst-year>−5% is infeasible for this gated-long-only family at any vt.
+- **Fact-check**: charter said reuse A1's clustering — A1's dirs contain no clustering code (only a macro-CTA program); I documented that and built a minimal PIT trailing-correlation hierarchical version.
+
+**Strategic conclusion**: the binding constraint is the |corr|≤0.3 mission cap — every gated long-only equity variant lands 0.37-0.68 vs CHAMPION_FINAL. Next round A3 should go short-side/overlay/conditioned, or accept duplicate status.
+
+FINDINGS.md updated with the numbered summary; last line is exactly `ROUND r4 DONE`. ~19 tool calls used.
+=== agent A3_xs_quality round r4 end Sun Aug 30 12:59:39 CST 2026 exit 0 ===

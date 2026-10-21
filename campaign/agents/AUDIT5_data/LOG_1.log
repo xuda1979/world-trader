@@ -1,0 +1,19 @@
+=== audit agent AUDIT5_data start Tue Sep  1 13:59:06 CST 2026 ===
+Audit complete. FINDINGS.md is written to `campaign/agents/AUDIT5_data/FINDINGS.md` with the exact last line `AUDIT DONE`.
+
+## Key findings (all numbers computed fresh from disk)
+
+**Item 1 — Survivorship: CONFIRMED and quantified**
+- Panel EW (daily rebal) 2006–2026: **+2.68pp/yr over FF VW market** (14.05% vs 11.36%) — and this is a *lower bound* since panel closes are split-adjusted only (verified AAPL 77.01/(7×4)=2.7718), missing ~2pp/yr dividends → true TR gap ≈ +4–5pp/yr
+- Gap is **regime-dependent**: +13.5pp in 2009, but **−11.3pp in 2024**; sign flips to −3.4pp/yr for a settled-universe annual-rebalance variant
+- **5/20 V4 champion slots are panel-based** (H21×2, XGB1y, MHX, dualmom) = 33% of vt10 contribution; XGB books' SR under a PIT universe remains UNVERIFIED (unquantifiable optimism)
+- New corruption found: **corrupt CVS Sunday print 2009-07-26** (84.09 vs ~34 true) — the only Sunday row; it propagates into the champion V4 calendar (+0.276% on a non-trading day; stats impact nil); GM +78.5% (2010) and KDP +82.1% (2018) ticker-stitch phantoms hit non-champion library sleeves (EMN −5.0%, AP_gold +28.1%); one bad CMCSA print (2024-08-13)
+
+**Item 2 — FRED revisions: CLEAN.** Two independent snapshots (Aug-12 vs Aug-31 fetches) are bit-identical on all 8 overlapping series; all 130+ >20% day moves in DGS2/DHHNGSP/Brent/WTI map to real events (Lehman, Uri Feb-2021, COVID oil, Jan-2026 cold snap 4.96→30.72). No unit changes.
+
+**Item 3 — KF PIT: CLEAN.** Champion's only KF use is FF daily factors (T+1, `pos.shift(1)`); June-formation leakage N/A. B3momhml is **stale after 2026-06-30** (202606 CRSP vintage, zero-padded) — disclosed.
+
+**Item 4 — DHHNGSP stamping: UNVERIFIED from primary docs** (nothing on disk, no network). But the material empirical finding: under a 1-day publication-lag convention the saved **C5ng sleeve collapses SR 1.74 → 0.25** (1.56 → 0.16 unfiltered). The campaign applied exactly this lag discipline to carryv2's oil member (1.71→0.41, saved honestly) but **not** to C5ng/C5ngsum in the champion pool — the single most material data-timing risk found; a PIT rebuild verdict is needed before live use.
+
+**Item 5 — OHLCV cross-check: CLEAN.** 10 random names vs twelve_liq/twelvedata/polygon: 0.000% mean diff, corr 1.000000, 0 days >1% (except the single CMCSA print); 10 more names: 0 internal OHLC violations. Also flagged: `twelve_extend` is a 4-day stub (2026-08-14+) despite the harness comment claiming 440-name coverage.
+=== audit agent AUDIT5_data end Tue Sep  1 14:31:58 CST 2026 exit 0 ===

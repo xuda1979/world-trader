@@ -1,0 +1,301 @@
+{
+ "generated": "2026-09-07",
+ "agent": "CAMP_SHORT",
+ "round": 2,
+ "champion": "GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv",
+ "champion_validation": {
+  "max_abs_diff_vs_committed": 9.996344030316351e-17,
+  "n_days": 4805,
+  "span": "2008-03-31..2026-08-27",
+  "method": "independent rebuild (nav.shift(1) causal) vs committed CSV, sleeve inputs pinned to git HEAD",
+  "input_mode": "git-HEAD-pinned sleeve inputs (champion IS the committed artifact)",
+  "note": "if input_mode reports DRIFT, a working-tree regen touched champion inputs after commit \u2014 deltas then include drift and the runbook rebuild_gap_ann_pp must be reported alongside them"
+ },
+ "committed_headline": {
+  "ann": 37.2,
+  "sr_d": 3.181,
+  "sr_m": 2.263,
+  "mdd": -6.69,
+  "neg_years": "0/19",
+  "worst_year_pct": 7.31
+ },
+ "rebuilt_headline": {
+  "ann": 37.2,
+  "sr_d": 3.181,
+  "sr_m": 2.263,
+  "mdd": -6.69,
+  "neg_years": "0/19",
+  "worst_year_pct": 7.31
+ },
+ "rebuild_gap_ann_pp": 0.0,
+ "convention": {
+  "cost": "FULL |dW| x 6.4bps, base is REBUILT T0 (port - costs - margin)",
+  "tier_delta": "short_notional_t x (tier_rate - base_rate)/252 per slot, summed",
+  "realistic": "re-price only slots with an actual stock-loan line (diescrack, CFX4)",
+  "bound": "re-price EVERY slot's short leg as cash borrow (deliberate overstatement)"
+ },
+ "slot_census": {
+  "brwt15": {
+   "instrument_class": "FUTURES_SPOT_ETF",
+   "mean_short_frac": 0.10656,
+   "mean_champ_short_notional": 0.022659,
+   "days_short": 512,
+   "pct_days_short": 10.66,
+   "charged_base_rate": 0.0
+  },
+  "brwt10": {
+   "instrument_class": "FUTURES_SPOT_ETF",
+   "mean_short_frac": 0.0949,
+   "mean_champ_short_notional": 0.034773,
+   "days_short": 456,
+   "pct_days_short": 9.49,
+   "charged_base_rate": 0.0
+  },
+  "brwt7": {
+   "instrument_class": "FUTURES_SPOT_ETF",
+   "mean_short_frac": 0.07617,
+   "mean_champ_short_notional": 0.024238,
+   "days_short": 366,
+   "pct_days_short": 7.62,
+   "charged_base_rate": 0.0
+  },
+  "brwt5": {
+   "instrument_class": "FUTURES_SPOT_ETF",
+   "mean_short_frac": 0.05494,
+   "mean_champ_short_notional": 0.015095,
+   "days_short": 264,
+   "pct_days_short": 5.49,
+   "charged_base_rate": 0.0
+  },
+  "C5ng": {
+   "instrument_class": "FUTURES_SPOT_ETF",
+   "mean_short_frac": 0.38335,
+   "mean_champ_short_notional": 0.053955,
+   "days_short": 1842,
+   "pct_days_short": 38.34,
+   "charged_base_rate": 0.0
+  },
+  "C5ngsum": {
+   "instrument_class": "FUTURES_SPOT_ETF",
+   "mean_short_frac": 0.23413,
+   "mean_champ_short_notional": 0.025757,
+   "days_short": 1125,
+   "pct_days_short": 23.41,
+   "charged_base_rate": 0.0
+  },
+  "A5r2": {
+   "instrument_class": "LONG_ONLY_CONSTRUCTION",
+   "mean_short_frac": 0.0,
+   "mean_champ_short_notional": 0.0,
+   "days_short": 0,
+   "pct_days_short": 0.0,
+   "charged_base_rate": 0.0
+  },
+  "a6r7": {
+   "instrument_class": "FUTURES_SPOT_ETF",
+   "mean_short_frac": 0.0,
+   "mean_champ_short_notional": 0.0,
+   "days_short": 0,
+   "pct_days_short": 0.0,
+   "charged_base_rate": 0.0
+  },
+  "QAxasts": {
+   "instrument_class": "FUTURES_SPOT_ETF",
+   "mean_short_frac": 0.41028,
+   "mean_champ_short_notional": 0.015458,
+   "days_short": 4179,
+   "pct_days_short": 86.97,
+   "charged_base_rate": 0.0
+  },
+  "carryv2": {
+   "instrument_class": "FUTURES_SPOT_ETF",
+   "mean_short_frac": 0.2052,
+   "mean_champ_short_notional": 0.004127,
+   "days_short": 986,
+   "pct_days_short": 20.52,
+   "charged_base_rate": 0.0
+  },
+  "dualmom": {
+   "instrument_class": "LONG_ONLY_CONSTRUCTION",
+   "mean_short_frac": 0.0,
+   "mean_champ_short_notional": 0.0,
+   "days_short": 0,
+   "pct_days_short": 0.0,
+   "charged_base_rate": 0.0
+  },
+  "diescrack": {
+   "instrument_class": "STOCKLOAN_0.5%",
+   "mean_short_frac": 0.06889,
+   "mean_champ_short_notional": 0.00196,
+   "days_short": 331,
+   "pct_days_short": 6.89,
+   "charged_base_rate": 0.005
+  },
+  "CFX4": {
+   "instrument_class": "STOCKLOAN_0.5%",
+   "mean_short_frac": 0.04706,
+   "mean_champ_short_notional": 0.0,
+   "days_short": 0,
+   "pct_days_short": 0.0,
+   "charged_base_rate": 0.005
+  }
+ },
+ "ladders": {
+  "050_100_300": {
+   "REALISTIC": {
+    "base": {
+     "ann": 37.2,
+     "sr_d": 3.181,
+     "sr_m": 2.263,
+     "mdd": -6.69,
+     "neg_years": "0/19",
+     "worst_year_pct": 7.31,
+     "delta_ann_vs_base": 0.0,
+     "borrow_drag_ann_pct": 0.001
+    },
+    "T1": {
+     "ann": 37.19,
+     "sr_d": 3.181,
+     "sr_m": 2.263,
+     "mdd": -6.69,
+     "neg_years": "0/19",
+     "worst_year_pct": 7.31,
+     "delta_ann_vs_base": -0.01,
+     "borrow_drag_ann_pct": 0.001,
+     "max_daily_delta_bps": 0.0186
+    },
+    "T2": {
+     "ann": 37.19,
+     "sr_d": 3.181,
+     "sr_m": 2.263,
+     "mdd": -6.69,
+     "neg_years": "0/19",
+     "worst_year_pct": 7.3,
+     "delta_ann_vs_base": -0.01,
+     "borrow_drag_ann_pct": 0.0049,
+     "max_daily_delta_bps": 0.0931
+    }
+   },
+   "BOUND": {
+    "base": {
+     "ann": 37.2,
+     "sr_d": 3.181,
+     "sr_m": 2.263,
+     "mdd": -6.69,
+     "neg_years": "0/19",
+     "worst_year_pct": 7.31,
+     "delta_ann_vs_base": 0.0,
+     "borrow_drag_ann_pct": 0.001
+    },
+    "T1": {
+     "ann": 36.92,
+     "sr_d": 3.163,
+     "sr_m": 2.249,
+     "mdd": -6.69,
+     "neg_years": "0/19",
+     "worst_year_pct": 7.06,
+     "delta_ann_vs_base": -0.28,
+     "borrow_drag_ann_pct": 0.198,
+     "max_daily_delta_bps": 0.6233
+    },
+    "T2": {
+     "ann": 36.39,
+     "sr_d": 3.126,
+     "sr_m": 2.222,
+     "mdd": -6.7,
+     "neg_years": "0/19",
+     "worst_year_pct": 6.56,
+     "delta_ann_vs_base": -0.81,
+     "borrow_drag_ann_pct": 0.5941,
+     "max_daily_delta_bps": 1.87
+    }
+   }
+  },
+  "050_200_800": {
+   "REALISTIC": {
+    "base": {
+     "ann": 37.2,
+     "sr_d": 3.181,
+     "sr_m": 2.263,
+     "mdd": -6.69,
+     "neg_years": "0/19",
+     "worst_year_pct": 7.31,
+     "delta_ann_vs_base": 0.0,
+     "borrow_drag_ann_pct": 0.001
+    },
+    "T1": {
+     "ann": 37.19,
+     "sr_d": 3.181,
+     "sr_m": 2.263,
+     "mdd": -6.69,
+     "neg_years": "0/19",
+     "worst_year_pct": 7.31,
+     "delta_ann_vs_base": -0.01,
+     "borrow_drag_ann_pct": 0.0029,
+     "max_daily_delta_bps": 0.0558
+    },
+    "T2": {
+     "ann": 37.18,
+     "sr_d": 3.18,
+     "sr_m": 2.262,
+     "mdd": -6.69,
+     "neg_years": "0/19",
+     "worst_year_pct": 7.29,
+     "delta_ann_vs_base": -0.02,
+     "borrow_drag_ann_pct": 0.0147,
+     "max_daily_delta_bps": 0.2792
+    }
+   },
+   "BOUND": {
+    "base": {
+     "ann": 37.2,
+     "sr_d": 3.181,
+     "sr_m": 2.263,
+     "mdd": -6.69,
+     "neg_years": "0/19",
+     "worst_year_pct": 7.31,
+     "delta_ann_vs_base": 0.0,
+     "borrow_drag_ann_pct": 0.001
+    },
+    "T1": {
+     "ann": 36.65,
+     "sr_d": 3.144,
+     "sr_m": 2.236,
+     "mdd": -6.7,
+     "neg_years": "0/19",
+     "worst_year_pct": 6.81,
+     "delta_ann_vs_base": -0.55,
+     "borrow_drag_ann_pct": 0.396,
+     "max_daily_delta_bps": 1.2467
+    },
+    "T2": {
+     "ann": 35.05,
+     "sr_d": 3.033,
+     "sr_m": 2.154,
+     "mdd": -6.71,
+     "neg_years": "0/19",
+     "worst_year_pct": 5.31,
+     "delta_ann_vs_base": -2.15,
+     "borrow_drag_ann_pct": 1.5842,
+     "max_daily_delta_bps": 4.9866
+    }
+   }
+  }
+ },
+ "realistic_vs_bound": {
+  "realistic_worst_delta_ann": -0.02,
+  "bound_worst_delta_ann": -2.15,
+  "gate_moves": "NO \u2014 0/19 neg years and MDD > -7% hold at every rung of both ladders"
+ },
+ "ops_runbook": {
+  "scenario_file": "campaign/results/CAMP_SHORT_SHORTABILITY_R2.json",
+  "pregate_entry_point": "bt.shortability.shortability_pregate (bt/shortability.py:45)",
+  "pregate_pipeline_order": "signal -> T+1 weights -> shortability_pregate -> costs -> gates",
+  "champion_headroom_ann_pp": 0.02,
+  "hard_tier_drag_realistic_ann_pct": 0.0147,
+  "hard_tier_drag_bound_ann_pct": 1.5842,
+  "gate_move_threshold": "any rung with neg_years > 0 or MDD <= -7% (vs rebuilt T0) -> escalate",
+  "escalation": "if gate_moves is YES: re-run work_r2/run_borrow_stress.py, inspect the offending slot's short_frac_*.csv, apply shortability_pregate to that sleeve before it re-enters the champion builder, then re-stress",
+  "status": "GREEN \u2014 gates hold at every rung of both ladders"
+ }
+}

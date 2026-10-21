@@ -1,0 +1,12 @@
+{
+ "sleeve": "CRYPTO_TSMOM21LO",
+ "instrument": "12-coin spot panel: BTC-USDT,ETH-USDT,BNB-USDT,LTC-USDT,ADA-USDT,XRP-USDT,LINK-USDT,SOL-USDT,DOGE-USDT,DOT-USDT,AVAX-USDT,MATIC-USDT",
+ "price_path": "tools/quant/data/more_crypto/{SYM}.csv close",
+ "price_source": "REAL (Binance Vision primary prints + twelvedata tail)",
+ "side": "LONG-ONLY (crypto not shortable at retail; shorts paper-only, disclosed)",
+ "signal": "tsmom lb21, sign(close_t - close_{t-21}), decided close t, position t+1 (T+1 via bt.engine.lag_signal)",
+ "sizing": "expanding-60 vol-target 10%/yr cap 3x (bt.engine.vol_target_scale), slot budget 1.0 split across listed coins, capital-real cap 1.0",
+ "costs": "6.4 bps/side on |dw| (bt.engine.cost_turnover); borrow 0 (long-only spot)",
+ "span": "2017-11-15 .. 2026-09-03 n=3215",
+ "gates": "see FINDINGS.md (short history: CANNOT satisfy 2008+ yearly gates; disclosed)"
+}

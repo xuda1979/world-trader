@@ -1,0 +1,19 @@
+{
+ "goal": "SR>=2, ann>=80%, MaxDD<=8%, no leverage, 6bps/side, free data, OOS, 20y (2008-2026)",
+ "verdict": "80% ann @ MaxDD<=8% no-leverage NOT achievable on free data; best honest = 43-45% (diversified OOS), 63% absolute non-robust concentrated bound",
+ "honest_frontier_no_leverage_maxdd8": [
+  {"ann_pct": 20.2, "SR": 3.34, "MaxDD_pct": -12.3, "note": "old champion WORLDTRADER8 (breaches DD cap)"},
+  {"ann_pct": 27,   "SR": 3.06, "MaxDD_pct": -8.0, "note": "EW 15-sleeve, session start, no new engines"},
+  {"ann_pct": 43.2, "SR": 4.84, "MaxDD_pct": -7.5, "note": "COORD_FINAL diversified OOS-validated (THIS SESSION)"},
+  {"ann_pct": 45.0, "SR": 4.71, "MaxDD_pct": -7.9, "note": "moderate brwt tilt, diversified"},
+  {"ann_pct": 62.9, "SR": 4.28, "MaxDD_pct": -7.8, "note": "concentrated brwt 35% + vol-amp: NOT robustly no-leverage, not OOS-safe"}
+ ],
+ "requirements_for_80": {
+  "needed_DD_return_ratio": 0.10,
+  "best_achieved_DD_return_ratio": 0.17,
+  "ratio_gap_x": 1.7,
+  "why": "SR~4.8 => 80% needs vol 16.7%; measured MaxDD/vol 0.84 => MaxDD ~14% at that vol, 1.8x over 8% cap; no real portfolio achieves DD/return 0.10"
+ },
+ "key_structural_finding": "Deep drawdowns occur at low-moderate VIX (14-33) from diffuse internal-sleeve losses, NOT market crashes; hence cannot be hedged by crash-contingent insurance (B1 proof).",
+ "session_delta": "Frontier raised from ~27% to ~43-45% ann @ MaxDD<=8% via new decorrelated Brent-WTI stat-arb engine (SR 2.5, 0/19 neg yrs)."
+}

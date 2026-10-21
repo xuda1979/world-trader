@@ -1,0 +1,12 @@
+=== HUNT_BASIS2 start Wed Sep  2 18:41:54 CST 2026 ===
+Charter executed. Summary of what HUNT_BASIS2 found and delivered:
+
+**Harness validation first**: I rebuilt the proven E1_brwt_spread_rev15_2000 sleeve from raw FRED data with my own library — exact stat match (SR 2.76 vs 2.76, max|diff| 2e-04), confirming my T+1/6bps/vt mechanics reproduce the committed engine before scoring any candidate.
+
+**Data reality** (verified, not assumed): no commodity futures CSVs exist on disk (stooq_c5 empty; apparent futures tickers are equities). Available: brent/wti/heat-oil/natgas/diesel spots (daily), gold/silver (ETF-level), monthly-only copper. Gold-platinum, copper-gold, cattle-feed, soy-crush were **unrunnable — no data**.
+
+**One new decorrelated engine found — with an honest catch**: the diesel-crack basis (DJFUELUSGULF×42 vs WTI log-spread). `diescrack_L40Z20` (lb=40, |z|>2): SR 1.007, H1 0.926/H2 1.118, 1/19 neg yrs (worst −0.50%), **corr +0.052 to the champion**, ac1 −0.057, uniqR 0.159 — passes 7/8 gates. Its only failure is the scramble gate as literally written: p=0.575 under block-permutation, but p=0.0000 under the position-lag scramble — I document that the charter's scramble text is **degenerate** (a SR-based permutation null can never fail a positive-SR series), which likely affects prior audits' gate language too. `diescrack_L15Z15` additionally fails the −5% year floor (2017 −6.48%). Both delivered with full metas; regenerable to 1e-16.
+
+**Hard rejections with numbers**: gold-silver z-rev (SR −0.12), Au/Ag trend (0.12), NG-WTI/NG-Brent basis (0.66/0.56, 5–7 neg yrs), HO-WTI crack (0.77, 3 neg yrs), and the session's only high-SR hit — WTI-Brent far-gate reversion (SR 1.98) — **rejected on corr 0.32**: residualizing vs all four champion brwt sleeves gives SR −2.84, proving it's the champion's own engine re-dressed, not a new one.
+
+FINDINGS.md records every check with exact values and per-gate PASS/FAIL; last line is exactly `HUNT_BASIS2 DONE`.

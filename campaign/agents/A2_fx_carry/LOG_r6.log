@@ -1,0 +1,26 @@
+=== agent A2_fx_carry round r6 start Sun Aug 30 13:44:21 CST 2026 ===
+r6 executed 2026-08-30: ON/ID decomposition built (data/O.pkl,C.pkl,on/id npy); economics: gross ON 4.7bp/d vs 12bp/d cost -> family cost-dead.
+idea32 always-on ON: net SR -0.50 (all gates fail). idea33 ON+TOM (7 windows): best -0.64. idea34 intraday-only: gross +3.1bp/d ALL windows positive, net -1.43 (regime finding logged). idea35 XS trailing-ON tilt: honest SR 0.08; unshifted = 1.34 lookahead trap documented. corr-to-champ 0.001. Sleeves saved: 0. ROUND r6 DONE
+Round r6 complete. Summary of what was done and found:
+
+## Execution summary — A2_fx_carry, round r6 (overnight/intraday split)
+
+**Setup:** Built the ON/ID decomposition for the full 298-panel (5005 tradable nights, 2006-09→2026-08), verified (1+on_t)(1+id_{t+1})−1 = close-to-close exactly, winsorized 4 legit corporate-action gaps (AIG/GM 2009, SOFI 2021), charged the charter-mandated 12bp/day round trip.
+
+**Ideas (all gates run; nothing passed even gate a):**
+
+| # | idea | result | verdict |
+|---|------|--------|---------|
+| 32 | Always-on overnight EW book | gross +4.7bp/d, net **SR −0.50** (all 21 years negative) | FAIL — breakeven cost ≈2.3bp/side vs mandated 6bp |
+| 33 | ON ∩ turn-of-month (7 windows) | TOM concentration real (last-td ON 8.6bp/d ≈ 2× mid-month) but best net SR −0.64 | FAIL |
+| 34 | Intraday-only book | **gross +3.1bp/d, positive in ALL four 5y windows**; net SR −1.43 | FAIL net; regime finding logged (contradicts "intraday negative" prior) |
+| 35 | XS tilt by trailing 252d mean ON | honest (shift-1) SR 0.08; oracle ceiling ≈ cost hurdle | FAIL + lookahead trap documented |
+
+**Key findings for the campaign:**
+1. **The family is cost-dead by an order of magnitude**: 30%/yr cost hurdle vs ~12%/yr raw premium. Even the best year ever (2021: 8.5bp/d gross) < daily cost. Per charter, the negative result is the deliverable.
+2. **Lookahead trap of the round**: an unshifted trailing-mean-of-ON signal scores SR 1.34 vs 0.08 honest — ON_t sits inside its own signal window. Same family as r2b's EIA publication-lag catch; generalizes to any signal whose window overlaps the booked return.
+3. corr-to-champion = 0.001 — the orthogonality promise was real, but there's no net return to diversify.
+4. If costs ever fall to ~1bp/side, **intraday** books (not overnight) become viable first.
+
+**Sleeves saved: 0** (nothing cleared FULL-SR ≥ 0.6). Scripts `r6_lib.py`, `idea32–35` reproducible. FINDINGS.md appended with the numbered summary; last line verified byte-exact: `ROUND r6 DONE` (~17 tool calls used).
+=== agent A2_fx_carry round r6 end Sun Aug 30 13:59:51 CST 2026 exit 0 ===

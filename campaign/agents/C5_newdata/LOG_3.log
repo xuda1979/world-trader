@@ -1,0 +1,20 @@
+=== agent C5_newdata round 3 start Tue Sep  1 01:14:57 CST 2026 ===
+Round 3 complete. Summary of execution (10 tool calls, well under budget):
+
+## Charter execution (all 7 items, in order)
+
+| # | Idea | Key numbers | Verdict |
+|---|------|-------------|---------|
+| 1 | Monthly leg rotation (IS 2008-16 table, frozen) | SR **-0.39**, MDD -80.3%, 10/19 neg yrs (IS cells: only 6/36 at \|t\|≥2) | FAIL catastrophic |
+| 2 | Exact EIA WNGSR season vs Apr-Oct | SR 2.18 / MDD -12.0% / 0/19 neg yrs, corr-blend -0.015 — identical to saved 2.19 | REDUNDANT, keep existing |
+| 3 | Vol-regime sizing (trailing 63d SR, cap 2x) | cap2.0→1.92, cap1.5→1.98, cap1.0→2.01, all < 2.19 static | FAIL (no scaling) |
+| 4 | WTI/Brent report-season weekday | Brent-Tue t=3.45 but net standalone **SR -0.56**, 11/19 neg yrs | FAIL dead in-season too |
+| 5 | NG spot-vs-futures spread | no futures on disk, STOOQ blocked | INFEASIBLE (documented) |
+| 6 | FRED intraday | none exists | skipped (documented) |
+| 7 | Sibling scan, 604 tests, Bonferroni \|t\|≥3.5 | survivors: natgas book legs (known) + VIX-Fri (fails gate d: 2010 -9.1%) + INR/CNY/GBP weekday (means 2-7bp/wk « 12bp costs) + natgas Tue-long (SR 0.26, H1 -0.08, IS t=5.4→OOS 2.2, add-on degrades 2.19→2.09) | NO new tradeable sibling |
+
+## Verdict
+**Zero new sleeves saved** — correctly, per the honesty contract. Two bonus positives for the campaign: the exact-season test proves the Round-2 sleeve needs no rebuild, and the book is *improving* OOS (IS SR 1.75 → 2017-26 SR 2.54, 2024 +118.8%). The natgas summer weekday franchise is confirmed as the only weekday/calendar family that survives costs + Bonferroni + all gates; the C5 new-data domain is honestly exhausted for passing-grade engines.
+
+All repro scripts saved in `campaign/agents/C5_newdata/round3/` (scan_weekday.py, rotation.py, repro_round3.py — verified to reproduce every number), FINDINGS.md appended with exact figures, last line exactly `ROUND 3 DONE`.
+=== agent C5_newdata round 3 end Tue Sep  1 01:26:45 CST 2026 exit 0 ===

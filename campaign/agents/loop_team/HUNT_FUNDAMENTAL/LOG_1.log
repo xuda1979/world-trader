@@ -1,0 +1,18 @@
+=== HUNT_FUNDAMENTAL start Wed Sep  2 15:57:57 CST 2026 ===
+Charter executed fully. Summary of what was done and found:
+
+**Execution (honesty contract honored throughout):**
+- Built a true-daily monthly-rebalance engine on the union panel (twelve_big ∪ twelve_extend = 738 names): T+1 execution, 6bps/side turnover costs, +0.5%/yr short borrow, trailing expanding-window vol target, PIT lag Jul-1 of FY+1, constant nominal weights held intra-month (no spread-to-daily — flatten gate uniqR>0.93, ac1≈-0.1 on all outputs)
+
+**Key findings (all numbers verified by re-computation from saved files):**
+1. **Data reality**: fundamentals overlap the extend-only panel by just 7 names; engine rebuilt on union panel. Survivorship inverts the short legs — value L/S shorts lost 11-32%/yr in 15/17 years
+2. **All classic fundamental sleeves FAIL**: value_comp SR +0.06, prof_comp -0.22, growth_comp -0.23, comp_vgp -0.16 (10-13 neg years each)
+3. **IC screen (13 legs, 78 pairs)**: best pair s_ta+roic meanIC +0.104 IR +0.42 annual — unharvestable; event studies show wrong signs (op_income>0 → 15.3% vs 17.7% fwd, t=-1.24; PEAD t=0.64)
+4. **Critical hygiene landmine**: raw union panel has 39,415 rows |r|>25% (zero prints/splits). Naive momentum shows fake SR +1.55/+67.7% ann; with |r|>25% exclusion it collapses to honest SR +0.94/+9.9%
+5. **Best candidate HF_mom_cheap REJECTED**: 2022 -6.3% (<-5% clause), corr to dualmom +0.784 (≫0.15), scramble perm[filter] p=0.020 (fundamental filter worse than random), and adding it to HONEST11 degrades SR_d 4.20→4.02, MDD -6.43%→-7.09%
+
+**UNVERIFIED** (documented): point-in-time constituent revival of premia (no delisted-name data in repo), vendor OTC print ground truth, and any path to SR≥5 — my results support LOOP_L16's infeasibility verdict.
+
+All writes confined to `campaign/agents/loop_team/HUNT_FUNDAMENTAL/` (FINDINGS.md, sleeves/ with verdict metas, scratch/ engines).
+
+HUNT_FUNDAMENTAL DONE

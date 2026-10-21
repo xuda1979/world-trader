@@ -1,0 +1,20 @@
+=== AUDIT_H11FIX start Wed Sep  2 18:41:54 CST 2026 ===
+FINDINGS.md is complete and verified — every placeholder replaced with computed exact figures, and the last line is exactly `AUDIT_H11FIX DONE`. The earlier error was just a relative-path `tail` after `cd`; the edit itself applied correctly (confirmed by grep).
+
+## Audit summary — GOAL100_HONEST11FIX_* (all numbers independently recomputed)
+
+**Check 1 — Reproduction: PASS.** `--verify` (HONEST11) and `--verify-l16` both reproduce byte-exact (max|diff| 9.99e-17 / 9.99e-17). My own from-scratch rebuild of HONEST11FIX (no builder imports) matches all three committed files at **max|diff| ≈ 1.0e-16 over 4989/4989 rows, zero index mismatches**. Provenance closed (commit 9004b67; committed sha256 == working tree).
+
+**Check 2 — Calendar: PASS with flags.** 467 added rows = 373 warmup + **94 recoveries** (75 in-window + 19 tail) — matches the charter arithmetic exactly. Zero weekends/federal-holiday rows; zero missing non-federal weekdays in-window. But FIX keeps **20 Good Fridays + 5 NYSE-closure days** (futures open; e.g. 2018-12-05 = +253.5bp, single row 2024 Good Friday = 100% carryv2) — real P&L, non-homogeneous blend.
+
+**Check 3 — Cost charge: PASS as claimed, with a new caveat.** Row-level identity exact (max resid 1.4e-17); drag **0.872/0.939/1.006 %/yr** (SAFE/BAL/AGGR, 2008+) confirms "~0.9%/yr". T+1-safe (scale diffs are knowable; corr(r,reb_t)=0.027). **NEW: the formula undercharges the true position-path turnover 1.66×–2.08×**; exact-charge counterfactual: ann 43.69%, SR 3.936, MDD −5.74%, still 0/19.
+
+**Check 4 — Leverage: ≤1.6 FAILS under capital-real, as disclosed.** All-in gross 2008+: SAFE 2.975x, BAL **3.421x** (p95 7.0x, max 10.6x, 92% of days >1.6x), AGGR 3.868x; every yearly mean >1.6x. Commit's "3.25x" = full-span BAL — reconciles.
+
+**Check 5 — Goals: ann≥80 FAIL (44.82%), SR≥5 FAIL (4.019 d / 3.934 m), DD≤7 PASS (−5.60%, worst 3y-subwindow also −5.60%), profit≥0 2008+ PASS (0/19, worst +15.12%).** **Full span has 1 neg year: 2006 stub −1.21%** (warmup cost drag, 60/61 zero-signal days) — "0 neg years" must be scoped 2008+. **OOS "51.8%" is geometric (51.78%); arithmetic is 42.27%** — a silent convention switch vs all prior champions (+9.5pp, the one new inflation found).
+
+**Check 6 — Sweeps: all pass.** Flatten clean (ac1 −0.063, uniqR 1.0000); T+1 lag probe robust (SR 4.012); block-bootstrap p(SR≤0)=0.0000 (200×, 10d); leave-one-sleeve-out ×11: **no removal produces a negative year**; +14.40%/−3.68% extreme days unchanged from L16.
+
+**Check 7 — Verdict: FIX is MORE honest than L16** (inner-join gone, ~0.94%/yr cost now charged; recovered days are adverse-selected so keeping them is conservative). Discrepancies logged: OOS convention switch, unscoped neg-years, residual reb undercharge, thin-sleeve rows (16.8% of rows, a6r7-only tail), 3.25x-vs-3.42x window ambiguity. The 5-goal set remains infeasible on these engines.
+
+Report: `campaign/agents/loop_team/AUDIT_H11FIX/FINDINGS.md` (161 lines, scratch code preserved in `scratch/`).

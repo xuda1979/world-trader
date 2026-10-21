@@ -1,0 +1,62 @@
+{
+  "name": "all-weather portfolio (h3 + AP gold + LS champion)",
+  "cost_bps_one_side": 6.0,
+  "rebalance": "sleeves rebalanced monthly (AP and hedge are monthly-cadence by construction); LS champion trades on its own 21d schedule",
+  "sleeves": {
+    "hedge_3stream_ew": {
+      "legs": [
+        "L/S 130/30",
+        "CTA futures macro 21d",
+        "Global Macro"
+      ],
+      "weights_inside": [
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333
+      ],
+      "source": "hedge_fund_strats/results/equity_*.csv (12 bps RT)"
+    },
+    "ap_gold": {
+      "source": "alphaportfolio_replication/data/wf_champion_gold_opt_daily.csv",
+      "cost": "6 bps one-way embedded, realization-timed"
+    },
+    "ls_champion": {
+      "source": "tools/quant/ls/results/levdet3.0/daily_returns.csv",
+      "cost": "re-costed 3.8 -> 6 bps/side via turnover"
+    }
+  },
+  "weights": {
+    "2008_to_2024": {
+      "hedge_3stream_ew": 0.5,
+      "ap_gold": 0.5,
+      "ls_champion": 0.0
+    },
+    "2024_plus": {
+      "hedge_3stream_ew": 0.3333333333333333,
+      "ap_gold": 0.3333333333333333,
+      "ls_champion": 0.3333333333333333
+    }
+  },
+  "actual_stats": {
+    "full_2008_plus": {
+      "window": [
+        "2008-02-01",
+        "2024-06-28"
+      ],
+      "n_days": 4132,
+      "sharpe": 0.826,
+      "ann_return_pct": 11.01,
+      "max_drawdown_pct": -12.9
+    },
+    "live_2024_plus": {
+      "window": [
+        "2024-07-01",
+        "2026-08-12"
+      ],
+      "n_days": 531,
+      "sharpe": 1.196,
+      "ann_return_pct": 11.4,
+      "max_drawdown_pct": -5.64
+    }
+  }
+}

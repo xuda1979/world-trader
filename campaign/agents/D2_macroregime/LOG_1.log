@@ -1,0 +1,19 @@
+=== agent D2_macroregime round 1 start Tue Sep  1 09:59:45 CST 2026 ===
+## D2_macroregime ROUND 1 — COMPLETE (all 5 charter ideas executed, 0 sleeves saved, honest verdicts)
+
+**Method** (`d2lib.py`, committed): honest publication lags (ICSA/WALCL +5d, PAYEMS +8d, M2 +28d, CFNAI +24d), T+1 execution, 6bps/side on |Δposition|, trailing expanding vol-target 10% clip 3.0. **Harness fix discovered**: `gates.py scramble_pval` permutes returns (degenerate, p≈1 always) — I built a **position-permutation scramble** (permute positions vs fixed asset returns, costs + VT included, 200 draws): the honest "does the signal time the asset?" test.
+
+**Results (exact numbers):**
+
+| # | Idea | Best variant | Verdict |
+|---|------|-------------|---------|
+| 1 | Claims yoy → 2y long/flat | SR 1.34, H1 1.75/H2 0.75, **11 neg yrs**, sig-scramble **p=0.000** | FAIL d,e — gate = noise vs always-long-2y carry (SR 2.08, corr_blend 0.169) |
+| 2 | Net liquidity → SPX | WRESBAL-z: SR 0.21 (worst 2008 −82%); BOGMBASE: SR 0.46, sig_p 0.000; TGA.csv = corrupted HTML | FAIL all — confirms COORD's kill |
+| 3 | CFNAI → credit gate | BAMLC0A0CM starts 2023-08 only → 3y window; gated SR 0.02 | FAIL — data-blocked |
+| 4 | M2 growth → gold | SR 0.28, H1 −0.06, sig_p 0.000 | FAIL — gold run not M2-mechanical |
+| 5 | Composite best-2 | SR 1.22, mdd −11.3%, 11 neg yrs, worst −5.9% | FAIL d,e,f (prereq unmet anyway) |
+
+**Key structural finding**: the weekly/monthly macro-regime domain contains no gate-passing sleeve — every level-gate scores scramble p≈0 (random on/off gates tie or beat them). Only live thread saved for ROUND 2: **claims-stress→gold event timing (sig_p=0.005, the sole real timing signal) but SR 0.73 with zero pre-2013 activity**; plus the 2y/rate-carry family needs a 2022 solution (worst year −11.6%) before usable.
+
+FINDINGS.md written with full numbers, committed as `c03cb25`. Last line: `ROUND 1 DONE` ✓
+=== agent D2_macroregime round 1 end Tue Sep  1 10:14:59 CST 2026 exit 0 ===

@@ -1,0 +1,46 @@
+{
+  "strategy": "bigmove_nextday_ge5pct",
+  "objective": "predict next-day return (next_close/today_close-1) >= +5%; trade long when probability >= threshold",
+  "return_definition": "next_close/today_close - 1",
+  "exit_rule": {
+    "buy": "at close(T) when P(>=5%) >= 0.9",
+    "stop_loss": "1.0% (user-specified manual offset)",
+    "stop_trigger": "if next open <= stop: exit open; elif next low <= stop: exit stop; else exit next close",
+    "cost_one_side_bps": 6.0,
+    "cost_round_trip_bps": 12.0
+  },
+  "universe": "285 US large caps, twelve_big daily panel 2006-2026",
+  "method": "HistGradientBoosting, 49 causal technical features, rolling 3y refit quarterly, NO look-ahead",
+  "oos_period": ["2018-01-02", "2026-08-12"],
+  "final_chosen_rule": {
+    "probability_threshold": 0.9,
+    "stop_loss_pct": 0.01,
+    "trades": 3057,
+    "active_days": 848,
+    "hit_gte_5pct": 0.1282,
+    "avg_net_per_trade_pct": 0.20,
+    "exit_open_pct": 25.3,
+    "exit_stop_pct": 47.8,
+    "exit_close_pct": 27.0
+  },
+  "comparison_at_thr0.9": {
+    "no_stop": {"hit5": 0.165, "avg_net_pct": 0.18, "active_sharpe": 0.63, "maxdd": -0.48},
+    "stop_1pct": {"hit5": 0.128, "avg_net_pct": 0.20, "active_sharpe": -0.12, "maxdd": -0.61},
+    "stop_3pct": {"hit5": 0.151, "avg_net_pct": 0.08, "active_sharpe": -0.02, "maxdd": -0.63}
+  },
+  "honest_verdict": {
+    "target_precision_reached": false,
+    "target_precision_wanted": 0.70,
+    "best_achievable_hit5": 0.16,
+    "reason": "single-day >=5% large-cap move dominated by unobservable-to-close idiosyncratic news",
+    "deployment": "NOT standalone; small-risk overlay at most"
+  },
+  "artifacts": [
+    "tools/quant/reports/bigmove_stoploss_results.json",
+    "tools/quant/reports/bigmove_stoploss_equity.csv",
+    "tools/quant/reports/bigmove_walkforward_results.json",
+    "tools/quant/reports/BIGMOVE_STOPLOSS.md",
+    "tools/quant/reports/BIGMOVE_RESEARCH.md",
+    "tools/quant/bigmove/backtest_stoploss.py"
+  ]
+}

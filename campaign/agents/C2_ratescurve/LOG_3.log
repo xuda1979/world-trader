@@ -1,0 +1,36 @@
+=== agent C2_ratescurve round 3 start Tue Sep  1 01:14:57 CST 2026 ===
+=== round 3 summary (agent C2_ratescurve) ===
+Charter 1-3,5 (low-turnover fly z-reversion variants): ALL FAIL. flyC daily-step gross SR 1.75 reproduced exactly; weekly-step sampling collapses gross to 0.44-0.61 (edge is days-scale); best weekly-step net SR: flyC -0.02, flyB 0.17, flyA -0.05; event-driven entries best -0.32; 20y-belly variants D/E best 0.05/0.12; monthly 2s10s 1976+ 0.17. Nothing near gate a.
+Bonus: always-on DV01-neutral 2s10s steepener carry = net SR 1.33, ann 13.4%, corr_blend -0.054, H1 1.13/H2 1.57 — fails gate d (8 neg yrs, worst 2011 -15.0/2014 -15.8) + scramble degenerate (no signal). NOT SAVED as sleeve; logged for coordinator as carry-overlay candidate (ETF: SHY/IEF pair).
+Fed-regime switching: two-sided fails (flattener-in-hiking loses 2013 -18.9/2016 -35.6/2023 -33.8); one-sided honest 0.52. Bull-flattening filter destroys edge (best 0.06).
+0 sleeves saved. Repro: campaign/scripts/C2_r3_final.py. See FINDINGS.md for exact numbers.
+ROUND 3 COMPLETE
+Round 3 complete. Summary of what was executed and found:
+
+## Charter execution (CHARTER_3.md — low-turnover premise)
+
+**The charter's core hypothesis was tested and refuted**: low-turnover structure cannot rescue the fly-reversion family, because the reversion edge is genuinely days-scale.
+
+| Idea | Best honest net SR | Verdict |
+|---|---|---|
+| 1. flyC weekly-step z (5/10/21d holds) | -0.02 (gross collapses 1.75→0.44-0.61 under weekly sampling) | FAIL |
+| 2. flyA/flyB weekly-step | 0.17 / -0.05 | FAIL |
+| 3. Monthly 2s10s reversion, 1976+ (51y) | 0.17, 20/51 neg yrs | FAIL |
+| 4. FOMC event-driven | no free FOMC calendar on disk | SKIPPED (documented) |
+| 5. 20y-belly flies D/E | 0.05 / 0.12 | FAIL |
+
+Key verification: round-2's flyC gross SR 1.75 **reproduces exactly** (w42: 1.76) — the audit was sound; weekly/event sampling kills the edge faster than costs.
+
+## Bonus discovery (NOT saved — fails gates, logged for coordinator)
+
+**Always-on DV01-neutral 2s10s steepener carry** (zero signal, long 2y×4.474 vs short 10y): net SR **1.33**, ann 13.4%, H1 1.13/H2 1.57, corr_blend **-0.054**, IS/OOS 1.13/1.57. Fails gate d (8 neg years, worst -15.8% in 2014, -15.0% 2011 — bull-flattening episodes) and the scramble gate is degenerate for a signal-free carry (p=0.93). This is real positive carry (roll+convexity), ETF-executable via SHY/IEF — recommended to the coordinator as a carry-overlay candidate, not a gated sleeve.
+
+Rescue attempts (Fed-regime two-sided switching: -0.53; easing-gated honest: 0.52; bull-flattening filter: 0.06) all failed — the last one destroys the edge because steepener PnL *is* the 10y rising vs 2y.
+
+## Deliverables
+- `campaign/scripts/C2_r3_final.py` — reproducible full grid + bonus engine
+- FINDINGS.md appended with exact numbers, **last line exactly `ROUND 3 DONE`**
+- LOG_3.log updated; 0 sleeves saved per honesty contract (all gates checked: SR, halves, yearly, scramble, corr-vs-blend)
+
+**Honest verdict**: the rates/curve reversion domain is uneconomic at 6bps/side (edges 1-3%/yr vs costs 7-13%/yr); the only strong engine found (SR 1.33 carry) fails the yearly-drawdown gate for genuine macro reasons, not data artifacts.
+=== agent C2_ratescurve round 3 end Tue Sep  1 01:33:59 CST 2026 exit 0 ===

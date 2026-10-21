@@ -1,0 +1,23 @@
+Building 70-feature XGB walk-forward...
+OOS 2018-01-02..2026-08-12 | 35 refits | 70 features
+  [1/35] refit @ 2018-01-02
+  [9/35] refit @ 2020-01-03
+  [17/35] refit @ 2022-01-03
+  [25/35] refit @ 2024-01-05
+  [33/35] refit @ 2026-01-08
+Cached 606,383 -> /Users/daxu/software/world-trader/tools/quant/bigmove/data/xgb_pred_frame.parquet
+
+tradeable obs: 606,383
+
+cls thr>=0.5: n=49294 win5=8.3% avg_net=-0.0883% perT_SR=-0.020 t=-4.51 p=0.000 calSR=-0.29 ann=-16.8% dd=-88%
+cls thr>=0.6: n=29985 win5=10.0% avg_net=-0.0944% perT_SR=-0.020 t=-3.40 p=0.001 calSR=0.26 ann=2.3% dd=-68%
+cls thr>=0.7: n=16031 win5=12.2% avg_net=-0.1458% perT_SR=-0.027 t=-3.41 p=0.001 calSR=0.07 ann=-6.1% dd=-86%
+cls thr>=0.8: n=6382 win5=13.8% avg_net=-0.4585% perT_SR=-0.076 t=-6.07 p=0.000 calSR=-0.31 ann=-19.1% dd=-89%
+cls thr>=0.9: n=660 win5=12.1% avg_net=-1.0190% perT_SR=-0.171 t=-4.40 p=0.000 calSR=-0.19 ann=-9.8% dd=-84%
+
+Regression (XGB next-day return) signal:
+  reg top0.99: n=6064 win5=22.2% avg_net=-0.1206% perT_SR=-0.016 t=-1.27 p=0.206 calSR=0.36 ann=6.3%
+  reg top0.995: n=3032 win5=26.9% avg_net=0.2836% perT_SR=0.033 t=1.83 p=0.067 calSR=-0.37 ann=-7.3%
+  reg top0.999: n=607 win5=30.5% avg_net=-0.4969% perT_SR=-0.046 t=-1.14 p=0.257 calSR=-0.34 ann=-7.6%
+
+saved -> /Users/daxu/software/world-trader/tools/quant/reports/bigmove_xgb_results.json

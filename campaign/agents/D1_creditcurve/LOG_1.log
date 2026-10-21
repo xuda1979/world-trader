@@ -1,0 +1,19 @@
+=== agent D1_creditcurve round 1 start Tue Sep  1 09:59:45 CST 2026 ===
+Round 1 complete. **Verdict: 0 of 5 charter ideas (plus 6 salvage variants) passed all gates — no sleeve saved**, per the honesty contract.
+
+## Summary of what was done
+
+**Infrastructure** (reusable): `d1_lib.py` — honest synth-TR engine (`-D·Δy + y/252` in proper decimal units), DTB3 funding rf, trailing-only expanding VT10 (clip 3.0, shift-1), T+1, 6bps/side × turnover, plus full gate suite (SR≥1.0, plateau, halves≥0.5, ≤2 neg yrs >-5%, rotation-scramble p≤0.05, |corr|<0.15 vs BALANCED champion blend).
+
+**Results (exact numbers in FINDINGS.md):**
+
+1. **BAA-AAA credit quality-timing** — best net SR 1.33, perfect decorrelation (champ 0.037, A1credit -0.037), but **8 neg years** worst -11.0%, plateau corner fail (thr=1.5 hits 2.27 at grid edge), scramble p=0.090. Corner config also fails yearly → REJECT
+2. **Steepener carry + DD-throttle** — SR 2.15-2.40, corr -0.045 (excellent), but **8-9 neg years worst -13.6% in every throttle config**; throttle can't fix sign-of-year failures. Salvages (carry-on-carry, hike-veto, breaker, 2v5+10v30 basket: SR 1.49 corr 0.017 worst -7.6%) all still ≥8 neg yrs → REJECT (gate d binding)
+3. **Belly carry** — SR **-0.38**, 27/37 neg years; wings' convexity bleed dominates → REJECT
+4. **IG-vs-rates divergence** — SR 0.02-0.27 across all momentum windows, no persistence → REJECT
+5. **Real-rate momentum (TIPS, 2003+)** — best SR 0.62, scramble p=0.225, 2008/2022 double blowout → REJECT
+
+**Round-2 charter input:** gate d is the binding constraint for all rates-carry books — they're either high-SR/high-tail (steepeners) or decorrelated/weak. Only live bone: 2v5+10v30 basket (SR 1.49, corr 0.017) + a non-rates regime veto (low conviction). Also flagged to coordinator: `C2_r3_final.py` runs its steepener at 1/100 proper size (double-divide bug — SR shape valid, risk contribution ~0 to blends), and return-permutation scrambles are degenerate for SR (p≈0.5 by construction) — position-rotation is the valid test.
+
+FINDINGS.md ends exactly with `ROUND 1 DONE`. ~21 tool calls used.
+=== agent D1_creditcurve round 1 end Tue Sep  1 10:15:55 CST 2026 exit 0 ===

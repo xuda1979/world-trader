@@ -1,0 +1,26 @@
+=== agent E4_globalidx round 1 start Tue Sep  1 10:50:00 CST 2026 ===
+**ROUND 1 COMPLETE — E4_globalidx. Verdict: 0 sleeves saved, all 5 charter ideas + 8 extensions failed honest gates.**
+
+## What was done (~19 tool calls)
+
+**Data (charter deliverable):** FRED fetches documented and saved to `newdata/`:
+- `NIKKEI225.csv` — **full 1949–2026 history** (19,190 obs) ✓
+- `NASDAQCOM.csv` — **full 1971–2026 history** (14,009 obs) ✓
+- `DJIA/SP500/DJCA.csv` — only 10y (FRED limit, 2016+); charter's hope for full DJIA was wrong
+
+**Results (all net of 6bps/side, T+1, weekly decisions where applicable):**
+
+| Idea | Best variant | Numbers | Failed gates |
+|---|---|---|---|
+| 1. Nikkei TSMOM 21–252d | w=252 SR 0.41 | post-1990 SR 0.02–0.15 (edge died with the pre-derivatives era) | SR≥1.0, halves, negy 29–38, scramble |
+| 2. Nikkei→SPX lead-lag | honest day-session LS | **IC −0.039, SR −2.07**; naive lag+1 "SR 4.32" proven to be a same-day beta **lookahead artifact** (documented so nobody re-discovers it) | all |
+| 3. NASDAQ vs DJIA rel-mom | w=252 SR 0.26 | DJIA data only 2016+; QQQ/SPY version SR 0.38 max | SR, halves, scramble |
+| 4. Cross-index basket | NKY+NDQ w=252 SR 0.54 | 4-idx 2016+ SR −0.24…0.27; 3-asset SR 0.51 corr 0.195 | SR, negy, scramble |
+| 5. Nikkei z-reversion | fade z21 SR **−0.59** | both signs tested; MDD −75…−100% | all |
+| Ext: DXY TSMOM | w=21 SR 0.49 | neighbors 0.19/0.25/−0.05 → param spike, no plateau | SR, plateau, scramble |
+| Ext: NASDAQ long/flat 1971+ | w=126 SR 0.78 | best of round, but SR<1.0, negy 15, worst yr −25%, corr 0.31 | SR, negy, worst-year |
+
+**Bottom line:** global index books are decorrelated (|corr| 0.01–0.34 to blend) but the SR ceiling is ~0.7 — no path to the full-SR≥1.0 gate. Nikkei momentum/reversion is dead post-1990; index lead-lag at daily granularity is beta overlap or mildly negative. FINDINGS.md explicitly recommends the coordinator not re-charter single-index TSMOM.
+
+Deliverables: `FINDINGS.md` (exact numbers, ends `ROUND 1 DONE` byte-verified), `E4_lib.py`, `scan_round1.py` (verified runnable), README update, sleeves/ left empty per contract.
+=== agent E4_globalidx round 1 end Tue Sep  1 10:59:35 CST 2026 exit 0 ===

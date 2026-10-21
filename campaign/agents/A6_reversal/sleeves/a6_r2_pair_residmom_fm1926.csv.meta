@@ -1,0 +1,20 @@
+name: a6_r2_pair_residmom_fm1926
+agent: A6_reversal (round r2, charter mission 3)
+construction: 0.5 * [residual momentum (12m residual ret orthogonal to FF3+Mom, trailing 252d betas),
+  long top tercile, monthly (cadence 21), regime gate: MA150 with 10d confirm, exit below 0.98*MA150,
+  drawdown-cautious re-entry (20d confirm when mkt 252d-high drawdown < -15%)] net of 6bps/side,
+  vol-target 10% trailing expanding (min 60d)
+  + 0.5 * [library sleeve FactorMom_1926 (FF factor momentum), vol-target 10% trailing] ; pair vol-target 10%.
+rationale (economic): residual momentum harvests the slow diffusion of firm-specific information
+  (Blitz/Huij/Martens): 12m idiosyncratic winners keep winning after stripping market/size/value/mom
+  betas, so the premium is not a factor load artifact. Long-only + trend regime gate exploits the
+  Daniel-Moskowitz crash asymmetry (momentum crashes cluster in post-crash rebounds). The 50/50 pair
+  with FF factor momentum diversifies the equity-panel-specific residual risk; factor momentum is
+  positive in 2022 (+15.8%) exactly when single-stock residual momentum bleeds (regime-gate lag),
+  so the pair's worst year is -0.7% (2016) and 2022 is +0.4%.
+validation (r2, honest): FULL SR 0.91 (net, vol 10.4%) | H1 0.92 / H2 0.91 | neg years 1/20
+  (2016 -0.7%) | worst year -0.7% | signal-scramble (200x circular shift of weight path vs returns,
+  breaks timing not turnover/exposure) p=0.000 | param plateau: 13-neigh grid (w_rm 0.4-0.6 x
+  confirm 8-12 x ddEntry on/off) min SR 0.80 vs peak 0.99 -> all neighbors within 20% of peak.
+no lookahead: all signals trailing (prices t, trade t+1); vol targets expanding-window trailing only.
+caveat: leg1 alone still fails gate d standalone (2022 -10.9% pre-VT shape); the PAIR is the sleeve.

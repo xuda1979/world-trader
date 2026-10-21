@@ -1,0 +1,23 @@
+CFX4 primary = 4-pair FX cross z-reversion composite (HUNT_CARRYFX, iter4, rebuilt independently
+from raw twelvedata closes; generator: scratch/c11_deliver.py + cfx_lib.py, no dependency on
+HUNT_FXMICRO code). Books: GBPNZD, AUDGBP, AUDEUR, EURNZD; signal = MEAN of log-spread z with
+lb 21 and 63 (dual-timeframe), weight w=clip(-z,+-2)/2, sig applied shift(1) (T+1). Costs
+6bps/side on 2-leg one-side turnover + borrow 0.5%/yr on |sig|. EW across 4 books. NO carry:
+carry variant is CFX4_DTF21_63_carry_raw_daily.csv (PIT FRED 10y diff m usable m+1; +0.004 SR).
+Full: n=1799 2019-09-10..2026-08-05, SR_d 1.9106, SR_m(sqrt12) 1.9410, vol 7.42%, ann_geo
+14.91%, MDD -9.26%, H1 2.436 / H2 1.283, neg yrs 2/8 (-0.33% 2019, -4.13% 2026; both >-5%),
+max|day| +3.30% (2025-04-04). Gates: VET_HONESTY harness PASS (ac1 -0.146, uniqR 1.000,
+boot_p(SR<=0)=0.000 200x, scrub5_SR 1.754, corr to H11_BAL +0.0001). Robustness (FINDINGS s5):
+scrub50 +0.61, epjack63Min +1.68, LOYO-min +1.573; start-cuts: 2020+ 1.976, 2021+ 2.171,
+2022+ 2.056, 2023+ 1.541, 2024+ 1.403, 2025+ 0.426 (WEAK - recent decay disclosed);
+lb-plateau 1.46-2.36 (peak (10,21) 2.36).
+DISCLOSURES: (1) corr +0.944 to HUNT_FXMICRO FXMR3_42z2 = SAME engine family refined (4 books,
+dual-tf), NOT an independent new engine. (2) charter's literal scramble gate is ILL-POSED:
+10d-block bootstrap p(SR<=0) cannot separate diffuse edge from a 60-day cherry-picked episode
+(both pA=0.000, FINDINGS s4); we report the power battery (scrub/epjack/LOYO) which DOES
+separate them. (3) cap param redundant by construction (|z|>1 half the days => cap=1 binds;
+all cap/div settings give identical SR). (4) gross exposure mean 0.676x, p95 1.00x.
+(5) 2022 GBP-crash year = +41.2% best year; top-50 days = 73.9% of PnL (FXMR3: 83.9%) -
+improved but concentration remains material. VT-scaled version (vt10 clip3) blows MDD to
+-17.2% (episodic vol + 3x clip => leverage spike) - sleeve delivered UN-SCALED at 7.4% vol.
+(6) Weekday note: Monday is the BEST day (SR +2.76) - charter's "dead Monday" inverted.

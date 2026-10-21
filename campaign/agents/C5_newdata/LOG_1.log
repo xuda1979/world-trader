@@ -1,0 +1,29 @@
+=== agent C5_newdata round 1 start Tue Sep  1 00:04:25 CST 2026 ===
+=== agent C5_newdata round 1 done Tue Sep  1 00:30:30 CST 2026 ===
+Round 1 summary: 7 ideas tested, 1 saved (C5_ng_weekday_prem, SR 1.74, 0/19 neg yrs, corr -0.002, secondary due to MaxDD -29.5%). Data acquired: FRED DHHNGSP/DTWEXBGS/DEX 11-pair FX panel/NFCI/STLFSI4/KF OP+INV daily. STOOQ blocked. See FINDINGS.md.
+Round 1 complete. Final summary:
+
+## C5_newdata Round 1 — Execution Report
+
+**Data acquisition (charter ideas 1–4):**
+- **STOOQ**: blocked (HTML robot page on all futures tickers) — documented
+- **Ken French FTP**: got OP (profitability) + INV (investment) daily portfolios 1963–2026 (new domain); VAR/CF/NVLI/ST-reversal zips 404'd
+- **FRED**: Henry Hub spot (DHHNGSP), broad dollar (DTWEXBGS), 11-pair FRED FX panel (INR/BRL/ZAR/MXN/KRW/SGD/NOK/JPY/CHF/EUR/GBP), NFCI + STLFSI4 — all saved to `tools/quant/data/newdata/` with README
+
+**Engines tested (all T+1, 6bps/side, full gates):**
+| Idea | Best result | Verdict |
+|---|---|---|
+| Energy spread reversals (NG-WTI, NG-Brent, propane-NG) | SR 0.82 (propane, 2015+ only) | **FAIL** SR≥1.0 |
+| EM-FX momentum (xs + ts, 4 lookbacks) | SR 0.17 | **FAIL** |
+| KF OP/INV quintile momentum + QMJ/CMA | SR 0.36 | **FAIL** |
+| NFCI-gated SPX timing | SR 0.71 (H2 −0.03) | **FAIL** |
+| Broad-dollar reversal/momentum | SR −0.29…−0.66 | **FAIL** |
+| FX weekday effects | all negative | **FAIL** |
+| **Natgas weekday premium** | **SR 1.74** | **SAVED (secondary)** |
+
+**Saved sleeve `C5_ng_weekday_prem`** (repro: `campaign/scripts/C5_weekend_prem_ng.py`): long Fri→next print (weekend premium), short Wed/Thu, 2.5σ calm filter, vol-target 10%. **SR 1.74, ann 23.1%, 0/19 neg years (worst +6.3%), H1 2.18/H2 1.55, position-scramble 200x p=0.0000, corr vs COORD_FINAL −0.002** — passes every gate except sleeve-level MaxDD (−29.5%), so recorded as `corr_ok_secondary`. Honest specificity note: the anomaly is **gas-only** (WTI/Brent/propane show opposite sign, SR −0.68…−0.86).
+
+Also flagged two infrastructure issues in FINDINGS.md: the harness `scramble_pval()` is degenerate (permutes the return series itself → p≈1 always; used B2-style position shuffle instead), and a pandas `pos.div(axis=0)` alignment bug that silently NaN'd early scans.
+
+`FINDINGS.md` ends with `ROUND 1 DONE` — used ~35 tool calls.
+=== agent C5_newdata round 1 end Tue Sep  1 00:30:58 CST 2026 exit 0 ===

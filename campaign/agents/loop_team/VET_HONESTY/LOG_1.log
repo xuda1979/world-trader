@@ -1,0 +1,17 @@
+=== VET_HONESTY start Wed Sep  2 15:57:57 CST 2026 ===
+Charter executed. Summary of what was done and found:
+
+**Verification (all recomputed independently, shell+python3):**
+- **Champion claims CONFIRMED exactly**: HONEST11-L16 BAL ann 47.55%, SR_d 4.177, SR_m 4.173, MaxDD −4.85% (worst-3y same), 0/19 neg yrs, worst yr +15.28%, OOS17+ 43.9% (decoded as arithmetic ann on r≥2017-01-01). HONEST11 (47.9%/4.22/−4.85%) and X804 (80.54%/4.22/−6.73%/67.3%) likewise.
+- **Provenance gap CLOSED**: L16 was committed with no builder; I reconstructed it from the committed canonical builder + disclosed recipe (per-sleeve vt 0.08, global 0.07/0.091) — byte-for-byte reproduction, max|diff| 9.99e-17 on all 3 files. X804 reproduced identically.
+- **LOOP_XGB1YFLAT numbers CONFIRMED**: XGB1y = 4684 rows, 211 distinct values, ac1 0.951, Jan-2023 +21.1bps / Feb-2023 +35.8bps constant. Full vault scan (42 files): XGB1y is the ONLY nonzero-flat sleeve; the long zero-runs in 5 pool sleeves are by-design position-off periods, not flattening.
+
+**Material findings (adversarial):**
+1. **Leverage "1.59x" is definition-dependent**: it excludes the global vol-target scalar. Capital-real all-in gross: L16 ~3.0–3.8x mean (max 9.2–12x), X804 5.01x mean (vs "~2.5x" disclosed). Financing-charged, X804 ann 48.2% and MaxDD −11.73% (blows the 7% wall); L16 ann 39.6%.
+2. **Definition arbitrage demonstrated**: raising only the global TGT gives ann 79.7% at EW-scale 1.563 — so "80% at ≤1.6x" is reachable under LOOP_L16's own headline metric, while under capital-real ≤1.6x all-in the honest cap is ann ~20%. Their infeasibility verdict is correct only under capital-real accounting; the FINDINGS mix definitions.
+
+**Gate enforcement**: built a permanent independent gate harness (`audit/gate_harness.py`: flatten incl. nonzero-const-run extension, T+1 forward-info probe, SR/halves/negyrs, scramble fixed mid-run — literal permutation is a no-op, replaced with block-bootstrap + outlier-scrub — and corr<0.15). Vetted **all** sibling candidates: 9 HUNT_TAIL files REJECTED (corr 0.913–0.915 to HONEST11 — champion rescalings, not new engines; L16C≡LEV16 md5-identical), HF_mom_cheap REJECTED (lookahead probe −0.134, worst yr −6.3%, MDD −24.5%). **0/10 passed.** Remaining siblings produced nothing (429 rate-limit deaths documented); cost claims from CSV-only artifacts remain UNVERIFIED-COST.
+
+All artifacts written under `campaign/agents/loop_team/VET_HONESTY/` only (FINDINGS.md + audit/gate_harness.py). No other agents' dirs or committed files touched.
+
+VET_HONESTY DONE

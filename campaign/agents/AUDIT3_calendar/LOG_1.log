@@ -1,0 +1,26 @@
+=== audit agent AUDIT3_calendar start Tue Sep  1 13:59:06 CST 2026 ===
+Audit complete. FINDINGS.md written to `campaign/agents/AUDIT3_calendar/FINDINGS.md` with every check recorded. Summary of what the adversarial audit found:
+
+## ✅ What survived (positive evidence)
+
+1. **Exact replication (Charter 1)** — I rebuilt all 4 committed weekday-sleeve CSVs (C5ng, C5ngsum, + E1 de-truncated variants) from raw `DHHNGSP.csv` with my own code: **max deviation 1e-16, corr 1.00000000**. No lookahead in the signal chain: weekday map (confirmed from code as **Wed −1, Thu −1, Fri +1** — the charter's "Mon+" is wrong, there is no Mon leg), calm filter uses shifted trailing sigma, T+1 pnl, 6bps on turnover. Claimed stats (SR 1.74/2.19/1.63/2.08, MDDs, neg years, H1/H2, 2026 YTD) all match my rebuild.
+
+2. **Bonferroni (Charter 2)** — All-5-weekday t-stats computed both conventions. 1998+: Fri/Thu/Mon-entry all pass Bonferroni(5) (adj p = 3.2e-5 / 6.6e-8 / 9.9e-3); **Wed is borderline** (adj p 0.0104). 2008+: only Thu (2.7e-4) and Fri (3.4e-3) pass; **Wed fails** (0.0796) — but leg-LOO shows dropping Wed costs only −0.01 SR.
+
+3. **Regime stability (Charter 3)** — No negative 5y block (C5ng: 1.70/1.60/2.65/1.68/1.53/1.43; C5ngsum: 1.80/1.95/1.67/1.96/2.05/3.36). Raw Thu/Wed-short and Fri-long legs have correct sign in **all six** 5y blocks. "0 negative years" verified per file/window (E1 summer honestly has 2000 = −1.79%).
+
+4. **Calendar scramble (Charter 4)** — 50 circular-shift rebuilds: real SR 1.63/2.08 vs scrambled mean −0.15/−0.16 (real ≈9-11 sd above); **p = 0.0196**, the floor achievable with 50 draws.
+
+5. **Summer window (Charter 5)** — All 12 rolling 7-month windows tested: Apr–Oct is **rank 1/12** (SR 2.08) but sits on a smooth hill (Mar 1.74, May 1.91); 9/12 windows pass SR≥1; median window SR 1.15. It is a post-hoc max pick (disclosed by agents), but max-of-12 selection can't explain t≈11.2. Noted: the Jun-start window is the only one with 0 neg years — "0 neg years" is partly window luck.
+
+6. **Economics (Charter 6)** — Fri long harvests the Monday print (+100bp/d, t=5.8); Thu short harvests Friday-print weakness (−121bp/d, t=−5.9). **Narrative mismatch found**: the Thu effect is NOT report-season-specific (−48bp/d Apr–Oct vs −46bp/d Nov–Mar), and the biggest Friday weakness is Oct/Nov — the Apr–Oct filter's real job is cutting winter tails. Flagged as honesty issue, not a bug.
+
+## ⚠️ New problems found
+- **`gates.vol_target` same-bar sigma feedback** (scale_t computed including r_t): ≤±0.05 SR effect, campaign-wide wart; champion builders correctly use shift(1).
+- **V4 champion builder not committed** (pool only in JSON); my reconstruction matches corr 0.99998/SR 6.25 but with a 3e-3 diff confined to Aug 2026 (mismatched sleeve end-dates).
+- Harness `scramble_pval()` is degenerate (confirmed); C5ng+C5ngsum act as a sibling 2-slot family (corr 0.567) in the V4 pool.
+- Leave-both-ng-out on the 20Y champion: SR 6.17→6.01 — the champion doesn't lean on the weekday engine.
+- FRED print time-of-day and EIA release calendar: **UNVERIFIED** (external facts, audit conclusion doesn't depend on them).
+
+Final line of FINDINGS.md is exactly `AUDIT DONE`.
+=== audit agent AUDIT3_calendar end Tue Sep  1 14:32:35 CST 2026 exit 0 ===

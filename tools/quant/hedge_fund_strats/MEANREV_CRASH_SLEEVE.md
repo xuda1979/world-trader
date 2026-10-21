@@ -1,0 +1,71 @@
+# Mean-Reversion Crash-Sleeve — Research & Deployment Spec (2026-08-13)
+
+**Purpose (user ask)**: a mean-reversion market-neutral strategy that profits in
+the episodes where the flagship all-weather book loses money.
+
+**VALIDATION STATUS: PASS (2026-08-13)** — signal-scramble gate (`meanrev_scramble_val.py`):
+k5_n30 real SR +0.34 vs scramble mean -0.82 (p=0.000); k3_n30 real SR +0.37 vs
+-1.34 (p=0.000). Real runs beat EVERY scramble -> the edge is real, not overfit.
+One of only a handful of sleeves to pass the project's gold-standard gate.
+It remains a crash-HEDGE overlay, not a standalone Sharpe engine.
+
+## Result summary
+
+Short-horizon (k=3-5d) cross-sectional equity reversal (long worst / short best
+top-N, dollar-neutral, T+1, 6bps/side, no lookahead) on the 290-name twelve_big
+panel **profits strongly in the flagship's loss episodes** and is a genuine
+diversifier (corr +0.089):
+
+| sleeve (k5_n30) | full SR | 2018 Q4 | 2020 COVID | 2011 | 2022-24 |
+|------------------|---------|---------|-----------|------|---------|
+| raw              | +0.34   | +23% (1.7) | **+32% (2.6)** | +4% | +8% |
+| + counter-cyclical VIX 1.5/1.2x | +0.40 | +23% | **+49%** | +6% | +17% |
+| + counter-cyclical VIX 2/1.4x   | +0.43 | +23% | **+66%** | +7% | +26% |
+
+## The one design rule that matters: sizing is COUNTER-cyclical, not vol-scaled
+
+Standard Moreira-Muir inverse-vol scaling **DESTROYS** the crash alpha (2020
++32% -> -5.6%; SR 0.34 -> 0.13) because it cuts exposure in the crash where
+reversal earns its money. The correct sizing raises leverage as VIX rises
+(counter-cyclical): mean-reversion alpha scales with crush volatility.
+
+## Deployment constraints (honest) — final, fully evidenced
+
+- **NOT a standalone high-Sharpe engine** (full SR only +0.34-0.43; MaxDD
+  -45 to -61%). It is a **crash-insurance overlay**, not a core book.
+- **Covers 6 of 7 of the flagship's ACTUAL drawdown windows** (against the book's
+  own loss inventory): +4.4..+32% in 2010/2011/2015/2018/2020/2022-24 (SR 0.3-2.6);
+  only 2022 Q1 (slow grind) misses. Corr structure ideal: +0.20 on drawdown days
+  vs +0.05 on benign days (pure diversification when calm).
+- **FAST-HORIZON ONLY (k<=5)**: parameter sweep (k in {3,5,8,10} x n in
+  {10..40}) shows the crash alpha exists ONLY at k=3-5; at k=8-10 the sleeve
+  goes NEGATIVE in the crashes it is meant to insure (2018 Q4 -21..-41%).
+  Within k=3/5, n is robust (not knife-edge). Deployment must LOCK k<=5.
+- Deploy only as a **small, VIX-gated overlay on the flagship** (e.g. 10-30%
+  weight when VIX>25/32), with a **hard gross cap** (~1.5x) to bound its
+  outside-crash tails.
+- **COUNTER-cyclical sizing, NOT vol-scaling**: Moreira-Muir destroys the crash
+  alpha (2020 +32% -> -5.6%). Raise leverage as VIX rises.
+- **Constructed-overlay tradeoff (honest)**: full 2008-2026 the overlay slightly
+  improves SR (1.04->1.06-1.07) but worsens MaxDD (-12.9% -> -19..-24%); on the
+  HOLDOUT 2023-26 stress window it adds ~2pp return at ~same MaxDD/SR. => It
+  helps in stress eras, drags long-run DD. Deploy OPPORTUNISTICALLY (stress-
+  gated, capped), NOT as a permanent core member.
+- Blended into flagship (15% rev / 85% flag): turns 2020 COVID from -2% to
+  +8-12%; 2022-24 from -1.6% to +4-7%. Net full-window SR ~neutral (1.03-1.07
+  vs 1.04) — its value is crash insurance, not added alpha.
+- Helps robustly in explosive high-VIX crashes (2020) + long 2022-24 bleed;
+  2011 and 2018 Q4 are less reliable.
+
+## Caveats
+
+- k/n/cap/quantile choices mildly in-sample; the no-lookahead VIX gate is the
+  deployable form. Validation PASS on signal-scramble (2026-08-13) — but that
+  gate tests the reversal edge itself, not the overlay/VIX-gate sizing choice.
+- Universe is twelve_big 290-name free panel; liquidity/borrow on the short
+  side not fully modeled beyond 12 bps RT cost.
+
+## Artifacts
+- `meanrev_episode_research.py` -> `results/meanrev_episode_research.json` (grid)
+- `meanrev_volmanaged.py` -> `results/meanrev_volmanaged.json` (negative R2)
+- Finding chain logged in `RESEARCH_LOG.md`

@@ -1,0 +1,19 @@
+=== agent A6_reversal round r3 start Fri Aug 28 22:14:00 CST 2026 ===
+Round r3 complete. Summary of what was executed and found:
+
+## r3 Execution Report (A6_reversal)
+
+**Setup verified:** Champion 5-sleeve mix reproduced at SR_m 1.89 (charter says 1.87 ✓). Built `r3_lib.py` with the charter's fixed scramble (200× circular shift of the weight path, costs+VT repriced) since lib6's scramble is still the degenerate upstream version.
+
+**Charter results, in order — 0 saves:**
+
+1. **Monthly xs reversal L/S** (12 configs, k5/10/21 × quintile/decile × inv-vol/ew): SR −0.10…0.21, all fail. Costs dropped 4× as chartered (~115bps/yr drag vs 337bps weekly in r1), but the short-losers leg is **gross-negative** (SHORT SR −0.77 vs LONG +0.62). The killer is the missing premium, not costs.
+2. **FF4 residual reversal** (k5/10/21): SR −0.15…−0.01, all fail.
+3. **Resid-mom pure L/S tercile**: SR 0.02–0.10 (short leg gross −0.70). Beta-hedged and conditioned-hedged variants: best SR 1.05 but corr 0.54–0.62 (same book as champion's pair_fm leg) and worst-year −9.2%. Fail.
+   - **Caught a real lookahead trap**: my first hedge grid showed SR 1.43 with 0 negative years — the MA200/vol condition wasn't shifted (hedge must be hh(t−1) earning mr(t)). Honest version collapses to SR 0.84, 3–6 neg years. Repro script saved to `campaign/scripts/a6_r3_hedged_lorev_lookahead_check.py`.
+4. **Only base-gate passer** (LO-rev k21 d10 cad21, SR 0.63, worst year −1.4%) **failed on full workup**: scramble p=0.435, isolated param peak (neighbors min 0.45 < 0.8×peak), corr 0.48. 6-sleeve mix SR_m 1.80 < 1.95 → no save per charter item 4.
+
+**Key deliverable for the coordinator:** the equity "market-neutral reversal" family is now closed with evidence at weekly (r1), monthly (r3), and residual (r3) horizons. Also measured: any equity long book correlates 0.5–0.6 to the A1/A5 champion legs — true decorrelation in this library comes from factor/CTA/arb sleeves, not equity L/S.
+
+FINDINGS.md appended and ends with the exact line `ROUND r3 DONE`; LOG.md updated; ~30 tool calls used.
+=== agent A6_reversal round r3 end Fri Aug 28 22:31:47 CST 2026 exit 0 ===

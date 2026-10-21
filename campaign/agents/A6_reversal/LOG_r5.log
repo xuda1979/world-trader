@@ -1,0 +1,21 @@
+=== agent A6_reversal round r5 start Sun Aug 30 13:02:31 CST 2026 ===
+--- agent A6_reversal round r5 end Sun Aug 30 13:18:07 CST 2026 : 0/3 saved, corr-blocked; lookahead trap #4 caught; script campaign/scripts/a6_r5_charter.py verified
+Round r5 complete. Summary of what was executed and found:
+
+## Charter execution (3/3 ideas tested, 0 saved — all honest verdicts)
+
+**Idea 1 — rm+FactorMom_1926 pair @ vt18** (charter prediction SR ~0.92, ret ~17.5% — confirmed exactly):
+- SR 0.92, ann 17.3%, H1 0.92/H2 0.91, negYr 2 {2016 −1.6%, 2022 −0.1%} — passes even the *strict* gate d, no need for the relaxation
+- Scramble p=0.005; **best plateau of any A6 candidate ever**: 25-point grid, 24/24 neighbors within 20% of peak, neighbor-min 0.83 vs peak 0.98
+- **FAILS only corr**: +0.58 monthly to the r3 champion, +0.54 to the 6-leg CHAMPION_FINAL (gate <0.35)
+- Key new evidence: corr to the champion *excluding* A6_pair_fm (the outside world) is only **+0.24** — proving numerically that this sleeve fails solely because it is 1/6 of the champion itself
+
+**Idea 2 — meta-timing (own trailing 12m SR) on pair@vt15**: FAIL across thr/shrink grid — corr stays 0.49–0.57 (inherits the base book's corr), SR drops to 0.81–0.92, and it *adds* a third negative year (2023 −2.9% at the charter config). Own-SR timing is structurally blind to regime turns — r4's finding replicated at the pair level.
+
+**Idea 3 — FactorMom_1926 alone + MA gate**: **lookahead trap #4 caught in my own first pass** — same-day gate application showed SR 1.39–1.48; the honest 1-day-lag + flip-cost version collapses to SR 0.03–0.08. Ungated fm@vt15 is SR 0.35 on 2007+ (fails gate a); SPX/DM gates reach only 0.30–0.50. fm-alone is not saveable in this window.
+
+## Deliverables
+- Verified reproducible script: `campaign/scripts/a6_r5_charter.py` (reproduces every number above)
+- FINDINGS.md appended with the full r5 summary; last line is exactly `ROUND r5 DONE`
+- Coordinator recommendation (now with vt18 numbers): the pair is station-grade — the correct action is champion-level re-budgeting of the A6_pair_fm leg to vt18, not a new sleeve; min achievable corr for any rm-containing mix is +0.24–0.26 by construction, so the <0.3/0.35 gates are unreachable from this family.
+=== agent A6_reversal round r5 end Sun Aug 30 13:18:25 CST 2026 exit 0 ===

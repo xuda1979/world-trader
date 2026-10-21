@@ -1,0 +1,17 @@
+=== agent A2_fx_carry round r4 start Sun Aug 30 12:34:08 CST 2026 ===
+Round r4 executed. Summary of what was done (idea → numbers → verdict):
+
+| # | idea | numbers | verdict |
+|---|------|---------|---------|
+| 26 | Charter 1: XAU/SLV/CU 126d trend + reinvested carry, vt15 (23 configs + 3-asset blend) | best XAU-lf126 **SR 0.72**, corr 0.02, plateau 0.49–0.72 | **FAIL** — all <0.8; carry unbuildable (FRED xau/slv are spot series, copper monthly-only) |
+| 27 | Charter 2: SPY long when VIX<thr (lagged), flat above, ±trend gate, vt20 (12 configs) | best VIX<25+tr252 **SR 0.52**, corr −0.01 | **FAIL** — regime filter alone can't reach 0.8 |
+| 28 | Charter 3: FF monthly best-factor timing, lb 126/252/378, 2x, vt10/20 | best lb252-vt20 **SR 0.65** | **FAIL twice** — SR<0.8 AND corr **0.51** to champion (equity-beta in disguise) |
+| — | Charter 4: BTC 63d trend vt20 | n=1001 rows (2.8y) | **SKIP** honestly (below 1500-obs minimum; charter pre-declared) |
+| 29 | Charter 5: 2s10s DV01-neutral z-book (fade/mom/always) | fade −0.53, mom63 −1.77, steep-always 1.04 | **FAIL** — only unconditional steepener works: secular term-premium bet, 8 neg yrs worst −25.6%, no signal (matches r2 #22 verdict) |
+| 30 | My composite: EW(ratesLF378, XAU-lf126, CU-lf3m) vt15 | **SR 0.86, corr 0.02** | **FAIL** — yearly gate: 11 neg yrs, worst −14.7% |
+| 31 | 4-way + FF252 (corr dilution attempt), live window | SR 0.78, corr 0.44 | **FAIL** — buys corr without reaching 0.8 |
+
+**Key discovery:** `util.vol_target`'s `clip(0,3)` leverage cap makes "raise the vol budget" a **silent no-op** — UST2-LF378 produces byte-identical returns at vt10/15/20 (net vol ≈4% needs >3x leverage). The charter's vol-budget grant is void without a cap override; I didn't override the shared lib (contract), documented instead. De-capped ann would be ≈11.6% — still below 12% with 5 neg yrs, so it fails regardless.
+
+**Sleeves saved: 0.** FINDINGS.md appended with the full table + 4 lessons; LOG.md updated; last line is exactly `ROUND r4 DONE`. Used ~18 tool calls.
+=== agent A2_fx_carry round r4 end Sun Aug 30 12:43:59 CST 2026 exit 0 ===

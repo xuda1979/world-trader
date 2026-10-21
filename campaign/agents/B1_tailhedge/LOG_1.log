@@ -1,0 +1,28 @@
+=== agent B1_tailhedge round 1 start Mon Aug 31 17:11:49 CST 2026 ===
+=== round 1 findings logged Mon Aug 31 2026 ===
+Reproduced 14-sleeve reference blend: ann 42.1% SR 2.18 MaxDD -19.1% DD/ann 0.453.
+Tested all 5 charter ideas + variants (VIX gates, vol/dd throttle, gold/10y FTS, VIX convexity,
+VIX+SPX-mom crash gate, SPX trend-short, put-replication gamma). NONE compress MaxDD; blend tail is
+diffuse internal loss, not market crash. Best (combo crash gate) passes FULL/halves/yearly but fails
+scramble gate. No sleeve saved. Details in FINDINGS.md.
+ROUND 1 DONE
+Everything is in order:
+- Sleeves dir is empty (honestly — no gate-passing sleeve exists, per contract I did NOT save any).
+- FINDINGS.md last line is exactly "ROUND 1 DONE".
+- Repro script runs and reproduces the reported numbers.
+- Other agents' dirs and the shared library untouched.
+
+## Summary
+
+I completed Round 1 for agent **B1_tailhedge** (tail-hedging overlays to compress MaxDD). I reproduced the reference blend (14 daily sleeves + EW + vol-target 22%): **ann 42.1%, SR 2.18, MaxDD -19.1%, DD/ann 0.453**, no negative years.
+
+I executed and honestly tested **all 5 charter ideas** (plus variations), each with T+1, 6bps/side, trailing-only signals, and all honesty gates:
+
+1. **VIX crash gate (de-risk)** — FAIL: hard-off at high VIX *worsened* MaxDD (to -25.8%), because the blend already holds profitable stress sleeves (gold, bonds).
+2. **Realized-vol accelerator + DD throttle** — FAIL: cut return proportionally, DD/ann flat or worse; drawdown-feedback gate self-defeats (never fires).
+3. **Flight-to-safety (long gold+10y on credit spread)** — FAIL badly: combined MaxDD exploded (-42% to -69%) from factor concentration.
+4. **VIX convexity / put-replication gamma** — FAIL: SR 0.18-0.45, fails scramble, MaxDD unchanged (-19%).
+5. **VIX-gated protective put (short SPX)** — best candidate: standalone SR 0.58-0.67, clean halves/zero negative years, but **fails the signal-scramble gate** (sparse-binary hedge trap) and adding it does NOT compress MaxDD.
+
+**Honest bottom line**: No idea passes all gates. The reproduced blend's drawdowns are diffuse internal-sleeve losses at low/moderate VIX, not market-crash events — so market-crash tail overlays cannot compress themchence. Since no sleeve passes every gate, **I saved no sleeve** (per the honesty contract) and reported all exact numbers in FINDINGS.md, with a reproducible script for the coordinator's best informational candidate)Skip. Last line of FINDINGS.md is exactly **ROUND 1 DONE**.
+=== agent B1_tailhedge round 1 end Mon Aug 31 17:33:36 CST 2026 exit 0 ===

@@ -1,0 +1,20 @@
+=== audit agent AUDIT4_build start Tue Sep  1 13:59:06 CST 2026 ===
+Audit complete. `campaign/agents/AUDIT4_build/FINDINGS.md` (318 lines) records every check with exact numbers; last line is exactly `AUDIT DONE`.
+
+## Executive summary
+
+**What held up (positive evidence):**
+- **All 4 charter unit tests PASS**: constant-return sleeve → cap-8 scale (warmup NaN→0 correct); 2-sleeve zero-corr blend vol 7.28% vs analytic 7.07%; throttle fires exactly at threshold crossing with **proven no same-day action** (vectorized == day-loop, `tdd[T]` bit-identical under a -50% same-day shock); hand-computed turnover costs match to 0.0e+00.
+- **No lookahead anywhere**: perturbing all sleeves +10bp from 2020-01-02 changes **0 pre-cutoff days**.
+- **Byte-exact repro** of all 6 V1 + 20Y_V2 champion CSVs (max dev ~1e-16); sensitivity alive (XGB1y +1bp → 65 days changed). MDD, per-year DD, OOS, no-B3, keystones, cost stress, monthly SR CI, corr ~0.03 all reproduce exactly.
+
+**Major problems found (11 findings, F-1..F-11):**
+- **F-3: "No leverage PASS" is false as stated** — total book gross averages **5.2x (A) / 6.5x (B)**, max 21.7x, >1x on 97% of days.
+- **F-4: FINANCED variant is not reproducible** (committed without its script) and understates full financing: my full charge gives **-19 to -25pp ann** (SAFE-A 48.5%→29.3%) vs their -6.6pp. UNVERIFIED exactly; direction verified.
+- **F-7: 187 NYSE-closed days carry P&L** (Dec 25 2008 **+4.66%**, Dec 25 2015 **+5.89%** from FRED spot prints) ≈ +0.75pp ann of non-tradeable returns.
+- **F-6: V3/V4 champions have no builder**; docs misstate pool sizes (claimed 21/16-pool, JSONs have 20/15; 20Y_V4 rebuild is byte-exact at 15, V4 only matches to 3e-03).
+- **F-9: LOYO 45.5-50.0 and 5y CAGR 53/53/73/64 doc numbers unreproducible** under any convention on any committed series — UNVERIFIED provenance.
+- Plus: throttle NaN-warmup (F-1), inverted MHX-dilution claim (F-2, MHX actually adds +11.4pp), normalized-weight cost understatement (F-5, -0.16pp), tail-week running on 1-5 sleeves (F-8), overstated IS argmax stability (F-10), SAFE-A vt.085 not the max under its stated rule (F-11).
+
+Also flagged: 8 untracked `*CLEAN*` files appeared in campaign/results **during** the audit window — not mine, reported to COORD.
+=== audit agent AUDIT4_build end Tue Sep  1 15:21:04 CST 2026 exit 0 ===

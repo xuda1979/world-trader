@@ -1,0 +1,21 @@
+=== agent E3_volregime round 1 start Tue Sep  1 10:50:00 CST 2026 ===
+## E3_volregime ROUND 1 COMPLETE — 0/7 sleeves saved (all failed honestly)
+
+**Method:** T+1 execution, 6bps/side, vol-target 10% ann (trailing expanding window, min 60d, clip 3.0), gates per brief (SR≥1.0, plateau, halves≥0.5, ≤2 neg yrs >−5%, scramble, |corr|<0.15/0.35 to COORD + CHAMPION20Y blends). Built `campaign/scripts/e3_lib.py` shared harness.
+
+**Results (exact numbers in FINDINGS.md):**
+
+| # | Idea | Best cell | Verdict |
+|---|------|-----------|---------|
+| 1 | VIX z>2 shock → SPX 5-10d | SR=0.47 (≈B&H 0.48) | FAIL — no edge over B&H, 3-4 neg yrs, worst −23% |
+| 2 | Vol-of-vol gate SPX/natgas | SPX 0.51, NG 0.52 vs refs 0.48 | FAIL — gate ≤ B&H, halves<0.5 |
+| 3 | (VIX3M−VIX) 5d speed | best event 0.44; long-unless-flatten 0.72 | FAIL — <1.0, 4 neg yrs; also downloaded real VIX3M (only 2009+) |
+| 4 | VIX integer crossings 20/25/30 | cross>30 hold5: SR=0.51 | FAIL — 53 events/19.8y, real drift (+1.54% vs 0.21% all-days) but too sparse |
+| 5 | Gold vol-z regime | calm&long 0.50 vs gold B&H 0.59 | FAIL — gate degrades B&H |
+| 6 | Cross-asset vol dispersion SPX/gold switch | inv 0.70 vs 50/50 ref 0.90 | FAIL — dispersion ≈ SPX vol, no alloc skill |
+| + | Fusion 3+6 (flatten→gold) | 0.69 vs 50/50 ref 0.91 | FAIL |
+
+**Key honest finding:** every vol-event daily book either matches or underperforms its own asset's vt10 buy-and-hold reference — the panic-reversion premium is already embedded in SPX B&H, and vol-regime gates contain no directional timing info at the daily horizon. The only VIX alpha in this data inventory is A5's monthly contango-level sleeve (SR 1.02), which this lane cannot decorrelate from.
+
+FINDINGS.md written with exact numbers; last line is exactly `ROUND 1 DONE`.
+=== agent E3_volregime round 1 end Tue Sep  1 11:02:23 CST 2026 exit 0 ===

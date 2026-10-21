@@ -1,0 +1,39 @@
+=== agent A1_trend_cta round r7 start Mon Aug 31 14:41:15 CST 2026 ===
+r7 run summary: 4 charter missions executed. Idea1 cross-asset carry-trend 4/5-leg:
+24 configs ALL negative-to-flat (per-leg fix applied: bond trend must be computed on
+price TR not yields — r1 flip-invariance bug instance #2). Diagnosis: oil spot trend
+SR ~0 1990+ (no carry term available on free spot data), slope-trend weak post-08.
+Idea2 yield momentum (ymom) SR 0.26-0.31 90+, slope-mom L252 0.27 90+/0.30 08+ but
+10-19 neg years each. FAIL. Idea3 seasonality: wti/brent winter 33y SR 0.47/0.51 real,
+propane 0.34, corr(propane,natgas)=0.17; but blends max SR 0.36 08+. FAIL (standalone
+and blended vs SR 1.0 bar). Idea4: DFF-VIX raw>0 degenerate (never fires; spread in
+vol pts vs %) = pure cash; z>0 regime SPY book SR 0.74 but H1 0.29 FAIL; TED z<0 0.61
+FAIL. Extended probes: BAML IG/HY OAS start 2023 only (dead); FX carry dead (foreign
+10y yields start 2018; 1990+ jp10y claim in charter FALSE on disk); palladium monthly
+mom 0.57/11-16 neg yrs FAIL; IG-carry always-in SR 1.11 90+ but standing premium =>
+would fail scramble (r1 lesson), not saved. WINNER: credit-regime momentum on DBAA
+(BAA yield 252d diff < 0 -> long synth TR dur7): SR 1.44 90+, H1 2.05/H2 0.91,
+3 neg yrs worst -3.1%, plateau 0.81+, scramble 500-rotation p=0.012, corr champion
+-0.01, max lib corr 0.192. SAVED: A1_credit_regime_mom (+ repro campaign/scripts/
+a1_credit_regime.py). Spec-mismatch incident: first save used cap2.0 (gate-d FAIL,
+10 negyrs) — caught by full-gate re-run on saved artifact, fixed to validated cap1.0.
+## r7 Summary — A1_trend_cta
+
+**1 sleeve SAVED: `A1_credit_regime_mom`** (the round's one passer), 4 charter missions + 6 extended probes executed honestly.
+
+### What was run (all gates on each)
+1. **Cross-asset carry-trend (1990+)** — FAIL, 24 configs. Caught a second instance of the r1 flip-invariance bug (bond trend computed on yields, applied to price TR). Even fixed: oil spot trend SR≈0 (no carry term on free spot data), slope dead post-2008.
+2. **Yield momentum** (DGS10-vs-mean; slope steepener) — FAIL: SR ≤0.31, H2 collapses post-2008, 6–19 negative years.
+3. **Energy seasonality** — partially real (brent winter 33y SR 0.51, propane 0.34, corr-to-natgas only 0.17) but blends top out at SR 0.36 post-2008. Not saved.
+4. **VIX-carry regime** — FAIL; DFF−VIX raw spread is unit-degenerate (never fires = pure cash), z-versions are equity beta with H1 0.29.
+5. **Extended probes**: BAML OAS starts 2023 (dead), FX carry premise false (foreign 10y starts 2018), palladium mom 0.57 with 11–16 neg years, IG always-in carry 1.11 rejected *on principle* (standing premium ⇒ would fail scramble, r1 lesson).
+
+### The saved sleeve
+**Credit-regime momentum**: long BAA synth TR (dur 7) when BAA yield fell over 252d, flat+rf otherwise. **SR 1.44 net 1990+ (n=9503, 17y beyond campaign default), H1 2.05/H2 0.91, 3/37 neg years worst −3.1%, plateau ≥0.81 over L∈{126–504}, scramble p=0.012 (500 rotations, identity-checked), corr to champion −0.01, max library corr 0.192.** Lag-robust +1..+5d.
+
+### Honesty incidents caught
+- First save shipped a cap-2.0 spec mismatch (SR 1.21 but 10 neg years = gate-d FAIL) — caught by re-running all gates **on the saved CSV**, fixed to the validated cap-1.0 config.
+- Two charter data premises were false on disk (gold daily 1990+, FX yields 1990+); DFF−VIX is unit-inconsistent — premise-audit is now a pre-build step recommendation.
+
+FINDINGS.md appended with the numbered summary; last line is exactly `ROUND r7 DONE`. ~22 tool calls used.
+=== agent A1_trend_cta round r7 end Mon Aug 31 15:18:38 CST 2026 exit 0 ===

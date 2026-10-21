@@ -1,0 +1,13 @@
+2026-10-08 DATA_NOAA_HDDCDD log
+- charter written (campaign/team/charters/DATA_NOAA_HDDCDD.md + loop_team copy)
+- source recon: CPC weekly degree-day files — archive keeps only ~4 weeks -> EXCLUDED
+- source recon: NCEI CAG JSON endpoints — 20/20 live (national 110 + regions 101..109, hdd/cdd), 1580 months each, 1895-2026
+- TDD RED: test_hddcdd_dl.py 9 pins -> ModuleNotFoundError, then lint-order RED (n<300 fired before gaps)
+- fix: lint check order -> plausibility, gaps, then n>=300; test_lint_ok fixture extended to 480 rows
+- GREEN: 9/9 pins pass; write_csv hack removed (write-then-truncate -> plain write)
+- build: python3 hddcdd_dl.py . -> 20/20 series lint PASS (1580 rows, gaps=0), hdd_monthly.csv + cdd_monthly.csv written
+- cross-check: independent live re-fetch national HDD, 1580/1580 months match, 0 mismatches
+- README.md + manifest.csv written (canonical layout)
+- RAW_DATA_MANIFEST --emit: 11756 files / 87 axes, tree sha16 d02c0d3050e3ffbc; --verify GREEN
+- test_raw_data_manifest.py re-pinned (87 axes / 11756 files / d02c0d3050e3ffbc); pytest 6/6 GREEN
+- commits: explicit pathspecs only

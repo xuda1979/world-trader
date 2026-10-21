@@ -1,0 +1,21 @@
+=== agent D4_microstruct round 1 start Tue Sep  1 09:59:45 CST 2026 ===
+Round 1 complete. Here's the summary of what I did and found:
+
+## Execution summary — D4_microstruct Round 1
+
+**Setup (3 calls):** Read brief/charter, studied harness + gates + C5's findings (C5 already owns the natgas weekday engine — my charter explicitly targets the *next* cash-market microstructure engine). Built `d4_lib.py` with T+1 execution, 6bps/side costs, harness trailing-expanding 10% vol-target, and event-map scrambles (the harness `scramble_pval` is degenerate — permutes the return series itself — as C5 also found).
+
+**Charter ideas — all tested, all failed gate (a) SR≥1.0:**
+
+| # | Idea | Best honest numbers | Verdict |
+|---|------|--------------------|---------|
+| 1 | FOMC × natgas/gold vol-compression + post-FOMC drift | Short post-FOMC NG k=1: SR 0.51, H1 0.22. Raw post-FOMC drift is *negative* (t=−3.32); gold decision-day +20.6bp/event but book SR 0.18 | FAIL (a),(c) |
+| 2 | Heating-oil Oct–Mar seasonal (a-priori EIA convention) | L/S SR 0.10, long-only −0.01, crack z-rev 0.17. Only August significant (t=+2.34) — opposite of the heating story | FAIL (a) |
+| 3 | Jet fuel 2020+ (disclosed 6.7y window) | jet-HO reversion SR 0.82 but H2 0.27 | FAIL (a),(c),(d) |
+| 4 | Cu/Au ratio → SPX gate + 21/63d reversion | best SR 0.12 | FAIL (a) |
+| 5 | Retail-gas/WTI margin weekly z-rev, Monday-aligned | margin AR(1)=−0.24 is real but book SR 0.25 (sign inverted vs naive — pump prices lag wholesale) | FAIL (a) |
+| 6 | Natgas bid-week last-3bd/first-5bd | books SR −0.37..+0.12 | FAIL (a) |
+| + | Follow-up: short-Friday distillate (HO+jet), NG mid-month | SR 0.46, H2 0.08, 2021 −13.3% | FAIL (a),(c),(d) |
+
+**Bottom line:** 0 sleeves saved — per contract, only ALL-gates-pass engines get CSVs. Best honest full-window net SR was 0.53, nowhere near the 1.0 bar. FINDINGS.md records every number, all repro scripts are archived in `campaign/scripts/d4_*.py`, and the last line is exactly `ROUND 1 DONE`. My recommendation to the coordinator: this FRED-daily-print domain is exhausted; a redirect to a genuinely new data domain for Round 2 would be higher-value than re-scanning.
+=== agent D4_microstruct round 1 end Tue Sep  1 10:12:41 CST 2026 exit 0 ===

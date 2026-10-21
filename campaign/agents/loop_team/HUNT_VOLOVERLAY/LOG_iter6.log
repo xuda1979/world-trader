@@ -1,0 +1,26 @@
+=== loop_team/HUNT_VOLOVERLAY start Thu Sep  3 10:04:41 CST 2026 ===
+recon1: predictive screen, max |corr(sig_{t-1}, champ_t)| = 0.0487 (dvix21) — champion is whitened
+recon2: 24 risk-on gate/ramp overlays, ALL dSR<0 at 3.367x gross cost charge (best -0.233)
+recon3: flipped/off-when-stressed gates also ALL negative; slope_z<-0.5 dimming craters H2 to 0.78
+recon4: throttle/vol-target/breadth: breadth DEAD (-2.29), vt rv252 only non-negative (+0.006..+0.036)
+recon5: ridge H1-fit->H2-test OOS-negative; SAFE/AGGR tilt corr max 0.038; budget: best split -5.1bp/day
+recon6: champion has ZERO zero-days; loss-streak/activity overlays negative; vt plateau max +0.0358
+recon7: VRP/real-yield overlays strongly negative (vrp OFF<1: MDD -21.45, 6 neg yrs); T5YIFP malformed
+final: best candidate (vt rv252 tgt.08) dSR +0.0347, scramble p 0.085-0.115 -> 2/6 charter gates
+VERDICT: charter FAILS on every family (60+ variants); NO overlay delivered; FINDINGS.md written
+Charter executed fully. Committed as `b31ee1e` (a later coordinator blotter commit landed on top — untouched by me). Summary of the hunt:
+
+## HUNT_VOLOVERLAY — Verdict: honest charter FAIL, nothing delivered
+
+**Setup:** Baseline reproduced from committed `GOAL100_HONEST14V3_BALANCED_daily.csv` (sha `fdbca655`, 5,086 rows, 2006-10-02→2026-08-27): 2008+ SR_d **3.9397**, ann_geo 43.61%, MDD −4.92%, 0/19 neg yrs — matches iter5 claims exactly. All overlays applied T+1 with incremental turnover charged at the capital-real gross 3.367× (STATS_REVIEW §8), plus a 1× bracket showing conclusions unchanged.
+
+**Why the hunt is structurally underwater (exact numbers):**
+- Champion is **whitened**: max |corr(sig_{t−1}, ret_t)| across 19 on-disk state variables = **0.0487** (dvix21); 2s10s slope −0.031, own-rv −0.035, everything else <0.02.
+- It earns **13–20 bp/day in every signal quintile** — a contrarian/stress-harvester with no weak regime. Best median split: harvest 2.2 bp/day of separation by forgoing 7.3 bp/day ⇒ **net −5.1 bp/day before costs**. dSR +0.15 needs +0.56 bp/day of conditional mean; nothing measured delivers even +0.1.
+- Perfect-foresight ceiling m∈{0,1}: SR 8.457 / ann 88.8% — headroom exists but requires daily sign alpha absent from FRED/FF/breadth data.
+
+**Families tested (60+ variants, ALL fail):** risk-on gates (rv63z, VIX z, baa−aaa z, slope z, EM-FX mom, VRP z, real-yield z, breadth) all dSR −0.02…−3.19; *flipped* off-when-stressed gates worse (slope gate: MDD −15.9%, H2 SR 0.78); DD-throttles ≤ −0.026 (internal throttle already there); internal-state no-ops (V3 has zero zero-days); 8-signal ridge **H1-fit→H2-test OOS-negative** (H2 3.81 vs 4.07 base). Best candidate (vol-target rv252 tgt.08): dSR **+0.0347** (bar +0.15), scramble p 0.085–0.115 (bar <0.05), buys SR with −4.9pp ann → **2/6 gates**.
+
+**Data facts logged for future hunters:** hy_oas starts 2023-08 only (long credit overlay infeasible), T5YIFP malformed, VIX3M/VXV absent — term-structure overlay stays UNRUN with a low prior. Negative ledger + budget arithmetic written to FINDINGS.md so nobody re-runs this family.
+
+Final line of FINDINGS.md is exactly `HUNT_VOLOVERLAY DONE`.

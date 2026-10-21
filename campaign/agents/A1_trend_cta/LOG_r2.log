@@ -1,0 +1,18 @@
+=== agent A1_trend_cta round r2 start Fri Aug 28 21:26:22 CST 2026 ===
+Round r2 complete — all three charter missions executed, all gates run, one sleeve saved. Summary:
+
+**Mission 1 — BREADTH CTA (FAIL, honestly reported)**
+- 9 charter legs (spx dropped: FRED series starts 2016 only), long/flat 189d trend + 84d confirm, leg vol-sizing, T+1, 6bps
+- Best config: SR 0.58, H1 0.43, H2 0.70, **6 negative years, worst −18.8%** → fails gates (a),(d)
+- Structural fixes tried, none cleared the yearly gate: long/short variant (SR 0.19), 9→8 leg dedup (crude = wti/brent mean), tighter caps, book-level vol-targeting, multi-horizon ensemble (best 0.53)
+- Silver lining found: breadth alone made **+55% in 2008** with near-zero correlation to the library (−0.09…+0.02) — genuine crisis alpha
+
+**Mission 2 — Sector momentum (FAIL)**
+- Correlation-clustered sectors (market-residualized, K=25), 6m momentum top-4, monthly: raw SR 0.72, H1 0.52, H2 0.95; + 200d-MA regime overlay: SR 0.91 — but **5 negative years** (gate d) and corr 0.62–0.85 to existing library equity sleeves → little diversification value
+
+**Mission 3 — Mix sleeve (PASS → SAVED)**
+- `A1_mix_breadthCTA_SharpeW_LS13030`: ⅓ breadth CTA + ⅓ Multi_Strategy_SharpeW + ⅓ L_S_130_30, single trailing 10% vol target
+- Window **2008-01-03..2026-08-11** (strict — includes 2008 crisis): **SR 1.04, H1 1.08, H2 1.01**, ann 11.3%, vol 10.9%, 2/19 neg years (−3.5%, −4.3%), 2008 +13.2%, 2022 +0.7%
+- Gates: plateau min-ratio 0.90; scramble p=0.020 (after fixing a same-day-weight lookahead bug in my own scramble harness that had faked p=0.0000 — caught via a real-vs-official identity check); rationale + validation in `.meta`; confirmed by official eval.py
+- Artifacts: `campaign/scripts/{breadth_cta,sector_mom,a1_mix_breadth_cta}.py`, sleeve CSV+meta in my sleeves dir, LOG.md + FINDINGS.md appended, last line exactly `ROUND r2 DONE`
+=== agent A1_trend_cta round r2 end Fri Aug 28 21:48:41 CST 2026 exit 0 ===

@@ -1,0 +1,22 @@
+=== agent A3_xs_quality round r7 start Mon Aug 31 14:42:50 CST 2026 ===
+Round r7 complete. Summary:
+
+## Verdict: 1 of 5 charter ideas saved (with documented fork)
+
+**Data foundation**: All FRED macro series verified on-disk (DGS10/2, DAAA/DBAA, CPIAUCSL, WTI/Brent back to 1990+, gold 2007+, VIX, DXY); FRED download works for the one missing series (DHHNGSP natgas 1997+, staged in `r7_data/`). Built `r7lib.py` reusing the r6-verified backtester with custom return panels.
+
+**Ideas 1–4: FAIL (rejected, honestly reported)**
+1. **Commodity z-MR** (charter's flagship): SR −0.21..−0.29 in all 9 grid cells, worst year −35..−58%. Reversion is negative in *every* leg — sign-flip (momentum) only +0.26.
+2. **Rate-curve value**: dead at 4 horizons × both signs (|SR| ≤ 0.41, best variant fails halves and worst-year).
+3. **Credit-cycle rotation**: best 0.25; the always-long AAA carry alone is 0.33 — the spread-percentile gate is *inert*.
+4. **CPI momentum**: 0.53 but H1 0.22, 8 neg years; adding trend filters degrades it further.
+
+**Idea 5: SAVED as `QA_xasts_tsmom189`** — charter's "long SPX on breadth" version failed H1 by construction (−0.51); I forked to holding the 5 legs directly with per-leg TSMOM(189), 20% EW, weekly, T+1, 6bps, vt10:
+- **SR 1.06** (charter aspiration ≥1.0), H1 0.97 / H2 1.14, 1 neg year (2009 −3.6%), ann 12.1%
+- Scramble p=0.000 (real 1.06 vs null95 0.40); plateau 7–9/9 cells within 20% of peak across maw 42–378
+- **corr to champion 0.033, corr to own sleeve 0.031, max corr to 43-sleeve library 0.175** — resolves the r4/r6 "no low-corr sleeve from panel signals" conclusion by switching asset class
+
+**Brutal-honesty disclosure in the meta**: leg-drop battery shows the VIX-regime leg carries nearly all the edge (VIX alone SR 1.08; no-VIX 0.25). This is a VIX swing engine diversified by 4 weak legs, not broad TSMOM — and the synthetic spot-VIX has no roll carry (conservative on the short side). If the coordinator distrusts that leg, the sleeve should be dropped; the no-VIX book was *not* saved.
+
+FINDINGS.md appended with full numbers, repro paths (`campaign/scripts/QA_xasts_tsmom189.py`), and ends with the required final line.
+=== agent A3_xs_quality round r7 end Mon Aug 31 15:04:50 CST 2026 exit 0 ===

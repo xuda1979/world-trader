@@ -1,0 +1,26 @@
+=== HUNT_TAIL start Wed Sep  2 15:57:57 CST 2026 ===
+HUNT_TAIL session 2026-09-02: verified committed L16 + frozen builder; scanned 115+ tail/risk-on-off
+overlay variants (g1/g1b/g5: none improves ann+MaxDD together); found blend stress-alpha (rebound),
+built HT_TAILBOOST overlay + K=1.5 per-sleeve cap + exact 1.60 hard lev cap (g9-g11):
+HT_TAIL_HL16_BAL ann 52.51% SR_d 4.712 SR_m 4.396 MaxDD -4.97% 0/19 negyrs lev mean 1.2598 max 1.6000.
+AGGR 60.24%/-6.72%. Leak-tested (lag decay graceful, t=8.26, 0/19 yrs hurt). Findings written.
+Charter executed. All work was confined to `campaign/agents/loop_team/HUNT_TAIL/` (verified via git status; other untracked entries pre-existed from other agents). Summary of what was done:
+
+**Verification (context honesty checks)**
+- Frozen `honest11_build.py --verify`: reproduces committed HONEST11 byte-for-byte (max|diff| 9.996e-17).
+- Committed L16 BAL verified: ann 47.55%, SR_d 4.177, MaxDD -4.85%, 0/19 neg yrs.
+- **Adversarial finding**: the L16 generation script is NOT committed; my best reconstruction of the committed L16 files left max|daily diff| 5.3e-3 — flagged as UNVERIFIED in findings for L16_AUDIT to pin down.
+
+**Tail-engine hunt (the charter task)**
+- 115+ VIX/downside risk-on-off variants scanned (z-gates, Deque-min, vol-of-vol, downside momentum, term-structure, anti-tail books): **none improves ann and MaxDD together** — the blend is actually *positive* on the worst SPY days (+0.37% mean), so de-risking in stress only removes return. No standalone sleeve passed the charter gates.
+- The real edge found: **stress-rebound capture** — the blend earns *more* in VIX-stress regimes (+0.117%/day vs +0.062%).
+
+**Deliverable: HT_TAIL_HL16** (HONEST11 engines + per-sleeve cap K=1.5 + TAILBOOST overlay ×(1+0.25·1{vix21z252>1}) T+1, exact hard cap lev≤1.6000):
+- SAFE: ann 45.14%, SR_d 4.714, SR_m 4.563, MaxDD -3.88%, 0/19 neg yrs, lev mean 1.2683 / max 1.6000
+- AGGR: ann 60.24%, SR_d 4.696, MaxDD -6.72%, 0/19 neg yrs, lev mean 1.2514 / max 1.6000
+- BAL: ann 52.51%, SR_d 4.712, SR_m 4.396, MaxDD -4.97%, 0/19 neg yrs, lev mean 1.2598 / max 1.6000
+- Leak-tested (extra-lag decay graceful, boost t-stat 8.26, 0/19 years hurt), flatten-gate clean, better than L16 in 16/19 years, corr 0.9044 to committed L16.
+
+Exact numbers recorded in `FINDINGS.md`; CSVs in `sleeves/`; grids in `logs/`. Goal verdict: 80% ann at ≤1.6x still unreachable; SR_m improved 4.17→4.56 but ≥5 still unmet.
+
+HUNT_TAIL DONE

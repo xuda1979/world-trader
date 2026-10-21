@@ -1,0 +1,6 @@
+HF_mom_cheap (HUNT_FUNDAMENTAL, 2026-09-02) — VERDICT: REJECTED (fails charter corr gate + negyr clause)
+Signal: 12-1 momentum (252d/21d skip) long-only top-50%, restricted to cheap half by fundamentals_annual.parquet value composite ((ni/equity + oi/(equity+debt-cash) + revenue/TA), PIT Jul-1 y+1, stale-carry); monthly ME rebalance, T+1; 6bps/side; vt10 expanding (min60 cap5).
+Universe: union panel twelve_big+twelve_extend (738 names). Q3 hygiene: names with any |ret|>25% print in trailing 504d excluded; PnL winsorized ±50%/day (raw panel has 39,415 |r|>25% rows, 4,482 >100%: zero prints + splits).
+TRUE daily hold (constant nominal weights intra-month, no flattening): uniqR=0.9369 ac1=-0.106 (flatten gate PASS).
+Gates: SR 0.90 (PASS>0.6) | H1 1.16 / H2 0.66 (PASS>0.3) | neg yrs 1 but 2022=-6.3% <-5% (FAIL) | scramble 200x: perm[mom] p=0.900, perm[filter] p=0.020 (fundamental filter WORSE than random), perm[both] p=0.695 (FAIL — edge is generic momentum) | corr to HONEST11 blend +0.289, corr to committed dualmom sleeve +0.784 >> 0.15 (FAIL).
+Incremental: adding to HONEST11 (full recipe) DEGRADES SR_d 4.20->4.02, MDD -6.43%->-7.09%.

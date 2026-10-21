@@ -1,0 +1,29 @@
+name: a6_r7_bond2y_trend
+agent: A6_reversal (round r7, charter mission 1 — bond rate-trend on synthetic total return)
+construction: synthetic 2y Treasury excess return TR(t) = -1.9 * d(DGS2)(t) + y(t-1)/252
+  (y in DECIMAL; par-bond approx: modified duration 1.9, carry accrual at spot yield).
+  Signal = trailing 378-observation mean TR > 0 -> LONG, else FLAT (long-flat, never short bonds).
+  Decisions frozen every 42 observations (cadence). T+1 execution (W.shift(1) * TR). Costs 6bps/side
+  on |dW|. Vol-target 12% ann via trailing expanding std min-60d, leverage cap 5x (cap binds —
+  realized vol 6.5%; cap-10 disclosure variant: SR 1.52, ann 14.6%). Eval 2007-01..2026-08.
+  Calendar = FRED DGS2 publication dates (no synthetic calendar; reindex/ffill only for gate paths).
+rationale (economic): the 2y yield is the market-implied policy path; Fed hike/cut cycles are long
+  and persistent, so trailing 1.5y excess return predicts next-month excess return (policy-rate
+  momentum). Control decomposition: always-long 2y (pure term premium) is already SR 1.15 with
+  halves 1.15/1.15 but loses -18.9% in 2022; the trend overlay's one in-window action — flat
+  Nov-2021..Sep-2023 — is the economically correct read (hiking cycles punish 2y carry) and flips
+  2022 to 0.0% while keeping 2007-08 (+34.5/+33.8%) intact. Signal is ~87% long, ~0.3 switches/yr.
+validation (r7): FULL SR 1.43 (net, ann 9.3%, vol 6.5%) | H1 1.14 / H2 1.81 | neg years 2/20
+  (2014 -0.5%, 2021 -4.1%) | worst -4.1% | scramble p=0.005 (200x circular shift of the weight
+  path vs returns, costs+VT repriced) | plateau: 12-pt grid k252..k441 x cad21/42/63, SR 1.31-1.43,
+  neighbor-min 1.33 >= 0.8*peak 1.14, gate-d holds at ALL 12 points | corr to 6-leg champion
+  corrM = -0.00 (corr5 = +0.02), corrD +0.02 — first genuinely de-correlated A6 engine (non-equity).
+caveats (honest): (1) synthetic TR ignores convexity (2nd-order; small at 2y tenor) and uses
+  constant duration 1.9; carry accrued at spot yield, no financing spread — real 2y futures roll/
+  carry differs by a few bps/mo, not the signal's driver. (2) CALENDAR CHOICE MATTERS at the
+  gate-d margin: the canonical (saved) build uses FRED's own quote dates; a synthetic-bday-ffill
+  variant evaluated on the equity-panel calendar gives SR 1.42 with 4 small neg years (worst -2.9%)
+  — SR robust, neg-year count not. (3) k504 (2y lookback) fails 2022 (-13.2%): the window still
+  contains 2019-20 cut-driven positive TR; disclosed edge of plateau. (4) Leverage cap binds, so
+  realized vol (6.5%) is below the 12% target; ann 9.3% understates the raw edge (cap10: 14.6%).
+repro: python3 campaign/scripts/a6_r7_bond2y_trend.py (verified byte-consistent 2026-08-31)

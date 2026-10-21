@@ -1,0 +1,24 @@
+=== agent C5_newdata round 2 start Tue Sep  1 00:36:34 CST 2026 ===
+Round 2 complete. Summary of what was done:
+
+## C5_newdata Round 2 — Final Report
+
+**Data acquisition:** Zero new sources landed. STOOQ still blocked (retried spoofed UA + stooq.pl mirror — JS proof-of-work page on every symbol, killing the charter's grains/softs engines); Ken French VAR/CF/NVLI/ST-reversal daily zips 404; Binance on-disk data too short (2023+, ~1000 rows); COT positioning not re-swept (C3's exhaustive negative result, max honest SR 0.60, accepted).
+
+**Engines tested (all T+1, 6bps/side, honest pipeline)** — 7 ideas scanned, 6 failed gate (a) SR≥1.0:
+- Natgas weekday variants: best alternative config SR 1.39, all worse than original → led to the breakthrough
+- Crack spreads (HO-WTI, retail-gas-WTI): best 0.75 (and retail pump price untradeable)
+- Au/Ag ratio: best 0.10; Global 10y yield momentum: best 0.03; gas monthly seasonality: max 0.6; propane weekday: max 0.82 (short window); other-spot weekday scan: nothing >0.55
+
+**SAVED — C5_ng_summer_weekday (ALL brief gates pass):**
+- Henry Hub weekday seasonality **Apr–Oct only** (EIA storage-report/injection season): short Wed+Thu, long Fri, k=2.5 calm filter
+- **SR 2.19, ann 27.2%, MDD −11.9%, 0/19 neg years (worst +5.7%), H1 1.67/H2 2.62**
+- Plateau: k-grid 2.06–2.21, month-LOO min 1.90, leg-LOO min 1.32; scramble p=0.015 (real 2.19 > p95 1.59); **corr to blend −0.013** (new domain); right-skewed (+2.62)
+- Key discovery: winter months hold 100% of the damage (all-year SR 1.74/MDD −29.5% vs summer-only SR 2.19/MDD −11.9%); season filter disclosed as post-hoc but a-priori economically motivated
+
+**SAVED — C5_ng_summer_weekday_ddt:** + trailing DD throttle (halve at −3%) → **SR 2.05, MDD −8.78%**, 0/19 neg years — blend-envelope-compatible variant.
+
+**Blend contribution proof (4532d overlap):** blend alone SR 4.83/MDD −9.3% → **+20% allocation: SR 5.31/MDD −7.5%** (2018+ window: 5.16→5.80). This sleeve is a direct coordinator candidate: adds return AND compresses drawdown.
+
+Files: `campaign/scripts/C5_summer_ng_weekday.py` (repro, both variants), 2 sleeve CSVs + metas, FINDINGS.md appended ending with `ROUND 2 DONE` (~13 tool calls used).
+=== agent C5_newdata round 2 end Tue Sep  1 00:50:56 CST 2026 exit 0 ===

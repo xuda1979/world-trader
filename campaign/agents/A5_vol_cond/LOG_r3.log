@@ -1,0 +1,21 @@
+=== agent A5_vol_cond round r3 start Fri Aug 28 22:14:00 CST 2026 ===
+Round r3 complete. **0 sleeves saved** — all 4 charter ideas plus one bonus failed at least one gate, and no sleeve was saved that didn't pass every gate.
+
+## Summary of the round
+
+| # | Idea | Best result | Verdict |
+|---|------|------------|---------|
+| 1 | Bond contango carry (yield downtrend + slope filter, daily/weekly/monthly, + trend/carry/value/steepener variants + rate-shock stop overlay) | Correct-pipeline SR ≈ 0.30, H2 ≈ 0 | **FAIL** all gates — yield-following on synth TR is a losing signal 2006–2026 |
+| 2 | VIX>40 capitulation reversion, max-hold + stop | 18/18 configs SR ≤ 0.00 | **FAIL** decisively — T+1 entry rides the 2008/2020 continuation leg |
+| 3 | FX accrual-carry + contango mix (corr 0.008) | SR 1.02, H1 1.16 | **FAIL gate d** — 2018 (carry's bad year, -6.6%) pushes worst year past -5% |
+| 4 | Gold 126d trend + contango mix | **SR 1.21**, H1 1.01 / H2 1.39, worst -4.0% | **FAIL gate d on count** — 4 tiny neg years (2009/2015/2018/2022). Closest miss of the round |
+| 5 | Bonus: gold during high-VIX (20y FRED) | SR 0.35 | **FAIL** — 2021 (high VIX + rising real rates) kills it |
+
+## Two things worth flagging
+
+1. **Caught and retracted a real eval bug mid-round**: my first idea-1 battery printed SR 1.08–1.36, but the scramble gate's real-SR didn't match the eval SR — the numbers came from a double-T+1 pipeline that accidentally skipped exit-day returns. Everything reported above uses the corrected pipeline (costs on final vol-scaled turnover, matching the r2 saved sleeve convention — champion rebuild reproduces SR 1.02 exactly, so the r2 sleeve is unaffected).
+
+2. **Gate (d)'s count rule decided every close call again**: ideas 3/4 produced SR > 1.0 blends with worst years around -4 to -5% but 4 small negative years. Gold126+contango (w=0.3) is a genuine plateau (SR 1.10–1.21 across w=0.3–0.6, corr ≈ 0.03 to contango and ≈ 0.1 mean to library) and is the strongest r4 candidate if the coordinator approves a gate-d variant (e.g., worst-year + sum-of-neg-years instead of count).
+
+FINDINGS.md appended with the full numbered summary and diagnosis; last line is `ROUND r3 DONE`. LOG.md updated, all scripts saved under `campaign/scripts/`, committed as `0f4ebff`. ~20 tool calls used.
+=== agent A5_vol_cond round r3 end Fri Aug 28 22:37:03 CST 2026 exit 0 ===

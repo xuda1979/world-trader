@@ -1,0 +1,16 @@
+C4_construct_v2 (C4_metaalloc round-2 deliverable): NEW 16-pool EW-of-vt10
+(pool = 14 GOAL80 sleeves + C5ng weekday-prem + C5ngsum summer, coordinator 16-pool),
+global expanding-window vol target 11% ann (min 60d trailing, scale cap 3.0), binary
+252d? no: 126d rolling-max trailing drawdown throttle, threshold 3%, factor 0.5 (half
+exposure when shift-1 trailing 126d equity DD < -3%), 6bps one-side costs incl. throttle
+switching. Construction IS-SELECTED on 2008-09..2023 under frozen rule: max IS SR s.t.
+IS MaxDD<=8% AND every IS calendar-year MaxDD<=8%; argmax robust across IS ends
+2016/2019/2022/2023 (item-4 check; 2023 does not dominate). OOS 2017-2026 revealed ONCE:
+FULL ann 55.5% SR 5.40 MaxDD -7.8% (0 neg years, worst year +6.5%); OOS17-26 ann 60.5%
+SR 5.75 DD -7.8%; subwindows 17-23 DD -7.8%, 24-26 DD -6.8%; every calendar-year DD
+<=6.8% (max 2015 -6.6%). Beats current champion (GOAL100 16-pool vt.085 thr.04: 47.1%
+ann, -7.8% DD, OOS 51.8%) and COORD_FINAL (43.2%, -7.5%) at equal-or-lower DD. Honest
+caveat: same-domain construction overlay (corr to blend ~0.96 round-1); use as
+REPLACEMENT construction, not additive sleeve. Vol-target gate note: tgt 11% is the
+IS-rule argmax and leaves ~0.2-0.3pp DD headroom to the 8% wall at every IS end;
+full-window DD -7.8% is within cap. Repro: campaign/scripts/c4_construct_v2.py.

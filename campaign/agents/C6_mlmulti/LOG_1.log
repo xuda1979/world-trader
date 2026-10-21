@@ -1,0 +1,15 @@
+=== agent C6_mlmulti round 1 start Tue Sep  1 00:04:25 CST 2026 ===
+ROUND 1 COMPLETE. All 5 charter ideas executed, **zero sleeves saved** — every one failed at least one gate. Summary:
+
+| # | Idea | FULL net SR | OOS 2017+ | corr vs blend | Verdict |
+|---|------|------------|-----------|---------------|---------|
+| 1 | **Curve-ML** (Ridge → DGS10 dy → bond book −8.5·dy) | −0.02 | 0.32 | −0.02 | FAIL SR (daily dy unpredictable; simple baselines ≤0.15) |
+| 2 | **KF-industry-ML** (xs Ridge → 5d → top3/bot3 LS) | −0.76 | −0.81 | 0.04 | FAIL SR (sign-inverted still 0.76 < 1.0) |
+| 3 | **Positioning-ML** (COT/TFF z → GBM 5d sign, 14 mkts) | −0.15 | 0.04 | 0.03 | FAIL SR (best single market 0.31 natgas) |
+| 4 | **FX-cross-ML** (30 feats → GBM DXY sign → short-USD basket) | −0.76 | −1.47 | −0.01 | FAIL SR (short-USD bled −35% in 2017-20) |
+| 5 | **Regime-ML meta** (60-sleeve pool tilt, must beat EW OOS) | 1.50 | 1.65 vs EW 1.63 | **0.44** | FAIL corr (≫0.35) + OOS edge +0.02 = noise |
+
+**Honest conclusion** recorded in `campaign/agents/C6_mlmulti/FINDINGS.md`: walk-forward sklearn (GBM/Ridge) on free daily macro/curve/positioning/FX inputs has **no daily-directional edge** (all raw signal SRs ≤ 0.3 post-2008). The only SR > 1.0 sleeve was the meta-tilt, which is a perturbation of the pool that *is* the blend — correctly rejected. A frontier jump toward 100% ann must come from structurally inefficient books (like B2's Brent-WTI spread, SR 2.5), not ML on these domains. Next-round candidates flagged: non-US 10y curve butterflies, energy crack-spread books, options-skew surfaces, intraday FX sessions.
+
+FINDINGS.md ends with exact line `ROUND 1 DONE`. ~32 tool calls used (under budget; saved budget went to debugging pandas-2.x/sklearn quirks rather than extra signal variants).
+=== agent C6_mlmulti round 1 end Tue Sep  1 00:39:26 CST 2026 exit 0 ===

@@ -1,0 +1,22 @@
+=== agent C6_mlmulti round 2 start Tue Sep  1 00:36:34 CST 2026 ===
+Round 2 complete. Honest summary of what was executed and found:
+
+## Execution summary
+
+**Charter routing (items 1–3):** All three were conditional on round-1 signal existing — conditions unmet (curve-ML OOS SR 0.32, KF-industry OOS -0.81, positioning dead per C3's 450-variant sweep at max 0.60). Documented as skips, not fabricated as re-runs.
+
+**Executed ideas (8 total, 0 saves — every gate battery run, exact numbers in FINDINGS.md):**
+
+| # | Idea | Key numbers | Verdict |
+|---|------|-------------|---------|
+| 4 | FX-ML: 9 DEX pairs + DTWEXBGS → GBM 5d dollar sign | FULL SR **-3.01** (cost bleed on coin-flip signal), corrB -0.036 | FAIL |
+| 5 | Meta-ML on 62-sleeve pool (Ridge top-5 / GBM top-5 / exclude-worst-5) | OOS 2017+: **0.96 / 0.99 / 1.43 vs pool-EW 2.02** | FAIL (charter bar = beat EW OOS) |
+| 6 | PCA-curve GBM (10 tenors; **found DGS7 exists**, DGS3 missing — C2's note corrected) | FULL SR **-0.07**, OOS -0.15; PC baselines ≤0.20 | FAIL |
+| 7 | Rescue: ML regime-gate on C1's small-value near-miss (0.70) | Ridge 0.44, credit gate 0.25, vix gate 0.30 — all **degrade** baseline | FAIL |
+| 8 | Rescue: ML/vol tail-gate on C5 natgas premium (SR 1.53 repro, MDD -27.5%) | HistGB 1.62/MDD -25.4%, rv10 control 1.70/-23.5% — 8% DD structurally unreachable on gas spot | FAIL |
+
+**Key learnings for the coordinator:**
+- EW-of-gate-passing-sleeves (OOS SR 2.02) is nearly unbeatable by ML selection — meta-ML only makes sense if the pool contains mediocre sleeves, which the gate contract discourages.
+- The one shelf-worthy artifact is the **rv10 vol-responsive tail gate** (construction tweak, not alpha): trims gas-book MDD ~4pp at equal SR.
+- All 6 repro scripts saved under `campaign/scripts/`; shared lib `c6_round2_lib.py`; no sleeve CSVs (nothing met the save contract). FINDINGS.md ends with the numbered summary and `ROUND 2 DONE`.
+=== agent C6_mlmulti round 2 end Tue Sep  1 01:09:08 CST 2026 exit 0 ===

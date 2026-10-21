@@ -1,0 +1,14 @@
+name=QA_xasts_tsmom189
+family=cross-asset TSMOM (5 legs incl VIX-regime)
+SR=1.06 H1=0.97 H2=1.14 negYr=1 worst=-3.6% ann=12.1% vol=11.4% maxDD=-13.4%
+corr_champ=0.033 corr_old=0.031 lib_corr_max=0.175
+scramble_circshift_200reps_p=0.0 (null95=0.4, real=1.06)
+plateau(maw): 42:0.89,63:0.83,94:0.88,126:0.93,157:0.97,189:1.06,252:1.10,315:1.08,378:1.04 (9/9 within 20% of peak)
+attribution: VIX-leg alone SR 1.08; drop-VIXS 0.25; other drops 1.04-1.10
+rationale: cross-asset time-series momentum (Moskowitz-Ooi-Pedersen 2012) on free FRED
+spot series (WTI, gold, synth dur-8.5 10y TR, inverted DXY, inverted VIX); MA189 sign rule
+EW 20%/leg, weekly Wed, T+1, 6bps, vt10 trailing expanding. VIX leg = vol-regime swing
+(short vol below MA, long above); synthetic spot-VIX has NO roll carry => conservative vs
+futures on short side; gap risk bounded by MA flip (worst yr -3.6%). Near-zero corr to
+champion (0.033) and whole 43-sleeve library (max 0.175) => genuine de-correlated sleeve.
+validation: all gates PASS 2026-08-31 (A3 r7)

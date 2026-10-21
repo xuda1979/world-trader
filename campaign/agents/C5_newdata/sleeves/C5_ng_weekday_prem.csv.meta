@@ -1,0 +1,10 @@
+SLEEVE: C5_ng_weekday_prem
+AGENT: C5_newdata
+SIGNAL: Weekday seasonality in Henry Hub spot (FRED DHHNGSP): long Fri close->next print (weekend storage-convenience premium / short-term demand hedging), short Wed and Thu close->next print. Calm filter: entries skipped when same-day |log ret| > 2.5x trailing 90d sigma (event/weekend-gap prints).
+DATA: free FRED daily spot Henry Hub 1997-2026 (tools/quant/data/newdata/DHHNGSP.csv).
+EXEC: T+1 (position at close t, pnl = log S_{t+1}/S_t), 6bps/side on turnover, trailing expanding 10% vol target (min 60d, cap 3x).
+GATES: FULL SR=1.74 ann~24% MaxDD=-29.5% negyrs 0/19 (worst +6.3%) H1 2.18 / H2 1.55 corr(blend)=-0.023 scramble 200x p=0.0000.
+PLATEAU: k in 1.5..3.5 x weekday-neighbors: SR 1.48..1.71 for 3-leg config (center 1.66 on k-grid incl filter); 2-leg {Wed,Fri} variant SR 1.00..1.17; robust.
+SPECIFICITY: gas-only anomaly — same rule on WTI/Brent/propane SR -0.68..-0.86 (opposite sign); EW basket of 4 energy spots SR -0.38. Do NOT assume generality.
+CAVEAT: spot-based premium, roll-free; tradeable via UNG/futures calendar with basis risk; sleeve MaxDD -29.5% exceeds the 8% blend-level gate (vol-target 10% fixed by harness) - saved as corr_ok_secondary.
+RATIONAL E: weekday effect in gas driven by weekend storage injections (Fri long) and midweek position squaring; premium survives 19y and costs; niche but real.
