@@ -361,3 +361,34 @@ Status: completed (verification sweep; all fences GREEN, frontier time-gated —
   vs GATES_CONTRACT_V2.
 
 Status: completed (Addendum A audit + hardening sealed pre-outcome; PROTOCOL-HOLD preserved 13/60 — next scheduled work refresh waves until ≥60 panel dates)
+
+- 2026-10-18 Addendum B round (price-feed refresh runbook correction,
+  pre-outcome, no engine change): the Addendum A.6 residual note's runbook
+  sentence ("refresh both sources same-day before the December maturity
+  run") is infeasible for CBOE. Live probe Sat 2026-10-17 14:05 ET (= Sun
+  2026-10-18 02:05 +0800), 22h after Friday close: CBOE delayed-quotes
+  historical feed still ends 2026-10-15 (SPY 5736 raw bars 2004-01-02→
+  2026-10-15, 5735 unique, dup 2024-12-31; GLD 5514/5513; zero null-OHLC
+  bars) — feed lags ≥1 trading day behind close, so same-day cboe_hist
+  refresh cannot reach the panel's last date. WORK.md Addendum B supersedes
+  the A.6 sentence with the corrected runbook: (1) post-close twelvedata
+  refresh (all 9 panel syms, verified current through 2026-10-16, mtimes
+  2026-10-18 01:26–01:28 +0800); (2) cboe_hist refresh next trading day
+  post-close (5 ETF files at feed max 2026-10-15); (3) twelvedata carries
+  the 5 ETFs' T+1 via per-symbol fallback (r1_engine.py source preference
+  cboe_hist first, twelvedata fallback; fail-closed span guard raises if
+  chosen source does not extend ≥1 trading day past panel last date), so
+  cboe_hist one-day lag is benign. Also documented the partial-bar hazard:
+  the A.5 staleness guard is DATE-ONLY (does not verify bar completeness) —
+  operational rule added: refresh only outside ET market hours (the
+  01:26–01:28 +0800 refreshes = Sat 13:26–13:28 ET, market closed,
+  compliant). Round state unchanged: PROTOCOL-HOLD 13/60 dates / 2 of 3
+  months, no grid, no forward returns computed; champion, charter 58df590f,
+  beat-paths 1-4 untouched. V71 decay monitor rerun same window: HARD 0,
+  STALE 1 (a6_r2_pair_residmom_fm1926), DECAY 3, advisory-prune 1, n_sleeves
+  20 / held 18 / retired 2, report_date 2026-10-18, as_of 2026-10-31.
+  Next scheduled work unchanged: refresh waves until ≥60 panel dates /
+  ≥3 months (~early Dec 2026), then re-run r1_engine.py (real mode) and
+  adjudicate in FINDINGS.md vs GATES_CONTRACT_V2.
+
+Status: completed (Addendum B runbook correction sealed pre-outcome; PROTOCOL-HOLD preserved 13/60 — next scheduled work refresh waves until ≥60 panel dates)

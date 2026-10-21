@@ -16459,3 +16459,40 @@ ACTION: none further this window. Next scheduled hunt session unchanged:
 re-run r1_engine.py (real mode) + adjudicate in FINDINGS.md vs
 GATES_CONTRACT_V2 at ≥60 panel dates / ≥3 months (~early Dec 2026).
 Beat-paths 1-4 as filed.
+
+## iter-15 — 2026-10-18 HUNT_H1_TAILFACTOR Addendum B: price-feed refresh runbook corrected (pre-outcome, PROTOCOL-HOLD preserved)
+Time ~02:0x–04:2x CST. Follow-through on the Addendum A.6 residual note: its
+runbook sentence ("refresh both sources same-day before the December maturity
+run") is infeasible for CBOE. Documentation-only round: no engine change, no
+grid, no forward returns computed.
+- Live probe Sat 2026-10-17 14:05 ET (Sun 2026-10-18 02:05 +0800), 22h after
+  Friday close: CBOE delayed-quotes feed still ends 2026-10-15 (SPY 5736 raw
+  bars → 5735 unique, dup 2024-12-31; GLD 5514/5513; zero null-OHLC bars;
+  probe JSONs /tmp/cboe_probe_{spy,gld}_20261018.json). Feed lags ≥1 trading
+  day behind close — same-day cboe_hist refresh cannot reach panel last date.
+- Disk state verified: twelvedata 9/9 panel syms current through 2026-10-16
+  (mtimes 2026-10-18 01:26–01:28 +0800); cboe_hist 5/5 ETFs at feed max
+  2026-10-15; twelvedata/manifest.csv old (mtime 2026-09-08) but bookkeeping
+  only, not engine-read.
+- Corrected December runbook (WORK.md Addendum B.3): post-close twelvedata
+  refresh; cboe_hist refresh next trading day post-close; twelvedata carries
+  the 5 ETFs' T+1 via per-symbol fallback (engine preference cboe_hist
+  first, twelvedata fallback; fail-closed span guard raises if the chosen
+  source does not extend ≥1 trading day past panel last date) — cboe_hist
+  one-day lag benign.
+- Partial-bar hazard documented (B.4): A.5 staleness guard is DATE-ONLY
+  (bar existence, not completeness) — intraday refresh during ET market
+  hours could ingest an in-progress partial bar. Rule: refresh only outside
+  ET market hours. The 01:26–01:28 +0800 refreshes = Sat 13:26–13:28 ET,
+  market closed — compliant.
+- V71 decay monitor rerun same window (uncommitted output committed with
+  this round): HARD 0, STALE 1 (a6_r2_pair_residmom_fm1926.csv, monthly
+  65-day limit), DECAY 3, advisory-prune 1; n_sleeves 20 / held 18 /
+  retired 2 (crossasset_rev_L8, FXD1_KRWTRI_raw_daily); report_date
+  2026-10-18, as_of 2026-10-31.
+- Round state: PROTOCOL-HOLD unchanged (13/60 dates, 2/3 months, no grid);
+  champion a8ed233bd0f6fd5d, charter 58df590f, beat-paths 1-4 untouched.
+ACTION: none further this window. Next scheduled work unchanged: refresh
+waves until ≥60 panel dates / ≥3 months (~early Dec 2026), then re-run
+r1_engine.py (real mode) + adjudicate in FINDINGS.md vs GATES_CONTRACT_V2.
+Beat-paths 1-4 as filed.

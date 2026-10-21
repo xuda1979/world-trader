@@ -198,6 +198,64 @@ holds the round in PROTOCOL-HOLD at 13/60 dates):
    PIN-OK sha cae23d09649b1917/114rows sealed-prefix intact).
 
 Residual operational note: price files go stale again by ~1 trading day per
-panel accrual day. Before the December maturity run, refresh both sources
-same-day (paths in A.4) so the guard passes on the then-current panel; the
-engine itself needs no further change.
+panel accrual day. See Addendum B for the corrected refresh runbook — the
+A.6-draft wording ("refresh both sources same-day") is superseded: CBOE
+delayed-quotes lags ≥1 trading day, so same-day dual refresh is infeasible
+for cboe_hist. The engine itself needs no further change.
+
+---
+
+## Addendum B — price-feed refresh runbook correction (2026-10-18, post-A.6, pre-outcome)
+
+§9b operational follow-through on the A.6 residual note. No engine code, no
+grid, no forward returns — documentation + live probe only. Round state
+unchanged: PROTOCOL-HOLD 13/60 dates, 2/3 months.
+
+### B.1 A.6 runbook sentence was infeasible for CBOE — corrected
+
+The A.6 residual note drafted "refresh both sources same-day (paths in A.4)
+before the December maturity run". Live probe (Sat 2026-10-17 14:05 ET = Sun
+2026-10-18 02:05 +0800, 22h after the Friday 2026-10-16 close): the CBOE
+delayed-quotes historical feed still ends 2026-10-15. SPY: 5736 raw bars
+2004-01-02→2026-10-15, 5735 unique, dup ['2024-12-31'] — disk proven
+current-to-feed (5736 = 5735 unique + 1 dup). GLD probe similar: 5514 raw /
+5513 unique, last 2026-10-15. Probe JSONs: /tmp/cboe_probe_spy_20261018.json,
+/tmp/cboe_probe_gld_20261018.json. Conclusion: the CBOE delayed feed lags
+≥1 trading day behind close; same-day same-feed refresh cannot make cboe_hist
+reach the panel's last date. The A.6 wording is superseded by this Addendum.
+
+### B.2 Verified source state (disk, 2026-10-18)
+
+- twelvedata: current through Friday 2026-10-16 for all 9 panel syms (SPY,
+  QQQ, TLT, GLD, IWM, AAPL, MSFT, NVDA, TSLA). Refresh mtimes 2026-10-18
+  01:26–01:28 +0800. twelvedata/manifest.csv is old (mtime 2026-09-08) — it
+  is bookkeeping only, not used by the engine.
+- cboe_hist: all 5 ETF files last bar 2026-10-15 (= feed max, per B.1), mtimes
+  2026-10-18 01:28 +0800. Disk state is current-to-feed on both sources.
+
+### B.3 Corrected December runbook (supersedes the A.6 sentence)
+
+1. Post-close twelvedata refresh (all 9 panel syms) — reaches same-evening.
+2. cboe_hist refresh on the NEXT trading day's post-close window (feed lags
+   ≥1 trading day; per B.1 it cannot be same-day).
+3. Then run r1_engine.py real mode. Either source covering T+1 of the panel's
+   last date is sufficient per-symbol: engine preference order (r1_engine.py
+   ~line 431) is cboe_hist first, twelvedata fallback per symbol, and the
+   fail-closed span guard (lines ~456–462) raises RuntimeError if the chosen
+   source does not extend ≥1 trading day past the panel's last date. So
+   option (2) is belt-and-suspenders: even with cboe_hist one day behind,
+   twelvedata coverage carries the 5 ETFs' T+1 and the guard passes.
+
+### B.4 Partial-bar hazard (date-only guard) — operational rule
+
+The A.5 staleness guard is DATE-ONLY: it checks that a bar exists at/after
+T+1 but does not verify bar completeness. An intraday refresh during ET
+market hours could ingest an in-progress partial bar (open/high/low stale or
+mid-stream, close/volume not final) that passes the date guard. Rule:
+refresh price sources only when the ET market is closed (after ~16:15 ET or
+before ~09:25 ET on trading days; weekends freely). The 2026-10-18 01:26–01:28
++0800 refreshes = Sat 2026-10-17 ~13:26–13:28 ET, market closed — compliant.
+All planned refresh waves must hold this rule.
+
+Probe integrity note: zero null-OHLC bars in the B.1 SPY feed probe (5736
+bars checked); feed first 2004-01-02, last 2026-10-15.
