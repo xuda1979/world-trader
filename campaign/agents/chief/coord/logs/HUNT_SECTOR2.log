@@ -1,0 +1,175 @@
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260906195348edfe974314bc412d]
+=== HUNT_SECTOR2 round 1 end Sun Sep  6 19:53:49 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907021539e62e1e66bbb24793]
+=== HUNT_SECTOR2 rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070219160be7ee13aba14925]
+=== HUNT_SECTOR2 rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907022626ded0dd3f6e5545e3]
+=== HUNT_SECTOR2 rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907024730d579327dc70348b4]
+=== HUNT_SECTOR2 rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907025838338dc6f528f14735]
+=== HUNT_SECTOR2 rate-limited or errored (attempt 5, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070315294f6c09ed7c374bbe]
+=== HUNT_SECTOR2 rate-limited or errored (attempt 6, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070321587007c1dbb1cb4627]
+=== HUNT_SECTOR2 rate-limited or errored (attempt 7, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070330517dc14ae63e584721]
+=== HUNT_SECTOR2 rate-limited or errored (attempt 8, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907045732be4b13090dd24d79]
+=== HUNT_SECTOR2 rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907050602e43583b220bf4dc0]
+=== HUNT_SECTOR2 rate-limited or errored (attempt 2, rc=1); backing off ===
+Round 2 complete. FINDINGS.md ends with `ROUND 2 DONE`.
+
+## Summary
+
+**Found on arrival:** prior session of this agent died to 429 rate-limits (8 backoffs in the log) mid-round — lib + 13 TDD tests + 2 scripts existed, but sleeves/ was empty and no FINDINGS.md. A stale `/tmp/sector2_scan.csv` existed but was **invalid**: it was generated at 02:09, while `IEF.csv`/`XLK.csv` were re-fetched at 04:16–04:23 — it ran on mid-refresh data (n=2048 on every variant = a fetch page limit). I discarded it and re-ran everything on complete data (books 4,682–4,697 rows, 2008-01-02→2026-08/09).
+
+**TDD:** 13 → 16 tests green (3 added red-first: a fail-closed `window_check` truncation guard, a 2008-book row-count test, a weekly-grid preservation test).
+
+**Scan:** 72 variants across all 4 charter arms, full windows, guards green, no dupes.
+
+**Verdict — 0/4 arms pass**, all failing the SR≥1.0 gate (and nothing else):
+
+| Arm | Headliner | Net SR | H1/H2 | neg yr | corr vs champ | scr p | Verdict |
+|---|---|---|---|---|---|---|---|
+| A RS-ratio | lb252 k4 long | 0.534 | 0.38/0.70 | 3/19 | −0.042 | 0.000 | FAIL_SR\|HALVES\|NEGYR |
+| B barbell+VIX→IEF | m21 mean100 half | **0.613** | 0.74/0.55 | 3/19 | −0.076 | 0.000 | FAIL_SR\|NEGYR |
+| C XLE/CRUD | w126 switch | 0.154 | 0.33/−0.01 | 8/19 | 0.029 | 0.000 | FAIL_SR\|HALVES\|NEGYR\|PLATEAU |
+| D XLU/IEF | lb21 riskoff→IEF | 0.585 | 0.55/0.62 | 3/19 | −0.089 | 0.000 | FAIL_SR\|NEGYR |
+
+**Notables:** the literal 11-SPDR charter-set variant (lb126/k4) is a clean near-miss — SR 0.679, failing **only** the SR gate (passes halves 0.55/0.95, 2 neg years, worst −1.3%, scramble, plateau, corr −0.147); robust to rebalance freq (monthly 0.675) and VT-off only reaches 0.723, so its honest ceiling is ~0.68 vs a 1.0 gate. Arm A's L/S variants are all dead (best 0.038). Bond swap (IEF/LQD/TLT) rescues nothing. Scramble p=0.000 everywhere: these signals are real but far too weak — honest dead ideas, not artifacts. Arm A also correlates 0.87 to library sleeve `Multi_Strategy_SharpeW`, so it would fail library decorrelation too.
+
+Sleeves + `.meta` saved per contract item 4; DEAD_IDEAS rows ready to file via coordinator.
+=== HUNT_SECTOR2 round 2 end Mon Sep  7 05:38:05 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070826508f162fa43b554651]
+=== HUNT_SECTOR2 rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907084007ab0542ac22674f0d]
+=== HUNT_SECTOR2 rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070853337067a022221a4cd0]
+=== HUNT_SECTOR2 rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907090110e430073103cb45c9]
+=== HUNT_SECTOR2 rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907091925c9306312d00a475b]
+=== HUNT_SECTOR2 rate-limited or errored (attempt 5, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070925229bb541f4a6e94526]
+=== HUNT_SECTOR2 rate-limited or errored (attempt 6, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090709355174b5ada5be464c10]
+=== HUNT_SECTOR2 rate-limited or errored (attempt 7, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070942274028394238344249]
+=== HUNT_SECTOR2 rate-limited or errored (attempt 8, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907134754bdcaa34555244ee4]
+=== HUNT_SECTOR2 rate-limited or errored (attempt 1, rc=1); backing off ===
+Round 3 executed. On arrival I found the prior session had already completed all three charter items (before its write-up), so I ran this session as a full reproducibility pass per the charter's "every claim must reproduce from a script you saved" — and closed the one gap I found.
+
+**What I verified (all live re-runs, exact numbers):**
+
+| Item | Result |
+|---|---|
+| TDD suites | **30 passed** (16 r2 + 14 r3), from repo root |
+| R3 composite engine | All 5 splits reproduce **exactly** (SR 0.608 / 0.641 / 0.613 / 0.602 / 0.648, corr(A,B)=+0.718, ctl_p=0.010, all `FAIL_SR\|FAIL_NEGYR`); re-emitted COMP CSVs **byte-identical** to pre-run snapshot |
+| Blend submission | Same 4 sha256s, same pairwise-corr matrix (COMP family 0.988–0.997, 0.892–0.910 vs A11), 4/4 metas stamped `BLEND_CANDIDATE_SUBMISSION` |
+| HUNT_VOL2 claims | `recommendation.json` confirms `NOTHING_ADOPTABLE`, A11 dSR +0.141 with `frac_null_dsr_pos=1.0` → DIVERSIFICATION_ARTIFACT, COMP_invvol `own_ann=2.87e+20` → `REJECT_UNUSABLE_FILE` |
+| Quarantine | Corrupted overflow artifact intact with evidence (sr=48.86, ann=5228%) |
+
+**Gap found and closed:** the ddstop10 cross-verify claim (SR=−0.089) had no saved script. I wrote `hunt_sector2_r3_xverify.py` (read-only w.r.t. FXCARRY2); it re-measures both published negatives with hard asserts — R2 carry SR −0.0043 and R3 ddstop10 SR −0.0894, both **CONFIRMED**, no escalation needed.
+
+**Substantive verdict (unchanged, now repro-verified):** 0/5 composites pass. Diversification math is refuted with numbers — legs correlate +0.718, so the no-cost equal-weight upper bound is SR 0.662 and clearing 1.0 would need ρ ≤ −0.248. Arm A's honest ceiling of 0.679 (fails only SR≥1.0) stands as the sector-family ceiling. One flag for the coordinator: the R3 DEAD_IDEAS row is drafted in FINDINGS but not yet in `campaign/results/DEAD_IDEAS.csv` (102 rows) — it's coordinator-owned per contract item 5, so I flagged it rather than self-writing.
+
+FINDINGS.md now ends with exactly `ROUND 3 DONE`.
+=== HUNT_SECTOR2 round 3 end Mon Sep  7 14:00:56 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090718583124f625c189e04d23]
+=== HUNT_SECTOR2 rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609071920092ef340f29bfd4a57]
+=== HUNT_SECTOR2 rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907195307d3211572bd8f4f87]
+=== HUNT_SECTOR2 rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609072039371faba353677a49d1]
+=== HUNT_SECTOR2 rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907204451ad88ccd260f1483d]
+=== HUNT_SECTOR2 rate-limited or errored (attempt 5, rc=1); backing off ===
+Round 4 complete. Summary of what was done:
+
+## ROUND 4 — Audit rotation (fraud-catch duty)
+
+**Method**: byte-identical copies of 6 DEAD_IDEAS rows' cited scripts (4 other-agent families — verified with `diff`, zero edits), path-patched drivers, fresh re-runs, fresh-vs-original output comparison. A prior unlogged partial session's work was found in `audit_r4/` and **everything was re-run fresh** this session for independent evidence.
+
+**Per-row results — 6/6 REPRODUCED, 0 unreproducible:**
+
+| Row | Family | Result |
+|---|---|---|
+| L2 FF factor premia | HUNT_FF2 | recon2 byte-identical; HML −0.02/SMB −0.13/OP +0.29/INV +0.05 all FAIL as published |
+| L3 industry/decile L/S | HUNT_FUNDAMENTAL | run_ideas fresh: 5/5 composites to the digit (value +0.06/11neg, growth −0.23, prof −0.22, vgp −0.16, q3030 +0.03) |
+| L4 equal-wt BAB | HUNT_FUNDAMENTAL/FF2 | recon3 byte-identical: BAB −0.64/14neg; recon4: invvol-long-only +0.58 "below bar" exact |
+| L5 MM naive ivol | HUNT_FUNDAMENTAL | MM cells −0.95..+0.21, MOM fails halves (H2 −0.43) |
+| L6 value/growth/profitability | HUNT_FUNDAMENTAL | s_ta +0.39/7neg line-for-line |
+| L49 CIT ags z | HUNT_CIT_AG | 0.705 artifact + coherent-mapping 0.181 reproduced; deep_check neighborhood 0.44..0.58, scramble p=0.005 reproduced, 3 neg yrs/worst −7.4% exact |
+| L53 TFF z/diff/fade | HUNT_TFF | screen byte-identical: best 0.275/6neg, DIFF 0.203/8neg digit-exact |
+
+**4 findings logged (F1–F4):**
+- **F1** — `more_cot/*wheat_hrw*` data files silently refreshed today (mtimes 03:33/17:06), shifting 12/156 CIT screen rows vs the 09-03 original; data untracked in git → cross-refresh byte-repro impossible. Verdict-neutral (all rows dead either way).
+- **F2** — `campaign/bt/gates.py` has 86 **uncommitted** insertions (another agent's fail-closed hardening, 17:05 today): under it CIT's scramble returns p=NaN (benign row-0 NaN); original p=0.005 reproduces once dropped. Framework drift is an audit hazard — must pin/commit bt: before audit rotations.
+- **F3** — FF2 FINDINGS prose disagrees with its own saved CSVs (−0.19 vs −0.43 H2; −0.63 vs −0.38 indrev125); CSVs are authoritative, verdict unaffected.
+- **F4** — CIT's "PSOYBUSDM/SOYB 21d = 0.465" is actually **21-month** momentum (`pct_change(21)` on a monthly series); reproduced literally at 0.464/6neg; proper daily-lookback best is 0.500 — still under the 0.6 bar.
+
+**Champion re-verified independently**: `verify_champion_r3_cmd.sh` → ok=true 7/7, ann 37.1954%, SR 3.1810, MDD −6.6922%, 0 neg years — matches charter to 4 decimals. No new engines run, sector family stays closed, FINDINGS.md appended with `ROUND 4 DONE` as the exact last line.
+=== HUNT_SECTOR2 round 4 end Mon Sep  7 21:27:41 CST 2026 exit 0 ===
+Round 5 complete. Summary of what was done and found:
+
+## R5 Execution Summary — HUNT_SECTOR2
+
+**Read first (per charter):** GATES_CONTRACT_V2.md (ratified; leak-flip Step-2 NOT yet landed, so I passed `sig=` + `leak_check=True` explicitly) and DEAD_IDEAS.csv recounted via parser: **125 rows** (charter said ~120 — dynamic by design). Champion re-pinned fresh: sha `4358dfab95679b97`, 4805 rows, 2008-03-31..2026-08-27 — byte-match to charter.
+
+**(a1) Admission audit — the corner died on data admission, 0/4 sources admissible**, every claim backed by a saved live-probe script:
+- **GoogleNews RSS / Reddit Atom**: rolling snapshots with NO archive (two live crawls: 100 items spanning 1h–20.6d; 15–25 items sub-week) → no series constructible → `DROP_NO_HISTORY`
+- **Nasdaq historical**: hard ~10y cap — `fromdate=2000` and `2007` both silently return 2514 rows to 2016-09-06; hard pre-2013 windows return 0 rows → `DROP_INCEPTION_FAIL`
+- **wiki_attention**: PIT-safe (documented D+1 UTC publication) with a real 4086-row archive, but starts 2015-07-01 → misses the 2013-01-01 bound by 2.5y → `DROP_INCEPTION_FAIL` (V2 §9a)
+- GDELT (the one news source with an archive) documented as 429-could-not-capture pre-2017, never claimed absent
+
+**(a2) The one still-evaluable construction — measured, labeled `NOT_HUNT_ELIGIBLE`**: attention-z de-risk overlay (shift(2), strict PIT) on the *published* A11 artifact (my in-line rebuild hit corr 0.844 vs the artifact and was discarded per my own R3 no-reconstruction precedent):
+- base SR 0.679 → overlay **0.821** (dSR +0.141), leak_ok=True, beats-passive trio PASS, corr −0.063 — **FAIL_SR**
+- **Double-killed on substance**: placebo p=0.000 (200 matched random gates reproduce the entire lift) and dSR excl-2020 = **−0.979** (halves +0.407/−1.087) — the exact R4 TimesFM single-episode pattern the charter flagged
+
+**TDD**: 9 tests written RED-first (9 failed pre-engine), all green after; full suite **39 passed** (16 R2 + 14 R3 + 9 R5); engine stdout byte-identical across 2 runs.
+
+**Artifacts**: `hunt_sector2_r5.py`, `hunt_sector2_r5_probe.py`, `tests_tdd_r5.py`, `work_r5/{ATT_DE_RISK_A11.net.csv, .csv.meta (full V2 disclosure incl. leak dict + vintage pins), probe_results.json}`. FINDINGS.md appended with exact numbers and repro commands; last line is exactly `ROUND 5 DONE`.
+=== HUNT_SECTOR2 round 5 end Tue Sep  8 06:32:13 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260908135323b8ee9ba6bae74ca1]
+=== HUNT_SECTOR2 rate-limited or errored (attempt 1, rc=1); backing off ===
+Round 6 executed per charter. Summary:
+
+## R6(a) — TDD bugfix: `nasdaq_history` fromdate-ignored defect
+- **File/defect**: `tools/wt/sources.py:671` — the Nasdaq fetcher silently returned a ~10y-capped series (2514 bars) for a 25y ask, so downstream span claims were wrong. Found by me in R5.
+- **RED first** (`tests_tdd_r6.py`, 5 tests, written before the fix): against HEAD semantics — **3 failed / 2 passed** (days=6500 returned a 2514-bar dict; a `'not-a-date'` oldest bar flowed through). Demonstrated via `red_run_head.py`, which exec's `git show HEAD:./tools/wt/sources.py` in-process — the working tree carries **three concurrent hunks that are not mine** (`kr_history`, `_stooq_symbol`, polygon date normalization), disclosed in FINDINGS for the coordinator, untouched and not commit-verified by me.
+- **GREEN**: **5/5 passed** against the fix. Regression sweep: rviv suite 8 passed, `test_options_cboe.py` ALL GREEN, live healthy asks unchanged (SPY 60→72, 200→226, 400→440 bars), cumulative suite **44 passed**.
+
+## R6(b) — pre-registered bugfix re-run of the R5 corner
+- Corrected-fetcher live probes: XLK 6500/3000/2600 all **fail-closed** with the R5 cap numbers ("served 2514 bars from 2016-09-06") carried in the error; healthy asks serve.
+- **Admission unchanged: 0/4 admissible** — GoogleNews/Reddit fresh crawls net-dead mid-round (recorded as UNMEASURED, not folded into window evidence — I added an honesty rule to the driver because the first pass silently treated a failed crawl as a 0-day window); nasdaq_hist inception_fail; wiki_attention vintage re-pinned exact (4086 rows, sha `609cca25738461c0`).
+- **Sleeve re-run: exact reproduction** of R5 (base 0.679 / overlay 0.821 / dSR +0.141 / halves +0.407,−1.087 / excl-2020 −0.979 / FAIL_SR|NOT_HUNT_ELIGIBLE).
+- **Interpretation correction adopted** (row-141 audit, independently verified across 5 seeds before adopting): my R5 placebo prose was inverted — p=0/200 means the attention overlay *beat* all 200 random gates, not that randomness reproduces the lift. Disposition still dead, now resting on admission + single-episode concentration + FAIL_SR instead.
+
+DEAD_IDEAS row refreshed (145 data rows now); FINDINGS.md appended with all exact numbers and repro commands, last line exactly `ROUND 6 DONE`.
+=== HUNT_SECTOR2 round 6 end Tue Sep  8 14:57:02 CST 2026 exit 0 ===
+Round 7 executed per charter. Summary:
+
+## R7 Results — HUNT_SECTOR2
+
+**(a) FINRA short-interest corner: DEAD ON ADMISSION, 0/6 keyless routes.** All probed live and scripted (`work_r7/r7_admission_probe.py`):
+
+| Route | Result |
+|---|---|
+| `api.finra.org` POST CSI (charter endpoint) | **307 → error.waf.finra.org** — Cloudflare WAF, host-level (even bare `GET /`), stable on retry; altdata6 fetcher returns `HTTP 307` |
+| NYSE Group SI (only file covering Arca SPDRs, 1988+) | **"Purchase Now"** — paid, no keyless path |
+| `api.nasdaq.com` SI | Live, but Nasdaq-listed-only (XLK rejected); AAPL serves just **23 rows / 0.9y** |
+| Finnhub + repo key | **403** premium |
+| `cdn.cboe.com` FINRA-derived CSVs | Archive starts **2015-05-07..11** (pinned to the day), ~2.4y past the 2013 §9a bound; **0/11 SPDRs** (BZX universe) |
+| On-disk Reg SHO vintage (181 files) | 2 disjoint windows → max **8 contiguous monthly obs** → unjudgeable (§9b) |
+
+Diagnostic leg on the real vintage (non-gate, labeled UNJUDGEABLE): long-low-SI/short-high-SI 11-sector, n=7 hold months → **−5.16%/yr, SR −0.376**; mirror sign reported but explicitly not claimable (p-hacking). Honest-negative row appended to DEAD_IDEAS (148→149, recounted, trailing newline kept).
+
+**(b) R6 `nasdaq_history` fix: INTACT on tracked tree, but the commit wave has NOT landed** — HEAD still fails the RED harness (3F/2P), 133 insertions uncommitted, foreign hunks (kr/stooq/polygon) still co-resident. Working tree: **44/44 tests pass**, live probes healthy (SPY 440/226/72 bars; defect asks fail closed naming the served window).
+
+FINDINGS.md ends with exactly `ROUND 7 DONE`. One coordinator-relevant flag: this FINRA block is a *different mechanism* from CRYPTO2-R7's deribit DNS poisoning (legit Cloudflare IPs, WAF rejection) — keyless altdata routes are degrading this week; admission-probing before engine work is the discipline that saved the round.
+=== HUNT_SECTOR2 round 7 end Tue Sep  8 20:41:43 CST 2026 exit 0 ===

@@ -1,0 +1,30 @@
+--------- ITER46 cad_govt_long census-remainder driver (2026-09-19 session 26). FINDINGS_PRECOMMIT.md sha16 7027fd6f05e3c1cb sealed BEFORE this run. Pool-composition cell (ITER42 class, 22nd measured axis): cadlong = the ITER24 frozen recipe at the pre-registered dur=9.5 (printed 0.95*10, no novel scalar); single cell, no grid; k_covered=12 Wmax law (ITER28 correction).
+FROZEN-BLOCK check: fit_relw/apply_cap/project_wmax/build_book text-identical to driver_iter43.py, driver_iter36.py AND driver_iter45.py
+Champion sha16 pre-run: e67446186e269b88 / weights bde8612d0b295068 / precommit 7027fd6f05e3c1cb
+A1 sibling cad_govt_10y (dur=9.5) regen-vs-ITER24-saved: ok=True maxdev=9.995e-17 inner=4918 committed_nonnan=4918
+A1 sibling cad_govt_2y (dur=1.9) regen-vs-ITER24-saved: ok=True maxdev=9.975e-17 inner=4918 committed_nonnan=4918
+A1 candidate stream cadlong (dur=9.5): n=4918 span 2007-01-02..2026-09-09
+CELL cadlong: rows=1780 k=12 projid=0.000e+00 share=0.045852 IS-SR=4.225176 IS-MDD=-2.3873 pct negyrs=0 Wmax_sf=1.8949x grossmax=1.000000000
+A2 committed-frame continuity: projid=0.000e+00 weights maxdev=8.327e-17 bytes maxdev=9.991e-17 n=4806 rows=1809 k=11 IS-SR=4.203733 (bar 4.203733)
+
+IS admission: True (bar 4.203733, margin +0.021443, share 0.045852, jitter law: weight>1e-4 or margin>1e-4 -> True)
+
+REVEAL cell cadlong (single pre-registered cell), gear 1.0, n=4806 (2008-03-31..2026-08-28)
+  FS SR=3.754843 (incumbent 3.764764)  ann arith=21.3077 pct  cagr=23.5410 pct  MDD=-3.5266 pct  negyrs=0
+  grossmax=1.000000000  turnover=4.1078 bp/yr  margin=0.0000 pct/yr  Wmax_sf=1.8949x (k=12)  CFX4=0.0e+00
+  bin 2017-18 dSR=-0.0058 (cand 4.7758 vs inc 4.7817)
+  bin 2019-20 dSR=-0.0360 (cand 4.0109 vs inc 4.0469)
+  bin 2021-22 dSR=+0.0028 (cand 2.2444 vs inc 2.2416)
+  bin 2023-24 dSR=+0.0512 (cand 4.7347 vs inc 4.6835)
+  bin 2025-26 dSR=-0.0180 (cand 3.5158 vs inc 3.5339)
+  GATE 1 FS ann>=20pct                PASS
+  GATE 2 gross<=1.6                   PASS
+  GATE 3 FS MDD>=-7pct                PASS
+  GATE 4 0 FS neg yrs                 PASS
+  GATE 5 CFX4=0                       PASS
+  GATE 6 Wmax_sf<=2.0x (k=12)         PASS
+  GATE 7 OOS police                   FAIL
+  GATE 8 fit-window shrink<=2pct      PASS
+
+VERDICT: REJECT - failed gates: 7 OOS police (no second reveal per precommit)
+Champion sha16 post-run: e67446186e269b88 / weights bde8612d0b295068 (pre==post: True)

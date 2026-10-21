@@ -1,0 +1,114 @@
+{
+ "flags": [
+  {
+   "name": "call_rate_vs_DFF_plus_1.5pp",
+   "modeled_pct": 4.5,
+   "implied_pct": 5.13,
+   "rel_drift_pct": 14.0,
+   "abs_drift_pp": 0.63,
+   "flag_gt_10pct_rel": true,
+   "evidence": "FRED DFF 3.63% as of 2026-09-03 (n=26363 obs) + R1 stated spread floor 1.5pp; FINDINGS.md R2 '4.5% ~= fed funds + ~1.5-2pp'"
+  },
+  {
+   "name": "call_rate_vs_DFF_plus_2.0pp",
+   "modeled_pct": 4.5,
+   "implied_pct": 5.63,
+   "rel_drift_pct": 25.11,
+   "abs_drift_pp": 1.13,
+   "flag_gt_10pct_rel": true,
+   "evidence": "same DFF + R1 stated spread cap 2.0pp"
+  },
+  {
+   "name": "call_rate_vs_SOFR_plus_1.5pp",
+   "modeled_pct": 4.5,
+   "implied_pct": 5.16,
+   "rel_drift_pct": 14.67,
+   "abs_drift_pp": 0.66,
+   "flag_gt_10pct_rel": true,
+   "evidence": "FRED SOFR 3.66% as of 2026-09-03 (n=2198 obs) + 1.5pp"
+  },
+  {
+   "name": "margin_drag_vs_path_DFF+1.5pp",
+   "modeled_pct": 2.7,
+   "implied_pct": 1.7589,
+   "rel_drift_pct": -34.86,
+   "abs_drift_pp": -0.9411,
+   "flag_gt_10pct_rel": true,
+   "evidence": "elementwise FRED DFF+1.5pp path over 2008-03-31..2026-08-27 (n=4805, mean DFF+1.5pp = 2.931%)"
+  }
+ ],
+ "notes": [],
+ "champion_sha16": "4358dfab95679b97",
+ "benchmarks": {
+  "dff_last": {
+   "date": "2026-09-03",
+   "value_pct": 3.63,
+   "n_obs": 26363,
+   "first": "1954-07-01"
+  },
+  "sofr_last": {
+   "date": "2026-09-03",
+   "value_pct": 3.66,
+   "n_obs": 2198,
+   "first": "2018-04-03"
+  },
+  "dff_at_2026-09-06": {
+   "date": "2026-09-03",
+   "value_pct": 3.63
+  },
+  "dff_at_2026-06-30": {
+   "date": "2026-06-30",
+   "value_pct": 3.63
+  },
+  "dff_at_2025-12-31": {
+   "date": "2025-12-31",
+   "value_pct": 3.64
+  }
+ },
+ "base_headline": {
+  "ann": 0.371954,
+  "sr_d": 3.180994,
+  "mdd": -0.066922,
+  "neg_years": 0
+ },
+ "repricing_flat_DFF+1.5pp": {
+  "rate_pct": 5.13,
+  "ann_pct": 36.6784,
+  "d_ann_pp": -0.517,
+  "sr_d": 3.1436,
+  "mdd_pct": -6.6979,
+  "neg_years": 0
+ },
+ "repricing_flat_DFF+2.0pp": {
+  "rate_pct": 5.63,
+  "ann_pct": 36.2695,
+  "d_ann_pp": -0.9259,
+  "sr_d": 3.1139,
+  "mdd_pct": -6.7024,
+  "neg_years": 0
+ },
+ "repricing_flat_SOFR+1.5pp": {
+  "rate_pct": 5.16,
+  "ann_pct": 36.6538,
+  "d_ann_pp": -0.5416,
+  "sr_d": 3.1418,
+  "mdd_pct": -6.6982,
+  "neg_years": 0
+ },
+ "repricing_path_DFF+1.5pp": {
+  "mean_rate_pct": 2.9315,
+  "implied_drag_ann_pct": 1.7589,
+  "ann_pct": 38.491,
+  "d_ann_pp": 1.2956,
+  "sr_d": 3.2741,
+  "mdd_pct": -6.6824,
+  "neg_years": 0
+ },
+ "borrow_note": {
+  "modeled_borrow_pct": 0.5,
+  "champion_embedded_drag_bps_yr": 0.2195,
+  "published_ibkr_table_reachable": false,
+  "citation": "IBKR pricing pages unreachable from this box this round (curl exit 7 direct and --noproxy; WebFetch domain-verification blocked; webReader 500). Benchmarks cited from FRED (authoritative for IBKR's BM); IBKR-specific spread tables and stock-borrow schedule therefore NOT re-verified against the live published source this round - carried from R1/R2 rationale with the flag computed at the R1-stated spread bounds."
+ },
+ "borrow_100pct_drift_impact_bps_yr": 0.2196
+}

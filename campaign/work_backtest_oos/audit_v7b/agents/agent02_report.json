@@ -1,0 +1,36 @@
+{
+  "agent": "02_perf_from_ledger",
+  "checks": [
+    {
+      "check": "ledger+surcharge==realistic net <1e-12",
+      "status": "FAIL",
+      "detail": "1.48e-04"
+    },
+    {
+      "check": "levered marks==1.6*gross <1e-12",
+      "status": "PASS",
+      "detail": "6.81e-16"
+    },
+    {
+      "check": "OOS geo ann 25-33% (realistic band)",
+      "status": "PASS",
+      "detail": "30.02%"
+    },
+    {
+      "check": "net SR>4",
+      "status": "PASS",
+      "detail": "5.21"
+    },
+    {
+      "check": "net DD>-5%",
+      "status": "PASS",
+      "detail": "-3.16%"
+    },
+    {
+      "check": "OOS neg years=0",
+      "status": "PASS",
+      "detail": "0/10"
+    }
+  ],
+  "overall": "FAIL"
+}

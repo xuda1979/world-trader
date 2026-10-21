@@ -1,0 +1,11 @@
+SELFCHECK isolation=True laundered=4files live_refs_remaining=[]
+VACUOUS                  M22a_literal_nanwrite        | 
+VACUOUS                  M22b_dropna_compress         | 
+CAUGHT                   M22d_any_nan_zero            | ['test_fwbugs_audit_r3_verify.py::test_max_dd_all_nan_fails_closed_nan', 'test_fwbugs_audit_r3_verify.py::test_max_dd_nan_hole_is_a_flat_day_answer_unchanged', 'test_fwbugs_audit_r3_verify.py::test_max_dd_poisoned_window_not_zero', 'test_fwbugs_audit_r4.py::test_max_dd_all_nan_year_fails_closed_nan', 'test_fwbugs_audit_r4.py::test_max_dd_nan_hole_before_trough_still_measured', 'test_fwbugs_audit_r4.py::test_max_dd_nan_year_does_not_erase_the_real_drawdown']
+CAUGHT                   M22e_min_skipna_false        | ['test_fwbugs_audit.py::test_metrics_max_dd_nan_safe', 'test_fwbugs_audit_r3_verify.py::test_max_dd_nan_hole_is_a_flat_day_answer_unchanged', 'test_fwbugs_audit_r3_verify.py::test_max_dd_poisoned_window_not_zero', 'test_fwbugs_audit_r4.py::test_max_dd_nan_hole_before_trough_still_measured', 'test_fwbugs_audit_r4.py::test_max_dd_nan_year_does_not_erase_the_real_drawdown']
+CAUGHT                   M22f_cumprod_skipna_false    | ['test_fwbugs_audit_r3_verify.py::test_max_dd_nan_hole_is_a_flat_day_answer_unchanged', 'test_fwbugs_audit_r3_verify.py::test_max_dd_poisoned_window_not_zero', 'test_fwbugs_audit_r4.py::test_max_dd_nan_hole_before_trough_still_measured']
+CAUGHT                   M3_negyears_failopen         | ['test_fwbugs_audit.py::test_neg_years_counts_nan_years_fail_closed']
+CAUGHT                   M20_sharpe_const_nan         | ['test_metrics.py::test_sharpe_of_constant_is_zero']
+CAUGHT                   M21_halfsplit_offby1         | ['test_metrics.py::test_half_split_split_point_is_exact']
+
+PROBLEM count (VACUOUS+DID_NOT_APPLY+BASELINE-FAIL): 2

@@ -1,0 +1,9 @@
+name=TIMESFM_DIR_EW6_daily
+status=DEAD
+family=TimesFM forecast-direction L/S equal-weight 6 ETFs (QQQ,XLE,XLF,TLT,GLD,EEM)
+window=2009-03..2026-09-03 (fcst ctx512 h1 walk-forward, strict T+1)
+SR=-0.848 H1=-0.715 H2=-0.963 negyr=15 worst=-13.34% ann=-4.13% corr_vs_champ=-0.064
+costs=6.4bps full |dW| + borrow 0.5%/yr + margin 4.5%/yr; VT 10% trailing clip3
+per-asset net SR: QQQ -0.173 XLE -0.188 XLF -0.196 TLT -0.750 GLD -0.800 EEM -0.566
+scramble_p(per-asset)=0.455..0.94; EW6 scramble_p=0.495
+verdict=DEAD: fails SR>=1.0, halves, negyears; dir-hit ~0.50 (5/6 assets p>0.26); NOT a momentum re-test (agree w/ naive 1d mom 0.488-0.513) - novel but alpha-less

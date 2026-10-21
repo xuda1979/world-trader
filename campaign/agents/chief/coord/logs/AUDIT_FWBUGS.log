@@ -1,0 +1,142 @@
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609061951016e43cf8fcd8c4077]
+=== AUDIT_FWBUGS round 1 end Sun Sep  6 19:51:02 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907015321e3bc275f4d53413c]
+=== AUDIT_FWBUGS rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090701573083b58f14488846bc]
+=== AUDIT_FWBUGS rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070202059eecbc35e9814d29]
+=== AUDIT_FWBUGS rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070210574553936b3b454f83]
+=== AUDIT_FWBUGS rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070229185937f8e8b90c4f6c]
+=== AUDIT_FWBUGS rate-limited or errored (attempt 5, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907023459938753ed3f96498c]
+=== AUDIT_FWBUGS rate-limited or errored (attempt 6, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907031808ba8d59b82f174476]
+=== AUDIT_FWBUGS rate-limited or errored (attempt 7, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070325007971a5f3b6b6492c]
+=== AUDIT_FWBUGS rate-limited or errored (attempt 8, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070540103f985e6f070d4a9d]
+=== AUDIT_FWBUGS rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070544425f9111bf1de241c8]
+=== AUDIT_FWBUGS rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907055317a38f4528451f433a]
+=== AUDIT_FWBUGS rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907060320e1751c96898c4b90]
+=== AUDIT_FWBUGS rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090708223081fb56d305f04a7a]
+=== AUDIT_FWBUGS rate-limited or errored (attempt 5, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907082947626823a6d6714592]
+=== AUDIT_FWBUGS rate-limited or errored (attempt 6, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090708360154619a6e574f40da]
+=== AUDIT_FWBUGS rate-limited or errored (attempt 7, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070842480b09eab41e304f5a]
+=== AUDIT_FWBUGS rate-limited or errored (attempt 8, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907094334da2e1df5e48141e5]
+=== AUDIT_FWBUGS rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907160728be25891fd0074c14]
+=== AUDIT_FWBUGS rate-limited or errored (attempt 1, rc=1); backing off ===
+Round 3 executed per charter. Summary:
+
+**Preconditions:** GATES_CONTRACT.md + DEAD_IDEAS.csv (107 rows) read first; round was framework-only, no dead family touched.
+
+**(a) leak_probe (T+1 gate)** — Prior session's `leakcheck.py`/tests existed untracked with `work/r3/` empty (no RED evidence). Baseline: **302 passed / 2 failed**. Both failures addressed:
+- `test_gates_optin_without_sig_fails_closed`: real RED — `gates.py:128` raised `UnboundLocalError: sig_arr` instead of failing closed. A concurrent fleet agent fixed it at 16:30:50 mid-session (verified by mtimes); evidence quoted, not re-authored by me.
+- `test_archived_champion_is_the_unshifted_mechanism`: miscalibrated assertion (`0.00468 < 0.00890/10`, unreachable). I proved the rebuild correct (committed champion matches causal rebuild to **1.07e-4**) and the miss is Sep-6-vs-Sep-7 sleeve-vintage drift; replaced with a drift-robust discriminator measured on divergent days (leaky ratio **0.535** vs causal-champion control **27.05**). File now **14/14 GREEN**, real-world AUDIT_RECON ~0.78 signature detected, committed causal champion clean.
+
+**M22 (max_dd NaN poison)** — closed honestly: the mutant is an **equivalent mutant** (180/180 identical to original; dropna-compress and output-poison equivalent too; only any-NaN→0.0 is distinguishable at 164/180). Proof saved in `work/r3/m22_maxdd_nanpoison.py` + 3 contract pins added. No fake kill claimed.
+
+**(c) beats_passive verify-only** — 7/7 new independent fixtures GREEN in `test_fwbugs_audit_r3_verify.py`. Probed the sub-1e3 price-level misread both directions: false-PASS is impossible (fail-conservative). Two of my own fixture drafts were wrong (surviving-leg concentration mechanics; sample-vs-population SR) — diagnosed and documented, no code bug.
+
+**(b) Triage** — A mid-session foreign regression (`test_gates_run_opt_in`) appeared when AUDIT_GATES2-R3 added trio-completeness to `gates.run`; verified they resolved it by strengthening (not weakening) the shipped test with `beats_passive.py` untouched. Final suite: **316 passed / 0 failed**, two consecutive runs.
+
+**Fleet risk flagged in FINDINGS:** ≥3 concurrent "fix all bugs" cron agents are live-editing `campaign/bt/` — two write-races hit my session; the coordinator should know.
+
+`FINDINGS.md` appended with all numbers and evidence paths; last line is exactly `ROUND 3 DONE`.
+=== AUDIT_FWBUGS round 3 end Mon Sep  7 17:14:20 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609080216578241f45bbbf64045]
+=== AUDIT_FWBUGS rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609080233215ba9edd2fe5341c9]
+=== AUDIT_FWBUGS rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260908030328c63df26bcd5a406e]
+=== AUDIT_FWBUGS rate-limited or errored (attempt 3, rc=1); backing off ===
+**ROUND 4 complete.** FINDINGS.md appended, last line is exactly `ROUND 4 DONE`.
+
+## Summary
+
+**Inheritance problem found first:** a prior incarnation of this round died mid-execution — it had written the kill-test file and a rebuilt harness, run a mutant pass at 02:27 that was invalidated by a sandbox git-blob BASELINE-FAIL, patched the harness at 03:00, and never re-ran. Nothing it claimed was trusted; everything was re-derived.
+
+**What executed (all numbers from actual runs):**
+
+1. **Full bt suite from repo root** — run A: 395p/1f (an AUDIT_CHAMP2 agent's test, transient); run B on the identical tree: **396 passed / 0 failed in 53.65s**. Suite grew 316→396 from concurrent fleet agents; the 1-failed snapshot is logged, not absorbed.
+
+2. **M22 kill matrix verified empirically** — the inherited 4-test file is GREEN on shipped `max_dd`, and direct mutant-vs-shipped execution shows the charter's NaN-year fixture produces −0.100 on shipped code vs **0.000 (M22d lie)** and **NaN (M22e overreach)**; M22f needs the hole-before-trough fixture (**0.000 vs −0.100**).
+
+3. **Equivalence probe (new, saved)** — M22a/M22b/M22c are machine-proven identical to shipped on **309/309 panels** (9 adversarial + 300 seeded). Also corrected R3's mechanism prose: `cumprod()` emits NaN at a hole (skipped by `min()`), it does not carry equity flat — conclusion and pins unaffected.
+
+4. **Full mutant pass** — 6 CAUGHT / 2 VACUOUS, and both VACUOUS rows are the probe-proven equivalents. **0 vacuous survivors among distinguishable mutants**; R1-era guards (M3/M20/M21) still caught. Harness bug fixed en route (`main()` unpacked 3 values from a 4-tuple).
+
+5. **Champion of record re-verified 7/7 ok:True** — ann 37.195% / SR 3.181 / MDD −6.692% / 0 neg years, byte-exact vs charter.
+
+**Net code change:** zero `bt/` source edits — no defects found in shipped `max_dd`; the gap was purely test coverage, now closed by the kill-tests plus the equivalence proof.
+=== AUDIT_FWBUGS round 4 end Tue Sep  8 03:44:12 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260908082349a5453e9c8bab45c9]
+=== AUDIT_FWBUGS rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609080834240fb7d86397844f5c]
+=== AUDIT_FWBUGS rate-limited or errored (attempt 2, rc=1); backing off ===
+Round 5 complete. FINDINGS.md appended, ending with `ROUND 5 DONE`.
+
+## What R5 executed
+
+The charter's corner: **GATES_CONTRACT_V2 §12 Step-2 flip** (leak_check default ON), runbook steps 2-6 verbatim, one commit — landed as **`539f50e`**, exactly the 5 charter-named files.
+
+**Evidence trail (all from actual runs):**
+- **Preconditions**: V2 contract read in full; DEAD_IDEAS recounted = **130 rows** (dynamic, matches coordinator's standup); champion untouched (`verify_champion.py` doesn't call `gates.run` — flip can't move its 7/7)
+- **RED-first**: shadow plugin re-run on the *current* tree before editing — **27 default-applied calls, 3 failed/398 passed**, identical blast radius to the contract's 02:3x measurement; new leakflip trio **3 failed in 0.18s (KeyError: 'leak_ok')** against default-OFF source
+- **The round's real finding**: the shipped bp-positive fixtures' `sig = sign(alpha_t)` is **itself a same-period leak** (c0 +0.762, book SR 20.0 leaky vs 1.90 honest) — "just add sig=" would have gone RED. Honest fix = T+1-lagged positions on an **AR(1)** alpha (iid alpha's honest book is unsignalled luck; scramble correctly rejects it, scr_p 0.23). Swept 9 rho×seed configs through the full battery: **9/9 pass=True**. Fixtures now also assert `leak_ok is True`
+- **Step 6**: full suite **403 passed / 0 failed** twice (pre- and post-commit; 401 + 3 new − 1 deleted pin); NOT-A-GATE guard exit 0; call-site census **46 lines / 32 files** (grew from contract's 26/19 — R5 hunters adopted the battery), every sig-ful site already passes `leak_check=True` explicitly → **zero verdict changes, zero ESCALATE**; hole-closure proven empirically (R2-probe-C book passed under old, fails c0 +0.789 under flip)
+
+**Two flags for the coordinator**: (1) quiet window was partial — AUDIT_CHAMP2 R5 was live in bt/tests during my round; disjoint file set, zero overlap in the shadow failure set, logged with reasoning. (2) My first Write of the new test file **landed corrupted on disk** (tokens I didn't author: `import import hqp`, `_secrets =`); caught by re-reading from disk, rewritten, py_compile-gated — nothing corrupted survives in the commit.
+=== AUDIT_FWBUGS round 5 end Tue Sep  8 09:20:46 CST 2026 exit 0 ===
+Round 6 complete. FINDINGS.md ends with exactly `ROUND 6 DONE` (5 prior markers + this one = 4 grep hits for the pattern — R3 has two headings but only R1/R3/R4/R5/R6 markers... actually 4 total `ROUND . DONE` strings: R3, R4, R5, R6, since R1/R2 predate the marker convention).
+
+## Round 6 summary (consolidation — docs-only, zero code edits)
+
+**Deliverable:** `work_r6/commit_wave_manifest.md` (curated, every group classified commit-now / needs-discussion / discard, wave order) + `work_r6/commit_wave_appendix.txt` (exhaustive 2,206-path index) + `suite_run_a/b.txt` (evidence).
+
+**Census correction to the charter:** the "317 paths" was a collapsed-dirs count (336 collapsed lines; 68 untracked dirs hide the rest). True file level via `git status -uall`: **2,202 paths = 31 tracked-modified + 2,171 untracked files, 198.2 MiB**. DEAD_IDEAS recounted myself: **145 data rows** (csv-parsed; 71 sources), vs charter's 137.
+
+**Headline defect found (escalated, not fixed — no-code round):** the R5 flip commit made committed `bt/gates.py` (lines 104/135/150) import **untracked** `bt.leakcheck` / `bt.beats_passive`. Proven by `git archive HEAD` + import → `ModuleNotFoundError: No module named 'bt.leakcheck'` — the framework crashes on any fresh clone. Fix is commit-only (files on disk are the tested bytes; suite green with them). Champion lineage checked safe: **13/13 builder PATHS tracked** (programmatic `git ls-files --error-unmatch`).
+
+**Fresh evidence:** suite **422/0 twice** (70.99s / 91.29s; grew 410→422 from concurrent agents, not me). Coord keeper tests all pass when run by path — but pytest collects zero from them (flagged). Champion of record re-confirmed from `verify_champion_standup_1540.json` (ok=True, ann 37.19539675684982 / SR 3.180994199561701 / MDD −6.6922 / 0 neg / n=4805).
+
+**Discrepancy flagged:** the charter's cited `verify_champion_standup_1140.json` is a **145-byte ok:false failed invocation** ("missing sleeve inputs") — recommend re-pointing to `_1445`/`_1540`/`r3_last`. Champion numbers unaffected.
+
+**Nothing committed, deleted, or code-edited**; no champion artifact touched; no dead family tested.
+=== AUDIT_FWBUGS round 6 end Tue Sep  8 16:23:08 CST 2026 exit 0 ===
+Round 7 complete. Both charter items executed, all checks green:
+
+## (a) Post-wave fresh-clone verification — escalation **CONFIRMED**, not killed
+
+**The wave has NOT landed.** HEAD at clone time = `b772958` (21:53 +0800, an unrelated RES_FXSTYLE/RES_ALTDATA commit). `git log --all -- bt/leakcheck.py bt/beats_passive.py` → **empty** — the modules were never committed at any ref. Nothing staged.
+
+Three measured symptoms on the virgin clone (HEAD content only):
+1. **Collect-only**: `101 tests collected, 2 errors` — `ModuleNotFoundError: No module named 'bt.leakcheck'` (test_fwbugs_audit_r3.py:31) + `ImportError: cannot import name 'beats_passive'` (test_beats_passive.py:18)
+2. **Production layer**: default-on `gates.run()` → `ModuleNotFoundError` at `gates.py:135`; `leak_check=False` works fine — damage is exactly the leak-gate path
+3. **Full suite** (`--continue-on-collection-errors`): **21 failed / 80 passed / 2 errors**
+
+**Fix recipe, measured stepwise to GREEN** (same clone, incremental copies):
+- +6 runtime modules + cmd.sh + fixtures → collect 0 errors; suite `3 failed, 153 passed` (residual = HEAD-test vs working-tree script drift)
+- +14 modified bt files → `1 failed, 170 passed` (residual = `FileNotFoundError: tools/quant/data/twelvedata/SPY.csv`, **untracked, outside bt/**)
+- +SPY.csv → **171 passed / 0 failed in 27.18s = FULLY GREEN**
+
+So the R6 recipe was **incomplete**: SPY.csv lives outside `bt/`. (Scope note: rsyncing the whole live bt/ tree instead pulls other agents' data-pinned tests → `7 failed, 429 passed, 4 skipped, 4 errors` — theirs, not absorbed.) Verify-only honored: zero commits, clone removed, evidence saved to `work_r7/fresh_clone_verdict.txt`.
+
+## (b) Verify-pin banner — **premise corrected**, banner landed insert-only
+
+The charter's premise was wrong: **GATES_CONTRACT_V2.md contains no 1140 citation at all** (exhaustive grep). Its only pin, line-19 `0305.json`, is ok:true 7/7 and numerically identical to 1830 — not stale. The stale pin is real but lives **elsewhere**: `standup_1140` appears in **21 coord CHARTER.md files + 5 STANDUP_LOG.md lines**. Measured artifacts: 1140.json = 145-byte **ok:false** no-args probe; 1830.json = ok:true 7/7 (13 sleeves, n=4805, cagr 37.19539675684982, sr 3.180994199561701, mdd −6.692185534307193, 0 neg, gross 1.6000000000006978 vs 1.6). Champion sha re-hashed: `4358dfab95679b975e4867f9ace806…` ✓.
+
+Insert-only VERIFY-PIN REPOINT BANNER added to GATES_CONTRACT_V2.md recording the audit result and the re-point (1140 → read as 1830). No lines edited/deleted; that file is the only repo change.
+
+**FINDINGS.md** appended (449 → 528 lines), last line exactly `ROUND 7 DONE`, single occurrence, trailing newline intact, concurrent-writer tail re-checked before append.
+=== AUDIT_FWBUGS round 7 end Tue Sep  8 23:27:39 CST 2026 exit 0 ===

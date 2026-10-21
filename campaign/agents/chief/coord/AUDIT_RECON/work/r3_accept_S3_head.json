@@ -1,0 +1,154 @@
+{
+  "tool": "bt/verify_champion.py",
+  "ok": true,
+  "errors": [],
+  "checks": {
+    "weights_repro": {
+      "ok": true,
+      "max_dev": 2.220446049250313e-16,
+      "tol": 1e-09
+    },
+    "byte_repro": {
+      "ok": true,
+      "max_dev": 1.0234868508263162e-16,
+      "tol": 1e-12
+    },
+    "cost_reconciliation": {
+      "ok": true,
+      "model": "full_dw",
+      "max_dev": 1.0363363406361639e-16,
+      "max_dev_half": 1.6833161908789777e-05,
+      "implied_over_full_ratio": 1.000000000001744,
+      "tol": 1e-12,
+      "charged_bp_sum": 94.18990609418522,
+      "bp_per_year": 4.939824419507736,
+      "turnover_full_dw_bp_per_year": 4.939824419499121,
+      "day1_entry_charged": 2.3174821436877657e-14
+    },
+    "causality": {
+      "ok": true,
+      "mechanism": "nav.shift(1)",
+      "matched_mechanism": "causal",
+      "causal_max_dev": 1.0234868508263162e-16,
+      "sameday_max_dev": 0.003962321292223152,
+      "tol": 1e-12,
+      "truncation": {
+        "ok": true,
+        "n_probes": 7,
+        "max_dev": 0.0,
+        "tol": 1e-15,
+        "probes": [
+          {
+            "t": 0,
+            "date": "2008-03-31",
+            "dev": 0.0
+          },
+          {
+            "t": 1,
+            "date": "2008-04-01",
+            "dev": 0.0
+          },
+          {
+            "t": 2,
+            "date": "2008-04-02",
+            "dev": 0.0
+          },
+          {
+            "t": 1201,
+            "date": "2012-11-05",
+            "dev": 0.0
+          },
+          {
+            "t": 2402,
+            "date": "2017-06-13",
+            "dev": 0.0
+          },
+          {
+            "t": 3603,
+            "date": "2022-01-19",
+            "dev": 0.0
+          },
+          {
+            "t": 4804,
+            "date": "2026-08-27",
+            "dev": 0.0
+          }
+        ]
+      }
+    },
+    "gross": {
+      "ok": true,
+      "limit": 1.6,
+      "max": 1.6000000000005805,
+      "weights_max": 1.6000000000000014,
+      "financing_implied_max": 1.6000000000005805,
+      "margin_implied_pct_yr": 2.7000000000000033,
+      "margin_expected_pct_yr": 2.7,
+      "n_over": 0
+    },
+    "yearly": {
+      "ok": true,
+      "neg_years": 0,
+      "worst_year": 0.0861084477239007,
+      "neg_by_year": {},
+      "gates_contract_d_new_sleeve_ok": true
+    },
+    "mdd": {
+      "ok": true,
+      "mdd": -0.06839793485382284,
+      "limit": -0.07
+    }
+  },
+  "is_end": {
+    "value": "2017-01-01",
+    "inferred": true,
+    "p": 0.55,
+    "start": "2008-03-31"
+  },
+  "stats": {
+    "n_days": 4805,
+    "start": "2008-03-31",
+    "end": "2026-08-27",
+    "ann_arith_pct": 34.079574635551374,
+    "ann_cagr_pct": 39.850980021392445,
+    "sr": 3.296390024954007,
+    "mdd_pct": -6.839793485382284,
+    "neg_years": 0
+  },
+  "inputs": {
+    "champion": "/tmp/ar3_head_champ.csv",
+    "weights": "/tmp/ar3_head_weights.csv",
+    "sleeves": {
+      "brwt15": "/tmp/ar3_head_sleeve_brwt15.csv",
+      "brwt10": "/tmp/ar3_head_sleeve_brwt10.csv",
+      "brwt7": "/tmp/ar3_head_sleeve_brwt7.csv",
+      "brwt5": "/tmp/ar3_head_sleeve_brwt5.csv",
+      "C5ng": "/tmp/ar3_head_sleeve_C5ng.csv",
+      "C5ngsum": "/tmp/ar3_head_sleeve_C5ngsum.csv",
+      "A5r2": "/tmp/ar3_head_sleeve_A5r2.csv",
+      "a6r7": "/tmp/ar3_head_sleeve_a6r7.csv",
+      "QAxasts": "/tmp/ar3_head_sleeve_QAxasts.csv",
+      "carryv2": "/tmp/ar3_head_sleeve_carryv2.csv",
+      "dualmom": "/tmp/ar3_head_sleeve_dualmom.csv",
+      "diescrack": "/tmp/ar3_head_sleeve_diescrack.csv",
+      "CFX4": "/tmp/ar3_head_sleeve_CFX4.csv"
+    }
+  },
+  "params": {
+    "gear": 1.6,
+    "rate": 0.045,
+    "bps": 6.4,
+    "p": 0.55,
+    "start": "2008-03-31",
+    "tol": 1e-12,
+    "truncation_probes": [
+      0,
+      1,
+      2,
+      1201,
+      2402,
+      3603,
+      4804
+    ]
+  }
+}

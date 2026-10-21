@@ -1,0 +1,18 @@
+=== loop_team/HUNT_SECTOR_FULL start Thu Sep  3 19:49:07 CST 2026 ===
+**HUNT_SECTOR_FULL complete — VERDICT: REJECTED (hardened negative).**
+
+## What was done (all numbers verified fresh this session)
+
+**TDD (RED→GREEN):** 6 tests written first, RED observed (ModuleNotFoundError), engine written, **6/6 GREEN**; the 2 intermediate failures were root-caused as *test-fixture* bugs (z only reached 1.481/1.486 < cap 1.5; warmup zeros), not engine bugs. bt suite untouched: **28 passed**.
+
+**Charter Q3 answer — yearly-gate failure is INTRINSIC.** The full universe makes it *worse*, not better:
+- Best honest variant (SEC3 trio XLB/XLF/XLI lb21 cap1.0): **SR08+ = 0.262** vs gate 0.60; **12/19 neg yrs**; H2 = -0.283; worst yr -5.04%
+- Quartets: best **-0.048**; all-105-pair EW: **-0.503..-0.555**; best single pair XLB/SMH 0.342; of 420 variants, **zero ≥ 0.60**
+
+**Root-cause finding (systematic-debugging):** the original SEC3 "0.667 near-miss" was a **cost-undercharge artifact**. Exact replication on the original data reproduces 0.667; decomposition shows the original charged 6.0bps on half-turnover = **2.13x undercharge** of the 6.4bps/side standard. At ~80x/yr one-side turnover, honest charging cuts gross SR 1.047–1.134 → net 0.179–0.262. Gross edge was real but small; net edge never existed.
+
+**Genuine-but-uneconomic proof:** fully re-costed position-scramble p = **0.000** (200 draws × seeds 0/1/2) — signal is statistically real, economically dead; SR 2017+ = **-0.328**. corr to V3 = -0.0175, to EW13 = +0.0315 (both pass); EW13 blend at w=0.05 lifts SR +0.009 only (3.884→3.893) — immaterial.
+
+**Deliverables:** `sector_eng.py` + `tests/` (6/6), `sleeves/SECTOR_FULL_trio_lb21_cap10_honest_daily.csv` (n=4682), instrument-level ledger **10,886 records, instrument=twelvedata/{XLB,XLF,XLI}.csv, price_source=REAL, sum|qty| = 3990.767003 == charged turnover (rel diff 1.1e-16)**. DEAD_IDEAS.csv updated. FINDINGS.md has every number + the full yearly table.
+
+HUNT_SECTOR_FULL DONE

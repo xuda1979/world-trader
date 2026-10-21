@@ -1,0 +1,107 @@
+=== data ===
+MORTGAGE30US n=2893 1971-04-02->2026-09-03
+DGS10 n=16154 1962-01-02->2026-09-03
+NFCICREDIT (staged this round) n=2904 1971-01-08->2026-08-28
+NFCIRISK (staged this round) n=2904 1971-01-08->2026-08-28
+CP-OIS spread n=6620 2000-01-03->2026-09-03 mean=0.047bp
+champ n=4805 | SPY n=5000 | IEF n=6065 | CTA n=4683
+
+=== (1) MORTGAGE-SPREAD RV (pre-registered grid) ===
+[CRED5_mortgap_w63_rv_vt] n=6015 2002-08-05->2026-09-03 SR=-1.49 ann=-15.7% vol=11.1% H1=-1.38 H2=-1.68 negyr=25 worst=-30.2% corrChamp=-0.030
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:True  PASS=False
+[CRED5_mortgap_w63_rv_novt] n=6015 2002-08-05->2026-09-03 SR=-1.50 ann=-7.6% vol=5.1% H1=-1.38 H2=-1.65 negyr=24 worst=-13.5% corrChamp=-0.045
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:True  PASS=False
+[CRED5_mortgap_w63_mom_vt] n=6015 2002-08-05->2026-09-03 SR=-1.16 ann=-12.6% vol=11.1% H1=-1.27 H2=-1.04 negyr=22 worst=-36.1% corrChamp=0.027
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:True  PASS=False
+[CRED5_mortgap_w63_mom_novt] n=6015 2002-08-05->2026-09-03 SR=-1.19 ann=-6.0% vol=5.1% H1=-1.30 H2=-1.07 negyr=22 worst=-18.4% corrChamp=0.041
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:True  PASS=False
+[CRED5_mortgap_w252_rv_vt] n=6015 2002-08-05->2026-09-03 SR=-1.01 ann=-11.8% vol=11.7% H1=-0.96 H2=-1.10 negyr=24 worst=-32.7% corrChamp=-0.152
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:False  PASS=False
+[CRED5_mortgap_w252_rv_novt] n=6015 2002-08-05->2026-09-03 SR=-1.06 ann=-5.5% vol=5.2% H1=-1.09 H2=-1.03 negyr=24 worst=-17.6% corrChamp=-0.163
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:False  PASS=False
+[CRED5_mortgap_w252_mom_vt] n=6015 2002-08-05->2026-09-03 SR=-0.74 ann=-9.1% vol=11.9% H1=-0.84 H2=-0.62 negyr=20 worst=-37.9% corrChamp=0.155
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:False  PASS=False
+[CRED5_mortgap_w252_mom_novt] n=6015 2002-08-05->2026-09-03 SR=-0.75 ann=-4.0% vol=5.2% H1=-0.83 H2=-0.67 negyr=20 worst=-15.8% corrChamp=0.168
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:False  PASS=False
+
+=== (2) NFCI-CREDIT regime (pre-registered grid) ===
+[CRED5_nfci_credit_k13_vt] n=6058 2002-08-01->2026-08-28 SR=-0.26 ann=-3.3% vol=10.8% H1=-0.49 H2=0.11 negyr=17 worst=-41.5% corrChamp=-0.135
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:True  PASS=False
+[CRED5_nfci_credit_k13_novt] n=6058 2002-08-01->2026-08-28 SR=-0.08 ann=-0.8% vol=6.9% H1=-0.21 H2=0.10 negyr=17 worst=-15.5% corrChamp=-0.135
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:True  PASS=False
+[CRED5_nfci_credit_k13_i_vt] n=6058 2002-08-01->2026-08-28 SR=0.04 ann=-0.1% vol=10.8% H1=0.31 H2=-0.40 negyr=15 worst=-20.9% corrChamp=0.135
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:True  PASS=False
+[CRED5_nfci_credit_k13_i_novt] n=6058 2002-08-01->2026-08-28 SR=-0.13 ann=-1.2% vol=6.9% H1=0.04 H2=-0.39 negyr=15 worst=-15.3% corrChamp=0.135
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:True  PASS=False
+[CRED5_nfci_credit_k26_vt] n=6058 2002-08-01->2026-08-28 SR=-0.30 ann=-3.8% vol=10.8% H1=-0.46 H2=-0.06 negyr=16 worst=-41.5% corrChamp=-0.175
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:False  PASS=False
+[CRED5_nfci_credit_k26_novt] n=6058 2002-08-01->2026-08-28 SR=-0.10 ann=-0.9% vol=6.9% H1=-0.15 H2=-0.04 negyr=16 worst=-15.5% corrChamp=-0.175
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:False  PASS=False
+[CRED5_nfci_credit_k26_i_vt] n=6058 2002-08-01->2026-08-28 SR=0.11 ann=0.6% vol=10.8% H1=0.29 H2=-0.17 negyr=14 worst=-11.3% corrChamp=0.175
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:False  PASS=False
+[CRED5_nfci_credit_k26_i_novt] n=6058 2002-08-01->2026-08-28 SR=-0.08 ann=-0.8% vol=6.9% H1=-0.00 H2=-0.19 negyr=13 worst=-10.9% corrChamp=0.175
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:False  PASS=False
+[CRED5_nfci_credit_k52_vt] n=6058 2002-08-01->2026-08-28 SR=-0.21 ann=-2.8% vol=10.8% H1=-0.42 H2=0.12 negyr=13 worst=-41.5% corrChamp=-0.178
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:False  PASS=False
+[CRED5_nfci_credit_k52_novt] n=6058 2002-08-01->2026-08-28 SR=-0.04 ann=-0.5% vol=6.9% H1=-0.17 H2=0.14 negyr=13 worst=-15.5% corrChamp=-0.179
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:False  PASS=False
+[CRED5_nfci_credit_k52_i_vt] n=6058 2002-08-01->2026-08-28 SR=0.02 ann=-0.4% vol=10.8% H1=0.25 H2=-0.36 negyr=16 worst=-11.7% corrChamp=0.178
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:False  PASS=False
+[CRED5_nfci_credit_k52_i_novt] n=6058 2002-08-01->2026-08-28 SR=-0.15 ann=-1.2% vol=6.9% H1=0.02 H2=-0.38 negyr=15 worst=-11.3% corrChamp=0.179
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:False  PASS=False
+[CRED5_nfci_risk_k13_vt] n=6058 2002-08-01->2026-08-28 SR=-0.27 ann=-3.4% vol=10.8% H1=-0.39 H2=-0.08 negyr=16 worst=-41.5% corrChamp=-0.174
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:False  PASS=False
+[CRED5_nfci_risk_k13_novt] n=6058 2002-08-01->2026-08-28 SR=-0.10 ann=-1.0% vol=6.9% H1=-0.13 H2=-0.07 negyr=16 worst=-15.5% corrChamp=-0.173
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:False  PASS=False
+[CRED5_nfci_risk_k13_i_vt] n=6058 2002-08-01->2026-08-28 SR=0.02 ann=-0.3% vol=10.8% H1=0.17 H2=-0.21 negyr=17 worst=-12.6% corrChamp=0.172
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:False  PASS=False
+[CRED5_nfci_risk_k13_i_novt] n=6058 2002-08-01->2026-08-28 SR=-0.13 ann=-1.1% vol=6.9% H1=-0.06 H2=-0.22 negyr=17 worst=-10.0% corrChamp=0.172
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:False  PASS=False
+[CRED5_nfci_risk_k26_vt] n=6058 2002-08-01->2026-08-28 SR=-0.11 ann=-1.8% vol=10.8% H1=-0.29 H2=0.17 negyr=14 worst=-41.5% corrChamp=-0.135
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:True  PASS=False
+[CRED5_nfci_risk_k26_novt] n=6058 2002-08-01->2026-08-28 SR=0.05 ann=0.1% vol=6.9% H1=-0.04 H2=0.18 negyr=14 worst=-15.5% corrChamp=-0.134
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:True  PASS=False
+[CRED5_nfci_risk_k26_i_vt] n=6058 2002-08-01->2026-08-28 SR=-0.11 ann=-1.7% vol=10.8% H1=0.08 H2=-0.42 negyr=14 worst=-26.6% corrChamp=0.134
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:True  PASS=False
+[CRED5_nfci_risk_k26_i_novt] n=6058 2002-08-01->2026-08-28 SR=-0.26 ann=-2.0% vol=6.9% H1=-0.14 H2=-0.43 negyr=14 worst=-19.9% corrChamp=0.133
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:True  PASS=False
+[CRED5_nfci_risk_k52_vt] n=6058 2002-08-01->2026-08-28 SR=-0.09 ann=-1.6% vol=10.8% H1=-0.40 H2=0.41 negyr=14 worst=-41.5% corrChamp=0.067
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:True  PASS=False
+[CRED5_nfci_risk_k52_novt] n=6058 2002-08-01->2026-08-28 SR=0.08 ann=0.3% vol=6.9% H1=-0.15 H2=0.40 negyr=14 worst=-15.5% corrChamp=0.080
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:True  PASS=False
+[CRED5_nfci_risk_k52_i_vt] n=6058 2002-08-01->2026-08-28 SR=-0.11 ann=-1.7% vol=10.8% H1=0.21 H2=-0.64 negyr=15 worst=-33.1% corrChamp=-0.068
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:True  PASS=False
+[CRED5_nfci_risk_k52_i_novt] n=6058 2002-08-01->2026-08-28 SR=-0.27 ann=-2.1% vol=6.9% H1=-0.01 H2=-0.63 negyr=14 worst=-24.5% corrChamp=-0.081
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:True  PASS=False
+
+=== (3) CP-OIS stress carry (pre-registered grid) ===
+[CRED5_cpois_w21_stress_vt] n=5970 2002-08-01->2026-09-03 SR=-1.88 ann=-19.3% vol=11.1% H1=-2.17 H2=-1.55 negyr=24 worst=-40.8% corrChamp=0.064
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:True  PASS=False
+[CRED5_cpois_w21_stress_novt] n=5970 2002-08-01->2026-09-03 SR=-1.86 ann=-12.4% vol=7.0% H1=-2.10 H2=-1.57 negyr=24 worst=-28.9% corrChamp=0.071
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:True  PASS=False
+[CRED5_cpois_w21_compress_vt] n=5970 2002-08-01->2026-09-03 SR=-1.52 ann=-16.1% vol=11.2% H1=-1.34 H2=-1.90 negyr=23 worst=-36.6% corrChamp=-0.062
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:True  PASS=False
+[CRED5_cpois_w21_compress_novt] n=5970 2002-08-01->2026-09-03 SR=-1.60 ann=-10.9% vol=7.1% H1=-1.39 H2=-1.92 negyr=23 worst=-20.7% corrChamp=-0.066
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:True  PASS=False
+[CRED5_cpois_w63_stress_vt] n=5970 2002-08-01->2026-09-03 SR=-1.38 ann=-14.6% vol=11.0% H1=-1.65 H2=-1.04 negyr=22 worst=-41.2% corrChamp=-0.129
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:True  PASS=False
+[CRED5_cpois_w63_stress_novt] n=5970 2002-08-01->2026-09-03 SR=-1.39 ann=-9.4% vol=7.0% H1=-1.66 H2=-1.05 negyr=22 worst=-25.7% corrChamp=-0.126
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:True  PASS=False
+[CRED5_cpois_w63_compress_vt] n=5970 2002-08-01->2026-09-03 SR=-1.28 ann=-13.8% vol=11.1% H1=-1.21 H2=-1.49 negyr=24 worst=-29.5% corrChamp=0.118
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:True  PASS=False
+[CRED5_cpois_w63_compress_novt] n=5970 2002-08-01->2026-09-03 SR=-1.31 ann=-9.0% vol=7.0% H1=-1.18 H2=-1.51 negyr=24 worst=-23.7% corrChamp=0.116
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:True  PASS=False
+[CRED5_cpois_w252_stress_vt] n=5970 2002-08-01->2026-09-03 SR=-1.09 ann=-11.8% vol=11.0% H1=-1.21 H2=-0.97 negyr=23 worst=-35.0% corrChamp=-0.117
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:True  PASS=False
+[CRED5_cpois_w252_stress_novt] n=5970 2002-08-01->2026-09-03 SR=-1.17 ann=-8.0% vol=6.9% H1=-1.34 H2=-0.98 negyr=23 worst=-26.0% corrChamp=-0.120
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:True  PASS=False
+[CRED5_cpois_w252_compress_vt] n=5970 2002-08-01->2026-09-03 SR=-0.84 ann=-9.3% vol=11.0% H1=-0.97 H2=-0.67 negyr=23 worst=-33.0% corrChamp=0.127
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:True  PASS=False
+[CRED5_cpois_w252_compress_novt] n=5970 2002-08-01->2026-09-03 SR=-0.83 ann=-5.8% vol=7.0% H1=-0.94 H2=-0.69 negyr=23 worst=-18.6% corrChamp=0.130
+    gates: SR>=1:False halves:False yearly:False |corr|<0.15:True  PASS=False
+
+=== SCORECARD ===
+44 configs, 0 pass local gates (SR>=1.0/halves/yearly/corr)
+
+FXC2-R7 RERUN: n=44 configs; COT2-R6 cross-check fields=264, mismatches=0
+BEST v2_sr: CRED5_nfci_credit_k26_i_vt v2_sr=0.2063 scr_p=0.185 leak_ok=True bp_ok=False pass=False

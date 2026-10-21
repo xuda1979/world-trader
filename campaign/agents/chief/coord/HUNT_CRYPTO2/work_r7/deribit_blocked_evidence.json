@@ -1,0 +1,95 @@
+{
+ "generated_at": "2026-09-08T19:25:43+0800",
+ "target": "www.deribit.com/api/v2 (public/keyless)",
+ "probes": [
+  {
+   "name": "udp_dns_8.8.8.8_x3_distinct_answers",
+   "ok": true,
+   "secs": 13.86,
+   "detail": [
+    [
+     "128.242.245.43"
+    ]
+   ]
+  },
+  {
+   "name": "udp_dns_local_resolver",
+   "ok": true,
+   "secs": 19.35,
+   "detail": []
+  },
+  {
+   "name": "tcp_dns_8.8.8.8_53",
+   "ok": false,
+   "secs": 1.27,
+   "error": "ConnectionResetError: [Errno 54] Connection reset by peer"
+  },
+  {
+   "name": "doh_dns_google",
+   "ok": false,
+   "secs": 24.1,
+   "error": "URLError: <urlopen error timed out>"
+  },
+  {
+   "name": "direct_ip_tls_sni_65.49.26.97",
+   "ok": false,
+   "secs": 12.0,
+   "error": "TimeoutError: timed out"
+  },
+  {
+   "name": "direct_ip_tls_sni_148.163.48.215",
+   "ok": false,
+   "secs": 12.0,
+   "error": "TimeoutError: timed out"
+  },
+  {
+   "name": "tcp_80_www.deribit.com",
+   "ok": false,
+   "secs": 12.11,
+   "error": "TimeoutError: timed out"
+  },
+  {
+   "name": "api_get_public_get_time",
+   "ok": false,
+   "secs": 12.01,
+   "error": "URLError: <urlopen error timed out>"
+  },
+  {
+   "name": "altdata6_deribit_dvol_BTC",
+   "ok": true,
+   "secs": 48.93,
+   "detail": [
+    null,
+    "net: timed out"
+   ]
+  },
+  {
+   "name": "altdata6_deribit_options_BTC",
+   "ok": true,
+   "secs": 48.96,
+   "detail": [
+    null,
+    "net: timed out"
+   ]
+  },
+  {
+   "name": "control_defillama",
+   "ok": true,
+   "secs": 2.23,
+   "detail": 423
+  },
+  {
+   "name": "control_cnbc_quote",
+   "ok": true,
+   "secs": 1.72,
+   "detail": 912
+  },
+  {
+   "name": "control_bitget_roster_host",
+   "ok": true,
+   "secs": 5.21,
+   "detail": 2
+  }
+ ],
+ "verdict": "DERIBIT BLOCKED at network layer: UDP-DNS returns a different bogus IP per query (poisoning), TCP-DNS reset, DoH unreachable, direct-IP TLS + :80 + v6 all time out; controls (DeFiLlama/CNBC) pass in-session. Options chain = unreachable keyless -> charter R7(b) [blocked]."
+}

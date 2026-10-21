@@ -1,0 +1,183 @@
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260906202820b2bd71e35f3f4f3e]
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090623284648dbc93dad0d4ea0]
+=== DATA_COTMORE rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260906233226c80751e9dcda4505]
+=== DATA_COTMORE rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260906233639eefacc25f07a4a4a]
+=== DATA_COTMORE rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090623451426841cb87e7b4006]
+=== DATA_COTMORE rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260906235331388b17554a1149de]
+=== DATA_COTMORE rate-limited or errored (attempt 5, rc=1); backing off ===
+Round 1 executed per charter. Summary:
+
+## Deliverable: `more_cot/universe_manifest.csv` — 35 families, **33 PASS / 2 honest FAIL**
+
+**Verified (not re-downloaded):** all 106 existing positioning CSVs (35 disagg + 52 TFF + 14 CIT) parse clean — 0 parse failures, 0 duplicate dates, weekly cadence (max gap 8d except sofr 14d). The 3 prior manifests already lint PASS, so the work was gates + proxy mapping.
+
+**TDD:** `lint_cot_universe.py` + 11 tests, RED→GREEN (11/11 green; full more_cot suite 41/41, no regressions). Fail-closed semantics test-locked: soft-gate fails keep measured stats + FAIL reason in the manifest — nothing silently dropped.
+
+**The 2 FAILs are real, not fixable:** `canola` (421w < 10y — ICE reporting began 2018-08) and `sofr_3m` (422w — contract launched 2018-07, plus one 14d gap that launch year). `oats` excluded outright (294d CFTC reporting suspension, dead contract).
+
+**Proxy catches that would have bitten engine agents:**
+- **CANE = Teucrium *Sugar*, not canola** — a naive mapping would pair canola positioning with sugar prices
+- **Copper upgraded monthly→daily**: fetched `more_etf/CPER.csv` via twelvedata (charter-sanctioned missing proxy; 3,722 rows, 2011-11→2026-09, max gap 5d) — the FRED spot on disk was monthly, unusable for weekly engines
+- **Sugar upgraded monthly→daily** via CANE already on disk
+- Softs ETNs (NIB/JO/SGG/BAL) probed and confirmed **HTTP 404** (delisted 2023) — cocoa/coffee/cotton honestly stay on monthly FRED spot, flagged `proxy_freq_days=31` so engines can downsample deliberately
+- `eurodollar_3m` is a split universe: positioning ends 2023-06, SOFR proxy starts 2018-04 (272w overlap) — not a 16y continuous series
+
+**One download this round** (CPER.csv); everything else was already on disk.
+
+`FINDINGS.md` written with the full 33-market table, exact numbers, and command evidence, ending with `ROUND 1 DONE`. Note: `lint_cot_universe.py` exits 1 by design because of the 2 known FAILs — engines should read the CSV, not trust the exit code.
+=== DATA_COTMORE round 1 end Mon Sep  7 00:39:27 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070152052582cdcdf3ed4ffc]
+=== DATA_COTMORE rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907015543381add3108bc4684]
+=== DATA_COTMORE rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090701595075fe361d54604c4c]
+=== DATA_COTMORE rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070205347914ce007e884edc]
+=== DATA_COTMORE rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907021431c8c0af6cf6244453]
+=== DATA_COTMORE rate-limited or errored (attempt 5, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090702401862d28b5d818d4b5e]
+=== DATA_COTMORE rate-limited or errored (attempt 6, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907024628c28e29497ce24549]
+=== DATA_COTMORE rate-limited or errored (attempt 7, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907034714e04fdaab1b7c4c5b]
+=== DATA_COTMORE rate-limited or errored (attempt 8, rc=1); backing off ===
+Round 2 complete. Summary:
+
+## DATA_COTMORE Round 2 — executed per charter
+
+**Arrival state:** a prior session (Sep 7 03:2x) had already landed part of 2(b) — `PASS_WITH_EXN` split logic in `lint_cot_universe.py`, suite at 48/48. I audited that work, kept it, and closed the remaining gaps.
+
+**(a) CIT coverage — already complete, and I corrected a false R1 claim.** Exhaustive audit of the 17 `_raw_cit` zips (11,128 rows, 0 unparseable): exactly 13 matched families, all built, zero unmatched names, and the row-count identity (10×869 + 700 + 4 wheat-series = 11,128) proves the builder dropped nothing. `soybean_meal`'s 2013 start is CFTC-side (verified 0 rows in 2010–2012 zips). But R1's FINDINGS told engines CIT availability "mirrors the disagg list" — **false** (13 of 35 families). Fix: the manifest now carries measured `cit_file/cit_start/cit_end/cit_rows` columns, test-locked against `manifest_cit.csv`.
+
+**(b) ED split universe locked at the disk level.** The CSV row must read `PASS_WITH_EXN(split universe…[2018-04-03, 2023-06-13])` with `joint_end=2023-06-13`, and ED must be the *only* family ending before 2026. Engine contract verified on disk: `lint=='PASS'` filters to exactly 32 continuous markets; 35 = 32 PASS + 1 EXN + 2 FAIL.
+
+**(c) `align_daily.py` — TDD, RED→GREEN, 16 tests.** Shared PIT-audited join (asof prices, release-shift, lag-1/0 conventions, fail-closed loader for all 3 header conventions). The trust anchor: **bit-for-bit identical** to HUNT_COT2's c3-audited `signal_to_daily` over all 6,065 real sessions. Found a real hazard while testing: plain ffill carries 2023-06 ED positioning out to the 2026 SOFR proxy (2,103 phantom daily rows) — the new default `stale_after_days=7` stops it. A full sweep over all 33 linted families quantified what R1 left unknown: monthly-FRED markets (cocoa/coffee/cotton) trade on entries up to **31 days stale**, with 9 releases beyond proxy end.
+
+**(d) Lint re-run:** 33 usable / 2 honest FAIL (canola, sofr_3m spans), exit 1 by design; `pytest more_cot/` = **71 passed**, 0 failures.
+
+**Downloads: none** — nothing was missing. FINDINGS.md ends with `ROUND 2 DONE`.
+
+One caveat worth flagging: the staleness/asof gates are advisory — the helper measures and flags, but no mechanism forces hunt agents to act on it.
+=== DATA_COTMORE round 2 end Mon Sep  7 05:35:40 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907080515c3f16553468049e3]
+=== DATA_COTMORE rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090708181008d374cb3fc14a8e]
+=== DATA_COTMORE rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907083105cc9319ea7d594bf3]
+=== DATA_COTMORE rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907083757b7673a17b88b478d]
+=== DATA_COTMORE rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907090152919e5d89e54c41fe]
+=== DATA_COTMORE rate-limited or errored (attempt 5, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907091002e40a4aff481c45c6]
+=== DATA_COTMORE rate-limited or errored (attempt 6, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090709283322df9232211644e0]
+=== DATA_COTMORE rate-limited or errored (attempt 7, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907093616acfa2301abad47e8]
+=== DATA_COTMORE rate-limited or errored (attempt 8, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609071514156dcdb0dfb4ff4892]
+=== DATA_COTMORE rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609071554061eb7236465ad4dba]
+=== DATA_COTMORE rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609071621193c3906e7dfbf4867]
+=== DATA_COTMORE rate-limited or errored (attempt 3, rc=1); backing off ===
+Round 3 executed per charter. Summary:
+
+## Charter (a) — CBOE PCR acquisition
+- **Current-day endpoints: BLOCKED, charter STOP honored.** Logged exact responses (reproducible via `cboe_pcr/probe_pcr_live.py`): `delayed_quotes/put_call_ratios/_all.json` and `scratch/pcr.json` → HTTP 403 S3 `AccessDenied` (RequestId-logged); legacy `daily_market_statistics.csv` → 404 HTML. Control fetch on the same CDN (`VIX_History.csv`) → 200, proving the block is endpoint-level. No scraping workarounds, no synthetic substitutes.
+- **Corrected a prior session's wrong conclusion**: the 10 archive CSVs on disk are *not* retired — they're CBOE's own published links (`resources/options/volume_and_call_put_ratios/`), all returning HTTP 200 and **sha256 byte-identical to disk (10/10)**. They are live but **frozen upstream at 2019-10-04**.
+
+## Charter (b) — deliverables (covariates only, zero signal hunting)
+- Inherited `test_pcr_lint.py` at 15 pass / 3 FAIL → **21/21 GREEN** (combined more_cot+cboe_pcr: **92/92**). Fixes, all TDD RED→GREEN: self-inconsistent SPX fixture (code was right), a PIT lookup bug that NaN'd every same-day session (34.4% coverage), a DataFrame-truthiness crash, mislabeled stitch boundaries (`A->C` for an impossible boundary), and the big one — **my own first fix ffilled a 2019 value across 1,720 phantom sessions to 2026**, the exact R2 ED hazard; now capped at one session stale, coverage honestly 65.6%.
+- Artifacts: `pcr_manifest.csv` (6 series: 5 PASS, pcr_index PASS_WITH_EXN for a measured methodology break med|dPCR|=0.167), `pcr_covariates_SPY_daily.csv` (5,000×6, PIT, NaN after 2019-10-07), `pcr_alignment_report.csv` vs SPY/QQQ/DIA/GLD.
+
+## Charter (c) — DEAD_IDEAS curation
+- Verified all 9 COT-family repro paths from the R3 correction rows exist (9/9 OK); appended 2 rows (PCR blocked-evidence + PCR archive deliverable), now 108.
+
+`FINDINGS.md` ends byte-verified with `ROUND 3 DONE`.
+=== DATA_COTMORE round 3 end Mon Sep  7 17:07:21 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260908005411a5c72b9cad964d1c]
+=== DATA_COTMORE rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260908013846ce13dab89850430d]
+=== DATA_COTMORE rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260908015801aab603171a654212]
+=== DATA_COTMORE rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090802024852cd85118fd54e27]
+=== DATA_COTMORE rate-limited or errored (attempt 4, rc=1); backing off ===
+Round 4 complete. Summary of what happened:
+
+## R4(a) — CBOE PCR: re-verified live, confirmed
+- Re-ran `probe_pcr_live.py` today: modern endpoints still HTTP 403 (AccessDenied), the 10 archive CSVs still 200 and **sha256-byte-identical (10/10)** — frozen at 2019-10-04. Charter STOP holds for current-day.
+- Independently recomputed pcr_total/pcr_equity lint from `_raw` CSVs with my own parser: **n=6044 (1995-09-27..2019-10-04, max_gap 7d, 0 out-of-range)** and **n=4018 (max_gap 5d, 0 OOR)** — matches `pcr_manifest.csv` exactly. Suite 21/21; combined more_cot+cboe_pcr 92/92.
+
+## R4(b) — trader-count panel: materialized (was missing)
+Found a prior session's half-finished state: scripts present, **no panel file**, suite at 14/22. Fixed 3 test-fixture bugs, then the suite caught **2 real builder bugs**:
+1. `z.where(sd > 0, 0.0)` zeroed the 26-obs warmup (NaN > 0 is False) — phantom z=0 signal; now `.mask(sd == 0, 0.0)`.
+2. `missing_pct` counted the other format's structural blanks (canola "44.7%" → real **9.2%**; median **2.6%**).
+
+**The real-data catch:** nat_gas z hit **−10.74** on 2022-02-08. Not COVID — CFTC **split the nat-gas report** (NATURAL GAS→HENRY HUB, 281→40 traders, OI −49%) and the rename-stitch fabricated the level step. Added a TDD BREAK gate: **nat_gas_nymex** and **lumber** (+105% at the 2023 rename) now flagged `PASS_WITH_EXN` with measured magnitudes; **33/35 PASS, 0 FAIL**.
+
+Deliverables: `work_r4/trader_count_panel.csv` (29,017 × 51, 35 families, lags {3,4}d only, raw-vs-panel cross-check exact), `MANIFEST_R4.md`, 24/24 tests. I also corrected two wrong claims in my own first manifest draft (COVID attribution, suppression median) before handoff. FINDINGS.md ends with `ROUND 4 DONE`.
+=== DATA_COTMORE round 4 end Tue Sep  8 02:39:27 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260908075317f4be55585bd64ea7]
+=== DATA_COTMORE rate-limited or errored (attempt 1, rc=1); backing off ===
+Those `campaign/*.md` / `bt/` modifications are other agents' in-flight R5 work (AUDIT_FWBUGS/AUDIT_CHAMP2 are charter-named to touch `bt/` this round; cron agents also mutate the repo) — none of my writes went there. My footprint: `DATA_COTMORE/work_r5/*` + the FINDINGS append + the two refreshed CFTC zips in `more_cot/_raw/` with Sep-3 `.sep3.bak` backups preserved.
+
+## Round 5 summary
+
+**Charter items — both PASS as data deliverables, no signal hunting:**
+
+**(a) trader_count_panel refresh** — Inherited an interrupted session's fetch (verified, not trusted: builder/tests byte-identical to R4, shas `7ee710b9…`/`9a6f99cb…`), then rebuilt and gated:
+- Panel: 29,051 rows × 51 cols × 35 families, span → **2026-09-01** (+34 rows = one report week; eurodollar_3m correctly +0, contract sunset)
+- Overlap integrity: 0 changed cnt cells across all 29,017 shared rows × 23 columns = **zero CFTC revisions**, pure append
+- BREAK gate: 33 PASS / 2 PASS_WITH_EXN / 0 FAIL, both EXN rows stable at the charter anchors (nat_gas 2022-02-08 281→40 −86%; lumber 2023-04-25 21→43 +105%)
+- Tests 24/24; lint suites 14/14 (more_cot) post-refresh
+- Family-extension sweep: 32 genuinely-new-2026 unmatched names all ineligible (crypto perps n≤35w, ICE carbon/RECs, Nodal, FMX SOFR-3M n=2, Bloomberg HY/IG n=22/18 < 26-obs warmup) → **0 new families**; oats still dead (new 105d+91d gaps)
+
+**(b) CBOE PCR refresh** — `probe_pcr_refresh_r5.py`: control 200 CSV (path open), **6/6 new API variants → HTTP 403 AccessDenied** (RequestIds logged), historical_data page publishes the same 10 CSVs, 3/3 byte-identical to disk → **still frozen at 2019-10-04; STOP per charter**, no scraping workarounds. PCR lint suite 21/21.
+
+**Compliance:** GATES_CONTRACT_V2 read; DEAD_IDEAS recounted myself = **130 rows** (charter's 120 stale); no dead-family re-tested; no submission made, so no gates battery owed; champion untouched; `ROUND 5 DONE` is the byte-exact last line of FINDINGS.md.
+=== DATA_COTMORE round 5 end Tue Sep  8 08:07:51 CST 2026 exit 0 ===
+Round 6 complete. Both charter items executed and logged to FINDINGS.md (last line: `ROUND 6 DONE`).
+
+## (a) BREAK gate re-verification — PASS on all four axes
+
+1. **Unit suite 24/24 pass** (18.85s), including both break-gate fixture tests and the three fail-closed integrity raises.
+2. **Real-tree lint: 33 PASS / 2 PASS_WITH_EXN / 0 FAIL** — both anchors fire at exact date + magnitude: nat_gas 2022-02-08 `281→40 (−86%)`, lumber 2023-04-25 `21→43 (+105%)`, asserted programmatically.
+3. **Byte-stability**: fresh rebuild byte-identical to committed `trader_count_panel.csv` (29,051 × 51 × 35, sha16 `9e2c82303acf4c24` = MANIFEST_R5 pin; all 4 zip/bak vintage pins re-hashed and match).
+4. **Not vacuous**: boundary detector scans all **18 real name transitions** (53 source names); exactly 2 cross |30%| — nearest miss dow_emini −8.8% stays PASS. Mutation test injected a synthetic corn break (883→12, −99%) into real panel data → **gate fired**, EXN 2→3 with known rows unchanged.
+
+## (b) Curation
+
+- DEAD_IDEAS recounted with proper CSV parsing: **145 rows** (charter's 137 already stale — concurrent R6 appends landed, per design), **0 malformed, 0 dup (idea,source)**. My rows 107/108 verified intact; HUNT_COT2-R6's rows 135–137 are theirs, untouched. Panel schema frozen at 51 cols — no new column (no pre-registered consumer), nothing mined.
+
+No signal hunting, no dead-family re-test, bt/ untouched, champion of record unchanged. Honest limits restated in FINDINGS (segment-local EXN dates, align on `release_date` not `report_date`, eurodollar_3m ends 2023-06, PCR evidence 2006–2019-only).
+=== DATA_COTMORE round 6 end Tue Sep  8 15:10:12 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609082253305682537897bf46ba]
+=== DATA_COTMORE rate-limited or errored (attempt 1, rc=1); backing off ===
+ROUND 7 executed. Summary of what happened:
+
+**Environment findings at round start (one detour, resolved)**
+- `work_r5/trader_count_panel.csv` showed mtime 22:48 today (6 min before this session) — **content unmodified**: sha16 `9e2c82303acf4c24` matches the MANIFEST_R5 pin. Mtime-only touch.
+- MANIFEST_R5's `_raw/` pins initially didn't resolve — that path is shorthand for the builder's absolute RAW constant (`tools/quant/data/more_cot/_raw`); `work_r5/_raw_live/` holds the 2 fetched 2026 zips. Appended a provenance clarification to my manifest so the next reader doesn't repeat the detour.
+
+**Charter (a) — panel integrity: ALL PASS**
+- Recount **29,051 rows × 51 cols × 35 families** (exact), span 2010-01-05..2026-09-01, 0 malformed rows, 0 dup keys, trailing newline intact.
+- Fresh rebuild from the 34 canonical raw zips is **byte-identical** to the committed CSV (both sha16 `9e2c82303acf4c24`, built via /tmp copy — committed artifact untouched).
+- Vintage pins re-hashed **4/4 MATCH** (disagg 2026 `70e18ad5a7e61745`, fin 2026 `7b744b8c6b241008`, both `.sep3.bak`s `3e816c64…`/`0d3a015f…`); live copies identical to canonical.
+- EXN break gates **fail-closed on both dates, asserted programmatically**: 33 PASS / 2 PASS_WITH_EXN / 0 FAIL; nat_gas_nymex 2022-02-08 −86%, lumber 2023-04-25 +105% — dates and magnitudes verified in-status by assertion, not by eye.
+- `eurodollar_3m` ends **2023-06-13** unchanged (n=674).
+- Suites: panel 24/24, more_cot 14/14, cboe_pcr 21/21 — **59/59 green**.
+
+**Charter (b) — ledger curation: PASS**
+- DEAD_IDEAS recounted: **152 data rows** (145 at my R6 count; +7 = 6 R7-tagged + 1 concurrent append), 0 malformed, 0 byte-dup (idea,source) pairs. The doubled sector-rotation *idea* (rows 120/146) is R5 vs R6-bugfix under different source tags — not a dup pair; logged.
+- My rows 108/109 intact. **Charter conditional resolved**: HUNT_SECTOR2's FINRA corner landed as `dead` (0/6 keyless routes, WAF evidence) — no data, so no `[data-acquired]` row owed; none written.
+- No panel mining, no new columns, no gates.run calls (data-only round → no sig=/leak_check battery owed), bt/ untouched.
+
+FINDINGS.md now ends with exactly `ROUND 7 DONE`; ledger unchanged by me (sha16 `d6873418ffa0da5e` before == after).
+=== DATA_COTMORE round 7 end Tue Sep  8 23:03:18 CST 2026 exit 0 ===

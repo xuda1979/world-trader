@@ -1,0 +1,165 @@
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260906233456735019912d2b4880]
+=== AUDIT_GATES2 rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090623542015a53e139b274da1]
+=== AUDIT_GATES2 rate-limited or errored (attempt 2, rc=1); backing off ===
+ROUND 1 complete. Summary:
+
+**Provenance first:** a partial prior session had left `test_gates_audit.py` (19 tests) and two uncommitted `gates.py` fixes in the tree with no FINDINGS.md. I didn't trust them — I re-derived RED evidence by running the suite against a clean `git archive HEAD` snapshot, then hole-hunted beyond it.
+
+**RED→GREEN re-verified (5 real REDs on HEAD):** `DEFAULTS` were `sr_min=0.6/h_min=0.3` (looser than contract's 1.0/0.5); contract gate (b) `plateau_ok` didn't exist at all (AttributeError ×3 tests); `cost_turnover` silently undercharged the entry trade (`0.000e+00` vs 6.4e-4).
+
+**All charter controls now pass with exact numbers:** noise scramble 200× → p mean 0.507, false-pass 4.50%, KS 0.050 (uniform, no spurious passes); strong book (SR 5.398) → p=0.0000; strong-H1/weak-H2 (2.425/0.106) rejected, both-strong (1.243/2.370) passes; one −6% year (worst −0.0598) rejected, −3% passes; spike rejected, plateau accepted; corr matches manual Pearson <1e-12, self-corr fails, disjoint calendars fail closed; full-|dW| 6.4bps incl. entry exact to 1e-12; vol-target trailing-only (future perturbation → 0.0 past diff), clip ≤3.0. Champion itself: SR 3.339, neg=0.
+
+**Two NEW holes I found and fixed (TDD, RED→GREEN):**
+1. `plateau_ok(neighbor_frac=0.5)` passed a one-sided cliff — chosen=1.0 with neighbor SR **0.08 vs peak 2.50** returned True. Now all adjacent neighbors must clear 80% of peak.
+2. `G.run(ref=None)` set `corr_ok=True` — the decorrelation gate was fail-OPEN, so any agent omitting the champion ref reported an unmeasured gate as passed. Now fails closed.
+
+**Final state:** my scope fully green — 74 passed / 1 xfailed (21 audit tests). One honest caveat logged: `p_max` is in DEFAULTS but `run()` doesn't enforce the scramble procedurally. Also documented: 3 concurrent failures in `test_audit_champ2_round1.py` are AUDIT_CHAMP2's harness accepting what its own tests require it to reject — their file never imports `bt.gates` and appeared mid-session at 00:10, so it's out of my charter and untouched.
+
+FINDINGS.md written with all numbers and command-backed evidence, last line exactly `ROUND 1 DONE`.
+=== AUDIT_GATES2 round 1 end Mon Sep  7 00:17:41 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070158012428776874a342b3]
+=== AUDIT_GATES2 rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907021615757f390843034b65]
+=== AUDIT_GATES2 rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070220491e6c6067832d46dd]
+=== AUDIT_GATES2 rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907024316cc0f69e345404a41]
+=== AUDIT_GATES2 rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070249046c59fd11dae5487f]
+=== AUDIT_GATES2 rate-limited or errored (attempt 5, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907031248dc0e7ede87b94071]
+=== AUDIT_GATES2 rate-limited or errored (attempt 6, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090703220887633783d0c54159]
+=== AUDIT_GATES2 rate-limited or errored (attempt 7, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090703291240ea2a55ac7844a4]
+=== AUDIT_GATES2 rate-limited or errored (attempt 8, rc=1); backing off ===
+File verified clean: exactly one `ROUND 2 DONE`, at line 92, ending the file. All three charter items complete.
+
+## ROUND 2 Summary
+
+**Provenance note:** A prior instance of this agent died mid-round, leaving uncommitted `gates.py` changes and 7 R2 tests. Per my R1 discipline I did not trust them — I re-extracted clean HEAD via `git archive`, confirmed it was the pre-fix state, and re-derived the RED evidence myself before accepting GREEN.
+
+### (a) Scramble enforced in `run()` — RED→GREEN re-derived
+- Clean HEAD: `run()` had no `sig` param, no `scr_ok` — **6/7 R2 tests failed** on HEAD (exact error: `"run() reports no scramble gate at all (procedural-only compliance)"`).
+- Working tree: **7/7 pass**; full bt suite **148 passed, 0 failed** (I added 2 more tests of my own).
+- Hole-probes found one documented limitation: `sig=sign(r)` (lookahead coupling) passes the battery (SR 20.85, scr_p=0.000) — the scramble certifies timing, **not T+1**. Contract item 1 remains procedural.
+
+### (b) Recalibration on NEW champion (SR 3.2964, verified from disk to 4 decimals)
+- Noise false-pass: **3.50%** [7/200] on synthetic books; **5.08%** [66/1300] pooled on the champion's own 13 real sleeve streams. KS uniformity: D=0.055 (p=0.56) and D=0.019. Both ≤5% nominal.
+- Strong detection: books down to **10% skill-mix (SR 0.79)** all detected at p=0.0000.
+- Gold-standard champion-composition scramble (builder reproduced to 1e-16): **p=0.83 — the gate correctly does not certify composition-only books**; documented so nobody weakens the gate to flatter the champion.
+
+### (c) Re-audited 3 round-2 candidates — every claimed number reproduced from CSVs
+1. **MACRO2 joint overlay (only round-2 PASS claim):** dMDD +1.376pp exact; my leak probe clean (corr −0.012 vs R1's leak signature 0.78); my **own** mask-roll scramble p=0.0000 and a placebo the agent never ran — **0/200** random day-sets match it. PASS claim corroborated.
+2. **CRYPTO2 bm overlay (dSR +0.237):** reproduces exactly; my scramble p=0.060 vs their 0.105 — both >0.05, their fail-closed verdict stands.
+3. **FXCARRY2:** all five claimed stats exact; honest negative.
+
+FINDINGS.md updated with full evidence; no champion files or other agents' directories touched.
+=== AUDIT_GATES2 round 2 end Mon Sep  7 05:15:37 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907080938717fade0148442a1]
+=== AUDIT_GATES2 rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070813494dd5b1a50bd349ca]
+=== AUDIT_GATES2 rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907082009662eaf1059b54cd9]
+=== AUDIT_GATES2 rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090708252750ad4205bdf642fe]
+=== AUDIT_GATES2 rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907083053aadefd0cdaaf4e66]
+=== AUDIT_GATES2 rate-limited or errored (attempt 5, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907083635ffa4b1977f5343d7]
+=== AUDIT_GATES2 rate-limited or errored (attempt 6, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907084251faab569f786c41e8]
+=== AUDIT_GATES2 rate-limited or errored (attempt 7, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070924027ff7016a2b4a4f82]
+=== AUDIT_GATES2 rate-limited or errored (attempt 8, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609071533296a91483953ee4512]
+=== AUDIT_GATES2 rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090716242246a81da2464c4369]
+=== AUDIT_GATES2 rate-limited or errored (attempt 2, rc=1); backing off ===
+Round 3 complete. FINDINGS.md ends with `ROUND 3 DONE`.
+
+## Summary
+
+**Provenance first:** a prior instance of this agent died mid-round leaving `r3/` scripts + `GATES_CONTRACT_V2_DRAFT.md` but no FINDINGS. I re-derived everything myself rather than trusting it — and that paid off: **3 draft errors found and fixed**, plus 1 real fail-open gate hole TDD'd shut.
+
+**(a) Contract v2 draft** — every section's citations re-verified against the live tree:
+- **§6b**: draft said fail at |corr|>0.10; implemented `bt.leakcheck` uses 0.20 + Fisher p + lag-0-argmax (a bare threshold false-positives the honest champion at n=4802) → corrected
+- **§7**: "8/15" near-misses fail beats-passive → actual full sweep is **9/15** → corrected with breakdown
+- **§10b**: I reconstructed the pre-costfix champion from git (sha e6d8b9c0): re-emit moved **15/15** corrs (max 0.0042), all 13 corr-bearing metas match old vintage within **±0.0020** — exoneration holds, numbers corrected
+- §6a activation condition is now **MET**: `leakcheck` exists, wired fail-closed incl. sig=None (FWBUGS fixed an UnboundLocalError mid-probe while I was probing)
+
+**(b) Composition scramble diagnostic** — re-ran exactly: champion p=**0.775** (not flagged), noise flag **9/200=4.5%**, DETECT fixture p=**0.010**, static control p=1.000. Added `not_a_gate_guard.py` regression lock — the diagnostic demonstrably never touches `gates.run`.
+
+**(c) Near-miss recalibration** — 15/15 published SR-0.5–0.7 sleeves FAIL the gate battery; **9/15 also fail beats_passive** (all six 2018-inception COMP variants lose to sixty_forty 0.705). **1 escalation**: INTL_R2_RS252_LS meta omits H1/H2 (measured 0.572/0.557 — verdict FAIL unchanged, verified by hand). 13/15 scramble p-values are artifact-unverifiable → §10a requirement. Nothing dead re-tested.
+
+**New gate fix (RED→GREEN)**: `gates.run(..., beats_passive=True)` accepted a benchmark *subset* — spy-only judged a book against SPY alone, so a book losing to 60/40 could pass (fail-open vs §7a). Now requires the full trio → `reason='incomplete_trio'`, fails closed. Final suite: **316 passed, 0 failed**.
+=== AUDIT_GATES2 round 3 end Mon Sep  7 17:14:26 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090802192939ba10aa972548b7]
+=== AUDIT_GATES2 rate-limited or errored (attempt 1, rc=1); backing off ===
+Round 4 executed per charter. Summary:
+
+**Champion of record re-verified (not trusted from charter):** canonical `verify_champion_r3_cmd.sh` re-run — ok=true, **7/7 checks** (byte_repro 1.1e-16, cost full_dw ratio 1.0000, causality nav.shift(1) + truncation dev 0.0, gross 1.6000 ≤ 1.6, 0 neg yrs, MDD −6.692% ≥ −7%), SR 3.1810 / cagr 37.195% — matches the charter exactly. Report saved to `AUDIT_GATES2/r4/verify_champion_r4.json`.
+
+**Draft→V2 reconciliation:** every draft citation re-verified against shipped code before carrying it into `GATES_CONTRACT_V2.md` (leakcheck thresholds MIN_ABS_CORR 0.20/p<0.05/lag-0-argmax read from source; beats-passive trio MIN_OBS 60 + 50% coverage; §8i numbers re-read from STANDUP_LOG:958-961; §9 span_class files re-verified importable; NOT-A-GATE guard re-run exit 0). One draft error corrected (row count: charter said 108, draft said 107, file has **120**).
+
+**The T+1 DEFAULT-on question — proposed YES, two steps, cost measured empirically:**
+- Census: 26 live `gates.run` call sites, **0** pass `sig=`, **0** pass `leak_check=True` — all already composite-False via scr_ok, so the flip is **verdict-neutral for every production caller**.
+- Shadow experiment (pytest plugin, zero `bt/` edits): 27 suite calls flipped; exactly **3** plugin-attributable failures (1 migration pin to delete, 2 sig-less positive fixtures to fix). Total flip cost: 1 line + 3 test edits.
+- RED-first pair **executed**: old semantics 3 RED/1 GREEN (KeyError — no leak gate), new semantics 3 GREEN/1 RED (pin fails by design). `bt/gates.py` untouched.
+- Did not flip the default myself: AUDIT_FWBUGS is live-editing `bt/` right now (work/ 01:51) and the pin test is theirs — the flip runbook (V2 §12) is written for the coordinator to land as one atomic commit in a quiet window.
+
+Deliverables: `GATES_CONTRACT_V2.md` (proposed successor + point-by-point v1 diff + §12 runbook), `r4/leak_default_shadow_plugin.py`, `r4/test_r4_leakflip_pair.py`, FINDINGS.md round-4 section ending `ROUND 4 DONE`. No dead family re-tested (120-row DEAD_IDEAS recounted, untouched).
+=== AUDIT_GATES2 round 4 end Tue Sep  8 02:59:48 CST 2026 exit 0 ===
+Round 5 executed and logged. Summary of the four charter items, all re-derived from the live tree:
+
+**(a) §12 step-5 pair tests — PASS.** `campaign/bt/tests/test_fwbugs_audit_r5_leakflip.py` landed with exactly the contract's 3 [NEW] tests ([OLD] pin dropped per runbook). Ran: **3 passed** standalone; the 4-file flip-affected suite (leakflip + both migrated bp fixtures + fwbugs_r3): **62 passed, 0 failed**. Pin deleted — 0 hits in test files. NOT-A-GATE guard exit 0 post-flip.
+
+**(b) R4 fixtures under the flip — 3 GREEN stay GREEN, 1 RED by design.** My R4 pair on the live tree: `3 passed, 1 failed` — the only failure is `test_r4_old_semantics_pins_default_off`, whose assertion (`"leak" not in res`) is exactly what the flip reverses; its RED is the R4-predicted post-flip fate, and the landed [NEW] trio replaces it. I didn't trust the commit message for the RED side: I rebuilt the pre-image myself (live `bt/` copied to /tmp, one line `p.pop('leak_check', True→False)`) and got **3 failed, 1 passed** with `KeyError: 'leak_ok'` — old-vs-new proven on identical fixtures. Suite: **403 passed / 0 failed** baseline AND under my R4 shadow plugin (plugin applied the default to 29 sig-less calls, zero attributable failures — all 3 predicted migrations landed). `leak_check=False` escape hatch intact.
+
+**(c) Banner sweep — 2 offenders, both fixed insert-only.** `GATES_CONTRACT_V2.md:10` ("flip NOT yet executed") got a STEP-2 FLIP STATUS banner; `GATES_CONTRACT_V2_DRAFT.md:14` ("opt-in pending ratification", double-stale) got a SUPERSEDE banner. Insert-only proven: DRAFT is byte-identical to its snapshot after banner-strip; V2's 12 pre-edit head lines preserved in order. No other gated doc carries stale flip phrasing; no test pinned the lines.
+
+**(d) DEAD_IDEAS — 132 rows** (charter's "120 at R4-end" + 12 R5 appends: 8 HUNT-*-R5 + 2 CMDT2 + 2 DATA_FREDMORE), **132/132 well-formed, 0 duplicates, 0 dead-family re-tests** (my round was validation/docs-only).
+
+Two residual notes for the coordinator, logged in FINDINGS: both bannered contract docs are still **untracked in git** — the ratified V2 + flip + banners should be committed together for durable provenance; and `leak_check` isn't in `DEFAULTS` (the default lives inline at `gates.py:104`) — cosmetic, behavior is correct.
+
+FINDINGS.md appended with full numbers; last line is exactly `ROUND 5 DONE`.
+=== AUDIT_GATES2 round 5 end Tue Sep  8 09:44:27 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609081646185d5d1684198f4de8]
+=== AUDIT_GATES2 rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260908172410a0b5bd1de63e4875]
+=== AUDIT_GATES2 rate-limited or errored (attempt 2, rc=1); backing off ===
+Round 6 complete. FINDINGS.md appended and ends with exactly `ROUND 6 DONE`.
+
+## Summary
+
+**Charter:** docs-only V2 conformance sweep — spot-check five R5 gate claims against published artifacts, one per lane, recompute each cited number, report what doesn't reproduce. DEAD_IDEAS recounted (145 rows at read, not 137 — dynamic; RB_hobr is data row 132).
+
+**All five lane verdicts reproduce. Two documentation defects found, both verdict-neutral:**
+
+| Lane | Verdict reproduces? | Notes |
+|---|---|---|
+| HUNT_CMDT2 | ✅ 0/28 honest-negative | 28/28 metas match CSVs (max SR dev 0.0004); all corr_champ re-derived, all match; corrected battery 28/28 FAIL. **Defect:** FINDINGS prose quotes *superseded distorted* SRs for 3 headline cells (−0.104/−0.324, 0.609, 0.465/0.47) where held-book numbers are −0.109/−0.196, −0.017, 0.370/0.422 |
+| HUNT_VOL2 | ✅ 0/148 + 0/224 | Independent sandbox re-scan reproduces `pcr_overlay_scan.csv` **byte-identically**; placebo z +12.5/+10.31 exact. **Defect:** "max \|same_period_corr\| 0.063" — artifact max is **0.1901** (117/148 rows exceed the quoted value); leak_ok verdicts still stand under V2 §6b |
+| HUNT_TIMESFM | ✅ 0/4 | All 4 CSVs match JSON to 4dp; w·rpu==net identity 1e-16; full gates.run re-run on published CSVs reproduces every gate number |
+| CAMP_BORROW | ✅ 4/4 flags | Script re-run exit 0, regenerated JSON identical; margin 1.0714bps/day, 4.5%-pricing residual 1e-16, base headline 37.1954/3.1810/−6.6922/0-neg exact |
+| RES_BASIS row-137 | ✅ standalone V2-PASS | sha da0285b9a7a5e6a2 matches; **every** cited number reproduced incl. leak lag-scan (argmax at past lag), plateau grids, half-spike rejection at z1.5, T+2 decay 1.343/0.142, IS/OOS 2.145/0.807, pre-2008 n=4407 SR 1.188, blend dSR +0.199/dAnn +4.21 exact under fill-0-on-champ-span. My placebo reproductions bracket the coordinator's 169/200 (75–190/200 by wrap convention) — conclusion confirmed |
+
+**Residuals for the coordinator:** the two errata above (CMDT2 prose, VOL2 0.063); no bt/ edits, no contract edits, no dead-family re-tests. bt suite this session: 426 passed / 0 failed. Evidence: `AUDIT_GATES2/r6/r6_recompute.py` + `r6_recompute.json`.
+=== AUDIT_GATES2 round 6 end Tue Sep  8 18:40:44 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260909002423643cce76215c4ed9]
+=== AUDIT_GATES2 rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609090033423800b6da00ff40d0]
+=== AUDIT_GATES2 rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609090100382761b4f8760e484c]
+=== AUDIT_GATES2 rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260909011242f86490299dd74f07]
+=== AUDIT_GATES2 rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609090131268bd916c03f164814]
+=== AUDIT_GATES2 rate-limited or errored (attempt 5, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609090143412727d6628e09412b]
+=== AUDIT_GATES2 rate-limited or errored (attempt 6, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609090157299d1edf6e6b7540df]
+=== AUDIT_GATES2 rate-limited or errored (attempt 7, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260909020655cc3e4459263b4d3e]
+=== AUDIT_GATES2 rate-limited or errored (attempt 8, rc=1); backing off ===

@@ -1,0 +1,132 @@
+[
+ {
+  "url": "https://cdn.cboe.com/api/global/us_indices/daily_prices/VIX_History.csv",
+  "status": 200,
+  "n_bytes": 472309,
+  "content_type": "text/csv",
+  "ok": true,
+  "error": null,
+  "role": "control",
+  "claim": "known-good 200 -> network path alive; same CDN+path family as all deliverables"
+ },
+ {
+  "url": "https://cdn.cboe.com/api/global/delayed_quotes/put_call_ratios/_all.json",
+  "status": 403,
+  "n_bytes": 0,
+  "ok": false,
+  "error": "HTTPError 403",
+  "body_head": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Error><Code>AccessDenied</Code><Message>Access Denied</Message><RequestId>DYCJ76K2VH5Y72PY</RequestId><HostId>",
+  "role": "blocked-agg",
+  "claim": "aggregate put/call: 403 S3 AccessDenied (matches DEAD_IDEAS row 108)"
+ },
+ {
+  "url": "https://cdn.cboe.com/api/global/delayed_quotes/put_call_ratios/SPY.json",
+  "status": 403,
+  "n_bytes": 0,
+  "ok": false,
+  "error": "HTTPError 403",
+  "body_head": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Error><Code>AccessDenied</Code><Message>Access Denied</Message><RequestId>B9WZDHWM16QDK17A</RequestId><HostId>",
+  "role": "blocked-per-sym",
+  "claim": "per-symbol put/call: 403 -> per-symbol pc_ratio history NOT keyless-feasible"
+ },
+ {
+  "url": "https://cdn.cboe.com/api/global/delayed_quotes/charts/historical/SPY.json",
+  "status": 200,
+  "n_bytes": 615261,
+  "content_type": "application/json",
+  "ok": true,
+  "error": null,
+  "top_keys": [
+   "data",
+   "symbol",
+   "timestamp"
+  ],
+  "data_keys_union": [
+   "close",
+   "date",
+   "high",
+   "low",
+   "open",
+   "volume"
+  ],
+  "n_rows": 5707,
+  "first_date": "2004-01-02",
+  "last_date": "2026-09-03",
+  "timestamp": "11:18:31",
+  "role": "ohlcv-only",
+  "claim": "per-symbol HISTORY exists but is UNDERLYING OHLCV 2004+ (date,open,high,low,close,volume); no put/call/iv fields -> charter's put/call ask NOT servable"
+ },
+ {
+  "url": "https://cdn.cboe.com/api/global/delayed_quotes/options/SPY.json",
+  "status": 200,
+  "n_bytes": 5397705,
+  "content_type": "application/json",
+  "ok": true,
+  "error": null,
+  "top_keys": [
+   "data",
+   "symbol",
+   "timestamp"
+  ],
+  "data_keys": [
+   "ask",
+   "ask_size",
+   "bid",
+   "bid_size",
+   "close",
+   "current_price",
+   "exchange_id",
+   "high",
+   "iv30",
+   "iv30_change",
+   "iv30_change_percent",
+   "last_trade_time",
+   "low",
+   "open",
+   "options",
+   "prev_day_close",
+   "price_change",
+   "price_change_percent",
+   "security_type",
+   "seqno",
+   "symbol",
+   "tick",
+   "volume"
+  ],
+  "n_contracts": 12086,
+  "contract_head": "SPY260908C00500000",
+  "timestamp": "2026-09-07 15:35:36",
+  "role": "snapshot-only",
+  "claim": "options chain = SNAPSHOT (timestamp, iv30, ~10k contracts); refetch overwrites -> no history via chains"
+ },
+ {
+  "url": "https://cdn.cboe.com/api/global/delayed_quotes/charts/historical/volumes/SPY.json",
+  "status": 403,
+  "n_bytes": 0,
+  "ok": false,
+  "error": "HTTPError 403",
+  "body_head": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Error><Code>AccessDenied</Code><Message>Access Denied</Message><RequestId>87AVMDTW3HNRMF54</RequestId><HostId>",
+  "role": "blocked-per-sym",
+  "claim": "per-symbol options-volume history route: 403"
+ },
+ {
+  "url": "https://cdn.cboe.com/api/global/delayed_quotes/charts/historical/_all.json",
+  "status": 403,
+  "n_bytes": 0,
+  "ok": false,
+  "error": "HTTPError 403",
+  "body_head": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Error><Code>AccessDenied</Code><Message>Access Denied</Message><RequestId>MJEDGKJXKPCE5QW0</RequestId><HostId>",
+  "role": "blocked-per-sym",
+  "claim": "aggregate chart list: 403"
+ },
+ {
+  "url": "https://cdn.cboe.com/resources/options/volume_and_call_put_ratios/totalpc.csv",
+  "status": 200,
+  "n_bytes": 139830,
+  "content_type": "text/csv",
+  "ok": true,
+  "error": null,
+  "role": "frozen-archive",
+  "claim": "official aggregate archive: 200 but FROZEN at 2019-10-04 (DEAD_IDEAS row 109, DATA_COTMORE)"
+ }
+]

@@ -1,0 +1,17 @@
+=== agent V1_volterm attempt 1 start Wed Sep 16 14:45:38 CST 2026 ===
+**V1_volterm complete — VERDICT: REJECT.**
+
+**Executed** (offline, T+1 causal, full cost stack 6bps/|dW| + 4.5%/yr margin + 0.5%/yr borrow, honest math):
+
+1. **Verified spans**: VIX3M starts 2009-09-18 → main window 2009-10→2026-08 (n=4255). Discovered **VXV ≡ VIX3M** (corr 1.0000, n=4264) — post-2017 rename, not an independent tenor. OVX/GVZ are single-tenor — no true term structure exists.
+2. **15 variants tested** across three families: VIX3M/VIX gates on SPY (binary/hysteresis/continuous/L-S/vol-targeted/leveraged), VIX6M/VIX9D gates, OVX proxies gating XLE.
+
+**Kill evidence (all numbers in report)**:
+- Best gate TS_bin **SR 0.757 vs matched SPY buy-and-hold 0.780** — the gate cuts vol 17.1%→13.5% but cuts return more (12.6%→9.8%); every variant is dominated by holding SPY. Short-backwardation book is outright negative (SR −0.31).
+- **Scramble test**: actual 0.694 vs circular-shift 0.650 — edge indistinguishable from long-bias noise.
+- Dividend sensitivity (+1.8%/yr): BH 0.886 vs gate 0.879 — conclusion unchanged.
+- OVX→XLE gates lose money (SR −0.02 to +0.10 vs BH_XLE 0.31).
+- Corr-to-champion passed (≤0.32<0.5) but moot; SR gate fails **0.76 ≪ 1.5**. Consistent with A5 r7's finding: the champion monetizes slope as *carry* (short VIX futures), not as an equity-beta *gate* — the latter is just a churning trend filter.
+
+**Deliverables**: `campaign/agents/V1_volterm_results/V1_report.md` (REJECT at top, fail-closed log, dead-ideas #62-63 untouched) + grid1.csv + series.pkl + run_v1.py. **V1_sleeve.csv correctly withheld** (SR<1.5). Findings file ends `DONE V1_volterm`.
+=== agent V1_volterm attempt 1 end Wed Sep 16 14:51:57 CST 2026 exit 0 ===

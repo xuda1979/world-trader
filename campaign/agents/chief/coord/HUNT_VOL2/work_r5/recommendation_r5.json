@@ -1,0 +1,80 @@
+{
+  "round": "HUNT_VOL2 R5",
+  "charter_corner": "(a) CBOE put/call archive 1995-2019 as vol-timing OVERLAY on champion, evaluated 2008-03-31..2019-10-07 (frozen archive 2019-10-04; NOT a current-day signal - disclosed hard limit)",
+  "data": {
+    "covariates": "tools/quant/data/cboe_pcr/pcr_covariates_SPY_daily.csv (DATA_COTMORE-R3; PIT strictly-prior, 1-session carry cap, NaN after freeze)",
+    "pcr_cov_sha16": "181a9ea39e15fa67",
+    "raw_files": "10/10 in tools/quant/data/cboe_pcr/_raw/ (equitypc 3256ln+arch 2178, totalpc 3256+2178, indexpc 3256+2179, pcratioarchive 2081, spxpc 2332, vixpc 3429, etppc 3256)",
+    "champion_sha16": "4358dfab95679b97",
+    "window": [
+      "2008-03-31",
+      "2019-10-07"
+    ],
+    "n_days": 3007,
+    "span_yrs": 11.5,
+    "champ_ann_in_window_pct": 36.22
+  },
+  "grid_pre_registered": {
+    "series": 6,
+    "kinds": [
+      "level",
+      "z",
+      "chg"
+    ],
+    "ops": [
+      "gt",
+      "lt"
+    ],
+    "thr": "a-priori economic cut points (not data-mined)",
+    "to": [
+      0.0,
+      0.5
+    ],
+    "declared": 224,
+    "evaluated_freq_band_[1%,60%]": 148,
+    "unfiltered_disclosure": 224
+  },
+  "battery": {
+    "leak_probe_v2_s6": "gates.run(sig=positions, leak_check=True) on every variant: 148/148 leak_ok=True, max |same_period_corr| 0.063 < 0.20 (TDD test_leak_probe_wired; sig omitted raises fail-closed)",
+    "8a_negy0": "74/148 (moot - 8c binds)",
+    "8b_MDD>-7": "100/148 (moot - 8c binds)",
+    "8c_dAnn>0_HARD": "0/148 BINDING FAIL; unfiltered 224/224 disclosure grid also 0; best dAnn -0.429pp (pcr_vix z>2.0 to=0.5), unfiltered best -0.404pp (pcr_index z>2.0 to=0.5)",
+    "8d_dSR>=0_&_dH2>=0": "0/148; best dSR -0.0032 (pcr_equity level>0.9 to=0.5) with dH2 -0.0424",
+    "8g_plateau": "NOT REACHED - nothing survives 8c to test the rung/threshold grid on",
+    "8i_single-episode_dMDD": "NOT REACHED - best dMDD +0.007pp (no relief to exclude-test)",
+    "8j_corr": "overlays exempt (reported, not failed)",
+    "era_robustness_charter_TimesFM_kill": "best variants positive in only 1/3 contiguous thirds and 1/5 fifths of the window -> FAIL era-consistency exactly like the R4 TimesFM single-era kill"
+  },
+  "placebo_s8h_analogue": {
+    "design": "200 draws frequency+episode-length-matched random trims (seed 0), same cost algebra",
+    "pcr_vix_z2.0": {
+      "real_dSR": -0.0299,
+      "placebo_median_dSR": -0.7655,
+      "placebo_p95": -0.6647,
+      "frac_pos": 0.0,
+      "real_vs_null_z": 12.5
+    },
+    "pcr_equity_level0.9": {
+      "real_dSR": -0.0032,
+      "placebo_median_dSR": -0.7621,
+      "placebo_p95": -0.6204,
+      "frac_pos": 0.0,
+      "real_vs_null_z": 10.31
+    },
+    "reading": "PCR gates DO pick genuinely bad champion days (random trims lose 0.76 SR, real gates ~0.00-0.03) - real timing content, but recovered edge < champion drift surrendered -> net dAnn<0 everywhere"
+  },
+  "verdict": "NOTHING_ADOPTABLE (0/148 freq-band + 0/224 unfiltered)",
+  "repro": {
+    "scan": "campaign/agents/chief/coord/HUNT_VOL2/work_r5/round5_scan.py (fresh re-run 2026-09-08 byte-identical to prior-instance artifact: 148 rows, numeric equality True, 0 errors)",
+    "tests": "work_r5/test_pcr5_lib.py 12/12 passed (PIT audit vs source stitched obs, T+1, champion-identical cost convention, full |dW| entry turn)",
+    "artifacts": [
+      "pcr_overlay_scan.csv",
+      "pcr_overlay_scan.meta.json",
+      "pcr_overlay_scan_UNFILTERED_disclosure.csv",
+      "pcr5_lib.py",
+      "test_pcr5_lib.py",
+      "recommendation_r5.json"
+    ],
+    "champion_untouched": true
+  }
+}

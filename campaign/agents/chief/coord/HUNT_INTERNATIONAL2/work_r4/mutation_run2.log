@@ -1,0 +1,48 @@
+SKIP (pattern not found): B&H mask misuse (NaN->0 leak)
+SKIP (pattern not found): invalid-candidate guard dropped
+SKIP (pattern not found): gate() fail-open
+applicable mutations: 35
+[0] MIN_OBS 60->61: KILLED  (1 failed, 35 passed in 0.92s)
+[1] MIN_OBS 60->2 (fail-open shrink): KILLED  (1 failed, 14 passed in 0.47s)
+[2] coverage 0.5->0.05: SURVIVOR  (37 passed in 0.91s)
+[3] coverage 0.5->0.9: SURVIVOR  (37 passed in 0.84s)
+[4] spy_bh flat-day0 removed (lookahead): KILLED  (1 failed, 6 passed in 0.30s)
+[5] spy_bh entry cost dropped: KILLED  (1 failed, 6 passed in 0.27s)
+[6] spy_bh cost sign flip: KILLED  (1 failed, 6 passed in 0.27s)
+[7] 60/40 -> 90/10: KILLED  (1 failed, 25 passed in 0.74s)
+[8] 60/40 -> never invested: KILLED  (1 failed, 25 passed in 0.70s)
+[9] ruin guard removed: SURVIVOR  (37 passed in 0.77s)
+[10] monthly snap removed: KILLED  (1 failed, 25 passed in 0.71s)
+[11] rebalance every day: KILLED  (1 failed, 25 passed in 2.12s)
+[12] spy leg drift off: KILLED  (1 failed, 25 passed in 1.27s)
+[13] cta vt target 0.10->0.50: KILLED  (1 failed, 27 passed in 0.81s)
+[14] cta cap 3.0->30: SURVIVOR  (37 passed in 1.17s)
+[15] cta window 60->5: KILLED  (1 failed, 28 passed in 0.84s)
+[16] tie no longer fails: KILLED  (1 failed, 30 passed in 0.92s)
+[17] verdict inverted: KILLED  (1 failed, 30 passed in 0.89s)
+[18] fail-open: pass unconditionally: KILLED  (1 failed, 3 passed in 0.19s)
+[19] B&H 1-obs guard weakened: KILLED  (1 failed, 24 passed in 0.70s)
+[20] B&H empty return dropped: KILLED  (1 failed, 24 passed in 0.66s)
+[21] cta vol-target disabled: KILLED  (1 failed, 27 passed in 0.72s)
+[22] 60/40 NaN-poisoned: KILLED  (1 failed, 4 passed in 0.27s)
+[23] DEL on[0]=False: KILLED  (1 failed, 6 passed in 0.27s)
+[24] DEL entry cost: KILLED  (1 error in 0.28s)
+[25] DEL 60/40 costs: KILLED  (1 failed, 25 passed in 0.70s)
+[26] DEL B&H NaN guard: KILLED  (1 failed, 12 passed in 0.55s)
+[27] DEL ruin reset: KILLED  (1 error in 0.32s)
+[28] unmeasurable benchmarks counted: KILLED  (1 failed, 4 passed in 0.25s)
+[29] best->worst benchmark: KILLED  (1 failed, 32 passed in 0.90s)
+[30] curve detect all->any: SURVIVOR  (37 passed in 0.84s)
+[31] curve detection disabled: KILLED  (1 failed, 9 passed in 0.42s)
+[32] returns always differenced (R3 bug resurfaces): KILLED  (1 failed, 1 passed in 0.17s)
+[33] curves never differenced: KILLED  (1 failed, 9 passed in 0.45s)
+[34] no-benchmark fail-closed dropped: KILLED  (1 failed, 11 passed in 0.43s)
+
+module restored byte-identical: 044c65ad9dd1299a
+
+TOTAL 35 mutants: 30 KILLED, 5 SURVIVED
+  SURVIVOR: coverage 0.5->0.05
+  SURVIVOR: coverage 0.5->0.9
+  SURVIVOR: ruin guard removed
+  SURVIVOR: cta cap 3.0->30
+  SURVIVOR: curve detect all->any

@@ -1,0 +1,80 @@
+=== no-lookahead probes ===
+  mom10: True
+  kink_eq: True
+  kink_fly: True
+  level_mom_regime: True
+
+engine window: 1977-02-16 -> 2026-09-03 n=12383 post-champ-start n=4612
+
+=== (a1) TS momentum on synth TR legs, k-scan {21,42,63,126,252} (a-priori 126) ===
+  leg 2: k=21:0.37  k=42:0.34  k=63:0.24  k=126:0.37*  k=252:0.66
+    plateau@126: False {63: 0.2408173067707394, 252: 0.6599256758661647}
+  leg 10: k=21:0.21  k=42:0.16  k=63:0.24  k=126:0.23*  k=252:0.36
+    plateau@126: False {63: 0.2387379952782649, 252: 0.3612916721515169}
+  leg 30: k=21:0.25  k=42:0.16  k=63:0.19  k=126:0.22*  k=252:0.11
+    plateau@126: False {63: 0.19490206450114764, 252: 0.10706131702915923}
+--- (a1) chosen k=126 full gates ---
+[TREASFUT2_mom2_k126] n=12383 1977-02-16->2026-09-03 SR=0.37 ann=2.6% vol=7.7% H1=0.78 H2=-0.21 negyr=25 worst=-20.4% scram_p=0.000 lag_p=0.065 corrChamp=0.031 cA6R7=0.436 cA1CR=0.217 SR_08+=-0.40
+    gates: SR>=1:False halves>=0.5:False yearly:False scramble:True |corr|<0.15:True  PASS=False
+[TREASFUT2_mom10_k126] n=12383 1977-02-16->2026-09-03 SR=0.23 ann=1.6% vol=8.8% H1=0.56 H2=-0.20 negyr=22 worst=-18.3% scram_p=0.000 lag_p=0.180 corrChamp=0.029 cA6R7=0.304 cA1CR=0.329 SR_08+=-0.21
+    gates: SR>=1:False halves>=0.5:False yearly:False scramble:True |corr|<0.15:True  PASS=False
+[TREASFUT2_mom30_k126] n=12383 1977-02-16->2026-09-03 SR=0.22 ann=1.6% vol=9.1% H1=0.52 H2=-0.17 negyr=23 worst=-17.2% scram_p=0.000 lag_p=0.090 corrChamp=0.036 cA6R7=0.199 cA1CR=0.336 SR_08+=-0.10
+    gates: SR>=1:False halves>=0.5:False yearly:False scramble:True |corr|<0.15:True  PASS=False
+[TREASFUT2_mom1030_k126] n=12383 1977-02-16->2026-09-03 SR=0.23 ann=1.7% vol=9.0% H1=0.56 H2=-0.19 negyr=24 worst=-17.7% scram_p=0.000 lag_p=0.110 corrChamp=0.036 cA6R7=0.250 cA1CR=0.352 SR_08+=-0.15
+    gates: SR>=1:False halves>=0.5:False yearly:False scramble:True |corr|<0.15:True  PASS=False
+
+--- (a2) R1 curve machinery rerun under charter durs (k=21 a-priori from R1, scan) ---
+WARNING net_of: only 46.6% live rows in evaluated window — gates diluted by dead zero rows; pass trim_coverage=True for a partial-window book
+WARNING net_of: only 47.4% live rows in evaluated window — gates diluted by dead zero rows; pass trim_coverage=True for a partial-window book
+WARNING net_of: only 46.4% live rows in evaluated window — gates diluted by dead zero rows; pass trim_coverage=True for a partial-window book
+WARNING net_of: only 46.9% live rows in evaluated window — gates diluted by dead zero rows; pass trim_coverage=True for a partial-window book
+WARNING net_of: only 44.8% live rows in evaluated window — gates diluted by dead zero rows; pass trim_coverage=True for a partial-window book
+WARNING net_of: only 47.4% live rows in evaluated window — gates diluted by dead zero rows; pass trim_coverage=True for a partial-window book
+  2s10s steep: k=5:-2.23  k=10:-1.28  k=21:-0.59*  k=42:-0.37  k=63:-0.22  k=126:0.06
+    plateau@21: False {10: -1.2827366817033135, 42: -0.37033026545188497}
+WARNING net_of: only 46.4% live rows in evaluated window — gates diluted by dead zero rows; pass trim_coverage=True for a partial-window book
+[TREASFUT2_curve2s10s_k21] n=12383 1977-02-16->2026-09-03 SR=-0.59 ann=-1.0% vol=1.6% H1=-0.16 H2=-1.18 negyr=37 worst=-4.7% scram_p=0.000 lag_p=0.005 corrChamp=-0.015 cA6R7=0.184 cA1CR=-0.236 SR_08+=-1.32
+    gates: SR>=1:False halves>=0.5:False yearly:False scramble:True |corr|<0.15:True  PASS=False
+
+=== (b) steepener kink combos (a-priori k=126, EQ 0.5/0.5) ===
+  kink EQ: k=21:-0.81  k=42:-0.58  k=63:-0.25  k=126:0.05*  k=252:0.12
+    plateau@126: False {63: -0.2547064863040766, 252: 0.12471318280179754}
+[TREASFUT2_kink_eq_k126] n=12383 1977-02-16->2026-09-03 SR=0.05 ann=0.0% vol=0.9% H1=0.44 H2=-0.43 negyr=32 worst=-1.6% scram_p=0.000 lag_p=0.300 corrChamp=-0.011 cA6R7=0.378 cA1CR=-0.149 SR_08+=-0.63
+    gates: SR>=1:False halves>=0.5:False yearly:False scramble:True |corr|<0.15:True  PASS=False
+[TREASFUT2_kink_fly_k126] n=12383 1977-02-16->2026-09-03 SR=-0.95 ann=-1.2% vol=1.3% H1=-0.76 H2=-1.24 negyr=47 worst=-3.6% scram_p=0.000 lag_p=0.205 corrChamp=0.002 cA6R7=-0.022 cA1CR=-0.046 SR_08+=-1.16
+    gates: SR>=1:False halves>=0.5:False yearly:False scramble:True |corr|<0.15:True  PASS=False
+WARNING net_of: only 47.1% live rows in evaluated window — gates diluted by dead zero rows; pass trim_coverage=True for a partial-window book
+[TREASFUT2_kink_2s30_k126] n=12383 1977-02-16->2026-09-03 SR=0.52 ann=1.0% vol=1.9% H1=0.89 H2=0.09 negyr=18 worst=-3.7% scram_p=0.000 lag_p=0.060 corrChamp=-0.016 cA6R7=0.389 cA1CR=-0.145 SR_08+=-0.10
+    gates: SR>=1:False halves>=0.5:False yearly:False scramble:True |corr|<0.15:True  PASS=False
+
+=== (c) yield LEVEL momentum +/- T5YIFR regime (a-priori k=126, regime diff63) ===
+[TREASFUT2_lvl10_k126] n=12383 1977-02-16->2026-09-03 SR=0.04 ann=0.0% vol=8.6% H1=0.29 H2=-0.27 negyr=26 worst=-17.8% scram_p=0.000 lag_p=0.130 corrChamp=0.032 cA6R7=0.107 cA1CR=0.220 SR_08+=-0.27
+    gates: SR>=1:False halves>=0.5:False yearly:False scramble:True |corr|<0.15:True  PASS=False
+    (overlay window starts 2003-03-19 — T5YIFR begins 2003-01)
+[TREASFUT2_lvl10_k126_reg] n=5871 2003-03-19->2026-09-03 SR=-0.33 ann=-3.6% vol=9.7% H1=-0.47 H2=-0.21 negyr=17 worst=-20.9% scram_p=0.000 lag_p=0.440 corrChamp=0.029 cA6R7=-0.135 cA1CR=-0.001 SR_08+=-0.28
+    gates: SR>=1:False halves>=0.5:False yearly:False scramble:True |corr|<0.15:True  PASS=False
+[TREASFUT2_lvl30_k126] n=12383 1977-02-16->2026-09-03 SR=0.05 ann=0.1% vol=8.9% H1=0.33 H2=-0.30 negyr=26 worst=-19.7% scram_p=0.000 lag_p=0.175 corrChamp=0.032 cA6R7=0.065 cA1CR=0.235 SR_08+=-0.19
+    gates: SR>=1:False halves>=0.5:False yearly:False scramble:True |corr|<0.15:True  PASS=False
+    (overlay window starts 2003-02-18 — T5YIFR begins 2003-01)
+[TREASFUT2_lvl30_k126_reg] n=5892 2003-02-18->2026-09-03 SR=-0.23 ann=-2.9% vol=10.3% H1=-0.41 H2=-0.05 negyr=16 worst=-17.7% scram_p=0.000 lag_p=0.535 corrChamp=0.025 cA6R7=-0.053 cA1CR=0.040 SR_08+=-0.14
+    gates: SR>=1:False halves>=0.5:False yearly:False scramble:True |corr|<0.15:True  PASS=False
+
+=== SUMMARY (FULL-window gates, fail-closed) ===
+  mom2_k126          SR=  0.37 H1=  0.78 H2= -0.21 negyr=25 worst=  -20.4% p=0.000 lag_p=0.065 corr= 0.031 cA6R7= 0.436 SR_08+= -0.40 PASS=False
+  mom10_k126         SR=  0.23 H1=  0.56 H2= -0.20 negyr=22 worst=  -18.3% p=0.000 lag_p=0.180 corr= 0.029 cA6R7= 0.304 SR_08+= -0.21 PASS=False
+  mom30_k126         SR=  0.22 H1=  0.52 H2= -0.17 negyr=23 worst=  -17.2% p=0.000 lag_p=0.090 corr= 0.036 cA6R7= 0.199 SR_08+= -0.10 PASS=False
+  mom1030_k126       SR=  0.23 H1=  0.56 H2= -0.19 negyr=24 worst=  -17.7% p=0.000 lag_p=0.110 corr= 0.036 cA6R7= 0.250 SR_08+= -0.15 PASS=False
+  curve2s10s_d2_k21  SR= -0.59 H1= -0.16 H2= -1.18 negyr=37 worst=   -4.7% p=0.000 lag_p=0.005 corr=-0.015 cA6R7= 0.184 SR_08+= -1.32 PASS=False
+  kink_eq_k126       SR=  0.05 H1=  0.44 H2= -0.43 negyr=32 worst=   -1.6% p=0.000 lag_p=0.300 corr=-0.011 cA6R7= 0.378 SR_08+= -0.63 PASS=False
+  kink_fly_k126      SR= -0.95 H1= -0.76 H2= -1.24 negyr=47 worst=   -3.6% p=0.000 lag_p=0.205 corr= 0.002 cA6R7=-0.022 SR_08+= -1.16 PASS=False
+  kink_2s30_k126     SR=  0.52 H1=  0.89 H2=  0.09 negyr=18 worst=   -3.7% p=0.000 lag_p=0.060 corr=-0.016 cA6R7= 0.389 SR_08+= -0.10 PASS=False
+  lvl10_k126         SR=  0.04 H1=  0.29 H2= -0.27 negyr=26 worst=  -17.8% p=0.000 lag_p=0.130 corr= 0.032 cA6R7= 0.107 SR_08+= -0.27 PASS=False
+  lvl10_k126_reg     SR= -0.33 H1= -0.47 H2= -0.21 negyr=17 worst=  -20.9% p=0.000 lag_p=0.440 corr= 0.029 cA6R7=-0.135 SR_08+= -0.28 PASS=False
+  lvl30_k126         SR=  0.05 H1=  0.33 H2= -0.30 negyr=26 worst=  -19.7% p=0.000 lag_p=0.175 corr= 0.032 cA6R7= 0.065 SR_08+= -0.19 PASS=False
+  lvl30_k126_reg     SR= -0.23 H1= -0.41 H2= -0.05 negyr=16 worst=  -17.7% p=0.000 lag_p=0.535 corr= 0.025 cA6R7=-0.053 SR_08+= -0.14 PASS=False
+
+=== save sleeves (best-of-family; NEG-tagged when they fail) ===
+  saved /Users/daxu/software/world-trader/campaign/agents/chief/coord/HUNT_TREASFUT/sleeves/TREASFUT2_mom10_k126_NEG.csv n=12383
+  saved /Users/daxu/software/world-trader/campaign/agents/chief/coord/HUNT_TREASFUT/sleeves/TREASFUT2_mom1030_k126_NEG.csv n=12383
+  saved /Users/daxu/software/world-trader/campaign/agents/chief/coord/HUNT_TREASFUT/sleeves/TREASFUT2_kink_eq_k126_NEG.csv n=12383
+  saved /Users/daxu/software/world-trader/campaign/agents/chief/coord/HUNT_TREASFUT/sleeves/TREASFUT2_lvl10_k126_reg_NEG.csv n=5871

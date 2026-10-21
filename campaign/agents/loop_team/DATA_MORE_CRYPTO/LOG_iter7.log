@@ -1,0 +1,12 @@
+=== loop_team/DATA_MORE_CRYPTO start Thu Sep  3 15:00:31 CST 2026 ===
+All charter deliverables complete and verified. Summary:
+
+**Execution summary (DATA_MORE_CRYPTO):**
+- **Sources tried in charter order:** Twelvedata (worked, 11/12, but **no volume field** for crypto + MATIC 404→POL rename), Finnhub crypto candles (**denied** — not free tier), Binance api.* (**geo-blocked** HTTP 000), CryptoCompare (key-required), CoinGecko (blocked), **Binance Vision static CDN (worked, no key, full OHLCV 2017→2026-07)**.
+- **Final pipeline (evidence-driven):** Vision-first OHLCV (string-exact vs raw Binance prints, ≤2026-07-31) + Twelvedata 34-day tail (2026-08-01→09-03, vol=NA honest); MATIC stitched MATICUSDT→POLUSDT with the genuine 12-day exchange gap (2024-09-01..12) documented.
+- **Superpowers rigor:** lint gate written first, RED observed (12× FILE MISSING); property test v1 RED caught **real TD data defects** (TD "POL/USD" pre-migration = different asset, ratio drifts 0.82x→90x, =1.0000 only from 2024-10; TD-vs-Binance divergences to -10.56%); strengthened test v2 RED → rebuilt → **GREEN: 12/12 vision_exact (e.g. BTC 3271/3271, P1 known vol 16792.388165 exact)**; lint **12/12 PASS EXIT=0**; manifest + .meta written; 3 bugs root-caused (ms→us timestamp switch in 228/1066 Vision files; POL rename; shell-cwd path bug).
+- **Honest spans:** BTC 3305 rows 2017-08-17→2026-09-03 (longest); 7 coins 2017/2018+; no 2008+ span exists — recorded as candidate low-corr satellite only, no backtests run.
+
+FINDINGS.md at campaign/agents/loop_team/DATA_MORE_CRYPTO/FINDINGS.md contains every exact number.
+
+DATA_MORE_CRYPTO DONE

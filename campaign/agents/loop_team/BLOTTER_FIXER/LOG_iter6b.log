@@ -1,0 +1,24 @@
+=== loop_team/BLOTTER_FIXER start Thu Sep  3 11:17:01 CST 2026 ===
+**BLOTTER_FIXER complete.** Summary of the executed charter:
+
+## Delivered
+- **`campaign/scripts/blotter_v2.py`** — new per-book, cost-complete, honest-price emitter with `--verify` byte-repro gate (all 3 ledgers: **EXACT**)
+- **3 v2 ledgers** in `campaign/results/`: SAFE (239,440 rows), AGGRESSIVE (239,502), BALANCED (239,505)
+- **TDD suite** (`scratch/test_blotter_v2.py`): RED `1 failed, 14 errors` → GREEN **18/18 passed**
+- **FINDINGS.md** with per-bug RED→GREEN traces, root causes, and reconciliation evidence
+- **TRADE_RECORD_STANDARD.md** appended (v2 columns: book, cost_stream, cost_total, borrow_charge, pnl_contrib, holiday_trade, t−1 price rule)
+
+## Key evidence (fresh runs)
+| Gate | Result |
+|---|---|
+| Per-book reb reconcile (per-sleeve Σ\|qty\| == own book) | EXACT (SAFE 484.8517x, AGG 716.6999x, BAL 600.7758x) |
+| Σcost_total == charged | exact: 0.531441923081 / 0.679014828979 |
+| Ledger-alone PnL == champion | 1.0e-16 / 1.1e-16 / 1.1e-16 |
+| Round-trip from emitted files alone | 6.8e-16 / 7.4e-16 / 7.3e-16 |
+| Frozen champions + honest13_build.py | sha256 identical pre/post |
+
+## Bugs fixed: #1 (per-book + complete cost record), #4 (carryv2→REAL xau 711.80–5330.95, yield/spread labels), #6 (borrow_charge + cost_total), #7 (t−1 exec price, qty/weights byte-equal v1), #8 (holiday flag, 140/96 census exactly). Four real bugs found & fixed during implementation (missing `sc` on marks, cost-window leak, closure-variable bug, BAL NaN-mean) — each root-caused before fixing, including the round-trip gate catching a 7.5e-5 BAL mis-accounting.
+
+Residuals disclosed: 6.0→6.4bps re-price and sparse-gap undercharge remain builder-scope (out of charter). Recommendation: ledger v2 IS champion-admissible as the record of the champion AS-CHARGED, pending the separate builder re-audit wave.
+
+BLOTTER_FIXER DONE

@@ -1,0 +1,347 @@
+{
+  "sym": "STLD",
+  "generated_utc": "2026-08-22T14:25:47Z",
+  "price": 228.68,
+  "data_sections": [
+    "quote",
+    "news",
+    "catalyst",
+    "analyst",
+    "insider",
+    "earnings",
+    "fundamentals",
+    "peers",
+    "clusters",
+    "gdelt_tone"
+  ],
+  "bull": {
+    "stance": "bullish",
+    "confidence": 0.72,
+    "claims": [
+      {
+        "claim": "Analyst consensus is strongly positive, with 14 of 22 analysts rating the stock a Buy or Strong Buy and an aggregate score of 0.77.",
+        "evidence": "analyst.score",
+        "impact": "positive"
+      },
+      {
+        "claim": "The company has beaten EPS estimates in three of the last four quarters, most recently by 2.72%.",
+        "evidence": "earnings.surprise_pct",
+        "impact": "positive"
+      },
+      {
+        "claim": "Revenue growth of 13.61% and 5-year EPS growth of 25.23% indicate robust top- and bottom-line expansion.",
+        "evidence": "fundamentals.revenue_growth",
+        "impact": "positive"
+      },
+      {
+        "claim": "Return on equity of 17.6% demonstrates efficient capital allocation and strong profitability.",
+        "evidence": "fundamentals.roe_ttm",
+        "impact": "positive"
+      },
+      {
+        "claim": "Recent news sentiment is overwhelmingly positive, with 9 positive headlines and 0 negative, citing strong Q2 profit and record shipments.",
+        "evidence": "news.net",
+        "impact": "positive"
+      }
+    ]
+  },
+  "bear": {
+    "stance": "bearish",
+    "confidence": 0.62,
+    "claims": [
+      {
+        "claim": "Insiders have been net sellers with 13 sell transactions and zero buys, signaling potential lack of confidence at current levels.",
+        "evidence": "insider.n_buys",
+        "impact": "negative"
+      },
+      {
+        "claim": "The stock trades at a stretched P/E of 23.6x trailing earnings, which is expensive for a cyclical steel producer.",
+        "evidence": "fundamentals.pe_ttm",
+        "impact": "negative"
+      },
+      {
+        "claim": "The most recent quarter missed EPS estimates by 2.14%, breaking a pattern of beats and suggesting deteriorating earnings momentum.",
+        "evidence": "earnings.surprise_pct",
+        "impact": "negative"
+      },
+      {
+        "claim": "The stock is trading only ~21% below its 52-week high after a massive run from $124.77, leaving limited upside and elevated downside risk.",
+        "evidence": "fundamentals.52w_high",
+        "impact": "negative"
+      },
+      {
+        "claim": "A high beta of 1.50 means the stock will amplify any market or steel-sector downturn, increasing risk for holders.",
+        "evidence": "fundamentals.beta",
+        "impact": "negative"
+      }
+    ]
+  },
+  "rebuttals": {
+    "bear": {
+      "rebuttals": [
+        {
+          "target_claim": "Analyst consensus is strongly positive, with 14 of 22 analysts rating the stock a Buy or Strong Buy and an aggregate score of 0.77.",
+          "response": "The score of 0.77 is inflated by the 4 'strong buy' ratings, but 7 analysts (32%) still recommend holding, and the stock trades at a 20.8% discount to its 52-week high of $288.74, suggesting the market has already priced in much of the optimism.",
+          "counter_evidence": "quote.pc",
+          "concede": false,
+          "strength": 0.4
+        },
+        {
+          "target_claim": "The company has beaten EPS estimates in three of the last four quarters, most recently by 2.72%.",
+          "response": "The most recent beat of 2.72% is modest, and the prior quarter missed by -2.14%, showing inconsistency; moreover, EPS actuals have declined from $3.81 to $2.78 to $1.82 over the last three quarters, indicating a deteriorating earnings trend despite the beats.",
+          "counter_evidence": "earnings.surprise_pct",
+          "concede": false,
+          "strength": 0.6
+        },
+        {
+          "target_claim": "Revenue growth of 13.61% and 5-year EPS growth of 25.23% indicate robust top- and bottom-line expansion.",
+          "response": "While historical growth is solid, the trailing P/E of 23.58 and P/B of 3.51 already reflect this growth, and the recent quarterly EPS decline from $3.81 to $1.82 suggests the growth rate is decelerating sharply, making the 5-year figure less relevant going forward.",
+          "counter_evidence": "fundamentals.pe_ttm",
+          "concede": false,
+          "strength": 0.5
+        },
+        {
+          "target_claim": "Return on equity of 17.6% demonstrates efficient capital allocation and strong profitability.",
+          "response": "ROE of 17.6% is respectable but not exceptional for a cyclical steel company, and with a debt-to-equity ratio of 0.47, the company is levered, which can amplify ROE but also increases financial risk if steel prices soften.",
+          "counter_evidence": "fundamentals.debt_eq",
+          "concede": false,
+          "strength": 0.3
+        },
+        {
+          "target_claim": "Recent news sentiment is overwhelmingly positive, with 9 positive headlines and 0 negative, citing strong Q2 profit and record shipments.",
+          "response": "News sentiment is backward-looking and often lags price action; more telling is that insiders have sold 31,125 shares net over the past month with zero buys, signaling that those with the most knowledge are reducing exposure despite the positive headlines.",
+          "counter_evidence": "insider.net_shares",
+          "concede": false,
+          "strength": 0.7
+        }
+      ]
+    },
+    "bull": {
+      "rebuttals": [
+        {
+          "target_claim": "Insiders have been net sellers with 13 sell transactions and zero buys, signaling potential lack of confidence at current levels.",
+          "response": "The insider data shows 13 'sell' transactions totaling only 31,125 shares, but the recent transactions list reveals 7 'A' (acquisition) transactions on 2026-07-10 totaling 281 shares, which are not counted as buys. More importantly, the net shares sold (31,125) represent a negligible 0.08% of the company's 165.7 million shares outstanding (market cap $37.9B / price $228.68), and many 'G' transactions are likely grants or tax-related, not discretionary sells.",
+          "counter_evidence": "insider.recent",
+          "concede": false,
+          "strength": 0.7
+        },
+        {
+          "target_claim": "The stock trades at a stretched P/E of 23.6x trailing earnings, which is expensive for a cyclical steel producer.",
+          "response": "The P/E of 23.6x is not stretched when considering the company's 5-year EPS growth of 25.23% and revenue growth of 13.61%, yielding a PEG ratio of ~0.94 (23.58/25.23), which is below 1.0 and indicates the stock is fairly valued relative to its growth. Additionally, the ROE of 17.6% and debt/equity of only 0.47 demonstrate strong profitability and a conservative balance sheet that justifies a premium multiple.",
+          "counter_evidence": "fundamentals.eps_growth5y",
+          "concede": false,
+          "strength": 0.8
+        },
+        {
+          "target_claim": "The most recent quarter missed EPS estimates by 2.14%, breaking a pattern of beats and suggesting deteriorating earnings momentum.",
+          "response": "The 2.14% miss in Q1 2026 is a single quarter anomaly; the prior three quarters all beat estimates (2.72%, 5.52%, 1.82%), and the most recent quarter (Q2 2026) beat by 2.72% with actual EPS of $3.81 versus $3.71 estimate, showing the company has resumed its beat pattern. The sequential EPS growth from $2.78 to $3.81 (37% QoQ) demonstrates accelerating earnings momentum, not deterioration.",
+          "counter_evidence": "earnings.surprise_pct",
+          "concede": false,
+          "strength": 0.9
+        },
+        {
+          "target_claim": "The stock is trading only ~21% below its 52-week high after a massive run from $124.77, leaving limited upside and elevated downside risk.",
+          "response": "The stock's 21% discount to its 52-week high of $288.74 actually provides meaningful upside potential, especially given the strong steel demand environment highlighted by the positive news tone (9 positive headlines, 0 negative) and the recent 4.42% price increase to $228.68. The 52-week low of $124.77 represents a 83% gain, but with revenue growth of 13.61% and EPS growth of 25.23%, the stock still has room to re-test its high as earnings continue to grow.",
+          "counter_evidence": "news.net",
+          "concede": false,
+          "strength": 0.6
+        },
+        {
+          "target_claim": "A high beta of 1.50 means the stock will amplify any market or steel-sector downturn, increasing risk for holders.",
+          "response": "While beta of 1.50 does indicate higher volatility, this cuts both ways\u2014in the current bullish steel environment (9 positive news headlines, 0 negative, and Cleveland-Cliffs soaring on robust steel demand), the high beta amplifies upside gains. The stock's strong fundamentals (ROE 17.6%, revenue growth 13.61%, EPS growth 25.23%) provide a solid foundation that mitigates downside risk, and the analyst consensus of 0.77 (14 buy/strong-buy out of 22) reflects confidence in continued outperformance.",
+          "counter_evidence": "fundamentals.roe_ttm",
+          "concede": true,
+          "strength": 0.5
+        }
+      ]
+    }
+  },
+  "grading": {
+    "bull": {
+      "side": "bull",
+      "n_claims": 5,
+      "grounded": 5,
+      "ungrounded": 0,
+      "sections_cited": [
+        "analyst",
+        "earnings",
+        "fundamentals",
+        "news"
+      ],
+      "claims": [
+        {
+          "claim": "Analyst consensus is strongly positive, with 14 of 22 analysts rating the stock a Buy or Strong Buy and an aggregate score of 0.77.",
+          "evidence": "analyst.score",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The company has beaten EPS estimates in three of the last four quarters, most recently by 2.72%.",
+          "evidence": "earnings.surprise_pct",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "Revenue growth of 13.61% and 5-year EPS growth of 25.23% indicate robust top- and bottom-line expansion.",
+          "evidence": "fundamentals.revenue_growth",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "Return on equity of 17.6% demonstrates efficient capital allocation and strong profitability.",
+          "evidence": "fundamentals.roe_ttm",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "Recent news sentiment is overwhelmingly positive, with 9 positive headlines and 0 negative, citing strong Q2 profit and record shipments.",
+          "evidence": "news.net",
+          "grounded": true,
+          "reason": "ok"
+        }
+      ]
+    },
+    "bear": {
+      "side": "bear",
+      "n_claims": 5,
+      "grounded": 5,
+      "ungrounded": 0,
+      "sections_cited": [
+        "earnings",
+        "fundamentals",
+        "insider"
+      ],
+      "claims": [
+        {
+          "claim": "Insiders have been net sellers with 13 sell transactions and zero buys, signaling potential lack of confidence at current levels.",
+          "evidence": "insider.n_buys",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The stock trades at a stretched P/E of 23.6x trailing earnings, which is expensive for a cyclical steel producer.",
+          "evidence": "fundamentals.pe_ttm",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The most recent quarter missed EPS estimates by 2.14%, breaking a pattern of beats and suggesting deteriorating earnings momentum.",
+          "evidence": "earnings.surprise_pct",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The stock is trading only ~21% below its 52-week high after a massive run from $124.77, leaving limited upside and elevated downside risk.",
+          "evidence": "fundamentals.52w_high",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "A high beta of 1.50 means the stock will amplify any market or steel-sector downturn, increasing risk for holders.",
+          "evidence": "fundamentals.beta",
+          "grounded": true,
+          "reason": "ok"
+        }
+      ]
+    }
+  },
+  "valuation": {
+    "sym": "STLD",
+    "price": 228.68,
+    "deterministic": true,
+    "inputs": {
+      "pe_ttm": 23.5784,
+      "roe_ttm": 17.599999999999998,
+      "debt_eq": 0.4701,
+      "ps_ttm": 1.8451,
+      "trailing_eps": 9.7,
+      "eps_growth_trend": 0.391,
+      "pe_band": {
+        "bear": 18.9,
+        "base": 23.5784,
+        "bull": 29.5
+      }
+    },
+    "outputs": {
+      "peg": 0.6,
+      "fair_value_basis": "trailing EPS",
+      "fair_value": {
+        "bear": 183.31,
+        "base": 228.68,
+        "bull": 286.11
+      },
+      "upside_base": 0.0,
+      "quality_signals": {
+        "roe_ttm": 17.599999999999998,
+        "debt_eq": 0.4701
+      }
+    },
+    "notes": [
+      "EPS growth = latest actual EPS vs the oldest EPS in the gathered history (rough trend)",
+      "PEG = trailing P/E / trailing EPS growth %",
+      "P/E band = trailing P/E x 0.8 / 1.0 / 1.25; mechanistic, no sector judgment"
+    ]
+  },
+  "judge": {
+    "convergence": false,
+    "rating": "HOLD",
+    "conviction": 0.55,
+    "scenarios": {
+      "bull": {
+        "prob": 0.3,
+        "pt": 286.11,
+        "thesis": "Strong analyst consensus, consistent EPS beats, and robust growth metrics justify a premium multiple and a retest of the 52-week high."
+      },
+      "base": {
+        "prob": 0.45,
+        "pt": 228.68,
+        "thesis": "The stock is fairly valued at current levels, with strong fundamentals offset by cyclical risks and a stretched trailing P/E."
+      },
+      "bear": {
+        "prob": 0.25,
+        "pt": 183.31,
+        "thesis": "Insider selling, a high beta, and a recent EPS miss signal deteriorating momentum and elevated downside risk for a cyclical at peak multiples."
+      }
+    },
+    "catalysts": [
+      {
+        "catalyst": "Next earnings release",
+        "date": "unknown",
+        "impact": "positive"
+      },
+      {
+        "catalyst": "Steel demand and pricing environment",
+        "date": "unknown",
+        "impact": "positive"
+      },
+      {
+        "catalyst": "Insider transaction activity",
+        "date": "unknown",
+        "impact": "negative"
+      }
+    ],
+    "risks": [
+      {
+        "risk": "Cyclical steel price downturn",
+        "likelihood": "medium"
+      },
+      {
+        "risk": "High beta amplifying market volatility",
+        "likelihood": "medium"
+      },
+      {
+        "risk": "Insider selling signaling lack of confidence",
+        "likelihood": "low"
+      },
+      {
+        "risk": "Earnings momentum deceleration",
+        "likelihood": "medium"
+      }
+    ],
+    "decision_rationale": "The bull and bear cases are both well-grounded, but they fundamentally disagree on whether STLD's growth justifies its valuation and whether insider selling is a meaningful signal. The deterministic valuation places fair value exactly at the current price, suggesting the market has efficiently priced in both the positives and negatives. Given the balanced risk/reward, a HOLD rating with moderate conviction is appropriate, with the base case weighted most heavily."
+  },
+  "errors": [],
+  "elapsed_sec": 0.0,
+  "report_path": null,
+  "json_path": null
+}

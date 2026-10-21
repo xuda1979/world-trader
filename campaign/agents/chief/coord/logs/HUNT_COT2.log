@@ -1,0 +1,226 @@
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260906200752018b835a0d304c2d]
+=== HUNT_COT2 round 1 end Sun Sep  6 20:07:53 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260906232456b1eed0ccb1234e46]
+=== HUNT_COT2 rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260906233355be2051e6ae674be4]
+=== HUNT_COT2 rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609062352386d70487a37784eff]
+=== HUNT_COT2 rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260906235758ac35278325514a08]
+=== HUNT_COT2 rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907000448577c1997758b4a94]
+=== HUNT_COT2 rate-limited or errored (attempt 5, rc=1); backing off ===
+Round 1 executed per charter. Summary:
+
+## Result: ALL 24 CONFIGS FAIL — honest negative
+
+**Framework work (TDD, 21 tests green):** Found the round-1 library half-built (7 charter functions RED, `__main__` runner mid-file silently skipping 13 tests). Implemented TDD-style and found + fixed 4 real library bugs (each RED→GREEN):
+
+1. **`load_hedger` returned all 9 markets mixed** (gold n=6181, dup idx 5469) with fuzzy keyword matching that caught MICRO GOLD / ICE contracts. Fixed to the repo's audited exact matcher `cot_matcher.py` + collision priority — re-parsed mm_pct now reproduces the committed legacy files exactly (corr 1.0000, max diff <6e-7) for **all 9 markets** incl. wti/nat_gas.
+2. **Scramble null was degenerate** — rolling *returns* preserves mean/std exactly → p=1.0 forever. Rebuilt as a true signal-scramble (circular shift of the **position** series); fail-closed when no signal supplied.
+3. **Late price history crash** — copper px starts 2010-04-20 vs COT 2010-01-05 → duplicate release index. Fixed keep-last (PIT-correct), regression test added.
+4. **OI overlay sign bug** — neg/neg growth ratio gave overlay=1.0 on *falling* OI.
+
+**Timing (clean):** Tue report → Fri release → position next session close → first P&L Tuesday; 6.4bps full-|dW| + 0.5%/yr borrow; vt10% trailing clip 3.0.
+
+**Exact numbers (2013–2026, net of costs):**
+- (a) cross-market rank k=2/3/4: SR **−0.581 / −0.343 / −0.477**; mirror k=3 +0.214 (halves fail)
+- (b) hedger fade: pm **+0.031..−0.398**, swap **−0.20..−0.53**; best overall = swap-FOLLOW +0.287 (halves fail, scramble 0.652)
+- (c) OI overlay: **−0.382..+0.013**; standalone OI-growth rank +0.119
+- (d) L/S asymmetry: **−0.099..−0.333**; mirror −0.091
+- Lookahead control (+1wk delay): +0.031 → −0.220, confirming honest timing
+
+Nothing clears SR≥0.35, halves, yearly, or scramble; every candidate is decorrelated (|corr|≤0.052) but unprofitable. Sleeves dir stays empty; champion untouched. Evidence in `HUNT_COT2/FINDINGS.md`, ending `ROUND 1 DONE`.
+
+One flag for the coordinator: `campaign/results/GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv` has a pre-existing uncommitted working-tree change (round-1 AUDIT_RECON causal re-emit, SR 3.2964) — I used it read-only as the correlation reference and did not modify it.
+=== HUNT_COT2 round 1 end Mon Sep  7 01:05:20 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907020222c15e68a001074457]
+=== HUNT_COT2 rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907020620cd585da57941403f]
+=== HUNT_COT2 rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907022437f5c1a41bd1134d51]
+=== HUNT_COT2 rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070253259663d6b6f0fb4243]
+=== HUNT_COT2 rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090703003924dbb3254f614139]
+=== HUNT_COT2 rate-limited or errored (attempt 5, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907032245ce95565bc53d4312]
+=== HUNT_COT2 rate-limited or errored (attempt 6, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907035028225e6cedd89e489b]
+=== HUNT_COT2 rate-limited or errored (attempt 7, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907040812138a2d16815741a3]
+=== HUNT_COT2 rate-limited or errored (attempt 8, rc=1); backing off ===
+Round 2 executed per charter. Summary:
+
+**State on arrival — round 2 was half-done and its committed log was invalid.** The prior session was killed mid-TDD: `r2_output.log` (03:56) predates test edits (04:05), and the suite was 43 passed / 2 RED. The giveaway was in the old log itself: every (b) TFF row showed `halves=(0.00,…)` — an exactly-zero H1 SR is a zero-variance block, not a market outcome. The 2 RED tests had already pinned the bug: `book_backtest_generic` counted `signal_to_daily`'s pre-signal `fillna(0)` sessions as live, so gbp/jpy books (prices from 1971, TFF from 2010) injected ~40y of fake-flat zeros — H1 pinned to 0.00, SR diluted ~½.
+
+**TDD fix (RED→GREEN):**
+- `lib_r2.py`: per-market `started` mask (unit-signal tradability) masks pre-first-release sessions; plus in-memory Series price support.
+- Both new test fixtures were themselves broken (2010 releases *after* prices ending ~1990 → zero tradable sessions; `n_days<1200` ignored legitimate ffill of the last held position). Repaired to pin the real properties (`start == first_tradable`, `n_days < n_px`).
+- Final: **45/45 tests pass** (21 R1 + 24 R2). Driver re-run → `r2_output_fixed.log`; numbers moved materially (lev_follow_ext h=4 SR −0.305 → −0.566; TFF book vols 4.2% → 7.7%).
+
+**Results (corrected, all gates, 6.4bps full-|dW| + 0.5%/yr borrow): 55/55 configs FAIL — honest negative.**
+- **(a) Horizon match refutes the charter hypothesis**: matched 4/8/13wk holds do NOT rescue COT — rank_k3 −0.381/−0.364/−0.291; pm_fade_lb8 degrades monotonically −0.030 → −0.126 → **−0.701**; turnover scaled ~1/hold so costs aren't the story.
+- **(b) TFF** (dealer fade, lev-money follow, 10 mkts): best is lev_follow_z h=13 SR +0.182 but H2 = −0.00 (dead); dealer fade consistently negative.
+- **(c) CIT fade**: best +0.294 at 13wk, halves 0.56/0.04 — in-sample artifact.
+- **(d) Champion overlay**: all 18 variants **worsen** the champion (dSR −0.069…−1.461; flip mode takes MDD −0.070 → −0.337; scramble p never <0.05). Plus 12 new TFF-aggregate overlays: all fail. `mean_xs_rank` variant is vacuous by construction (cross-sectional ranks average to a constant — measured std 0.0), logged as skipped with reason.
+
+Nothing saved to sleeves/; champion untouched. FINDINGS.md appended with exact numbers and ends with `ROUND 2 DONE`.
+=== HUNT_COT2 round 2 end Mon Sep  7 05:13:21 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070801468b988045107c493e]
+=== HUNT_COT2 rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907081313e68d8c8e487641e8]
+=== HUNT_COT2 rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907083842ba7474e40c4e4311]
+=== HUNT_COT2 rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070855315513ca1c145c4c45]
+=== HUNT_COT2 rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090709274700fd9bbae8044b95]
+=== HUNT_COT2 rate-limited or errored (attempt 5, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907093444299a1616c22642f5]
+=== HUNT_COT2 rate-limited or errored (attempt 6, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907094403714a619a060e48f1]
+=== HUNT_COT2 rate-limited or errored (attempt 7, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907101329d7f83e0adb8f426f]
+=== HUNT_COT2 rate-limited or errored (attempt 8, rc=1); backing off ===
+Round 3 complete. Summary:
+
+## ROUND 3 — verification + curation charter: **PASSED (no fraud found); COT family CLOSED**
+
+**State on arrival:** a prior session was killed ~70% through R3 (verifier + rebuild scripts + tests at 09:18–10:10, no FINDINGS entry). I audited and completed rather than redid.
+
+**(a) Cross-verification (fraud-catch)** — HUNT_CMDT2's round-2 verdicts **CONFIRMED**:
+- `verify_cmdt2_r3.py` rerun: exit 0, **12/12 sleeves MATCH** their metas (SR, annGeo, vol, halves ×2 conventions, negyrs, worstyr, corr-vs-champion, n, window; integrity probes clean). The log history shows an honest self-correction: 11/12 had been flagged on *worstyr alone* ("-8.4% vs claimed -8.4%") — a verifier rounding-tolerance artifact, fixed TDD-style to 0.05pp.
+- Independent **raw-data rebuilds** (own engine, T+1, 6.4bps full-|dW|): 7/12 sleeves reproduce — **bitwise-exact (9.97e-17)** through 2026-09-02; truncation no-lookahead probes 4/4 bitwise-identical.
+- **Data-vintage finding (not fraud)**: today's p2 rerun showed corr 0.99998 on two books vs the committed 1.0. Localized to exactly 2 tail sessions (2026-09-03/04) appended by the 09:0x data refresh *after* CMDT2 saved their sleeves ending 09-02 with stub rows; cut at 09-02 → dSR = +0.0000 exact. I restored the committed CSV, saved my rerun under a separate name, touched nothing of theirs.
+- Max SR among all 12 sleeves = **0.577** (best COT-family: 0.245) — everything fails gate (a) SR≥1.0 by a wide margin. Verdicts stand.
+
+**(b) DEAD_IDEAS curation** — all 9 COT/TFF/CIT rows have exact numbers; the gap was **no repro paths**, and rows 49/53's source dirs don't exist under coord/ (they're in `loop_team/`). Appended 4 repro-path correction rows (bytes-before preserved, asserted; 96→100 rows; concurrent coordinator edit at 12:15 verified non-conflicting).
+
+**(c) `COT_CLOSURE_R3.md`** — closure memo: 250+ configs across 4 campaigns, no forward info at any transform; horizon mismatch ruled out; 30/30 overlays hurt the champion. Reopen candidates verified against disk: trader-count breadth (191 cols confirmed in in-repo `_raw` zips — cheapest), CFTC supplemental futures-options (not in repo), proxy completion.
+
+**51 tests green** (45 lib + 6 R3). Nothing new saved to sleeves/; champion untouched.
+
+**One incident, caught and repaired:** the shell cwd reset between calls made my first FINDINGS append land in the coordinator's `coord/FINDINGS.md`. Detected via `tail -1` still showing ROUND 2 DONE, truncated back byte-exactly (git diff empty), then appended to the correct file with a PROCESS NOTE documenting it — and saved a memory so it can't recur. `HUNT_COT2/FINDINGS.md` ends with exactly `ROUND 3 DONE`.
+=== HUNT_COT2 round 3 end Mon Sep  7 12:43:03 CST 2026 exit 0 ===
+Round 4 complete. Summary:
+
+**Charter path (a) — panel absent, checked twice.** `DATA_COTMORE/work_r4/trader_count_panel.csv` does not exist (no `work_r4` dir anywhere; repo-wide `find *trader_count*` → 0 hits). Per the pre-registration rule I did not build the panel myself — that's DATA_COTMORE's lane. Fell through to path (b).
+
+**Path (b) — 6-row DEAD_IDEAS audit rotation** (pre-registered selection rule: thinnest evidence cells across 6 distinct non-COT families, from a programmatic scan of all 108 rows). All 6 verified against their actual sources:
+
+| Row | Family | Verdict on the row itself |
+|---|---|---|
+| L2 FF factor premia | HUNT_FF2 | Confirmed dead, now with numbers + **sha256 of both delivered sleeves re-hashed and matches claimed prefixes exactly** (`1adcb4b7…`, `55a9b3e5…`) |
+| L3 industry/decile L/S | HUNT_FUNDAMENTAL | Confirmed: 5 composites all FAIL (value +0.06 → comp_vgp −0.16, 10–13 neg yrs each) |
+| **L5 BAB** | cites HUNT_FUNDAMENTAL | **Attribution error** — zero BAB content in FUNDAMENTAL; evidence lives in HUNT_FF2 (SR −0.64, recon3.py) |
+| **L4 MM naive ivol** | cites HUNT_FUNDAMENTAL | **Same attribution error** — actual evidence is FF2 Angle 2 (MOM −0.19 H2, MDD −55.7%) |
+| L14 FOMC×natgas/gold | SKILL_ALPHAAGM (did not re-run) | Originals in D4_microstruct: post-FOMC NG drift t=−3.32, best SR 0.53 |
+| L15/L16 M2-gold, CFNAI | SKILL_ALPHAAGM (did not re-run) | Originals in D2_macroregime: M2-gold SR 0.28, CFNAI data-blocked (series starts 2023-08) |
+
+Two findings worth the chief's attention:
+
+1. **DEAD_IDEAS has a systematic attribution-hygiene defect** — rows L4/L5 point at the wrong agent dir. Not fraud (underlying work is real and honest; verdicts unchanged), but the `source` column can't be trusted for COT-adjacent families without checking. My 6 appended rows fix the pointers.
+2. **My own scan had a bug** (underscore-dropping name matcher falsely flagged SKILL_* dirs as unresolvable) — disclosed in FINDINGS, fixed before any verdict consumed its output.
+
+**Integrity:** DEAD_IDEAS.csv appended 6 rows, 26,986-byte prefix byte-identical pre/post (asserted programmatically), 108 → 114 rows, all 4-field. No existing row touched. Champion never read. sleeves/ stays empty. FINDINGS.md ends with exact bytes `ROUND 4 DONE\n` (verified via `od -c`).
+=== HUNT_COT2 round 4 end Mon Sep  7 17:46:17 CST 2026 exit 0 ===
+Round 5 complete. FINDINGS.md ends with exactly `ROUND 5 DONE` (single occurrence; prior round markers intact).
+
+## Summary
+
+**Charter corner (a)**: trader-COUNT breadth from DATA_COTMORE's R4 panel — the exact reopen candidate my R3 closure memo named, now tested and closed.
+
+**Pre-flight verification (all passed)**
+- Panel confirmed: 29,017 data rows × 51 cols, 35 families (matches charter claim, counted myself)
+- **BREAK gate verified both ways**: nat_gas_nymex 2022-02-08 TotAll 281→40 (−86%, stitched z −10.74 = family min, the exact manifest artifact); lumber 2023-04-25 21→43 (+105%). Builder lint re-run in-memory: 33 PASS / 2 PASS_WITH_EXN / 0 FAIL. Synthetic probe: −80% seam flags, +10% rename passes — the gate discriminates, it's not a name-change tripwire. Their suite: 24/24.
+- grep-before-build: the only "trader" rows in DEAD_IDEAS (120 data rows, recounted) are TFF `pct_of_oi` position families — counts genuinely untested
+- My break-segmented lib raises rather than reading z across either break; the −10.74 cannot survive
+
+**TDD**: `test_lib_hunt_r5.py` written first (RED: ModuleNotFoundError) → `lib_r5.py` → **58 passed** total (21 R1 + 24 R2 + 13 R5).
+
+**Result: 9/9 pre-registered configs FAIL the full V2 battery — honest negative**
+- Best: C9 (dealer-count crowding mirror) SR **0.590**, halves +0.79/+0.55 — fails SR 1.0 by 0.41, scramble 0.055 vs 0.05, yearly 3 neg yrs (worst **−14.26%**), loses to sixty-forty 0.763 on beats-passive
+- C3 (breadth-thin @2.0): SR 0.335, fails SR/halves, loses to 60/40 0.827
+- Cross-sectional rank analog (C5/C6): **negative** −0.22/−0.29 — long-thinnest-breadth loses outright
+- leak_probe with explicit `sig=` + `leak_check=True`: leak=False on all 9 (same_period_corr ≤ +0.058 vs 0.20 threshold); all |corr|≤0.055 vs champion sha 4358dfab95679b97 — orthogonal but unprofitable, same signature as R1/R2
+
+**Disclosures in FINDINGS**: 3 cosmetic driver fixes mid-run (CTA date dtype, DEX `observation_date` header, panel z-column lookup) — no signal/cost/timing/gate math touched, tests green throughout; the log's `nan` worst-year cells were a driver print-key miss, recomputed from saved book CSVs.
+
+**Untouched**: champion CSV (sha re-verified 4358dfab95679b97), DEAD_IDEAS.csv (its working-tree diff is other agents' pre-session rows, mtime 02:24 vs my 04:34 start), DATA_COTMORE's files (lint run in-memory only), bt/. Artifacts saved: `hunt_r5.py`, `lib_r5.py`, `test_lib_hunt_r5.py`, `r5_output.log`, 3 book CSVs (§10a).
+=== HUNT_COT2 round 5 end Tue Sep  8 05:08:07 CST 2026 exit 0 ===
+Round 4 executed. Key finding at round start: **this 09:0x prompt re-fired a round already complete** — FINDINGS.md already contained `ROUND 4 DONE` (09-07, charter path b: panel absent → 6-row DEAD_IDEAS audit) and `ROUND 5 DONE` (09-08 04:3x, the panel tested as a pre-registered new corner: 9/9 configs fail the V2 battery). Re-running the panel corner would have duplicated a pre-registered run, so I executed the charter's verification/fraud-catch lane instead and **independently reproduced the round-4/5 record with my own code**:
+
+**What I verified (all from commands run this session):**
+- **Panel preconditions**: `trader_count_panel.csv` exists — 11,141,330 bytes, 29,017 data rows × 51 cols, exactly as charter claims; `sleeves/` empty (nothing passed).
+- **BREAK gates from raw panel**: nat_gas_nymex 281→40 = **−86%** (OI −49%), lumber 21→43 = **+105%** (OI +234%) — both PASS_WITH_EXN breaks are real in the data, byte-exact to the record.
+- **R5 books recomputed from saved CSVs** (own SR/halves/corr code): C9 **+0.590** SR, halves +0.79/+0.55, corr +0.0271; C3 **+0.335**; C1 **+0.243** — all match the log to 3 decimals; C9 neg years = 3 confirmed.
+- **Champion of record**: sha256 `4358dfab95679b97` exact match; SR 3.1813 / MDD −6.6922% / 0 neg years reproduced; latest `verify_champion_standup_0445.json` re-read by me: ok=true, 7/7 checks, byte_repro ~1e-16.
+- **R4 audit trail**: DEAD_IDEAS parses clean (132 rows, all 4-field), my 6 HUNT_COT2-R4 rows present; both HUNT_FF2 sleeve sha256s re-verified exact.
+- **Repro**: 58/58 tests green in 16.29s.
+
+**Two honest wrinkles, both documented:**
+1. An *apparent* discrepancy I chased down: charter's 37.1954% vs my 32.1373% — not an error; the tool reports both `ann_cagr_pct` (geometric, 37.1954) and `ann_arith_pct` (32.1373) in the same stats block. My worst-year −13.74% vs their −14.26% is year-bucketing definitional variance; verdict unchanged.
+2. **Gap escalated, not fixed**: DEAD_IDEAS has no row yet for the trader-count corner (coordinator-owned file per GATES item 5; the working-tree diff predates my session). I included a suggested row text in FINDINGS for the coordinator to append.
+
+No new sleeve, nothing to `sleeves/`, champion and other agents' files untouched. FINDINGS.md appended (~5.6 KB) and ends with exactly `ROUND 4 DONE`.
+=== HUNT_COT2 round 4 end Tue Sep  8 09:13:05 CST 2026 exit 0 ===
+Round 5 re-fire complete. **FINDINGS.md ends with exactly `ROUND 5 DONE`** (43,045 bytes, all prior round entries intact).
+
+## What happened this session
+
+**Situation on arrival:** This 09:2x prompt re-fired the round-5 charter after round 5 already ran honestly (04:3x–05:1x: 9/9 pre-registered trader-count-breadth configs FAIL the full V2 battery) plus a 09:0x independent re-verification. Re-running the panel corner a third time would duplicate a pre-registered run — so I executed the one genuinely new verification lane the tree created since my last entry.
+
+**The new fact:** commit `539f50e` (09:17, minutes before this session) landed the GATES_CONTRACT_V2 §12 Step-2 flip — `leak_check` now defaults ON in `bt/gates.run` — *after* the R5 battery ran under the old default. V2 §6 claims the flip is "verdict-neutral"; I measured that claim on my family's actual artifacts:
+
+| Check | Result |
+|---|---|
+| Flip commit integrity (§12 steps 2–5) | `gates.py:104` committed, worktree clean vs HEAD; old pin deleted (0 hits); RED-first pair in HEAD = worktree, 3/3 pass standalone |
+| Full bt suite post-flip | **403 passed / 0 failed in 65.46s** (reproduces commit claim) |
+| My suite (R1+R2+R5) | **58 passed in 14.44s** |
+| R5 books under flipped default | All 3 (C9/C3/C1) publish fail-closed leak dicts, `leak=False`, composite `pass=False` |
+| True-sig C9 probe | Engine regen reproduces R5 **exactly** (SR +0.590, halves +0.788/+0.554, corr +0.0271); flipped-default probe: `same_period_corr +0.0293` (bar 0.20), `leak_ok=True`, `pass=False` |
+
+**Verdict: the Step-2 flip is verdict-neutral on the R5 record — the 9/9-FAIL verdict survives the flip.** No R5 number ever depended on the default (my `v2_battery` already passed `sig=`/`leak_check=True` explicitly per charter).
+
+**Disclosures:** (1) my first Step-A probe used a reconstructed sig `(r>0).shift(1)` that's mechanically return-correlated — superseded by the true-positions Step B, both logged; (2) initial panic that the leakflip file was missing from HEAD was my own path bug (repo root is `/Users/daxu`, so commit paths carry the `software/world-trader/` prefix) — resolved, no defect; (3) `gates.run`'s internal SR convention prints +0.493 vs engine +0.590 on the same book — both fail SR≥1.0 identically.
+
+**Open escalation (unchanged):** DEAD_IDEAS.csv is now 132 rows and still carries **zero** trader-count-breadth rows despite two R5-flagged escalations — the suggested row text remains the coordinator's to append per v1 item 5.
+=== HUNT_COT2 round 5 end Tue Sep  8 09:36:41 CST 2026 exit 0 ===
+Round 6 executed per charter. Summary:
+
+## ROUND 6 — CONSOLIDATION (fraud-catch + curation), all honest
+
+**(0) Champion prereq** — sha `4358dfab95679b97…` exact; own-code recompute n=4805, geometric ann **37.1954%** / SR **3.1810** / MDD **−6.6922%** / 0 neg yrs / worst +7.31% — all five reproduce to 4dp.
+
+**(a) Fraud-catch: both R5 verdicts STAND, 72/72 field-exact**
+- **CMDT2 propane 28 sleeves**: 0/28 field mismatches; my SR range −0.196..+0.370; 0 pass SR≥1.0/halves/negyrs≤2; max |corr| 0.053 (their prose "≤0.052" = rounding, not a defect).
+- **CREDIT2 credit-carry 44 sleeves**: 0/44 field mismatches; SR range −1.878..+0.112; run_log matches line-for-line. One prose slip: "26/44 within 0.15" should be **28/44** (metas and run_log both say 28).
+- **Strongest evidence**: I re-executed CREDIT2's own pipeline offline (save_sleeve no-op'd, their files untouched) → 44/0 scorecard reproduced, and their **never-serialized scr_p=0.185** claim is CONFIRMED by my own run. Cost claim (−1.88 net vs −0.18 gross) and gross-book era split (+0.206/−0.246/+0.056) both exact. Sign-mirror ±0.2063 confirms symmetric noise.
+
+**(b) Two curation catches (escalated, verdicts unchanged, append-only corrections)**
+- **Row 126 (CREDIT2-R5) carries run-1 stale numbers** (SR 0.62/0.52, "3 negyr") matching NO surviving artifact — true family bests are −0.739/+0.112/+0.079/−0.826, negyrs 13–25. Never refreshed after their disclosed run-1 re-run.
+- **Row 129 (CMDT2-R5) quotes superseded distorted-battery SRs** (0.465/0.609 are the self-caught `v2:` artifacts; held books are 0.370/−0.017).
+- All other positioning rows (63/97, 53/98, 49/99, 75/84, 87/88, 128/130/137) verified with exact numbers + existing repro paths. One concurrent-writer fusion repaired (no content lost, file re-validated). Interesting: HUNT_CMDT2-R6CUR independently converged on the same row-129 catch.
+
+**(c)** Family stays CLOSED, no new corner surfaced, bt/ and their files untouched. 3 append-only rows added (DEAD_IDEAS now 142 data rows). FINDINGS.md appended, ending exactly with `ROUND 6 DONE`.
+=== HUNT_COT2 round 6 end Tue Sep  8 12:53:56 CST 2026 exit 0 ===
+Round 7 complete. FINDINGS.md ends with `ROUND 7 DONE` as required; ledger unchanged at 145 rows (correct — an audit round appends nothing to DEAD_IDEAS).
+
+## Round 7 summary (all audit items, all claims verified with my own runs)
+
+**Charter (a)(i) — `nasdaq_history` fix audit: CONFIRMED**
+- SECTOR2's 5 tests, my run from repo root: **5 passed**. Their RED-first claim re-verified by running their `red_run_head.py` harness: **3 failed / 2 passed against HEAD** (both cap-truncation tests + unparseable-date test fail under old semantics; healthy guards pass under both, by design).
+- Live R4-era failure mode, my own probe: XLK days=6500/3000/2600 all **FAIL-CLOSED** with "served 2514 bars from 2016-09-06" (R5 cap numbers exact); SPY 400/200/60 → 440/226/72 bars, err=None.
+- **My 3 own adversarial cases** (`tests_r7_nasdaq_audit.py`, 3/3 pass): gap-arm boundary is tight (exactly `max(30, 0.25·days)` passes, +1 day fails — strict `>` correct); bar-count arm isolated (0.98·days−1 fails, exactly 0.98·days passes); observation case documents that only the *oldest* bar's date is validated — mid-series corrupt dates pass through (pre-existing semantics, not a regression). One friction noted: the two arms are *coupled* for short serves ending today, but OR-logic keeps the direction fail-closed.
+- Regression sweep reproduced: CBOE suite ALL GREEN exit 0, rviv revival **8 passed**, cumulative SECTOR2 suites **44 passed**.
+
+**Charter (a)(ii) — placebo 200/200 claim: direction CONFIRMED, one convention finding**
+- Their `placebo_direction_seedsweep.py` verbatim: overlay SR 0.8205, fire_frac 0.223, flips 300, **200/200 beats at every seed 0..4**, placebo mean +0.196..+0.212 — exactly as claimed.
+- My independent re-derivation (own z-build, own SR, own placebo = circular permutation with *exact* flip match): **987/1000 draws beaten, p<0.001** — direction identical.
+- Finding: their nflip-matching loop **never binds** (0/200 matched; Bernoulli draws carry ~710 flips vs the real gate's 300 → ~2.4× allocation cost on the placebo). That explains the entire +0.20 vs +0.45 placebo-magnitude gap (attribution run: their construction under my SR = +0.197; mine flip-matched = +0.456). Conservative-direction artifact, no verdict impact; noted as a Class-A placebo construction suggestion.
+
+**Charter (a)(iii) — DEAD_IDEAS rows 143-145: all verbatim-verified**, cited artifacts exist and match (166/158 FRED row counts exact; 75/75 and 46/46 check counts exact from CAMP_SHORT JSONs; every SECTOR2 r6 JSON number matches, leak dict V2-6b-consistent). Zero thin cells, zero fraud, no escalation.
+
+**Charter (b) — ledger recount: 145 data rows**, 0 malformed, 0 empty cells, 0 dup pairs, trailing newline, sha16 `97bd6b603a1aa09c`. No bt/ or campaign/*.md touches; champion untouched.
+=== HUNT_COT2 round 7 end Tue Sep  8 19:20:34 CST 2026 exit 0 ===

@@ -1,0 +1,39 @@
+==============================================================================
+(a) MANDATORY beats-passive gate on real sleeves + champion
+==============================================================================
+
+== INTL_R2_RS252_LS (R2 best intl config, DEAD)  n=4469 span 2008-11-04 -> 2026-08-12
+   candidate net SR 0.564
+   spy_bh       SR   0.713  n=4469  
+   sixty_forty  SR   0.741  n=4469  
+   cta_trend    SR  -0.135  n=4469  
+   best passive = {'sr': 0.7409645128950509, 'name': 'sixty_forty', 'n': 4469}   margin = -0.177   PASS=False  reason=candidate_sr_le_passive
+
+== CHAMPION RAWEW13v2 WEIGHTED GEAR16  n=4805 span 2008-03-31 -> 2026-08-27
+   candidate net SR 3.181
+   spy_bh       SR   0.586  n=4622  
+   sixty_forty  SR   0.592  n=4805  
+   cta_trend    SR  -0.110  n=4624  
+   best passive = {'sr': 0.5916145964746601, 'name': 'sixty_forty', 'n': 4805}   margin = +2.589   PASS=True  reason=None
+
+==============================================================================
+(b) Cross-verify HUNT_CREDIT2 round-2 negatives from their SAVED sleeve CSVs
+==============================================================================
+
+== CREDIT2_lqdltt_k126  n=6063 span 2002-08-01 -> 2026-09-04
+   recomputed SR -0.31  H1 -0.24  H2 -0.44  negyr 13  worst -32.7%  corrChamp +0.141
+   published   SR -0.31  H1 -0.24  H2 -0.44  negyr 13  worst -32.7%  corrChamp +0.142
+   MISMATCH: none (all within rounding)
+
+== CREDIT2_be_tlttip_k63  n=5719 span 2003-12-09 -> 2026-09-02
+   recomputed SR -0.80  H1 -1.10  H2 -0.45  negyr 21  worst -35.3%  corrChamp -0.050
+   published   SR -0.80  H1 -1.10  H2 -0.45  negyr 21  worst -35.3%  corrChamp -0.050
+   MISMATCH: none (all within rounding)
+
+== CREDIT2_curve2s10s_k21  n=6063 span 2002-08-01 -> 2026-09-04
+   recomputed SR -0.54  H1 -0.59  H2 -0.50  negyr 21  worst -17.9%  corrChamp -0.127
+   published   SR -0.54  H1 -0.59  H2 -0.50  negyr 21  worst -17.9%  corrChamp -0.128
+   MISMATCH: none (all within rounding)
+
+All three recomputed sleeves still fail SR>=1.0: True
+CROSS-VERIFY VERDICT: MATCH — HUNT_CREDIT2 round-2 negatives CONFIRMED

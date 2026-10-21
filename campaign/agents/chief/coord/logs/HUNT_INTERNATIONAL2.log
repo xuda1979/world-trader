@@ -1,0 +1,186 @@
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609062007374004bfbdf2484af3]
+=== HUNT_INTERNATIONAL2 round 1 end Sun Sep  6 20:07:37 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609062332580a3ba3b317a34290]
+=== HUNT_INTERNATIONAL2 rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090623364958809083bcc446a8]
+=== HUNT_INTERNATIONAL2 rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609062343262705df277ab84603]
+=== HUNT_INTERNATIONAL2 rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907001229fd2d5309069e4f61]
+=== HUNT_INTERNATIONAL2 rate-limited or errored (attempt 4, rc=1); backing off ===
+Round 1 executed and logged. Summary:
+
+**Setup:** The coordinator had already written a verdict from one run of my predecessor's script (that session died on API 429). I re-executed everything independently with fresh output rather than trusting it.
+
+**What I ran:**
+1. **TDD suite** — `tests_tdd.py`: 3/3 green (carry gross-normalization, warmup-trim, scramble-needs-positive-SR).
+2. **Main script rerun** (`HUNT_INTL2_round1.py`) — all 6 configs fail: momentum 12m k3 SR **−0.30** (14 neg years), carry best case SR **0.15** (9 neg years, worst −22.2%), EM/DM L/S **−0.27**. Scramble p=0.000 everywhere, no-lookahead check clean. My numbers differ from the coordinator's table (carry 0.28/−99%) because theirs came from the pre-TDD-fix script with raw-yield-level weights (~22.6x gross); the TDD-green script is authoritative.
+3. **Independent extensions** (new `extensions_r1.py`) — charter asked for index series and broader universe:
+   - **EXT-A** 14-name momentum (+EWH, +EWM): 15-config sweep all negative, peak −0.06 — universe choice wasn't the problem.
+   - **EXT-B** NIKKEI-vs-NASDAQ (1971→, n=13324): best LO SR 0.68 but **beta in disguise** — long-NASDAQ 60% of days, 1.5 flips/yr, and loses to a static monthly 50/50 (SR 0.72, directly recomputed). One false benchmark (−0.14) in my own check was a column-label bug of mine; corrected before reporting.
+   - **EXT-C** AUD/CAD carry extension untestable (no pre-2006 ETF leg) — logged as data gap, not a negative.
+
+**Verdict:** honest negative — 6/6 main + 14/14 extension configs fail; nothing promoted. FINDINGS.md appended with full tables and ends with `ROUND 1 DONE`.
+=== HUNT_INTERNATIONAL2 round 1 end Mon Sep  7 00:28:05 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070202583787414266a94cc3]
+=== HUNT_INTERNATIONAL2 rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090702100191b79a3829fd44ad]
+=== HUNT_INTERNATIONAL2 rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907021450b08f157c9669443f]
+=== HUNT_INTERNATIONAL2 rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090702194162866d93d6b1478e]
+=== HUNT_INTERNATIONAL2 rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070225026c94aaac85bd405a]
+=== HUNT_INTERNATIONAL2 rate-limited or errored (attempt 5, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907023102a341100ca3f840c0]
+=== HUNT_INTERNATIONAL2 rate-limited or errored (attempt 6, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070239447add8c93e9904992]
+=== HUNT_INTERNATIONAL2 rate-limited or errored (attempt 7, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090702462557acbc3169784d82]
+=== HUNT_INTERNATIONAL2 rate-limited or errored (attempt 8, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070336433889baf3c5b84010]
+=== HUNT_INTERNATIONAL2 rate-limited or errored (attempt 1, rc=1); backing off ===
+Round 2 complete. FINDINGS.md ends with `ROUND 2 DONE`.
+
+## Summary
+
+**TDD first (charter discipline):** Found `tests_tdd_r2.py` at 4/7 from a prior incarnation. The failing tests caught **two real framework bugs** in `rotation_weights()`: the LS short-basket branch produced all-NaN weight rows (`.add()` without `fill_value`), and `W.iloc[i] = prev.values` mis-landed columns positionally (`[EWH,EWM,SPY]` vs `[SPY,EWH,EWM]`). Fixed to **7/7 green** before evaluating anything.
+
+**Main result — all 9 configs FAIL** (panel SPY/EWH/EWM 2006→2026, n=4983, T+1, 6.4bps full |dW| + borrow, vt10, scramble 200x):
+
+- Charter-spec **RS126_LS: SR 0.41** (H1 = −0.05) — fails
+- Best **RS252_LS: SR 0.62**, halves 0.64/0.60 but **7 neg years**, worst −13.0% — fails SR gate by 38%
+- **No plateau**: lookback sweep 189/210/252/294/336 → 0.46/0.60/0.62/**0.70**/0.50 — chosen 252 isn't even the peak
+- VIX de-risk gate **hurts every pairing** (0.41→0.37, 0.62→0.59); full-flat gate worse still
+
+**Data honesty catch:** EWM prints −26.5% on 2015-12-21 — an unadjusted forward-split artifact mid-sample (permanent 41.08→30.20, never recovers). Split-adjusted the panel (×0.7352 pre-2015-12-21) and reran all 9 configs: best drops **0.62 → 0.56**, i.e. the artifact was *helping* the strategy, so the negative is robust (18/18 runs fail across both panels). The EWH +20.2% 1997 day is real (historic HSI rebound).
+
+**Beats-nothing audit (R1's lesson):** On the identical window/costs, passive **long-SPY SR = 0.73** vs the best rotation's 0.62 — the rotation is long-SPY beta with churn, adding **−0.10 SR** of value.
+
+**Verdict: international family DEAD FOR THE CAMPAIGN.** DEAD_IDEAS.csv row appended (`HUNT_INTERNATIONAL2-R2`), evidence sleeve + meta saved as `DEAD_NOT_PROMOTED`, no promotion. Only scramble (p=0.000) and decorrelation (|corr|≤0.072) passed — insufficient.
+=== HUNT_INTERNATIONAL2 round 2 end Mon Sep  7 03:59:06 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070758530fa8fd9a4cd14c87]
+=== HUNT_INTERNATIONAL2 rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907080859e1eada2f85b4419b]
+=== HUNT_INTERNATIONAL2 rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090708300088a4f456f1aa4f3e]
+=== HUNT_INTERNATIONAL2 rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907083450baa45ad2c22042eb]
+=== HUNT_INTERNATIONAL2 rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090708483878a660e94f7f4003]
+=== HUNT_INTERNATIONAL2 rate-limited or errored (attempt 5, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090709065094995446b8d34958]
+=== HUNT_INTERNATIONAL2 rate-limited or errored (attempt 6, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907091324ee0d6ca467a54559]
+=== HUNT_INTERNATIONAL2 rate-limited or errored (attempt 7, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907094008d26d677039754404]
+=== HUNT_INTERNATIONAL2 rate-limited or errored (attempt 8, rc=1); backing off ===
+Round 3 complete. Summary:
+
+## Charter (a) — `bt/beats_passive.py` mandatory gate: SHIPPED
+
+**TDD arc: 12 RED → 21 GREEN**, and the cycle caught real bugs at both ends:
+
+- **Found in RED**: a prior incarnation left an untracked, half-built module with 12/17 tests failing — including 3 self-contradictory specs and gross-vs-net fixtures whose margins were smaller than SR noise (coin-flip tests). Repaired to one coherent spec, intent intact.
+- **Found in GREEN-on-synthetic, FAIL on real data**: the first application to actual sleeves printed `spy_bh SR 0.000` for real SPY data (true value 0.586). Two fail-open bugs, both fixed RED-first: `_as_ret_series` re-differenced returns *named* 'close' (name→values heuristic), and NaN-poisoned benchmark series computed garbage SRs from surviving points (now unmeasurable unless ≥50% span coverage).
+
+**Spec as shipped** (charter-exact): matched-span net benchmarks — SPY B&H (one 6.4bps entry, flat day 0), 60/40 SPY-IEF monthly-rebalanced with drifting weights + full |dW| costs, CTA_15vol 10% VT proxy. Strict beat required (tie = fail), fail-closed everywhere. Opt-in `gates.run(..., beats_passive=True)`, default OFF, regression-tested.
+
+**Real-data acceptance** (`campaign/scripts/HUNT_INTL2_round3.py`):
+
+| sleeve | cand SR | best passive | margin | verdict |
+|---|---|---|---|---|
+| INTL_R2_RS252_LS | 0.564 | 0.741 (60/40) | **−0.177** | FAIL (re-derives R2's death independently) |
+| Champion GEAR16 | 3.181 | 0.592 | **+2.589** | PASS (gate is not a wall) |
+
+## Charter (b) — HUNT_CREDIT2 cross-verification: CONFIRMED, no escalation
+
+All 3 saved sleeve CSVs reproduce exactly (max deviation 0.001 in corr, rounding). The 4th row (HY-gate overlay, no CSV) reproduced from *their own* gate2 script: delta +0.184 vs published +0.198 (FRED refresh drift), generic-vol control +0.204 ≥ credit — content-free, verdict unchanged.
+
+**Escalation for coordinator**: `test_camp_short_r3_census.py` fails 17/17 on `FileNotFoundError: CAMP_SHORT_LIBRARY_BORROW_CENSUS.json` — CAMP_SHORT's artifact never landed; pre-existing, not touched by me.
+
+FINDINGS.md appended, ends with `ROUND 3 DONE`.
+=== HUNT_INTERNATIONAL2 round 3 end Mon Sep  7 13:41:49 CST 2026 exit 0 ===
+Round 4 complete. Both charter arms executed, verified, and logged.
+
+## Round 4 Summary
+
+**R4a — Mutation-test my own R3 `beats_passive.py`: 15/35 → 35/35 killed**
+
+- Built a first-order mutation harness (35 mutants: constant flips, T+1/flat-day-0 removal, `<=`→`<`, `all`→`any`, `max`→`min`, statement deletions, fail-open injections), module restored byte-identical after every run.
+- **Run 1** (R3's 22 tests): 15 killed, **20 survived** — including `verdict inverted` and `pass unconditionally`.
+- Wrote kill tests RED-first. 8 of my first-draft tests failed on the *pristine* module — all diagnosed as **my** fixture bugs (calendar boundaries, `approx`-on-Series, ignoring the engine's documented `clip(lower=0.2)` floor); I fixed the tests, not the module.
+- **One real R3 bug survived the RED triage**: with all-NaN spy/ief, `sixty_forty`'s `fillna(0.0)` fabricated a "measurable" pure-entry-cost benchmark (SR −0.9165, n=300) and the gate **passed an alpha candidate on zero market data**. Fixed fail-closed (+8 lines), regression-locked.
+- **Run 3: 35/35 killed.** Suite 22 → **42/42 green**; full bt suite **336 passed / 0 failed** (R3's 17 CAMP_SHORT failures have resolved — that census artifact landed). Real-data regression unchanged: R2 sleeve margin −0.177 FAIL, champion +2.589 PASS.
+
+**R4b — DEAD_IDEAS 6-row audit rotation: 6/6 MATCH, 0 divergences**
+
+| family | sleeve | recomputed SR (pub) | negyr | verdict |
+|---|---|---|---|---|
+| FXCARRY2-R2 | carry_nominal_EW | −0.004 (−0.004) | 11 | MATCH |
+| TREASFUT | curve2s10s_k21 | −0.108 (−0.110) | 31 | MATCH |
+| CMDT2 | CarryBasis_k1_h3 | +0.238 (+0.238) | 7 | MATCH |
+| CRYPTO2 | RV_BTCETH_ratio30 | +0.129 (+0.129) | 4 | MATCH |
+| SECTOR2-R2 | A_rs_ratio | +0.534 (+0.534) | 3 | MATCH |
+| MACRO2 | liquidity_qqq | +0.265 (+0.260) | 6 | MATCH |
+
+Largest residual dSR 0.0049 (rounding-scale). Bonus lens: all 6 fail beats_passive vs champion B&H (best passive 2.93–3.24); TREASFUT's 1976-start span correctly fail-closes on 36.7% coverage. No dead family re-tested, no champion change.
+
+Evidence: `work_r4/{mutation_run1-3.log, dead_ideas_audit.log, round3_regression_after_r4fix.log, mutate_beats_passive.py}`, script `campaign/scripts/HUNT_INTL2_round4.py` (exit 0). FINDINGS.md appended; last line is exactly `ROUND 4 DONE`.
+=== HUNT_INTERNATIONAL2 round 4 end Mon Sep  7 18:31:44 CST 2026 exit 0 ===
+Round 5 complete. Summary:
+
+## What was done
+
+**Corner (pre-registered, data-backed):** consumed the `NKY calendars` DEAD_IDEAS row — status `data-acquired/ready-for-hunt`, not a dead verdict — on `newdata/NIKKEI225.csv` (20,166 rows, 1949-05-16..2026-08-31, span_class `pre2007`). DEAD_IDEAS recounted at start: **120 rows**. Families: turn-of-month, turn-of-year, sell-in-May calendars + single-market TSMOM (63/126/252d, L-S and long-flat), each with the **mandatory pre-1990 vs post-1990 sub-span analysis**.
+
+**Honesty infrastructure:** TDD RED-first, 24/24 green. The RED phase caught two real defects in my own build: (1) rank-based calendar masks are not truncation-invariant in a cut's final partial month (mild calendar-knowledge leak) — primaries rewritten date-based, rank variants demoted to labeled secondaries; (2) the gates.run feed was a pre-VT/post-VT hybrid — fixed to the exact post-VT book, residual exit-cost gap measured (+0.010 SR, conservative direction) and disclosed in every meta. All 9 configs ran `gates.run(sig=, leak_check=True, beats_passive=True, ref=champion)` per V2 §6 Step 1; leak probe clean 9/9; vintage pins in all metas.
+
+## Result: honest negative, 9/9 FAIL
+
+- Best config MOM_252_LF: net SR **0.735** (gate 1.0), H2 0.33, 22 neg years — and **post-1990 SR 0.257 vs pre-1990 1.209**
+- Sub-span stability fails **9/9**: every candidate is a pre-1990-only effect (post-1990 −0.03..0.26). The 77y span did exactly the job the charter gave it
+- Beats-passive passes on paper (only `sixty_forty` measurable on 77y, SR 0.283 vs 0.735) but MOM's champion-era SR 0.464 **loses to static long-NKY B&H 0.495** — beta, not signal
+- Plateau fails for all calendars (TOM chosen k=3 isn't even the peak); passes only for MOM lookback
+- Decade table: 1950s-80s SR 0.4–1.8 → 1990s+ |SR| ≤ 0.71 everywhere
+
+Frontier unchanged (champion 37.195% / SR 3.181, sha `4358dfab95679b97`, untouched). DEAD_IDEAS row `HUNT_INTERNATIONAL2-R5` appended (→124 data rows). FINDINGS.md appended with full numbers and ends with exactly `ROUND 5 DONE`.
+=== HUNT_INTERNATIONAL2 round 5 end Tue Sep  8 05:18:39 CST 2026 exit 0 ===
+Round 6 complete. Summary:
+
+## R6(a) — Fraud-catch of HUNT_TIMESFM R5: **8/8 reproduced, zero mismatches, no escalation**
+
+Built my own battery from scratch (TDD: RED first, 25/25 green) rather than re-running theirs:
+- **Book rebuild from source**: full-span `|net_dev|` vs their published sleeve CSVs = **1.0e-16 / 1.0e-16 / 9.99e-17 / 9.99e-17** — their books are artifact-reproducible (V2 §10a satisfied). Source vintage pins verified (NIKKEI `92f09efc`, PROP `c71b0d1e`).
+- **All gate verdicts reproduce on all 8 rows** (4 configs × full/champwin): e.g. NKY_f1 full SR 0.0284 vs pub 0.0284, negyr 36, scr_p 0.945, leak_ok True, **PASS False** — 0/4 honest-negative verdict confirmed, exit 0.
+- **Two of my own bugs caught and fixed mid-audit** (disclosed in FINDINGS): a benchmark loader that grabbed SPY `open` instead of `close` (surfaced as a bp_best mismatch, root-caused by diffing against `bt.beats_passive`), and a slice-vs-rebuild span convention error on champwin (their documented pipeline rebuilds VT warmup on the truncated span).
+- PIT spot-check of their forecast artifacts found no leak-shaped signature.
+
+## R6(b) — DEAD_IDEAS curation: evidence exact, two repairs
+
+- Rows 132/133 reproduce **exactly** from saved CSVs with my metrics (EW6 SR −0.848/H1 −0.715/H2 −0.963/negyr 15; overlay book SR 3.355 → dSR +0.174 vs champion 3.181). Rows 134/135 covered by the 8/8 above.
+- **Fixed stale row 20** "NKY calendars" (`data-acquired` → `dead`) — the corner was consumed in R5 (9/9 FAIL) but the row still advertised "ready for hunt," a p-hacking-adjacent trap.
+- Repaired pre-existing `"""` quoting mangling on 34 rows (semantic no-op, verified idempotent); **zero-loss audit vs git HEAD: 0 rows absent, only my row-20 flip changed**; file at 143 data rows (137 at round start, 6 mid-session appends by other agents).
+
+## R6(c) — No new international corner (charter-compliant; no data-backed gap exists)
+
+bt/ untouched (suite 410/0, matching the coordinator's count). Champion of record unchanged (37.1954% / SR 3.1810 / MDD −6.69%, sha `4358dfab95679b97`). FINDINGS.md appended with exact numbers and ends with `ROUND 6 DONE`.
+=== HUNT_INTERNATIONAL2 round 6 end Tue Sep  8 13:03:07 CST 2026 exit 0 ===
+Round 7 complete. FINDINGS.md ends with exactly `ROUND 7 DONE` (verified by hexdump), champion and candidate files untouched.
+
+## Round 7 summary
+
+**(a) Own-algebra audit of the CAMP_COST-R6 HOBR adoption study — CONFIRMED, 36/36 checks**
+
+TDD discipline: `tests_tdd_r7.py` written RED (11/12 FAIL, clean `ModuleNotFoundError`), then my independent library `HUNT_INTL2_round7_lib.py` to GREEN (12/12). Nothing imports the modules under audit.
+
+1. **Builders reproduce committed bytes first**: my 13-slot rebuild vs champion max_dev **9.996e-17**; my 14-slot re-solve vs candidate CSV **9.996e-17**; my from-source HOBR sleeve rebuild vs published bytes **9.975e-17** (recovered a real convention: warmup rows never trade, anchoring the VT expanding window).
+2. **The 8c verdict**: capital-real dAnn **−0.9069pp** reproduced exactly (mine −0.90690 vs published −0.90690); dSR +0.0909, dMDD +0.4568pp, rung grid −0.786/−1.592/−2.416pp (all negative), turnover +0.2350 bp/yr, w≤15% cap holds as outcome. **NOT-ADOPTABLE confirmed.**
+3. **Fill-0 artifact re-derived exactly**: **+4.2128pp** at w=0.25 (the standup number, 4 decimals), 0 neg years — and the **8e breach at every rung confirmed**, with a correction: their text implied blend gross 1.65→1.85, but the true sleeve mean gross is 0.3131 so actual blend gross is 1.615→1.673 (breach verdict unchanged).
+4. **Byte-compare of their battery JSON**: re-ran their `adoption_study.py` unmodified → sha16 `6b9bfc9e966fb99c` before == after, byte-identical (their wide-probe and turnover p-values reproduce bit-identically in my own probe code too).
+5. **One escalation (non-blocking, V2 §10a)**: the "gross-neutral delevered blend −0.306/−1.565pp" prose numbers have **no generator** in their work_r6 and match none of my four defensible constructions (all documented). The verdict doesn't depend on them; generator requested.
+
+**(b) DEAD_IDEAS**: 145 rows at round start → **147 at close** (dynamic; other agents appending), 0 malformed, zero-loss vs the HEAD blob (64 rows all present). Row 133's stale "pending coordinator adoption" marker flipped to **"dead (adoption REJECTED on 8c / R7-audited)"** with the full audit evidence. My own mid-edit mistakes (line-index anchoring on a concurrently-appended file, one unquoted field) were caught by the post-write parse rule and repaired — disclosed in FINDINGS.
+
+**(c)** No new international corner — family closed per charter. bt suite 426/0 post-round, matching R6 close. Frontier unchanged (37.2 vs 80 goal).
+=== HUNT_INTERNATIONAL2 round 7 end Tue Sep  8 19:55:04 CST 2026 exit 0 ===

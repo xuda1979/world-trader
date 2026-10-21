@@ -1,0 +1,18 @@
+=== loop_team/DATA_VALUABLE start Thu Sep  3 21:22:21 CST 2026 ===
+=== loop_team/DATA_VALUABLE end Thu Sep  3 21:46:55 CST 2026: 29 series delivered (11 CBOE/FRED vol + 18 COT weekly), all lint PASS, 20 TDD tests GREEN, COT rebuild byte-repro 18/18 ===
+**Execution complete.** Summary of the mission:
+
+**Delivered: 29 new free data series, all fail-closed lint PASS**
+
+**A. CBOE vol/sentiment** (`tools/quant/data/more_vol/`, 11 series): SKEW (1990→, 9219 rows), VIX (9264), VIXMO (9229), VIX9D (2011→), VIX3M/VIX6M/VVIX/RVX/OVX/GVZ (2007→), + VXV from FRED fallback — the CDN `VXV_History.csv` was caught being a **bogus 23-row 2017 stub**. Full term structure 9d/30d/3m/6m now on disk. 4 probes 403'd (logged).
+
+**B. CFTC COT** (`tools/quant/data/more_cot/`, 18 weekly series, 2010→2026-08-25): WTI, natgas, gold, silver, copper, ES/NQ/YM, JPY/EUR/GBP, T-bond/10Y/5Y/2Y notes, Eurodollar (real end 2023-06-13), SOFR3M, VIX. Net-noncommercial (%OI + OI) from 34 zips via direct HTTP. Rebuild is **byte-reproducible (18/18 sha256-identical)**.
+
+**Rigor applied**:
+- **TDD**: parser + matcher each written RED-first (5 + 12 tests); the real `replace("","0")` parser bug was caught by the real-fixture test, with revert→RED / restore→GREEN regression run. 20 tests GREEN.
+- **Systematic debugging**: v1 substring matching was silently POLLUTING series (ICE WTI mixed into NYMEX 2022+, ICE gas pipelines into natgas, micro/Consolidated contracts into indexes) — root-caused via the year-by-year rename audit, fixed with an exact-name matcher encoding CFTC's Feb-2022 rename batch, pinned by 25 negative tests; 186 natgas dual-listing collisions resolved by explicit priority.
+- **Verification-before-completion**: every span/number in FINDINGS.md quoted from fresh runs (VIX 2020-03-16 = 82.69 cross-check; OVX 325.15 @ 2020-04-21 verified as the real WTI-negative-price event, not corruption; VVIX 2006 pilot data trimmed with evidence).
+
+**C. Stooq**: blocked (796B HTML JS-gate, 3/3), logged and skipped per charter.
+
+DATA_VALUABLE DONE

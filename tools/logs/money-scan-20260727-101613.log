@@ -1,0 +1,377 @@
+=== MONEY-LOOP scan started 2026-07-27 10:16:13 ===
+=== WORLD-TRADER GLOBAL SCAN  2026-07-27T02:16:13+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+-- OPEN NOW: 10 markets --
+   + AU (Australia (ASX))
+   + CN-A (China A-shares)
+   + CRYPTO (Crypto (24/7))
+   + FUT (Futures (CME/GLOBEX: commodities, bonds, index))
+   + FX (FX (24/5))
+   + HK (Hong Kong (HKEX))
+   + JP (Japan (TSE))
+   + KR (Korea (KRX))
+   + SG (Singapore (SGX))
+   + TW (Taiwan (TWSE))
+
+-- REGIME: RISK-ON  (score +0.61) --
+   HY=2.77(+0.86)  10Y-2Y=0.36(+0.36)
+   crypto fear&greed: 30 (Fear)
+   [+spillover: 4 cross-asset candidates from 4 themes]
+
+-- LIVE QUOTES: 250 instruments fetched (crypto RT, US, China A-share live, Taiwan live, FX)  [wide US unavailable: net: Remote end closed connection without response]  [+wide CN A-share: 600 of 600 liquid names -> top 120, backtested] --
+
+=== OPPORTUNITIES (ranked by per-trade expected Sharpe = E[R]/sigma) ===
+  markets open now (2026-07-27T02:18:14+00:00): AU, CN-A, CRYPTO, FUT, FX, HK, JP, KR, SG, TW
+  YOUR BAR to qualify: E[R]>=+1%/trade, sigma<=7%*sqrt(h/5), Sharpe>=0.40, n>=20, t>=2 (Bonferroni-adj.), OOS Sharpe>0
+  >> 1 candidate(s) CLEARED your bar (#1-#1). Rows below #1 are near-misses -- NOT actionable.
+
+-- TRADE PLAN --
++----+--------------------+----------+------+------+-------------+--------+--------------+-------+--------+--------+--------+-----+-------+----------+
+|  # | Instrument         | Sym      | Mkt  | Dir  | Setup       |  Price | Quote(Local) |  Chg% |  Entry |   Stop | Target | R:R | Risk% | Catalyst |
++====+====================+==========+======+======+=============+========+==============+=======+========+========+========+=====+=======+==========+
+|  1 | HK: Lenovo         | 00992.HK | HK   | Long | NR7Expand   | 24.000 | 07-27 10:16  | -1.4% | 24.000 | 22.560 | 27.600 | 2.5 | 6.00% |          |
+|  2 | CN: 太极实业       | sh600667 | CN-A | Long | NR7break    | 17.920 | 07-27 10:17  | 10.0% | 17.920 | 16.845 | 20.608 | 2.5 | 6.00% |          |
+|  3 | CN: 雅克科技       | sz002409 | CN-A | Long | NR7break    | 169.35 | 07-27 10:17  | 10.0% | 169.35 | 159.19 | 194.75 | 2.5 | 6.00% |          |
+|  4 | HK: SHK Props      | 00016.HK | HK   | Long | TrendRide50 | 122.20 | 07-27 10:16  |  1.2% | 122.20 | 118.05 | 134.65 | 3.0 | 3.40% |          |
+|  5 | CN: 新能股份       | sz000595 | CN-A | Long | NR7break    |  5.770 | 07-27 10:17  | -4.9% |  5.770 |  5.424 |  6.635 | 2.5 | 6.00% |          |
+|  6 | HK: WuXi Bio       | 02269.HK | HK   | Long | NR7break    | 39.240 | 07-27 10:16  |  0.4% | 39.240 | 37.206 | 44.325 | 2.5 | 5.18% |          |
+|  7 | CN: 宏和科技       | sh603256 | CN-A | Long | range       | 160.35 | 07-27 10:17  | 10.0% | 160.35 | 144.39 | 176.31 | 1.0 | 9.95% |          |
+|  8 | CN: 普冉股份       | sh688766 | CN-A | Long | NR7Expand   | 366.88 | 07-27 10:17  | -5.8% | 366.88 | 344.87 | 421.91 | 2.5 | 6.00% |          |
+|  9 | HK: China Shenhua  | 01088.HK | HK   | Long | TrendRide50 | 42.840 | 07-27 10:16  | -1.4% | 42.840 | 41.454 | 46.999 | 3.0 | 3.24% |          |
+| 10 | China: SMIC (STAR) | sh688981 | CN-A | Long | NR7Expand   | 140.44 | 07-27 10:16  | -2.3% | 140.44 | 132.01 | 161.51 | 2.5 | 6.00% |          |
+| 11 | CN: 立新能源       | sz001258 | CN-A | Long | range       | 14.330 | 07-27 10:17  | 10.0% | 14.330 | 13.000 | 15.660 | 1.0 | 9.28% |          |
++----+--------------------+----------+------+------+-------------+--------+--------------+-------+--------+--------+--------+-----+-------+----------+
+
+-- EDGE & RISK (evidence for the SAME numbered rows) --
++----+----------+--------+--------------+---------+-------+--------+--------+-----+------+------+-----+-------+--------+-------+-------+
+|  # | Sym      |  Price | Quote(Local) | Verdict | E[R]% | sigma% | Sharpe |   t | oosS | Win% |   n |  ATR% | Kelly% | RV/IV | Data  |
++====+==========+========+==============+=========+=======+========+========+=====+======+======+=====+=======+========+=======+=======+
+|  1 | 00992.HK | 24.000 | 07-27 10:16  | PASS    | 3.23% |  6.81% |   0.47 | 2.6 | 0.70 |  59% |  29 |  7.1% |  42.1% |    -- | RT 1m |
+|  2 | sh600667 | 17.920 | 07-27 10:17  | below   | 2.44% |  6.41% |   0.38 | 1.9 | 1.51 |  56% |  25 | 13.1% |  38.4% |    -- | RT 0m |
+|  3 | sz002409 | 169.35 | 07-27 10:17  | below   | 1.26% |  6.79% |   0.19 | 0.9 | 0.45 |  42% |  24 | 10.9% |  18.3% |    -- | RT 0m |
+|  4 | 00016.HK | 122.20 | 07-27 10:16  | below   | 2.00% |  4.19% |   0.48 | 3.5 | 0.33 |  65% |  54 |  2.8% |  53.1% |    -- | RT 1m |
+|  5 | sz000595 |  5.770 | 07-27 10:17  | below   | 0.11% |  4.36% |   0.03 | 0.1 | 0.32 |  50% |  24 |  6.8% |  30.0% |    -- | RT 0m |
+|  6 | 02269.HK | 39.240 | 07-27 10:16  | below   | 0.46% |  4.05% |   0.11 | 0.6 | 0.26 |  59% |  27 |  5.2% |  43.0% |    -- | RT 1m |
+|  7 | sh603256 | 160.35 | 07-27 10:17  | below   | 1.87% |  7.87% |   0.24 | 4.7 | 0.22 |  60% | 394 | 11.2% |  20.3% |    -- | RT 0m |
+|  8 | sh688766 | 366.88 | 07-27 10:17  | below   | 4.05% | 10.03% |   0.40 | 2.3 | 0.19 |  55% |  31 | 22.8% |  36.8% |    -- | RT 0m |
+|  9 | 01088.HK | 42.840 | 07-27 10:16  | below   | 1.16% |  4.57% |   0.25 | 1.6 | 0.15 |  54% |  39 |  2.7% |  38.5% |    -- | RT 1m |
+| 10 | sh688981 | 140.44 | 07-27 10:16  | below   | 0.42% |  4.78% |   0.09 | 0.5 | 0.12 |  50% |  28 |  9.6% |  30.0% |    -- | RT 1m |
+| 11 | sz001258 | 14.330 | 07-27 10:17  | below   | 0.07% |  5.23% |   0.01 | 0.3 | 0.10 |  46% | 394 |  4.3% |  -7.1% |    -- | RT 0m |
++----+----------+--------+--------------+---------+-------+--------+--------+-----+------+------+-----+-------+--------+-------+-------+
+  note: 18 live instruments have no free daily history (China A-share/Taiwan) -> no expectancy, excluded from ranking.
+
+-- SHORT-RESTRICTED MARKETS -> shortable proxy --
+  * China: Midea Group 美的集团 (sz000333): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Hengrui Pharma 恒瑞医药 (sh600276): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * Taiwan: TSMC 台積電 (2330): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+  * Taiwan: Chunghwa Telecom 中華電 (2412): bearish setup but TW is long-only/short-restricted -> proxy: EWT (Taiwan ETF), TSM (TSMC ADR (NYSE))
+  * CN: N长鑫 N长鑫 (sh688825): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * CN: 陇神戎发 陇神戎发 (sz300534): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * CN: 米奥会展 米奥会展 (sz300795): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * CN: 中船特气 中船特气 (sh688146): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+
+-- MACRO / RATES / CREDIT (FRED) --
+  US 3M yield                3.9500000000  (2026-07-23)
+  US 2Y yield                4.3700000000  (2026-07-23)
+  US 10Y yield               4.7100000000  (2026-07-23)
+  US 30Y yield               5.1700000000  (2026-07-23)
+  10Y-2Y spread                    0.36  (2026-07-24)
+  10Y-3M spread                    0.73  (2026-07-24)
+  Fed funds                  3.6300000000  (2026-07-23)
+  US HY credit spread              2.77  (2026-07-23)
+  5Y inflation breakeven           2.24  (2026-07-24)
+  UST curve: 2Y 4.37%  10Y 4.71%  30Y 5.17%
+  BTC perp funding: +0.0054%  OI 104,123
+  CFTC COT large-spec net: Gold -509  ES -42,142  WTI +81,689  BTC -1,785
+
+-- CATALYST CALENDAR (next 14d; today=2026-07-27) --
+  2026-07-30  (2)
+    [IPO] JMKE     IPO Jersey Mike's Subs Inc. $?
+    [IPO] REF      IPO Reformation Inc. $?
+  2026-08-04  (131)
+    [ERN] AACG     Q2 2026 EPS est None
+    [ERN] ACAD     Q2 2026 EPS est 0.0572 EPS~0.0572
+    [ERN] ACEL     Q2 2026 EPS est 0.2132 EPS~0.2132
+    [ERN] ACNT     Q2 2026 EPS est None
+    [ERN] ACRE     Q2 2026 EPS est 0.0561 EPS~0.0561
+    [ERN] ACUT     Q2 2026 EPS est None
+    [ERN] ADM      Q2 2026 EPS est 1.3502 EPS~1.3502
+    [ERN] AFG      Q2 2026 EPS est 2.3327 EPS~2.3327
+  2026-08-05  (482)
+    [ERN] AATC     Q2 2026 EPS est None
+    [ERN] ABCL     Q2 2026 EPS est -0.1719 EPS~-0.1719
+    [ERN] ACA      Q2 2026 EPS est 1.2039 EPS~1.2039
+    [ERN] ACFN     Q2 2026 EPS est None
+    [ERN] ACLX     Q2 2026 EPS est -1.1546 EPS~-1.1546
+    [ERN] ACT      Q2 2026 EPS est 1.2049 EPS~1.2049
+    [ERN] ACTG     Q2 2026 EPS est -0.102 EPS~-0.102
+    [ERN] ADNT     Q3 2026 EPS est 0.5761 EPS~0.5761
+  2026-08-06  (509)
+    [ERN] AAM      Q2 2026 EPS est None
+    [ERN] AAOI     Q2 2026 EPS est 0.0153 EPS~0.0153
+    [ERN] ABNB     Q2 2026 EPS est 1.2766 EPS~1.2766
+    [ERN] ABX      Q2 2026 EPS est 0.2418 EPS~0.2418
+    [ERN] ACDC     Q2 2026 EPS est -0.3024 EPS~-0.3024
+    [ERN] ACET     Q2 2026 EPS est -2.0732 EPS~-2.0732
+    [ERN] ACHR     Q2 2026 EPS est -0.3337 EPS~-0.3337
+    [ERN] ACHV     Q2 2026 EPS est -0.1582 EPS~-0.1582
+  2026-08-07  (67)
+    [ERN] ACMR     Q2 2026 EPS est 0.3434 EPS~0.3434
+    [ERN] AIRS     Q2 2026 EPS est 0.0153 EPS~0.0153
+    [ERN] AIRT     Q1 2027 EPS est None
+    [ERN] ANIP     Q2 2026 EPS est 2.0899 EPS~2.0899
+  (source errors: dividends: IncompleteRead: IncompleteRead(85994 bytes read))
+
+-- NEWS (expanded feeds) --
+  [MarketWatch]
+    - Oil prices sink, stock futures rally as U.S. and Iran pause attacks, Wall Street awaits busy week
+    - I will definitely claim Social Security early. Why do so few people talk about the elephant in the room?
+    - ‘It’s nothing personal’: Should I tell my 96-year-old stepmother that I don’t want her inheritance?
+  [SeekingAlpha]
+    - LQDH: High-Quality, Rate-Hedged Bond Portfolio, Solid Yield And Track Record
+    - Ares Capital's Fat Yield Makes It Worth Keeping
+    - Hilton Worldwide Holdings' Growth Is Great, But Not Great Enough To Avoid A Downgrade
+  [Investing]
+    - China’s CXMT surges 470% in Shanghai debut after Asia’s biggest 2026 IPO
+    - Naver jumps to one-month high as Nvidia takes $1 billion stake for AI data center
+    - China chipmaker CXMT’s shares surge 470% in Shangai trading debut
+  [Yahoo-Fin]
+    - After 80 stores close, 63-year-old chain gives Chapter 11 warning
+    - Cathie Wood Just Poured $18 Million Into Meta Stock. Here’s Why.
+    - Workers remain confident in their skills despite economic jitters: Study
+  [Benzinga]
+    - Toncoin (TON) Price Prediction 2025, 2026, 2027-2030
+    - Myro (MYRO) Price Prediction: 2025, 2026, 2030
+    - PancakeSwap (CAKE) Price Prediction: 2025, 2026, 2030
+  [Zerohedge]
+    - "Don't Flock Me": Massie Readies Bill To Yank Federal Cash From Cities And Police Departments Running Flock Cameras
+    - Fauci Files: A Megalomaniacal Egomaniac Milking Covid For Everything It's Worth
+    - Machete-Wielding Islamic Terrorist Killed By Cops After Deadly Berlin Pride Attack
+  [WSJ-Markets]
+    - Oil prices sink, stock futures rally as U.S. and Iran pause attacks, Wall Street awaits busy week
+    - I will definitely claim Social Security early. Why do so few people talk about the elephant in the room?
+    - ‘It’s nothing personal’: Should I tell my 96-year-old stepmother that I don’t want her inheritance?
+  [FT-Markets]
+    - Oil prices fall as Iran and US pause strikes over Strait of Hormuz tensions
+    - US pauses Iran strikes as Oman pursues Hormuz transit deal
+    - What is the risk of using Chinese open AI models like Kimi K3?
+  [CNBC-Top]
+    - Oil slides 5% as Iran reportedly signals halt to attacks if U.S. pause holds
+    - China memory chipmaker CXMT skyrockets 470% in Shanghai debut
+    - Ukraine strikes Iranian vessels in Caspian Sea, Tehran accuses Kyiv of 'hostile and criminal act'
+  [CNBC-Markets]
+    - Logistics giants are racing to keep up with healthcare boom as GLP-1s highlight need for cold storage
+    - Paramount agrees to delay WBD acquisition to as late as June 2027 amid legal challenge
+    - Moody's says 'unprecedented' AI spending threatens credit quality of Amazon, Meta, Alphabet and others
+  [FedPress]
+    - Agencies issue joint statement on handling of highly sensitive information during bank examinations
+    - Federal Reserve Board issues enforcement action with former chief lending officer of Heritage State Bank
+    - Minutes of the Board's discount rate meetings on June 8 and June 17, 2026
+  [ECB]
+    - Philip R. Lane: Outlook for the euro area economy
+    - Decisions taken by the Governing Council of the ECB (in addition to decisions setting interest rates)
+    - ECB to extend use of climate factors in Eurosystem collateral framework to non-financial corporate credit claims
+  [BoE]
+    - Letter from the Governor to the Daily Mail
+    - PRA consults on updated guidance for friendly society amalgamations and transfers
+    - PRA fines HDI Global SE £4,165,000 for inaccurate reporting of FSCS Liabilities and FSCS Fee Tariff data
+  [BoJ]
+    - Services Producer Price Index (June)
+    - Developments in Real Exports and Real Imports
+    - Japanese Government Bonds Held by the Bank of Japan
+  [Cointelegraph]
+    - Garden Finance disables app as Blockaid reports $450,000 exploit
+    - Storj files for bankruptcy, explores equity path for tokenholders
+    - CLARITY hopes fade, BitMEX shuts as lawsuit looms: Hodler’s Digest, July 26
+  [Decrypt]
+    - Mira Murati’s Inkling AI Model Review: Best Open-Source Model in the West
+    - What Is an AI Kill Switch and Why Do US Lawmakers Want One?
+    - Stocks Just Topped Crypto on Hyperliquid. ARK Says That Changes Everything
+  [TheBlock]
+    - Triple-A hot wallet losses climb to $11.8 million as new deposits keep being swept: report
+    - Michael Saylor teases another color after four straight weeks without a Strategy bitcoin buy
+    - BitMart to wind down trading platform as global CEO says he was not consulted
+  [CoinDesk]
+    - South Korea trading giant puts receivables onchain in tokenization test with LG CNS
+    - 2 weeks left for Clarity: State of Crypto
+    - U.S. regulator warns prediction markets against cutting corners in event contracts
+  [ForexLive]
+    - CXMT scores massive IPO, becomes the most-valuable company in mainland China
+    - Gold cheers the halt to fighting in Iran
+    - Japan June services PPI 3.2% vs 3.3% prior
+  [FXStreet]
+    - Gold gains as falling oil prices ease inflation and rate hike fears
+    - Euro climbs beyond 1.1400 as renewed Iran diplomacy hopes undermine safe-haven USD
+    - WTI remains heavily offered near $84.00 amid hopes for de-escalation in US-Iran conflict
+  [Mining.com]
+    - MAX Power Mining increases landholding at Lawson hydrogen project in Saskatchewan
+    - American Mineral Resources bets on diversified project portfolio as US juniors struggle to raise capital
+    - US Department of Energy commits $65.5M to boost domestic oil and gas production
+  [JapanTimes]
+    - Seven & i Shares drop after ending deal talks with Poland’s Zabka
+    - Memorial at sea starts for late residents of Russia-held isles
+    - Kioxia faces more volatility as leveraged ETFs hit Japan stocks
+  [SCMP-Biz]
+    - China cracks down on offshore trusts with new tax rules for the wealthy
+    - Burberry sales jump: are luxury goods back in fashion in China amid tech wealth?
+    - Why do mainland Chinese firms refuse to give up on Wall Street IPOs?
+  [ET-Markets]
+    - Gold rises over 1% as oil tumbles on pause in US-Iran fighting
+    - D-St set for a positive opening as GIFT Nifty signals firm start
+    - Dollar pulls back as US-Iran attacks pause, oil drops
+  [Livemint]
+    - Stocks to watch: BEL, Indus Towers, NTPC among shares in focus today; check list here
+    - Nifty 50, Sensex prediction today: Check how Indian stock market is expected to trade on 27 July
+    - Stocks to buy or sell for short term: Jigar Patel of Anand Rathi shares trading strategies for 3 stocks
+  [SpaceNews]
+    - NASA and ESA facilities avoid major damage from wildfires in Spain
+    - SpaceX conducts 13th Starship test flight
+    - ULA deals with financial challenges caused by Vulcan grounding
+  [TechCrunch]
+    - Are brain waves the next unlock for physical AI?
+    - Can Apple make smart glasses that aren’t a constant privacy threat?
+    - Making sense of the panic over Chinese AI
+  [TheRegister]
+    - Foxconn drops VMware, adopts hyperconverged upstart Arcrfra for workloads including AI
+    - Trump expands voluntary pledge to keep datacenter costs off household power bills
+    - The last Space Shuttle returned to Earth 15 years ago
+  [BioPharma]
+    - <a href="/marketing/gastroenterologists-spot-treatment-gaps-clinical-remission-rates-durability-among-ibd" hreflang="en">Gastroenterologists flag clinical remission and its durability as unmet needs in IBD care: survey</a>
+    - <a href="/pharma/peptide-adcomm-day-2-emideltide-voted-down-panels-1st-peptide-pushback" hreflang="en">Peptide adcomm Day 2: Emideltide voted down in panel's 1st pushback</a>
+    - <a href="/pharma/oral-glp-1-tracker-launch-trajectories-lilly-foundayo-novo-wegovy-pill" hreflang="en">The Oral GLP-1 Tracker: Obesity prescriptions jump for both Novo and Lilly</a>
+  [PV-Magazine]
+    - China adopts tougher mandatory energy limits for polysilicon plants
+    - How to win and how not to lose: What the Football World Cup final teaches us about leading the energy transition
+    - Tunisia authorizes residential solar-plus-storage amid heatwave
+  [Electrek]
+    - Kalmar Ottawa electric yard truck gets to work in Canada
+    - Met police break their own record for seizing illegal e-bikes
+    - Another day at the office: Fortescue CEO test drives 150 ton haul truck [video]
+  [Investing-UK]
+    - Dollar set for biggest weekly gain in over a month; yen eyes worst week since May
+    - Canadian dollar slips as oil retreats, Fed decision looms
+    - South African rand nears 17 per dollar after rate decision
+  [CityAM]
+    - Scotland’s tax hike may have backfired as receipt falls
+    - Bank of England to hold interest rates as oil price surge threatens UK economy
+    - Burnham ‘aware’ of Healey’s extra £9bn spending demands
+  [Handelsblatt]
+    - Autoindustrie: Möglicher Rettungsplan für Audi-Werk in Neckarsulm – weniger Kapazität und Abbau von Doppelstrukturen
+    - CSD Berlin: Anschlag bei CSD – Polizei tötet mutmaßlichen Attentäter
+    - Kommentar: Der AfD spielen jetzt gleich drei Umstände in die Hände
+  [Investing-DE]
+    - China’s CXMT surges 470% in Shanghai debut after Asia’s biggest 2026 IPO
+    - Naver jumps to one-month high as Nvidia takes $1 billion stake for AI data center
+    - China chipmaker CXMT’s shares surge 470% in Shangai trading debut
+  [Investing-IT]
+    - Oil tumbles over 5% as U.S.-Iran pause sparks hopes for diplomatic breakthrough
+    - Iran says it will halt strikes as long as US bombing pause holds
+    - Oil slips more than 5% after US pauses strikes on Iran
+  [NikkeiAsia]
+    - Shein IPO set to test investor demand as trade barriers rise
+    - China's CXMT jumps 471% on debut, riding AI memory boom to record IPO
+    - Bank Indonesia governor resigns for 'personal reasons'
+  [JijiPress]
+    - 小泉防衛相、発信前のめり　「核」「中国」、自民から懸念
+    - 社民・ラサール氏、リベラル結集を模索　高市１強に危機感
+    - 高市首相、今夕記者会見　「消費税」「人事」説明へ
+  [EconTimes]
+    - Gold rises over 1% as oil tumbles on pause in US-Iran fighting
+    - D-St set for a positive opening as GIFT Nifty signals firm start
+    - Dollar pulls back as US-Iran attacks pause, oil drops
+  [MoneyControl]
+    - Uncle Sam is wrong, India and China are doing their bit to fight climate change
+  [LiveMint]
+    - Stocks to watch: BEL, Indus Towers, NTPC among shares in focus today; check list here
+    - Nifty 50, Sensex prediction today: Check how Indian stock market is expected to trade on 27 July
+    - Stocks to buy or sell for short term: Jigar Patel of Anand Rathi shares trading strategies for 3 stocks
+  [BusinessStd]
+    - Oil prices slip 5% after US-Iran pause strikes, lifting supply hopes
+    - CBDT issues guidance note on crypto-asset reporting under I-T Act, 2025
+    - US Fed action, oil swings to test bullion as traders eye West Asia risks
+  [HinduBiz]
+    - NBCC, NTPC, Aurobindo Pharma, Waaree Energies, Cyient, Dodla Dairy among 12 stocks to watch on Monday
+    - Sensex today | Stock Market Live: Stock to buy today: KIMS
+    - Brent crude drops below $93 as West Asia tensions show signs of easing
+  [EM-Investing]
+    - Quote Trade Announces Native Support for XDC Network and Circle-Issued USDC on XDC
+    - MEXC Expands Ondo Tokenized Stock Offerings with AI Infrastructure and Mining Assets
+    - SHIBCAT Expands the Robinhood Chain Ecosystem with the Launch of Its Community-Driven Meme Token
+  [Brazil-Exame]
+    - Nvidia vai ser 'fiadora' da OpenAI em empréstimo de US$ 250 bi para data center
+    - Petróleo despenca 5% após EUA e Irã suspenderem ataques no Estreito de Ormuz
+    - Poupança ou CDB? A conta que todo brasileiro deveria fazer
+  [BeInCrypto]
+    - Oil Slides 7% as Iran Signals It Will Halt Attacks If US Pause Holds
+    - Fed Rate Decision Pits 104 Economists Against a 36% Hike Bet
+    - Storj Chapter 11 Raises the Biggest Question for STORJ Token Holders
+
+-- SEC 8-K MATERIAL CATALYSTS (last 3 days) --
+  2026-07-24 TMHC   [1.01,2.01,3.01,3.03,]  Taylor Morrison Home Corp  (TMHC)
+  2026-07-24 PCSC   [1.01,2.01,3.02,3.03,]  Freenome, Inc.  (PCSC)
+  2026-07-24 ----   [1.01,1.02,5.02,7.01,]  SharonAI Holdings Inc.  (SHAZ, SHAZW)
+  2026-07-24 ----   [1.01,1.02,2.03,8.01,]  Hancock Park Corporate Income, Inc.
+  2026-07-24 CBDW   [1.01,2.03,5.02,9.01]  1606 CORP.  (CBDW)
+  2026-07-24 RIME   [1.01,3.02,5.02,9.01]  Algorhythm Holdings, Inc.  (RIME)
+  2026-07-24 SIDU   [5.02,8.01,9.01]  Sidus Space Inc.  (SIDU)
+  2026-07-24 KTB    [5.02,8.01,9.01]  Kontoor Brands, Inc.  (KTB)
+  2026-07-24 ----   [1.01,2.03,8.01,9.01]  Hercules Capital, Inc.  (HCXY, HTGC)
+  2026-07-24 ----   [1.01,5.02,5.07,9.01]  CEA Industries Inc.  (BNC, BNCWW, BNCWZ)
+  2026-07-24 ----   [1.01,2.01,2.03,9.01]  ACURA PHARMACEUTICALS, INC
+  2026-07-24 ----   [3.03,5.02,5.03,5.07,]  System1, Inc.  (SST, SSTPW)
+  2026-07-24 NCIQ   [1.01,5.03,8.01,9.01]  Hashdex Nasdaq CME Crypto Index ETF  (NC
+  2026-07-24 NGS    [1.01,3.03,5.03,8.01,]  NATURAL GAS SERVICES GROUP INC  (NGS)
+  2026-07-24 ----   [1.01,5.03,8.01,9.01]  Armour Residential REIT, Inc.  (ARR, ARR
+
+-- INSIDER CLUSTER BUYS (last 30d, >=2 insiders) --
+  FSBC    6 insiders / 6 buys  val=$6280K  2026-07-22  Five Star Bancorp
+  BYRN    3 insiders / 3 buys  val=$254K  2026-07-22  Byrna Technologies Inc.
+  BBASX   2 insiders / 2 buys  val=$823K  2026-07-22  Amg Bbh Asset-Backed Credit Fu
+
+-- DEFI STABLECOIN YIELDS (top 8 by APY, TVL >=$10M) --
+  (unavailable: IncompleteRead: IncompleteRead(198480 bytes read, 10824225 more ex)
+
+-- SHORT SQUEEZE WATCH (SI% float >= 10%) --
+  (no high-SI names found)
+
+-- ENERGY SNAPSHOT (FRED weekly) --
+  (altdata2 error: TypeError: unsupported format string passed to NoneType.__for)
+
+research only, not financial advice. verify before acting.
+
+[scan task log]
+  - 10:16:13  regime: gathering FRED macro / VIX / fear-greed
+  - 10:16:18  regime: RISK-ON score=+0.61
+  - 10:16:18  quotes: collecting global universe (crypto/US/CN/TW/HK/FX/futures/indices + region/macro ETFs)
+  - 10:17:11  quotes: 126 curated instruments fetched
+  - 10:17:11  wide US funnel: pulling ~12k tickers from Polygon, pre-screening top 150
+  - 10:17:14  wide US funnel: 0 of 0 -> top 150 backtested [err: net: Remote end closed connection without response]
+  - 10:17:14  spillover funnel: scanning RSS headlines for theme keywords -> peer candidates
+  - 10:17:29  spillover funnel: 21 candidates across 4 themes -> 5 fetched
+  - 10:17:29  wide CN funnel: pulling ~5,500 A-shares, pre-screening top 120
+  - 10:17:33  wide CN funnel: 600 of 600 -> top 120 backtested
+  - 10:17:33  opportunities: building candidate set from quotes + regime
+  - 10:17:33  opportunities: 80 raw candidates
+  - 10:17:33  backtest: enriching with technicals + E[R]/sigma/Sharpe
+  - 10:18:08  backtest: per-candidate family m=10 (global total=105) -> Bonferroni t>=2.81
+  - 10:18:08  news enrichment: Finnhub headlines + Polygon sentiment per candidate
+  - 10:18:08  news enrichment: done (0 candidates have fresh headlines)
+  - 10:18:08  catalyst enrichment: scanning Finnhub earnings/FDA/IPO + Polygon dividends
+  - 10:18:10  catalyst enrichment: 0 candidates have a near-term catalyst (+0 new)
+  - 10:18:10  PEAD confirmation: looking up recent earnings surprises for PEAD setups
+  - 10:18:10  PEAD confirmation: 0 PEAD setups confirmed by earnings surprise (+0 new)
+  - 10:18:10  options enrichment: pulling ATM straddles (CBOE) for top US candidates
+  - 10:18:13  options enrichment: 3 candidates have an RV/IV signal (+3 new)
+  - 10:18:13  country crisis: scanning 32 country ETFs for crisis signals
+  - 10:18:14  country crisis: 0 candidates in crisis (+0 new)
+  - 10:18:14  veto gate: 3 rows vetoed (3 crash-in-progress, 0 news-contradicts) -> PASS rows 1 -> 1
+  - 10:18:14  catalysts: printing freshest company news for top candidates
+  - 10:18:14  alt-data: pulling FRED macro/rates/credit, treasury curve, BTC funding, COT
+  - 10:18:20  catalyst calendar: Finnhub earnings/FDA/IPO + Polygon dividends (14d)
+  - 10:18:22  expanded news: sweeping all RSS feeds (equities/macro/CB/crypto/FX/commodities/regional)
+  - 10:18:36  expanded news: 46 feeds ok, 57 feeds failed
+  - 10:18:36  GDELT: 24h global market tone sweep
+  - 10:18:47  altdata2: SEC 8-K + insider clusters + DeFi yields + short squeeze + energy
+  - 10:18:48  SEC 8-K: 15 filings with material items (last 3d)
+  - 10:18:51  insider clusters: 3 tickers with >=2 insider buyers (30d)

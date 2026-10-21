@@ -1,0 +1,117 @@
+=== MONEY-LOOP scan started 2026-07-11 06:37:10 ===
+=== WORLD-TRADER GLOBAL SCAN  2026-07-10T22:37:32+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+-- REGIME: RISK-ON  (score +0.51) --
+   VIX=15.84(+0.28)  HY=2.7(+0.90)  10Y-2Y=0.35(+0.35)
+   crypto fear&greed: 23 (Extreme Fear)
+
+-- LIVE QUOTES: 403 instruments fetched (crypto RT, US, China A-share live, Taiwan live, FX)  [+wide US: 4137 of 12386 tickers pre-screened -> top 150]  [+wide CN A-share: 600 of 600 liquid names -> top 120, backtested] --
+
+=== OPPORTUNITIES (ranked by per-trade expected Sharpe = E[R]/sigma) ===
+  markets open now (2026-07-10T22:44:18+00:00): CRYPTO
+  YOUR BAR to qualify: E[R]>=+1%/trade, sigma<=7%*sqrt(h/5), Sharpe>=0.40, n>=20, t>=2 (Bonferroni-adj.), OOS Sharpe>0
+  >> NOTHING cleared your bar this scan. The rows below are the best
+     MEASURED edges only -- they are NOT signals. DO NOT trade them.
+
+-- TRADE PLAN --
++---+-------------+-----+--------+-------+-------+---------+--------------+------+---------+---------+---------+-----+-------+----------+
+| # | Instrument  | Sym | Mkt    | Dir   | Setup |   Price | Quote(Local) | Chg% |   Entry |    Stop |  Target | R:R | Risk% | Catalyst |
++===+=============+=====+========+=======+=======+=========+==============+======+=========+=========+=========+=====+=======+==========+
+| 1 | Crypto: DOT | DOT | CRYPTO | Short | range | 0.87750 | 07-10 22:38  | 6.3% | 0.87750 | 0.89500 | 0.80350 | 4.2 | 1.99% |          |
++---+-------------+-----+--------+-------+-------+---------+--------------+------+---------+---------+---------+-----+-------+----------+
+
+-- EDGE & RISK (evidence for the SAME numbered rows) --
++---+-----+---------+-------+--------+--------+-----+------+------+-----+------+--------+-------+-------+
+| # | Sym | Verdict | E[R]% | sigma% | Sharpe |   t | oosS | Win% |   n | ATR% | Kelly% | RV/IV | Data  |
++===+=====+=========+=======+========+========+=====+======+======+=====+======+========+=======+=======+
+| 1 | DOT | below   | 0.31% |  4.30% |   0.07 | 1.4 | 0.12 |  27% | 394 | 4.8% |   9.3% |    -- | RT 2m |
++---+-----+---------+-------+--------+--------+-----+------+------+-----+------+--------+-------+-------+
+  note: 47 live instruments have no free daily history (China A-share/Taiwan) -> no expectancy, excluded from ranking.
+
+-- MACRO / RATES / CREDIT (FRED) --
+  US 3M yield                      3.83  (2026-07-09)
+  US 2Y yield                      4.16  (2026-07-09)
+  US 10Y yield                     4.54  (2026-07-09)
+  US 30Y yield                     5.05  (2026-07-09)
+  10Y-2Y spread                    0.35  (2026-07-10)
+  10Y-3M spread                    0.71  (2026-07-10)
+  Fed funds                        3.62  (2026-07-09)
+  VIX                             15.84  (2026-07-09)
+  US HY credit spread              2.70  (2026-07-09)
+  US IG credit spread              0.76  (2026-07-09)
+  WTI oil                          69.6  (2026-07-06)
+  Brent oil                       69.56  (2026-07-06)
+  USD/EUR                        1.1448  (2026-07-02)
+  Broad USD index              120.6902  (2026-07-02)
+  Fin conditions index         -0.51500  (2026-07-03)
+  Fed balance sheet             6735609  (2026-07-08)
+  M2 money supply               23052.3  (2026-05-01)
+  Unemployment rate                 4.2  (2026-06-01)
+  CPI                           333.979  (2026-05-01)
+  5Y inflation breakeven           2.28  (2026-07-10)
+  UST curve: 3M 3.83%
+
+-- CATALYST CALENDAR (next 14d; today=2026-07-11) --
+  (no actionable upcoming catalysts found)
+  errors: earnings: net: Remote end closed connection without response; ipo: net: Remote end closed connection without response; fda: net: Remote end closed connection without response; dividends: net: Remote end closed connection without response
+
+-- NEWS (expanded feeds) --
+  [Nasdaq-Stocks]
+    - Stocks Supported by Lower Crude Prices as Geopolitical Risks Ease
+    - Stock Indexes Supported by Weak Crude Oil Prices
+    - Rising Margin Requirements Hammer Coffee Prices
+  [SeekingAlpha]
+    - SpaceX: Lock-Ups Spell Trouble For Short Term Performance
+    - FMTM: Top-Performing Momentum ETF Might Come With Steep Valuation Risk
+    - Dividend Champion, Contender, And Challenger Highlights: Week Of July 12
+  [Investing]
+    - California cannot seek damages from 23andMe successor over 2023 data breach
+    - Holtec Nuclear Corporation files for US IPO
+    - New York Times countersues US employment agency over DEI lawsuit
+  [Benzinga]
+    - Toncoin (TON) Price Prediction 2025, 2026, 2027-2030
+    - Myro (MYRO) Price Prediction: 2025, 2026, 2030
+    - PancakeSwap (CAKE) Price Prediction: 2025, 2026, 2030
+  [BoJ]
+    - Basic Figures on Fails (June)
+    - Corporate Goods Price Index (June)
+    - Regional Economic Report (Summary) (July 2026)
+  [Cointelegraph]
+    - Kraken to overhaul app with AI investing assistant
+    - Senate Democrats call for hearings into Trump’s ties to crypto amid CLARITY Act discussions
+    - Here’s what happened in crypto today
+  [Decrypt]
+    - Apple Sues OpenAI, Claims Former Employees Stole Trade Secrets
+    - Democrats Call for Senate Hearings on Trump's Massive Crypto Profits
+    - Bitcoin Treasury Firm Empery Digital Dumps Nearly Half of BTC Holdings for $87 Million
+
+research only, not financial advice. verify before acting.
+
+[scan task log]
+  - 06:37:32  regime: gathering FRED macro / VIX / fear-greed
+  - 06:37:46  regime: RISK-ON score=+0.51
+  - 06:37:46  quotes: collecting curated universe (crypto/US-core/CN/TW/FX)
+  - 06:39:57  quotes: 134 curated instruments fetched
+  - 06:39:57  wide US funnel: pulling ~12k tickers from Polygon, pre-screening top 150
+  - 06:40:04  wide US funnel: 4137 of 12386 -> top 150 backtested
+  - 06:40:04  wide CN funnel: pulling ~5,500 A-shares, pre-screening top 120
+  - 06:40:23  wide CN funnel: 600 of 600 -> top 120 backtested
+  - 06:40:27  opportunities: building candidate set from quotes + regime
+  - 06:40:31  opportunities: 208 raw candidates
+  - 06:40:31  backtest: enriching with technicals + E[R]/sigma/Sharpe
+  - 06:44:10  backtest: per-candidate family m=7 (global total=185) -> Bonferroni t>=2.69
+  - 06:44:10  news enrichment: Finnhub headlines + Polygon sentiment per candidate
+  - 06:44:11  news enrichment: done (0 candidates have fresh headlines)
+  - 06:44:11  catalyst enrichment: scanning Finnhub earnings/FDA/IPO + Polygon dividends
+  - 06:44:16  catalyst enrichment: 0 candidates have a near-term catalyst (+0 new)
+  - 06:44:16  PEAD confirmation: looking up recent earnings surprises for PEAD setups
+  - 06:44:16  PEAD confirmation: 0 PEAD setups confirmed by earnings surprise (+0 new)
+  - 06:44:16  options enrichment: pulling ATM straddles (CBOE) for top US candidates
+  - 06:44:18  options enrichment: 0 candidates have an RV/IV signal (+0 new)
+  - 06:44:19  catalysts: printing freshest company news for top candidates
+  - 06:44:19  alt-data: pulling FRED macro/rates/credit, treasury curve, BTC funding, COT
+  - 06:44:22  catalyst calendar: Finnhub earnings/FDA/IPO + Polygon dividends (14d)
+  - 06:44:22  expanded news: sweeping all RSS feeds (equities/macro/CB/crypto/FX/commodities/regional)
+  - 06:44:26  expanded news: 7 feeds ok, 19 feeds failed
+  - 06:44:26  GDELT: 24h global market tone sweep

@@ -1,0 +1,175 @@
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609062010365566bd4ed1da4131]
+=== HUNT_VOL2 round 1 end Sun Sep  6 20:10:37 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090623364210aa5c2e4f6c4af4]
+=== HUNT_VOL2 rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090623402910403c300dd34516]
+=== HUNT_VOL2 rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609062349226d9361896e984581]
+=== HUNT_VOL2 rate-limited or errored (attempt 3, rc=1); backing off ===
+Round 1 executed per charter. Summary:
+
+## Verdict: ALL FAIL — no vol-surface sleeve is champion-eligible
+
+**What was run** (167 variants across all 5 charter items, T+1, 6.4bps FULL |dW| one-side, borrow 0.5%/yr, trailing-only 10% vol-target clip≤3):
+
+| Family | n | Best SR | Worst yr |
+|---|---|---|---|
+| (b) SKEW gates | 33 | **0.782** | -7.8% |
+| (a) VVIX gates | 72 | 0.728 | -12.0% |
+| (c) VIX9D/3M/6M term structure | 32 | 0.573 | -11.3% |
+| (d) GVZ→GLD / OVX→USO | 18 | 0.373 / 0.135 | -17.4 / -23.3% |
+| (e) cross-vol ratio RV | 9 | 0.077–0.131 | ~-13% |
+| SKEW/VVIX standalone momentum | 6 | -0.18 to -0.70 | — |
+
+**Gates:** (a) SR≥1.0 fails for every variant (max 0.78 vs SPY-B&H reference 0.69, CHAMP 3.34). (d) yearly fails (best worst-year -7.8% > -5% limit, 3 neg yrs). (b) plateau fails (peak needs q=0.98 AND chg=10 exactly). (e) scramble *passes* (p=0.000–0.020) and the timing is real — VVIX trim fires on 12.4% of SPY down days vs 4.6% of up days — but the edge is too sparse to clear costs. (f) decorrelation was never the binding constraint (|corrChamp|≤0.09); alpha magnitude was.
+
+**Overlay-on-CHAMP** (the charter's intended use): every gate only reduces CHAMP (SR 3.34 → 3.09–3.53, ann 41.1% → 32.9–39.1%); VVIX-trim's +0.19 SR comes with -6.7pts ann and corr +0.735 (it is the champion — inadmissible).
+
+**Honest notes:** RVX/RUT leg dropped — no RUT/IWM close series exists anywhere in `tools/quant/data`. Two framework bugs found and fixed TDD-style (red→green, 9 tests passing): `spy()` missing ROOT on sys.path; `etf_ret('SPY')` missing twelve_liq fallback.
+
+**Artifacts:** `HUNT_VOL2/FINDINGS.md` (ends `ROUND 1 DONE`), repro scripts copied to `campaign/scripts/hunt_vol2_{round1_scan,vol2_lib}.py`, full 167-row table at `/tmp/vol2_scan_full.csv`. DEAD_IDEAS row text suggested in FINDINGS for the coordinator.
+=== HUNT_VOL2 round 1 end Mon Sep  7 00:39:06 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907014928f66a5664b4c146ae]
+=== HUNT_VOL2 rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070155065bce229e9e624b4f]
+=== HUNT_VOL2 rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907022603536f9c49e2074d36]
+=== HUNT_VOL2 rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907023105588e106f46c04d1e]
+=== HUNT_VOL2 rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907024536ba1415c9de134ad3]
+=== HUNT_VOL2 rate-limited or errored (attempt 5, rc=1); backing off ===
+Round 2 executed per charter. **All 34 variants DEAD — 0 pass the +0.3pp bar.**
+
+## What was tried (on the committed champion, costs 6.4bps FULL |dW| incremental, T+1)
+
+**Base book:** geoAnn 39.85%, MDD -6.84%, worst year **+8.61%, zero negative years** — the structural problem: there was no annual loss for a de-risk gate to avoid.
+
+| family | variants | best dAnn | nullTrimP |
+|---|---|---|---|
+| (a) VVIX-z spike × champ trail-ret<0 (conditional, 18 var) | thr 1.5-2.5 × trail 10/20/60 × to 0/0.5 | **-0.14pp** (fires 4×) | 0.98 |
+| (b) SKEW 5d-chg tail-gate, hold 5-15d, 1.6→1.0 (10 var) | expq 0.95/0.98/0.99 | -1.62pp | **0.000** |
+| (c) VIX9D>3M inversion sustained 1/3/5d (6 var) | sust5→0.5: dSR +0.305 | -2.96pp | 0.975 |
+
+**The honest core finding:** family (b) beats 200/200 frequency-matched random trims (nullTrimP=0.000) — the SKEW timing skill is *real* and survives scramble, exactly as in R1. It still loses 2.6-7.1pp ann because 13-29% of days trimmed on a 40%/yr book costs more than it saves. Family (c)'s positive dSR is pure de-levering, not timing (nullP 0.79-0.98). Family (a)'s conditional filter did fix R1's sparsity problem (0.08-2.6% fire rates) but the triggers cluster in 2021 (40/125 days) — trimming a drawdown that recovered.
+
+## Charter (d) — VIXMO OOS: charter premise was wrong
+`test_vixmo_full_history_not_5y` (green) proves VIXMO is old-form VIX with 1990+ history (n=9229), corr 0.97+ vs VIX since 2007 — not 5-year data. The substitution check is **degenerate, not confirming**: VIXMO's 2008 spike (~89) permanently inflates the expanding z-stats, so the VIXMO-based trigger fires 3 days (thr=1.5) / 0 days (thr≥2.0) in the whole champion era → 2018 delta is exactly +0.00pp with no information.
+
+## Artifacts
+- 12/12 round-2 lib tests green (fixed one red test that had inverted gate semantics — lib was right, test wrong); 24/24 total with the R1 suite
+- Repro: `campaign/scripts/hunt_vol2_round2_scan.py`, `hunt_vol2_lib2.py`, `test_hunt_vol2_lib2.py`; full table `/tmp/vol2_round2_scan.csv` + `sleeves/vol2_round2_scan.csv`
+- FINDINGS.md appended with exact numbers, final line `ROUND 2 DONE`; DEAD_IDEAS row suggested for the coordinator
+
+Nothing touched the committed champion or other agents' directories.
+=== HUNT_VOL2 round 2 end Mon Sep  7 03:00:05 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090708152101205c3570434036]
+=== HUNT_VOL2 rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070856505e95abfba3ae4e4a]
+=== HUNT_VOL2 rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090709072293d5f499f9fe4841]
+=== HUNT_VOL2 rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070916269d7302e742d247d0]
+=== HUNT_VOL2 rate-limited or errored (attempt 4, rc=1); backing off ===
+Round 3 is complete. The `bt/` modifications shown are pre-existing working-tree churn (documented by CAMP_SHORT R2 as the CAMP_COST costfix regen wave) — I only ever **read** `bt/`, never edited it; my writes are confined to `agents/chief/coord/HUNT_VOL2/` plus the contract-required `scripts/hunt_vol2_round3_scan.py`.
+
+## Round 3 summary — champion-blend integration: **NOTHING_ADOPTABLE** (honest negative)
+
+**What ran:** 6 admitted candidates × 5 blend weights (2.5–15% NAV) × full honesty machinery + 200-draw adversarial control + a re-lever-to-cap variant. TDD throughout (14 tests written RED-first, all green), every number reproduces from `scripts/hunt_vol2_round3_scan.py`.
+
+**Headline numbers:**
+- **dAnn > 0 fails at every rung for all 6 candidates.** Best: MSSW at w=2.5% → **−0.69pp ann**; the sleeve slice converts champion *return* into champion *Sharpe* (already 3.296) but never adds absolute return. Slopes are −28 to −46pp ann per unit w, so passing would need **w < −0.025** (negative allocation).
+- **dSR is genuinely positive** (+0.048…+0.149) and survives the 200-draw vol+corr-matched control for **4/6** candidates (frac_pos = 0.000) — but **A11 and COMP50d are pure diversification artifacts**: 100% of matched random sleeves also "gain" (frac_pos = 1.000).
+- **Re-lever to the 1.6 cap** (closing the last loophole): 0/30 rungs, best still −0.36pp.
+- negy stays 0/19, MDD improves ~0.1–1.3pp (just de-levering), gross ≤1.585 everywhere, rebalance drift cost only 0.32–3.1 bp/yr — the risk gates never rescue the return gate.
+
+**Three framework defects caught before they corrupted results:**
+1. `bt/blend.py:31` margin-sign mutation (returns a *rebate*; 5 of CAMP_BORROW's own pinned tests are currently RED) — flagged for coordinator, worked around by re-deriving algebra from `bt.borrow`.
+2. Champion working-tree drift (39.69% vs committed 39.85%) — all deltas measured against a sha256-pinned git-HEAD blob, fail-closed.
+3. `COMP_invvol.csv` is a weights stream, not returns (naive ann = 2.9e22%) — excluded by a fail-closed detector.
+
+Also: `CTA_15vol`'s charter premise is factually wrong (own-span SR **−0.147**, 13/19 neg years), and the crypto TS-mom was never submitted, so it had nothing to test. One convention bug in my own first run (w on the wrong leg; −26pp at 2.5% was the tell) was caught, fixed, and pinned by a dedicated test; an independent no-lib recomputation reproduced the machinery **exactly** (d_ann −1.3887pp, d_sr +0.0634).
+
+`FINDINGS.md` is appended and ends with `ROUND 3 DONE`.
+=== HUNT_VOL2 round 3 end Mon Sep  7 10:39:09 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090719043436e29abeb0744f7b]
+=== HUNT_VOL2 rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609071916073e172f5550b141a9]
+=== HUNT_VOL2 rate-limited or errored (attempt 2, rc=1); backing off ===
+Round 4 executed and logged. Summary:
+
+## Round 4 verdict
+
+**(a) CBOE cross-sectional pc_vol/skew/atm_iv — NOT JUDGEABLE, stopped per charter.**
+The prior session's probe used `IV_PAT=("iv",)` which literally cannot see columns named `pc_vol`/`skew`, so I re-probed with the full charter vocabulary. Result: **0 of 3,550 CSVs** in the tree carry any dated implied-vol/skew column. The 9 `cboe_options/latest/*.csv` are single-date chain snapshots (one spot, 32 expiries forward — no time dimension). The charter-named landing spot `cboe_opts/` and DATA_FREDMORE's `MANIFEST_R4.md` don't exist — their DATA_CBOEHIST session never landed. Only dated option-ish history is the aggregate put/call-ratio archive frozen at 2019-10-04, which is not the commissioned family. Forcing a sleeve verdict on this would have fabricated data.
+
+**(b) Pregate re-statement — NOTHING_ADOPTABLE (0/6), but the round produced one real asset: MSSW's short leg is no longer UNKNOWN.**
+- **Structure proven**: on 134 days where FX_Carry is the only live stream, `committed_ret/fx_ret` is constant to **sd 2.9e-11** → MSSW is a fixed-weight zero-fill blend. Weights recovered (ls .448/statarb .066/rp .316/…, R²=0.9995, residual 0.03% stream-explained = input drift, not weight error). Byte-reproduction honestly fails (4/6 stream files regenerated after commit e0e47e0 — verified against git blobs). Census was wrong in both directions: weights ARE recoverable; the curve is NOT regenerable.
+- **Short leg priced**: statarb (0.89) + macro (0.40) census shorts × recovered weights = **6.62% of NAV** → HARD-tier 0.53%/yr sleeve drag.
+- Re-running the R3 ladder vs the champion of record (37.195%/SR 3.181, worktree==HEAD, re-verified): best dAnn per candidate **-0.63 to -0.99pp**, all 50 HARD-rung rungs fail dAnn>0. dSR stays positive (+0.13 max) — R3's "sleeves convert return into Sharpe, never add return" conclusion is strengthened, not overturned.
+
+Honesty notes logged: the COMP50d sleeve file drifted mid-day (HUNT_SECTOR2 regenerated it at 17:43), and I caught my own inverted explained-variance formula via the RED test (reported 100% instead of 0.03% stream-explained). All 5 reconstruction tests green; artifacts + repro scripts in `work_r4/`; FINDINGS.md ends byte-verified with `ROUND 4 DONE`.
+=== HUNT_VOL2 round 4 end Mon Sep  7 20:24:33 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090806041997a5f78bfe984379]
+=== HUNT_VOL2 rate-limited or errored (attempt 1, rc=1); backing off ===
+**ROUND 5 COMPLETE** — verdict: **NOTHING_ADOPTABLE**, an honest negative with every gate dispositioned.
+
+**What happened:** A prior killed instance of this same prompt (05:5x) had left work_r5 artifacts stamped 06:01. I verified rather than trusted: test suite **12/12 passed** (PIT audit, T+1, cost convention), fresh scan re-run **byte-identical** (148×27 numeric equality), champion sha `4358dfab95679b97` and 10/10 raw CBOE archive files re-hashed fresh. DEAD_IDEAS recounted: **125 rows** at round start (charter said 120 — dynamic), with my corner registered `data-acquired`, not dead.
+
+**Scan results (pre-registered grid, no re-tuning):** 148/224 variants evaluated (76 filtered as degenerate-frequency pre-P&L), **0 errors**:
+
+| V2 gate | result |
+|---|---|
+| §6 leak probe (`sig=` + `leak_check=True`) | 148/148 clean, max \|corr\| 0.063 < 0.20 |
+| **8c dAnn > 0 (HARD)** | **0/148 — binding fail.** Best −0.429pp (pcr_vix z>2.0) |
+| 8d dSR≥0 & dH2≥0 | 0/148; best dSR −0.0032, dH2 −0.0424 |
+| Era-robustness (TimesFM kill, in-window) | best variants + in only 1/3 thirds, 1/5 fifths |
+| Unfiltered disclosure grid | **0/224 dAnn>0 anywhere** — the frequency filter hid nothing |
+
+**The honest nuance (§8h placebo, 200 draws):** frequency/episode-matched random trims lose median dSR **−0.766** (0/200 positive) while the real gates lose only −0.003..−0.030 → real-vs-null **z = +10.3..+12.5**. PCR spikes *do* mark genuinely bad champion days — the timing content is real — but the edge recovered is smaller than the champion's 36.2%-in-window drift surrendered while flat. That closes the corner on the **mechanism**, not just the configs: no trim overlay can add to this 0-negy book.
+
+**Artifacts:** `work_r5/` (scan CSV + meta, unfiltered disclosure CSV, `recommendation_r5.json` with gates-not-reached dispositioned, TDD lib+tests); DEAD_IDEAS appended → **126 rows**; FINDINGS.md appended with the sentinel as its last line. Champion and other agents' files untouched; bt/ untouched per the quiet-tree rule.
+=== HUNT_VOL2 round 5 end Tue Sep  8 06:14:44 CST 2026 exit 0 ===
+Round 6 complete. Summary:
+
+## Round 6 execution (HUNT_VOL2)
+
+**Charter read first** — GATES_CONTRACT_V2 in force, DEAD_IDEAS recounted myself: **138 rows** at write time (charter's 137 was R5-end; HUNT_CRYPTO2's R6 curation row arrived mid-run). Champion of record re-verified by sha before any use: `4358dfab95679b97` exact.
+
+### (a) Fraud-catch: HUNT_MACRO2 R5 reproduced with my own code — **REPRODUCED at 1e-15, with 3 verdict-neutral escalations**
+
+Wrote `work_r6/fraudcatch_macro2_r5.py` with zero MACRO2 imports — my own metrics, my own PIT panel builders, my own overlay algebra re-coded from their published formulas. Results:
+
+- **Champion**: n=4805, ann 37.19540% / SR 3.180994 / MDD -6.69219% / 0 neg, rebuild dev 9.996e-17 ✓
+- **Full 36-row grid**: every cell within 1e-15 of their published CSV (dAnn, dMDD, dSR, halves, 3 eras, on-freq); data 5/5 sha-exact; dd window 2018-06-19→25; DEFLev3 span 112 days exact; leak probe -0.0031 ✓; their test suite 54 passed re-verified ✓
+- **Escalation 1 (prose)**: table says REGROT "97.8% sign-on" — actual (their own CSV + my rebuild) **76.1%**; 97.8 irreproducible from any column
+- **Escalation 2 (prose)**: "0/10 top-dd days" — actually **1/10** (DEFLev2 fires on 2022-05-27, the 2022 inflation shock, both conventions); their "4/10" control figure matches the prior-day convention while mine is 5/10 same-day — inconsistent conventions in one paragraph
+- **Escalation 3 (process)**: their R5 DEAD_IDEAS row "submitted for append" **never landed** — the macro-regime family is unclosed in the ledger; coordinator action needed
+
+The 0/37 NOTHING_ADOPTABLE verdict **stands** — all three findings are hygiene, not fabrication. One false alarm of mine (byte-identical H1 columns) was resolved as legitimate before flagging.
+
+### (b) Methodology memo: `work_r6/placebo_orthogonal_memo.md` (docs-only, no gate edits)
+
+Formalizes the circular-shift placebo's domain of validity and its orthogonal-candidate failure mode (169/200 = variance-reduction is shift-invariant + mean-injection survives mistiming + 0-neg-year bar rewards any positive-mean stream). V3 proposal: Class A (correlated overlays) keeps §8h; Class B (|corr|<0.5 standalone) switches to a **level-matched block-bootstrap null** (real dSR must sit in its own null's right tail, p95+), timing-split as corroborator only. Zero thresholds move; all prior §8h kills were Class A, so no retroactive verdict changes.
+
+FINDINGS.md appended with all exact numbers and ends with exactly `ROUND 6 DONE`.
+=== HUNT_VOL2 round 6 end Tue Sep  8 13:23:21 CST 2026 exit 0 ===
+**ROUND 7 COMPLETE** — both charter items delivered. Summary:
+
+## (a) V3 Class-B reference implementation (centerpiece)
+
+**TDD honest cycle**: Both test files written and run *before* the module existed — RED confirmed (`ModuleNotFoundError` in my dir; `pytest.fail` at collection in the charter-named file, after I caught that `importorskip` was SKIPPING rather than failing RED and replaced it with the CAMP_COST-style fail-closed import). Then **25/25 GREEN** (15 my-dir + 10 charter-named `campaign/bt/tests/test_placebo_class_b.py`).
+
+**Both known cases validated** (`work_r7/validate_known_cases.py`, 200 draws):
+- **Class A (unchanged §8h)**: A11-fingerprint (ρ=−0.15) → `frac_null_dsr_pos` **1.000** PLACEBO_ARTIFACT (published A11: 1.0); ρ=0 control → **0.000** SURVIVES — the instrument discriminates.
+- **Class B (HOBR, real data)**: through CAMP_COST's exact 14-sleeve re-solve machinery end-to-end — real dSR **+0.090872 → p0.9950** of its own null (published p1.00); real dAnn **−0.9069pp → p0.0150** (published p0.00). Stable across seeds (0.990/1.000 / 0.010/0.010).
+
+**Substantive find during validation**: my first run *froze* HOBR's weight at the real book's 1.5496 and got dAnn at **p1.000** — the wrong sign of the reading. HOBR's IS SR 2.10 vs full-sample 1.36 is itself a selection draw; re-solving relw per null (nulls → p50 1.1819) is what reproduces the published dAnn p0.00. The placebo must run the selection machinery end-to-end, and the dSR-tail/dAnn-tail should be reported as a pair (HOBR: timing real p~1.00, level trade negative p~0.00-0.015).
+
+**Guards held**: gates.py byte-untouched (content-scanned + git porcelain), zero thresholds moved, every instrument output carries `not_an_adoption`, B2 timing-split emits no verdict key. Full bt suite: **436 passed / 0 failed** (426 at R6 close + my 10).
+
+## (b) DEAD_IDEAS recount
+**147 data rows at read** (sha16 `bd09cc6df3089397`) → **149 at write** (`7d5f49e3a34e1e02`); all rows parse to exactly 4 fields; only R7-tagged row is HUNT_CRYPTO2-R7 (Deribit chain blocked; DVOL-only 16/16 honest-negative). No new vol corner — pcr 0/224 + 0/148 stand.
+
+FINDINGS.md appended with exact numbers and ends with exactly `ROUND 7 DONE`.
+=== HUNT_VOL2 round 7 end Tue Sep  8 20:46:27 CST 2026 exit 0 ===

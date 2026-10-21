@@ -1,0 +1,14 @@
+=== RES_CREDIT start Tue Sep  8 13:58:42 CST 2026 ===
+**RES_CREDIT charter executed to completion.** Final verdict: honest **REJECT** — the best engine found passes every honesty gate but misses the charter's SR≥1.5 bar (charter explicitly allows REJECT-with-numbers).
+
+## What was done (all numbers in `campaign/team/agents/RES_CREDIT/FINDINGS.md`)
+
+**1. Data verified (charter "verify yourself"), fail-closed lint:** HY OAS FRED only 3y span (n=785, 2023+); BAA 40y (n=10151), AAA 1983+ (min −0.44 plausible), t10y2y 2005+ (n=5408), DGS2 back to 1976, ETFs HYG/LQD/JNK/EMB/TLT 2002-2007+; 0 gaps>5d, 0 NA, all ranges plausible.
+
+**2. Decorrelation-FIRST (charter FIRST STEP):** whole credit family passes — HYG_mom63 −0.018, LQD-HYG_rel +0.019, OAS_chg −0.034. Final sleeve via `corr_gate.py`: **−0.0166 PASS**. (Found + worked around an inf-poisoning bug: raw momentum proxies contain ±inf → NaN corr unless cleaned at load.)
+
+**3. TDD RED→GREEN:** 5 tests written first (RED confirmed — my cost test had a wrong T+1 expectation, fixed the test to encode the true convention, then GREEN); combined suites **424 passed**.
+
+**4. 23 grids / ~120 configs:** OAS→ETF lead-lag dead (all-negative one side); ETF carry eaten by 2008/2020/2022; quality-spread, breakeven, real-yield, pair-RV all ≤0.36 SR. Winner family: **2s10s 5-day-change mean-reversion** — book SR **0.922**, per-unit battery SR **1.062**, halves 0.838/1.396, neg yrs 2 (worst −4.47%), ac1 −0.018, uniqR 0.525, scramble p=0.000, leak True, corr −0.0198 — **all gates PASS except SR≥1.5**. Plateau: win/band OK, lag FAIL at lb=4 (robust lb=6 variant 0.781). Start-cuts improving (2019+ 1.351, 2024+ 1.861), scrub5 min 0.897, fresh repro 9.996e-17.
+
+**5. Deliverables:** `sleeves/RC_t102_d5mr_w21_band50_vt5.csv` + `.meta` (full disclosures incl. the deep-history twin collapsing at SR 0.118 = regime-specific edge, and the C2 warning that a real 2s10s fly pays more than the 6.4bps ETF proxy), `credit_lib.py`, `test_credit_lib.py`, `emit_sleeve.py`, `FINDINGS.md` ending **RES_CREDIT DONE**.

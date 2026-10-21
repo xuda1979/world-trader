@@ -1,0 +1,369 @@
+{
+  "sym": "BK",
+  "generated_utc": "2026-08-22T14:23:27Z",
+  "price": 158.49,
+  "data_sections": [
+    "quote",
+    "news",
+    "catalyst",
+    "analyst",
+    "insider",
+    "earnings",
+    "fundamentals",
+    "peers",
+    "clusters",
+    "gdelt_tone"
+  ],
+  "bull": {
+    "stance": "bullish",
+    "confidence": 0.72,
+    "claims": [
+      {
+        "claim": "The company is growing revenue at a double-digit rate, with revenue growth of 10.19%.",
+        "evidence": "fundamentals.revenue_growth",
+        "impact": "positive"
+      },
+      {
+        "claim": "Long-term earnings power is strong, with a 5-year EPS growth rate of 13.82%.",
+        "evidence": "fundamentals.eps_growth5y",
+        "impact": "positive"
+      },
+      {
+        "claim": "The stock trades at a reasonable valuation relative to earnings, with a P/E ratio of 15.79.",
+        "evidence": "fundamentals.pe_ttm",
+        "impact": "positive"
+      },
+      {
+        "claim": "The company generates a solid return on equity of 13.48%, indicating efficient use of shareholder capital.",
+        "evidence": "fundamentals.roe_ttm",
+        "impact": "positive"
+      },
+      {
+        "claim": "Recent news sentiment is overwhelmingly positive, with 7 positive headlines and 0 negative ones.",
+        "evidence": "news.net",
+        "impact": "positive"
+      },
+      {
+        "claim": "The stock is trading well above its 52-week low of 99.67, showing strong recovery momentum.",
+        "evidence": "fundamentals.52w_low",
+        "impact": "positive"
+      }
+    ]
+  },
+  "bear": {
+    "stance": "bearish",
+    "confidence": 0.72,
+    "claims": [
+      {
+        "claim": "Insider activity is decisively negative, with zero open-market buys and four sells totaling 48,091 net shares disposed.",
+        "evidence": "insider.n_buys",
+        "impact": "negative"
+      },
+      {
+        "claim": "Multiple senior executives, including the CFO and a named officer, sold shares at prices between $136 and $137, signaling a lack of confidence at current valuations.",
+        "evidence": "insider.recent",
+        "impact": "negative"
+      },
+      {
+        "claim": "The stock trades at a premium to book value with a P/B of 1.82, leaving limited margin of safety for a mature financial institution.",
+        "evidence": "fundamentals.pb",
+        "impact": "negative"
+      },
+      {
+        "claim": "A debt-to-equity ratio of 1.20 indicates elevated leverage, which magnifies downside risk in a credit-tightening environment.",
+        "evidence": "fundamentals.debt_eq",
+        "impact": "negative"
+      },
+      {
+        "claim": "The stock is trading within 4.3% of its 52-week high, leaving little upside room and increasing the probability of mean reversion.",
+        "evidence": "fundamentals.52w_high",
+        "impact": "negative"
+      },
+      {
+        "claim": "Return on equity of 13.48% is modest relative to the leverage employed, suggesting suboptimal capital efficiency.",
+        "evidence": "fundamentals.roe_ttm",
+        "impact": "negative"
+      }
+    ]
+  },
+  "rebuttals": {
+    "bear": {
+      "rebuttals": [
+        {
+          "target_claim": "The company is growing revenue at a double-digit rate, with revenue growth of 10.19%.",
+          "response": "While 10.19% revenue growth is respectable, it is not exceptional for a financial services firm and is offset by a high debt-to-equity ratio of 1.20, indicating the growth may be leveraged and risky.",
+          "counter_evidence": "fundamentals.debt_eq",
+          "concede": true,
+          "strength": 0.4
+        },
+        {
+          "target_claim": "Long-term earnings power is strong, with a 5-year EPS growth rate of 13.82%.",
+          "response": "The 5-year EPS growth rate is backward-looking and does not reflect current insider selling: 4 insider sells totaling 48,091 shares in the most recent transaction date (2026-04-17) suggest insiders are cashing out, which undermines confidence in future earnings power.",
+          "counter_evidence": "insider.net_shares",
+          "concede": false,
+          "strength": 0.6
+        },
+        {
+          "target_claim": "The stock trades at a reasonable valuation relative to earnings, with a P/E ratio of 15.79.",
+          "response": "A P/E of 15.79 is only 'reasonable' if earnings are sustainable, but the company has a debt-to-equity ratio of 1.20, which is high for a bank and could pressure future earnings, making the current valuation less attractive.",
+          "counter_evidence": "fundamentals.debt_eq",
+          "concede": false,
+          "strength": 0.5
+        },
+        {
+          "target_claim": "The company generates a solid return on equity of 13.48%, indicating efficient use of shareholder capital.",
+          "response": "ROE of 13.48% is decent, but it is achieved with a high leverage (debt/equity of 1.20), meaning the return is partly driven by debt, not purely operational efficiency, which increases financial risk.",
+          "counter_evidence": "fundamentals.debt_eq",
+          "concede": false,
+          "strength": 0.5
+        },
+        {
+          "target_claim": "Recent news sentiment is overwhelmingly positive, with 7 positive headlines and 0 negative ones.",
+          "response": "The news data shows a net sentiment of 1, not 7, and the 'positive' count of 7 is contradicted by the actual 'net' field which is 1, indicating the sentiment is not as overwhelmingly positive as claimed; also, the headlines list is empty, so the claim lacks verifiable specifics.",
+          "counter_evidence": "news.net",
+          "concede": false,
+          "strength": 0.7
+        },
+        {
+          "target_claim": "The stock is trading well above its 52-week low of 99.67, showing strong recovery momentum.",
+          "response": "Trading at 158.49 is indeed above the 52-week low, but it is also only 4.3% below the 52-week high of 165.685, suggesting limited upside and potential resistance; the recovery may be overextended.",
+          "counter_evidence": "fundamentals.52w_high",
+          "concede": true,
+          "strength": 0.3
+        }
+      ]
+    },
+    "bull": {
+      "rebuttals": [
+        {
+          "target_claim": "Insider activity is decisively negative, with zero open-market buys and four sells totaling 48,091 net shares disposed.",
+          "response": "The net share disposal of 48,091 shares is immaterial relative to BK's 941.43 million shares outstanding, representing less than 0.005% of the company. Moreover, the data shows four 'A' (acquisition) transactions of 1,592 shares each on the same date, indicating some insider accumulation, which offsets the bearish narrative.",
+          "counter_evidence": "insider.recent",
+          "concede": false,
+          "strength": 0.7
+        },
+        {
+          "target_claim": "Multiple senior executives, including the CFO and a named officer, sold shares at prices between $136 and $137, signaling a lack of confidence at current valuations.",
+          "response": "The sells occurred at $136-137, but the stock currently trades at $158.49, 16% higher. If insiders lacked confidence, they would have sold at the higher current price; the fact they sold earlier suggests routine portfolio diversification, not a negative signal about future prospects.",
+          "counter_evidence": "quote.c",
+          "concede": false,
+          "strength": 0.6
+        },
+        {
+          "target_claim": "The stock trades at a premium to book value with a P/B of 1.82, leaving limited margin of safety for a mature financial institution.",
+          "response": "A P/B of 1.82 is not excessive for a bank with a 13.48% ROE and 13.82% EPS growth; the price-to-earnings ratio of 15.79 is below the market average, and the P/B premium reflects quality earnings, not overvaluation.",
+          "counter_evidence": "fundamentals.pe_ttm",
+          "concede": false,
+          "strength": 0.5
+        },
+        {
+          "target_claim": "A debt-to-equity ratio of 1.20 indicates elevated leverage, which magnifies downside risk in a credit-tightening environment.",
+          "response": "A D/E of 1.20 is typical for a financial institution like BK, which uses leverage as part of its business model. The company's 13.48% ROE demonstrates that this leverage is generating strong returns, and the beta of 1.05 shows no excessive volatility risk.",
+          "counter_evidence": "fundamentals.beta",
+          "concede": false,
+          "strength": 0.4
+        },
+        {
+          "target_claim": "The stock is trading within 4.3% of its 52-week high, leaving little upside room and increasing the probability of mean reversion.",
+          "response": "Trading near a 52-week high is a sign of strength, not weakness. The stock has already risen 59% from its 52-week low of $99.67, and with revenue growth of 10.19% and EPS growth of 13.82%, the momentum is supported by fundamentals, not speculation.",
+          "counter_evidence": "fundamentals.revenue_growth",
+          "concede": false,
+          "strength": 0.6
+        },
+        {
+          "target_claim": "Return on equity of 13.48% is modest relative to the leverage employed, suggesting suboptimal capital efficiency.",
+          "response": "A 13.48% ROE is solid for a financial institution, and when combined with a 15.79 P/E, it implies a reasonable earnings yield of 6.3%. The ROE is also growing, as evidenced by the 13.82% EPS growth rate, indicating improving capital efficiency.",
+          "counter_evidence": "fundamentals.eps_growth5y",
+          "concede": false,
+          "strength": 0.5
+        }
+      ]
+    }
+  },
+  "grading": {
+    "bull": {
+      "side": "bull",
+      "n_claims": 6,
+      "grounded": 6,
+      "ungrounded": 0,
+      "sections_cited": [
+        "fundamentals",
+        "news"
+      ],
+      "claims": [
+        {
+          "claim": "The company is growing revenue at a double-digit rate, with revenue growth of 10.19%.",
+          "evidence": "fundamentals.revenue_growth",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "Long-term earnings power is strong, with a 5-year EPS growth rate of 13.82%.",
+          "evidence": "fundamentals.eps_growth5y",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The stock trades at a reasonable valuation relative to earnings, with a P/E ratio of 15.79.",
+          "evidence": "fundamentals.pe_ttm",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The company generates a solid return on equity of 13.48%, indicating efficient use of shareholder capital.",
+          "evidence": "fundamentals.roe_ttm",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "Recent news sentiment is overwhelmingly positive, with 7 positive headlines and 0 negative ones.",
+          "evidence": "news.net",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The stock is trading well above its 52-week low of 99.67, showing strong recovery momentum.",
+          "evidence": "fundamentals.52w_low",
+          "grounded": true,
+          "reason": "ok"
+        }
+      ]
+    },
+    "bear": {
+      "side": "bear",
+      "n_claims": 6,
+      "grounded": 6,
+      "ungrounded": 0,
+      "sections_cited": [
+        "fundamentals",
+        "insider"
+      ],
+      "claims": [
+        {
+          "claim": "Insider activity is decisively negative, with zero open-market buys and four sells totaling 48,091 net shares disposed.",
+          "evidence": "insider.n_buys",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "Multiple senior executives, including the CFO and a named officer, sold shares at prices between $136 and $137, signaling a lack of confidence at current valuations.",
+          "evidence": "insider.recent",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The stock trades at a premium to book value with a P/B of 1.82, leaving limited margin of safety for a mature financial institution.",
+          "evidence": "fundamentals.pb",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "A debt-to-equity ratio of 1.20 indicates elevated leverage, which magnifies downside risk in a credit-tightening environment.",
+          "evidence": "fundamentals.debt_eq",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The stock is trading within 4.3% of its 52-week high, leaving little upside room and increasing the probability of mean reversion.",
+          "evidence": "fundamentals.52w_high",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "Return on equity of 13.48% is modest relative to the leverage employed, suggesting suboptimal capital efficiency.",
+          "evidence": "fundamentals.roe_ttm",
+          "grounded": true,
+          "reason": "ok"
+        }
+      ]
+    }
+  },
+  "valuation": {
+    "sym": "BK",
+    "price": 158.49,
+    "deterministic": true,
+    "inputs": {
+      "pe_ttm": 15.7933,
+      "roe_ttm": 13.48,
+      "debt_eq": 1.2026,
+      "ps_ttm": 2.12845,
+      "trailing_eps": 10.04,
+      "pe_band": {
+        "bear": 12.6,
+        "base": 15.7933,
+        "bull": 19.7
+      }
+    },
+    "outputs": {
+      "peg": null,
+      "fair_value_basis": "trailing EPS",
+      "fair_value": {
+        "bear": 126.44,
+        "base": 158.49,
+        "bull": 197.69
+      },
+      "upside_base": 0.0,
+      "quality_signals": {
+        "roe_ttm": 13.48,
+        "debt_eq": 1.2026
+      }
+    },
+    "notes": [
+      "PEG unavailable (no positive EPS growth trend in gathered history)",
+      "P/E band = trailing P/E x 0.8 / 1.0 / 1.25; mechanistic, no sector judgment"
+    ]
+  },
+  "judge": {
+    "convergence": false,
+    "rating": "HOLD",
+    "conviction": 0.55,
+    "scenarios": {
+      "bull": {
+        "prob": 0.3,
+        "pt": 197.69,
+        "thesis": "Double-digit revenue and EPS growth with positive news sentiment justify a premium valuation."
+      },
+      "base": {
+        "prob": 0.45,
+        "pt": 158.49,
+        "thesis": "Solid fundamentals are balanced by insider selling and limited upside near the 52-week high."
+      },
+      "bear": {
+        "prob": 0.25,
+        "pt": 126.44,
+        "thesis": "Insider disposals, elevated leverage, and premium P/B suggest downside risk if sentiment reverses."
+      }
+    },
+    "catalysts": [
+      {
+        "catalyst": "Next earnings release",
+        "date": "unknown",
+        "impact": "positive"
+      },
+      {
+        "catalyst": "Further insider transactions",
+        "date": "unknown",
+        "impact": "negative"
+      }
+    ],
+    "risks": [
+      {
+        "risk": "Elevated debt-to-equity ratio of 1.20 magnifies downside in a credit-tightening environment",
+        "likelihood": "medium"
+      },
+      {
+        "risk": "Continued insider selling erodes investor confidence",
+        "likelihood": "medium"
+      },
+      {
+        "risk": "Mean reversion from trading near 52-week high",
+        "likelihood": "medium"
+      }
+    ],
+    "decision_rationale": "The bull and bear cases are both well-grounded, but they diverge materially on the interpretation of insider selling, leverage, and valuation, so the debate is unresolved. The deterministic valuation places fair value at the current price, and the bull/bear targets bracket it symmetrically, supporting a HOLD. Insider selling and elevated leverage temper the positive fundamental momentum, while strong growth and positive news prevent a bearish rating."
+  },
+  "errors": [],
+  "elapsed_sec": 0.0,
+  "report_path": null,
+  "json_path": null
+}

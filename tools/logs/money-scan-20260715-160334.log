@@ -1,0 +1,201 @@
+=== MONEY-LOOP scan started 2026-07-15 16:03:34 ===
+=== WORLD-TRADER GLOBAL SCAN  2026-07-15T08:03:35+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+-- REGIME: RISK-ON  (score +0.50) --
+   VIX=17.16(+0.19)  HY=2.69(+0.91)  10Y-2Y=0.4(+0.40)
+   crypto fear&greed: 25 (Extreme Fear)
+   [+spillover: 9 cross-asset candidates from 2 themes]
+
+-- LIVE QUOTES: 403 instruments fetched (crypto RT, US, China A-share live, Taiwan live, FX)  [+wide US: 4136 of 12411 tickers pre-screened -> top 150]  [+wide CN A-share: 599 of 600 liquid names -> top 120, backtested] --
+
+=== OPPORTUNITIES (ranked by per-trade expected Sharpe = E[R]/sigma) ===
+  markets open now (2026-07-15T08:08:38+00:00): CRYPTO, FX
+  YOUR BAR to qualify: E[R]>=+1%/trade, sigma<=7%*sqrt(h/5), Sharpe>=0.40, n>=20, t>=2 (Bonferroni-adj.), OOS Sharpe>0
+  >> NOTHING cleared your bar this scan. The rows below are the best
+     MEASURED edges only -- they are NOT signals. DO NOT trade them.
+
+-- TRADE PLAN --
++----+-------------------+----------+-----+-------+-------------+--------+--------------+-------+--------+--------+--------+-----+-------+----------+
+|  # | Instrument        | Sym      | Mkt | Dir   | Setup       |  Price | Quote(Local) |  Chg% |  Entry |   Stop | Target | R:R | Risk% | Catalyst |
++====+===================+==========+=====+=======+=============+========+==============+=======+========+========+========+=====+=======+==========+
+|  1 | HK: WuXi AppTec   | 02359.HK | HK  | Long  | Breakout    | 165.30 | 07-15 16:03  |  4.6% | 165.30 | 155.76 | 193.91 | 3.0 | 5.77% |          |
+|  2 | HK: China Shenhua | 01088.HK | HK  | Long  | TrendRide50 | 42.920 | 07-15 16:03  |  1.5% | 42.920 | 41.479 | 47.242 | 3.0 | 3.36% |          |
+|  3 | HK: CK Hutchison  | 00001.HK | HK  | Long  | Breakout    | 71.400 | 07-15 16:04  |  1.4% | 71.400 | 68.945 | 78.764 | 3.0 | 3.44% |          |
+|  4 | HK: China Life    | 02628.HK | HK  | Long  | TrendRide50 | 28.000 | 07-15 16:03  | -2.2% | 28.000 | 26.320 | 33.040 | 3.0 | 6.00% |          |
+|  5 | HK: Bilibili      | 09626.HK | HK  | Short | range       | 140.20 | 07-15 16:02  |  1.7% | 140.20 | 141.50 | 134.00 | 4.8 | 0.93% |          |
+|  6 | HK: JD.com        | 09618.HK | HK  | Short | range       | 115.60 | 07-15 16:04  |  1.6% | 115.60 | 116.20 | 111.80 | 6.3 | 0.52% |          |
+|  7 | HK: Meituan       | 03690.HK | HK  | Short | range       | 83.500 | 07-15 16:03  |  5.4% | 83.500 | 84.450 | 76.050 | 7.8 | 1.14% |          |
+|  8 | HK: NetEase       | 09999.HK | HK  | Long  | range       | 202.60 | 07-15 16:04  |  0.4% | 202.60 | 201.40 | 209.40 | 5.7 | 0.59% |          |
+|  9 | HK: SMIC          | 00981.HK | HK  | Long  | range       | 76.400 | 07-15 16:02  | -2.5% | 76.400 | 75.350 | 81.900 | 5.2 | 1.37% |          |
+| 10 | HK: CK Asset      | 01113.HK | HK  | Long  | Rebreak     | 46.980 | 07-15 16:01  |  3.2% | 46.980 | 45.846 | 50.381 | 3.0 | 2.41% |          |
++----+-------------------+----------+-----+-------+-------------+--------+--------------+-------+--------+--------+--------+-----+-------+----------+
+
+-- EDGE & RISK (evidence for the SAME numbered rows) --
++----+----------+---------+-------+--------+--------+-----+-------+------+-----+------+--------+-------+-------+
+|  # | Sym      | Verdict | E[R]% | sigma% | Sharpe |   t |  oosS | Win% |   n | ATR% | Kelly% | RV/IV | Data  |
++====+==========+=========+=======+========+========+=====+=======+======+=====+======+========+=======+=======+
+|  1 | 02359.HK | below   | 1.57% |  6.16% |   0.25 | 1.4 |  0.40 |  56% |  32 | 4.8% |  41.7% |    -- | RT 2m |
+|  2 | 01088.HK | below   | 1.16% |  4.57% |   0.25 | 1.6 |  0.39 |  54% |  39 | 2.8% |  38.5% |    -- | RT 2m |
+|  3 | 00001.HK | below   | 0.99% |  3.34% |   0.30 | 1.7 |  0.31 |  56% |  32 | 2.9% |  41.7% |    -- | RT 1m |
+|  4 | 02628.HK | below   | 0.94% |  6.65% |   0.14 | 0.7 |  0.27 |  50% |  22 | 5.2% |  33.3% |    -- | RT 2m |
+|  5 | 09626.HK | below   | 0.07% |  2.34% |   0.03 | 0.6 |  0.17 |  26% | 395 | 5.0% |  10.9% |    -- | RT 2m |
+|  6 | 09618.HK | below   | 0.11% |  1.63% |   0.07 | 1.4 |  0.16 |  25% | 394 | 3.4% |  13.3% |    -- | RT 1m |
+|  7 | 03690.HK | below   | 0.15% |  3.29% |   0.05 | 0.9 |  0.05 |  23% | 395 | 5.0% |  13.2% |    -- | RT 2m |
+|  8 | 09999.HK | below   | 0.00% |  1.65% |   0.00 | 0.0 |  0.02 |  23% | 394 | 4.2% |   8.9% |    -- | RT 1m |
+|  9 | 00981.HK | below   | 0.35% |  3.66% |   0.10 | 1.9 | -0.04 |  27% | 394 | 9.3% |  13.3% |    -- | RT 3m |
+| 10 | 01113.HK | below   | 0.09% |  3.25% |   0.03 | 0.2 | -0.07 |  40% |  30 | 2.3% |  20.0% |    -- | RT 4m |
++----+----------+---------+-------+--------+--------+-----+-------+------+-----+------+--------+-------+-------+
+  note: 89 live instruments have no free daily history (China A-share/Taiwan) -> no expectancy, excluded from ranking.
+
+-- SHORT-RESTRICTED MARKETS -> shortable proxy --
+  * China: Kweichow Moutai 贵州茅台 (sh600519): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: CATL 宁德时代 (sz300750): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Ping An Insurance 中国平安 (sh601318): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: China Merchants Bank 招商银行 (sh600036): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Wuliangye 五粮液 (sz000858): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Midea Group 美的集团 (sz000333): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Yangtze Power 长江电力 (sh600900): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: BYD 比亚迪 (sz002594): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+
+-- MACRO / RATES / CREDIT (FRED) --
+  US 3M yield                      3.89  (2026-07-13)
+  US 2Y yield                      4.26  (2026-07-13)
+  US 10Y yield                     4.62  (2026-07-13)
+  US 30Y yield                      5.1  (2026-07-13)
+  10Y-2Y spread                     0.4  (2026-07-14)
+  10Y-3M spread                    0.74  (2026-07-14)
+  Fed funds                        3.62  (2026-07-13)
+  VIX                             17.16  (2026-07-13)
+  US HY credit spread              2.69  (2026-07-13)
+  US IG credit spread              0.78  (2026-07-13)
+  WTI oil                          69.6  (2026-07-06)
+  Brent oil                       69.56  (2026-07-06)
+  USD/EUR                        1.1438  (2026-07-10)
+  Broad USD index              120.5046  (2026-07-10)
+  Fin conditions index         -0.51500  (2026-07-03)
+  Fed balance sheet             6735609  (2026-07-08)
+  M2 money supply               23052.3  (2026-05-01)
+  Unemployment rate                 4.2  (2026-06-01)
+  CPI                           332.568  (2026-06-01)
+  UST curve: 10Y 4.62%  30Y 5.10%
+
+-- CATALYST CALENDAR (next 14d; today=2026-07-15) --
+  (no actionable upcoming catalysts found)
+  errors: earnings: net: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081); ipo: net: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081); fda: net: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081); dividends: net: _ssl.c:1063: The handshake operation timed out
+
+-- NEWS (expanded feeds) --
+  [SeekingAlpha]
+    - Aker BP ASA 2026 Q2 - Results - Earnings Call Presentation
+    - Svenska Handelsbanken AB (publ) 2026 Q2 - Results - Earnings Call Presentation
+    - Scandic Hotels Group AB (publ) 2026 Q2 - Results - Earnings Call Presentation
+  [Investing]
+    - Why is Storebrand stock surging today?
+    - Where authorities are restricting data centres amid AI boom
+    - Asia FX: Dollar slips after soft U.S. CPI; yuan steady despite weak China GDP
+  [Yahoo-Fin]
+    - Target's problems aren't what you think they are
+    - As SpaceX stock dips near IPO price, bulls like BofA's Epstein say buy on 'launch leadership'
+    - Taiwan Semiconductor Posts Stronger-Than-Expected June Sales
+  [WSJ-Markets]
+    - I’m 67 with a $140,000 pension. Should I wait until 70 to claim Social Security so my wife gets more?
+    - Brace for $4 gas again: How U.S.-Iran tensions are threatening to end the price break at the pump
+    - This overlooked index is a better investment than the S&P 500
+  [FT-Markets]
+    - China’s economy grows at one of lowest rates in decades
+    - The race to break China’s metals grip
+    - Is the US or Europe better off?
+  [CNBC-Top]
+    - ASML jumps over 7% after hiking sales forecast for second time this year on strong AI chip demand
+    - Oil rises after another round of U.S. strikes against Iran, naval blockade of the country's ports
+    - Stripe, Advent offer to buy PayPal for more than $53 billion: Reuters
+  [CNBC-Markets]
+    - The AI boom just found two new winners: Goldman Sachs and JPMorgan Chase
+    - Lucid dismisses report that it is weighing filing for bankruptcy or going private after shares plunge
+    - T. rex sells for $50 million, becoming the most expensive dinosaur fossil ever auctioned
+  [FedPress]
+    - Minutes of the Board's discount rate meetings on June 8 and June 17, 2026
+    - Federal Reserve announces the leadership and objectives of its task forces to advance the conduct of monetary policy
+    - Federal Reserve Board issues enforcement action with TS Banking Group, Inc. and TS Contrarian Bancshares, Inc.
+  [ECB]
+    - Piero Cipollone: Interview with Ouest-France
+    - ECB selects 36 payment service providers to join digital euro pilot
+    - Piero Cipollone: Interview with Jornal de Negocios
+  [BoE]
+    - PRA and FCA propose new captive insurance regime to drive UK growth and competitiveness
+    - Minutes of the Money Market Committee meeting – June 2026
+    - UK financial regulators to begin overseeing Critical Third Parties announced by HM Treasury
+  [Decrypt]
+    - DeepMind CEO Says AGI Will Be Bigger Than Electricity or Fire
+    - Bitcoin Ticks Up to $64K Following Largest Inflation Slowdown in Six Years
+    - UK to Defer Capital Gains Tax on DeFi Lending, Liquidity Pool Deposits
+  [TheBlock]
+    - South Korea to bring crypto under new state asset management law
+    - TeraWulf falls 7% after New York orders one-year pause on new data center permits
+    - How Asset Managers Are Investing in Crypto
+  [CoinDesk]
+    - Visa, Mastercard and Ripple back x402 as agent payments average 32 cents
+    - Bitcoin nears $65,000 as cooling U.S. inflation guts the Fed rate-hike trade
+    - U.S. CFTC moves to stop Kalshi from canceling trades as ordered by Michigan court
+  [FXStreet]
+    - Forex Today: US Dollar retreats after soft inflation data, focus shifts to BoC rate decision
+    - US Dollar: Support pillar weakens after CPI – MUFG
+    - WTI rises to near $79.50 amid intensifying US-Iran hostilities near Hormuz
+  [ET-Markets]
+    - Patanjali Foods shares crash 20%, stock nearly halves in value in one year. What's ahead?
+    - Warren Buffett and Bill Gates no longer friends? Why legendary investor skipped donations to Gates foundation
+    - Global Market: ECB monitoring Middle East conflict for inflation risks
+  [Livemint]
+    - L&T Technology Services’ healthy start to FY27 lifts investor spirits
+    - Fineotex Chemicals to SG Finserve: Ashish Kacholia trims stakes in 4 stocks in Q1FY27. Do you own any of them?
+    - Patanjali Foods share price crashes 20%, extending losses for third straight session; what should investors do?
+  [SpaceNews]
+    - Space acquisition and NRO picks face SASC
+    - Antaris™ Establishes Aeonyx™ to Advance All-Domain Mission Virtualization for Defense
+    - U.K. government preparing to release new space strategy
+  [TechCrunch]
+    - OpenAI researcher Miles Wang in talks to launch AI drug discovery startup valued at $2B
+    - Lorde says AI glasses are not sexy
+    - OpenAIs first hardware device is reportedly a screenless speaker that can move
+  [PV-Magazine]
+    - ISC Konstanz study highlights atomic layer deposition as a superior approach for TOPCon UV stability
+    - Solar PV offers significant untapped potential for Finland
+    - Longi sets new world record with 35.5%-efficient perovskite-silicon tandem cell
+  [Electrek]
+    - Elon Musk quietly buys a $1 billion gas turbine company to power Grok
+    - BYDs new Qin Max EV with Flash Charging spotted for the first time
+    - EV prices just fell again – heres what US buyers paid in June
+
+research only, not financial advice. verify before acting.
+
+[scan task log]
+  - 16:03:35  regime: gathering FRED macro / VIX / fear-greed
+  - 16:03:40  regime: RISK-ON score=+0.50
+  - 16:03:40  quotes: collecting curated universe (crypto/US-core/CN/TW/FX)
+  - 16:04:41  quotes: 124 curated instruments fetched
+  - 16:04:41  wide US funnel: pulling ~12k tickers from Polygon, pre-screening top 150
+  - 16:04:46  wide US funnel: 4136 of 12411 -> top 150 backtested
+  - 16:04:46  spillover funnel: scanning RSS headlines for theme keywords -> peer candidates
+  - 16:05:20  spillover funnel: 12 candidates across 2 themes -> 11 fetched
+  - 16:05:20  wide CN funnel: pulling ~5,500 A-shares, pre-screening top 120
+  - 16:05:24  wide CN funnel: 599 of 600 -> top 120 backtested
+  - 16:05:24  opportunities: building candidate set from quotes + regime
+  - 16:05:24  opportunities: 265 raw candidates
+  - 16:05:24  backtest: enriching with technicals + E[R]/sigma/Sharpe
+  - 16:08:32  backtest: per-candidate family m=13 (global total=291) -> Bonferroni t>=2.89
+  - 16:08:32  news enrichment: Finnhub headlines + Polygon sentiment per candidate
+  - 16:08:32  news enrichment: done (0 candidates have fresh headlines)
+  - 16:08:32  catalyst enrichment: scanning Finnhub earnings/FDA/IPO + Polygon dividends
+  - 16:08:34  catalyst enrichment: 0 candidates have a near-term catalyst (+0 new)
+  - 16:08:34  PEAD confirmation: looking up recent earnings surprises for PEAD setups
+  - 16:08:34  PEAD confirmation: 0 PEAD setups confirmed by earnings surprise (+0 new)
+  - 16:08:34  options enrichment: pulling ATM straddles (CBOE) for top US candidates
+  - 16:08:36  options enrichment: 3 candidates have an RV/IV signal (+3 new)
+  - 16:08:36  country crisis: scanning 32 country ETFs for crisis signals
+  - 16:08:38  country crisis: 0 candidates in crisis (+0 new)
+  - 16:08:38  catalysts: printing freshest company news for top candidates
+  - 16:08:38  alt-data: pulling FRED macro/rates/credit, treasury curve, BTC funding, COT
+  - 16:08:40  catalyst calendar: Finnhub earnings/FDA/IPO + Polygon dividends (14d)
+  - 16:08:52  expanded news: sweeping all RSS feeds (equities/macro/CB/crypto/FX/commodities/regional)
+  - 16:09:07  expanded news: 20 feeds ok, 29 feeds failed
+  - 16:09:07  GDELT: 24h global market tone sweep

@@ -1,0 +1,14 @@
+=== loop_team/VERIFY_BEST start Thu Sep  3 15:00:31 CST 2026 ===
+Charter executed fully. Summary of what was verified with fresh evidence:
+
+**Object 1 — V3 champion: PASS.** Frozen builder byte-repro (max diff 9.986–9.996e-17), and a fully independent rebuild from raw sleeve files (my own code) reproduced all three books to ~1e-16. Headline confirmed on committed file (n=4713, 2008-03-31+): ann_geo 43.61%, SR_d 3.924, MaxDD −4.92%, 0/19 neg years, worst year +13.94%. No-same-day-leak probe: same-day throttle variant differs by 1.860e-02 → committed path is strictly trailing. Flatten scan: all 14 sleeves and all 3 books pass (uniqR 1.000, ac1 −0.066). Capital-real gross mean 3.477x, 90.9% of days >1.6x — the leverage caveat is real: my independent exact 1.6x cap + 4.5% margin gives 17.04% (matches AUDIT's 16.99% within convention variance).
+
+**Object 2 — RAW-EW13@1.6x: PASS.** Independent rebuild byte-identical (9.991e-17); bt.engine.capital_gross mean=max=min 1.600000 (max overshoot 1.110e-15, 0/4805 days >1.6+1e-9); metrics exactly as claimed: 28.89%/3.884/−4.25%/0/19, worst +10.18%, margin 2.70%/yr charged.
+
+**Object 3 — blotters: PASS.** Three per-book ledgers reproduce their champion at 6.8–7.4e-16 via bt.reconcile; RAWEW14 blotter turnover reconciles at 5.575e-09 rel, per-record weights/qty match my independent path rebuild at 5e-11, position continuity exact (after root-causing a pandas MultiIndex alignment bug in my own probe).
+
+**Object 4 — scramble: CONFIRMED + one real framework defect found.** Return-roll preserves SR exactly (degenerate, as claimed). Position-lag destroys timing books (SR 3.47→−0.14). But `bt.gates.scramble_positions` uses the raw-return SR as baseline instead of the real book's SR — a synthetic timing book destroyed by scrambling scores p=0.980 (wrong), and the champion scores p=0.0767 under the buggy baseline vs **p=0.0067 under the correct book baseline (PASS)**. Root-caused, documented, one-line fix recommended.
+
+Negative controls (TDD RED discipline) prove all other gates catch tampered inputs. FINDINGS.md written with every exact number; only my designated dir touched.
+
+VERIFY_BEST DONE

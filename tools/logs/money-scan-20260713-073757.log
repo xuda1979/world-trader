@@ -1,0 +1,256 @@
+=== MONEY-LOOP scan started 2026-07-13 07:37:57 ===
+=== WORLD-TRADER GLOBAL SCAN  2026-07-12T23:37:57+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+-- REGIME: RISK-ON  (score +0.51) --
+   VIX=15.84(+0.28)  HY=2.7(+0.90)  10Y-2Y=0.35(+0.35)
+   crypto fear&greed: 26 (Fear)
+   [+spillover: 8 cross-asset candidates from 2 themes]
+
+-- LIVE QUOTES: 406 instruments fetched (crypto RT, US, China A-share live, Taiwan live, FX)  [+wide US: 4007 of 12398 tickers pre-screened -> top 150]  [+wide CN A-share: 600 of 600 liquid names -> top 120, backtested] --
+
+=== OPPORTUNITIES (ranked by per-trade expected Sharpe = E[R]/sigma) ===
+  markets open now (2026-07-12T23:44:33+00:00): CRYPTO, FX
+  YOUR BAR to qualify: E[R]>=+1%/trade, sigma<=7%*sqrt(h/5), Sharpe>=0.40, n>=20, t>=2 (Bonferroni-adj.), OOS Sharpe>0
+  >> NOTHING cleared your bar this scan. The rows below are the best
+     MEASURED edges only -- they are NOT signals. DO NOT trade them.
+
+-- TRADE PLAN --
++---+--------------+------+--------+------+-------------+-------+--------------+-------+-------+-------+--------+-----+-------+----------+
+| # | Instrument   | Sym  | Mkt    | Dir  | Setup       | Price | Quote(Local) |  Chg% | Entry |  Stop | Target | R:R | Risk% | Catalyst |
++===+==============+======+========+======+=============+=======+==============+=======+=======+=======+========+=====+=======+==========+
+| 1 | Crypto: LINK | LINK | CRYPTO | Long | NR7break    | 7.984 | 07-12 23:39  |  0.8% | 7.984 | 7.649 |  8.821 | 2.5 | 4.20% |          |
+| 2 | Crypto: AVAX | AVAX | CRYPTO | Long | ConnorsLong | 6.403 | 07-12 23:38  | -2.5% | 6.403 | 6.092 |  7.025 | 2.0 | 4.86% |          |
++---+--------------+------+--------+------+-------------+-------+--------------+-------+-------+-------+--------+-----+-------+----------+
+
+-- EDGE & RISK (evidence for the SAME numbered rows) --
++---+------+---------+-------+--------+--------+-----+------+------+----+------+--------+-------+-------+
+| # | Sym  | Verdict | E[R]% | sigma% | Sharpe |   t | oosS | Win% |  n | ATR% | Kelly% | RV/IV | Data  |
++===+======+=========+=======+========+========+=====+======+======+====+======+========+=======+=======+
+| 1 | LINK | below   | 1.40% |  6.17% |   0.23 | 1.0 | 0.24 |  62% | 21 | 4.2% |  46.7% |    -- | RT 2m |
+| 2 | AVAX | below   | 0.52% |  7.78% |   0.07 | 0.6 | 0.08 |  43% | 88 | 4.9% |  14.8% |    -- | RT 2m |
++---+------+---------+-------+--------+--------+-----+------+------+----+------+--------+-------+-------+
+  note: 52 live instruments have no free daily history (China A-share/Taiwan) -> no expectancy, excluded from ranking.
+
+-- MACRO / RATES / CREDIT (FRED) --
+  US 3M yield                      3.83  (2026-07-09)
+  US 2Y yield                      4.16  (2026-07-09)
+  US 10Y yield                     4.54  (2026-07-09)
+  US 30Y yield                     5.05  (2026-07-09)
+  10Y-2Y spread                    0.35  (2026-07-10)
+  10Y-3M spread                    0.71  (2026-07-10)
+  Fed funds                        3.62  (2026-07-09)
+  VIX                             15.84  (2026-07-09)
+  US HY credit spread              2.70  (2026-07-09)
+  US IG credit spread              0.76  (2026-07-09)
+  WTI oil                          69.6  (2026-07-06)
+  Brent oil                       69.56  (2026-07-06)
+  USD/EUR                        1.1448  (2026-07-02)
+  Broad USD index              120.6902  (2026-07-02)
+  Fin conditions index         -0.51500  (2026-07-03)
+  Fed balance sheet             6735609  (2026-07-08)
+  M2 money supply               23052.3  (2026-05-01)
+  Unemployment rate                 4.2  (2026-06-01)
+  CPI                           333.979  (2026-05-01)
+  5Y inflation breakeven           2.28  (2026-07-10)
+  UST curve: 3M 3.83%  2Y 4.16%  10Y 4.54%  30Y 5.05%
+  BTC perp funding: +0.0019%  OI 100,686
+  CFTC COT large-spec net: WTI +75,749  Gold -15,463  BTC +3,500  ES -10,947
+
+-- CATALYST CALENDAR (next 14d; today=2026-07-13) --
+  2026-07-13  (43)
+    [ERN] AMFC     Q2 2026 EPS est None
+    [ERN] ANVI     Q1 2026 EPS est None
+    [ERN] ASRE     Q3 2026 EPS est None
+    [ERN] AXXA     Q4 2026 EPS est None
+    [ERN] BSFC     Q1 2026 EPS est None
+    [ERN] BTCY     Q4 2026 EPS est -0.0816 EPS~-0.0816
+    [ERN] BZYR     Q1 2027 EPS est None
+    [ERN] CAHO     Q4 2025 EPS est None
+  2026-07-14  (24)
+    [ERN] AEHR     Q4 2026 EPS est -0.0077 EPS~-0.0077
+    [ERN] AIR      Q4 2026 EPS est 1.3938 EPS~1.3938
+    [ERN] ANGO     Q4 2026 EPS est -0.0918 EPS~-0.0918
+    [ERN] BAC      Q2 2026 EPS est 1.129 EPS~1.129
+    [ERN] BRLL     Q2 2026 EPS est None
+    [ERN] C        Q2 2026 EPS est 2.7565 EPS~2.7565
+    [ERN] CANB     Q4 2025 EPS est None
+    [ERN] CRSB     Q2 2026 EPS est 1.3032 EPS~1.3032
+  2026-07-15  (41)
+    [ERN] ADX      Q2 2026 EPS est None
+    [ERN] BLK      Q2 2026 EPS est 12.669 EPS~12.669
+    [ERN] BNY      Q2 2026 EPS est 2.2023 EPS~2.2023
+    [ERN] BVFL     Q2 2026 EPS est None
+    [ERN] CCTG     Q4 2026 EPS est None
+    [ERN] CTAS     Q4 2026 EPS est 1.2661 EPS~1.2661
+    [ERN] CWBC     Q2 2026 EPS est 0.3101 EPS~0.3101
+    [ERN] CZBT     Q2 2026 EPS est None
+  2026-07-16  (59)
+    [ERN] AA       Q2 2026 EPS est 2.2932 EPS~2.2932
+    [ERN] ABT      Q2 2026 EPS est 1.2922 EPS~1.2922
+    [ERN] ADN      Q1 2026 EPS est None
+    [ERN] AN       Q2 2026 EPS est 5.6035 EPS~5.6035
+    [ERN] ASII     Q1 2026 EPS est None
+    [ERN] ATLO     Q2 2026 EPS est 0.6732 EPS~0.6732
+
+-- NEWS (expanded feeds) --
+  [MarketWatch]
+    - Oil prices rise, stock futures dip after latest flare-up of strikes between U.S. and Iran
+    - Why Citigroup is the one to watch when banks report earnings this week
+    - You don’t have to be rich to be financially independent. Here’s how to take control of your money.
+  [Nasdaq-Mkts]
+    - South Korea Shares May Extend Winning Streak
+    - Top Value Investor Bill Miller IV Says Bitcoin Is Undervalued. So How Much Higher Can Bitcoin Go This Year?
+    - What's Behind a $211,680 CEO Sale at Vicor While AI Demand Drives 20% Revenue Growth?
+  [Nasdaq-Stocks]
+    - Stock Indexes Settle Higher as Geopolitical Risks Ease
+    - Cattle Fall Lower into the Weekend
+    - Cotton Posting Friday Midday Gains
+  [SeekingAlpha]
+    - CSD: There's More To The Spin-Off Story Than Sandisk
+    - S&P500: Set Up For Disappointment, And Earnings Won't Help
+    - Alight: FCF Yield Is Masking A Declining Business
+  [Investing]
+    - NZ’s Fonterra trims top end of annual milk price forecast on weak demand
+    - What do investors need to be watching in DC in 2026H2?
+    - What’s driving the sell-off in AI-related stocks?
+  [Yahoo-Fin]
+    - Big fast-food burger chain franchisee files Chapter 11 bankruptcy
+    - Dow Jones Futures Fall, Oil Prices Rise Amid New U.S.-Iran Attacks; Nvidia, Micron, Sandisk Near Buy Points
+    - Elon Musk roasts OpenAI's Apple lawsuit — but Altman hits back: 'You're the one selling investors on space datacenters'
+  [Benzinga]
+    - Toncoin (TON) Price Prediction 2025, 2026, 2027-2030
+    - Myro (MYRO) Price Prediction: 2025, 2026, 2030
+    - PancakeSwap (CAKE) Price Prediction: 2025, 2026, 2030
+  [Zerohedge]
+    - The Real Point Of The "Patriot Front" Psy-Op
+    - James Carville Has Major Freakout Over The Socialist Wing Of The Party
+    - US Engaged In Sustained Attack Waves On Iran As Trump Boasts 'We Bombed The Hell Out Of Them'
+  [WSJ-Markets]
+    - Oil prices rise, stock futures dip after latest flare-up of strikes between U.S. and Iran
+    - Why Citigroup is the one to watch when banks report earnings this week
+    - You don’t have to be rich to be financially independent. Here’s how to take control of your money.
+  [FT-Markets]
+    - US launches another round of strikes on Iran as ceasefire teeters
+    - Oil prices jump as US and Iran step up tit-for-tat strikes
+    - Iran bets Trump will blink first
+  [CNBC-Top]
+    - Stock futures slip after U.S., Iran exchange airstrikes again: Live updates
+    - Sen. Lindsey Graham, influential lawmaker and Trump ally,  dies at 71 after a brief illness
+    - McConnell provides health update after long unexplained absence; says he suffered fall, pneumonia
+  [CNBC-Markets]
+    - A tiny GLP-1 implant is the latest bet to help patients maintain their weight loss
+    - Delta expects higher airfare to last, bringing 2026 profit goal in reach, CEO says
+    - Private chef salaries reach $300,000 as the rich seek their own Michelin stars
+  [FedPress]
+    - Federal Reserve announces the leadership and objectives of its task forces to advance the conduct of monetary policy
+    - Federal Reserve Board issues enforcement action with TS Banking Group, Inc. and TS Contrarian Bancshares, Inc.
+    - Minutes of the Federal Open Market Committee, June 16-17, 2026
+  [ECB]
+    - Meeting of 10-11 June 2026
+    - Philip R. Lane: AI and monetary policy
+    - Christine Lagarde: Interview with Les Échos
+  [BoE]
+    - UK financial regulators to begin overseeing Critical Third Parties announced by HM Treasury
+    - Minutes of the UK Money Markets Code Sub-Committee – June 2026
+    - Letter from the Governor to Joe Powell MP
+  [BoJ]
+    - Basic Figures on Fails (June)
+    - Corporate Goods Price Index (June)
+    - Regional Economic Report (Summary) (July 2026)
+  [Cointelegraph]
+    - Robinhood L2 sparks ETH optimism, Saylor 'muddies waters.' Hodler's Digest, July 5-12, 2026
+    - Strategy's Saylor needs clarity in BTC pivot message to convince investors: StanChart
+    - Pakistan crypto chief seeks dialogue after scholar rules against crypto payments
+  [Decrypt]
+    - How to Make Product Ads With AI for TikTok and YouTube—For (Almost) Free
+    - What Is Robinhood Chain? The Ethereum Layer-2 Network for Tokenized Stocks
+    - Nano Banana 2 Lite vs. Nano Banana 2: When to Save Your Money and When to Upgrade
+  [TheBlock]
+    - Crypto fatwa sparks debate over Pakistan’s digital asset framework
+    - Michael Saylor posts cryptic Strategy chart after $216 million bitcoin sale: Orange dots tell only part of the story
+    - Hedera lending protocol Bonzo Lend hit for $9 million after Supra verifier accepts manipulated price update
+  [CoinDesk]
+    - Signs of life?: State of Crypto
+    - Stablecoin market cap has shrunk by $10 billion since May, but analyst sees no reason to panic
+    - Bitcoin is nearing a power law support line Fidelity has tracked since 2015
+  [FXStreet]
+    - US military says it launched fresh strikes against Iran on Sunday
+    - Singapore: Resilient GDP and strong NODX – DBS
+    - Silver Price Forecast: Lower high structure holds, bear's eye $55.00
+  [Mining.com]
+    - Gold price loses its grip: Worlds 50 biggest mining companies shed $228 billion in Q2
+    - Guardian Metal, Montana Mining Association forge US tungsten processing alliance
+    - CATL takes 20% stake in graphite materials developer CarbonScape
+  [JapanTimes]
+    - U.S., Iran trade wave of strikes while disputing status of Hormuz
+    - Europe recorded 10,000 excess deaths during late-June heat wave, data show
+    - Lindsey Graham’s death deprives Ukraine of key Trump whisperer
+  [SCMP-Biz]
+    - Hong Kong developers ready new home launches amid forecasts of muted price increases
+    - Five Guys to open in Beijing as more US chains hunger for success in China
+    - Markets, not politics, will make China’s yuan a global currency
+  [ET-Markets]
+    - Market trading guide: CDSL among 2 stock recommendations for Monday
+    - Vijay Kedia buys 3.58 lakh shares in this IT company that nearly doubled investor money
+    - Ahead of Market: 10 things that will decide stock market action on Monday
+  [Livemint]
+    - Week Ahead: Wall Street braces for inflation data, big bank earnings and Middle East developments
+    - Mcap of 4 of top-10 most valued firms jumps  ₹92,995 cr; HDFC Bank, Airtel top gainers
+    - Upcoming IPOs: SBI Funds Management IPO, Alpine Texworld IPO among new issues to open this week; full list here
+  [SpaceNews]
+    - Parabilis tests propulsion system for maneuverable cubesats
+    - FCC approves first Reflect Orbital satellite
+    - Earth observation satellites pass telecom in European space industry sales
+  [TechCrunch]
+    - TechCrunch Mobility: A robotaxi ultimatum
+    - Reed Jobs would rather talk about curing cancer than his last name
+    - This slushie machine was a lifesaver during NYCs heat wave
+  [TheRegister]
+    - Memory makers are slaves to the boom-bust rollercoaster, and the AI boom is the wildest ride of all
+    - It's an AI web, and we're just rats in the walls
+    - AI customers are coming around to the idea that small is beautiful
+  [BioPharma]
+    - <a href="/pharma/oral-glp-1-tracker-launch-trajectories-lilly-foundayo-novo-wegovy-pill" hreflang="en">The Oral GLP-1 Tracker: Lilly’s Foundayo launch remains ‘muted’ </a>
+    - <a href="/pharma/star-padcev-keytruda-combo-expands-bladder-cancer-reach-fda-approval-pressuring-astrazeneca" hreflang="en">Star Padcev-Keytruda combo expands bladder cancer reach with FDA approval, pressuring AstraZeneca</a>
+    - <a href="/pharma/bayer-inks-eu3b-equity-deal-apollo-stake-contraceptives-business" hreflang="en">Apollo inks €3B equity deal for stake in Bayer's contraceptives business</a>
+  [PV-Magazine]
+    - China could produce more batteries than global demand by 2030, says US think tank
+    - Study finds heatwaves cause hourly losses of up to 90% in PV plants in Iberian peninsula
+    - End-of-life solar module recycling unviable if material diversity is not considered
+  [Electrek]
+    - Volvo Electric semi trucks charge up American Truck Simulator
+    - VMAX launches new full-suspension VX2 Lite e-scooter for a mere $799
+    - Tesla claims Cybercab driving employees at Giga Texas — in a parking lot
+
+research only, not financial advice. verify before acting.
+
+[scan task log]
+  - 07:37:57  regime: gathering FRED macro / VIX / fear-greed
+  - 07:38:16  regime: RISK-ON score=+0.51
+  - 07:38:16  quotes: collecting curated universe (crypto/US-core/CN/TW/FX)
+  - 07:39:49  quotes: 128 curated instruments fetched
+  - 07:39:49  wide US funnel: pulling ~12k tickers from Polygon, pre-screening top 150
+  - 07:39:56  wide US funnel: 4007 of 12398 -> top 150 backtested
+  - 07:39:56  spillover funnel: scanning RSS headlines for theme keywords -> peer candidates
+  - 07:40:44  spillover funnel: 12 candidates across 2 themes -> 12 fetched
+  - 07:40:44  wide CN funnel: pulling ~5,500 A-shares, pre-screening top 120
+  - 07:40:50  wide CN funnel: 600 of 600 -> top 120 backtested
+  - 07:40:50  opportunities: building candidate set from quotes + regime
+  - 07:40:50  opportunities: 222 raw candidates
+  - 07:40:50  backtest: enriching with technicals + E[R]/sigma/Sharpe
+  - 07:44:23  backtest: per-candidate family m=10 (global total=238) -> Bonferroni t>=2.81
+  - 07:44:23  news enrichment: Finnhub headlines + Polygon sentiment per candidate
+  - 07:44:23  news enrichment: done (0 candidates have fresh headlines)
+  - 07:44:23  catalyst enrichment: scanning Finnhub earnings/FDA/IPO + Polygon dividends
+  - 07:44:27  catalyst enrichment: 2 candidates have a near-term catalyst (+2 new)
+  - 07:44:27  PEAD confirmation: looking up recent earnings surprises for PEAD setups
+  - 07:44:27  PEAD confirmation: 0 PEAD setups confirmed by earnings surprise (+0 new)
+  - 07:44:27  options enrichment: pulling ATM straddles (CBOE) for top US candidates
+  - 07:44:33  options enrichment: 10 candidates have an RV/IV signal (+10 new)
+  - 07:44:33  catalysts: printing freshest company news for top candidates
+  - 07:44:33  alt-data: pulling FRED macro/rates/credit, treasury curve, BTC funding, COT
+  - 07:44:50  catalyst calendar: Finnhub earnings/FDA/IPO + Polygon dividends (14d)
+  - 07:44:53  expanded news: sweeping all RSS feeds (equities/macro/CB/crypto/FX/commodities/regional)
+  - 07:45:17  expanded news: 32 feeds ok, 16 feeds failed
+  - 07:45:17  GDELT: 24h global market tone sweep

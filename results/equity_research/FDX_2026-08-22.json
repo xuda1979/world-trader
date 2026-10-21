@@ -1,0 +1,361 @@
+{
+  "sym": "FDX",
+  "generated_utc": "2026-08-22T14:51:58Z",
+  "price": 325.08,
+  "data_sections": [
+    "quote",
+    "news",
+    "catalyst",
+    "analyst",
+    "insider",
+    "earnings",
+    "fundamentals",
+    "peers",
+    "clusters",
+    "gdelt_tone"
+  ],
+  "bull": {
+    "stance": "bullish",
+    "confidence": 0.72,
+    "claims": [
+      {
+        "claim": "Analyst consensus is overwhelmingly positive, with 24 of 35 analysts rating FDX a Strong Buy or Buy and a composite score of 0.89.",
+        "evidence": "analyst.score",
+        "impact": "positive"
+      },
+      {
+        "claim": "FDX has beaten EPS estimates in three of the last four quarters, including a 5.52% surprise in the most recent quarter.",
+        "evidence": "earnings.surprise_pct",
+        "impact": "positive"
+      },
+      {
+        "claim": "The company is trading at a reasonable valuation with a P/E of 17.6 and a P/S under 1, while generating a 15.1% return on equity.",
+        "evidence": "fundamentals.roe_ttm",
+        "impact": "positive"
+      },
+      {
+        "claim": "FDX maintains a strong balance sheet with a debt-to-equity ratio of only 0.81, providing financial flexibility.",
+        "evidence": "fundamentals.debt_eq",
+        "impact": "positive"
+      },
+      {
+        "claim": "A confirmed quarterly dividend of $1.22 per share is scheduled for September 14, 2026, signaling management's confidence in cash flow.",
+        "evidence": "catalyst.amount",
+        "impact": "positive"
+      },
+      {
+        "claim": "Recent news sentiment is net positive, with reasoning citing consistent revenue growth, 6% net income margins, and expected 11% year-over-year growth.",
+        "evidence": "news.reasoning",
+        "impact": "positive"
+      }
+    ]
+  },
+  "bear": {
+    "stance": "bearish",
+    "confidence": 0.7,
+    "claims": [
+      {
+        "claim": "Insiders are exclusively selling shares with zero buys, signaling a lack of confidence in the stock at current levels.",
+        "evidence": "insider.n_buys",
+        "impact": "negative"
+      },
+      {
+        "claim": "The stock is trading 19.5% below its 52-week high, indicating sustained downward pressure and weak momentum.",
+        "evidence": "fundamentals.52w_high",
+        "impact": "negative"
+      },
+      {
+        "claim": "Five-year EPS growth is negative at -1.01%, suggesting the company's earnings power has deteriorated over the long term.",
+        "evidence": "fundamentals.eps_growth5y",
+        "impact": "negative"
+      },
+      {
+        "claim": "The most recent quarter showed a negative EPS surprise of -1.52%, breaking the streak of beats and hinting at potential operational headwinds.",
+        "evidence": "earnings.surprise_pct",
+        "impact": "negative"
+      },
+      {
+        "claim": "A high beta of 1.22 means the stock amplifies market downturns, adding downside risk in a volatile environment.",
+        "evidence": "fundamentals.beta",
+        "impact": "negative"
+      }
+    ]
+  },
+  "rebuttals": {
+    "bear": {
+      "rebuttals": [
+        {
+          "target_claim": "Analyst consensus is overwhelmingly positive, with 24 of 35 analysts rating FDX a Strong Buy or Buy and a composite score of 0.89.",
+          "response": "The composite score of 0.89 is inflated by 9 Strong Buy ratings, but 9 analysts still rate it Hold and 2 rate it Sell, meaning 31% of analysts are not bullish. More critically, the stock trades at $325.08, which is 19.5% below its 52-week high of $404.03, suggesting the market is not fully trusting this consensus.",
+          "counter_evidence": "quote.c",
+          "concede": false,
+          "strength": 0.6
+        },
+        {
+          "target_claim": "FDX has beaten EPS estimates in three of the last four quarters, including a 5.52% surprise in the most recent quarter.",
+          "response": "While true, the most recent quarter's 5.52% surprise was on a modest $3.83 EPS, and the prior quarter (2025-03-31) actually missed by -1.52%. The beat pattern is inconsistent, and the 5-year EPS growth rate is -1.01%, indicating no sustained earnings momentum.",
+          "counter_evidence": "fundamentals.eps_growth5y",
+          "concede": false,
+          "strength": 0.7
+        },
+        {
+          "target_claim": "The company is trading at a reasonable valuation with a P/E of 17.6 and a P/S under 1, while generating a 15.1% return on equity.",
+          "response": "A P/E of 17.6 is not cheap for a company with negative 5-year EPS growth (-1.01%) and only 2.44% revenue growth. The 15.1% ROE is decent, but the stock is down 19.5% from its 52-week high, suggesting the market sees limited upside despite these metrics.",
+          "counter_evidence": "fundamentals.eps_growth5y",
+          "concede": false,
+          "strength": 0.6
+        },
+        {
+          "target_claim": "FDX maintains a strong balance sheet with a debt-to-equity ratio of only 0.81, providing financial flexibility.",
+          "response": "A debt-to-equity of 0.81 is moderate, not strong\u2014it means debt is 81% of equity, which is elevated for a logistics company. The 5 insider sells totaling 27,796 shares in the last week, including a direct sell at $324.56 by CFO Paul Walsh, suggest insiders are not confident in the balance sheet's flexibility.",
+          "counter_evidence": "insider.net_shares",
+          "concede": false,
+          "strength": 0.7
+        },
+        {
+          "target_claim": "A confirmed quarterly dividend of $1.22 per share is scheduled for September 14, 2026, signaling management's confidence in cash flow.",
+          "response": "A $1.22 quarterly dividend is only $4.88 annually, yielding just 1.5% at the current price of $325.08\u2014hardly a strong signal of cash flow confidence. Meanwhile, insiders sold 27,796 shares in the last week, which contradicts management confidence.",
+          "counter_evidence": "insider.net_shares",
+          "concede": false,
+          "strength": 0.6
+        },
+        {
+          "target_claim": "Recent news sentiment is net positive, with reasoning citing consistent revenue growth, 6% net income margins, and expected 11% year-over-year growth.",
+          "response": "The news reasoning mentions 11% YoY growth, but actual revenue growth is only 2.44% and EPS growth over 5 years is -1.01%. The 6% net margin is unremarkable for a company with this market cap, and the stock is trading 19.5% below its 52-week high, indicating the market is skeptical of these optimistic projections.",
+          "counter_evidence": "fundamentals.revenue_growth",
+          "concede": false,
+          "strength": 0.8
+        }
+      ]
+    },
+    "bull": {
+      "rebuttals": [
+        {
+          "target_claim": "Insiders are exclusively selling shares with zero buys, signaling a lack of confidence in the stock at current levels.",
+          "response": "The insider data shows 5 sells totaling 27,796 shares, but the same period includes 4 acquisitions (code 'A') totaling 18,159 shares from executives like the CEO and CFO, plus an option exercise\u2014these are not zero buys and indicate ongoing insider accumulation.",
+          "counter_evidence": "insider.recent",
+          "concede": false,
+          "strength": 0.8
+        },
+        {
+          "target_claim": "The stock is trading 19.5% below its 52-week high, indicating sustained downward pressure and weak momentum.",
+          "response": "Being 19.5% below the 52-week high is not unusual for a stock with a beta of 1.22 in a volatile market; the stock is still 46.9% above its 52-week low of $221.31, and the current price of $325.08 is well within a healthy trading range, not a breakdown.",
+          "counter_evidence": "fundamentals.52w_low",
+          "concede": false,
+          "strength": 0.6
+        },
+        {
+          "target_claim": "Five-year EPS growth is negative at -1.01%, suggesting the company's earnings power has deteriorated over the long term.",
+          "response": "The -1.01% five-year EPS growth is a trailing metric that ignores the recent strong quarterly beats (5.52% and 3.38% surprises) and the 2.44% revenue growth, indicating current earnings momentum is positive despite the historical dip.",
+          "counter_evidence": "fundamentals.revenue_growth",
+          "concede": false,
+          "strength": 0.7
+        },
+        {
+          "target_claim": "The most recent quarter showed a negative EPS surprise of -1.52%, breaking the streak of beats and hinting at potential operational headwinds.",
+          "response": "The -1.52% surprise was a single quarter (2025-03-31) and was followed by two consecutive positive surprises of 3.38% and 5.52% in the subsequent quarters, showing the miss was an outlier, not a trend.",
+          "counter_evidence": "earnings.surprise_pct",
+          "concede": false,
+          "strength": 0.9
+        },
+        {
+          "target_claim": "A high beta of 1.22 means the stock amplifies market downturns, adding downside risk in a volatile environment.",
+          "response": "Beta of 1.22 also amplifies upside in market rallies, and with 35 analysts giving a score of 0.89 (24 buy/strong-buy vs. only 2 sells), the risk is more than compensated by strong fundamental support and a P/E of 17.6.",
+          "counter_evidence": "analyst.score",
+          "concede": false,
+          "strength": 0.5
+        }
+      ]
+    }
+  },
+  "grading": {
+    "bull": {
+      "side": "bull",
+      "n_claims": 6,
+      "grounded": 6,
+      "ungrounded": 0,
+      "sections_cited": [
+        "analyst",
+        "catalyst",
+        "earnings",
+        "fundamentals",
+        "news"
+      ],
+      "claims": [
+        {
+          "claim": "Analyst consensus is overwhelmingly positive, with 24 of 35 analysts rating FDX a Strong Buy or Buy and a composite score of 0.89.",
+          "evidence": "analyst.score",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "FDX has beaten EPS estimates in three of the last four quarters, including a 5.52% surprise in the most recent quarter.",
+          "evidence": "earnings.surprise_pct",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The company is trading at a reasonable valuation with a P/E of 17.6 and a P/S under 1, while generating a 15.1% return on equity.",
+          "evidence": "fundamentals.roe_ttm",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "FDX maintains a strong balance sheet with a debt-to-equity ratio of only 0.81, providing financial flexibility.",
+          "evidence": "fundamentals.debt_eq",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "A confirmed quarterly dividend of $1.22 per share is scheduled for September 14, 2026, signaling management's confidence in cash flow.",
+          "evidence": "catalyst.amount",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "Recent news sentiment is net positive, with reasoning citing consistent revenue growth, 6% net income margins, and expected 11% year-over-year growth.",
+          "evidence": "news.reasoning",
+          "grounded": true,
+          "reason": "ok"
+        }
+      ]
+    },
+    "bear": {
+      "side": "bear",
+      "n_claims": 5,
+      "grounded": 5,
+      "ungrounded": 0,
+      "sections_cited": [
+        "earnings",
+        "fundamentals",
+        "insider"
+      ],
+      "claims": [
+        {
+          "claim": "Insiders are exclusively selling shares with zero buys, signaling a lack of confidence in the stock at current levels.",
+          "evidence": "insider.n_buys",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The stock is trading 19.5% below its 52-week high, indicating sustained downward pressure and weak momentum.",
+          "evidence": "fundamentals.52w_high",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "Five-year EPS growth is negative at -1.01%, suggesting the company's earnings power has deteriorated over the long term.",
+          "evidence": "fundamentals.eps_growth5y",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The most recent quarter showed a negative EPS surprise of -1.52%, breaking the streak of beats and hinting at potential operational headwinds.",
+          "evidence": "earnings.surprise_pct",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "A high beta of 1.22 means the stock amplifies market downturns, adding downside risk in a volatile environment.",
+          "evidence": "fundamentals.beta",
+          "grounded": true,
+          "reason": "ok"
+        }
+      ]
+    }
+  },
+  "valuation": {
+    "sym": "FDX",
+    "price": 325.08,
+    "deterministic": true,
+    "inputs": {
+      "pe_ttm": 17.6043,
+      "roe_ttm": 15.110000000000001,
+      "debt_eq": 0.8125,
+      "ps_ttm": 0.8239,
+      "trailing_eps": 18.47,
+      "eps_growth_trend": -0.054,
+      "pe_band": {
+        "bear": 14.1,
+        "base": 17.6043,
+        "bull": 22.0
+      }
+    },
+    "outputs": {
+      "peg": null,
+      "fair_value_basis": "trailing EPS",
+      "fair_value": {
+        "bear": 260.37,
+        "base": 325.08,
+        "bull": 406.25
+      },
+      "upside_base": 0.0,
+      "quality_signals": {
+        "roe_ttm": 15.110000000000001,
+        "debt_eq": 0.8125
+      }
+    },
+    "notes": [
+      "EPS growth = latest actual EPS vs the oldest EPS in the gathered history (rough trend)",
+      "PEG unavailable (no positive EPS growth trend in gathered history)",
+      "P/E band = trailing P/E x 0.8 / 1.0 / 1.25; mechanistic, no sector judgment"
+    ]
+  },
+  "judge": {
+    "convergence": false,
+    "rating": "HOLD",
+    "conviction": 0.55,
+    "scenarios": {
+      "bull": {
+        "prob": 0.3,
+        "pt": 406.25,
+        "thesis": "Strong analyst consensus, recent earnings beats, and a reasonable valuation support upside toward the bull-case P/E band."
+      },
+      "base": {
+        "prob": 0.4,
+        "pt": 325.08,
+        "thesis": "The stock is fairly valued at current levels, balancing positive analyst sentiment and recent beats against insider selling and weak long-term EPS growth."
+      },
+      "bear": {
+        "prob": 0.3,
+        "pt": 260.37,
+        "thesis": "Insider selling, negative 5-year EPS growth, and a high beta could drive the stock toward the bear-case P/E band if market conditions deteriorate."
+      }
+    },
+    "catalysts": [
+      {
+        "catalyst": "Quarterly dividend of $1.22 per share",
+        "date": "2026-09-14",
+        "impact": "positive"
+      },
+      {
+        "catalyst": "Next earnings release",
+        "date": "unknown",
+        "impact": "positive"
+      }
+    ],
+    "risks": [
+      {
+        "risk": "Insider selling continues, signaling lack of confidence",
+        "likelihood": "medium"
+      },
+      {
+        "risk": "High beta amplifies market downturns",
+        "likelihood": "medium"
+      },
+      {
+        "risk": "Long-term EPS growth remains negative",
+        "likelihood": "medium"
+      },
+      {
+        "risk": "Analyst consensus proves overly optimistic",
+        "likelihood": "low"
+      }
+    ],
+    "decision_rationale": "The bull and bear cases present a genuine, unresolved debate: bulls point to strong analyst consensus and recent earnings beats, while bears highlight insider selling and negative long-term EPS growth. The deterministic valuation places fair value at the current price, with a wide band reflecting the uncertainty. Given the balanced risk/reward and lack of convergence, a HOLD rating with moderate conviction is appropriate."
+  },
+  "errors": [],
+  "elapsed_sec": 0.0,
+  "report_path": null,
+  "json_path": null
+}

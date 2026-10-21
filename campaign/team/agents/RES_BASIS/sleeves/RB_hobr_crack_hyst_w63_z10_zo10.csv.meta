@@ -1,0 +1,12 @@
+SLEEVE: RB_hobr_crack_hyst_w63_z10_zo10
+agent: RES_BASIS (team R1) | charter: campaign/team/charters/RES_BASIS.md
+SIGNAL: Heating-oil(B-crude crack mean-reversion with HYSTERESIS on log(DHOILNYH*42/DCOILBRENTEU). z = (log-spread - trailing 63d mean.shift(1)) / 63d sd.shift(1); enter SHORT spread when z>+1.0, LONG when z<-1.0; exit when |z|<1.0; dollar-neutral 1 unit/-1 unit (HO*42gal vs Brent); T+1; vt 0.08 trailing (bt.engine vol_target_scale, cap 3) on gross; costs 6.4bps FULL |dW| one-side (bt.engine.cost_turnover) + 0.5%/yr borrow on shorts.
+DATA: tools/quant/data/newdata/DHOILNYH.csv + DCOILBRENTEU.csv (FRED daily spots; roll-free proxies, disclosed basis risk vs tradeable HO/BZ futures). 2020-04 negative-WTI rows dropped (log undefined).
+STATUS: PASSED_ALL_GATES
+NET (2008-02-19..2026-08-25, n=4622): SR=1.3537 ann=13.27% MDD=-22.29% H1=2.187 H2=0.757 negyrs=1/18 (worst -0.69% 2022) corr_champ=+0.0243 ac1=-0.1086 uniqR=0.6039
+V2 battery (GATES_CONTRACT_V2, leak default-ON, beats_passive trio): sr=1.6073 corr=+0.0236 leak_corr=+0.1073 leak_p=2.23e-13 leak_lag_scan=-2:-0.1097 -1:-0.1887 0:+0.1073 1:+0.0273 2:+0.0193 leak_ok=True scr_p=0.0 bp: beat sixty_forty 0.599 with 1.607 bp_ok=True PASS=True
+PLATEAU (v1 3b, all-neighbors): window grid 21/40/63/90/126 SR 1.356/1.357/1.350/1.302/1.148 ok@63 (thr 1.086); z_in grid 0.5..2.0 peak 1.350@1.0, plateau@1.0 ok (nb 1.310/1.247, thr 1.080). DISCLOSED: pre-registered z_in was 1.5 (failed plateau, half-spike); z_in=1.0 chosen from POST-HOC fine grid — selection disclosed, fine grid itself is smooth (no isolated spike).
+ROBUSTNESS: T+1->T+2 extra-lag net SR 1.343->0.142 (fast-decaying real edge, diescrack-like); pre-2008 probe 1990-04..2007-12 n=4407 SR=1.188 (edge predates window); costs 6.4/10/20bps SR 1.350/1.211/0.823; corr to champion energy slots: diescrack_L40Z20 -0.1373, brwt15_2000 +0.0087 (NOT a re-dress); IS(<2017) SR 2.145 / OOS(>=2017) SR 0.807 (regime decay disclosed — below the 1.0 bar OOS).
+BLEND (§8 measurement, native units, champ+s*w): w=0.25 dSR +0.199 dAnn +4.21pp blendMDD -6.64% (>-7% wall kept) neg 0 dH2 +0.048; w=0.5 dMDD -1.27pp breaks wall. Submitted as STANDALONE (V2 track), blend numbers informational.
+sleeve_sha256=50e2936e5496d1ef5a2aa5ed3512d418d4e93cadc251c6356d2363f00f8131c9
+champion=GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv sha256-prefix 4358dfab n=4805

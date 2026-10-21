@@ -1,0 +1,16 @@
+name=FXCARRY2_R5_TREND_mom126_LS
+status=FAILED_NO_PROMOTION
+family=trend: Frankfurter USD crosses, monthly TS momentum sign, spot-only returns
+span_class=pre2007 (start 1999-08-02); n=6937 1999-08-02..2026-09-07
+SR=-1.040 ann=-6.30% mdd=-83.3% H1=-0.10 H2=-0.96 negyrs=23 worst=-13.1%
+gates: sr_ok=False halves_ok=False neg_ok=False corr_ok=True scr_ok=False leak_ok=True beats_passive_ok=False v2_pass=False
+corr_champ=-0.0101 (ref GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv sha 4358dfab95679b97)
+scramble: gates.run scr_p=0.995 (sig=held gross units); matrix 200x common-lag re-costed p=0.015
+leak_probe: same_period_corr=-0.11669656492653527 leak=False (V2 s6 Step-1: sig= + leak_check=True)
+beats_passive: best=spy_bh sr=0.5329573678653947 margin=-1.0225000468788459
+eraSR: {'2000s': -1.393, 'GFC': -0.123, '2015-21': -1.009, '2021+': -1.991}
+costs: 6.4bps FULL |dW| + 0.5%/yr borrow + 4.5%*max(gross-1,0) margin; T+1 shift(1); VT10 trailing cap3 on portfolio-return series
+engine: campaign/scripts/HUNT_FXCARRY2_round5.py; tests campaign/tests/test_hunt_fxcarry2_r5.py 12/12 green; data campaign/agents/chief/coord/HUNT_FXCARRY2/work_r5/frankfurter/ (manifest.csv + fetch_meta.json, sha256 per series)
+PROVENANCE: an earlier 06:40 run judged the carry books on SPOT returns only (run_all loop corruption: R stayed bound to R_spot for every config) and produced SR -0.525..-0.946 carrying no accrual; artifacts were REGENERATED after the fix and CSV==JSON verified. Verdict unchanged: FAIL either way.
+verdict: IS-SR<=0 IS the result (charter instruction): no drift on any era, crash tail (worst year -13.1%), 23 neg years; family CONFIRMED DEAD on the new source
+

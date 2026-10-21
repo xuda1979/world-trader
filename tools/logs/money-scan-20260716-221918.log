@@ -1,0 +1,70 @@
+=== MONEY-LOOP scan started 2026-07-16 22:19:18 ===
+=== WORLD-TRADER GLOBAL SCAN  2026-07-16T14:19:19+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+-- OPEN NOW: 14 markets --
+   + BR (Brazil (B3))
+   + CA (Canada (TSX))
+   + CH (Switzerland (SIX))
+   + CRYPTO (Crypto (24/7))
+   + DE (Germany (Xetra))
+   + ES (Spain (BME))
+   + FR (France (Euronext Paris))
+   + FUT (Futures (CME/GLOBEX: commodities, bonds, index))
+   + FX (FX (24/5))
+   + IT (Italy (Borsa Italiana))
+   + NL (Netherlands (Euronext Amsterdam))
+   + SE (Sweden (Nasdaq Stockholm))
+   + UK (UK (LSE))
+   + US (US equities)
+
+-- REGIME: RISK-ON  (score +0.53) --
+   VIX=15.67(+0.29)  HY=2.71(+0.90)  10Y-2Y=0.42(+0.42)
+   crypto fear&greed: 25 (Extreme Fear)
+Traceback (most recent call last):
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 623, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/Users/daxu/software/world-trader/tools/scan.py", line 341, in main
+    quotes = report.collect_quotes()
+  File "/Users/daxu/software/world-trader/tools/wt/report.py", line 115, in collect_quotes
+    q, err = sources.stooq_quote(sym)
+             ~~~~~~~~~~~~~~~~~~~^^^^^
+  File "/Users/daxu/software/world-trader/tools/wt/sources.py", line 352, in stooq_quote
+    raw = http_get(f"https://stooq.com/q/l/?s={sym.lower()}&f=sd2t2ohlcv&h&e=csv")
+  File "/Users/daxu/software/world-trader/tools/wt/core.py", line 20, in http_get
+    with urllib.request.urlopen(req, timeout=timeout, context=CTX) as r:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1378, in _send_request
+    self.putrequest(method, url, **skips)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1212, in putrequest
+    self._validate_path(url)
+    ~~~~~~~~~~~~~~~~~~~^^^^^
+  File "/Users/daxu/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1312, in _validate_path
+    raise InvalidURL(f"URL can't contain control characters. {url!r} "
+                     f"(found at least {match.group()!r})")
+http.client.InvalidURL: URL can't contain control characters. '/q/l/?s=s&p500 e-mini&f=sd2t2ohlcv&h&e=csv' (found at least ' ')

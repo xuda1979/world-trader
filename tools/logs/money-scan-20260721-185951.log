@@ -1,0 +1,328 @@
+=== MONEY-LOOP scan started 2026-07-21 18:59:51 ===
+=== WORLD-TRADER GLOBAL SCAN  2026-07-21T10:59:52+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+-- OPEN NOW: 11 markets --
+   + CH (Switzerland (SIX))
+   + CRYPTO (Crypto (24/7))
+   + DE (Germany (Xetra))
+   + ES (Spain (BME))
+   + FR (France (Euronext Paris))
+   + FUT (Futures (CME/GLOBEX: commodities, bonds, index))
+   + FX (FX (24/5))
+   + IT (Italy (Borsa Italiana))
+   + NL (Netherlands (Euronext Amsterdam))
+   + SE (Sweden (Nasdaq Stockholm))
+   + UK (UK (LSE))
+
+-- REGIME: RISK-ON  (score +0.45) --
+   VIX=18.77(+0.08)  HY=2.73(+0.89)  10Y-2Y=0.39(+0.39)
+   crypto fear&greed: 25 (Extreme Fear)
+   [+spillover: 11 cross-asset candidates from 2 themes]
+
+-- LIVE QUOTES: 256 instruments fetched (crypto RT, US, China A-share live, Taiwan live, FX)  [wide US unavailable: net: Remote end closed connection without response]  [+wide CN A-share: 600 of 600 liquid names -> top 120, backtested] --
+
+=== OPPORTUNITIES (ranked by per-trade expected Sharpe = E[R]/sigma) ===
+  markets open now (2026-07-21T11:02:56+00:00): CH, CRYPTO, DE, ES, FR, FUT, FX, IT, NL, SE, UK
+  YOUR BAR to qualify: E[R]>=+1%/trade, sigma<=7%*sqrt(h/5), Sharpe>=0.40, n>=20, t>=2 (Bonferroni-adj.), OOS Sharpe>0
+  >> markets open (CH, CRYPTO, DE, ES, FR, FUT, FX, IT, NL, SE, UK) but no positive-expectancy edge measured this scan -- stand aside. An empty table is the honest answer.
+
+-- MACRO / RATES / CREDIT (FRED) --
+  US 3M yield                      3.85  (2026-07-17)
+  US 2Y yield                      4.18  (2026-07-17)
+  US 10Y yield                     4.55  (2026-07-17)
+  US 30Y yield                     5.06  (2026-07-17)
+  10Y-2Y spread                    0.39  (2026-07-20)
+  10Y-3M spread                    0.74  (2026-07-20)
+  Fed funds                        3.63  (2026-07-17)
+  VIX                             18.77  (2026-07-17)
+  US HY credit spread              2.73  (2026-07-17)
+  US IG credit spread              0.79  (2026-07-17)
+  WTI oil                          79.2  (2026-07-13)
+  Brent oil                       81.62  (2026-07-13)
+  USD/EUR                         1.144  (2026-07-17)
+  Broad USD index              120.5315  (2026-07-17)
+  Fin conditions index         -0.53800  (2026-07-10)
+  Fed balance sheet             6743028  (2026-07-15)
+  M2 money supply               23052.3  (2026-05-01)
+  Unemployment rate                 4.2  (2026-06-01)
+  CPI                           332.568  (2026-06-01)
+  5Y inflation breakeven           2.28  (2026-07-20)
+  UST curve: 3M 3.85%  2Y 4.18%  10Y 4.55%  30Y 5.06%
+
+-- CATALYST CALENDAR (next 14d; today=2026-07-21) --
+  (no actionable upcoming catalysts found)
+  errors: earnings: net: Remote end closed connection without response; ipo: net: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081); dividends: net: Remote end closed connection without response
+
+-- NEWS (expanded feeds) --
+  [MarketWatch]
+    - We have $8 million in traditional IRAs. Should we tap them to buy a house — and take the tax hit?
+    - Adobe stock has been crushed by AI fears. Now Morgan Stanley has cut its rating to underweight.
+    - I will definitely claim Social Security early. Why do so few people talk about the elephant in the room?
+  [Nasdaq-Mkts]
+    - 2 Glorious Growth Stocks Bucking the Recent Tech Sell-Off
+    - Synchrony Q2 Earnings Decline; Reaffirms FY26 Outlook
+    - General Motors Company Q2 Income Drops
+  [Nasdaq-Stocks]
+    - Stocks Pressured as Middle East Hostilities Boost Inflation Risks
+    - Bull of the Day: Taiwan Semi (TSM)
+    - New Strong Sell Stocks for July 21st
+  [SeekingAlpha]
+    - Alphabet Q2 Preview: Brace For A Blowout EPS That Won't Mean What You Think
+    - Blue Owl Technology Finance: A Deep Discount To Book, But The Marks Are On Trial
+    - Karyopharm Therapeutics: Balance Sheet Poor But Catalysts Ahead
+  [Investing]
+    - Halliburton second-quarter profit rises on Europe, Latin America demand
+    - Why is General Motors stock slipping today?
+    - Gold advances as Middle East diplomacy efforts soothe inflation, rate fears
+  [Yahoo-Fin]
+    - Earnings live: AMC stock soars 26% on 'superb' Q2, Domino's stock rises
+    - Stock market today: Nasdaq leads Dow, S&P 500 futures higher as chip stocks revive
+    - How Mastercard, Visa, Apple Pay and PayPal performed at the World Cup
+  [Benzinga]
+    - Best AI Stocks
+    - Top Performing High Short Interest Stocks
+    - Top Performing Platinum Stocks
+  [Zerohedge]
+    - Blackstone Just Made A Physical AI Bet On Actuator-Maker Powering Humanoid Robots
+    - Did Scientists Just Solve The Biggest Mystery Holding Back Solid-State Batteries
+    - "Demand Signal Is Real": US Bipartisan Senate Delegation Touts Defense Boom At Farnborough Airshow
+  [WSJ-Markets]
+    - We have $8 million in traditional IRAs. Should we tap them to buy a house — and take the tax hit?
+    - Adobe stock has been crushed by AI fears. Now Morgan Stanley has cut its rating to underweight.
+    - I will definitely claim Social Security early. Why do so few people talk about the elephant in the room?
+  [FT-Markets]
+    - Burnham move to eliminate VAT on electricity bills sparks funding row
+    - Lack of UK jobs growth highlights challenges for Burnham
+    - A break with the Starmer era — except at the Treasury
+  [CNBC-Top]
+    - U.S. strikes Iran and Houthis threaten Saudi Arabia shipping as mediators push 10-day ceasefire
+    - Jamie Dimon says markets underestimate risks and he wouldn't buy stocks or Treasurys at current prices
+    - GM beats on earnings, raises guidance amid resilient vehicle pricing
+  [CNBC-Markets]
+    - GM beats on earnings, raises guidance amid resilient vehicle pricing
+    - Jamie Dimon says markets underestimate risks and he wouldn't buy stocks or Treasurys at current prices
+    - Paramount and Warner Bros. merger hit with temporary restraining order
+  [FedPress]
+    - Agencies issue joint statement on handling of highly sensitive information during bank examinations
+    - Federal Reserve Board issues enforcement action with former chief lending officer of Heritage State Bank
+    - Minutes of the Board's discount rate meetings on June 8 and June 17, 2026
+  [ECB]
+    - July 2026 euro area bank lending survey
+    - Survey on the Access to Finance of Enterprises: lending conditions tightened
+    - Piero Cipollone: The cooperative spirit at the heart of the digital euro
+  [BoE]
+    - PRA fines HDI Global SE £4,165,000 for inaccurate reporting of FSCS Liabilities and FSCS Fee Tariff data
+    - PRA and FCA propose new captive insurance regime to drive UK growth and competitiveness
+    - Minutes of the Money Market Committee meeting – June 2026
+  [BoJ]
+    - Loan Disbursement under the Funds-Supplying Operations to Support Financing for Climate Change Responses
+    - Senior Loan Officer Opinion Survey (July)
+    - BOJ Current Account Balances by Sector (June)
+  [Cointelegraph]
+    - Bitcoin price gains to $66.3K as range breakout attempt sparks one-month high
+    - UK parliamentary group probes banking barriers for crypto firms
+    - Bitcoin ETFs post 5-day inflow streak, longest since May
+  [Decrypt]
+    - Worldcoin’s WLD Jumps 8% on Grayscale ETF Filing
+    - UK Lawmakers Launch Inquiry Into Crypto Banking Access
+    - Bank of Korea Scales Up CBDC Pilot With Half a Million Users
+  [TheBlock]
+    - CoinShares launches UCITS platform targeting Europes institutional investors
+    - London Stock Exchange plans overnight venue to extend trading hours: FT
+    - UK parliamentary group launches probe into crypto sectors banking challenges
+  [ForexLive]
+    - Nasdaq analysis today
+    - EUR/USD stays rangebound ahead of ECB policy announcement as traders await Trump's decision on Iran
+    - The S&P 500 stays rangebound as traders await Trump's decision on ceasefire or full-scale war
+  [OilPrice]
+    - India Keeps Buying Russian Oil at Near-Record Pace Despite Expired Waiver
+    - Pakistan Shells Out Record Sums for Spot LNG as Qatar Supply Falters
+    - ADNOC Approves $6.2 Billion Gas Project in Abu Dhabi
+  [Mining.com]
+    - Rule Symposium Video: Central banks double gold-buying pace
+    - Tactical Resources gets Nasdaq approval; to accelerate Texas rare earths project
+    - Copper price rises as key China gauge hits one-year high, Chile output losses mount
+  [JapanTimes]
+    - Akashi crowd crush victims remembered 25 years on
+    - Indian brothers make manga debut in Japan
+    - Takaichi’s popularity dips after prioritizing controversial laws
+  [SCMP-Biz]
+    - US biotech firm developing therapies for infant brain injuries plans Hong Kong listing
+    - Can Beijing’s stock support deliver a long bull run and fuel its high-stakes tech drive?
+    - China stocks rebound from AI sell-off amid national team support
+  [ET-Markets]
+    - Adani Total Gas Q1 Results: Profit falls 14% YoY to Rs 142 crore, revenue jumps 27%
+    - Global Market: Euro zone banks tighten credit standards amid geopolitical risks, ECB survey shows
+    - TVS Motor shares jump 6% after Q1 net profit soars 67% YoY to Rs 1,019 crore, revenue up 33%
+  [SpaceNews]
+    - Agile Space Industries Appoints new CTO and Board member.
+    - KBR organizes defense technology business to pursue Golden Dome work
+    - IHI explores Kuva hyperspectral satellites for Japan’s multi-sensor constellation
+  [TechCrunch]
+    - Gritt exits stealth with $34 million for robots to build solar plants—then, everything else
+    - Anthropics landmark $1.5B copyright settlement is approved
+    - Colossal Biosciences reportedly in talks to raise new capital at $20B–$30B valuation
+  [TheRegister]
+    - Viking 1 landed on Mars 50 years ago
+    - Scalding hot AI accelerators have put datacenters in hot water. Two-phase cooling could chill them out
+    - Some Mullvad VPN customers tunnel for exit after co-founder donates millions to populist party
+  [PV-Magazine]
+    - Periodic groove glass boosts high-angle light capture for facade PV
+    - Octopus Energy launches 100 controllable homes in bid to achieve zero electricity costs over a decade
+    - Segen shifts beyond solar distribution with new finance tools and full home electrification strategy
+  [Electrek]
+    - Tesla puts Starlink antenna in Cybercab
+    - The Hyundai IONIQ 5 is flying off dealer lots, and its getting harder to find
+    - The US’s first UL 3700 balcony solar microinverter is here
+  [Investing-UK]
+    - BofA turns neutral on GBP after rally toward target
+    - Dollar hovers near one-week high as Mideast tensions keep markets wary
+    - UK borrows less in June but fiscal challenge for Burnham remains huge
+  [CityAM]
+    - What should sport expect from Andy Burnham and Lisa Nandy?
+    - IHT receipts hit record high as Rachel Reeves frozen bands raid plague Brits
+    - Fulham sign up $15bn Silicon Valley tech and AI firm ClickHouse as front-of-shirt sponsor
+  [Handelsblatt]
+    - Flugzeugbau: Duell mit Boeing: Warum Airbus zusehends seinen Vorsprung einbüßt
+    - Topbanker im Interview: Barclays-Chef: „Internationale Private-Equity-Häuser stehen bei deutschen Unternehmen Schlange“
+    - +++ Iran-Krieg +++: Pentagon soll Angriffe auf US-Soldaten verschwiegen haben
+  [Investing-DE]
+    - Halliburton second-quarter profit rises on Europe, Latin America demand
+    - Why is General Motors stock slipping today?
+    - Gold advances as Middle East diplomacy efforts soothe inflation, rate fears
+  [Investing-IT]
+    - Morning Bid: Tariff reprise
+    - Oil prices firm as investors weigh fresh attacks against potential US-Iran ceasefire
+    - Oil prices dip as traders weigh U.S.-Iran conflict, Houthi’s Saudi blockade threat
+  [NikkeiAsia]
+    - Malaysian electric vehicle sales overtake hybrids as market shifts
+    - China-US spat over South China Sea threatens to overshadow ASEAN meeting
+    - Mainland publishers raise profile at Hong Kong Book Fair
+  [JijiPress]
+    - 外交官全員の情報流出か　外務省傘下機関にサイバー攻撃―韓国
+    - 中国「国際法に合致」　日本ＥＥＺ内の訓練
+    - 「おしん」「はね駒」元ＮＨＫプロデューサー小林由紀子さん死去
+  [EconTimes]
+    - Indian rupee gains as oil comes off; inflows, RBI intervention in focus
+    - Eternal Q1 Results Preview: All eyes on Blinkit to drive earnings. Here's what investors can expect
+    - Adani Total Gas Q1 Results: Profit falls 14% YoY to Rs 142 crore, revenue jumps 27%
+  [LiveMint]
+    - SBI has no plans for further stake sale in SBI Funds after IPO: chairman Setty
+    - Lohia Corp IPO: 10 key things investors should know before subscribing to  ₹1,101.28 crore public issue; check GMP
+    - Oil Swings as Traders Weigh Slew of Risks From Hormuz to Red Sea
+  [BusinessStd]
+    - Sensex settles 238 pts lower; Nifty ends below 24,200 mark; VIX slides 2.92
+    - Zen Technologies gains after bagging Rs 178-crore Defence Ministry order
+    - Granules India records 60% YoY increase in Q1 PAT
+  [HinduBiz]
+    - Aditya Birla Sun Life AMC Q1 profit rises 12% to ₹309.5 crore
+    - Choice International bags ₹191 crore in government contracts in Q1 FY27
+    - Atlanta Electricals shares slide 5% despite strong Q1 results; stock hits lower band
+  [EM-Investing]
+    - Zawa Launches AI Video Watermark Remover for Faster Video Cleanup and Content Reuse
+    - GlobalPay CEO Joins Global Finance Forum to Discuss Digital Finance Opportunities and Investment Strategies
+    - The Future of Game Studios Won’t Be Bigger- They’ll Be Smarter
+  [MiningCom]
+    - Rule Symposium Video: Central banks double gold-buying pace
+    - Tactical Resources gets Nasdaq approval; to accelerate Texas rare earths project
+    - Copper price rises as key China gauge hits one-year high, Chile output losses mount
+  [MetalMiner]
+    - How Aclara Plans to Build a Rare Earth Supply Chain Without China by 2028
+    - How to Judge Forecast Performance in Metals: Setting up an MCP for Metal Prices
+    - What Ideal Metal Price Forecasting Looks Like for Decision-Makers
+  [FarmProgress]
+    - Scholarships promote next generation in agriculture
+    - How bad will corn sweat be this summer?
+    - Why foreign visitors flock to Farm Progress Show
+  [CryptoSlate]
+    - Oil is back near $90, so why is Bitcoin still above $66,000?
+    - Bitcoin breaks $66k as US debt hits $39.5 trillion creating Bitcoin’s next liquidity test for August 3
+    - FTX begins $900M payout as creditors in 45 countries could lose their claims within 6 months
+  [BeInCrypto]
+    - Koreas Biggest XRP Market Is Cooling Just as Leverage Climbs Elsewhere
+    - Wall Street Veteran Says Tesla Stock is About to Fall, and $550 Million Agrees
+    - WEEX TradFi: One USDT Account for Stocks, Gold, Oil, and Global Markets
+  [NewsBTC]
+    - Aave Picks Chainlink CCIP As Default Standard For Cross-Chain sGHO
+    - Tesla Earnings Put 11,509 BTC Treasury Back In Focus
+    - Bitcoin BIP-361 Draft Puts Quantum Security Back On The Agenda
+  [BitcoinMag]
+    - Bitcoin Miner Hut 8 Shares Jump on $9.8 Billion AI Data Center Deal
+    - Metaplanet’s Bitcoin Japan Announces Plan to Scoop Up Coins Despite Market Downturn
+    - Bitcoin-Treasury Capital B Plans 10-for-1 Reverse Stock Split for September
+  [TheDefiant]
+    - SummerFi to Wind Down After Seven Years, Citing Exploit
+    - eToro Takes Strategic Stake in Onchain Derivatives Exchange Extended, Plans Zengo Tie-Up
+    - NEAR Governance Votes to Scrap Developer Gas Rebate
+  [Investing-FX]
+    - BofA turns neutral on GBP after rally toward target
+    - Dollar hovers near one-week high as Mideast tensions keep markets wary
+    - UK borrows less in June but fiscal challenge for Burnham remains huge
+  [Pandaily]
+    - Zhipu AI Computing Ambitions Surface: 1GW Data Center, Hundreds of Millions in Infrastructure Acquisition, and Self-Developed Chip Plans Signal Nvidia Independence Push
+    - XPower Technology Defies Big-Chip Orthodoxy: Small RPP Architecture Chips Use Distributed Computing to Beat Giants at AI Inference
+    - Tencent ProLaViT Teaches Multimodal LLMs to Reason Step-by-Step in Latent Space, Ending Swallowing-Whole Visual Reasoning Failures
+  [TechNode]
+    - BrainCo demos thought-controlled robots at WAIC 2026
+    - Moore Threads packs 256 GPUs into its MTT C256 system
+    - Alibaba outlines Qwen3.8 with 2.4 trillion parameters
+  [ChinaBriefing]
+    - The Greater Bay Area IIT Subsidy for 2026 Kickstarts in Shenzhen
+    - US-China Relations in the Trump 2.0 Era: A Timeline
+    - Why China is Still the Top 1 Manufacturing Destination in Asia
+  [VentureBeat-AI]
+    - The AI compute gap: Enterprises are buying infrastructure faster than they can measure what it costs
+    - The agent security gap: 54% of enterprises have already had an AI agent incident, and most still let agents share credentials
+    - The AI context gap: Enterprise AI organizations have a trust problem, not a retrieval problem — and most are still building the fix
+
+-- SEC 8-K MATERIAL CATALYSTS (last 3 days) --
+  (unavailable: net: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081))
+
+-- INSIDER CLUSTER BUYS (last 30d, >=2 insiders) --
+  (unavailable: RemoteDisconnected: Remote end closed connection without response)
+
+-- DEFI STABLECOIN YIELDS (top 8 by APY, TVL >=$10M) --
+  (unavailable: RemoteDisconnected: Remote end closed connection without response)
+
+-- SHORT SQUEEZE WATCH (SI% float >= 10%) --
+  (no high-SI names found)
+
+-- ENERGY SNAPSHOT (FRED weekly) --
+  (altdata2 error: TypeError: unsupported format string passed to NoneType.__for)
+
+research only, not financial advice. verify before acting.
+
+[scan task log]
+  - 18:59:52  regime: gathering FRED macro / VIX / fear-greed
+  - 18:59:59  regime: RISK-ON score=+0.45
+  - 18:59:59  quotes: collecting global universe (crypto/US/CN/TW/HK/FX/futures/indices + region/macro ETFs)
+  - 19:01:56  quotes: 125 curated instruments fetched
+  - 19:01:56  wide US funnel: pulling ~12k tickers from Polygon, pre-screening top 150
+  - 19:01:59  wide US funnel: 0 of 0 -> top 150 backtested [err: net: Remote end closed connection without response]
+  - 19:01:59  spillover funnel: scanning RSS headlines for theme keywords -> peer candidates
+  - 19:02:11  spillover funnel: 12 candidates across 2 themes -> 12 fetched
+  - 19:02:11  wide CN funnel: pulling ~5,500 A-shares, pre-screening top 120
+  - 19:02:14  wide CN funnel: 600 of 600 -> top 120 backtested
+  - 19:02:14  opportunities: building candidate set from quotes + regime
+  - 19:02:14  opportunities: 80 raw candidates
+  - 19:02:14  backtest: enriching with technicals + E[R]/sigma/Sharpe
+  - 19:02:42  backtest: per-candidate family m=7 (global total=99) -> Bonferroni t>=2.69
+  - 19:02:42  news enrichment: Finnhub headlines + Polygon sentiment per candidate
+  - 19:02:42  news enrichment: done (0 candidates have fresh headlines)
+  - 19:02:42  catalyst enrichment: scanning Finnhub earnings/FDA/IPO + Polygon dividends
+  - 19:02:43  catalyst enrichment: 1 candidates have a near-term catalyst (+1 new)
+  - 19:02:43  PEAD confirmation: looking up recent earnings surprises for PEAD setups
+  - 19:02:43  PEAD confirmation: 0 PEAD setups confirmed by earnings surprise (+0 new)
+  - 19:02:43  options enrichment: pulling ATM straddles (CBOE) for top US candidates
+  - 19:02:45  options enrichment: 3 candidates have an RV/IV signal (+3 new)
+  - 19:02:45  country crisis: scanning 32 country ETFs for crisis signals
+  - 19:02:56  country crisis: 0 candidates in crisis (+0 new)
+  - 19:02:56  veto gate: 0 rows vetoed (0 crash-in-progress, 0 news-contradicts) -> PASS rows 1 -> 1
+  - 19:02:56  catalysts: printing freshest company news for top candidates
+  - 19:02:56  alt-data: pulling FRED macro/rates/credit, treasury curve, BTC funding, COT
+  - 19:03:06  catalyst calendar: Finnhub earnings/FDA/IPO + Polygon dividends (14d)
+  - 19:03:07  expanded news: sweeping all RSS feeds (equities/macro/CB/crypto/FX/commodities/regional)
+  - 19:03:20  expanded news: 55 feeds ok, 43 feeds failed
+  - 19:03:20  GDELT: 24h global market tone sweep
+  - 19:03:20  altdata2: SEC 8-K + insider clusters + DeFi yields + short squeeze + energy

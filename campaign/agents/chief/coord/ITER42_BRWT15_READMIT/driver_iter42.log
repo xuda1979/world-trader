@@ -1,0 +1,35 @@
+--------- ITER42 brwt15 RE-ADMISSION driver (2026-09-19 session 22). FINDINGS_PRECOMMIT.md sha16 2b204b1a5f3f4e0c (with Amendment 1) sealed BEFORE this run.
+FROZEN-BLOCK check: fit_relw/apply_cap/project_wmax/build_book text-identical to driver_iter41.py AND driver_iter36.py
+Champion sha16 pre-run: 8559fa55ee9a3417 / weights d2d11c92a98683df / precommit 2b204b1a5f3f4e0c
+A1 sibling recon brwt10 ok=True maxdev=9.999e-17 inner=6567 committed_nonnan=6567
+A1 sibling recon brwt7 ok=True maxdev=9.986e-17 inner=4580 committed_nonnan=4580
+A1 sibling recon brwt5 ok=True maxdev=9.996e-17 inner=4580 committed_nonnan=4580
+A1 ii-prime overlap-calendar identical=True  regen n=6567 tail end=2026-08-28 (siblings 2026-08-28)
+ANCHOR A2 projection-identity on incumbent: maxdev=0.0 (need exactly 0)
+ANCHOR A2 weights maxdev=8.327e-17  bytes maxdev=9.996e-17 n=4806  grossmax=1.000000000
+ANCHOR A2 rows=1809 k=11 Wmax_sf(x11)=1.8115x IS-SR=4.198632 (continuity 4.198632)
+
+CELL: 13-pool (committed 12 + brwt15 R6-convention regen), house rule, gear 1.0
+  fit rows=1809 k=12  proj identity=4.094e-03
+  relw15 raw=0.083992 projected=0.083992  CFX4=0.0e+00  Wmax_sf(x12)=2.0000x  grossmax=1.000000000
+  IS-SR=4.294412 (bar 4.198632)  IS-MDD=-2.5796 pct  IS negyrs=0
+
+REVEAL book: 13-pool at projected fit weights, gear 1.0, n=4806 (2008-03-31..2026-08-28)
+  FS SR=3.721744 (incumbent 3.751429)  ann arith=21.6532 pct  cagr=23.9585 pct  MDD=-3.7569 pct  negyrs=0
+  grossmax=1.000000000  turnover=4.0585 bp/yr  margin=0.0000 pct/yr  Wmax_sf=2.0000x (k=12)  CFX4=0.0e+00
+  bin 2017-18 dSR=-0.0742 (cand 4.7008 vs inc 4.7750)
+  bin 2019-20 dSR=-0.1884 (cand 3.8354 vs inc 4.0238)
+  bin 2021-22 dSR=+0.1005 (cand 2.3362 vs inc 2.2356)
+  bin 2023-24 dSR=+0.0715 (cand 4.7683 vs inc 4.6968)
+  bin 2025-26 dSR=+0.0689 (cand 3.5917 vs inc 3.5229)
+  GATE 1 FS ann>=20pct                PASS
+  GATE 2 gross<=1.6                   PASS
+  GATE 3 FS MDD>=-7pct                PASS
+  GATE 4 0 FS neg yrs                 PASS
+  GATE 5 CFX4=0                       PASS
+  GATE 6 Wmax_sf<=2.0x (k=12)         PASS
+  GATE 7 OOS police                   FAIL
+  GATE 8 fit-window shrink<=2pct      PASS
+
+VERDICT: REJECT - failed gates: 7 OOS police (no second reveal per precommit)
+Champion sha16 post-run: 8559fa55ee9a3417 / weights d2d11c92a98683df (pre==post: True)

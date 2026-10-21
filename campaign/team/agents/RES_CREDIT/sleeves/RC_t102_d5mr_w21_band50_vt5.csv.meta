@@ -1,0 +1,20 @@
+RES_CREDIT R1 primary candidate — VERDICT: REJECT (charter SR>=1.5 gate; PASS all other gates).
+Engine: 2s10s (t10y2y, FRED) 5-day-change mean-reversion. Signal: z of d5 curve move vs
+trailing 21d mean/sd (stats shift(1), T+1); weight = clip(-z/2, +-0.5), zero when |z|<=0.5
+(no-trade band); rpu = daily t10y2y bp change; vol-target 5% trailing (cap 3.0); costs
+6.4bps full |dW| + 0.5%/yr borrow on shorts. Charter FIRST STEP: corr to champion -0.0198
+(|corr|<0.15 PASS) - the only candidate family fully decorrelated across all grids.
+Full: n=5392 2005-01..2026-08, book SR_d 0.922 (per-unit V2 battery SR 1.062), ann_geo
+5.15%, MDD -13.52%, H1 0.838 / H2 1.396, neg yrs 2 worst -4.47%, ac1 -0.018, uniqR 0.525,
+scr_p 0.000 (200x block-20 scramble), leak_ok True (V2 Step-2 default-on). Plateaus:
+win 0.694/0.792/0.922/0.810/0.800/0.766 (w=10..63) OK; band 0.874/0.922/0.808 (0.25/0.5/0.75)
+OK; lag 4/5/6/7 = 0.722/0.922/0.781/0.629 - w=21 l=5 chosen point FAILS plateau_ok (6>=0.738
+but 4<0.738), lb=6 variant SR 0.781 book / 0.913 per-unit, still < 1.5. Start-cuts: 2007+
+0.854, 2010+ 1.030, 2013+ 1.193, 2016+ 1.217, 2019+ 1.351, 2022+ 1.118, 2024+ 1.861 (edge
+improves recently but full-span SR<1.5). scrub5 x10 min 0.897 mean 0.924 (edge is diffuse).
+DISCLOSURES: (1) REJECTED on the charter's SR gate despite full V2 battery pass - honest
+reject-with-numbers deliverable. (2) deep-history DGS10-DGS2 version (1980+) collapses to
+SR 0.118 (11 neg yrs) - edge is regime-specific to post-2005 curve dynamics, not a 40y law.
+(3) rpu = bp change of t10y2y approximates a 2s10s futures fly; real execution on flies
+would face wider costs than 6.4bps ETF proxy (C2 rates-fly warning) - do NOT promote on
+paper numbers alone. (4) t10y2y FRED span starts 2005 only (hfs copy ends 2026-08-12).

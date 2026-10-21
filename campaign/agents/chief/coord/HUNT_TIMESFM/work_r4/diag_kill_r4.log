@@ -1,0 +1,41 @@
+=== (b) forecast-magnitude 0.7x overlay on champion (a-priori: pct>0.8 -> 0.7x, N=252) ===
+cand  (|fcst| pct>0.8 ->0.7x): dSR=+0.174 SR=3.355 days_on=112
+b1    (champ own vol pct>0.8): dSR=+0.099 SR=3.280 days_on=1504
+b2    (constant 0.993x):        dSR=-0.006 SR=3.175
+  -- plateau (objective dSR; neighbors within 20% of peak required) --
+  thr=0.6: dSR=-0.049
+  thr=0.7: dSR=+0.098
+  thr=0.8: dSR=+0.174
+  thr=0.9: dSR=+0.118
+  scale=0.6: dSR=+0.221
+  scale=0.7: dSR=+0.174
+  scale=0.8: dSR=+0.120
+  scale=0.9: dSR=+0.059
+  -- era split of dSR contribution --
+  08-12: dSR=-0.053 days_on=0
+  13-19: dSR=-0.043 days_on=43
+  20-26: dSR=+0.264 days_on=48
+  gated days: n=112, mean champ ret=+0.5bp, share positive=56%
+  top-6 |dSR contrib| days (champ ret, gated?):
+    2020-03-19 champ=+17.78% on=True
+    2020-03-20 champ=+14.03% on=True
+    2020-03-09 champ=+5.69% on=True
+    2020-03-18 champ=+4.67% on=True
+    2008-03-31 champ=+1.25% on=False
+    2020-04-08 champ=+4.05% on=True
+=== (a) gross vs net, direction hit-rate ===
+  QQQ: grossSR=+0.204 netSR(vt off)=-0.144 dir-hit=0.000 annTO=112.1x
+  XLE: grossSR=+0.145 netSR(vt off)=-0.151 dir-hit=0.000 annTO=125.7x
+  XLF: grossSR=+0.065 netSR(vt off)=-0.242 dir-hit=0.000 annTO=122.7x
+  TLT: grossSR=-0.137 netSR(vt off)=-0.804 dir-hit=0.000 annTO=153.8x
+  GLD: grossSR=-0.244 netSR(vt off)=-0.799 dir-hit=0.000 annTO=144.3x
+  EEM: grossSR=-0.139 netSR(vt off)=-0.570 dir-hit=0.000 annTO=143.4x
+=== (b) formal plateau gates (bt.gates.plateau_ok) on dSR grids ===
+  thr grid {0.6: -0.04855083914826919, 0.7: 0.09828514896648421, 0.8: 0.17440582503963675, 0.9: 0.11803090806480165} -> plateau_ok=(False, {'neighbors': {0.7: 0.09828514896648421, 0.9: 0.11803090806480165}, 'peak': 0.17440582503963675, 'threshold': 0.1395246600317094, 'good_neighbors': [], 'edge': False})
+  scale grid {0.6: 0.22085447838184935, 0.7: 0.17440582503963675, 0.8: 0.11980532000859778, 0.9: 0.059055356763528355} -> plateau_ok=(False, {'neighbors': {0.6: 0.22085447838184935, 0.8: 0.11980532000859778}, 'peak': 0.22085447838184935, 'threshold': 0.17668358270547949, 'good_neighbors': [0.6], 'edge': False})
+=== (b) candidate vs b1 control: robustness of the DELTA ===
+  excl 2020-03/04: cand dSR=-1.009 b1 dSR=-2.222
+  H1: cand dSR=-0.747 b1 dSR=-2.095
+  H2: cand dSR=-0.853 b1 dSR=-1.944
+  cand-minus-b1 dSR diff: point=+1.886 95%CI=[+1.454,+2.284] P(diff>0)=1.000
+  overlay mask scramble p=0.0 (real masked-book SR=3.387)

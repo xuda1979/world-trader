@@ -1,0 +1,22 @@
+=== loop_team/DATA_MORE_FRED start Thu Sep  3 15:00:31 CST 2026 ===
+**Mission complete.** Summary of what was delivered with full rigor:
+
+## DATA_MORE_FRED Results
+
+**TDD (watched RED→GREEN + revert-check):** 19 tests in `test_fred_dl.py`, final fresh run `19 passed in 0.02s`. RED observed twice before implementation existed (ModuleNotFoundError; then 7 v2-spec failures). Revert-check confirmed the contiguous-hole test kills a neutered linter.
+
+**Delivered:** 26 new lint-passed FRED series + `manifest.csv` in `tools/quant/data/more_fred/` (1.8 MB) — the decorrelated helpers the charter prioritized: credit (AAA/BAA monthly since 1919, DAAA/DBAA/BAA10Y daily), real yields (DFII5/20/30), rates (FEDFUNDS, TB3MS, TB6MS, DFF daily 26,361 obs), macro (UNRATE, CPIAUCSL, INDPRO, PERMIT, HOUST, RRSFS, UMCSENT, REALLN), money/liquidity (MZM weekly, TWEXAFEGSMTH), and **four vol indices** (VXVCLS, OVXCLS, GVZCLS — all new to the project).
+
+**Root-caused bugs/anomalies (no symptom fixes):**
+1. `fetch()` returned inconsistent shapes on failure → TDD-fixed to a strict contract.
+2. Count-based gap tolerance let a 5-day contiguous hole pass → redesigned to contiguous-run semantics (daily: fail any run ≥3; weekly/monthly: zero tolerance).
+3. **2025-10 hole in UNRATE/CPIAUCSL/RRSFS verified real upstream** (`value='.'` in FRED payload, direct query) — stored with documented manifest exception, never silently passed.
+4. UMCSENT pre-1978 quarterly era trimmed (→0 gaps); MZM's 2021-02 end verified as true FRED discontinuation.
+
+**4 honest failures** with exact FRED messages: DFOIL, GASBREW, H15TBS/H15, MOVE — all "The series does not exist" (MOVE bond-vol is genuinely not on FRED; flagged as needing an alternative source). All remaining charter series verified already on disk (inventory quoted in FINDINGS).
+
+**Verification:** independent disk-truth re-lint 26/26 PASS; API↔disk last-row cross-check exact on 3 series (DFF 3.63, BAA10Y 1.58, VXVCLS 18.33); all writes confined to the designated dir; champion files untouched.
+
+Full evidence table in `campaign/agents/loop_team/DATA_MORE_FRED/FINDINGS.md`.
+
+DATA_MORE_FRED DONE

@@ -1,0 +1,171 @@
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609061951015bc1be2c46bc4883]
+=== HUNT_FXCARRY2 round 1 end Sun Sep  6 19:51:01 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907015844b0192cd10adf405e]
+=== HUNT_FXCARRY2 rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907020845345401e7564c483d]
+=== HUNT_FXCARRY2 rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090702142270c404fd584a46d3]
+=== HUNT_FXCARRY2 rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070218539340eb2c4c584809]
+=== HUNT_FXCARRY2 rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907023253f0901fa39a9849ee]
+=== HUNT_FXCARRY2 rate-limited or errored (attempt 5, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907031814a2eee6f86b834f1e]
+=== HUNT_FXCARRY2 rate-limited or errored (attempt 6, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907033327960c452619364bc3]
+=== HUNT_FXCARRY2 rate-limited or errored (attempt 7, rc=1); backing off ===
+Round 2 executed. Summary:
+
+**Step (a) DATA — PASS.** 29/29 linted FRED series written to `tools/quant/data/more_fx/` with manifest (this was done by the fetch script per charter): daily DEX FX back to 1971-73 for most pairs, monthly IRSTCI01 immediate rates for 9 currencies (charter's `IR3T01*` ids verified NOT to exist on FRED; IRSTCI01 used instead), plus CPALTT01 CPIs for real carry. Zero splices, fail-closed lint.
+
+**Step (b) CARRY — hard FAIL on every charter variant** (2004+, n=5680, T+1, 6.4bps full-|dW| + borrow + margin, interest-rate-parity accrual credited daily):
+
+| variant | net SR | scramble p | verdict |
+|---|---|---|---|
+| carry-nominal-EW (flagship) | −0.004 | 0.760 | FAIL |
+| carry-real (CPI-deflated) | −0.131 | 0.245 | FAIL |
+| carry+mom63 | −0.026 | 0.620 | FAIL |
+| carry vol-scaled | −0.097 | 0.855 | FAIL |
+| HML 2v2 / 3v3 rank | +0.074 / +0.009 | 0.70 / 0.71 | FAIL |
+| momentum-252 (control) | −0.174 | 0.530 | FAIL |
+
+**Why it's a genuine negative, not a framework bug:** gross (pre-cost) SR is only **0.106** — costs aren't the story, there's no edge to tax. Accrual drift is just +1.25%/yr against a −19.4% 2008 crash year. The yearly profile (+6.7/+3.7% in 04-05, −19.4% in 08, +11.5% in 09, noise after) is the textbook carry-crash signature, confirming sign conventions and T+1 machinery are correct. Window sweep: 1990+ SR 0.230, 1999+ 0.177, 2004+ −0.004, 2012+ 0.092 — the factor died with the GFC; every window fails SR/halves/scramble gates. Book-level scramble (200×) says real SR is indistinguishable from shuffled.
+
+**Artifacts:** engine `campaign/scripts/HUNT_FXCARRY2_round2.py`, flagship sleeve CSV + meta saved in `sleeves/`, DEAD_IDEAS.csv row appended, full numbers in FINDINGS.md ending with `ROUND 2 DONE`.
+=== HUNT_FXCARRY2 round 2 end Mon Sep  7 03:47:50 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070804441f773346641e4ed2]
+=== HUNT_FXCARRY2 rate-limited or errored (attempt 1, rc=1); backing off ===
+Round 3 complete. Both charter items executed, FINDINGS.md ends with the exact required line, and the DEAD_IDEAS row is recorded.
+
+## Round 3 summary
+
+**Charter (b) — Cross-verify HUNT_INTERNATIONAL2: CONFIRMED.** Recomputed everything from their sleeve CSV alone (`HUNT_FXCARRY2_r3_crossverify.py`): SR **0.5641** vs claimed 0.564 (Δ=0.000), all 7 negative years match their list, corrChamp -0.0336 vs -0.033, lag-1 autocorr -0.0075 rules out the R1-style same-day leak. Their negative is honest. No escalation needed.
+
+**Charter (a) — Tail-controlled carry: all three mechanisms FAIL**, and the reason is arithmetic, not implementation:
+
+| variant | net SR | scramble p | verdict |
+|---|---|---|---|
+| R2 baseline | -0.004 | 0.760 | FAIL |
+| (i) dd-stop -10% + mom63 re-entry | -0.089 | 0.910 | FAIL |
+| (ii) monthly loss-cap -3% | +0.062 | 0.690 | FAIL |
+| (iii) crash-cap -2%/10d | -0.010 | 0.555 | FAIL |
+| (iii-b) inv-vol equal-risk + cap | -0.095 | — | FAIL |
+
+**Pre-registered ceiling**: a *perfect* oracle that zeroes all 2008 losses only lifts SR to **0.183**; zeroing all 11 negative years → **0.517**. Both below the 1.0 gate. The crash tail was the symptom — the factor simply has no post-2004 drift to protect.
+
+**Integrity notes:**
+- TDD caught a real bug in my first stop state machine (it wiped pre-breach history and zeroed the breach day — `days_stopped=5680` exposed it); 6/6 tests now lock breach-day-realized, exact halt windows, month-m-only scaling, and a no-lookahead check. All reported numbers come from the corrected machinery.
+- The -10% stop sits flat 58% of the sample (drawdown hovers near -10% through 2009-16 chop) and scramble p *rises* to 0.910 — drawdown conditioning carries zero timing information.
+
+**Artifacts**: `scripts/HUNT_FXCARRY2_round3.py`, `scripts/HUNT_FXCARRY2_r3_crossverify.py`, `tests/test_hunt_fxcarry2_r3_tail.py` (6/6 green), sleeve `FXCARRY2_R3_ddstop10_carry_EW.csv` + `.meta`, DEAD_IDEAS row `HUNT_FXCARRY2-R3` (96 rows, parses clean).
+
+One judgment call to flag: I appended the DEAD_IDEAS row myself (contract §5 + my R2 precedent), then corrected the FINDINGS.md bullet that originally said I hadn't — so the two artifacts now agree. The oracle-ceiling arithmetic rules out the whole tail-control family, not just the three configs tested.
+=== HUNT_FXCARRY2 round 3 end Mon Sep  7 08:48:50 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907183835d9555b8deb5a4c59]
+=== HUNT_FXCARRY2 rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609071853231d99c4d723bf4112]
+=== HUNT_FXCARRY2 rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907190421478edf8959d74586]
+=== HUNT_FXCARRY2 rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609071911154a5eaea686b74527]
+=== HUNT_FXCARRY2 rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907193817bb5e80e9a5ac4f1f]
+=== HUNT_FXCARRY2 rate-limited or errored (attempt 5, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609071944311d925834b3bd4c94]
+=== HUNT_FXCARRY2 rate-limited or errored (attempt 6, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609072004031320d53a435c4128]
+=== HUNT_FXCARRY2 rate-limited or errored (attempt 7, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090720370814de85674a784f62]
+=== HUNT_FXCARRY2 rate-limited or errored (attempt 8, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907211324539bf85d4c4f4c62]
+=== HUNT_FXCARRY2 rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609072145208aba13f008144d14]
+=== HUNT_FXCARRY2 rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907221359d2bf75622d4d4708]
+=== HUNT_FXCARRY2 rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090722225995f188c353434a2a]
+=== HUNT_FXCARRY2 rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090722532396c08b68354d47c5]
+=== HUNT_FXCARRY2 rate-limited or errored (attempt 5, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090723032149330d431d934755]
+=== HUNT_FXCARRY2 rate-limited or errored (attempt 6, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609072313267c33d68ddc5b4c2b]
+=== HUNT_FXCARRY2 rate-limited or errored (attempt 7, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907232340354baa304ce74fe6]
+=== HUNT_FXCARRY2 rate-limited or errored (attempt 8, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609080024262a5a68c9f67141bf]
+=== HUNT_FXCARRY2 rate-limited or errored (attempt 1, rc=1); backing off ===
+Round 4 executed per charter. Summary:
+
+## Round 4 — Audit Rotation (fraud-catch duty)
+
+**Champion of record verified first**: `verify_champion_r3_cmd.sh` exit 0, **7/7 checks ok**; headline recomputed from the committed CSV — geo ann **37.195%** / SR **3.181** / MDD **-6.69%** / 0 neg years. Matches charter exactly.
+
+**Protocol**: 66 files sha256'd before runs (other agents' sleeves + cited scripts), re-hashed after — **all byte-identical**. Scripts hard-coding save paths into other agents' dirs ran as path-patched copies in my workspace (TREASFUT: 1-line save-dir patch; FF2 mirrored with its `../sleeves` layout). No logic edits, no writes outside my coord dir, no engines run in my closed FX-carry family.
+
+**6 rows audited, 6 reproduced, 0 diverged**:
+
+| Row | Family | Verdict |
+|---|---|---|
+| 59 | TREASFUT 2s10s | Exact — all 10 configs match to 3rd decimal (k21 -0.11; k126 scan-best 1.12 w/ cA6R7 0.216 corr-fail; sym -2.50) |
+| 53 | TFF | Exact — 156 variants, best 0.275/6neg, 0 ≥ 0.3 SR |
+| 63 | COT2 | Reproduced w/ ≤0.007 SR drift — cause proven: `more_cot/*.csv` rebuilt Sep 7 17:06, after their run (script mtime 00:56). Data vintage, not fraud. sw-follow mirror 0.280 vs rec 0.287 |
+| 84/75 | CMDT2-R2 | Exact — peak 0.246 @ (9m,k2,thr0.2), plateau 2/5, ablation deltas +0.03..+0.16 |
+| 49 | CIT_AG | Exact incl. the 0.705 artifact row + coherent-mapping rejection; one bit-rot caveat: `scramble_positions` now returns (nan, nan) — the documented bt NaN fail-closed guard postdates their run |
+| 2+110 | FF2 | **Byte-exact** — final1.py shas `1adcb4b7...`/`55a9b3e5...` match delivered sleeves; all recon1/recon2 cells exact |
+
+**Bonus finding**: row 105 (CREDIT2-R3 static HY carry) has **no saved script and no sleeve CSV** — numbers exist only in FINDINGS prose. The decisive raw number does reproduce exactly (my own re-derivation: -1.90%/yr arith, n=4882, 10 negyr), but I flagged it as cited-script-missing per the charter's bar. Named in FINDINGS.md with suggested ledger note.
+
+One process note disclosed in the report: a prior session left unreported r4 logs in `work_r4/`; I did not trust them — every reported number comes from runs I executed this round with sha provenance.
+
+FINDINGS.md ends with exactly `ROUND 4 DONE`.
+=== HUNT_FXCARRY2 round 4 end Tue Sep  8 01:19:50 CST 2026 exit 0 ===
+Round 5 executed per charter. Summary:
+
+## Part (a): CFX4 zero-weight — REPRODUCED, 9/9 checks
+`HUNT_FXCARRY2_round5_cfx4repro.py` (exit 0) reproduces the mechanism from raw artifacts: CFX4's data starts **2019-09-10**, the builder's IS window is `< 2017-01-01`, so the IS slice has **0 obs** → `is_sr()`'s len<200 branch → relw = max(0,0)^0.55 = **0.0 exactly**. Drop-slot rebuild matches the committed champion to 1.02e-16 (algebraically inert). The sleeve itself is alive — own-span SR recomputes to 1.9106, matching its meta — it's just structurally unweightable by an IS-only rule.
+
+## Part (b): Frankfurter corner — honest negative, 0/9 pass
+- **Data**: fetched keyless from api.frankfurter.dev — 46 currencies × 7087 dates (1999-01-04→2026-09-07), per-series sha256 in `work_r5/frankfurter/manifest.csv`. Disclosed up front: **Frankfurter is spot-only**, so carry was built with the FRED IRSTCI01 rates (PIT +1-month convention) + daily accrual; trend ran on spot.
+- **TDD caught 4 real defects before/around any number was logged**: zero-book scalarization of dollar-neutral baskets (gates.run judged an empty book), VT scale fed weight-gross instead of portfolio return, missing carry accrual + phantom USD leg, and a corrupted `run_all` that judged carry books on spot-only returns — that last one invalidated one committed artifact set, which I re-ran and documented with a provenance note in each meta. Final suite 12/12 green, saved CSVs == JSON verified.
+- **Results (full V2 battery: sig=, leak_check=True, beats-passive trio, ref=champion sha 4358dfab)**: carry HML top2/3/4 SR **−0.129/−0.381/−0.567** (16-22 neg years, worst −34 to −39%); trend 63/126/252 LS/LF SR **−0.509 to −1.537**. Scramble p 0.725–1.0, beats-passive 0/9, no positive era anywhere. IS-SR ≤ 0 **is** the result, as the charter instructed.
+
+Champion of record re-verified first: 7/7 checks ok, sha unchanged. DEAD_IDEAS appended (row 130, `HUNT_FXCARRY2-R5`), and FINDINGS.md ends with exactly `ROUND 5 DONE`.
+=== HUNT_FXCARRY2 round 5 end Tue Sep  8 07:12:56 CST 2026 exit 0 ===
+Round 6 complete. FINDINGS.md appended, ending with exactly `ROUND 6 DONE`.
+
+## Round 6 summary (HUNT_FXCARRY2 — consolidation/fraud-catch round)
+
+**READ FIRST done**: GATES_CONTRACT_V2 + DEAD_IDEAS recount (143 data rows at round start; charter said 137 — dynamic per contract). Champion sha 4358dfab95679b97 re-verified.
+
+**(a) Fraud-catch cross-verification of HUNT_TREASFUT R5** — verdict **CONFIRMED, no fraud**, but 3 defects found and escalated. I rebuilt all 19 R5 books from raw inputs (tauctions.csv sha-match b0e243c4e4681e32, own loaders, zero import of their code):
+
+- **Confirmed exact**: 15/15 primary sleeve CSVs byte-match my single-T+1 rebuild (max dev 9.99e-17, positions exact 0.0); all 19 meta cells reproduce to 4dp (net_sr/era from their double-`net_of` battery path, h1/h2/negyr/worst/corr from the `sig*r_pu` feed — 19/19 each); drift controls exact (post-window 15.2/22.7/16.8/49.1bp vs all-days 10.3/10.8/11.3/13.8bp; my Welch t 1.93/3.04/0.74/1.84 vs pub 2.01/3.20/0.79/1.84; 30y weak/strong 28.5/80.6bp = pub 0.285%/0.806% exact).
+- **Defect #1 (convention)**: battery judged a double-shifted/double-VT book; honest single-T+1 numbers differ materially (POST5_5 flips sign +0.216 vs −0.325; family best POST5_30 honest SR 0.441 **loses** to spy_bh 0.517 vs its nominal beats-passive PASS). All 19 verdicts stay FAIL either way (max honest SR 0.441 ≪ 1.0).
+- **Defect #2 (artifact bug)**: the 4 plateau CSVs are stale byte-copies of their k=5 siblings and their metas record k=5; plateau numbers only reconstructible from the rebuild, not the published CSVs. Plateau FAIL stands.
+- **Defect #3 (missing ledger row — escalated to coordinator)**: their FINDINGS claims "row 130 appended (129→130)" but no TREASFUT-R5 auction-cycle row exists in **any** state (current file, git pickaxe = 0 commits, both RES_META snapshots). Likely lost in the RES_BASIS repair clobber.
+
+**(b) DEAD_IDEAS curation (FX/carry rows)**: rows 64/94/126 re-measured from published sleeves with own code — row 64 exact (SR −0.0043, 11 negyr, worst −19.40%), row 94 exact (−0.0894), my 9 R5 sleeves SR-exact 9/9 with the r_eff-feed H1/H2 convention reconciled. Row 61 (TREASFUT intl carry) exact (SRm·√12 0.7004, 13/38 negyr). No evidence-cell errors found in my family. **(c) No new FX-carry corner** (no data-backed economic gap).
+
+**Ledger**: appended one curation row (HUNT_FXCARRY2-R6) recording defect #3 + full verification; final state 141 data rows, 0 duplicate (idea,src) pairs — the coordinator's mid-session dedup moved the count 143→140 during my round, disclosed in FINDINGS.
+
+Artifacts: `campaign/scripts/HUNT_FXCARRY2_r6_treasfut_repro.py`, `work_r6/r6_treasfut_repro_scorecard.json`, one append-only ledger row. No bt/ or campaign/*.md touches; champion untouched.
+=== HUNT_FXCARRY2 round 6 end Tue Sep  8 13:55:43 CST 2026 exit 0 ===
+Round 7 executed per charter. Summary:
+
+## (a) HUNT_COT2-R6 fraud-catch audit — CONFIRMED, zero fraud, no escalation
+
+- **Pipeline re-execution**: my own wrapper (not theirs) re-ran `HUNT_CREDIT2_round5.py` offline with `save_sleeve` no-op'd + SLEEVES redirected to my dir. **44/44 configs, 264/264 cross-check fields match COT2's published `credit2_rerun_battery.json` exactly** (0 mismatches). The never-serialized `scr_p=0.185` claim on the best cell (`CRED5_nfci_credit_k26_i_vt`, v2_sr +0.2063) **reproduced exactly**; re-grepped 0/44 CREDIT2 metas carry it, confirming COT2's capture claim.
+- **Both verdicts reproduce with own code**: 72/72 published books (44 CREDIT2 + 28 CMDT2) re-measured, **0 field mismatches**; 0/72 with SR≥1.0, both all-fail verdicts stand. Row 135/136 correction cells re-measured exact (mortgage best −0.739, cpois best −0.826, corrected v2sr range −0.1847..+0.4219, spread-MR held book −0.0168).
+- **Rows 139-142 + row-139 repair**: repair state is structurally perfect (4 cols × all rows, 0 fused tokens, 0 byte-dups); `bak_standup1300` independently confirms both the 5-row macro dup block and the intact CMDT2 rows. One minor finding: COT2's "sixty_forty 0.566-0.573" cell understates the actual 0.566..0.636 range — verdict-strengthening, disclosed.
+- Provenance: 180 files sha'd before/after — **no audited file changed by me** (the only deltas in their dirs were the concurrent CREDIT2-R7 agent's own round).
+
+## (b) No new corner without a data-backed gap — survey found exactly one admissible input, corner run to honest negative
+
+- **Forward points: NONE keyless** (ECB EXR spot-only — FP00/EN00 probes 404 vs SP00 200 control; Frankfurter spot-only; FRED forward search = discontinued RBA counts; BIS has no FX-forward flow).
+- **PIT daily deposit rates: YES** — FRED DFF/SONIA/EONIA/€STR/ECBDFR + **new endpoint found: BoC valet CORRA** (live, 2020+). JPY/AUD/CHF/NZD/NOK/KRW daily all checked and unavailable (BoJ 404, RBA 403 WAF, SNB monthly-only, RBNZ 403, Norges 404).
+- This was the exact input my R5 dead-row pre-authorized. Corner pre-registered (daily PIT overnight differentials replacing the dead monthly IRSTCI01), **TDD 8/8 RED-first — caught 2 verdict-fatal defects pre-verdict** (month-end-index annualization artifact that printed SR 8.3, and FRED percent-vs-decimal units that inflated PnL 100×).
+- **Honest result: FAIL everything** — SR 0.073, 12 neg years, worst −26.7%, post-2004 SR −0.198, scramble p 0.88, beats-passive FAIL, leak_ok True, composite pass False. CAD/CORRA arm disclosed-not-tested (inception_fail). Family stays closed: the ~2%/yr overnight accrual is real but an order of magnitude below the crash tail.
+
+Champion untouched (sha `4358dfab95679b97`, 7/7 fresh), bt suite 426/0, DEAD_IDEAS 147→148 (one brief self-inflicted blank-line defect repaired within the round), FINDINGS.md ends with `ROUND 7 DONE`.
+=== HUNT_FXCARRY2 round 7 end Tue Sep  8 20:20:45 CST 2026 exit 0 ===

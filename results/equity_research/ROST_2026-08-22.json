@@ -1,0 +1,360 @@
+{
+  "sym": "ROST",
+  "generated_utc": "2026-08-22T16:03:51Z",
+  "price": 239.04,
+  "data_sections": [
+    "quote",
+    "news",
+    "catalyst",
+    "analyst",
+    "insider",
+    "earnings",
+    "fundamentals",
+    "peers",
+    "clusters",
+    "gdelt_tone"
+  ],
+  "bull": {
+    "stance": "bullish",
+    "confidence": 0.72,
+    "claims": [
+      {
+        "claim": "Wall Street consensus is overwhelmingly positive with zero sell ratings and a strong buy/buy majority.",
+        "evidence": "analyst.score",
+        "impact": "positive"
+      },
+      {
+        "claim": "ROST has a consistent track record of beating EPS estimates, including a 14.47% surprise in the most recent quarter.",
+        "evidence": "earnings.surprise_pct",
+        "impact": "positive"
+      },
+      {
+        "claim": "The company demonstrates exceptional profitability with a 38.42% return on equity.",
+        "evidence": "fundamentals.roe_ttm",
+        "impact": "positive"
+      },
+      {
+        "claim": "Revenue is growing at a robust 12.67% year-over-year.",
+        "evidence": "fundamentals.revenue_growth",
+        "impact": "positive"
+      },
+      {
+        "claim": "The stock recently gained over 8% following strong earnings, indicating positive market momentum and investor confidence.",
+        "evidence": "news.reasoning",
+        "impact": "positive"
+      },
+      {
+        "claim": "News sentiment is strongly positive with a GDELT tone score of 0.57 and 10 positive headlines.",
+        "evidence": "gdelt_tone.avg_tone",
+        "impact": "positive"
+      }
+    ]
+  },
+  "bear": {
+    "stance": "bearish",
+    "confidence": 0.7,
+    "claims": [
+      {
+        "claim": "Insiders have sold over 101,000 net shares with zero buys, signaling a lack of confidence from those closest to the company.",
+        "evidence": "insider.net_shares",
+        "impact": "negative"
+      },
+      {
+        "claim": "The stock trades at a stretched valuation of 33.6x trailing earnings, leaving little room for error if growth slows.",
+        "evidence": "fundamentals.pe_ttm",
+        "impact": "negative"
+      },
+      {
+        "claim": "A price-to-book ratio of 11.5x is extremely rich, suggesting the market is pricing in perfection.",
+        "evidence": "fundamentals.pb",
+        "impact": "negative"
+      },
+      {
+        "claim": "The next earnings catalyst requires EPS of $1.76, a sequential decline from the $2.02 just reported, creating a high bar for continued upside surprises.",
+        "evidence": "catalyst.eps_est",
+        "impact": "negative"
+      },
+      {
+        "claim": "The stock is trading near its 52-week high after an 8% post-earnings pop, increasing the risk of mean reversion.",
+        "evidence": "quote.c",
+        "impact": "negative"
+      }
+    ]
+  },
+  "rebuttals": {
+    "bear": {
+      "rebuttals": [
+        {
+          "target_claim": "Wall Street consensus is overwhelmingly positive with zero sell ratings and a strong buy/buy majority.",
+          "response": "While the analyst score is positive, the stock trades at a rich 33.6x P/E and 11.5x P/B, leaving little margin for error if earnings disappoint; the consensus already reflects optimism, not a contrarian signal.",
+          "counter_evidence": "fundamentals.pe_ttm",
+          "concede": true,
+          "strength": 0.4
+        },
+        {
+          "target_claim": "ROST has a consistent track record of beating EPS estimates, including a 14.47% surprise in the most recent quarter.",
+          "response": "The 14.47% surprise is an outlier; the prior quarter was only 3.02% and the quarter before that was a negative -0.39% surprise, showing inconsistency rather than a reliable trend.",
+          "counter_evidence": "earnings.surprise_pct",
+          "concede": false,
+          "strength": 0.7
+        },
+        {
+          "target_claim": "The company demonstrates exceptional profitability with a 38.42% return on equity.",
+          "response": "High ROE is already priced in at a 33.6x P/E and 11.5x P/B, meaning investors pay a premium that leaves no room for multiple compression if growth slows.",
+          "counter_evidence": "fundamentals.pb",
+          "concede": true,
+          "strength": 0.5
+        },
+        {
+          "target_claim": "Revenue is growing at a robust 12.67% year-over-year.",
+          "response": "Revenue growth is solid, but the next quarter's EPS estimate of $1.7562 is below the last two actuals ($2.02 and $2.00), suggesting deceleration that the market may not have fully discounted.",
+          "counter_evidence": "catalyst.eps_est",
+          "concede": false,
+          "strength": 0.6
+        },
+        {
+          "target_claim": "The stock recently gained over 8% following strong earnings, indicating positive market momentum and investor confidence.",
+          "response": "The 8% gain is a short-term reaction; insider activity shows 13 sells and zero buys with net -101,574 shares sold, signaling that insiders are cashing out at these elevated levels.",
+          "counter_evidence": "insider.net_shares",
+          "concede": false,
+          "strength": 0.8
+        },
+        {
+          "target_claim": "News sentiment is strongly positive with a GDELT tone score of 0.57 and 10 positive headlines.",
+          "response": "News tone is backward-looking and often peaks after price moves; with the stock near its 52-week high of $257, the positive sentiment is already reflected in the price, leaving downside risk if sentiment shifts.",
+          "counter_evidence": "quote.pc",
+          "concede": true,
+          "strength": 0.3
+        }
+      ]
+    },
+    "bull": {
+      "rebuttals": [
+        {
+          "target_claim": "Insiders have sold over 101,000 net shares with zero buys, signaling a lack of confidence from those closest to the company.",
+          "response": "The insider data shows 13 transactions, but many are code 'G' (gift) transactions that net to zero for each owner (e.g., +1,354 and -1,354 shares on the same day), and several are code 'A' (award) grants. Only a small portion are actual open-market sells, so the raw net-share figure overstates genuine selling intent.",
+          "counter_evidence": "insider.recent",
+          "concede": false,
+          "strength": 0.6
+        },
+        {
+          "target_claim": "The stock trades at a stretched valuation of 33.6x trailing earnings, leaving little room for error if growth slows.",
+          "response": "The P/E of 33.6x is justified by exceptional growth: EPS grew 93.97% over 5 years and revenue grew 12.67%, with ROE at 38.42%. A PEG ratio of roughly 0.36 (33.6/93.97) indicates the stock is actually cheap relative to its historical earnings growth.",
+          "counter_evidence": "fundamentals.eps_growth5y",
+          "concede": false,
+          "strength": 0.7
+        },
+        {
+          "target_claim": "A price-to-book ratio of 11.5x is extremely rich, suggesting the market is pricing in perfection.",
+          "response": "High P/B is common for asset-light retailers with strong returns; ROE of 38.42% means the company generates high returns on its book value, justifying a premium multiple. The P/S of 3.27x is far more reasonable for a growth retailer and is not extreme.",
+          "counter_evidence": "fundamentals.roe_ttm",
+          "concede": false,
+          "strength": 0.5
+        },
+        {
+          "target_claim": "The next earnings catalyst requires EPS of $1.76, a sequential decline from the $2.02 just reported, creating a high bar for continued upside surprises.",
+          "response": "The $1.76 estimate is for Q3 2027, a seasonally weaker quarter, and the company has beaten estimates in 3 of the last 4 quarters (surprises of +14.47%, +3.02%, +10.07%). The bar is not high\u2014it's consistent with historical patterns and the company has a track record of exceeding consensus.",
+          "counter_evidence": "earnings.surprise_pct",
+          "concede": false,
+          "strength": 0.8
+        },
+        {
+          "target_claim": "The stock is trading near its 52-week high after an 8% post-earnings pop, increasing the risk of mean reversion.",
+          "response": "Trading at $239.04 vs. the 52-week high of $257 leaves 7.5% upside to the high, and the stock has a beta of 0.86 (lower volatility than the market). The 8% pop reflects strong fundamentals (10 positive news items, 0 negative), not speculative froth, and the stock is still 6.9% below its high.",
+          "counter_evidence": "quote.c",
+          "concede": false,
+          "strength": 0.4
+        }
+      ]
+    }
+  },
+  "grading": {
+    "bull": {
+      "side": "bull",
+      "n_claims": 6,
+      "grounded": 6,
+      "ungrounded": 0,
+      "sections_cited": [
+        "analyst",
+        "earnings",
+        "fundamentals",
+        "gdelt_tone",
+        "news"
+      ],
+      "claims": [
+        {
+          "claim": "Wall Street consensus is overwhelmingly positive with zero sell ratings and a strong buy/buy majority.",
+          "evidence": "analyst.score",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "ROST has a consistent track record of beating EPS estimates, including a 14.47% surprise in the most recent quarter.",
+          "evidence": "earnings.surprise_pct",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The company demonstrates exceptional profitability with a 38.42% return on equity.",
+          "evidence": "fundamentals.roe_ttm",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "Revenue is growing at a robust 12.67% year-over-year.",
+          "evidence": "fundamentals.revenue_growth",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The stock recently gained over 8% following strong earnings, indicating positive market momentum and investor confidence.",
+          "evidence": "news.reasoning",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "News sentiment is strongly positive with a GDELT tone score of 0.57 and 10 positive headlines.",
+          "evidence": "gdelt_tone.avg_tone",
+          "grounded": true,
+          "reason": "ok"
+        }
+      ]
+    },
+    "bear": {
+      "side": "bear",
+      "n_claims": 5,
+      "grounded": 5,
+      "ungrounded": 0,
+      "sections_cited": [
+        "catalyst",
+        "fundamentals",
+        "insider",
+        "quote"
+      ],
+      "claims": [
+        {
+          "claim": "Insiders have sold over 101,000 net shares with zero buys, signaling a lack of confidence from those closest to the company.",
+          "evidence": "insider.net_shares",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The stock trades at a stretched valuation of 33.6x trailing earnings, leaving little room for error if growth slows.",
+          "evidence": "fundamentals.pe_ttm",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "A price-to-book ratio of 11.5x is extremely rich, suggesting the market is pricing in perfection.",
+          "evidence": "fundamentals.pb",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The next earnings catalyst requires EPS of $1.76, a sequential decline from the $2.02 just reported, creating a high bar for continued upside surprises.",
+          "evidence": "catalyst.eps_est",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The stock is trading near its 52-week high after an 8% post-earnings pop, increasing the risk of mean reversion.",
+          "evidence": "quote.c",
+          "grounded": true,
+          "reason": "ok"
+        }
+      ]
+    }
+  },
+  "valuation": {
+    "sym": "ROST",
+    "price": 239.04,
+    "deterministic": true,
+    "inputs": {
+      "pe_ttm": 33.6183,
+      "roe_ttm": 38.42,
+      "debt_eq": 0.2453,
+      "ps_ttm": 3.2744,
+      "fwd_eps_annualized": 7.02,
+      "trailing_eps": 7.11,
+      "eps_growth_trend": 0.295,
+      "pe_band": {
+        "bear": 26.9,
+        "base": 33.6183,
+        "bull": 42.0
+      }
+    },
+    "outputs": {
+      "peg": 1.14,
+      "fwd_pe": 34.03,
+      "fair_value_basis": "forward EPS (consensus annualized)",
+      "fair_value": {
+        "bear": 188.97,
+        "base": 236.16,
+        "bull": 295.04
+      },
+      "upside_base": -0.012,
+      "quality_signals": {
+        "roe_ttm": 38.42,
+        "debt_eq": 0.2453
+      }
+    },
+    "notes": [
+      "fwd EPS = next-quarter consensus EPS x 4 (annualized from a single quarter; crude)",
+      "EPS growth = latest actual EPS vs the oldest EPS in the gathered history (rough trend)",
+      "PEG = trailing P/E / trailing EPS growth %",
+      "P/E band = trailing P/E x 0.8 / 1.0 / 1.25; mechanistic, no sector judgment"
+    ]
+  },
+  "judge": {
+    "convergence": false,
+    "rating": "HOLD",
+    "conviction": 0.55,
+    "scenarios": {
+      "bull": {
+        "prob": 0.3,
+        "pt": 295.04,
+        "thesis": "Exceptional profitability (38.42% ROE) and robust 12.67% revenue growth justify premium multiples, with strong positive sentiment and a track record of EPS beats driving continued upside."
+      },
+      "base": {
+        "prob": 0.45,
+        "pt": 236.16,
+        "thesis": "The stock is fairly valued at current levels, with strong fundamentals offset by a rich 33.6x trailing P/E and insider selling, resulting in limited near-term upside."
+      },
+      "bear": {
+        "prob": 0.25,
+        "pt": 188.97,
+        "thesis": "Stretched valuation at 33.6x earnings and 11.5x book, combined with heavy insider selling and a seasonally weaker next-quarter EPS estimate, triggers mean reversion."
+      }
+    },
+    "catalysts": [
+      {
+        "catalyst": "Next earnings release (Q3 2027 consensus EPS $1.76)",
+        "date": "unknown",
+        "impact": "negative"
+      }
+    ],
+    "risks": [
+      {
+        "risk": "Insider selling signals lack of confidence",
+        "likelihood": "medium"
+      },
+      {
+        "risk": "Valuation multiple compression if growth slows",
+        "likelihood": "medium"
+      },
+      {
+        "risk": "Mean reversion after 8% post-earnings pop near 52-week high",
+        "likelihood": "medium"
+      },
+      {
+        "risk": "Seasonally weaker next-quarter EPS estimate creates high bar",
+        "likelihood": "low"
+      }
+    ],
+    "decision_rationale": "The bull and bear cases present a genuine, unresolved debate: bulls point to exceptional fundamentals (38.42% ROE, 12.67% revenue growth, consistent EPS beats) while bears highlight stretched valuation (33.6x P/E, 11.5x P/B) and heavy insider selling. The deterministic valuation's base fair value of $236.16 is essentially flat versus the current price of $239.04, supporting a HOLD rating. Given the stock trades near fair value with balanced upside and downside scenarios, conviction is moderate at 0.55."
+  },
+  "errors": [],
+  "elapsed_sec": 0.0,
+  "report_path": null,
+  "json_path": null
+}

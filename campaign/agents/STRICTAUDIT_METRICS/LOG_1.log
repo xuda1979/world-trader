@@ -1,0 +1,24 @@
+=== STRICTAUDIT_METRICS start Wed Sep  2 11:00:20 CST 2026 ===
+Audit complete. **FINDINGS.md written to `campaign/agents/STRICTAUDIT_METRICS/`** (scratch: m1–m13 scripts), ending with the required last line. Summary of what my independent recomputation found:
+
+## Headline claims — all reproduce (verdict table in FINDINGS.md)
+| Claim | Claimed | My recomputation | Verdict |
+|---|---|---|---|
+| ann | 49.4% | 49.36% (arith ×252; CAGR is actually 63%) | MATCH |
+| daily SR | 5.24 | 5.241 | MATCH |
+| monthly SR | 3.46 | 3.461 | MATCH |
+| bootstrap CI | [3.02, 4.01] | iid 5000x: [3.025, 3.978]; 6-mo-block: [2.958, 4.030] | APPROX (convention uncommitted) |
+| MaxDD | -6.1% | **-6.051%** (2022-05-27) | MATCH, conservative rounding |
+| neg years | 0/19 | 0/19; lowest +20.72% (2026 partial), best +151.12% (2023) | MATCH |
+| OOS 2017+ | 55.9% @ -6.1% | 55.85% @ -6.05% | MATCH |
+| 3y & calendar-DD claim | none worse | 3767/3767 windows pass, worst -6.051%; worst year -5.25% (2014) | MATCH |
+
+I found **no inflated number** in the file-vs-claim comparison — claimants consistently rounded in the conservative direction.
+
+## Four genuine defects found
+1. **89 NYSE-open days missing from the 4522-row grid** (verified vs my from-scratch NYSE calendar and SPY: 4611 open days). Decisive fold-test against sibling files (corr 0.986 not-folded vs 0.898 folded) shows their PnL is **discarded, not accumulated** — worth ~+0.3–1.0pp ann to the headline (adverse direction; zero-filled repair: 48.4% ann, SR 5.18, still 0/19 neg years).
+2. **No committed generator script for the champion CSV** — same provenance-class defect that killed MHX/H21. My from-raw 12-sleeve rebuild: corr 0.983, SR 5.22, but ann 60.9% vs 49.4% (cost layer unscripted), and the +14.72% day (2020-09-01, 24.8σ) implies scaling **above the documented 8x cap**.
+3. **Effective breadth ≈ 6–8 engines, not 12** (4 brwt slots corr 0.774 internal; N* = 6.2).
+4. Charter's daily/monthly SR gap explanation is **backwards**: daily lag-1 autocorr is -0.013, not negative-mean-reverting; VR(21d)=2.07 shows positive multi-week autocorr → a monthly investor gets 3.46, quarterly ~2.9 (still >2).
+
+The file itself is internally clean (0 dupes/NaN/zeros/weekends/holidays). **UNVERIFIED items are explicitly listed (§6)** — chiefly the exact generator state, cost schedule, and bootstrap seed.

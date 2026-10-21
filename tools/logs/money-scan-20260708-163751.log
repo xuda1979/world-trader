@@ -1,0 +1,221 @@
+=== MONEY-LOOP scan started 2026-07-08 16:37:51 ===
+=== WORLD-TRADER GLOBAL SCAN  2026-07-08T08:37:54+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+-- REGIME: RISK-ON  (score +0.52) --
+   VIX=15.57(+0.30)  HY=2.72(+0.89)  10Y-2Y=0.36(+0.36)
+   crypto fear&greed: 20 (Extreme Fear)
+
+-- LIVE QUOTES: 404 instruments fetched (crypto RT, US, China A-share live, Taiwan live, FX)  [+wide US: 4334 of 12440 tickers pre-screened -> top 150]  [+wide CN A-share: 599 of 600 liquid names -> top 120, backtested] --
+
+=== OPPORTUNITIES (ranked by per-trade expected Sharpe = E[R]/sigma) ===
+  markets open now (2026-07-08T08:46:20+00:00): CRYPTO, FX
+  YOUR BAR to qualify: E[R]>=+1%/trade, sigma<=7%*sqrt(h/5), Sharpe>=0.40, n>=20, t>=2 (Bonferroni-adj.), OOS Sharpe>0
+  >> NOTHING cleared your bar this scan. The rows below are the best
+     MEASURED edges only -- they are NOT signals. DO NOT trade them.
+
+-- TRADE PLAN --
++---+--------------+------+--------+-------+-------+----------+--------------+-------+----------+----------+----------+-----+-------+----------+
+| # | Instrument   | Sym  | Mkt    | Dir   | Setup |    Price | Quote(Local) |  Chg% |    Entry |     Stop |   Target | R:R | Risk% | Catalyst |
++===+==============+======+========+=======+=======+==========+==============+=======+==========+==========+==========+=====+=======+==========+
+| 1 | Crypto: AVAX | AVAX | CRYPTO | Short | range |    6.320 | 07-08 08:39  | -6.3% |    6.320 |    6.823 |    5.817 | 1.0 | 7.96% |          |
+| 2 | Crypto: XRP  | XRP  | CRYPTO | Short | range |    1.077 | 07-08 08:38  | -4.3% |    1.077 |    1.135 |    1.019 | 1.0 | 5.39% |          |
+| 3 | Crypto: ADA  | ADA  | CRYPTO | Short | range |  0.16600 | 07-08 08:39  | -7.3% |  0.16600 |  0.17990 |  0.15210 | 1.0 | 8.37% |          |
+| 4 | Crypto: SOL  | SOL  | CRYPTO | Short | range |   76.915 | 07-08 08:38  | -5.5% |   76.915 |   82.790 |   71.085 | 1.0 | 7.64% |          |
+| 5 | Crypto: BTC  | BTC  | CRYPTO | Short | range | 61868.40 | 07-08 08:38  | -1.9% | 61868.40 | 64243.75 | 59532.65 | 1.0 | 3.84% |          |
++---+--------------+------+--------+-------+-------+----------+--------------+-------+----------+----------+----------+-----+-------+----------+
+
+-- EDGE & RISK (evidence for the SAME numbered rows) --
++---+------+---------+-------+--------+--------+-----+-------+------+-----+------+--------+-------+-------+
+| # | Sym  | Verdict | E[R]% | sigma% | Sharpe |   t |  oosS | Win% |   n | ATR% | Kelly% | RV/IV | Data  |
++===+======+=========+=======+========+========+=====+=======+======+=====+======+========+=======+=======+
+| 1 | AVAX | below   | 0.15% |  6.81% |   0.02 | 0.4 |  0.02 |  53% | 394 | 5.9% |   5.6% |    -- | RT 3m |
+| 2 | XRP  | below   | 0.35% |  4.90% |   0.07 | 1.4 |  0.01 |  55% | 394 | 4.5% |  10.7% |    -- | RT 4m |
+| 3 | ADA  | below   | 0.52% |  7.01% |   0.07 | 1.5 |  0.01 |  55% | 394 | 7.1% |  10.7% |    -- | RT 4m |
+| 4 | SOL  | below   | 0.14% |  6.50% |   0.02 | 0.4 | -0.04 |  52% | 394 | 5.7% |   4.2% |    -- | RT 4m |
+| 5 | BTC  | below   | 0.05% |  3.38% |   0.02 | 0.3 | -0.09 |  53% | 394 | 3.5% |   4.3% |    -- | RT 4m |
++---+------+---------+-------+--------+--------+-----+-------+------+-----+------+--------+-------+-------+
+  note: 75 live instruments have no free daily history (China A-share/Taiwan) -> no expectancy, excluded from ranking.
+
+-- MACRO / RATES / CREDIT (FRED) --
+  US 3M yield                      3.87  (2026-07-06)
+  US 2Y yield                      4.13  (2026-07-06)
+  US 10Y yield                     4.48  (2026-07-06)
+  US 30Y yield                     4.99  (2026-07-06)
+  10Y-2Y spread                    0.36  (2026-07-07)
+  10Y-3M spread                    0.69  (2026-07-07)
+  Fed funds                        3.63  (2026-07-06)
+  VIX                             15.57  (2026-07-06)
+  US HY credit spread              2.72  (2026-07-06)
+  US IG credit spread              0.75  (2026-07-06)
+  WTI oil                         71.87  (2026-06-29)
+  Brent oil                       71.59  (2026-06-29)
+  USD/EUR                        1.1448  (2026-07-02)
+  Broad USD index              120.6902  (2026-07-02)
+  Fin conditions index         -0.50400  (2026-06-26)
+  Fed balance sheet             6724564  (2026-07-01)
+  M2 money supply               23052.3  (2026-05-01)
+  Unemployment rate                 4.2  (2026-06-01)
+  CPI                           333.979  (2026-05-01)
+  5Y inflation breakeven           2.28  (2026-07-07)
+  UST curve: 3M 3.87%  2Y 4.13%  10Y 4.48%  30Y 4.99%
+  BTC perp funding: +0.0006%  OI 99,792
+  CFTC COT large-spec net: ES -2,385  WTI +110,531  Gold -14,945  BTC +3,770
+
+-- CATALYST CALENDAR (next 14d; today=2026-07-08) --
+  2026-07-08  (22)
+    [ERN] ACZT     Q2 2026 EPS est None
+    [ERN] ARTW     Q2 2026 EPS est None
+    [ERN] AZZ      Q1 2027 EPS est 1.7109 EPS~1.7109
+    [ERN] BKSC     Q2 2026 EPS est None
+    [ERN] CAG      Q4 2026 EPS est 0.4616 EPS~0.4616
+    [ERN] DVTC     Q2 2026 EPS est None
+    [ERN] ETWO     Q1 2027 EPS est 0.0408 EPS~0.0408
+    [ERN] HELE     Q1 2027 EPS est -0.0102 EPS~-0.0102
+  2026-07-09  (30)
+    [ERN] BYRN     Q2 2026 EPS est -0.1199 EPS~-0.1199
+    [ERN] CBFC     Q2 2026 EPS est None
+    [ERN] CCEL     Q2 2026 EPS est 0 EPS~0
+    [ERN] CIBH     Q2 2026 EPS est None
+    [ERN] CNBB     Q2 2026 EPS est None
+    [ERN] EDUC     Q1 2027 EPS est None
+    [ERN] EVOH     Q3 2025 EPS est None
+    [ERN] FBSI     Q2 2026 EPS est None
+  2026-07-10  (24)
+    [ERN] AMBK     Q2 2026 EPS est None
+    [ERN] BUKS     Q4 2026 EPS est None
+    [ERN] DAL      Q2 2026 EPS est 1.4736 EPS~1.4736
+    [ERN] FGFH     Q2 2026 EPS est None
+    [ERN] GDHG     Q2 2026 EPS est None
+    [ERN] GDST     Q4 2025 EPS est None
+    [ERN] HIFS     Q2 2026 EPS est None
+    [ERN] KISB     Q2 2026 EPS est None
+  2026-07-13  (42)
+    [ERN] AMFC     Q2 2026 EPS est None
+    [ERN] ANVI     Q1 2026 EPS est None
+    [ERN] ASRE     Q3 2026 EPS est None
+    [ERN] AXXA     Q4 2026 EPS est None
+    [ERN] BSFC     Q1 2026 EPS est None
+    [ERN] BTCY     Q4 2026 EPS est -0.0816 EPS~-0.0816
+
+-- NEWS (expanded feeds) --
+  [MarketWatch]
+    - Plot twist: Gen Z is buying houses after all. Here’s how they’re doing it.
+    - Rivian’s stock sale triggers worst rout for the shares in nearly two years
+    - ‘Our family is broken beyond repair’: My brother took over my parents’ finances. What can I do?
+  [Nasdaq-Mkts]
+    - The SK Hynix Form F-1 Is Here. 3 Things Smart Investors Need to Know About Its $28 Billion U.S. IPO.
+    - SpaceX Bonds Are Trading Like Junk Bonds. What Does That Mean for Investors?
+    - Vertex Is Paying a 102% Premium to Acquire Crinetics for $10 Billion. Here's Whether the Deal Is Worth It.
+  [Nasdaq-Stocks]
+    - Strength Seen in CRINETICS PHARM (CRNX): Can Its 98.7% Jump Turn into More Strength?
+    - West African Weather Risks Underpin Cocoa Prices
+    - Cattle Push Lower on Tuesday
+  [SeekingAlpha]
+    - MMU: The Return Is Driven By Return Of Capital
+    - EOG Resources: A Premium Oil Producer Trading At A Discount (Rating Upgrade)
+    - Spruce Biosciences Possibly First In-MPS IIIB Class Enzyme Replacement Therapy
+  [Investing]
+    - Talanx shares fall as Meiji Yasuda stake sale weighs, liquidity seen improving
+    - Indonesia stocks lower at close of trade; IDX Composite Index down 1.05%
+    - Honda recalls over 300,000 US vehicles over rearview image display issues
+  [Yahoo-Fin]
+    - Bank of America warns America now has 2 economies
+    - Streamlining Bond Ladder Management with Distributing Ladder ETFs
+    - Investors Pull $3.7B From ETFs in Rare Weekly Outflow
+  [Benzinga]
+    - Credible Review
+    - Toncoin (TON) Price Prediction 2025, 2026, 2027-2030
+    - Myro (MYRO) Price Prediction: 2025, 2026, 2030
+  [Zerohedge]
+    - Trump Signals Willingness To Sell Turkey F-35 Jets Despite Loud Netanyahu Protests
+    - Watch: MEP Forces EU To Address Wave Of Savage Migrant Attacks Throughout Europe
+    - Rutte Touts 'Literally Billions' Invested To Drastically Ramp Up NATO's Drone Capabilities
+  [FedPress]
+    - Federal Reserve Board requests comment on a proposal to amend its requirements for banks to maintain anti-money laundering programs
+    - Federal Reserve Board issues enforcement action with Small Business Bank and announces termination enforcement actions with BNP Paribas S.A., BNP Paribas USA, Inc., BNP Paribas Securities Corp., and Community Bankshares, Inc.
+    - Federal Reserve issues initial findings from its 2025 triennial payments study
+  [ECB]
+    - Philip R. Lane: AI and monetary policy
+    - Christine Lagarde: Interview with Les Échos
+    - Piero Cipollone: The digital transformation of money, payments and finance
+  [BoE]
+    - Financial Policy Committee Record – July 2026
+    - Bank of England appoints Rhys Phillips as the new Chief Cashier
+    - Minutes of the London FXJSC Legal Sub Committee Meeting – 17 March 2026
+  [BoJ]
+    - Loans, Debt Securities, and Deposits by Maturity (End of September 2025)
+    - Principal Figures of Financial Institutions (June)
+    - Direct Investment by Region and Industry (1st quarter 2026)
+  [Cointelegraph]
+    - EU to again vote to extend ‘chat control’ rules
+    - Here’s what happened in crypto today
+    - StarkWare CEO suggests 4% annual Bitcoin inflation to replace 21M cap
+  [Decrypt]
+    - Anthropic Removes Hidden Claude Code Tracker After Researchers Raise Privacy Concerns
+    - SEC's Long-Promised Crypto Safe Harbor to Be Introduced as Soon as This Month
+    - Tether Invests $20 Million in Mercado Bitcoin to Fuel Expansion Across Latin America
+  [TheBlock]
+    - Tom Lees Bitmine adds $70 million worth of ETH to treasury: onchain analyst
+    - Federal judge denies Kalshis bid to block New York gambling law enforcement
+    - Kraken wins $22 million arbitration against auditor Mazars for ditching the firm during Operation Choke Point 2.0
+  [CoinDesk]
+    - XRP Ledger’s new upgrade is here. But not everyone’s on board yet
+    - Live markets: Japan's collapsing yen is pushing companies into bitcoin and XRP
+    - Bitcoin under pressure as Trump says Iran ceasefire is over
+  [ForexLive]
+    - Oil prices jump as Trump says that Iran ceasefire deal is over
+    - Trump says Memorandum of Understanding with Iran is over, don't want to engage with them
+    - US President Trump: Iran are dirty players, they are 'scum'
+  [FXStreet]
+    - Polish Zloty: Neutral MPC guidance points to underperformance – Commerzbank
+    - Forex Today: Markets await FOMC Minutes while tensions in Middle East escalate
+    - Iran says any location that supports US attacks are legitimate targets
+  [Mining.com]
+    - Yen shorts just hit a 19-year high. Gold did this last time
+    - Op-ed: The paradigm shift in critical mineral investment –Tungsten is just the beginning.
+    - South32 clears key US hurdle for $2B Arizona mine
+  [JapanTimes]
+    - Beware of government by AI
+    - Japanese payment processor’s collapse hits banks and restaurants
+    - Japan enacts bill to boost settlement on 6 more border islands
+  [SCMP-Biz]
+    - Are the US’ AI models better than China’s? That may be beside the point
+    - BYD challenges Porsche’s 911 with launch of electric supercar in Europe
+    - Beyond the Noise: How Quality Journalism Drives Real-World Influence
+  [ET-Markets]
+    - Why is market falling today? Sensex crashes 1,500 points, Nifty slips below 24K. Key factors behind this meltdown
+    - Global Market: Euro zone bond yields hit near one-month high as oil surge fuels ECB rate hike bets
+    - India's mutual fund industry just beat FIIs in a historic first. Here's what changed
+  [Livemint]
+    - Paint makers poised for a mixed Q1; won’t rush on price cuts
+    - Multibagger stock Diamond Power hits record high despite stock market crash. InCred sees 28% more upside
+    - Stocks to buy for short term: Reliance, Bharti Airtel, BEL among 5 shares Bajaj Broking's expert recommends for July
+
+research only, not financial advice. verify before acting.
+
+[scan task log]
+  - 16:37:54  regime: gathering FRED macro / VIX / fear-greed
+  - 16:38:13  regime: RISK-ON score=+0.52
+  - 16:38:13  quotes: collecting curated universe (crypto/US-core/CN/TW/FX)
+  - 16:41:06  quotes: 134 curated instruments fetched
+  - 16:41:06  wide US funnel: pulling ~12k tickers from Polygon, pre-screening top 150
+  - 16:42:33  wide US funnel: 4334 of 12440 -> top 150 backtested
+  - 16:42:33  wide CN funnel: pulling ~5,500 A-shares, pre-screening top 120
+  - 16:42:50  wide CN funnel: 599 of 600 -> top 120 backtested
+  - 16:42:50  opportunities: building candidate set from quotes + regime
+  - 16:42:50  opportunities: 235 raw candidates
+  - 16:42:50  backtest: enriching with technicals + E[R]/sigma/Sharpe
+  - 16:45:26  backtest: per-candidate family m=7 (global total=180) -> Bonferroni t>=2.69
+  - 16:45:26  news enrichment: Finnhub headlines + Polygon sentiment per candidate
+  - 16:45:27  news enrichment: done (0 candidates have fresh headlines)
+  - 16:45:27  catalyst enrichment: scanning Finnhub earnings/FDA/IPO + Polygon dividends
+  - 16:45:58  catalyst enrichment: 0 candidates have a near-term catalyst (+0 new)
+  - 16:45:58  options enrichment: pulling ATM straddles (CBOE) for top US candidates
+  - 16:46:20  options enrichment: 9 candidates have an RV/IV signal (+9 new)
+  - 16:46:21  catalysts: printing freshest company news for top candidates
+  - 16:46:21  alt-data: pulling FRED macro/rates/credit, treasury curve, BTC funding, COT
+  - 16:46:41  catalyst calendar: Finnhub earnings/FDA/IPO + Polygon dividends (14d)
+  - 16:46:55  expanded news: sweeping all RSS feeds (equities/macro/CB/crypto/FX/commodities/regional)
+  - 16:47:14  expanded news: 23 feeds ok, 3 feeds failed
+  - 16:47:14  GDELT: 24h global market tone sweep

@@ -1,0 +1,31 @@
+# ITER23 reveal driver log (2026-09-19 00:5x CST, coordinator main session)
+# Command: python3 driver (inline heredoc, identical to driver_2026-09-19.py)
+# Pre-commit: FINDINGS_PRECOMMIT.md in this dir, sealed BEFORE this run.
+
+ANCHOR default build vs champ 8559fa55: n=4806 maxdev=9.996e-17 IDENTICAL grossmax=1.000000
+
+point      shrnk  cap     Wmax    IS-SR   IS-ann%  IS-MDD% ISneg |    FS-SR   FS-ann%  FS-MDD%  neg   worst%   adm
+A_cap0.29   0.70 0.29  2.0044x  4.2076   19.5636   -2.4989   0/9 | 3.7594   23.5093   -3.6978  0/19 +7.45  FAIL
+A_cap0.28   0.70 0.28  2.0326x  4.2146   19.3755   -2.4390   0/9 | 3.7662   23.4118   -3.7860  0/19 +7.53  FAIL
+A_cap0.27   0.70 0.27  2.0609x  4.2195   19.1851   -2.3784   0/9 | 3.7715   23.3129   -3.8778  0/19 +7.58  FAIL
+A_cap0.26   0.70 0.26  2.0891x  4.2220   18.9922   -2.3171   0/9 | 3.7751   23.2127   -3.9734  0/19 +7.64  FAIL
+B_shr0.60   0.60 0.30  2.0108x  4.2077   19.7821   -2.5334   0/9 | 3.7525   23.5833   -3.6668  0/19 +7.41  FAIL
+B_shr0.50   0.50 0.30  2.0466x  4.2158   19.8139   -2.5119   0/9 | 3.7523   23.5536   -3.7250  0/19 +7.44  FAIL
+B_shr0.40   0.40 0.30  2.0860x  4.2234   19.8485   -2.4939   0/9 | 3.7505   23.5160   -3.7915  0/19 +7.44  FAIL
+INCUMBENT   0.70 0.30  1.9762x  4.1986   19.7493   -2.5583   0/9 | 3.7514   23.6054   -3.6130  0/19 +7.35  PASS
+(all points: CFX4=0.000000 exactly, grossmax=1.000000, IS-MDD filter and 0-IS-neg-yrs filter PASS everywhere)
+
+SELECTION (argmax IS-SR over admissible, tie-break IS-ann): INCUMBENT  IS-SR 4.1986
+Incumbent reproduction check: IS-SR 4.1986 (ITER22 reported 4.1986) -- DEFINITIONAL CONTINUITY OK
+
+VERDICT: argmax = INCUMBENT -> NO ADOPTION. Weight axis exhausted with the
+shrink edge and cap boundary now resolved.
+
+KEY STRUCTURAL READINGS
+- Cap axis: Wmax(0.70, cap) crosses 2.0x between cap 0.29 (2.0044x) and 0.30 (1.9762x)
+  -> the incumbent is the LAST admissible cap point. The boundary is the invariant, not the grid.
+- Shrink axis: Wmax(shrink, 0.30) crosses 2.0x between shrink 0.70 (1.9762x) and 0.60 (2.0108x)
+  -> the grid edge at 0.70 was a TRUE concentration boundary, not a truncation artifact.
+- Beyond the corner FS-SR rises (3.7751 @ cap 0.26) -- the ITER22 "FS rank inverts IS rank at
+  the tight-cap end" law reproduced on freshly computed points; all such points are forbidden
+  by the Wmax 2.0x invariant. Relaxing it is an operator rule change, not an improvement.

@@ -1,0 +1,60 @@
+# ITER24 reveal driver (2026-09-19). Pre-commit: FINDINGS_PRECOMMIT.md sealed BEFORE this run.
+# Champion sha16 pre-run: 8559fa55ee9a3417 / weights d2d11c92a98683df
+ANCHOR weights maxdev=8.327e-17 (need <1e-12)
+ANCHOR bytes   maxdev=9.996e-17 (need <1e-12) n=4806
+ANCHOR grossmax=1.000000000  days>1.6: 0
+ANCHOR incumbent IS-SR=4.198632 (ITER22/23 reported 4.1986) IS-ann(arith)=18.1223%
+ANCHOR champ ann arith=21.3609% cagr=23.6054% (committed headline 23.6054%) SR=3.751429 MDD=-3.6130%
+
+cand                  fam  relw[S]     IS-SR    IS-ann%  IS-MDD%  negy  Wmax     adm
+bund_02y             F1   0.09931    4.2729   17.851    -2.29   0/9  1.8001x  YES
+bund_03y             F1   0.07278    4.2600   17.950    -2.35   0/9  1.8835x  YES
+bund_05y             F1   0.06492    4.2479   17.974    -2.36   0/9  1.9078x  YES
+bund_07y             F1   0.05820    4.2443   17.989    -2.36   0/9  1.9275x  YES
+bund_10y             F1   0.05074    4.2337   18.011    -2.37   0/9  1.9487x  YES
+bund_15y             F1   0.04232    4.2241   18.021    -2.35   0/9  1.9751x  YES
+bund_20y             F1   0.03761    4.2213   18.029    -2.32   0/9  1.9881x  YES
+bund_30y             F1   0.04049    4.2120   18.022    -2.29   0/9  1.9781x  YES
+brazil_usdbrl        F2   0.03544    4.1654   18.044    -2.51   0/9  2.0495x  no
+czech_eurczk         F2   0.02425    4.1804   18.008    -2.55   0/9  2.1059x  no
+czech_usdczk         F2   0.01916    4.1779   18.025    -2.55   0/9  2.1201x  no
+peru_usdpen          F2   0.03527    4.1810   18.013    -2.54   0/9  2.0352x  no
+poland_eurpln        F2   0.00247    4.1947   18.073    -2.56   0/9  2.1071x  no
+poland_usdpln        F2   0.01963    4.1844   18.014    -2.59   0/9  2.0599x  no
+cad_govt_2y          F3   0.12456    4.2678   17.861    -2.44   0/9  1.7646x  YES
+cad_govt_3y          F3   0.07558    4.2409   17.987    -2.48   0/9  1.9161x  YES
+cad_govt_5y          F3   0.05621    4.2201   17.996    -2.46   0/9  1.9720x  YES
+cad_govt_10y         F3   0.03232    4.1987   18.015    -2.49   0/9  2.0354x  no
+wti_spot_daily       F5   0.00000    4.1986   18.122    -2.56   0/9  2.1409x  no
+brent_spot_daily     F5   0.01617    4.1854   18.052    -2.58   0/9  2.0953x  no
+natgas_HH_spot_daily F5   0.00415    4.1971   18.109    -2.56   0/9  2.1324x  no
+propane_mb_spot_daily F5   0.00000    4.1972   18.106    -2.56   0/9  2.1268x  no
+gasoline_gulf_spot_daily F5   0.01839    4.1916   18.077    -2.56   0/9  2.1019x  no
+gasoline_la_spot_daily F5   0.01056    4.1926   18.077    -2.56   0/9  2.1119x  no
+gasoline_nyh_spot_daily F5   0.01794    4.1833   18.044    -2.56   0/9  2.0897x  no
+jet_gulf_spot_daily  F5   0.00490    4.1976   18.101    -2.56   0/9  2.1268x  no
+ulsd_gulf_spot_daily F5   0.00692    4.1929   18.092    -2.56   0/9  2.1233x  no
+ulsd_nyh_spot_daily  F5   0.00869    4.1912   18.087    -2.56   0/9  2.1203x  no
+
+ADMITTED: 11 / 28
+GLOBAL ARGMAX (IS-only): bund_02y  IS-SR=4.272886 relw[S]=0.09931
+
+REVEAL book: 13-pool + bund_02y at gear 1.0, n=4806 (2008-03-31..2026-08-28)
+  FS SR=3.728158 (incumbent 3.751429)  ann arith=21.0652%  cagr=23.2440%  MDD=-3.3107%  negyrs=0  worst=n/a
+  grossmax=1.000000000  Wmax=1.8001x  CFX4 relw=0.0e+00
+  bin 2017-18 dSR=-0.0257 (cand 4.7493 vs inc 4.7750)
+  bin 2019-20 dSR=-0.0939 (cand 3.9299 vs inc 4.0238)
+  bin 2021-22 dSR=+0.0210 (cand 2.2566 vs inc 2.2356)
+  bin 2023-24 dSR=+0.1381 (cand 4.8349 vs inc 4.6968)
+  bin 2025-26 dSR=-0.0529 (cand 3.4699 vs inc 3.5229)
+  GATE 1 FS ann>=20%    PASS
+  GATE 2 gross<=1.6     PASS
+  GATE 3 FS MDD>=-7%    PASS
+  GATE 4 0 FS neg yrs   PASS
+  GATE 5 CFX4=0         PASS
+  GATE 6 Wmax<=2.0x     PASS
+  GATE 7 OOS police     FAIL
+
+VERDICT: REJECT -- honest negative, no second reveal (per pre-commit)
+
+# Champion sha16 post-run: 8559fa55ee9a3417 / weights d2d11c92a98683df (must be unchanged)

@@ -1,0 +1,177 @@
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609062030255665faeaa3474a8d]
+Round 1 complete. FINDINGS.md written, ending with `ROUND 1 DONE`. Summary:
+
+## Verdict: 6/7 gates PASS, C6 (T+1 no lookahead) **FAILS**
+
+**Independent rebuild** (from the 13 RAW sleeve files, no builder import): reproduced the committed champion to **maxdev 9.996e-17** over all 4805 rows. Recomputed metrics: **ann_geo 40.8413%, SR_d 3.3390, MaxDD −6.80%, 0/19 negative years** (worst +8.89% in 2013).
+
+| Gate | Result | Evidence |
+|---|---|---|
+| C1 6.4bps FULL \|dW\| | **PASS** | 4.935 bp/yr charged; half-turn variant would add 2.468 bp/yr — absent |
+| C2 margin 4.5% on (gross−1) | **PASS** | Independent gross→net reconstruction residual 0.00e+00; 2.70%/yr drag |
+| C3 leverage ≤1.6 | **PASS** | gross = 1.600000000000 every day, 0 overshoots, min weight 0 |
+| C4 0 negative years | **PASS** | 0/19, min +8.89% |
+| C5 fungible-short | **PASS** | dualmom (298-name equity) is **long-only**; all shorts on futures/ETF/FX; QAxasts' short-VIX leg = 35.1% of its days but 2.16% of gross |
+| C6 T+1 no lookahead | **FAIL** | day-t weights embed r_t: corr(dW_t, r_t)=0.785; perturbation excess response 1.5e−2 (want <1e−6); **causal rebuild = ann 39.85% (−0.99pp)**, SR 3.30, MDD −6.84%, gates unchanged |
+| C7 byte repro | **PASS** | 9.996e−17; committed CSV/builder untouched |
+
+**Auditing the auditor** (the charter's sharpest tooth): the prior "7/7 PASS" harness was partly fake — `audit_C2` back-derived port *from net itself* (a zero-margin builder passed with residual 3.5e−19), and `audit_C6` was literally `return True`. Both proven with counterexamples, then fixed TDD-style: new `test_audit_champ2_round1.py` went **3 failed → green**, full suite now **79 passed, 2 xfailed** (the second xfail strictly pins the C6 leak so no one can "fix" the builder without a coordinator re-emit decision).
+
+Two cross-checks worth noting: my 40.8413% vs the iter10 memo's 40.88% reconciles exactly to iter11's full-|dW| cost fix (the memo number is stale, not an error); and a prior independent audit (AUDIT_RECON R1) had already xfail-documented the same leak at the same magnitude — two reconstructions agree to 4 decimals.
+
+**Coordinator decisions requested:** (1) C6 re-emit wave — honestly lagged champion is 39.85% ann, still 0/19 neg, still inside every wall; (2) cosmetic — builder `--verify` prints percent/yr labeled "bps/yr", and iter10's memo carries pre-fix numbers.
+=== AUDIT_CHAMP2 round 1 end Mon Sep  7 00:31:55 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907015426363f3d89454446a9]
+=== AUDIT_CHAMP2 rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907020420ff8c65f4ecc84fa3]
+=== AUDIT_CHAMP2 rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070210221a47d612e6cc4508]
+=== AUDIT_CHAMP2 rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907021620637e91beaf5d4f30]
+=== AUDIT_CHAMP2 rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070224120001bf549bc3461b]
+=== AUDIT_CHAMP2 rate-limited or errored (attempt 5, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907023735d52d225f6e9d4687]
+=== AUDIT_CHAMP2 rate-limited or errored (attempt 6, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070252364ba160a3e2744816]
+=== AUDIT_CHAMP2 rate-limited or errored (attempt 7, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907033025125e8b8ca5b946bd]
+=== AUDIT_CHAMP2 rate-limited or errored (attempt 8, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907050318dd7f3e6fcdeb475a]
+=== AUDIT_CHAMP2 rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070524426532d08592744f3c]
+=== AUDIT_CHAMP2 rate-limited or errored (attempt 2, rc=1); backing off ===
+Round 2 executed per charter. Summary:
+
+## R2 Verdict: re-emitted champion verified honest — 7/7 gates PASS
+
+**(a) C1–C7 on current tree (commit 8f98da1)** — from-scratch rebuild without importing the builder:
+- **C7** byte-repro: maxdev **9.996e-17** (4805/4805 rows); weights **2.220e-16**
+- **C1**: 4.9398 bp/yr FULL |dW| @6.4bps, full-identity residual 9.996e-17; half-turn counterfactual (+3.445bp/yr) absent
+- **C2** now *discriminating*: residual 0.0 @4.5%-on-(gross-1); wrong-margin controls detected at exactly 1.071e-04
+- **C3**: gross = 1.600000000000 exactly, 0 overshoot days; **C4**: 0/19 neg years
+- **C5**: 13/13 classes, all 13 sleeve files clean vs HEAD (no silent sleeve swap in re-emit)
+- **C6 — the headline**: 15-probe T+1 perturbation max excess **7.047e-16** (R1 leak ~1e-2); **corr(dW_t, r_t) = -0.0277** (leak was +0.7846)
+- Metrics: ann 39.8510%, SR 3.2964, MDD -6.84%, IS 35.95%/OOS 43.49%
+
+**(b) Weights identity**: `RAWEW13v2_IS_SR_weights.csv` sha256 `8107aab3…` byte-identical pre/post re-emit — relw never depended on nav, confirmed.
+
+**(d) Mechanism pin (charter d)**: rebuilt-causal == committed AND rebuilt-leaky == archived leak (both 9.996e-17), **|diff-of-diffs| = 2.5e-17** — the re-emit changed *exactly* nav.shift(1) and nothing else. corr 0.999881, maxdev 3.962e-3, both matching charter pins. Mutation-tested (shift(2)/P/BPS all detected).
+
+**(c) TRUTH20Y — FLAGGED (the round's one adverse finding)**: no builder in tree (only my test greps), pool files (A5r7, A1credit, XGB1y, all six "E" variants) missing from disk, XGB1y_deploy.csv correlates only 0.21. Stats reconcile with its own JSON, **but** it breaches the -7% MDD wall (-7.88%), has 1 neg year (2006), and its 53.0 headline is simple-arith vs 69.09% geo. Pinned so it can't be quoted as champion.
+
+**Tests**: 149 passed (+1 new pin); stale-claim sweep clean — every remaining 40.84 mention is properly framed as archive/leak/prior.
+
+FINDINGS.md appended, last line `ROUND 2 DONE`.
+=== AUDIT_CHAMP2 round 2 end Mon Sep  7 05:43:19 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907080522475709f438414b8b]
+=== AUDIT_CHAMP2 rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907082810f0dc9800e4bf4d0c]
+=== AUDIT_CHAMP2 rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070850188a994976cdfe42c9]
+=== AUDIT_CHAMP2 rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070855201a26174c22874cd9]
+=== AUDIT_CHAMP2 rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907092659acc94cfd286648ce]
+=== AUDIT_CHAMP2 rate-limited or errored (attempt 5, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907095447d444b38f175f4b99]
+=== AUDIT_CHAMP2 rate-limited or errored (attempt 6, rc=1); backing off ===
+Round 3 complete. FINDINGS.md ends with `ROUND 3 DONE`.
+
+## Summary
+
+**R3(a) stale-claim lint — PASS.** RED captured first (3 offender lines: iter10 memo main-table 40.88%, iter11 main-table 40.84%, iter11 addendum "39.85%"), additive SUPERSEDE banners landed, GREEN 8/8. After-grep: every remaining stale mention is banner-framed or lineage disclosure; TRUTH20Y appears in zero gated docs.
+
+**R3(b) weights cross-check — PASS.** Committed weights vs builder: max dev **2.22e-16** (tol 1e-10). Movers vs HEAD = exactly the 4 costfixed sleeves (brwt15 −0.0401, diescrack −0.0321, QAxasts −0.0077, dualmom −0.0051); other 9 columns exactly 0. Attribution is EXACT, not just plausible: substituting the 4 git-HEAD sleeve blobs reproduces the pre-costfix champion to **9.996e-17**.
+
+**R3(c) champion card — PASS with teeth.** Wrote `scripts/champion_card.py` (fail-closed: refuses to emit if builder≠committed ≥1e-12; deterministic, sha-pinned) → generated `CHAMPION_CARD.md`; pin test verified by mutation (hand-edit → RED → restore → GREEN).
+
+**Three things you should know:**
+
+1. **A concurrent agent session inserted the banners at 10:16, mid-round.** I verified their work (insertions-only vs HEAD, correct numbers) instead of duplicating, and rebuilt true pre-banner snapshots from git after finding my first snapshot cut was polluted.
+2. **The champion headline is now 39.69%, not the 39.85% my R2 verified** — an uncommitted 07:28 costfix re-emit (4 sleeves regenerated). All audited here; my lint test pins 39.687317 so any future drift fail-closes RED. The wave is still uncommitted — worth landing before anything else reads these files.
+3. **39.69% is an upper bound, not a floor**: the full suite is red (13F/236P) — 12 are another agent's unwritten `beats_passive` module (TDD-first), and 1 is CAMP_COST's own fail-closed flag that brwt10/7/5 (62.4% of champion gross) still charge half-turn costs and need a coordinator rebuild. Flagged in FINDINGS with exact numbers; fixing them is outside my charter.
+=== AUDIT_CHAMP2 round 3 end Mon Sep  7 10:53:31 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260908012051365f49116b1d4720]
+=== AUDIT_CHAMP2 rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609080124599556ab3c0a3c4772]
+=== AUDIT_CHAMP2 rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609080141456c0cd9fa445d4694]
+=== AUDIT_CHAMP2 rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260908015339099fdda5fdaa48c4]
+=== AUDIT_CHAMP2 rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609080204495365308a57ba4640]
+=== AUDIT_CHAMP2 rate-limited or errored (attempt 5, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260908024517441d1ec1eb6d4209]
+=== AUDIT_CHAMP2 rate-limited or errored (attempt 6, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090802544479d1980e76c7408b]
+=== AUDIT_CHAMP2 rate-limited or errored (attempt 7, rc=1); backing off ===
+Round 4 complete. Summary:
+
+## (a) verify_champion via canonical wrapper — 7/7 PASS
+`bash campaign/bt/verify_champion_r3_cmd.sh` → exit 0, all 7 checks ok: weights 2.220e-16, byte_repro 1.110e-16, cost_reconciliation full-|dW| (half-turn rejected at 1.68e-05), causality `nav.shift(1)` (sameday dev 4.93e-03 = old leak absent; 7/7 truncation probes dev 0.0), gross 1.6 exact / 0 overshoot, **0 neg years, MDD -6.6922%** inside the -7% wall. Headline: **ann 37.1954% / SR 3.1810** — matches champion of record. CHAMPION_CARD.md regenerates byte-identical (also identical to HEAD; its sha pins 4358dfab/149164b3/0516e543 match live files).
+
+## (b) Stale-number sweep — 4 docs bannered + 1 lint gap fixed
+- The prior R4 session's TDD lint (02:41) was RED on the current tree; I verified its faces first. Offenders: FINAL_REPORT (55.5% "FINAL STATE"), FINAL_STATE (47.9%/80.5% + stale byte-for-byte claim), TRUTH_MEMO (49.4% "MAXIMALLY-DEFENSIBLE").
+- Independently re-measured all 3 legacy builders' `--verify` — all DIFF post-costfix (champion 1.130e-03/2.069e-03/4.099e-03; champion20y 3.107e-03/6.160e-03/6.206e-03; honest11 1.942e-03/2.247e-03/3.869e-03), matching the test docstring exactly.
+- Added ADDITIVE SUPERSEDE banners (insertions-only, verified vs HEAD: +14/+14/+12/+12/+10, 0 deletions) to FINAL_REPORT, FINAL_STATE, TRUTH_MEMO, CHAMPION (§12 runbook, written around the coordinator's concurrent 03:1x deprecation banner), and PROGRESS.
+- **Lint gap fixed TDD**: the number-list lint was blind to billing *phrasing* — `GOAL100_PROGRESS.md:7` billed a 48.2% config as "CURRENT champion". New `test_audit_champ2_round4b.py` went RED on exactly that line, then GREEN after the banner.
+
+**Final state: 398 passed / 0 failed** full bt suite (R3's 13 reds went green from other agents' work). Champion CSV/weights/builder untouched (sha pre == post, `--verify` IDENTICAL 9.996e-17). Flags for coordinator: GOAL80_FINAL_REPORT left unbannered (self-scoped prior-campaign history), champion_card.py needs PYTHONPATH, legacy DIFFs are linted-not-fixed (CHAMPION20Y_V2 rebuild chartered R5 will auto-resolve). FINDINGS.md appended with exact numbers, ending `ROUND 4 DONE`.
+=== AUDIT_CHAMP2 round 4 end Tue Sep  8 03:23:43 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260908080429385e9c4975fc4f08]
+=== AUDIT_CHAMP2 rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609080815599402e92654c745d8]
+=== AUDIT_CHAMP2 rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609080820109e67e5e6e92c466b]
+=== AUDIT_CHAMP2 rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260908084231d2dc712d236f454c]
+=== AUDIT_CHAMP2 rate-limited or errored (attempt 4, rc=1); backing off ===
+Round 5 complete. FINDINGS.md ends with exactly `ROUND 5 DONE`.
+
+## ROUND 5 SUMMARY
+
+**READ-FIRST**: GATES_CONTRACT_V2 (ratified) consumed; DEAD_IDEAS recount = **130 data rows, 0 dups** (charter context said 120 — dynamic, as the V2 preamble mandates). Champion of record re-verified fresh: `verify_champion_r3_cmd.sh` → ok=true **7/7** (byte_repro 1.110e-16, MDD −6.6922%, 0 neg yrs).
+
+### (a) CHAMPION20Y_V2 — **DROP** (rebuild executed in sandbox, rejected; quarantine doc completed)
+- Pool provenance re-derived from git: exactly **3/13** pool sleeves drifted post-V2-build (QAxasts, dualmom, brwt — all costfix b268e52). Builder `--verify` DIFFs committed books at exactly the banner numbers: **3.107e-03 / 6.160e-03 / 6.206e-03**.
+- Post-costfix sandbox rebuild (never emitted): BAL **CAGR 89.44% / arith 64.52% / SR 6.12 / MDD −7.21% (breach) / 1 neg yr**. Committed vintage: CAGR 90.45% / arith 65.05% — the JSON's "65.1" is **arithmetic** ann.
+- **Kill findings**: the V2 builder still charges the retired **0.5|dW| @ 6bps** convention (full-6.4 counterfactual: −2.19pp), and pool member **B3momhml is uncosted** (own meta: "no-cost-here … Kept as reference only") — charging E1's costed series costs **−3.47pp CAGR**. Every convention-repaired variant still fails the champion track (best V3-shaped: 83.83 CAGR / −7.29 MDD / 1 neg yr). MHX borrow worst-case ~0.09pp/yr (cited from CAMP_SHORT R5a, not duplicated). Leak probe on the rebuild: leak=False (+0.0056, p 0.264).
+
+### (b) Card footgun — **already fixed by a prior R5 session** (08:37–08:38, before my 08:44 start)
+Verified rather than duplicated: RED face reproduced on the HEAD blob (`ModuleNotFoundError: No module named 'scripts'`), 3/3 GREEN on the working tree, diff is exactly the one-line `sys.path.insert`. **Uncommitted — flagged.**
+
+### (c) GOAL80 43.2% — **CONFIRMED self-consistent, plus byte-exact repro recovered**, with 2 material flags
+- Every headline reproduces from `COORD_FINAL_daily.csv` to the decimal (arith **43.19%**, SR 4.84, MDD −7.48%, 0/19; IS/OOS 37.96/47.71; sub-period MDDs exact; yearly vs JSON max dev 0.049pp).
+- I reverse-engineered the artifact's true recipe (raw-first vt @ **TGT=0.08**, not the shipped `blend()` defaults which land 19.99%) and achieved **byte-exact reproduction: maxdev 1.015e-16** with one pinned pre-costfix dualmom blob.
+- Flag 1: 43.2 is **arithmetic** ann (CAGR 53.36%) — comparing it to the champion's 37.20 CAGR mixes conventions. Flag 2: "NO leverage" embeds an unpriced global-vt gross of **median 2.13×** (max 5.29×); pricing at the champion's 4.5% convention costs 5.264%/yr → arith 37.99% / **MDD −9.27%**, outside the report's own DD≤8% envelope.
+
+**TDD**: 7 new pins in `test_audit_champ2_round5b.py` (all GREEN); quarantine addendum appended insert-only to `TRUTH20Y_QUARANTINE.md`. Full bt suite after my inserts: **410 passed / 0 failed**. Nothing in `campaign/results/` or the champion artifacts was touched.
+=== AUDIT_CHAMP2 round 5 end Tue Sep  8 10:35:53 CST 2026 exit 0 ===
+Round 6 executed and FINDINGS.md appended, ending with `ROUND 6 DONE`.
+
+## Summary
+
+**(a) CAMP_COST 14-sleeve candidate — verified 7/7 with my own code, but the adoption arithmetic flips sign with the gross-cap convention.** This is the round's decisive finding:
+
+- The emitted candidate `RAWEW14_HOBR_CANDIDATE` passes everything: my own-algebra verifier (no imports of builder/bt/CAMP_COST) and the canonical `verify_champion.py` agree to ~1e-16 on all 7 checks — byte-repro 1.0e-16, cost model **full_dw** (half rejected at 1.97e-05), causality `nav.shift(1)` + truncation 0.0, gross ≤ 1.6 exact, 0 neg years, MDD −6.235%, leak probes all False (my scalar numbers match CAMP_COST's to the digit).
+- **But**: the standup's +4.21pp is the **fill-0 native-units blend** (dSR +0.1989 / dAnn +4.2128pp — I reproduced both exactly), which breaches the gross cap at **2.02–2.10x** (V2 8e hard fail). The certifiable re-solve delivers **dAnn −0.907pp** (8c hard fail), negative at every rung (my own rung grid: −0.786/−1.594/−2.423pp). My own circular-shift placebo confirms mean-injection dominance on the fill-0 delta (188/200), and my B1 block bootstrap shows the re-solve's SR gain is timing-real but its ann gain does not survive the cap.
+- **Verdict: do NOT adopt on the current record** — no admissible construction delivers dAnn>0 within gross≤1.6.
+
+**(b)** champion_card.py clean-env bare run is byte-identical to the committed card; round5b pins 17/17 green; all fix/test files still **UNCOMMITTED — re-flagged** for the commit wave. **(c)** No campaign doc edits. Suite: **422 passed / 0 failed** (my 4 new R6 pin tests in `test_audit_champ2_round6.py`, written RED-first — the initial failure was my own pin conflating the two blend conventions, both now pinned at exact values). DEAD_IDEAS recounted: **145 data rows** (charter said 137 — 8 landed since). No dead family re-tested.
+=== AUDIT_CHAMP2 round 6 end Tue Sep  8 16:00:14 CST 2026 exit 0 ===
+Round 7 executed and logged. Summary:
+
+## (a) AUDIT_FWBUGS-R6 census spot-check — CLEAN
+- **Seed 20260908, 20 sampled paths: 20/20 OK, 0 mismatch** (exist on disk + git classification matches the appendix). Because 98.6% of the appendix is UNTRACKED rows, I also verified **all 31 MODIFIED rows exhaustively: 31/31 correct**. Live drift since their census: exactly **one** new tracked-modified file (`bt/tests/test_beats_passive.py`, +90, DATA_ETF_MORE R6, landed after their 16:0x snapshot).
+- **Escalation 1 reproduced**: `git archive HEAD` → valid `gates.run` → `ModuleNotFoundError: No module named 'bt.leakcheck'` at gates.py:135. All 7 blocker bt modules still untracked; the wave exists on **no branch** (checked hermes/* too — April-era).
+- **Escalation 2 reproduced**: `verify_champion_standup_1140.json` is exactly a **145-byte ok:false** record ("missing sleeve inputs: no --sleeve name=path given") — a failed invocation, not a 7/7 pin. Re-point recommendation stands.
+
+## (b) Tracked-state suite — the premise FAILED; that is the result
+- HEAD b772958 committed only 6 team/ roster files. **The commit wave did not land**: my round5/5b/6 pins + champion_card.py fix + all fresh-clone blockers remain uncommitted.
+- Tracked tree (`git archive HEAD`, full run): **2 collection errors + 21 failed / 80 passed**. 19/21 = the `bt.leakcheck` import; 2 = committed tests asserting the **pre-costfix vintage of committed source** (0.5x-pattern pin, 1.30x-EW pin) whose fixes sit only on disk. Pure HEAD fails its own committed suite.
+- Live tree: **444 passed / 0 failed twice** (97.17s / 91.86s); my 21 pins green; champion_card.py clean-env invocation byte-identical to committed CHAMPION_CARD.md.
+- Champion of record re-verified fresh by me: **ok=True 7/7 — ann 37.1954 / SR 3.1810 / MDD -6.6922 / 0 neg yrs / n=4805**, cost 5.2622 bp/yr, gross 1.6000 n_over=0, truncation 0.0 (pinned `work/r7_champver.json`). Champion CSV + **13/13 sleeve paths** tracked — the champion lineage survives a fresh clone; only the gates/test layer is broken.
+
+Artifacts saved in `AUDIT_CHAMP2/work/`: `r7_spotcheck.py`, `r7_spotcheck.txt`, `r7_champver.json`, `r7_tracked_failures.txt`, `r7_tracked_failed_reasons.txt`. FINDINGS.md ends with `ROUND 7 DONE`.
+=== AUDIT_CHAMP2 round 7 end Tue Sep  8 23:12:24 CST 2026 exit 0 ===

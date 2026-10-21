@@ -1,0 +1,160 @@
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609061951066c21aad68f1f4f89]
+=== DATA_ETF_MORE round 1 end Sun Sep  6 19:51:06 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090702042800340165e42444bd]
+=== DATA_ETF_MORE rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070221339a1ae924993949d6]
+=== DATA_ETF_MORE rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907023129938fc959b73c4b09]
+=== DATA_ETF_MORE rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070236187a4dd8a73e984cc4]
+=== DATA_ETF_MORE rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070241263597e0e6738b4c9b]
+=== DATA_ETF_MORE rate-limited or errored (attempt 5, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907030644557d9f96e5af46e5]
+=== DATA_ETF_MORE rate-limited or errored (attempt 6, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907035423fa2059492d7948fb]
+=== DATA_ETF_MORE rate-limited or errored (attempt 7, rc=1); backing off ===
+Round 2 executed and closed. Summary of what happened this session:
+
+## Audit finding
+A prior session (01:54–03:54) had already done most of round 2 but left three loose ends: `extend_all.py` interrupted mid-run at EWL (its results JSON never written), manifest.csv stale relative to the last writes, and EWF's 404 never root-caused. I verified rather than trusted it.
+
+## What passed
+- **(a) Must-fetch, all resolved**: 10 EW-intl at **1996-03-18** (7665–7668 rows each), IYR 2000, SHY 2002, AGG/TIP 2003, VNQ 2004. UUP/BND/HYG fail-closed on vendor inception (2007-03/2007-04/2007-04) — documented honestly, not written.
+- **(b) R1 fails: 0/12 flipped** — two-window stitch re-probe proved the vendor has no pre-2008 depth for EWC/DBP/EIS/TUR/USCI/COPX/ENOR/EPHE. Also caught a subtle trap: `start_date=1995&outputsize=5000` alone silently truncates the series *end* — a freshness gate now fails that closed.
+- **Dir-wide depth recovery**: 32 more series extended; **50/70 lint-PASS** total with 49 series now reaching true 1996–2006 inceptions (+31k rows). All-time high for the universe.
+
+## What failed / was fixed
+- **EWF**: not a TwelveData symbol at all — `symbol_search` returns zero matches and maps "iShares MSCI France" to **EWQ/NYSE** (already on disk, 1996, PASS). The 404 is correct behavior; the ARCX fallback in the prior session's script was dead code.
+- XLC/XLRE: HTTP 400 on head-window fetch, both post-2007 inceptions, remain loud FAILs.
+
+## Verification (independent)
+Prepend-only stitch check against `backup_pre_extend/`: 49/49 verified, zero mutations, 0 dup dates, max seam gap 1 day; TDD seam-noise test PASS; manifest rebuild matches my own re-lint exactly (50/20).
+
+FINDINGS.md appended with exact numbers and ends with `ROUND 2 DONE`.
+=== DATA_ETF_MORE round 2 end Mon Sep  7 04:30:56 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070813368261efc6413c4d80]
+=== DATA_ETF_MORE rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907082923787ea4145f2b4279]
+=== DATA_ETF_MORE rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907092102324454e85d944a84]
+=== DATA_ETF_MORE rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090709270672c576b14f824086]
+=== DATA_ETF_MORE rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070933085a514cbf5ea14ae1]
+=== DATA_ETF_MORE rate-limited or errored (attempt 5, rc=1); backing off ===
+Round 3 executed per charter. Summary:
+
+## What I found on arrival
+A prior session this morning (08:56–09:09) had already run the retest and rebuilt the manifest, but FINDINGS.md was unwritten — so I treated its outputs as unverified claims and independently checked everything before adopting any of it.
+
+## Charter 3(a) — waiver re-test: 19/20 PASS_WAIVER, 1 recovered
+- **19 series written PASS_WAIVER (2007plus)**: HYG 2007-04-11 n=4883, JNK 2007-12-04 n=4718, EMB 2007-12-19 n=4707, BND 2007-04-10 n=4884, UUP 2007-03-01 n=4911, EWC/DBC/GSG/DBP 2008-01-02 n≈4700, DBA/DBE 2007-01-05 n=4948, UNG 2007-04-18 n=4878, CANE/SOYB/WEAT 2011-09-19 n=3763, CORN 2010-06-09 n=4086, CPER 2011-11-15 n=3722, BNO 2010-06-02 n=4091, USCI 2010-08-10 n=4043. All maxgap≤5d, 0 jumps, 0 dups, end 2026-09-04.
+- **0 pre2007 upgrades** — the waiver can't manufacture pre-2007 depth; vendor inceptions stay what they are.
+- **EEM** first fetched a dup-polluted vendor frame → FAIL(dup), kept loud; recovered via the R2 two-window stitch → 4699 rows, 2008-01-02, dups=0. I verified the keep-first dedup was safe (raw dup-close spread max 0.072% — vendor double-reports, not conflicting data).
+
+## Two pre-existing integrity defects caught by independent re-lint (TDD: red first)
+1. **EWA silent truncation** — on-disk file started 2012-10-12/3493 rows (the R2-documented truncation signature) while R2 had *measured* attainable depth 2008-01-02 (+1206 rows) but couldn't apply it under the then-unwaived gate. The manifest was misdisclosing its span as 2012-inception. Fixed → 4700 rows from 2008-01-02, PASS_WAIVER. My first seam gate NO_WRITEd itself loudly (it was mis-measuring drift inside window 0, not a seam) — the fail-closed discipline worked before I fixed the gate.
+2. **6 files violated the charter `[date,close]` spec** (BIL/EWT/GDXJ/INDA/XLC/XLRE were 6-col OHLCV) — normalized, closes asserted bit-identical.
+
+## Manifest
+77 series: **50 PASS pre2007 / 25 PASS_WAIVER 2007plus / 2 loud FAIL(inception)** (XLC 2018, XLRE 2015). Independent final check with my own logic: all 77 rows match disk exactly, 0 problems. Zero-run disclosure kept loud: CPER 8 consecutive flat closes, CANE 6, BNO 5 — disclosed, not gated (no retro-invented gate).
+
+## Tests
+9/9 green: 7 in `test_span_class.py` (waiver lifts only the start bound; inception_fail can never be written; manifest matches disk) + 3 in `test_r3_integrity.py` (written red first; my initial I3 was over-broad and correctly flagged genuine 2000-cohort inceptions EWT/EWY/EWZ, so I encoded per-fund attainable starts instead).
+
+All numbers and script paths are in FINDINGS.md, ending with `ROUND 3 DONE`. No DEAD_IDEAS family was touched — this round was data-lint only.
+=== DATA_ETF_MORE round 3 end Mon Sep  7 10:16:54 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260908000952d8af2f8cc7ef4da3]
+=== DATA_ETF_MORE rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260908001650155f1b9fd59a4b3f]
+=== DATA_ETF_MORE rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260908002058db4add92724340fd]
+=== DATA_ETF_MORE rate-limited or errored (attempt 3, rc=1); backing off ===
+Round 4 complete. All charter-10 names resolved — summary:
+
+## Round 4 Result: 5/5 PASS_WAIVER, charter list fully cleared
+
+**State on arrival:** Prior session left `r4_fetch.py` + `test_r4.py` in work_r4 with 3 red tests and no run log. Cross-checking manifest + disk showed R3 had already cleared 5 of the 10 (HYG, EWC, DBE, DBP, USCI → PASS_WAIVER), so the round's real work was **EIS, TUR, EPHE, COPX, ENOR**.
+
+**TDD first (13/13 green at close):**
+- The 3 inherited reds were all *test-side* defects, not production: T1 compared Timestamps to strings (production must return Timestamps — lint gap-math needs a datetime index); T4 fixtures tripped the wrong gates (stale/short/dup preempting the gate under test, including overlapping windows that produced dups instead of the intended gap); T7 asserted `list == set` (unsatisfiable). No gate weakened — the inception fixture was strengthened so `FAIL(inception)` fires for the documented reason rather than being stale-preempted. Gate order (short→dup→gap→jumps→stale→inception) now encoded in test comments.
+- Caught a real process gap via a new red-first suite: `r4_fetch.py` wrote 5 CSVs but **never updated manifest.csv** (still 77 rows). `test_manifest_r4.py` went red, then the R3 builder rebuilt it fail-closed → **82 rows, 2 loud FAILs** (XLC/XLRE, genuine post-2013 inceptions, unobtainable by any source).
+
+**Fetch results** (TwelveData full-history won every time; Nasdaq keyless served rc=200 but only ~10y depth, so it acted as a live cross-check, n=2514 each; 8 req/min respected; no stitching):
+
+| symbol | start | rows | | symbol | start | rows |
+|---|---|---|---|---|---|---|
+| EIS | 2008-03-28 | 4640 | | COPX | 2010-04-20 | 4121 |
+| TUR | 2008-03-28 | 4641 | | ENOR | 2012-01-24 | 3676 |
+| EPHE | 2010-09-29 | 4008 | | | | |
+
+All end 2026-09-04, maxgap ≤5, jumps=0, dups=0, span_class=2007plus. **Zero failing probes** — all 10 source calls returned rc=200 with parseable data, so no FAIL evidence URLs exist to disclose.
+
+**Verification:** independent re-lint with fresh logic (not `r4_fetch.lint_series`) confirmed all 5 clean; disk-vs-manifest-vs-MANIFEST_R4.md row counts identical on all 10 charter names (e.g. HYG 4883, ENOR 3676).
+
+`MANIFEST_R4.md` written; FINDINGS.md appended and ends with exactly `ROUND 4 DONE`. Nothing committed — champion and other agents' dirs untouched.
+=== DATA_ETF_MORE round 4 end Tue Sep  8 00:45:09 CST 2026 exit 0 ===
+Round 5 complete. Charter executed, all gates respected, FINDINGS.md ends with exactly `ROUND 5 DONE`.
+
+## ROUND 5 SUMMARY — DATA_ETF_MORE
+
+**Corner (a): extend the ETF overlay bench for the V2 §8 blend battery** — spy/ief/cta trio as minimum, add 1-2 decorrelated passive benches, PIT lint + byte-stable manifest, no signal hunting.
+
+**READ FIRST (charter):** `GATES_CONTRACT_V2.md` full-read; `DEAD_IDEAS.csv` recounted myself = **130 data rows** (dynamic per V2 preamble — 10 rows appended since the charter's 120). No dead family touched, no signal hunted, `bt/` untouched, champion untouched (re-verified `4358dfab95679b97` at close).
+
+**Deliverable:** `tools/quant/data/bench_r5/manifest.csv` — 10 rows, **byte-stable across independent processes** (build1 = build2 = committed, sha256 `326afe5a28db2809…`):
+
+| Role | Symbols | Key numbers |
+|---|---|---|
+| trio_pinned (§7c, NOT re-fetched) | SPY / IEF / CTA_15vol | shas `d35d7280` / `603cb2a5` / `d7f3b5cd` — byte-identical to R2 vintage |
+| **decorrelated_passive (selected)** | **UUP, GLD** | UUP max\|corr\| vs trio **0.1833**, corr_champ 0.0028; GLD **0.2043**, corr_champ 0.0119 |
+| eligible_not_selected (cap=2) | SLV .2294 / IAU .2056 / GSG .3705 / DBC .3789 | IAU+SLV also gold-complex near-dups of GLD |
+| candidate_rejected (control) | TIP | corr_ief **0.7635 > 0.5** — rejected for the pre-registered expected reason |
+
+**Selection rule was pre-registered in tests before any measurement** (candidates a-priori by asset class, no fishing); correlations on common dates only, no fill/pad; span_class disclosed per row; every rejection carries its measured numbers.
+
+**TDD — 8/8 green, RED-first, two real defect catches:**
+1. My first `corr_common` re-differenced the CTA `[date,ret]` curve → NaN-poisoned overlaps, zero benches selectable — the R3 `beats_passive` bug class reproduced in my own draft. Fixed so `px_convention` travels with the series; RED→GREEN disclosure test added (IEF jump_days 1161→0).
+2. My own consumption test passed vacuously on price *levels* (the `>1e3` heuristic scored level-SRs). Corrected to the production caller contract — after which my loader reproduces the champion SR pin **3.1810 exactly**, and the trio on the champion span reads spy_bh 0.5863 / sixty_forty 0.5916 / cta_trend −0.1097.
+
+**What was deliberately NOT done:** no gates.run candidate battery, no blend dAnn/dMDD claims, no sleeves — the blend battery itself is the consumers' job; this round only widened what overlay submissions can be judged against.
+=== DATA_ETF_MORE round 5 end Tue Sep  8 07:52:54 CST 2026 exit 0 ===
+Round 6 executed per charter and closed. Summary:
+
+## Round 6 — Consolidation (both charter items done, all green)
+
+**(a) TDD bugfix — `campaign/bt/beats_passive.py`, `best_passive_sr`**
+- **The bug, one layer deeper than R5's find**: the library CTA_15vol (pinned sha `d7f3b5cd4616f0f4`) has 201 placeholder-0.0 rows (2008-01-03..2008-10-17); a benchmark book that never varies gets `sharpe_d`'s zero-variance floor → **finite SR 0.0 → "measurable" → wins `best_passive_sr`** on crash spans where spy_bh/60-40 are negative. Measured on pinned bytes: on 2008-01-03..06-30 HEAD scored cta_trend 0.000 vs spy_bh −1.1460 — an honest candidate beating every tradable benchmark was rejected against a benchmark that never traded.
+- **TDD discipline**: 4 tests appended; **3 RED at HEAD** failing on exactly the documented reason (`{'sr': 0.0, 'n': 124}`); the 4th is disclosed as a GREEN-at-HEAD boundary pin, not claimed as RED-first. Fix = 7-line fail-closed rule (zero-variance benchmark book → `sr=NaN` + loud note). **GREEN 46/46**, full bt suite **422→426 passed / 0 failed**.
+- **Verdict-neutrality proven**: post-window span still measures normally (cta SR 0.1033); champion-span pins reproduce exactly (0.5863/0.5916/−0.1097, SR 3.1810); champion-verify path imports nothing from `beats_passive`; all published TIMESFM bp_best pins are positive full-span numbers → zero published verdicts change.
+
+**(b) Trio refresh + disclosure** — all three files byte-identical to R5 pins (SPY `d35d72808dcc9fc3`, IEF `603cb2a56afd5616`, CTA `d7f3b5cd4616f0f4`); **not re-fetched** per §7c. Row counts reconciled: charter's 4999/6064/4683 are return-series counts; disk has 5000/6065 price rows (+1 = pct_change head row), zero byte drift.
+
+**Incident handled**: today's DATA_ORGANIZE sweep (13:44 session, attributed via cron log) flattened both my untracked deliverables. `bench_r5/manifest.csv` restored **byte-identical** to the R5-committed sha `326afe5a…` (proven before any write); `more_etf/manifest.csv` rebuilt via my deterministic R3 builder — 82 rows, `span_class` column back, 2 loud FAILs, R4 spot-facts row-exact (with the honest caveat that its pre-clobber bytes were never sha-pinned). R5 suite back to 8/8, R3+R4 suites 22/22. Champion untouched: `4358dfab95679b97` verified at close.
+
+FINDINGS.md appended with exact numbers and ends with exactly `ROUND 6 DONE` (byte-verified).
+=== DATA_ETF_MORE round 6 end Tue Sep  8 16:31:55 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260908212432096531c07ddc4178]
+=== DATA_ETF_MORE rate-limited or errored (attempt 1, rc=1); backing off ===
+Round 7 complete. Summary of what was done:
+
+## ROUND 7 — DATA_ETF_MORE (both charter items delivered)
+
+**READ FIRST**: GATES_CONTRACT_V2.md full-read; DEAD_IDEAS recounted myself = **151 data rows** (charter said 145-146, dynamic per V2 preamble); champion sha `4358dfab95679b97` re-verified unchanged at open and close. No dead-family re-tests, no signal hunting, bt/ untouched.
+
+### (a) Centerpiece — DATA_ORGANIZE post-mortem fixes, TDD RED-first
+Post-mortem source located: **CAMP_BORROW FINDINGS "LIVE INCIDENT" (lines 304-309)** — it names all three charter fixes. Verified the damage on disk before editing (`alfred/manifest.csv` still header-only from the 14:10 truncation).
+
+- **TDD evidence**: `work_r7/test_organize_postmortem.py` written first — **5 RED at HEAD** (crash-truncation unguarded, rich-schema/lag-floor/subdir-ref regeneration unguarded, real more_etf/bench_r5 unprotected), 9/9 GREEN after the fix. One mid-run failure was my own test fixture (headerless file — correctly refused by production), fixed the fixture, not the guard.
+- **(i) Atomic write**: `organize_lib._atomic_write_manifest()` — tmp + `os.replace`, tmp unlinked on any exception. The open-then-crash truncation class is structurally impossible now. Verified live: `write_manifest('twelvedata')` → byte-identical (sha `e251e647af9761c5` before == after), no `.tmp` litter.
+- **(ii) Fail-closed regeneration guard**: `_regen_refusals()` + `ManifestRegenerationRefused` — refuses rich schemas (span_class/lag_days), subdir artifact refs, unreadable files; allows absent/0-byte/canonical so legit sweeps aren't wedged. Verified on the real tree: `more_etf` + `bench_r5` now **refuse** regeneration = the 14:40 clobber cannot recur.
+- **(iii) `_pit` class**: content-classified (holds exactly `vintage.csv` in release-event schema) in `test_data_layout.py` + literal `_pit` reserved in the convention JSON — squatter-proof and stale-proof (two-way fail-closed survives). alfred series-ID dirs legal without renaming.
+- **Deadlock resolved**: the layout test previously *demanded* flattening exactly what the guard now refuses — that contradiction *was* the clobber pressure. New `rich_manifest_registry.json` pins both my rich manifests two-way (lose a column → fail; flatten → fail).
+- **Suite delta**: layout test **1 passed/9 failed → 5 passed/7 failed**; all 7 remaining failures are pre-existing foreign-family debt (altlib/fx_hist/akshare/yfin), loud, not charter-named for me.
+
+### (b) twelvedata manifest — documented, not restored
+The charter's "foreign 82x7" premise conflated two files: that was clobbered **more_etf** (already restored R6, sha re-verified). `twelvedata/manifest.csv` was **born canonical** — proven by byte-comparing the pre-clobber transcript bytes against the current file (same schema/order/values), no builder of mine ever wrote it, and SPY is consumed by direct path (sha `d35d72808dcc9fc3` = V2 §7c pin exactly). Converting it would violate the layout contract and be guard-locked forever. Decision + evidence chain pinned in **MANIFEST_R7.md** and test-pinned by **test_t9** (must stay canonical + disk-accurate).
+
+**Test totals**: work_r7 9/9 · bench_r5 8/8 · full DATA_ETF_MORE dir 39/39 · R3+R4 22/22 · FINDINGS.md ends with `ROUND 7 DONE`.
+=== DATA_ETF_MORE round 7 end Tue Sep  8 23:01:16 CST 2026 exit 0 ===

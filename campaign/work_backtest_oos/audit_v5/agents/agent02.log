@@ -1,0 +1,12 @@
+=== AGENT 02: Lookahead Bias & Data Leakage Audit ===
+  [PASS] IS ends before 2017: IS max=2016-12-31 00:00:00
+  [PASS] OOS starts at 2017: OOS min=2017-01-31 00:00:00
+  [PASS] No IS/OOS overlap: 
+  [PASS] IS SR > OOS SR (overfitting present, not leakage): IS=7.041 OOS=3.965
+  [PASS] All sleeves have IS data: 
+  [FAIL] Monthly = compound of daily (spot check): sleeve=C4_construct_v2.csv, month=2015-03, compound=-0.00468482, direct=-0.00799927
+  [PASS] Weights match saved file (no post-hoc adjustment): 
+  [PASS] Min sleeve OOS SR < 1.0 (no cherry-picking): min OOS SR=0.573
+  [PASS] Max IS pairwise corr ≤ 0.35 (decorrelation constraint): max corr=0.3324
+
+Overall: FAIL

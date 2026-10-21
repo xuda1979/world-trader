@@ -1,0 +1,441 @@
+# DATA-AXIS CENSUS (2026-09-19, ITER23 close-out) -- extendability pre-screen for ITER24+
+# Criterion: the champion's weight fit is IS-only (2008-03-31..2017-01-01, fit_relw gives
+# IS-uncovered sleeves weight 0 -- the CFX4 lesson), so a candidate sleeve's underlying data
+# MUST have >500 rows inside the IS window AND start at/before 2008-03-31 to be expressible.
+# FSok = last observation >= 2024-01-01 (must still trade today).
+# This file is the SCREEN only: IS-fittable != adoptable. Any sleeve built from these still
+# faces the full gates (capital-real dAnn>0, 5 OOS bins, CFX4=0 pool invariant, Wmax 2x,
+# full |dW| 6.4bp costs, non-shortability where applicable) and the ITER17 law applies:
+# IS-only gains die at OOS. Charted shortlist for ITER24: bund_daily (8 tenors, EU curve --
+# pool has no European rates family), em_rates (BRL/CZK/PLN/PN -- distinct from the dead
+# twelvedata CFX4 vendor feed; batch-8 verified), dm_rates (CAD curve/NOK), cboe_hist vol
+# complex (VIX/VIX6M/VVIX/GVZ/OVX term structure -- A5r2 covers contango partially).
+# NOT fittable (low-frequency): wb_commodity, wb_cmo, gas_storage (matches the ITER18
+# aggregate-storage no-edge result; the regional-basis gap needs data purchase, per prior
+# finding).
+
+family         file                       rows first       last        IScov FSok note
+cboe_hist      DIA.csv                    5710 2004-01-02  2026-09-09   2207  True IS-FITTABLE
+cboe_hist      DJX.csv                    7281 1997-09-29  2026-09-09   2207  True IS-FITTABLE
+cboe_hist      EEM.csv                    5709 2004-01-02  2026-09-09   2207  True IS-FITTABLE
+cboe_hist      EFA.csv                    5709 2004-01-02  2026-09-09   2207  True IS-FITTABLE
+cboe_hist      EMB.csv                    4643 2008-02-11  2026-09-09   2176  True IS-FITTABLE
+cboe_hist      EWT.csv                    5709 2004-01-02  2026-09-09   2207  True IS-FITTABLE
+cboe_hist      FXI.csv                    5516 2004-10-08  2026-09-09   2207  True IS-FITTABLE
+cboe_hist      GLD.csv                    5487 2004-11-18  2026-09-09   2207  True IS-FITTABLE
+cboe_hist      GVZ.csv                    4267 2009-09-18  2026-09-09   1835  True partial-IS
+cboe_hist      HYG.csv                    4887 2007-04-11  2026-09-09   2207  True IS-FITTABLE
+cboe_hist      IEF.csv                    5708 2004-01-02  2026-09-09   2207  True IS-FITTABLE
+cboe_hist      IWM.csv                    5704 2004-01-02  2026-09-09   2207  True IS-FITTABLE
+cboe_hist      JNK.csv                    4645 2008-02-11  2026-09-09   2176  True IS-FITTABLE
+cboe_hist      KWEB.csv                   3290 2013-08-01  2026-09-09    854  True partial-IS
+cboe_hist      LQD.csv                    5499 2004-01-02  2026-09-09   2207  True IS-FITTABLE
+cboe_hist      OEX.csv                   10953 1983-03-11  2026-09-09   2203  True IS-FITTABLE
+cboe_hist      OVX.csv                    4267 2009-09-18  2026-09-09   1835  True partial-IS
+cboe_hist      QQQ.csv                    5708 2004-01-02  2026-09-09   2207  True IS-FITTABLE
+cboe_hist      RUT.csv                    1451 2020-11-27  2026-09-09      0  True recent-only
+cboe_hist      SHY.csv                    5708 2004-01-02  2026-09-09   2207  True IS-FITTABLE
+cboe_hist      SLV.csv                    4995 2006-11-01  2026-09-09   2207  True IS-FITTABLE
+cboe_hist      SMH.csv                    5709 2004-01-02  2026-09-09   2207  True IS-FITTABLE
+cboe_hist      SPX.csv                   13030 1975-01-02  2026-09-09   2207  True IS-FITTABLE
+cboe_hist      SPY.csv                    5709 2004-01-02  2026-09-09   2207  True IS-FITTABLE
+cboe_hist      TLT.csv                    5708 2004-01-02  2026-09-09   2207  True IS-FITTABLE
+cboe_hist      TSM.csv                    5709 2004-01-02  2026-09-09   2207  True IS-FITTABLE
+cboe_hist      VIX.csv                    9269 1990-01-02  2026-09-09   2207  True IS-FITTABLE
+cboe_hist      VIX1D.csv                  1084 2022-05-13  2026-09-09      0  True recent-only
+cboe_hist      VIX3M.csv                  4269 2009-09-18  2026-09-09   1835  True partial-IS
+cboe_hist      VIX6M.csv                  4701 2008-01-02  2026-09-09   2207  True IS-FITTABLE
+cboe_hist      VNQ.csv                    5313 2004-09-29  2026-09-09   2207  True IS-FITTABLE
+cboe_hist      VVIX.csv                   5100 2006-03-06  2026-09-09   2205  True IS-FITTABLE
+cboe_hist      XLB.csv                    5709 2004-01-02  2026-09-09   2207  True IS-FITTABLE
+cboe_hist      XLE.csv                    5709 2004-01-02  2026-09-09   2207  True IS-FITTABLE
+cboe_hist      XLF.csv                    5709 2004-01-02  2026-09-09   2207  True IS-FITTABLE
+cboe_hist      XLI.csv                    5705 2004-01-02  2026-09-09   2207  True IS-FITTABLE
+cboe_hist      XLK.csv                    5709 2004-01-02  2026-09-09   2207  True IS-FITTABLE
+cboe_hist      XLP.csv                    5709 2004-01-02  2026-09-09   2207  True IS-FITTABLE
+cboe_hist      XLU.csv                    5709 2004-01-02  2026-09-09   2207  True IS-FITTABLE
+cboe_hist      XLV.csv                    5709 2004-01-02  2026-09-09   2207  True IS-FITTABLE
+cboe_hist      XLY.csv                    5709 2004-01-02  2026-09-09   2207  True IS-FITTABLE
+cboe_hist      manifest.csv                  0  EMPTY
+bund_daily     bund_02y.csv               7357 1997-08-07  2026-08-03   2227  True IS-FITTABLE
+bund_daily     bund_03y.csv               7357 1997-08-07  2026-08-03   2227  True IS-FITTABLE
+bund_daily     bund_05y.csv               7357 1997-08-07  2026-08-03   2227  True IS-FITTABLE
+bund_daily     bund_07y.csv               7357 1997-08-07  2026-08-03   2227  True IS-FITTABLE
+bund_daily     bund_10y.csv               7357 1997-08-07  2026-08-03   2227  True IS-FITTABLE
+bund_daily     bund_15y.csv               7357 1997-08-07  2026-08-03   2227  True IS-FITTABLE
+bund_daily     bund_20y.csv               7357 1997-08-07  2026-08-03   2227  True IS-FITTABLE
+bund_daily     bund_30y.csv               6605 2000-08-01  2026-08-03   2227  True IS-FITTABLE
+bund_daily     manifest.csv                  0  EMPTY
+em_rates       brazil_ipca.csv             379 1995-01-01  2026-07-01    105  True partial-IS
+em_rates       brazil_selic.csv           7954 1995-01-02  2026-09-09   2204  True IS-FITTABLE
+em_rates       brazil_usdbrl.csv          7955 1995-01-02  2026-09-10   2204  True IS-FITTABLE
+em_rates       czech_eurczk.csv           6973 1999-01-01  2026-09-10   2207  True IS-FITTABLE
+em_rates       czech_usdczk.csv           7985 1995-01-02  2026-09-10   2207  True IS-FITTABLE
+em_rates       manifest.csv                  0  EMPTY
+em_rates       peru_usdpen.csv            7393 1997-01-02  2026-09-09   2166  True IS-FITTABLE
+em_rates       poland_eurpln.csv          6062 2002-01-02  2025-12-31   2215  True IS-FITTABLE
+em_rates       poland_usdpln.csv          6062 2002-01-02  2025-12-31   2215  True IS-FITTABLE
+wb_commodity   aluminum.csv                800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   banana_europe.csv           356 1997-01-01  2026-08-01    105  True partial-IS
+wb_commodity   banana_us.csv               800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   barley.csv                  728 1960-01-01  2020-08-01    105 False partial-IS
+wb_commodity   beef.csv                    800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   chicken.csv                 800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   coal_australian.csv         680 1970-01-01  2026-08-01    105  True partial-IS
+wb_commodity   coal_south_african.csv      512 1984-01-01  2026-08-01    105  True partial-IS
+wb_commodity   cocoa.csv                   800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   coconut_oil.csv             800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   coffee_arabica.csv          800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   coffee_robusta.csv          800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   copper.csv                  800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   cotton_a_index.csv          800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   crude_oil_average.csv       800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   crude_oil_brent.csv         800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   crude_oil_dubai.csv         800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   crude_oil_wti.csv           536 1982-01-01  2026-08-01    105  True partial-IS
+wb_commodity   dap.csv                     716 1967-01-01  2026-08-01    105  True partial-IS
+wb_commodity   fish_meal.csv               572 1979-01-01  2026-08-01    105  True partial-IS
+wb_commodity   gold.csv                    800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   groundnut_oil.csv           800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   groundnuts.csv              560 1980-01-01  2026-08-01    105  True partial-IS
+wb_commodity   iron_ore_cfr_spot.csv       800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   lamb.csv                    668 1971-01-01  2026-08-01    105  True partial-IS
+wb_commodity   lead.csv                    800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   liquefied_natural_gas_japan.csv      596 1977-01-01  2026-08-01    105  True partial-IS
+wb_commodity   logs_cameroon.csv           680 1970-01-01  2026-08-01    105  True partial-IS
+wb_commodity   logs_malaysian.csv          800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   maize.csv                   800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   manifest.csv                  0  EMPTY
+wb_commodity   natural_gas_europe.csv      800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   natural_gas_index.csv       596 1977-01-01  2026-08-01    105  True partial-IS
+wb_commodity   natural_gas_us.csv          800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   nickel.csv                  800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   orange.csv                  800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   palm_kernel_oil.csv         368 1996-01-01  2026-08-01    105  True partial-IS
+wb_commodity   palm_oil.csv                800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   phosphate_rock.csv          800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   platinum.csv                800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   plywood.csv                 572 1979-01-01  2026-08-01    105  True partial-IS
+wb_commodity   potassium_chloride.csv      800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   rapeseed_oil.csv            295 2002-02-01  2026-08-01    105  True partial-IS
+wb_commodity   rice_thai_25.csv            484 1986-01-01  2026-08-01    105  True partial-IS
+wb_commodity   rice_thai_5.csv             800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   rice_thai_a_1.csv           488 1986-01-01  2026-08-01    105  True partial-IS
+wb_commodity   rice_viet_namese_5.csv      262 2003-12-01  2026-08-01    102  True partial-IS
+wb_commodity   rubber_rss3.csv             800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   rubber_tsr20.csv            332 1999-01-01  2026-08-01    105  True partial-IS
+wb_commodity   sawnwood_cameroon.csv       428 1970-01-01  2026-08-01    105  True partial-IS
+wb_commodity   sawnwood_malaysian.csv      800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   shrimps_mexican.csv         766 1960-01-01  2023-10-01    105 False partial-IS
+wb_commodity   silver.csv                  800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   sorghum.csv                 728 1960-01-01  2020-08-01    105 False partial-IS
+wb_commodity   soybean_meal.csv            800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   soybean_oil.csv             800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   soybeans.csv                800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   sugar_eu.csv                800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   sugar_us.csv                800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   sugar_world.csv             800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   sunflower_oil.csv           290 2002-02-01  2026-08-01    105  True partial-IS
+wb_commodity   tea_avg_3_auctions.csv      800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   tea_colombo.csv             800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   tea_kolkata.csv             800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   tea_mombasa.csv             800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   tin.csv                     800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   tobacco_us_import_u_v.csv      798 1960-01-01  2026-06-01    105  True partial-IS
+wb_commodity   tsp.csv                     800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   urea.csv                    800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   wheat_us_hrw.csv            800 1960-01-01  2026-08-01    105  True partial-IS
+wb_commodity   wheat_us_srw.csv            572 1979-01-01  2026-08-01    105  True partial-IS
+wb_commodity   zinc.csv                    800 1960-01-01  2026-08-01    105  True partial-IS
+dm_rates       aud_cash_rate_target.csv     3971 2011-01-04  2026-09-10   1518  True partial-IS
+dm_rates       aud_govt_10y.csv           3346 2013-05-20  2026-09-02    911  True partial-IS
+dm_rates       aud_govt_2y.csv            3268 2013-09-02  2026-09-02    833  True partial-IS
+dm_rates       aud_govt_3y.csv            3268 2013-09-02  2026-09-02    833  True partial-IS
+dm_rates       aud_govt_5y.csv            3268 2013-09-02  2026-09-02    833  True partial-IS
+dm_rates       aud_interbank_overnight.csv     3971 2011-01-04  2026-09-10   1518  True partial-IS
+dm_rates       cad_govt_10y.csv           6424 2001-01-02  2026-09-09   2189  True IS-FITTABLE
+dm_rates       cad_govt_2y.csv            6423 2001-01-02  2026-09-09   2189  True IS-FITTABLE
+dm_rates       cad_govt_3y.csv            6423 2001-01-02  2026-09-09   2189  True IS-FITTABLE
+dm_rates       cad_govt_5y.csv            6423 2001-01-02  2026-09-09   2189  True IS-FITTABLE
+dm_rates       cad_govt_long.csv          6423 2001-01-02  2026-09-09   2189  True IS-FITTABLE
+dm_rates       manifest.csv                  0  EMPTY
+dm_rates       nok_policy_rate.csv        9017 1991-01-01  2026-09-09   2209  True IS-FITTABLE
+gas_storage    de_net_withdrawal_gwh_d.csv     5731 2011-01-01  2026-09-09   2192  True partial-IS
+gas_storage    de_storage_full_pct.csv     5731 2011-01-01  2026-09-09   2192  True partial-IS
+gas_storage    eu_gas_in_storage_twh.csv     5731 2011-01-01  2026-09-09   2192  True partial-IS
+gas_storage    eu_injection_gwh_d.csv     5731 2011-01-01  2026-09-09   2192  True partial-IS
+gas_storage    eu_net_withdrawal_gwh_d.csv     5731 2011-01-01  2026-09-09   2192  True partial-IS
+gas_storage    eu_storage_full_pct.csv     5731 2011-01-01  2026-09-09   2192  True partial-IS
+gas_storage    eu_withdrawal_gwh_d.csv     5731 2011-01-01  2026-09-09   2192  True partial-IS
+gas_storage    manifest.csv                  0  EMPTY
+wb_cmo         aluminum.csv                780 1960-01-01  2024-12-01    105  True partial-IS
+wb_cmo         brent.csv                   780 1960-01-01  2024-12-01    105  True partial-IS
+wb_cmo         coal_aus.csv                660 1970-01-01  2024-12-01    105  True partial-IS
+wb_cmo         coal_sa.csv                 492 1984-01-01  2024-12-01    105  True partial-IS
+wb_cmo         cocoa.csv                   780 1960-01-01  2024-12-01    105  True partial-IS
+wb_cmo         coffee_arab.csv             780 1960-01-01  2024-12-01    105  True partial-IS
+wb_cmo         coffee_rob.csv              780 1960-01-01  2024-12-01    105  True partial-IS
+wb_cmo         copper.csv                  780 1960-01-01  2024-12-01    105  True partial-IS
+wb_cmo         cotton.csv                  780 1960-01-01  2024-12-01    105  True partial-IS
+wb_cmo         dubai.csv                   780 1960-01-01  2024-12-01    105  True partial-IS
+wb_cmo         gold.csv                    780 1960-01-01  2024-12-01    105  True partial-IS
+wb_cmo         iron_ore.csv                780 1960-01-01  2024-12-01    105  True partial-IS
+wb_cmo         lead.csv                    780 1960-01-01  2024-12-01    105  True partial-IS
+wb_cmo         maize.csv                   780 1960-01-01  2024-12-01    105  True partial-IS
+wb_cmo         manifest.csv                  0  EMPTY
+wb_cmo         natgas_jp.csv               576 1977-01-01  2024-12-01    105  True partial-IS
+wb_cmo         natgas_us.csv               780 1960-01-01  2024-12-01    105  True partial-IS
+wb_cmo         nickel.csv                  780 1960-01-01  2024-12-01    105  True partial-IS
+wb_cmo         palm_oil.csv                780 1960-01-01  2024-12-01    105  True partial-IS
+wb_cmo         phosphate.csv               696 1967-01-01  2024-12-01    105  True partial-IS
+wb_cmo         platinum.csv                780 1960-01-01  2024-12-01    105  True partial-IS
+wb_cmo         potassium.csv               780 1960-01-01  2024-12-01    105  True partial-IS
+wb_cmo         rice.csv                    780 1960-01-01  2024-12-01    105  True partial-IS
+wb_cmo         rubber.csv                  780 1960-01-01  2024-12-01    105  True partial-IS
+wb_cmo         silver.csv                  780 1960-01-01  2024-12-01    105  True partial-IS
+wb_cmo         soybean_oil.csv             780 1960-01-01  2024-12-01    105  True partial-IS
+wb_cmo         soybeans.csv                780 1960-01-01  2024-12-01    105  True partial-IS
+wb_cmo         sugar_eu.csv                780 1960-01-01  2024-12-01    105  True partial-IS
+wb_cmo         sugar_us.csv                780 1960-01-01  2024-12-01    105  True partial-IS
+wb_cmo         tea_avg.csv                 780 1960-01-01  2024-12-01    105  True partial-IS
+wb_cmo         tin.csv                     780 1960-01-01  2024-12-01    105  True partial-IS
+wb_cmo         tnp.csv                     780 1960-01-01  2024-12-01    105  True partial-IS
+wb_cmo         urea.csv                    780 1960-01-01  2024-12-01    105  True partial-IS
+wb_cmo         wheat.csv                   780 1960-01-01  2024-12-01    105  True partial-IS
+wb_cmo         wti.csv                     516 1982-01-01  2024-12-01    105  True partial-IS
+wb_cmo         zinc.csv                    780 1960-01-01  2024-12-01    105  True partial-IS
+eia_weekly     brent_spot_daily.csv       9298 1990-01-02  2026-09-01   2210  True IS-FITTABLE
+eia_weekly     crude_imports_weekly.csv     1913 1990-01-05  2026-08-28    457  True partial-IS
+eia_weekly     crude_prod_weekly.csv      2122 1986-01-03  2026-08-28    457  True partial-IS
+eia_weekly     gasoline_gulf_spot_daily.csv    10109 1986-06-02  2026-09-01   2206  True IS-FITTABLE
+eia_weekly     gasoline_la_spot_daily.csv     5887 2003-03-11  2026-09-01   2208  True IS-FITTABLE
+eia_weekly     gasoline_nyh_spot_daily.csv    10112 1986-06-02  2026-09-01   2209  True IS-FITTABLE
+eia_weekly     gasoline_total_stocks_weekly.csv     1913 1990-01-05  2026-08-28    457  True partial-IS
+eia_weekly     jet_gulf_spot_daily.csv     9145 1990-04-02  2026-09-01   2208  True IS-FITTABLE
+eia_weekly     manifest.csv                  0  EMPTY
+eia_weekly     manifest_stockmatrix.csv        0  EMPTY
+eia_weekly     natgas_HH_spot_daily.csv     5265 2005-10-07  2026-09-01   2222  True IS-FITTABLE
+eia_weekly     ng_storage_L48_weekly.csv      870 2010-01-01  2026-08-28    366  True partial-IS
+eia_weekly     ng_storage_east_weekly.csv      870 2010-01-01  2026-08-28    366  True partial-IS
+eia_weekly     ng_storage_midwest_weekly.csv      870 2010-01-01  2026-08-28    366  True partial-IS
+eia_weekly     ng_storage_other_weekly.csv      870 2010-01-01  2026-08-28    366  True partial-IS
+eia_weekly     ng_storage_salt_weekly.csv      870 2010-01-01  2026-08-28    366  True partial-IS
+eia_weekly     ng_storage_southnonsalt_weekly.csv      870 2010-01-01  2026-08-28    366  True partial-IS
+eia_weekly     ng_storage_southsalt_weekly.csv      870 2010-01-01  2026-08-28    366  True partial-IS
+eia_weekly     ng_storage_west_weekly.csv      870 2010-01-01  2026-08-28    366  True partial-IS
+eia_weekly     petstk_p1a_w_epc0_sax_r10_mbbl.csv     1396 1990-01-05  2016-09-30    444 False partial-IS
+eia_weekly     petstk_p1a_w_epllp0c_skb_r10_mbbl.csv      132 2024-02-23  2026-08-28      0  True recent-only
+eia_weekly     petstk_p1a_w_epm0cag55_sae_r10_mbbl.csv      848 2010-06-04  2026-08-28    344  True partial-IS
+eia_weekly     petstk_p1a_w_epm0f_sae_r10_mbbl.csv     1704 1994-01-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p1a_w_epobgrr_sae_r10_mbbl.csv     1165 2004-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p1a_w_epooxe_sae_r10_mbbl.csv      848 2010-06-04  2026-08-28    344  True partial-IS
+eia_weekly     petstk_p1a_wbcst_r10_1.csv     1169 2004-04-09  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p1a_wcestp11.csv     1913 1990-01-05  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p1a_wd0st_r10_1.csv     1169 2004-04-09  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p1a_wd1st_r10_1.csv     1738 1993-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p1a_wdgstp11.csv     1738 1993-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p1a_wdistp11.csv     1913 1990-01-05  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p1a_wg1st_r10_1.csv      848 2010-06-04  2026-08-28    344  True partial-IS
+eia_weekly     petstk_p1a_wg4st_r10_1.csv     1704 1994-01-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p1a_wg5st_r10_1.csv      848 2010-06-04  2026-08-28    344  True partial-IS
+eia_weekly     petstk_p1a_wg6st_r10_1.csv      848 2010-06-04  2026-08-28    344  True partial-IS
+eia_weekly     petstk_p1a_wgrstp11.csv     1738 1993-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p1a_wgtstp11.csv     1913 1990-01-05  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p1a_wkjstp11.csv     1913 1990-01-05  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p1a_wo2st_r10_1.csv      317 2004-05-07  2010-05-28    113 False partial-IS
+eia_weekly     petstk_p1a_wo3st_r10_1.csv      317 2004-05-07  2010-05-28    113 False partial-IS
+eia_weekly     petstk_p1a_wo4st_r10_1.csv      317 2004-05-07  2010-05-28    113 False partial-IS
+eia_weekly     petstk_p1a_wo6st_r10_1.csv     1165 2004-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p1a_wo7st_r10_1.csv     1165 2004-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p1a_wo9st_r10_1.csv     1165 2004-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p1a_wprstp11.csv      609 2015-01-02  2026-08-28    105  True partial-IS
+eia_weekly     petstk_p1a_wrestp11.csv     1913 1990-01-05  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p1b_w_epllp0c_skb_r1x_mbbl.csv      132 2024-02-23  2026-08-28      0  True recent-only
+eia_weekly     petstk_p1b_wd0st_r1x_1.csv     1170 1990-11-30  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p1b_wd1st_r1x_1.csv     1738 1993-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p1b_wdgst1a1.csv     1738 1993-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p1b_wdist1a1.csv     1868 1990-11-09  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p1b_wgtst1a1.csv     1868 1990-11-09  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p1b_wprst1a1.csv      609 2015-01-02  2026-08-28    105  True partial-IS
+eia_weekly     petstk_p1b_wrest1a1.csv     1868 1990-11-09  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p1c_w_epllp0c_skb_r1y_mbbl.csv      132 2024-02-23  2026-08-28      0  True recent-only
+eia_weekly     petstk_p1c_wd0st_r1y_1.csv     1170 1990-11-30  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p1c_wd1st_r1y_1.csv     1738 1993-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p1c_wdgst1b1.csv     1738 1993-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p1c_wdist1b1.csv     1868 1990-11-09  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p1c_wgtst1b1.csv     1868 1990-11-09  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p1c_wprst1b1.csv      609 2015-01-02  2026-08-28    105  True partial-IS
+eia_weekly     petstk_p1c_wrest1b1.csv     1868 1990-11-09  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p1z_w_epllp0c_skb_r1z_mbbl.csv      132 2024-02-23  2026-08-28      0  True recent-only
+eia_weekly     petstk_p1z_wd0st_r1z_1.csv     1170 1990-11-30  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p1z_wd1st_r1z_1.csv     1738 1993-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p1z_wdgst1c1.csv     1738 1993-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p1z_wdist1c1.csv     1868 1990-11-09  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p1z_wgtst1c1.csv     1868 1990-11-09  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p1z_wprst1c1.csv      609 2015-01-02  2026-08-28    105  True partial-IS
+eia_weekly     petstk_p1z_wrest1c1.csv     1868 1990-11-09  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p2_w_epc0_sax_r20_mbbl.csv     1396 1990-01-05  2016-09-30    444 False partial-IS
+eia_weekly     petstk_p2_w_epllp0c_skb_r20_mbbl.csv      132 2024-02-23  2026-08-28      0  True recent-only
+eia_weekly     petstk_p2_w_epm0cag55_sae_r20_mbbl.csv      848 2010-06-04  2026-08-28    344  True partial-IS
+eia_weekly     petstk_p2_w_epm0f_sae_r20_mbbl.csv     1704 1994-01-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p2_w_epobgrr_sae_r20_mbbl.csv     1165 2004-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p2_w_epooxe_sae_r20_mbbl.csv      848 2010-06-04  2026-08-28    344  True partial-IS
+eia_weekly     petstk_p2_wbcst_r20_1.csv     1169 2004-04-09  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p2_wcestp21.csv     1913 1990-01-05  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p2_wd0st_r20_1.csv     1169 2004-04-09  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p2_wd1st_r20_1.csv     1738 1993-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p2_wdgstp21.csv     1738 1993-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p2_wdistp21.csv     1913 1990-01-05  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p2_wg1st_r20_1.csv      848 2010-06-04  2026-08-28    344  True partial-IS
+eia_weekly     petstk_p2_wg4st_r20_1.csv     1704 1994-01-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p2_wg5st_r20_1.csv      848 2010-06-04  2026-08-28    344  True partial-IS
+eia_weekly     petstk_p2_wg6st_r20_1.csv      848 2010-06-04  2026-08-28    344  True partial-IS
+eia_weekly     petstk_p2_wgrstp21.csv     1738 1993-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p2_wgtstp21.csv     1913 1990-01-05  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p2_wkjstp21.csv     1913 1990-01-05  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p2_wo2st_r20_1.csv      317 2004-05-07  2010-05-28    113 False partial-IS
+eia_weekly     petstk_p2_wo3st_r20_1.csv      317 2004-05-07  2010-05-28    113 False partial-IS
+eia_weekly     petstk_p2_wo4st_r20_1.csv      317 2004-05-07  2010-05-28    113 False partial-IS
+eia_weekly     petstk_p2_wo6st_r20_1.csv     1165 2004-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p2_wo7st_r20_1.csv     1165 2004-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p2_wo9st_r20_1.csv     1165 2004-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p2_wprstp21.csv      609 2015-01-02  2026-08-28    105  True partial-IS
+eia_weekly     petstk_p2_wrestp21.csv     1913 1990-01-05  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p3_w_epc0_sax_r30_mbbl.csv     1396 1990-01-05  2016-09-30    444 False partial-IS
+eia_weekly     petstk_p3_w_epllp0c_skb_r30_mbbl.csv      132 2024-02-23  2026-08-28      0  True recent-only
+eia_weekly     petstk_p3_w_epm0cag55_sae_r30_mbbl.csv      848 2010-06-04  2026-08-28    344  True partial-IS
+eia_weekly     petstk_p3_w_epm0f_sae_r30_mbbl.csv     1704 1994-01-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p3_w_epobgrr_sae_r30_mbbl.csv     1165 2004-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p3_w_epooxe_sae_r30_mbbl.csv      848 2010-06-04  2026-08-28    344  True partial-IS
+eia_weekly     petstk_p3_wbcst_r30_1.csv     1169 2004-04-09  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p3_wcestp31.csv     1913 1990-01-05  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p3_wd0st_r30_1.csv     1169 2004-04-09  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p3_wd1st_r30_1.csv     1738 1993-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p3_wdgstp31.csv     1738 1993-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p3_wdistp31.csv     1913 1990-01-05  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p3_wg1st_r30_1.csv      848 2010-06-04  2026-08-28    344  True partial-IS
+eia_weekly     petstk_p3_wg4st_r30_1.csv     1704 1994-01-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p3_wg5st_r30_1.csv      848 2010-06-04  2026-08-28    344  True partial-IS
+eia_weekly     petstk_p3_wg6st_r30_1.csv      848 2010-06-04  2026-08-28    344  True partial-IS
+eia_weekly     petstk_p3_wgrstp31.csv     1738 1993-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p3_wgtstp31.csv     1913 1990-01-05  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p3_wkjstp31.csv     1913 1990-01-05  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p3_wo2st_r30_1.csv      317 2004-05-07  2010-05-28    113 False partial-IS
+eia_weekly     petstk_p3_wo3st_r30_1.csv      317 2004-05-07  2010-05-28    113 False partial-IS
+eia_weekly     petstk_p3_wo4st_r30_1.csv      317 2004-05-07  2010-05-28    113 False partial-IS
+eia_weekly     petstk_p3_wo6st_r30_1.csv     1165 2004-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p3_wo7st_r30_1.csv     1165 2004-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p3_wo9st_r30_1.csv     1165 2004-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p3_wprstp31.csv      609 2015-01-02  2026-08-28    105  True partial-IS
+eia_weekly     petstk_p3_wrestp31.csv     1913 1990-01-05  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p4_w_epc0_sax_r40_mbbl.csv     1396 1990-01-05  2016-09-30    444 False partial-IS
+eia_weekly     petstk_p4_w_epllp0c_skb_r40_mbbl.csv      132 2024-02-23  2026-08-28      0  True recent-only
+eia_weekly     petstk_p4_w_epm0cag55_sae_r40_mbbl.csv      848 2010-06-04  2026-08-28    344  True partial-IS
+eia_weekly     petstk_p4_w_epm0f_sae_r40_mbbl.csv     1704 1994-01-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p4_w_epobgrr_sae_r40_mbbl.csv     1165 2004-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p4_w_epooxe_sae_r40_mbbl.csv      848 2010-06-04  2026-08-28    344  True partial-IS
+eia_weekly     petstk_p4_wbcst_r40_1.csv     1169 2004-04-09  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p4_wcestp41.csv     1913 1990-01-05  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p4_wd0st_r40_1.csv     1169 2004-04-09  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p4_wd1st_r40_1.csv     1738 1993-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p4_wdgstp41.csv     1738 1993-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p4_wdistp41.csv     1913 1990-01-05  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p4_wg1st_r40_1.csv      848 2010-06-04  2026-08-28    344  True partial-IS
+eia_weekly     petstk_p4_wg4st_r40_1.csv     1704 1994-01-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p4_wg5st_r40_1.csv      848 2010-06-04  2026-08-28    344  True partial-IS
+eia_weekly     petstk_p4_wg6st_r40_1.csv      848 2010-06-04  2026-08-28    344  True partial-IS
+eia_weekly     petstk_p4_wgrstp41.csv     1738 1993-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p4_wgtstp41.csv     1913 1990-01-05  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p4_wkjstp41.csv     1913 1990-01-05  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p4_wo2st_r40_1.csv      317 2004-05-07  2010-05-28    113 False partial-IS
+eia_weekly     petstk_p4_wo3st_r40_1.csv      317 2004-05-07  2010-05-28    113 False partial-IS
+eia_weekly     petstk_p4_wo4st_r40_1.csv      317 2004-05-07  2010-05-28    113 False partial-IS
+eia_weekly     petstk_p4_wo6st_r40_1.csv     1165 2004-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p4_wo7st_r40_1.csv     1165 2004-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p4_wo9st_r40_1.csv     1165 2004-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p4_wrestp41.csv     1913 1990-01-05  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p5_w_epc0_sax_r50_mbbl.csv     1396 1990-01-05  2016-09-30    444 False partial-IS
+eia_weekly     petstk_p5_w_epllp0c_skb_r50_mbbl.csv      132 2024-02-23  2026-08-28      0  True recent-only
+eia_weekly     petstk_p5_w_epm0cag55_sae_r50_mbbl.csv      848 2010-06-04  2026-08-28    344  True partial-IS
+eia_weekly     petstk_p5_w_epm0f_sae_r50_mbbl.csv     1704 1994-01-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p5_w_epobgrr_sae_r50_mbbl.csv     1165 2004-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p5_w_epooxe_sae_r50_mbbl.csv      848 2010-06-04  2026-08-28    344  True partial-IS
+eia_weekly     petstk_p5_wbcst_r50_1.csv     1169 2004-04-09  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p5_wcestp51.csv     1913 1990-01-05  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p5_wd0st_r50_1.csv     1169 2004-04-09  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p5_wd1st_r50_1.csv     1738 1993-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p5_wdgstp51.csv     1738 1993-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p5_wdistp51.csv     1913 1990-01-05  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p5_wg1st_r50_1.csv      848 2010-06-04  2026-08-28    344  True partial-IS
+eia_weekly     petstk_p5_wg4st_r50_1.csv     1704 1994-01-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p5_wg5st_r50_1.csv      848 2010-06-04  2026-08-28    344  True partial-IS
+eia_weekly     petstk_p5_wg6st_r50_1.csv      848 2010-06-04  2026-08-28    344  True partial-IS
+eia_weekly     petstk_p5_wgrstp51.csv     1738 1993-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p5_wgtstp51.csv     1913 1990-01-05  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p5_wkjstp51.csv     1913 1990-01-05  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p5_wo2st_r50_1.csv      317 2004-05-07  2010-05-28    113 False partial-IS
+eia_weekly     petstk_p5_wo3st_r50_1.csv      317 2004-05-07  2010-05-28    113 False partial-IS
+eia_weekly     petstk_p5_wo4st_r50_1.csv      317 2004-05-07  2010-05-28    113 False partial-IS
+eia_weekly     petstk_p5_wo6st_r50_1.csv     1165 2004-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p5_wo7st_r50_1.csv     1165 2004-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p5_wo9st_r50_1.csv     1165 2004-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_p5_wrestp51.csv     1913 1990-01-05  2026-08-28    457  True partial-IS
+eia_weekly     petstk_us_w_epc0_sax_nus_mbbl.csv     1775 1982-08-20  2016-09-30    444 False partial-IS
+eia_weekly     petstk_us_w_epc0_ska_nus_mbbl.csv      848 2010-06-04  2026-08-28    344  True partial-IS
+eia_weekly     petstk_us_w_epl0xp_sae_nus_mbbl.csv      848 2010-06-04  2026-08-28    344  True partial-IS
+eia_weekly     petstk_us_w_epllp0c_skb_nus_mbbl.csv      132 2024-02-23  2026-08-28      0  True recent-only
+eia_weekly     petstk_us_w_epm0cag55_sae_nus_mbbl.csv      848 2010-06-04  2026-08-28    344  True partial-IS
+eia_weekly     petstk_us_w_epobgrr_sae_nus_mbbl.csv     1165 2004-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_us_w_epooxe_sae_nus_mbbl.csv      848 2010-06-04  2026-08-28    344  True partial-IS
+eia_weekly     petstk_us_w_eppa_sae_nus_mbbl.csv      848 2010-06-04  2026-08-28    344  True partial-IS
+eia_weekly     petstk_us_w_eppk_sae_nus_mbbl.csv      848 2010-06-04  2026-08-28    344  True partial-IS
+eia_weekly     petstk_us_w_eppo6_sae_nus_mbbl.csv      848 2010-06-04  2026-08-28    344  True partial-IS
+eia_weekly     petstk_us_wbcstus1.csv     2273 1983-01-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_us_wcestus1.csv     2292 1982-08-20  2026-08-28    457  True partial-IS
+eia_weekly     petstk_us_wcsstus1.csv     2292 1982-08-20  2026-08-28    457  True partial-IS
+eia_weekly     petstk_us_wd0st_nus_1.csv     1169 2004-04-09  2026-08-28    457  True partial-IS
+eia_weekly     petstk_us_wd1st_nus_1.csv     1738 1993-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_us_wdgstus1.csv     1738 1993-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_us_wdistus1.csv     2292 1982-08-20  2026-08-28    457  True partial-IS
+eia_weekly     petstk_us_wg1st_nus_1.csv      848 2010-06-04  2026-08-28    344  True partial-IS
+eia_weekly     petstk_us_wg4st_nus_1.csv     1704 1994-01-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_us_wg5st_nus_1.csv      848 2010-06-04  2026-08-28    344  True partial-IS
+eia_weekly     petstk_us_wg6st_nus_1.csv      848 2010-06-04  2026-08-28    344  True partial-IS
+eia_weekly     petstk_us_wgfstus1.csv     1913 1990-01-05  2026-08-28    457  True partial-IS
+eia_weekly     petstk_us_wgrstus1.csv     1738 1993-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_us_wgtstus1.csv     1913 1990-01-05  2026-08-28    457  True partial-IS
+eia_weekly     petstk_us_wkjstus1.csv     2292 1982-08-20  2026-08-28    457  True partial-IS
+eia_weekly     petstk_us_wo2st_nus_1.csv      317 2004-05-07  2010-05-28    113 False partial-IS
+eia_weekly     petstk_us_wo3st_nus_1.csv      317 2004-05-07  2010-05-28    113 False partial-IS
+eia_weekly     petstk_us_wo4st_nus_1.csv      317 2004-05-07  2010-05-28    113 False partial-IS
+eia_weekly     petstk_us_wo6st_nus_1.csv     1165 2004-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_us_wo7st_nus_1.csv     1165 2004-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_us_wo9st_nus_1.csv     1165 2004-05-07  2026-08-28    457  True partial-IS
+eia_weekly     petstk_us_wplstus1.csv      900 2003-01-10  2020-04-03    457 False partial-IS
+eia_weekly     petstk_us_wprstus1.csv      609 2015-01-02  2026-08-28    105  True partial-IS
+eia_weekly     petstk_us_wrestus1.csv     2292 1982-08-20  2026-08-28    457  True partial-IS
+eia_weekly     petstk_us_wuostus1.csv     2292 1982-08-20  2026-08-28    457  True partial-IS
+eia_weekly     propane_mb_spot_daily.csv     8559 1992-07-09  2026-09-01   2202  True IS-FITTABLE
+eia_weekly     ulsd_gulf_spot_daily.csv     5073 2006-06-14  2026-09-01   2208  True IS-FITTABLE
+eia_weekly     ulsd_la_spot_daily.csv      482 2024-09-24  2026-09-01      0  True recent-only
+eia_weekly     ulsd_nyh_spot_daily.csv     5073 2006-06-14  2026-09-01   2208  True IS-FITTABLE
+eia_weekly     wti_spot_daily.csv        10236 1986-01-02  2026-09-01   2209  True IS-FITTABLE
+
+
+# ITER24 WAVE-1 UPDATE (2026-09-19, coordinator): the bund_daily, dm_rates-CAD, and
+# em_rates-BRL-carry families are CLOSED - all 5 frozen-recipe transplants rejected by the
+# pre-committed gates (G1 FS-SR for the four rate trends; G5 OOS honesty for seliccary,
+# which passed G1 nominally at 3.7528 vs bar 3.7514). See ITER24_DATA_AXIS/FINDINGS.md.
+# Remaining charted: cboe_hist vol complex (wave 2; needs the A5r2 recipe + a futures-cost
+# story) and eia_weekly energy spots (diescrack overlap must be screened first).
+
+
+# CORRECTION (2026-09-19 02:00, coordinator of the ITER24_DATA_AXIS session): the
+# "wave 2 charted" note above is SUPERSEDED - a PARALLEL session (see memory #117,
+# coord/ITER24_DA, campaign/GOAL100_ITER24_DATAAXIS.md) closed the whole census the
+# same night: vol complex pre-excluded as not capital-real (no VIX futures data on
+# disk), eia energy spots 0/10 IS-dead, EM-FX 0/6 IS-dead, bund/cad admitted on IS
+# and OOS-rejected at the single pre-committed reveal. The DATA AXIS IS CLOSED.
+# This session's independent wave-1 (5 sleeves incl. two-leg selic carry, which the
+# parallel session had skipped) reached the same verdict via the same gates - see
+# ITER24_DATA_AXIS/FINDINGS.md and memory #117b.

@@ -1,0 +1,33 @@
+SELFCHECK sandbox-mutation-is-imported: True | E   RuntimeError: SANDBOX ACTIVE
+CAUGHT                   M1_cap_scaleup             vs test_fwbugs_audit.py           | 1 failed in 0.07s
+CAUGHT                   M2_cost_drop_day1          vs test_fwbugs_audit.py           | 1 failed, 2 passed in 0.08s
+CAUGHT                   M3_negyears_failopen       vs test_fwbugs_audit.py           | 1 failed, 6 passed in 0.09s
+CAUGHT                   M4_recon_drop_day1         vs test_fwbugs_audit.py           | 1 failed, 5 passed in 0.08s
+BASELINE-FAIL            M5_gate_drops_longs        vs test_shortability.py           | 1 failed, 5 passed in 0.11s
+BASELINE-FAIL            M6_flat_borrow             vs test_shortability.py           | 1 failed, 5 passed in 0.12s
+CAUGHT                   M7_pregate_no_relever      vs test_shortability_r2.py        | 1 failed in 0.08s
+CAUGHT                   M10_pregate_borrow_pre_scale vs test_shortability_r2.py        | 1 failed, 3 passed in 0.10s
+CAUGHT                   M9_delta_clip_credit       vs test_shortability_r2b_ladder.py | 1 failed, 1 passed in 0.08s
+CAUGHT                   M11_plateau_half           vs test_gates_audit.py            | 1 failed, 21 passed in 26.26s
+CAUGHT                   M12_corr_failopen          vs test_gates_audit.py            | 1 failed, 22 passed in 9.80s
+CAUGHT                   M13_scr_raw_sr             vs test_gates_audit_r2.py         | 1 failed, 4 passed in 0.17s
+CAUGHT                   M14_scr_failopen           vs test_gates_audit_r2.py         | 1 failed in 0.09s
+CAUGHT                   M15_scr_nan_ok             vs test_gates_audit_r2.py         | 1 failed, 2 passed in 0.13s
+CAUGHT                   M17_margin_full_gross      vs test_engine.py                 | 1 failed, 6 passed in 0.11s
+CAUGHT                   M18_borrow_on_longs        vs test_engine.py                 | 1 failed, 7 passed in 0.11s
+CAUGHT                   M19_caplev_scaleup         vs test_engine.py                 | 1 failed, 4 passed in 0.08s
+CAUGHT                   M20_sharpe_const_nan       vs test_metrics.py                | 1 failed in 0.07s
+VACUOUS                  M21_halfsplit_offby1       vs test_metrics.py                | 5 passed in 0.03s
+VACUOUS                  M22_maxdd_nanpoison        vs test_metrics.py                | 5 passed in 0.03s
+VACUOUS                  M23_uniq_no_round          vs test_gates.py                  | 9 passed in 0.09s
+CAUGHT                   M24_zeroruns_drop          vs test_gates.py                  | 1 failed, 3 passed in 0.11s
+CAUGHT                   M25_scramble_raw_sr        vs test_gates.py                  | 1 failed, 7 passed in 0.19s
+VACUOUS                  M26_recon_day1_drop        vs test_reconcile.py              | 3 passed in 0.04s
+VACUOUS                  M27_maxabsdiff_nanopen     vs test_reconcile.py              | 3 passed in 0.04s
+VACUOUS                  M28_book_nolag             vs test_backtest.py               | 3 passed in 0.07s
+VACUOUS                  M29_sleeve_nolag           vs test_backtest.py               | 3 passed in 0.06s
+CAUGHT                   M30_align_after_false      vs test_align.py                  | 1 failed, 1 passed in 0.09s
+CAUGHT                   M31_align_keep_first       vs test_align.py                  | 1 failed, 3 passed in 0.07s
+CAUGHT                   M16_builder_halfturn       vs test_camp_cost_full_dw.py      | 1 failed in 0.07s
+
+PROBLEM count (VACUOUS+DID_NOT_APPLY+BASELINE-FAIL): 9

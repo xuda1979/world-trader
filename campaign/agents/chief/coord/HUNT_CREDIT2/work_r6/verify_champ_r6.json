@@ -1,0 +1,154 @@
+{
+ "tool": "bt/verify_champion.py",
+ "ok": true,
+ "errors": [],
+ "checks": {
+  "weights_repro": {
+   "ok": true,
+   "max_dev": 2.220446049250313e-16,
+   "tol": 1e-09
+  },
+  "byte_repro": {
+   "ok": true,
+   "max_dev": 1.1102230246251565e-16,
+   "tol": 1e-12
+  },
+  "cost_reconciliation": {
+   "ok": true,
+   "model": "full_dw",
+   "max_dev": 1.2457482961858446e-16,
+   "max_dev_half": 1.6797957797942644e-05,
+   "implied_over_full_ratio": 1.0000000000008158,
+   "tol": 1e-12,
+   "charged_bp_sum": 100.33737543395652,
+   "bp_per_year": 5.262230719949437,
+   "turnover_full_dw_bp_per_year": 5.262230719945143,
+   "day1_entry_charged": 3.8746675139200715e-13
+  },
+  "causality": {
+   "ok": true,
+   "mechanism": "nav.shift(1)",
+   "matched_mechanism": "causal",
+   "causal_max_dev": 1.1102230246251565e-16,
+   "sameday_max_dev": 0.004927038526694445,
+   "tol": 1e-12,
+   "truncation": {
+    "ok": true,
+    "n_probes": 7,
+    "max_dev": 0.0,
+    "tol": 1e-15,
+    "probes": [
+     {
+      "t": 0,
+      "date": "2008-03-31",
+      "dev": 0.0
+     },
+     {
+      "t": 1,
+      "date": "2008-04-01",
+      "dev": 0.0
+     },
+     {
+      "t": 2,
+      "date": "2008-04-02",
+      "dev": 0.0
+     },
+     {
+      "t": 1201,
+      "date": "2012-11-05",
+      "dev": 0.0
+     },
+     {
+      "t": 2402,
+      "date": "2017-06-13",
+      "dev": 0.0
+     },
+     {
+      "t": 3603,
+      "date": "2022-01-19",
+      "dev": 0.0
+     },
+     {
+      "t": 4804,
+      "date": "2026-08-27",
+      "dev": 0.0
+     }
+    ]
+   }
+  },
+  "gross": {
+   "ok": true,
+   "limit": 1.6,
+   "max": 1.6000000000006978,
+   "weights_max": 1.6000000000000014,
+   "financing_implied_max": 1.6000000000006978,
+   "margin_implied_pct_yr": 2.700000000000002,
+   "margin_expected_pct_yr": 2.7,
+   "n_over": 0
+  },
+  "yearly": {
+   "ok": true,
+   "neg_years": 0,
+   "worst_year": 0.07310363900638817,
+   "neg_by_year": {},
+   "gates_contract_d_new_sleeve_ok": true
+  },
+  "mdd": {
+   "ok": true,
+   "mdd": -0.06692185534307193,
+   "limit": -0.07
+  }
+ },
+ "is_end": {
+  "value": "2017-01-01",
+  "inferred": true,
+  "p": 0.55,
+  "start": "2008-03-31"
+ },
+ "stats": {
+  "n_days": 4805,
+  "start": "2008-03-31",
+  "end": "2026-08-27",
+  "ann_arith_pct": 32.13733812888786,
+  "ann_cagr_pct": 37.19539675684982,
+  "sr": 3.180994199561701,
+  "mdd_pct": -6.692185534307193,
+  "neg_years": 0
+ },
+ "inputs": {
+  "champion": "/Users/daxu/software/world-trader/campaign/results/GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv",
+  "weights": "/Users/daxu/software/world-trader/campaign/results/RAWEW13v2_IS_SR_weights.csv",
+  "sleeves": {
+   "brwt15": "/Users/daxu/software/world-trader/campaign/agents/E1_20yspan/sleeves/E1_brwt_spread_rev15_2000.csv",
+   "brwt10": "/Users/daxu/software/world-trader/campaign/agents/chief/coord/CAMP_COST/sleeves/brwt10_2000__costfix.csv",
+   "brwt7": "/Users/daxu/software/world-trader/campaign/agents/chief/coord/CAMP_COST/sleeves/brwt7__costfix.csv",
+   "brwt5": "/Users/daxu/software/world-trader/campaign/agents/chief/coord/CAMP_COST/sleeves/brwt5__costfix.csv",
+   "C5ng": "/Users/daxu/software/world-trader/campaign/agents/E1_20yspan/sleeves/E1_C5ng_weekday_prem.csv",
+   "C5ngsum": "/Users/daxu/software/world-trader/campaign/agents/E1_20yspan/sleeves/E1_C5ng_summer_weekday.csv",
+   "A5r2": "/Users/daxu/software/world-trader/campaign/agents/A5_vol_cond/sleeves/A5_r2_contango_rateshock.csv",
+   "a6r7": "/Users/daxu/software/world-trader/campaign/agents/E1_20yspan/sleeves/E1_a6r7_bond2y_trend_1990.csv",
+   "QAxasts": "/Users/daxu/software/world-trader/campaign/agents/E1_20yspan/sleeves/E1_QAxasts_tsmom189_2006.csv",
+   "carryv2": "/Users/daxu/software/world-trader/campaign/agents/E1_20yspan/sleeves/E1_carryv2_GLD_2006.csv",
+   "dualmom": "/Users/daxu/software/world-trader/campaign/agents/A3_xs_quality/sleeves/QA_dualmom_band121.csv",
+   "diescrack": "/Users/daxu/software/world-trader/campaign/agents/loop_team/HUNT_BASIS2/sleeves/diescrack_L40Z20_net.csv",
+   "CFX4": "/Users/daxu/software/world-trader/campaign/agents/loop_team/HUNT_CARRYFX/sleeves/CFX4_DTF21_63_raw_daily.csv"
+  }
+ },
+ "params": {
+  "gear": 1.6,
+  "rate": 0.045,
+  "bps": 6.4,
+  "p": 0.55,
+  "start": "2008-03-31",
+  "tol": 1e-12,
+  "truncation_probes": [
+   0,
+   1,
+   2,
+   1201,
+   2402,
+   3603,
+   4804
+  ]
+ }
+}

@@ -1,0 +1,20 @@
+SEC3_sector_trio_zrev | NEAR-MISS (6/7 gates, FAILS yearly) — NOT champion-eligible | HUNT_CROSSASSET2 iter6
+RATIONALE: Sector-relative value mean-reversion — when one broad sector ETF (materials XLB, financials
+XLF, industrials XLI) richens vs another on a 15d log-spread z-score beyond ±1.5 sd, fading the spread
+harvests short-horizon sector-pair overreaction; three overlapping pairs form a hedged basket with
+near-zero net market, value and rate exposure.
+INSTRUMENTS/PRICES: real ETF closes, tools/quant/data/twelvedata/{XLB,XLF,XLI}.csv (2006-09-26..2026-08-12);
+caveat: twelvedata XLF pre-2010 shows 54 |ret|>5% days in 2008 (SPY 41% ann vol, XLF file 71%) — suspected
+stale/split prints in source; scrub5-20 SR 0.591/0.513/0.450 (no single-day dependence but data-quality
+risk disclosed). XLK/XLY/XLP/XLU/XLV/XLRE NOT on disk.
+GATES 2008+: SR 0.667 (>=0.6 PASS) | H1 0.89 H2 0.33 (PASS) | negy 8/19 worst -3.60% (FAIL >2) |
+200x 10d-block position-lag scramble p=0.000 seeds 0/1/2 (PASS) | ac1 -0.052 (PASS) | uniqR 1.000 (PASS) |
+corr +0.016 to HONEST14V3_BALANCED (PASS <0.15). T+1, 6.0bps/side, borrow 0.5%/yr, gross<=1.0.
+Robustness: cap 1.5->2.0 SR 0.628 (plateau), lb21 0.633, lb(15,21) 0.657 (flat); hysteresis-exit 0.623;
+T+2 0.667 / T+3 0.022 (fast signal); OOS17+ 0.266, OOS20+ 0.177, OOS23+ 0.242 — RECENT REGIME WEAK;
+LOYO min -1.055 (2016) max +2.00 (2008); scrub 5/10/20 = 0.591/0.513/0.450. Marginal: w=0.10 into
+champion: SR_d 3.940->3.971, ann 41.5->39.2%, 0 negy — SR-lift only, same shape as FXD1.
+NEGATIVE (do not re-run): rates-curve steepener mom/rev 2s5s/2s10s/2s30s/5s30s/5s10s/10s30s/7s20s/1s10s
+(paper spread + IEF-TLT DV01 books): best 2s5s sign lb21 SR 0.459 H1 0.08, all <0.6; HYG/LQD ratio
+z/mom <=0.227; baa-aaa OAS-timed HYG books <=0.269 (9+ negy); T10YIE-timed XLE <=0.379; GLD-vs-TLT/IEF/XLB
+z-rev <=0.01; XLE-inclusive 5-pair basket SR 0.115 (XLE leg destroys the book).

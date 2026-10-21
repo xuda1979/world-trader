@@ -1,0 +1,16 @@
+=== loop_team/AUDIT_V3 start Thu Sep  3 10:04:41 CST 2026 ===
+2026-09-03 AUDIT_V3 complete. Verdicts: T1 BYTE-REPRO PASS (3/3 builder + 6/6 own-loader, ~1e-16; headline 43.61/3.924/4.016/-4.92/0-neg reproduced; OOS17 40.62%). T2 FF2 TRADEABILITY FAIL-as-product, immaterial: paper CRSP L/S momentum book, no instrument on disk; SPY-proxy SR 0.771 (-25% SR), corr 0.78; FF2 delta on V3 = -0.22pp ann +0.019 SR; last 42 champion days have zero FF2 contribution (champ +5.65% there); NEW: corr(FF2,V3 BAL)=0.1658 breaches 0.15 wire (was measured vs V2 0.1449). T3 LEVERAGE VIOLATION CONFIRMED: V3 gross mean 3.477x p95 7.216x max 10.798x, 90.9% days >1.6x; claimed 3.45x/7.18x are V2's numbers (V2 3.453x/7.183x); @1.6x cap V3 = 17.0-20.0% ann. T4 0/19 neg PASS 2008+ only; 2006 stub -1.38% (n=61), 2007 +45.58%. T5 COST FLAG: 6.0 vs 6.4bps = 0.18%/yr undercharge, survives (43.40% at 6.4); EXEC rebate makes effective 5.82bps; margin financing on 3.48x gross UNCHARGED (-11.1%/yr at 4.5%) = dominant gap vs goal. T6 PHENO PASS: max ac1 0.081, min uniqR 0.159, no flattening trap. FINDINGS.md written, last line AUDIT_V3 DONE.
+Audit complete. **AUDIT_V3 executed all 6 charter targets** — FINDINGS.md written with exact numbers, last line `AUDIT_V3 DONE`.
+
+## Verdict summary
+
+| # | Target | Verdict | Key numbers |
+|---|--------|---------|-------------|
+| 1 | BYTE-REPRO V3 | **PASS** | Builder `--verify-v3`: 3/3 identical at ~1e-16; my own from-scratch loader: 6/6 files identical, headline reproduced — ann_geo **43.61%**, SR_d **3.924**, SR_m 4.016, MDD **−4.92%**, OOS17+ 40.62% |
+| 2 | FF2 TRADEABILITY | **FAIL as product (research-only, confirmed), immaterial to V3** | FF "MOM" = daily-rebalanced CRSP L/S momentum book — no instrument on disk. SPY-proxy rerun: SR 1.030→**0.771** (−25%), corr 0.78. FF2's contribution to V3: **−0.22pp ann, +0.019 SR** → V3≈V2 in substance. Last 42 champion days carry zero FF2 PnL (champ earned +5.65% there; 2026 YTD +17.86% safe). **NEW finding: corr(FF2, V3 BAL)=0.1658 breaches the 0.15 wire** — it was measured vs V2 (0.1449) |
+| 3 | LEVERAGE ≤1.6 | **VIOLATION CONFIRMED** | V3 gross mean **3.477x**, p95 **7.216x**, max 10.798x; **90.9% of days >1.6x**. The quoted "3.45x/7.18x" are V2's figures (V2: 3.453x/7.183x). Margin financing uncharged. At the goal's 1.6x cap: V3 = **17.0–20.0%/yr**, not 43.6% |
+| 4 | 0/19 NEG YRS | **PASS 2008+ only** | min year 2008+ = **+13.94%** (2011); 2006 stub = **−1.38%** (61 days, warmup); 2007 +45.58%. Full-window claim would FAIL |
+| 5 | COSTS | **FLAG, survivable** | 6.0 charged vs 6.4 goal = 0.18%/yr undercharge; full 6.4bps rerun: 43.40% ann (−0.29pp), still 0 neg. EXEC rebates make effective 5.82bps/side. **Dominant unmodeled cost: call-rate on 3.48x gross (−11.1%/yr at 4.5%)** |
+| 6 | Phenomenology | **PASS** | 14/14 sleeves: max ac1 +0.081 (brwt5), min uniqR 0.159 (diescrack, long/flat) — no XGB1y flattening trap anywhere |
+
+**Bottom line:** the V3 file is byte-honest and its stats are real, but (a) FF2 is a paper-proxy sleeve that adds ~nothing, (b) its decorrelation wire is breached against the blend it actually joins, and (c) the 43.6% headline is a 3.48x-gross number — under the goal's own ≤1.6x capital-real cap, V3 delivers ~17–20%/yr. Scratch scripts (`a_rebuild.py` … `f_h11check.py`) + LOG updated for reproducibility.

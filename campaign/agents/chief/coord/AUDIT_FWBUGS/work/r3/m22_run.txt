@@ -1,0 +1,10 @@
+trials=180
+M22a (eq[r.isna()]=nan)  == original on 180/180  -> EQUIVALENT MUTANT
+M22b (dropna-compress)   == original on 180/180  -> EQUIVALENT MUTANT
+M22c (dd-output-poison)  == original on 180/180  -> EQUIVALENT too (min() is skipna: poisoning dd at holes cannot move the min unless the min IS a hole, and holes carry the prior cummax so dd[hole]==dd[prev])
+M22d (any-NaN->0.0)      differs on 164/180   -> KILLABLE by pin
+
+pin fixtures on CURRENT shipped code:
+  interior-NaN dd  = -0.040000000000000036  (expect -0.040000000000000036; M22d would say 0.0)
+  all-NaN dd       = nan  (expect NaN fail-closed; M22d would say 0.0)
+  no-NaN control   = 0.0  (expect 0.0)

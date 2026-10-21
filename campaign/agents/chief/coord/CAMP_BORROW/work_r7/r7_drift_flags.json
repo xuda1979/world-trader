@@ -1,0 +1,123 @@
+{
+ "flags": [
+  {
+   "name": "call_rate_vs_DFF_plus_1.5pp",
+   "modeled_pct": 4.5,
+   "implied_pct": 5.13,
+   "rel_drift_pct": 14.0,
+   "abs_drift_pp": 0.63,
+   "flag_gt_10pct_rel": true,
+   "evidence": "FRED DFF 3.63% as of 2026-09-03 (n=26363 fresh this round) + R1 spread floor 1.5pp"
+  },
+  {
+   "name": "call_rate_vs_DFF_plus_2.0pp",
+   "modeled_pct": 4.5,
+   "implied_pct": 5.63,
+   "rel_drift_pct": 25.11,
+   "abs_drift_pp": 1.13,
+   "flag_gt_10pct_rel": true,
+   "evidence": "same DFF + R1 spread cap 2.0pp"
+  },
+  {
+   "name": "call_rate_vs_SOFR_plus_1.5pp",
+   "modeled_pct": 4.5,
+   "implied_pct": 5.15,
+   "rel_drift_pct": 14.44,
+   "abs_drift_pp": 0.65,
+   "flag_gt_10pct_rel": true,
+   "evidence": "FRED SOFR 3.65% as of 2026-09-04 (n=2199 fresh this round) + 1.5pp"
+  },
+  {
+   "name": "margin_drag_vs_path_DFF+1.5pp",
+   "modeled_pct": 2.7,
+   "implied_pct": 1.7589,
+   "rel_drift_pct": -34.86,
+   "abs_drift_pp": -0.9411,
+   "flag_gt_10pct_rel": true,
+   "evidence": "elementwise FRED DFF+1.5pp over 2008-03-31..2026-08-27 (n=4805, mean DFF+1.5pp = 2.931%)"
+  }
+ ],
+ "borrow_pin": {
+  "method": "borrow-free recon vs committed file, exact -0.005/252 signature (R5 C2/C3 conventions)",
+  "n_rows_window": 4605,
+  "n_charged_rows": 733,
+  "split_short_long_costonly": [
+   331,
+   173,
+   229
+  ],
+  "signature_max_dev_from_unit": 9.999054535747565e-17,
+  "embedded_borrow_drag_bps_yr": 0.2195,
+  "r5_pinned_bps_yr": 0.2195,
+  "drift_vs_r5_pin": 0.0,
+  "htb_2pct_bps_yr": 0.6586,
+  "htb_8pct_bps_yr": 3.2931,
+  "slot_level_short_notional": 0.0,
+  "note": "C1 zero-short census re-certified this round: 0 negative weights across 13 slots x 4805 days"
+ },
+ "repricing": {
+  "builder_vs_committed_maxdev": 9.996344030316351e-17,
+  "flat_DFF+1.5pp": {
+   "rate_pct": 5.13,
+   "ann_pct": 36.6784,
+   "d_ann_pp": -0.517,
+   "sr_d": 3.1436,
+   "mdd_pct": -6.6979,
+   "neg_years": 0
+  },
+  "flat_DFF+2.0pp": {
+   "rate_pct": 5.63,
+   "ann_pct": 36.2695,
+   "d_ann_pp": -0.9259,
+   "sr_d": 3.1139,
+   "mdd_pct": -6.7024,
+   "neg_years": 0
+  },
+  "flat_SOFR+1.5pp": {
+   "rate_pct": 5.15,
+   "ann_pct": 36.662,
+   "d_ann_pp": -0.5334,
+   "sr_d": 3.1424,
+   "mdd_pct": -6.6981,
+   "neg_years": 0
+  },
+  "path_DFF+1.5pp": {
+   "mean_rate_pct": 2.9315,
+   "implied_drag_ann_pct": 1.7589,
+   "ann_pct": 38.491,
+   "d_ann_pp": 1.2956,
+   "sr_d": 3.2741,
+   "mdd_pct": -6.6824,
+   "neg_years": 0
+  },
+  "tail12m_DFF+1.5pp": {
+   "window": "2025-08-27..2026-08-27",
+   "n_days": 262,
+   "mean_path_rate_pct": 5.2581,
+   "ann_pct": 31.4175,
+   "base_ann_pct": 32.016,
+   "d_ann_pp": -0.5985,
+   "note": "margin term re-priced at DFF+1.5pp on the LAST 12M ONLY - the R5 full-window path (+1.30pp understatement) is history-dominated; this is the current-environment read"
+  }
+ },
+ "notes": [],
+ "champion_sha16": "4358dfab95679b97",
+ "benchmarks": {
+  "dff_last": {
+   "date": "2026-09-03",
+   "value_pct": 3.63,
+   "n_obs": 26363
+  },
+  "sofr_last": {
+   "date": "2026-09-04",
+   "value_pct": 3.65,
+   "n_obs": 2199
+  }
+ },
+ "base_headline": {
+  "ann": 0.371954,
+  "sr_d": 3.180994,
+  "mdd": -0.066922,
+  "neg_years": 0.0
+ }
+}

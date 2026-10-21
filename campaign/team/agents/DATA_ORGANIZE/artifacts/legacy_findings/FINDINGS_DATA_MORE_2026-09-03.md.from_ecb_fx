@@ -1,0 +1,44 @@
+# DATA ACQUISITION SESSION — 2026-09-03 (goal: "get more valuable free data")
+
+All downloads landed in gitignored local corpus. Every series is fail-closed linted.
+Run tests: `cd tools/quant/data/more_cot && python3 test_cot_matcher.py` (etc.)
+
+## 1. COT ags/softs/livestock — 17 NEW series (OFFLINE, from existing CFTC zips)
+tools/quant/data/more_cot/ — matcher extended (TDD: 3 new test fns; all GREEN), build rerun:
+- Grains: corn, soybeans, soybean_meal, soybean_oil, rough_rice (17y each, 869w)
+- Wheat x3 families: wheat_srw (2010-13 "WHEAT" == 2013+ "WHEAT-SRW", same contract renamed),
+  wheat_hrw (2013+), wheat_hrspring (2014-24 MGEX -> 2024+ MIAX migration)
+- Livestock: live_cattle, feeder_cattle, lean_hogs (17y)
+- Softs: cocoa, coffee_c, cotton_no2, sugar_no11 (17y), lumber (2023 rename handled), canola (2018+)
+- EXCLUDED fail-closed: OATS (dead: 294d CFTC reporting gap 2024-11..2025-09, OI ~3-7k),
+  KC wheat (discontinued 2014), dairy cluster + OJ + CANOLA OIL + BLACK SEA WHEAT FINANCIAL +
+  MINI contracts (lookalikes / illiquid — negative tests lock these).
+COT corpus: 18 -> 35 markets. All lint PASS (manifest.csv).
+
+## 2. FRED liquidity/breakeven batch — 7 net-new series
+tools/quant/data/more_fred/ (keyed API via .env.local FRED_KEY; reused TDD'd fred_dl.py; 19 tests pass):
+- WALCL (weekly, 2002+), RRPONTSYD (daily, 2015+ RRP-active era; pre-2015 sporadic = honest trim),
+  SOFR (daily, 2018+), T10YIE + T5YIE (daily breakevens, 2003+),
+  USEPUINDXD (daily policy uncertainty, 1985+, 15,220 obs), EMVOVERALLEMV (monthly EM vol, 1985+;
+  mis-detected as daily at first — reclassified native monthly, zero gaps).
+- UPGRADE documented: SP500/DJIA/DJCA via keyed API are STILL 10y-limited (FRED policy, not endpoint).
+- Honest negatives: T5YIFP HTTP400 (discontinued upstream); MOVE already known-blocked.
+
+## 3. ECB FX reference rates — 30 NEW series (keyless, full history)
+tools/quant/data/ecb_fx/ (NEW dir; downloader ecb_fx_dl.py + 6 TDD tests, GREEN):
+- 30 crosses vs EUR, daily, 1999-01-04 -> 2026-09-03 (~7,085 obs each):
+  USD JPY GBP CHF AUD CAD NZD CNY HKD SGD KRW INR BRL MXN ZAR TRY SEK NOK DKK PLN CZK HUF RON BGN ISK IDR MYR PHP THB ILS
+- ISK: ECB suspended 1999-2018 -> stored 2018+ era only (caveat in manifest).
+- Value = units of CCY per 1 EUR (ECB 2:15pm CET reference). Existing fx/ block was only 8
+  twelvedata pairs; this is the largest decorrelated expansion of the FX family available free.
+
+## 4. Honest negative: CBOE put/call ratios — BLOCKED
+All cdn.cboe.com put_call + us_indices endpoints return 403 (signed requests; browser UA doesn't
+help). Same treatment as STOOQ (more_fut/STOOQ_BLOCKED.md). NOT acquired; do not re-attempt
+without a different legal route.
+
+## Totals
+- COT markets: 18 -> 35 (+17)
+- FRED series in more_fred: 25 -> 32 (+7 net-new) + 10y-limit documentation
+- ECB FX crosses: 0 -> 30 (NEW dir)
+- Tests added: 3 matcher fns + 6 ECB fns, all GREEN (existing suites unaffected)

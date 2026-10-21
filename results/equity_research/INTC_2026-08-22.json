@@ -1,0 +1,353 @@
+{
+  "sym": "INTC",
+  "generated_utc": "2026-08-22T14:16:32Z",
+  "price": 90.07,
+  "data_sections": [
+    "quote",
+    "news",
+    "catalyst",
+    "analyst",
+    "insider",
+    "earnings",
+    "fundamentals",
+    "peers",
+    "clusters",
+    "gdelt_tone"
+  ],
+  "bull": {
+    "stance": "bullish",
+    "confidence": 0.65,
+    "claims": [
+      {
+        "claim": "Intel has consistently and dramatically beaten consensus EPS estimates for four consecutive quarters, with surprises ranging from 81% to over 2200%.",
+        "evidence": "earnings.surprise_pct",
+        "impact": "positive"
+      },
+      {
+        "claim": "The most recent quarter's EPS of $0.42 nearly doubled the consensus estimate of $0.2177, indicating strong operational momentum.",
+        "evidence": "earnings.actual",
+        "impact": "positive"
+      },
+      {
+        "claim": "Despite a challenging period, 19 out of 55 analysts maintain a Buy or Strong Buy rating, suggesting a meaningful base of institutional support.",
+        "evidence": "analyst.strong_buy",
+        "impact": "positive"
+      },
+      {
+        "claim": "The company's debt-to-equity ratio of 0.41 indicates a manageable leverage profile, providing financial flexibility for its strategic initiatives.",
+        "evidence": "fundamentals.debt_eq",
+        "impact": "positive"
+      },
+      {
+        "claim": "The stock is trading near the lower end of its 52-week range, presenting a potential value entry point relative to its 52-week high of $142.35.",
+        "evidence": "fundamentals.52w_low",
+        "impact": "positive"
+      }
+    ]
+  },
+  "bear": {
+    "stance": "bearish",
+    "confidence": 0.72,
+    "claims": [
+      {
+        "claim": "Insiders are aggressively selling shares, with zero open-market buys and a net disposition of 61,280 shares in the recent window.",
+        "evidence": "insider.n_buys",
+        "impact": "negative"
+      },
+      {
+        "claim": "The company is fundamentally unprofitable on an equity basis, posting a negative return on equity of -10.76%.",
+        "evidence": "fundamentals.roe_ttm",
+        "impact": "negative"
+      },
+      {
+        "claim": "Revenue is contracting, with a year-over-year decline of -7.46%.",
+        "evidence": "fundamentals.revenue_growth",
+        "impact": "negative"
+      },
+      {
+        "claim": "The stock trades at an extremely rich price-to-sales multiple of 9.37x despite shrinking revenue.",
+        "evidence": "fundamentals.ps_ttm",
+        "impact": "negative"
+      },
+      {
+        "claim": "The stock has fallen below the recent $95 secondary offering price, indicating market skepticism about the capital raise and leaving new investors underwater.",
+        "evidence": "news.headlines",
+        "impact": "negative"
+      },
+      {
+        "claim": "Analyst consensus is lukewarm at best, with 33 of 55 analysts rating the stock a Hold and only 4 giving a Strong Buy.",
+        "evidence": "analyst.hold",
+        "impact": "negative"
+      }
+    ]
+  },
+  "rebuttals": {
+    "bear": {
+      "rebuttals": [
+        {
+          "target_claim": "Intel has consistently and dramatically beaten consensus EPS estimates for four consecutive quarters, with surprises ranging from 81% to over 2200%.",
+          "response": "The massive surprise percentages (1971% and 2200%) are misleading because the consensus estimates were near zero ($0.014 and $0.01), making any positive EPS look enormous; the absolute beats are small ($0.22-$0.28) and reflect depressed analyst expectations, not strong operational performance.",
+          "counter_evidence": "earnings.surprise_pct",
+          "concede": false,
+          "strength": 0.8
+        },
+        {
+          "target_claim": "The most recent quarter's EPS of $0.42 nearly doubled the consensus estimate of $0.2177, indicating strong operational momentum.",
+          "response": "While the beat is real, the company's ROE is deeply negative at -10.76% and revenue growth is -7.46%, so the EPS beat does not translate into sustainable profitability or growth momentum.",
+          "counter_evidence": "fundamentals.roe_ttm",
+          "concede": true,
+          "strength": 0.6
+        },
+        {
+          "target_claim": "Despite a challenging period, 19 out of 55 analysts maintain a Buy or Strong Buy rating, suggesting a meaningful base of institutional support.",
+          "response": "19 of 55 is only 34.5%, while 33 analysts (60%) recommend Hold, and the analyst score is just 0.36 (out of 1.0), indicating the majority view is neutral, not bullish.",
+          "counter_evidence": "analyst.score",
+          "concede": false,
+          "strength": 0.7
+        },
+        {
+          "target_claim": "The company's debt-to-equity ratio of 0.41 indicates a manageable leverage profile, providing financial flexibility for its strategic initiatives.",
+          "response": "A debt-to-equity of 0.41 may seem manageable, but with negative ROE (-10.76%) and negative revenue growth (-7.46%), the company is not generating returns to service that debt, and the recent $20B stock sale at $95 (now trading below $93) signals dilution rather than flexibility.",
+          "counter_evidence": "fundamentals.debt_eq",
+          "concede": true,
+          "strength": 0.5
+        },
+        {
+          "target_claim": "The stock is trading near the lower end of its 52-week range, presenting a potential value entry point relative to its 52-week high of $142.35.",
+          "response": "Trading at $90.07 versus a 52-week high of $142.35 is not value; the stock has a P/B of 7.56 and P/S of 9.37, which are expensive for a company with negative ROE and declining revenue, and the beta of 2.28 indicates high risk.",
+          "counter_evidence": "fundamentals.pb",
+          "concede": false,
+          "strength": 0.9
+        }
+      ]
+    },
+    "bull": {
+      "rebuttals": [
+        {
+          "target_claim": "Insiders are aggressively selling shares, with zero open-market buys and a net disposition of 61,280 shares in the recent window.",
+          "response": "The insider transactions are predominantly tax-related (code 'F' for withholding) and option exercises (code 'M'), not open-market sales. The net disposition of 61,280 shares is trivial relative to a $534B market cap, and there are also acquisitions (code 'A') of 34,190 shares, indicating mixed insider activity rather than aggressive selling.",
+          "counter_evidence": "insider.recent",
+          "concede": false,
+          "strength": 0.7
+        },
+        {
+          "target_claim": "The company is fundamentally unprofitable on an equity basis, posting a negative return on equity of -10.76%.",
+          "response": "While trailing ROE is negative, the company has delivered massive earnings surprises in each of the last four quarters, with the most recent quarter beating estimates by 92.93% and the prior quarter by 1,971%. This indicates the negative ROE is a lagging indicator that is rapidly improving as earnings momentum accelerates.",
+          "counter_evidence": "earnings.surprise_pct",
+          "concede": true,
+          "strength": 0.6
+        },
+        {
+          "target_claim": "Revenue is contracting, with a year-over-year decline of -7.46%.",
+          "response": "The revenue growth figure is a trailing metric that does not reflect the recent earnings momentum. The company has beaten EPS estimates by 80-2,200% in each of the last four quarters, suggesting that cost discipline and operational improvements are driving profitability even if top-line growth is temporarily negative.",
+          "counter_evidence": "earnings.surprise_pct",
+          "concede": true,
+          "strength": 0.5
+        },
+        {
+          "target_claim": "The stock trades at an extremely rich price-to-sales multiple of 9.37x despite shrinking revenue.",
+          "response": "The P/S multiple of 9.37x reflects the market's forward-looking valuation of Intel's AI and foundry strategy, which is not captured in trailing revenue. With a beta of 2.28 and a 52-week range from $22.78 to $142.35, the stock is a high-growth, high-volatility name where traditional value metrics are less relevant.",
+          "counter_evidence": "fundamentals.beta",
+          "concede": false,
+          "strength": 0.4
+        },
+        {
+          "target_claim": "The stock has fallen below the recent $95 secondary offering price, indicating market skepticism about the capital raise and leaving new investors underwater.",
+          "response": "The stock is currently at $90.07, which is only 5.2% below the offering price, and it remains 295% above its 52-week low of $22.78. The slight dip below the offering price is a normal post-raise adjustment, not a signal of fundamental weakness, especially given the strong earnings beats.",
+          "counter_evidence": "quote.c",
+          "concede": false,
+          "strength": 0.5
+        },
+        {
+          "target_claim": "Analyst consensus is lukewarm at best, with 33 of 55 analysts rating the stock a Hold and only 4 giving a Strong Buy.",
+          "response": "The analyst score of 0.36 is actually positive (on a scale where 0 is neutral), and 19 of 55 analysts (34.5%) rate it Buy or Strong Buy versus only 3 sells. The high number of Holds reflects uncertainty about timing, not bearishness, and the consensus has been consistently wrong given the massive earnings surprises.",
+          "counter_evidence": "analyst.score",
+          "concede": false,
+          "strength": 0.6
+        }
+      ]
+    }
+  },
+  "grading": {
+    "bull": {
+      "side": "bull",
+      "n_claims": 5,
+      "grounded": 5,
+      "ungrounded": 0,
+      "sections_cited": [
+        "analyst",
+        "earnings",
+        "fundamentals"
+      ],
+      "claims": [
+        {
+          "claim": "Intel has consistently and dramatically beaten consensus EPS estimates for four consecutive quarters, with surprises ranging from 81% to over 2200%.",
+          "evidence": "earnings.surprise_pct",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The most recent quarter's EPS of $0.42 nearly doubled the consensus estimate of $0.2177, indicating strong operational momentum.",
+          "evidence": "earnings.actual",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "Despite a challenging period, 19 out of 55 analysts maintain a Buy or Strong Buy rating, suggesting a meaningful base of institutional support.",
+          "evidence": "analyst.strong_buy",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The company's debt-to-equity ratio of 0.41 indicates a manageable leverage profile, providing financial flexibility for its strategic initiatives.",
+          "evidence": "fundamentals.debt_eq",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The stock is trading near the lower end of its 52-week range, presenting a potential value entry point relative to its 52-week high of $142.35.",
+          "evidence": "fundamentals.52w_low",
+          "grounded": true,
+          "reason": "ok"
+        }
+      ]
+    },
+    "bear": {
+      "side": "bear",
+      "n_claims": 6,
+      "grounded": 6,
+      "ungrounded": 0,
+      "sections_cited": [
+        "analyst",
+        "fundamentals",
+        "insider",
+        "news"
+      ],
+      "claims": [
+        {
+          "claim": "Insiders are aggressively selling shares, with zero open-market buys and a net disposition of 61,280 shares in the recent window.",
+          "evidence": "insider.n_buys",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The company is fundamentally unprofitable on an equity basis, posting a negative return on equity of -10.76%.",
+          "evidence": "fundamentals.roe_ttm",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "Revenue is contracting, with a year-over-year decline of -7.46%.",
+          "evidence": "fundamentals.revenue_growth",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The stock trades at an extremely rich price-to-sales multiple of 9.37x despite shrinking revenue.",
+          "evidence": "fundamentals.ps_ttm",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The stock has fallen below the recent $95 secondary offering price, indicating market skepticism about the capital raise and leaving new investors underwater.",
+          "evidence": "news.headlines",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "Analyst consensus is lukewarm at best, with 33 of 55 analysts rating the stock a Hold and only 4 giving a Strong Buy.",
+          "evidence": "analyst.hold",
+          "grounded": true,
+          "reason": "ok"
+        }
+      ]
+    }
+  },
+  "valuation": {
+    "sym": "INTC",
+    "price": 90.07,
+    "deterministic": true,
+    "inputs": {
+      "pe_ttm": null,
+      "roe_ttm": -10.76,
+      "debt_eq": 0.4076,
+      "ps_ttm": 9.366,
+      "eps_growth_trend": 0.826
+    },
+    "outputs": {
+      "peg": null,
+      "fair_value": null,
+      "quality_signals": {
+        "roe_ttm": -10.76,
+        "debt_eq": 0.4076
+      }
+    },
+    "notes": [
+      "EPS growth = latest actual EPS vs the oldest EPS in the gathered history (rough trend)",
+      "PEG unavailable (no positive EPS growth trend in gathered history)",
+      "No forward/trailing EPS or P/E available -- fair value NOT computed (abstain, never fabricate)"
+    ]
+  },
+  "judge": {
+    "convergence": false,
+    "rating": "HOLD",
+    "conviction": 0.35,
+    "scenarios": {
+      "bull": {
+        "prob": 0.25,
+        "pt": 105.0,
+        "thesis": "Continued earnings momentum and cost discipline drive a re-rating as the market recognizes the improving operational trajectory."
+      },
+      "base": {
+        "prob": 0.5,
+        "pt": 88.0,
+        "thesis": "Mixed signals\u2014strong EPS beats offset by negative ROE, declining revenue, and rich valuations\u2014keep the stock rangebound near current levels."
+      },
+      "bear": {
+        "prob": 0.25,
+        "pt": 65.0,
+        "thesis": "Fundamental deterioration (negative ROE, revenue contraction) and insider selling pressure the stock toward its lower valuation support."
+      }
+    },
+    "catalysts": [
+      {
+        "catalyst": "Next earnings release",
+        "date": "unknown",
+        "impact": "positive"
+      },
+      {
+        "catalyst": "Analyst rating revisions",
+        "date": "unknown",
+        "impact": "negative"
+      },
+      {
+        "catalyst": "Insider transaction disclosures",
+        "date": "unknown",
+        "impact": "negative"
+      }
+    ],
+    "risks": [
+      {
+        "risk": "Sustained negative return on equity",
+        "likelihood": "high"
+      },
+      {
+        "risk": "Continued revenue contraction",
+        "likelihood": "high"
+      },
+      {
+        "risk": "Valuation compression from rich P/S multiple",
+        "likelihood": "medium"
+      },
+      {
+        "risk": "Further insider selling",
+        "likelihood": "medium"
+      }
+    ],
+    "decision_rationale": "The bull case rests on earnings surprise momentum, but the bear correctly notes these beats are off near-zero consensus estimates and do not yet translate into positive ROE or revenue growth. The deterministic valuation abstains from a fair value due to lack of positive EPS trend, leaving no anchor for a base case outside \u00b125% of a computed value. With 60% of analysts at Hold, negative fundamentals, and rich valuations, a HOLD rating with low conviction reflects the unresolved debate between operational momentum and structural unprofitability."
+  },
+  "errors": [],
+  "elapsed_sec": 0.0,
+  "report_path": null,
+  "json_path": null
+}

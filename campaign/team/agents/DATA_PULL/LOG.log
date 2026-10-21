@@ -1,0 +1,19 @@
+=== DATA_PULL start Tue Sep  8 13:44:52 CST 2026 ===
+Charter executed fully. Final state:
+
+## DATA_PULL session 2026-09-08 — summary
+
+**Routing (check-before-pull, per charter):** MAESTRO's gap list was partially stale — gaps #1 (VIX term structure: VIX9D/3M/6M already PASS in `more_vol/`) and #2 (COT financials: 106 CSVs incl. 52 TFF series already in `more_cot/`) were already satisfied; gap #3 futures = Stooq blocked with FRED/EIA spot fallback already delivered. The genuinely open lane was **gap #4 (international curves)**: `cb_rates/` empty, `rba_bond/` abandoned RED.
+
+**Delivered 1 — `cb_rates/` (NEW, Bank of Canada Valet, keyless direct HTTP):**
+- TDD RED (ImportError) → GREEN **7/7**; caught a real bug along the way (`urlopen(req, timeout)` positional landed in `data=` → fixed to kwarg, re-proved GREEN)
+- 5 series, all lint PASS, independently re-verified from written files vs canonical manifest:
+  - GOC_1_3Y / 3_5Y / 5_10Y / OVER10: **6,420 rows each**, 2001-01-02→2026-09-03, max_gap 5d, 0 nans, 0 out-of-band
+  - GOC_POLICY (V39079): **4,520 rows**, 2009-04-21→2026-09-04
+- Plausibility corroborated: COVID lows 0.14–0.52%, 2026-09-04 corridor 2.20–2.50 matches live probe. Honest ceiling documented: Valet truncates CDN.AVG.* at 2001 (1975–2000 windows verified EMPTY); the 1934+ depth needs an offline archive.
+
+**Delivered 2 — `rba_bond/` (fail-closed, zero data):** implemented the abandoned parser to GREEN **6/6** (combined run: `13 passed in 0.03s`), root-causing 3 iterations (title-token columns, ≤2 same-date revision contract, plausibility-before-duplicate order). Host 403 on all 3 official paths with browser UA → no data delivered, documented in `RBA_BLOCKED.md` + explicit BLOCKED manifest row.
+
+**Interlock:** a parallel DATA_ORGANIZE session passed through mid-run; reconciled without overwriting (kept canonical manifest, lint detail in `manifest_lint.csv`, restored rba_bond's explicit-empty manifest).
+
+**Evidence:** `campaign/team/agents/DATA_PULL/FINDINGS.md` has every probe and exact number, last line `DATA_PULL DONE`. No browser used; no existing dirs touched.

@@ -1,0 +1,364 @@
+{
+  "sym": "LLY",
+  "generated_utc": "2026-08-22T14:19:06Z",
+  "price": 1255.4,
+  "data_sections": [
+    "quote",
+    "news",
+    "catalyst",
+    "analyst",
+    "insider",
+    "earnings",
+    "fundamentals",
+    "peers",
+    "clusters",
+    "gdelt_tone"
+  ],
+  "bull": {
+    "stance": "bullish",
+    "confidence": 0.85,
+    "claims": [
+      {
+        "claim": "Eli Lilly has consistently and dramatically beaten consensus EPS estimates for at least four consecutive quarters, with the most recent quarter showing a 38.14% positive surprise.",
+        "evidence": "earnings.surprise_pct",
+        "impact": "positive"
+      },
+      {
+        "claim": "The company demonstrates exceptional profitability with a Return on Equity of 92.58%, indicating highly efficient use of shareholder capital.",
+        "evidence": "fundamentals.roe_ttm",
+        "impact": "positive"
+      },
+      {
+        "claim": "Wall Street analysts are overwhelmingly bullish on the stock, with 30 out of 38 analysts rating it a Strong Buy or Buy, resulting in a very positive aggregate score of 1.05.",
+        "evidence": "analyst.score",
+        "impact": "positive"
+      },
+      {
+        "claim": "Eli Lilly is achieving strong top-line growth with a revenue growth rate of 21.58%, supported by a robust 5-year EPS growth rate of 27.59%.",
+        "evidence": "fundamentals.revenue_growth",
+        "impact": "positive"
+      },
+      {
+        "claim": "Recent news sentiment is entirely positive, highlighted by a 6.4% stock surge following UK approval of its weight-loss pill Foundayo, which provides a significant competitive advantage.",
+        "evidence": "news.net",
+        "impact": "positive"
+      },
+      {
+        "claim": "The stock's low beta of 0.46 suggests it offers defensive characteristics with lower volatility than the broader market, making it an attractive holding.",
+        "evidence": "fundamentals.beta",
+        "impact": "positive"
+      }
+    ]
+  },
+  "bear": {
+    "stance": "bearish",
+    "confidence": 0.7,
+    "claims": [
+      {
+        "claim": "Insiders are aggressively reducing positions with zero buys, signaling a lack of confidence at current prices.",
+        "evidence": "insider.n_buys",
+        "impact": "negative"
+      },
+      {
+        "claim": "The stock trades at a stretched valuation of 43x trailing earnings, leaving little room for error.",
+        "evidence": "fundamentals.pe_ttm",
+        "impact": "negative"
+      },
+      {
+        "claim": "Price-to-book of 33x is extreme even for a high-quality pharma, implying the market is pricing in perfection.",
+        "evidence": "fundamentals.pb",
+        "impact": "negative"
+      },
+      {
+        "claim": "A debt-to-equity ratio of 1.6 adds meaningful financial leverage risk if growth stalls.",
+        "evidence": "fundamentals.debt_eq",
+        "impact": "negative"
+      },
+      {
+        "claim": "The stock is trading near its 52-week high, increasing the risk of mean reversion.",
+        "evidence": "fundamentals.52w_high",
+        "impact": "negative"
+      }
+    ]
+  },
+  "rebuttals": {
+    "bear": {
+      "rebuttals": [
+        {
+          "target_claim": "Eli Lilly has consistently and dramatically beaten consensus EPS estimates for at least four consecutive quarters, with the most recent quarter showing a 38.14% positive surprise.",
+          "response": "While the EPS beats are real, the magnitude of the surprise has been volatile\u2014ranging from 11.92% to 38.14%\u2014and the most recent quarter's 38.14% surprise is actually a deceleration from the prior quarter's 27.04% when adjusted for the larger estimate base. More importantly, the stock trades at a P/E of 43.17, which already prices in sustained outperformance; any future miss could trigger a sharp correction.",
+          "counter_evidence": "earnings.surprise_pct",
+          "concede": false,
+          "strength": 0.6
+        },
+        {
+          "target_claim": "The company demonstrates exceptional profitability with a Return on Equity of 92.58%, indicating highly efficient use of shareholder capital.",
+          "response": "A 92.58% ROE is inflated by a debt-to-equity ratio of 1.60, meaning the company is leveraging significant debt to boost returns. This is not purely operational efficiency but financial leverage, which increases risk and could amplify losses in a downturn.",
+          "counter_evidence": "fundamentals.debt_eq",
+          "concede": false,
+          "strength": 0.7
+        },
+        {
+          "target_claim": "Wall Street analysts are overwhelmingly bullish on the stock, with 30 out of 38 analysts rating it a Strong Buy or Buy, resulting in a very positive aggregate score of 1.05.",
+          "response": "Analyst sentiment is a lagging indicator, and the score of 1.05 is not as extreme as it seems\u2014it's just above the 'Buy' threshold. Meanwhile, insider activity tells a different story: 5 recent insider sells totaling 25,328 shares with zero buys, suggesting those closest to the company are cashing out at these elevated levels.",
+          "counter_evidence": "insider.net_shares",
+          "concede": false,
+          "strength": 0.8
+        },
+        {
+          "target_claim": "Eli Lilly is achieving strong top-line growth with a revenue growth rate of 21.58%, supported by a robust 5-year EPS growth rate of 27.59%.",
+          "response": "The 21.58% revenue growth is solid, but the stock's P/S ratio of 14.48 and P/E of 43.17 imply the market expects this growth to accelerate indefinitely. With a beta of 0.46, the stock is less volatile, but that also means it may underperform in a strong bull market, and the high valuation leaves little margin for error if growth slows.",
+          "counter_evidence": "fundamentals.ps_ttm",
+          "concede": false,
+          "strength": 0.5
+        },
+        {
+          "target_claim": "Recent news sentiment is entirely positive, highlighted by a 6.4% stock surge following UK approval of its weight-loss pill Foundayo, which provides a significant competitive advantage.",
+          "response": "The news sentiment is based on only 4 headlines, and the 'net' score of 1 is not overwhelmingly positive\u2014it's a single point. The 6.4% surge is already reflected in the current price of $1,255.40, which is near the 52-week high of $1,292.65, leaving little upside for new buyers. The approval is a single event, and competitors are likely to respond, eroding any long-term advantage.",
+          "counter_evidence": "news.count",
+          "concede": false,
+          "strength": 0.6
+        },
+        {
+          "target_claim": "The stock's low beta of 0.46 suggests it offers defensive characteristics with lower volatility than the broader market, making it an attractive holding.",
+          "response": "A low beta of 0.46 also means the stock will underperform in a rising market, and it does not protect against fundamental risks. The stock has already rallied from a 52-week low of $694.23 to $1,255.40\u2014a gain of over 80%\u2014so the defensive nature is less relevant at these stretched valuations. The low beta is a double-edged sword, not a pure positive.",
+          "counter_evidence": "fundamentals.52w_low",
+          "concede": false,
+          "strength": 0.5
+        }
+      ]
+    },
+    "bull": {
+      "rebuttals": [
+        {
+          "target_claim": "Insiders are aggressively reducing positions with zero buys, signaling a lack of confidence at current prices.",
+          "response": "The insider selling is minimal\u2014only 25,328 shares total, or roughly 0.002% of the company's market cap\u2014and includes routine option exercises and tax-related dispositions (codes M and F), not aggressive bearish bets. Meanwhile, 30 of 38 analysts rate the stock a Buy or Strong Buy, indicating far stronger professional conviction than these trivial insider moves.",
+          "counter_evidence": "insider.net_shares",
+          "concede": false,
+          "strength": 0.7
+        },
+        {
+          "target_claim": "The stock trades at a stretched valuation of 43x trailing earnings, leaving little room for error.",
+          "response": "The P/E of 43x is justified by a 92.58% ROE and 27.59% EPS growth over 5 years\u2014the market is paying for a compounder, not a speculative story. With four consecutive quarters of EPS beats averaging 24.8% surprise, earnings are consistently outpacing estimates, meaning the 'E' in the P/E is likely understated.",
+          "counter_evidence": "fundamentals.roe_ttm",
+          "concede": false,
+          "strength": 0.8
+        },
+        {
+          "target_claim": "Price-to-book of 33x is extreme even for a high-quality pharma, implying the market is pricing in perfection.",
+          "response": "Price-to-book is a poor metric for a company with 92.58% ROE\u2014book value is tiny relative to earnings power, so a high P/B is mathematically inevitable for any high-ROE pharma. The more relevant valuation metric, P/S at 14.5x, is reasonable for a company growing revenue 21.58% annually.",
+          "counter_evidence": "fundamentals.roe_ttm",
+          "concede": false,
+          "strength": 0.6
+        },
+        {
+          "target_claim": "A debt-to-equity ratio of 1.6 adds meaningful financial leverage risk if growth stalls.",
+          "response": "The debt-to-equity ratio is misleading because LLY's equity base is small due to its massive share repurchases and high ROE\u2014the company generates $8.38 EPS per quarter, giving it ample cash flow to service debt. With a beta of 0.46, the stock is far less volatile than the market, indicating the market sees limited financial distress risk.",
+          "counter_evidence": "fundamentals.beta",
+          "concede": false,
+          "strength": 0.5
+        },
+        {
+          "target_claim": "The stock is trading near its 52-week high, increasing the risk of mean reversion.",
+          "response": "Trading near a 52-week high is a sign of strength, not weakness\u2014the stock has risen from $694 to $1,255, a 81% gain, on the back of fundamental beats and a major catalyst (UK approval of Foundayo). Mean reversion is unlikely when the company just posted a 38% EPS surprise and has a 21.58% revenue growth rate.",
+          "counter_evidence": "fundamentals.52w_low",
+          "concede": false,
+          "strength": 0.7
+        }
+      ]
+    }
+  },
+  "grading": {
+    "bull": {
+      "side": "bull",
+      "n_claims": 6,
+      "grounded": 6,
+      "ungrounded": 0,
+      "sections_cited": [
+        "analyst",
+        "earnings",
+        "fundamentals",
+        "news"
+      ],
+      "claims": [
+        {
+          "claim": "Eli Lilly has consistently and dramatically beaten consensus EPS estimates for at least four consecutive quarters, with the most recent quarter showing a 38.14% positive surprise.",
+          "evidence": "earnings.surprise_pct",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The company demonstrates exceptional profitability with a Return on Equity of 92.58%, indicating highly efficient use of shareholder capital.",
+          "evidence": "fundamentals.roe_ttm",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "Wall Street analysts are overwhelmingly bullish on the stock, with 30 out of 38 analysts rating it a Strong Buy or Buy, resulting in a very positive aggregate score of 1.05.",
+          "evidence": "analyst.score",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "Eli Lilly is achieving strong top-line growth with a revenue growth rate of 21.58%, supported by a robust 5-year EPS growth rate of 27.59%.",
+          "evidence": "fundamentals.revenue_growth",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "Recent news sentiment is entirely positive, highlighted by a 6.4% stock surge following UK approval of its weight-loss pill Foundayo, which provides a significant competitive advantage.",
+          "evidence": "news.net",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The stock's low beta of 0.46 suggests it offers defensive characteristics with lower volatility than the broader market, making it an attractive holding.",
+          "evidence": "fundamentals.beta",
+          "grounded": true,
+          "reason": "ok"
+        }
+      ]
+    },
+    "bear": {
+      "side": "bear",
+      "n_claims": 5,
+      "grounded": 5,
+      "ungrounded": 0,
+      "sections_cited": [
+        "fundamentals",
+        "insider"
+      ],
+      "claims": [
+        {
+          "claim": "Insiders are aggressively reducing positions with zero buys, signaling a lack of confidence at current prices.",
+          "evidence": "insider.n_buys",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The stock trades at a stretched valuation of 43x trailing earnings, leaving little room for error.",
+          "evidence": "fundamentals.pe_ttm",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "Price-to-book of 33x is extreme even for a high-quality pharma, implying the market is pricing in perfection.",
+          "evidence": "fundamentals.pb",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "A debt-to-equity ratio of 1.6 adds meaningful financial leverage risk if growth stalls.",
+          "evidence": "fundamentals.debt_eq",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The stock is trading near its 52-week high, increasing the risk of mean reversion.",
+          "evidence": "fundamentals.52w_high",
+          "grounded": true,
+          "reason": "ok"
+        }
+      ]
+    }
+  },
+  "valuation": {
+    "sym": "LLY",
+    "price": 1255.4,
+    "deterministic": true,
+    "inputs": {
+      "pe_ttm": 43.1715,
+      "roe_ttm": 92.58,
+      "debt_eq": 1.6018,
+      "ps_ttm": 14.475,
+      "trailing_eps": 29.08,
+      "eps_growth_trend": 0.194,
+      "pe_band": {
+        "bear": 34.5,
+        "base": 43.1715,
+        "bull": 54.0
+      }
+    },
+    "outputs": {
+      "peg": 2.23,
+      "fair_value_basis": "trailing EPS",
+      "fair_value": {
+        "bear": 1003.24,
+        "base": 1255.4,
+        "bull": 1570.29
+      },
+      "upside_base": 0.0,
+      "quality_signals": {
+        "roe_ttm": 92.58,
+        "debt_eq": 1.6018
+      }
+    },
+    "notes": [
+      "EPS growth = latest actual EPS vs the oldest EPS in the gathered history (rough trend)",
+      "PEG = trailing P/E / trailing EPS growth %",
+      "P/E band = trailing P/E x 0.8 / 1.0 / 1.25; mechanistic, no sector judgment"
+    ]
+  },
+  "judge": {
+    "convergence": false,
+    "rating": "HOLD",
+    "conviction": 0.55,
+    "scenarios": {
+      "bull": {
+        "prob": 0.25,
+        "pt": 1570.29,
+        "thesis": "Continued EPS beats and strong growth from the obesity franchise justify a premium valuation."
+      },
+      "base": {
+        "prob": 0.55,
+        "pt": 1255.4,
+        "thesis": "The current price fully reflects the company's strong fundamentals and growth prospects."
+      },
+      "bear": {
+        "prob": 0.2,
+        "pt": 1003.24,
+        "thesis": "Stretched valuation multiples and insider selling lead to a mean reversion in the stock price."
+      }
+    },
+    "catalysts": [
+      {
+        "catalyst": "Next earnings release",
+        "date": "unknown",
+        "impact": "positive"
+      },
+      {
+        "catalyst": "Further regulatory approvals for weight-loss drugs",
+        "date": "unknown",
+        "impact": "positive"
+      },
+      {
+        "catalyst": "Competitor response in the obesity market",
+        "date": "unknown",
+        "impact": "negative"
+      }
+    ],
+    "risks": [
+      {
+        "risk": "Valuation multiple compression",
+        "likelihood": "medium"
+      },
+      {
+        "risk": "Deceleration in revenue or EPS growth",
+        "likelihood": "low"
+      },
+      {
+        "risk": "Increased financial leverage impacting profitability",
+        "likelihood": "low"
+      },
+      {
+        "risk": "Insider selling signaling lack of confidence",
+        "likelihood": "medium"
+      }
+    ],
+    "decision_rationale": "The bull and bear cases present a fundamental disagreement on valuation, with the bull thesis relying on continued exceptional growth and the bear thesis highlighting stretched multiples and insider selling. The deterministic valuation places the base case at the current price, suggesting the market has efficiently priced in the company's strong fundamentals. Given the high quality of the business but the lack of a clear margin of safety at the current price, a HOLD rating is appropriate."
+  },
+  "errors": [],
+  "elapsed_sec": 0.0,
+  "report_path": null,
+  "json_path": null
+}

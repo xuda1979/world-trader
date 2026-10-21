@@ -1,0 +1,153 @@
+=== MONEY-LOOP scan started 2026-07-29 14:57:17 ===
+=== WORLD-TRADER GLOBAL SCAN  2026-07-29T06:57:18+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+-- OPEN NOW: 7 markets --
+   + CN-A (China A-shares)
+   + CRYPTO (Crypto (24/7))
+   + FUT (Futures (CME/GLOBEX: commodities, bonds, index))
+   + FX (FX (24/5))
+   + HK (Hong Kong (HKEX))
+   + IN (India (NSE/BSE))
+   + SG (Singapore (SGX))
+
+-- REGIME: NEUTRAL  (score +0.00) --
+
+-- LIVE QUOTES: 64 instruments fetched (crypto RT, US, China A-share live, Taiwan live, FX)  [wide US unavailable: net: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081)]  [wide CN unavailable: RemoteDisconnected: Remote end closed connection without response] --
+
+=== OPPORTUNITIES (ranked by per-trade expected Sharpe = E[R]/sigma) ===
+  markets open now (2026-07-29T06:59:04+00:00): CN-A, CRYPTO, FUT, FX, HK, IN, SG
+  YOUR BAR to qualify: E[R]>=+1%/trade, sigma<=7%*sqrt(h/5), Sharpe>=0.40, n>=20, t>=2 (Bonferroni-adj.), OOS Sharpe>0
+  >> NOTHING cleared your bar this scan. The rows below are the best
+     MEASURED edges only -- they are NOT signals. DO NOT trade them.
+
+-- TRADE PLAN --
++---+--------------------+----------+-----+-------+--------------+--------+--------------+-------+--------+--------+--------+-----+-------+----------+
+| # | Instrument         | Sym      | Mkt | Dir   | Setup        |  Price | Quote(Local) |  Chg% |  Entry |   Stop | Target | R:R | Risk% | Catalyst |
++===+====================+==========+=====+=======+==============+========+==============+=======+========+========+========+=====+=======+==========+
+| 1 | HK: Tencent        | 00700.HK | HK  | Short | ConnorsShort | 466.80 | 07-29 14:58  |  4.4% | 466.80 | 484.63 | 431.14 | 2.0 | 3.82% |          |
+| 2 | HK: NetEase        | 09999.HK | HK  | Short | ConnorsShort | 204.20 | 07-29 14:58  |  2.3% | 204.20 | 212.19 | 188.21 | 2.0 | 3.91% |          |
+| 3 | HK: CNOOC          | 00883.HK | HK  | Long  | TrendRide50  | 23.520 | 07-29 14:57  |  2.4% | 23.520 | 22.629 | 26.192 | 3.0 | 3.79% |          |
+| 4 | HK: Lenovo         | 00992.HK | HK  | Long  | Pullback     | 22.980 | 07-29 14:57  | -1.9% | 22.980 | 21.601 | 26.427 | 2.5 | 6.00% |          |
+| 5 | HK: China Overseas | 00688.HK | HK  | Short | ConnorsShort | 13.650 | 07-29 14:58  |  1.9% | 13.650 | 14.110 | 12.729 | 2.0 | 3.37% |          |
+| 6 | HK: Li Auto        | 02015.HK | HK  | Short | ConnorsShort | 54.450 | 07-29 14:58  |  9.6% | 54.450 | 56.521 | 50.307 | 2.0 | 3.80% |          |
+| 7 | HK: Sands China    | 01928.HK | HK  | Long  | NR7break     | 15.000 | 07-29 14:57  |  3.2% | 15.000 | 14.534 | 16.166 | 2.5 | 3.11% |          |
++---+--------------------+----------+-----+-------+--------------+--------+--------------+-------+--------+--------+--------+-----+-------+----------+
+
+-- EDGE & RISK (evidence for the SAME numbered rows) --
++---+----------+--------+--------------+---------+-------+--------+--------+-----+-------+------+----+------+--------+-------+-------+
+| # | Sym      |  Price | Quote(Local) | Verdict | E[R]% | sigma% | Sharpe |   t |  oosS | Win% |  n | ATR% | Kelly% | RV/IV | Data  |
++===+==========+========+==============+=========+=======+========+========+=====+=======+======+====+======+========+=======+=======+
+| 1 | 00700.HK | 466.80 | 07-29 14:58  | below   | 0.81% |  3.76% |   0.22 | 1.8 |  0.67 |  49% | 67 | 3.8% |  23.9% |    -- | RT 1m |
+| 2 | 09999.HK | 204.20 | 07-29 14:58  | below   | 0.12% |  3.69% |   0.03 | 0.3 |  0.43 |  47% | 77 | 3.9% |  20.1% |    -- | RT 1m |
+| 3 | 00883.HK | 23.520 | 07-29 14:57  | below   | 2.09% |  5.22% |   0.40 | 2.8 |  0.29 |  55% | 49 | 3.2% |  40.1% |    -- | RT 1m |
+| 4 | 00992.HK | 22.980 | 07-29 14:57  | below   | 1.79% |  7.06% |   0.25 | 1.3 |  0.27 |  48% | 27 | 7.2% |  27.4% |    -- | RT 1m |
+| 5 | 00688.HK | 13.650 | 07-29 14:58  | below   | 0.45% |  3.59% |   0.13 | 1.0 |  0.07 |  52% | 66 | 3.4% |  27.3% |    -- | RT 1m |
+| 6 | 02015.HK | 54.450 | 07-29 14:58  | below   | 0.21% |  6.03% |   0.03 | 0.2 | -0.08 |  37% | 49 | 3.8% |   5.1% |    -- | RT 1m |
+| 7 | 01928.HK | 15.000 | 07-29 14:57  | below   | 1.14% |  4.17% |   0.27 | 1.4 | -1.84 |  56% | 25 | 3.1% |  38.4% |    -- | RT 1m |
++---+----------+--------+--------------+---------+-------+--------+--------+-----+-------+------+----+------+--------+-------+-------+
+  note: 25 live instruments have no free daily history (China A-share/Taiwan) -> no expectancy, excluded from ranking.
+
+-- SHORT-RESTRICTED MARKETS -> shortable proxy --
+  * China: CATL 宁德时代 (sz300750): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Ping An Insurance 中国平安 (sh601318): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Midea Group 美的集团 (sz000333): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Zijin Mining 紫金矿业 (sh601899): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: BYD 比亚迪 (sz002594): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: LONGi Green Energy 隆基绿能 (sh601012): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+  * China: Hengrui Pharma 恒瑞医药 (sh600276): bearish setup but CN-A is long-only/short-restricted -> proxy: FXI (China large-cap ETF), KWEB (China internet ETF), ASHR (CSI300 A-share ETF), YANG (China -3x bear ETF)
+
+-- MACRO / RATES / CREDIT (FRED) --
+
+-- CATALYST CALENDAR (next 14d; today=2026-07-29) --
+  (no actionable upcoming catalysts found)
+  errors: earnings: net: Remote end closed connection without response; ipo: net: Remote end closed connection without response; fda: net: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081); dividends: net: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081)
+
+-- NEWS (expanded feeds) --
+  [Nasdaq-Mkts]
+    - ENI Q2 Profit Surges, Lifts FY26 Prodiution View; Expands Buyback To €3.4 Bln
+    - Great-West Lifeco Q2 Profit, Revenue Rise
+    - HD Hyundai Heavy Industries Earnings Up In Q2
+  [SeekingAlpha]
+    - Celestica Inc. 2026 Q2 - Results - Earnings Call Presentation
+    - Swapping Dominion For WEC Energy Group
+    - Mineral Resources Limited (MALRY) Q4 2026 Earnings Call Transcript
+  [Investing]
+    - Porsche restructuring starting to pay off, says CEO
+    - Asia stocks slide as KOSPI sinks 6%; AI rout, Middle East tensions weigh on market
+    - Goldman Sachs Names Top China Data Center Stocks to Buy
+  [ECB]
+    - Philip R. Lane: Outlook for the euro area economy
+    - Decisions taken by the Governing Council of the ECB (in addition to decisions setting interest rates)
+    - ECB to extend use of climate factors in Eurosystem collateral framework to non-financial corporate credit claims
+  [LiveMint]
+    - Post-pandemic digital push sparks wave of new company formations in India
+    - MV Electrosystems IPO: GMP signals a 25% listing pop; date, price, other key details in 10 points
+    - TCS vs Infosys vs Wipro vs HCL Tech: Which IT stock to buy after Q1 results?
+  [FarmProgress]
+    - Soil pH critical for forage production in Southeastern states
+    - Lessons learned from 9-bushel-per-acre corn yield
+    - Explore opportunities at Farm Progress Show Career Crawl
+  [CoinTelegraph]
+    - Telegram founder Pavel Durov internationally wanted, Russia’s FSB says
+    - Trade.xyz to cover SK Hynix perp liquidation losses tied to price anomaly
+    - Uniswap founder rejects claims v4 fees reduce LP earnings
+  [CryptoSlate]
+    - AI firms are shredding physical books because copyright law is quietly rewarding them
+    - Apple’s App Store promoted fake Bitcoin wallet that stole $1.8M after developer spent a year warning them
+    - Inside the brutal 2-minute flash crash sending a $400M South Korean market plunging on Hyperliquid
+  [BeInCrypto]
+    - Russia Targets Telegram Founder Pavel Durov With Terrorism Charges
+    - Why Is The Crypto Market Down Today?
+    - HTXs First TradFi Trade to Earn Campaign Unleashes New Trading Momentum: Rewards Exceed $23,000, Fee Savings Reach 1.8 Billion $HTX
+
+-- SEC 8-K MATERIAL CATALYSTS (last 3 days) --
+  (unavailable: net: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081))
+
+-- INSIDER CLUSTER BUYS (last 30d, >=2 insiders) --
+  (unavailable: RemoteDisconnected: Remote end closed connection without response)
+
+-- DEFI STABLECOIN YIELDS (top 8 by APY, TVL >=$10M) --
+  (unavailable: net: Remote end closed connection without response)
+
+-- SHORT SQUEEZE WATCH (SI% float >= 10%) --
+  (no high-SI names found)
+
+-- ENERGY SNAPSHOT (FRED weekly) --
+  (unavailable: no data (FRED_KEY missing or all series failed))
+
+research only, not financial advice. verify before acting.
+
+[scan task log]
+  - 14:57:18  regime: gathering FRED macro / VIX / fear-greed
+  - 14:57:23  regime: NEUTRAL score=+0.00
+  - 14:57:23  quotes: collecting global universe (crypto/US/CN/TW/HK/FX/futures/indices + region/macro ETFs)
+  - 14:58:14  quotes: 64 curated instruments fetched
+  - 14:58:14  wide US funnel: pulling ~12k tickers from Polygon, pre-screening top 150
+  - 14:58:18  wide US funnel: 0 of 0 -> top 150 backtested [err: net: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081)]
+  - 14:58:18  spillover funnel: scanning RSS headlines for theme keywords -> peer candidates
+  - 14:58:34  spillover funnel: 6 candidates across 1 themes -> 0 fetched
+  - 14:58:34  wide CN funnel: pulling ~5,500 A-shares, pre-screening top 120
+  - 14:58:34  wide CN funnel: 0 of 0 -> top 120 backtested [err: RemoteDisconnected: Remote end closed connection without response]
+  - 14:58:34  opportunities: building candidate set from quotes + regime
+  - 14:58:34  opportunities: 36 raw candidates
+  - 14:58:34  backtest: enriching with technicals + E[R]/sigma/Sharpe
+  - 14:58:48  backtest: per-candidate family m=10 (global total=24) -> Bonferroni t>=2.81
+  - 14:58:48  news enrichment: Finnhub headlines + Polygon sentiment per candidate
+  - 14:58:48  news enrichment: done (0 candidates have fresh headlines)
+  - 14:58:48  catalyst enrichment: scanning Finnhub earnings/FDA/IPO + Polygon dividends
+  - 14:58:49  catalyst enrichment: 0 candidates have a near-term catalyst (+0 new)
+  - 14:58:49  PEAD confirmation: looking up recent earnings surprises for PEAD setups
+  - 14:58:49  PEAD confirmation: 0 PEAD setups confirmed by earnings surprise (+0 new)
+  - 14:58:49  options enrichment: pulling ATM straddles (CBOE) for top US candidates
+  - 14:58:49  options enrichment: 0 candidates have an RV/IV signal (+0 new)
+  - 14:58:49  country crisis: scanning 32 country ETFs for crisis signals
+  - 14:59:04  country crisis: 0 candidates in crisis (+0 new)
+  - 14:59:04  veto gate: 0 rows vetoed (0 crash-in-progress, 0 news-contradicts) -> PASS rows 0 -> 0
+  - 14:59:04  catalysts: printing freshest company news for top candidates
+  - 14:59:04  alt-data: pulling FRED macro/rates/credit, treasury curve, BTC funding, COT
+  - 14:59:08  catalyst calendar: Finnhub earnings/FDA/IPO + Polygon dividends (14d)
+  - 14:59:09  expanded news: sweeping all RSS feeds (equities/macro/CB/crypto/FX/commodities/regional)
+  - 14:59:23  expanded news: 9 feeds ok, 98 feeds failed
+  - 14:59:23  GDELT: 24h global market tone sweep
+  - 14:59:23  altdata2: SEC 8-K + insider clusters + DeFi yields + short squeeze + energy

@@ -1,0 +1,37 @@
+=== (b) forecast-magnitude 0.7x overlay on champion (a-priori: pct>0.8 -> 0.7x, N=252) ===
+cand  (|fcst| pct>0.8 ->0.7x): dSR=+0.174 SR=3.355 days_on=112
+b1    (champ own vol pct>0.8): dSR=+0.099 SR=3.280 days_on=1504
+b2    (constant 0.993x):        dSR=-0.006 SR=3.175
+  -- plateau (objective dSR; neighbors within 20% of peak required) --
+  thr=0.6: dSR=-0.049
+  thr=0.7: dSR=+0.098
+  thr=0.8: dSR=+0.174
+  thr=0.9: dSR=+0.118
+  scale=0.6: dSR=+0.221
+  scale=0.7: dSR=+0.174
+  scale=0.8: dSR=+0.120
+  scale=0.9: dSR=+0.059
+  -- era split of dSR contribution --
+  08-12: dSR=-0.053 days_on=0
+  13-19: dSR=-0.043 days_on=43
+  20-26: dSR=+0.264 days_on=48
+  gated days: n=112, mean champ ret=+0.5bp, share positive=56%
+  top-6 |dSR contrib| days (champ ret, gated?):
+    2020-03-19 champ=+17.78% on=True
+    2020-03-20 champ=+14.03% on=True
+    2020-03-09 champ=+5.69% on=True
+    2020-03-18 champ=+4.67% on=True
+    2008-03-31 champ=+1.25% on=False
+    2020-04-08 champ=+4.05% on=True
+=== (a) corrected dir-hit (sign fcst vs sign next-day ret) ===
+  QQQ: dir-hit=0.5236 (up-fcst share=0.738)
+  XLE: dir-hit=0.5047 (up-fcst share=0.678)
+  XLF: dir-hit=0.5056 (up-fcst share=0.697)
+  TLT: dir-hit=0.4977 (up-fcst share=0.470)
+  GLD: dir-hit=0.5083 (up-fcst share=0.556)
+  EEM: dir-hit=0.4925 (up-fcst share=0.621)
+=== (b) excl-Mar2020 + yearly delta anatomy ===
+  full:  cand dSR=-0.693
+  excl Mar-Apr20: cand dSR=-1.009  b1 dSR=-2.222
+  yearly dSR-arithmetic-sum (bp): {2008: -135, 2010: -37, 2011: -36, 2013: -41, 2014: -1, 2015: -91, 2016: -2, 2018: -77, 2019: -109, 2020: -1645, 2021: -4, 2022: -35, 2024: -10, 2025: -99, 2026: -27}
+  top-8 |delta| days sum=-1733bp vs full-window total=-2349bp

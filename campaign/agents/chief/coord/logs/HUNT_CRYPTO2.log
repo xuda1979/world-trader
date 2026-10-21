@@ -1,0 +1,155 @@
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260906195101db59625f33244adc]
+=== HUNT_CRYPTO2 round 1 end Sun Sep  6 19:51:02 CST 2026 exit 0 ===
+Round 1 executed per charter. All four families ran with honest T+1, 6.4bps full-|dW| + borrow + margin costs, vt10 clip-3, no-lookahead probes asserted, and 200x re-costed scrambles. **Verdict: honest negative — nothing passes.**
+
+**Exact numbers:**
+
+| Family | Best config | SR | Killer gate |
+|---|---|---|---|
+| (a) vol-scaled weekly crossover | 10/30 EW-12 | 0.91 | H2=0.24 (<0.5), SR<1.0; 20/60 chartered = 0.64, off-plateau |
+| (b) daily reversal liq-3 | k=3 | **−0.21** | 7 neg yrs; crypto 1-5d is momentum regime |
+| (c) sector RV | BTC/ETH ratio 30d | 0.13 | 4 neg yrs; base-vs-alt variant −0.14 |
+| (d) BTC-MA gate on champion | MA200 sc0.5 | dSR **+0.265** | **scramble p=0.420** — random gate placement reproduces the lift |
+
+The (d) result was the interesting one — dSR +0.20..0.27 is nominally above the prior round's materiality bar (+0.063), so I gave it a full adversarial audit before killing it:
+
+- **Robust in the wrong way**: survives +1..+3 day lags (3h BTC close timing), survives flip costs (−0.03 dSR), smooth 20-point grid — yet random lagged gates match it (p=0.420).
+- **Denominator artifact proven**: gate-off days have champ mean **+16.7bp/d vs +12.6bp/d on-days** — it cuts exposure exactly when the champion earns more. SR rises mechanically while **ann drops 39.9%→33.4%** and dAnn is negative in **all 10 covered years** (2020: −65.7pts).
+- **Not crypto at all**: SPY>MA50 gives dSR +0.269 > BTC's +0.230; BTC>MA200 beats BTC>MA50.
+
+**Deliverables**: `campaign/scripts/HUNT_CRYPTO2_round1.py` + `HUNT_CRYPTO2_round1_gate_audit.py`, 5 sleeve CSVs + metas in `coord/HUNT_CRYPTO2/sleeves/`, and `FINDINGS.md` appended with full evidence, a DEAD_IDEAS row for the coordinator, ending in `ROUND 1 DONE` (verified byte-exact).
+
+One caveat logged in every meta: Binance perp funding isn't modeled — but since no family came within 0.09 SR of the 1.0 gate, it's moot here.
+=== HUNT_CRYPTO2 round 1 end Mon Sep  7 01:40:55 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090702132103ce67e5579f4a1b]
+=== HUNT_CRYPTO2 rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070219042f2f19b11b6e4bab]
+=== HUNT_CRYPTO2 rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907022315628a07da5ae547db]
+=== HUNT_CRYPTO2 rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907031042d18be265c18744f0]
+=== HUNT_CRYPTO2 rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090703354588e2d61218824320]
+=== HUNT_CRYPTO2 rate-limited or errored (attempt 5, rc=1); backing off ===
+Round 2 executed and closed. Summary:
+
+## What I did
+A prior session had run the round-2 grid + audits but died before writing FINDINGS. I **re-ran everything from scratch before trusting it**: `HUNT_CRYPTO2_round2.py` reproduced **bit-identically** (217-line log diff = 0, sleeve CSVs sha-identical), and both saved TDD tests pass. Then I found and fixed a real bug in the audit evidence.
+
+## Results (both charter ideas FAIL → crypto DEAD FOR THE CAMPAIGN)
+
+**(a) ETH-BTC ratio / BTC-dominance regime overlay** — the dominance proxy (BTC price / EW alt-10, price-only on-disk) gives dSR +0.070..+0.366 with a broad plateau on the MA axis, but **dAnn is negative in all 20 configs** (−0.92..−9.17pp). Attribution (dom_ma100_sc0.5): OFF-days carry champ +16.3bp/d vs ON +13.1bp/d at double the vol — the gate switches OFF exactly when the champion earns more (same denominator artifact R1's (d) died of; sum of champ PnL inside OFF-episodes = **+214.7%**).
+
+**(b) BTC vol-of-vol de-risk gate** — 18 configs: dSR −0.166..+0.237, dAnn −4.05..−8.04pp all negative.
+
+**Why the nominal dMDD "pass" is fake** (the honest core of this round):
+- Champ's MDD trough (2018-06-25, −6.84%) is the *only* touchable episode; 2008-12-19 (−6.03%) predates crypto data. **Perfect-foresight full exit over the entire crypto span yields dMDD exactly +0.807pp** — the +0.5pp charter bar is 62% of an unattainable oracle.
+- All 16 nominal passers land at **exactly** +0.807pp; excluding 2018-05..07, **0/38** still clear the bar.
+- **Audit correction (TDD'd, 2 new tests)**: the saved degeneracy audit's random-gate null was degenerate — `np.where(u < offfrac/flipfrac)` with ratio 17.5>1 collapsed all 200 draws to a constant 0.5 gate, so its "200/200 = 100%" line was an artifact. I replaced it with a persistence-matched Markov null (off% 21.2%, flip 1.21%/d): random gates reach the same +0.807pp ceiling 20–26% of draws (p90 = exactly the ceiling, 3 seeds). The nominal passer p_MDD of 0.010–0.035 measures luck of placement vs **one** episode, not de-risk skill.
+- Every dMDD passer costs −4.6..−10.9pp ann. dAnn leg: 0/34 configs within 1.7pp of the +0.3pp bar (best −1.35pp).
+
+## Deliverables
+- FINDINGS.md appended with exact numbers, ends `ROUND 2 DONE` (verified byte-level; also repaired two literal `\n` artifacts my append introduced).
+- Combined R1+R2 DEAD_IDEAS row text included for the coordinator (note: the R1 row never actually landed in `results/DEAD_IDEAS.csv` — coordinator should ingest both).
+- Fixed: degenerate T1 null in `AUDIT_mdd_degeneracy.py` (re-ran, txt refreshed), corrected p_MDD direction in the scramble test, and 2 sleeve metas that wrongly said "charter bar NOT met" where dMDD nominally met it (they fail on the honesty stack, and now say so). Sleeve CSVs untouched (sha-verified).
+=== HUNT_CRYPTO2 round 2 end Mon Sep  7 04:21:01 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070817518f939df7bbe34ee9]
+=== HUNT_CRYPTO2 rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090708272773858bb140c244cb]
+=== HUNT_CRYPTO2 rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907083211457e32da05e24b25]
+=== HUNT_CRYPTO2 rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070852191636cfe228ef4fe7]
+=== HUNT_CRYPTO2 rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907090002ca09e3b1717645e4]
+=== HUNT_CRYPTO2 rate-limited or errored (attempt 5, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090709213916c9b32266434984]
+=== HUNT_CRYPTO2 rate-limited or errored (attempt 6, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907093656402d5c7e21214a59]
+=== HUNT_CRYPTO2 rate-limited or errored (attempt 7, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907095525712a9a2a426e4c40]
+=== HUNT_CRYPTO2 rate-limited or errored (attempt 8, rc=1); backing off ===
+Round 3 complete. All four charter items executed, all tests green (11/11), FINDINGS.md ends with `ROUND 3 DONE`.
+
+## What happened this round
+
+**Charter round 3 was a verification/closure round** — standalone and overlay crypto were already dead after rounds 1-2, so the work was cross-checking others' verdicts, manifest auditing, and formalizing the final crypto submission.
+
+**(a) SECTOR2 cross-verify — 5/5 confirmed, 0 mismatches.** My independent re-implementation (deliberately not importing `bt.*`, so a framework bug can't validate itself) reproduced every published stat from their CSVs alone. Re-run this session was byte-identical to the 09:51 report, which simultaneously proved their sleeves are unchanged AS-IS. One convention finding: SECTOR2's metas report *arithmetic* ann (== sr×vol exactly in all 5), not geometric — no verdict flips.
+
+**(b) Library census — real gaps reported.** AP_gold.csv has **no .meta at all**; 39/41 metas lack a span, 40/41 lack a cost convention. Six sleeves trip the crypto-adjacency wire (corr +0.30 to +0.35), including AP_gold (SR +0.94) which my first census pass had falsely marked UNREADABLE — fixed TDD-first with an index-column loader fallback plus a weights-stream guard (the COMP_invvol trap).
+
+**(b2) Blend submission — delivered AS-IS and confirmed dead.** `CRYPTO_VolX_10-30_EW12_audit` (sha 36e15c35…, byte-identical to its pre-round snapshot — no re-fit) got the formal `BLEND_CANDIDATE_SUBMISSION.md` label with honestly recomputed stats (SR 0.910, H1 1.35/H2 0.24, corr −0.026). VOL2's lane had already ingested it as "CRX1030": its dSR +0.149 survives their 200-null control — the only crypto positive on record — but dAnn is negative at every weight, so it dies at their gates exactly as the charter anticipated.
+
+**(c) DEAD_IDEAS — chain closed through R3.** Appended the `HUNT_CRYPTO2-R3` row. One incident, logged in the row: my first append was **clobbered by HUNT_COT2-R3's concurrent rewrite** and I re-appended idempotently — I'd recommend the coordinator serialize DEAD_IDEAS.csv writes.
+
+**Also flagged:** the worktree champion drifted twice under me today (now 37.195%/SR 3.1810 per the coordinator's `coord_accept_r3_brwtcostfix.json`); my stale band-test caught it as designed, and I re-pinned tests so HEAD must stay 39.85%/3.2964 while the worktree must always match a documented acceptance JSON — any future unexplained drift now fails loud.
+=== HUNT_CRYPTO2 round 3 end Mon Sep  7 12:58:35 CST 2026 exit 0 ===
+Round 4 executed per charter. Summary:
+
+## Round 4 — Audit Rotation (fraud-catch duty)
+
+**Scope discipline:** GATES_CONTRACT.md + the 108-row DEAD_IDEAS.csv read first. No crypto-family engine run. Audited scripts sha256-snapshotted before/after: **10/10 byte-unchanged**. Champion of record independently re-measured: **37.195% / SR 3.181 / MDD −6.69% / 0 neg yrs — exact match**.
+
+**Six rows audited (the only non-crypto rows citing saved scripts):**
+
+| Row | Family | Result | Key numbers |
+|---|---|---|---|
+| 100 | CMDT2-R3 spread mom | **REPRODUCED** | DBE-DBP LS 63d SR 0.709, USCI-DBC LS 21d −1.062 — 3dp-exact, 16/16 FAIL |
+| 102 | CREDIT2-R3 spread mom | **REPRODUCED** | HYG/LQD −0.87, JNK/IEF −0.30 — exact; own-code re-derivation (no shared lib) confirms: −0.744/−0.230 |
+| 103 | CREDIT2-R3 carry harvest | **REPRODUCED** | the −1.90%/yr = arithmetic annualization, exactly −1.90 (geo −2.76); netSR −0.301, corr −0.123 — all exact |
+| 96 | COT2-R3 TFF | **REPRODUCED byte-exact** | 156/156 variants, max\|ΔSR\| = 0.000 vs their committed CSV; headline 0.275 re-derived without their engine |
+| 97 | COT2-R3 CIT ags | **REPRODUCED w/ caveat** | 144/156 rows identical; 12 wheat_hrw rows diverged because the COT inputs were refetched 09-06/09-07 after their Sep-4 run — stale-vintage reconstruction reproduces their committed numbers (SR −0.129 vs −0.127). No verdict impact |
+| 98 | COT_ITER11 | **DIVERGED (moderate)** | fade SRs drifted 0.3-0.4 vs recorded range on 2/6 configs — same data-refresh cause; the row's key artifact claim reproduces (same-period corr +0.149..+0.211 all 9 markets vs forward −0.111..+0.035) |
+
+**Verdict: 5 reproduced, 1 diverged-with-explanation, 0 fraud signals, 0 unreproducible.** Every audited dead verdict survives independent re-measurement.
+
+**Side-effect disclosed:** a spot-check rerun of SECTOR2's `hunt_sector2_r3.py` (its own `save=True` default) re-emitted 5 COMP_* sleeves — their own deterministic code path, all stats 3dp-identical to published. Also flagged a cosmetic bug: `cot_delta_momentum.py` prints MDD −129.8% (impossible for an unlevered book).
+
+Evidence archived in `work_r4/` (rerun outputs, repro dirs, sha manifests, re-derivation script + output). FINDINGS.md appended, last line is exactly `ROUND 4 DONE`.
+=== HUNT_CRYPTO2 round 4 end Mon Sep  7 17:59:02 CST 2026 exit 0 ===
+Round 5 executed per charter. Summary:
+
+## R5 (a): Crypto carry from keyless funding endpoints — executed, honest-negative on adoption
+
+**Data acquisition** (`work_r5/fetch_funding.py`, manifest with shas):
+- Roster audit vs the altdata5 "live" claims: **OKX** funding-history = 290 rows/3-month cap (BTC+ETH), **Coinbase INTX** `/funding` = 25-row pages with `start` ignored (~4 days), **Kraken** futures `histofunding` = HTTP 404. All three are `inception_fail` under V2 §9's 8y-of-effect bar — fetched, cited, unused.
+- Depth extension (disclosed): **BitMEX** keyless `/api/v1/funding` — XBTUSD n=11,264 (2016-05-14→2026-09-07), ETHUSD n=8,876 (2018-08→2026-09-07). Curl times out from this sandbox; altdata5's python-stdlib getter works.
+
+**Results** (three self-caught gate-wiring bugs disclosed in FINDINGS before any verdict; final numbers from corrected engines):
+- **Expressible books 12/12 FAIL** (`carry_engine4.py`, funding accrual credited, costs 6.4bps full-|dW| + borrow): best = CARRY_BTC_LONG netSR 0.665 — passive crypto beta, not carry. Harvest flips die on costs (gross 0.479 → net 0.387 weekly, negative monthly). All leak probes clean (|c0| ≤ 0.110).
+- **Hedged cash-and-carry is the round's one real effect**: HEDGE_BTC_W netSR **1.628** (11.61%/yr, 1 neg yr, worst −0.82%, scramble p 0.000, beats-passive TRUE) — but it needs a perp+spot crypto pair that doesn't exist in the campaign universe. Published data-acquired, not submitted. ETH funding (+23–97%/yr every year) never flips sign → degenerate probe, fail-closed.
+- **Champion overlays 0/6** (`dAnn` −0.49 to −6.93pp, hard gate 8c): R2's 0/34 extends to 0/40 crypto overlays.
+
+**Bookkeeping**: DEAD_IDEAS row 123 appended (parse-verified, 4 cols), FINDINGS.md ends `ROUND 5 DONE`, champion sha `4358dfab95679b97` untouched, `bt/` untouched. Note for the coordinator: two agents (CMDT2-R5 row 122 and me) independently hit the same beats_passive price-levels trap — worth a contract note pinning `pct_change()` for spy/ief inputs.
+=== HUNT_CRYPTO2 round 5 end Tue Sep  8 05:18:48 CST 2026 exit 0 ===
+ROUND 6 DONE. Summary of what happened:
+
+**Round-start discipline:** Champion independently re-verified fresh (verify_champion_r3_cmd.sh → ok=true 7/7, sha `4358dfab95679b97`, gross 1.6000, 0 neg yrs, MDD −6.6922%); DEAD_IDEAS recounted = 137 data rows at round start (matched charter). Read GATES_CONTRACT_V2 first.
+
+**(a1) HUNT_VOL2 R5 — verdict CONFIRMED, 1 prose discrepancy escalated.** My from-scratch reimplementation (no import of their lib) reproduces all headline claims exactly: 0/148 dAnn>0 and 0/224 unfiltered, best dAnn −0.429pp (pcr_vix z>2.0 to=0.5), best dSR −0.0032, 74/148 negy-0, 100/148 MDD-ok, window n=3007, champ-in-window 36.22%, per-row diffs only their 3–4dp rounding, and the §8h placebo reproduced to 4dp (null median −0.7655/−0.7621, frac_pos 0.000, z +12.5/+10.5). The discrepancy: their FINDINGS + recommendation_r5.json claim "max |same_period_corr| 0.063" but their own CSV max is **0.1901** (117/148 rows exceed 0.063; the number is corr(sig, net-book) because they pass the net book as `r` to gates.run — verified 148/148 within 1e-6). Still under the 0.20 bar and lag-0 not argmax, so leak_ok stands; verdict 8c-bound regardless. Their files untouched.
+
+**(a2) HUNT_FXCARRY2 R5 — verdict CONFIRMED, 1 real engine defect found (verdict-safe).** SR/ann/MDD reproduce to machine epsilon on all 9 sleeves; CFX4 zero-weight mechanism reproduced own-code exactly (0 IS obs, relw 0.0, own-span SR 1.9106); mom252_LS leak=True disclosure honest; 0/9 v2_pass. But re-running their committed engine live reproduces a split: for all 6 TREND configs, `gates.run` judges a different series than the saved CSV (e.g. gates.sr −0.6468 vs saved-book SR −1.2484 on mom63_LS) — `trend_book_weights` writes positions only on month-end rows so `ffill()` holds zeros (book live ~4.7% of days), making `sig*r_pu = 0` on 272–329 exit days per config while the saved net keeps those costs. Root cause pinned, their own TDD pin misses it (asserts live days only). Verdict-safety proven: the intended monthly-held book is also deeply dead (best SR −0.07, 15–22 neg years), so "0/9, family dead" holds under all three series. Escalated as a bug for FXCARRY2 to fix in their files.
+
+**(b) Curation:** all 7 crypto rows re-verified against artifacts; row 46's thin chain independently re-measured exact (SR 1.109, H2 0.21, 4/10 negy); appended one idempotent `HUNT_CRYPTO2-R6` closure row (ledger 143 rows, well-formed, my row present exactly once).
+
+**(c)** No crypto engines run; family stays closed. FINDINGS.md appended with all exact numbers and repro paths under `work_r6/`; last line is exactly `ROUND 6 DONE`.
+=== HUNT_CRYPTO2 round 6 end Tue Sep  8 12:55:14 CST 2026 exit 0 ===
+ROUND 7 complete. Summary of what was done and the honest outcome:
+
+## R7 corner (a): Deribit DVOL + options chain — executed to its data limit
+
+**Data probe (charter (b) path, done first):** Live keyless Deribit endpoints (`get_volatility_index_data`, `get_book_summary_by_currency` via `altdata6`) are **dead at every network layer** from this env. Full forensics saved (`work_r7/deribit_blocked_evidence.json`):
+- UDP-DNS: **8/8 distinct bogus A records** per query (unrelated companies — Facebook/Dropbox space); local resolver gives a 9th. Textbook per-query poisoning.
+- DNS-over-TCP:53 → ConnectionReset 3/3; DoH → unreachable; direct-IP TLS with correct SNI → timeout on all IPs; :80 and IPv6 → timeout; altdata6 fetchers → `net: timed out` after full retry ladders.
+- Same-session controls pass: DeFiLlama 2.2s (423 assets), CNBC 1.7s. No fixture substitution, no synthetic prices.
+
+**Options-chain (term-structure) leg: UNTESTABLE → [blocked] DEAD_IDEAS row filed.** No chain history exists on disk anywhere in the repo.
+
+**DVOL-only leg (real pre-block vintage on disk): 16/16 honest NEGATIVE.** Data: `btc/eth_dvol.csv` n=1801 each, 2021-10-03..2026-09-07, sha16 `a5ac2cc1…`/`2c3cb8a0…`, PIT via T+1 on daily UTC bars, span_class **inception_fail** (V2 §9a) → diagnostic, not an acceptance submission. Full V2 battery run anyway (`sig=`, `leak_check=True` explicit, beats_passive trio, ref=champion + corr vs A5r2):
+- Best: `ETH_VOV_60` netSR **0.764** << 1.0; **0/16 scramble** (scr_p 0.18–0.915 — no timing skill anywhere); 15/16 fail beats_passive; 13/16 fail halves; decorrelation not binding (corr_champ −0.012..+0.032, corr_A5r2 0.01–0.29); leak_ok=True 16/16 — signals are dead, not leaky.
+
+**Ledger:** DEAD_IDEAS recounted 145→146 (concurrent COT append) at my append; my first append was malformed (unquoted comma) — caught by my own parse check, removed cleanly, re-appended via `csv.writer`: **147 data rows, 0 malformed, exactly +1 mine**. One 2-minute window where a malformed row existed, disclosed in FINDINGS.
+
+**Champion re-verified fresh this session:** 7/7 checks ok, sha `4358dfab95679b97` unchanged. FINDINGS.md appended and ends with exactly `ROUND 7 DONE`. No new alpha; frontier unchanged (37.2 vs 80 goal); crypto family stays CLOSED.
+=== HUNT_CRYPTO2 round 7 end Tue Sep  8 19:33:44 CST 2026 exit 0 ===

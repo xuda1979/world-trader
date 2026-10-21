@@ -1,0 +1,46 @@
+AUDIT_FWBUGS R7 - fresh-clone post-wave verification (2026-09-08 ~23:0x CST)
+Repo cloned: git clone /Users/daxu /tmp/fwbugs_r7_fresh_clone  -> HEAD b772958f3e2403311d8c98016a9984f3f1c5e123 (identical to main)
+
+WAVE STATUS AT VERIFICATION TIME: NOT LANDED.
+  git log --all -- bt/leakcheck.py bt/beats_passive.py -> EMPTY (never committed at any ref)
+  6 runtime modules UNTRACKED at HEAD: align, beats_passive, blend, borrow, financing_stress, leakcheck (.py)
+  43 untracked paths + 14 modified tracked files under campaign/bt/ in working tree.
+
+SYMPTOM 1 - collect-only from fresh clone (pytest campaign/bt/tests/ --collect-only -q):
+  "101 tests collected, 2 errors in 0.69s"  + "Interrupted: 2 errors during collection"
+   ERROR test_beats_passive.py:18   ImportError: cannot import name 'beats_passive' from 'bt'
+   ERROR test_fwbugs_audit_r3.py:31 ModuleNotFoundError: No module named 'bt.leakcheck'
+
+SYMPTOM 2 - production layer, fresh clone, python3 (sys.path=campaign):
+  G.run(ret_series, sig=sig_series)            -> ModuleNotFoundError: No module named 'bt.leakcheck'  (gates.py:135, DEFAULT-ON path)
+  G.run(ret_series, sig=sig_series, leak_check=False) -> OK, 18 result keys, leak_ok=None (opt-out path works)
+
+SYMPTOM 3 - full suite --continue-on-collection-errors (HEAD-only tree):
+  "21 failed, 80 passed, 2 errors in 20.16s"
+  incl. test_gates.py::test_run_pass_fresh -> ModuleNotFoundError at gates.py:135
+
+FIX RECIPE (measured, stepwise, same clone):
+  + 6 runtime modules + verify_champion_r3_cmd.sh + mini_champion fixtures
+      -> collect: "156 tests collected in 0.08s" (0 errors)
+      -> suite:   "3 failed, 153 passed in 26.62s"
+        residual 3 = tracked-version test files vs working-tree script drift
+          (test_camp_cost_full_dw reads campaign/scripts/QA_dualmom_band121.py "expected 0.5x pattern";
+           test_rawew13v2 "weighted champion must beat EW by >=30%"; test_gates_audit composite)
+  + 14 modified tracked bt files (the working-tree drift)
+      -> suite:   "1 failed, 170 passed in 26.86s"
+        residual 1 = test_beats_passive.py:801 FileNotFoundError tools/quant/data/twelvedata/SPY.csv (UNTRACKED at HEAD, 299754 bytes, mtime Aug 13)
+  + tools/quant/data/twelvedata/SPY.csv
+      -> suite:   "171 passed in 27.18s"  == FULLY GREEN
+
+FINAL RECIPE = commit bt/ working tree (43 untracked + 14 modified) + tools/quant/data/twelvedata/SPY.csv.
+  (rsync of the ENTIRE live bt/ tree on top instead adds other agents' data-pinned tests:
+   7 failed + 4 errors in test_camp_short_r4_lsfix.py + test_treasfut_r4_v2_rebuild.py -
+   their pins live outside bt/ (campaign/results + git-blob pins); NOT part of the wave fix, not mine.)
+
+MAIN-REPO CONTROL: the 3 drift-residual tests pass in-repo ("3 passed in 0.58s").
+CHAMPION SHA re-verified: shasum -a 256 GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv
+  = 4358dfab95679b975e4867f9ace806... (matches charter 4358dfab95679b97)
+VERIFY PINS: 1830.json ok=true 7/7 (n=4805, cagr 37.19539675684982, sr 3.180994199561701,
+  mdd -6.692185534307193, neg 0, gross max 1.6000000000006978 vs limit 1.6, 13 sleeves,
+  gear 1.6 / bps 6.4 / rate 0.045 / p 0.55); 1140.json = 145-byte ok:false no-args probe.
+VERIFY-ONLY honored: zero commits; clone removed after evidence captured.

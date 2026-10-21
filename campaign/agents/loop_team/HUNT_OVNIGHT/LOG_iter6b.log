@@ -1,0 +1,25 @@
+=== loop_team/HUNT_OVNIGHT start Thu Sep  3 11:12:55 CST 2026 ===
+=== HUNT_OVNIGHT execution summary (2026-09-03) ===
+TDD: 8 RED -> hunt_lib -> 9/9 GREEN (incl two-stream scramble RED->GREEN).
+Data lint PASS (identity 4.44e-16); fixed stray-calendar bug (2009-07-26 Sunday CVS row).
+Slate: ON-mom xs (t+5.0 IC on next-day ON), IC-mom/weekday/ONIC->cc all dead.
+OVNCAP paper: 7/7 naive gates, SR 2.145, corr -0.009, poslag2 p 0.025 — but construct needs
+sell-at-open + same-name short-at-open daily (2 extra RT/name/day ~12.8bp). Honest costs:
+0.725 best / -0.822 conservative vs charter SR>=0.6 with regime decay 4.31->0.95 => NO DELIVERY.
+Self-caught+fixed: scramble single-stream mis-spec, repro sign slip, double-borrow, double-turn.
+Canonical repro ovnight_repro.py re-verified fresh (exit 0); DEAD_IDEAS row appended.
+All charter items executed with fresh verification evidence. Summary of the hunt:
+
+**Deliverables state: NO DELIVERY (honest negative), everything documented.**
+
+1. **Data lint PASS** — 298 names, 1,358,122 rows, decomposition identity `(1+on)(1+ic)=c/c[-1]` exact to 4.44e-16. Self-caught + fixed a stray-calendar bug (2009-07-26 Sunday, single CVS name → fake +144.6% overnight polluting weekday stats).
+
+2. **TDD (IRON LAW)** — tests written first: RED 0/8 → implementation → 5 failures root-caused (2 wrong test expectations, 3 real lib bugs incl. pandas-4 alignment in `xs_ls`) → GREEN 9/9, plus a second RED→GREEN cycle for the two-stream scramble fix.
+
+3. **Slate results (all net, T+1, 6.4bps/side, borrow 0.5%/yr, 2008+):** overnight-momentum has real next-day-ON alpha (rank-IC t=+5.0 at lb21; control regression t=+4.0); intraday-momentum, weekday seasonality, ONIC-spread→cc all dead. The naive OVNCAP decomposition book passed 7/7 gates (SR 2.145, corr −0.009, poslag p 0.025, 0/19 neg years).
+
+4. **Why it's not deliverable:** `w·on − w·ic` requires selling every name at the next open and shorting it open→close — ~200% extra turnover (≈12.8bp/day) my first cost model missed (charged 0.74bp/day). Honest costing: **SR 0.725 best-case / −0.822 conservative vs paper 2.128**, regime decay 2008-12 SR 4.31 → 2020+ 0.95, OOS17+ geo +13.4%. Classic EW overnight premium: **−0.753** with honest round-trip costs. The cost wall, not the signal, kills the family.
+
+5. **Ledger updated:** DEAD_IDEAS row appended; `ovnight_repro.py` regenerates every quoted number (fresh run exit 0); FINDINGS.md has all gate cards, bug root-causes, and the paper-trap audit trail.
+
+HUNT_OVNIGHT DONE

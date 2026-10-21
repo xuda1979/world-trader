@@ -1,0 +1,214 @@
+=== MONEY-LOOP scan started 2026-07-11 07:55:45 ===
+=== WORLD-TRADER GLOBAL SCAN  2026-07-10T23:55:57+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+-- REGIME: RISK-ON  (score +0.51) --
+   VIX=15.84(+0.28)  HY=2.7(+0.90)  10Y-2Y=0.35(+0.35)
+   crypto fear&greed: 23 (Extreme Fear)
+
+-- LIVE QUOTES: 404 instruments fetched (crypto RT, US, China A-share live, Taiwan live, FX)  [+wide US: 4137 of 12386 tickers pre-screened -> top 150]  [+wide CN A-share: 600 of 600 liquid names -> top 120, backtested] --
+
+=== OPPORTUNITIES (ranked by per-trade expected Sharpe = E[R]/sigma) ===
+  markets open now (2026-07-11T00:05:28+00:00): CRYPTO
+  YOUR BAR to qualify: E[R]>=+1%/trade, sigma<=7%*sqrt(h/5), Sharpe>=0.40, n>=20, t>=2 (Bonferroni-adj.), OOS Sharpe>0
+  >> NOTHING cleared your bar this scan. The rows below are the best
+     MEASURED edges only -- they are NOT signals. DO NOT trade them.
+
+-- TRADE PLAN --
++---+-------------+-----+--------+-------+-------+---------+--------------+------+---------+---------+---------+-----+-------+----------+
+| # | Instrument  | Sym | Mkt    | Dir   | Setup |   Price | Quote(Local) | Chg% |   Entry |    Stop |  Target | R:R | Risk% | Catalyst |
++===+=============+=====+========+=======+=======+=========+==============+======+=========+=========+=========+=====+=======+==========+
+| 1 | Crypto: DOT | DOT | CRYPTO | Short | range | 0.87650 | 07-10 23:58  | 6.2% | 0.87650 | 0.89500 | 0.80250 | 4.0 | 2.11% |          |
++---+-------------+-----+--------+-------+-------+---------+--------------+------+---------+---------+---------+-----+-------+----------+
+
+-- EDGE & RISK (evidence for the SAME numbered rows) --
++---+-----+---------+-------+--------+--------+-----+------+------+-----+------+--------+-------+-------+
+| # | Sym | Verdict | E[R]% | sigma% | Sharpe |   t | oosS | Win% |   n | ATR% | Kelly% | RV/IV | Data  |
++===+=====+=========+=======+========+========+=====+======+======+=====+======+========+=======+=======+
+| 1 | DOT | below   | 0.33% |  4.40% |   0.08 | 1.5 | 0.15 |  28% | 394 | 4.4% |   9.9% |    -- | RT 3m |
++---+-----+---------+-------+--------+--------+-----+------+------+-----+------+--------+-------+-------+
+  note: 52 live instruments have no free daily history (China A-share/Taiwan) -> no expectancy, excluded from ranking.
+
+-- MACRO / RATES / CREDIT (FRED) --
+  US 3M yield                      3.83  (2026-07-09)
+  US 2Y yield                      4.16  (2026-07-09)
+  US 10Y yield                     4.54  (2026-07-09)
+  US 30Y yield                     5.05  (2026-07-09)
+  10Y-2Y spread                    0.35  (2026-07-10)
+  10Y-3M spread                    0.71  (2026-07-10)
+  Fed funds                        3.62  (2026-07-09)
+  VIX                             15.84  (2026-07-09)
+  US HY credit spread              2.70  (2026-07-09)
+  US IG credit spread              0.76  (2026-07-09)
+  WTI oil                          69.6  (2026-07-06)
+  Brent oil                       69.56  (2026-07-06)
+  USD/EUR                        1.1448  (2026-07-02)
+  Broad USD index              120.6902  (2026-07-02)
+  Fin conditions index         -0.51500  (2026-07-03)
+  M2 money supply               23052.3  (2026-05-01)
+  Unemployment rate                 4.2  (2026-06-01)
+  CPI                           333.979  (2026-05-01)
+  5Y inflation breakeven           2.28  (2026-07-10)
+  UST curve: 3M 3.83%  2Y 4.16%  10Y 4.54%  30Y 5.05%
+  BTC perp funding: +0.0100%  OI 103,886
+  CFTC COT large-spec net: WTI +75,749  Gold -15,463  BTC +3,500  ES -10,947
+
+-- CATALYST CALENDAR (next 14d; today=2026-07-11) --
+  2026-07-13  (43)
+    [ERN] AMFC     Q2 2026 EPS est None
+    [ERN] ANVI     Q1 2026 EPS est None
+    [ERN] ASRE     Q3 2026 EPS est None
+    [ERN] AXXA     Q4 2026 EPS est None
+    [ERN] BSFC     Q1 2026 EPS est None
+    [ERN] BTCY     Q4 2026 EPS est -0.0816 EPS~-0.0816
+    [ERN] BZYR     Q1 2027 EPS est None
+    [ERN] CAHO     Q4 2025 EPS est None
+  2026-07-14  (23)
+    [ERN] AEHR     Q4 2026 EPS est -0.0077 EPS~-0.0077
+    [ERN] AIR      Q4 2026 EPS est 1.3938 EPS~1.3938
+    [ERN] ANGO     Q4 2026 EPS est -0.0918 EPS~-0.0918
+    [ERN] BAC      Q2 2026 EPS est 1.129 EPS~1.129
+    [ERN] BRLL     Q2 2026 EPS est None
+    [ERN] C        Q2 2026 EPS est 2.7565 EPS~2.7565
+    [ERN] CANB     Q4 2025 EPS est None
+    [ERN] CRSB     Q2 2026 EPS est 1.3032 EPS~1.3032
+  2026-07-15  (42)
+    [ERN] ADX      Q2 2026 EPS est None
+    [ERN] BLK      Q2 2026 EPS est 12.669 EPS~12.669
+    [ERN] BNY      Q2 2026 EPS est 2.2023 EPS~2.2023
+    [ERN] BVFL     Q2 2026 EPS est None
+    [ERN] CCTG     Q4 2026 EPS est None
+    [ERN] CTAS     Q4 2026 EPS est 1.2661 EPS~1.2661
+    [ERN] CWBC     Q2 2026 EPS est 0.3101 EPS~0.3101
+    [ERN] CZBT     Q2 2026 EPS est None
+  2026-07-16  (65)
+    [ERN] AA       Q2 2026 EPS est 2.2932 EPS~2.2932
+    [ERN] AAL      Q2 2026 EPS est 0.0205 EPS~0.0205
+    [ERN] ABT      Q2 2026 EPS est 1.2922 EPS~1.2922
+    [ERN] ADN      Q1 2026 EPS est None
+    [ERN] ALK      Q2 2026 EPS est -0.9883 EPS~-0.9883
+    [ERN] AN       Q2 2026 EPS est 5.6035 EPS~5.6035
+
+-- NEWS (expanded feeds) --
+  [MarketWatch]
+    - Apple sues OpenAI for alleged theft of confidential info — and says that’s just ‘the tip of the iceberg’
+    - Meta’s stock roars back to life as it notches its best week in years
+    - SK Hynix’s stock sees double-digit pop in Nasdaq debut
+  [Nasdaq-Mkts]
+    - Circle Just Won a U.S. National Bank Charter. Here's Why It Matters for the Stock.
+    - Is Pfizer on Track to Launch Its Next Lipitor -- This Time in the Weight-Loss Market?
+    - Why Simply Good Foods Slipped by Almost 2% on Friday
+  [Nasdaq-Stocks]
+    - Stock Indexes Settle Higher as Geopolitical Risks Ease
+    - Crude Oil Weakness Spurs a Slump in Sugar Prices
+    - Sugar Prices Undercut by Weakness in Crude Oil
+  [SeekingAlpha]
+    - Global Markets: Fundamentals Have The Floor
+    - Digital Realty: A 6.5% Cap Rate As A Compass Ahead Of The July 23 Earnings
+    - Sdzucker AG 2027 Q1 - Results - Earnings Call Presentation
+  [Investing]
+    - Why tech investors are reevaluating AI investments
+    - Meta discontinues AI image feature days after launch
+    - Meta AI image detector fails to identify some of its own cropped AI images, Reuters analysis finds
+  [Yahoo-Fin]
+    - Fed minutes expose deep divide over interest-rate outlook
+    - If you invested $10,000 in Bitcoin, Trump meme coin, and gold when Trump took office, here's what you'd have today
+    - SpaceX Scored a New Street-High Price Target of $800. What Comes Next for SPCX Stock.
+  [Benzinga]
+    - Toncoin (TON) Price Prediction 2025, 2026, 2027-2030
+    - Myro (MYRO) Price Prediction: 2025, 2026, 2030
+    - PancakeSwap (CAKE) Price Prediction: 2025, 2026, 2030
+  [Zerohedge]
+    - Turkey Seeks Moscow Permission To Offload S-400s, Paving Way For US F-35 Deal
+    - Saturday Deadline: US Orders Iran To Declare Hormuz Open, Toll-Free...Or Else
+    - Advanced US Nuclear Battery Deal Targets 3000 MW Power With $22.5 Billion Pipeline
+  [FedPress]
+    - Federal Reserve announces the leadership and objectives of its task forces to advance the conduct of monetary policy
+    - Federal Reserve Board issues enforcement action with TS Banking Group, Inc. and TS Contrarian Bancshares, Inc.
+    - Minutes of the Federal Open Market Committee, June 16-17, 2026
+  [ECB]
+    - Meeting of 10-11 June 2026
+    - Philip R. Lane: AI and monetary policy
+    - Christine Lagarde: Interview with Les Échos
+  [BoE]
+    - UK financial regulators to begin overseeing Critical Third Parties announced by HM Treasury
+    - Minutes of the UK Money Markets Code Sub-Committee – June 2026
+    - Letter from the Governor to Joe Powell MP
+  [BoJ]
+    - Basic Figures on Fails (June)
+    - Corporate Goods Price Index (June)
+    - Regional Economic Report (Summary) (July 2026)
+  [Cointelegraph]
+    - Kraken to overhaul app with AI investing assistant
+    - Senate Democrats call for hearings into Trump’s ties to crypto amid CLARITY Act discussions
+    - Here’s what happened in crypto today
+  [Decrypt]
+    - Apple Sues OpenAI, Claims Former Employees Stole Trade Secrets
+    - Democrats Call for Senate Hearings on Trump's Massive Crypto Profits
+    - Bitcoin Treasury Firm Empery Digital Dumps Nearly Half of BTC Holdings for $87 Million
+  [TheBlock]
+    - DOJ to drop charges against man accused in $722 million BitClub crypto Ponzi scheme: Bloomberg
+    - Heres whats next for the Clarity Act as Congress returns to Washington
+    - SK Hynix’s $26.5 billion US listing brought to Telegram users via xStocks
+  [CoinDesk]
+    - Meta's Chief Data Officer Says Agentic Commerce is the "Next Tier of Business"
+    - U.S. government digital dollar set to be banned tonight under housing law's CBDC limit
+    - Hyundai becomes first major South Korean company to introduce internal stablecoin transfers
+  [ForexLive]
+    - investingLive Americas FX news wrap 10 Jul
+    - Why lower oil prices won't lead to lower inflation just yet
+    - The earnings bar is high and Wall Street thinks it gets cleared anyway — a look at the week ahead
+  [FXStreet]
+    - Singapore: Resilient GDP and strong NODX – DBS
+    - Silver Price Forecast: Lower high structure holds, bear's eye $55.00
+    - Taiwan Dollar: CBC inflation risks support against US Dollar – Commerzbank
+  [Mining.com]
+    - Guardian Metal, Montana Mining Association forge US tungsten processing alliance
+    - CATL takes 20% stake in graphite materials developer CarbonScape
+    - Ex-US Navy commander quits NovaRed copper firm over Noem hire
+  [JapanTimes]
+    - Trump’s promise on Patriots will take time, leaving Ukraine facing tough choices
+    - Apple sues OpenAI for trade secret theft in pivotal case
+    - Trump says U.S. agreed to Iran’s request to continue talks, but ceasefire is over
+  [SCMP-Biz]
+    - Shein receives approval for Hong Kong IPO from Chinese regulators
+    - Top Chinese political journal calls for ‘patient capital’ amid AI investment frenzy
+    - Hong Kong keeps tight grip on housing land supply despite property rebound
+  [ET-Markets]
+    - US stocks today: US stocks end higher as investors turn to earnings season
+    - Indian Bank drops capital raising plan on lower ECL hit
+    - SK Hynix shares jump 14% in debut on US stock market riding on AI wave
+  [Livemint]
+    - Fino Payments Bank June update: Deposits rise 11%, loan referrals surge 3.5x
+    - Gold, silver prices today: Comex extends weekly losses amid renewed Middle East tensions
+    - SK Hynix's shares surge 14% in blockbuster US market debut amid AI frenzy
+
+research only, not financial advice. verify before acting.
+
+[scan task log]
+  - 07:55:57  regime: gathering FRED macro / VIX / fear-greed
+  - 07:56:30  regime: RISK-ON score=+0.51
+  - 07:56:30  quotes: collecting curated universe (crypto/US-core/CN/TW/FX)
+  - 07:59:53  quotes: 135 curated instruments fetched
+  - 07:59:53  wide US funnel: pulling ~12k tickers from Polygon, pre-screening top 150
+  - 08:00:18  wide US funnel: 4137 of 12386 -> top 150 backtested
+  - 08:00:18  wide CN funnel: pulling ~5,500 A-shares, pre-screening top 120
+  - 08:01:09  wide CN funnel: 600 of 600 -> top 120 backtested
+  - 08:01:10  opportunities: building candidate set from quotes + regime
+  - 08:01:11  opportunities: 209 raw candidates
+  - 08:01:11  backtest: enriching with technicals + E[R]/sigma/Sharpe
+  - 08:05:06  backtest: per-candidate family m=7 (global total=180) -> Bonferroni t>=2.69
+  - 08:05:06  news enrichment: Finnhub headlines + Polygon sentiment per candidate
+  - 08:05:07  news enrichment: done (0 candidates have fresh headlines)
+  - 08:05:07  catalyst enrichment: scanning Finnhub earnings/FDA/IPO + Polygon dividends
+  - 08:05:15  catalyst enrichment: 0 candidates have a near-term catalyst (+0 new)
+  - 08:05:15  PEAD confirmation: looking up recent earnings surprises for PEAD setups
+  - 08:05:15  PEAD confirmation: 0 PEAD setups confirmed by earnings surprise (+0 new)
+  - 08:05:15  options enrichment: pulling ATM straddles (CBOE) for top US candidates
+  - 08:05:28  options enrichment: 7 candidates have an RV/IV signal (+7 new)
+  - 08:05:28  catalysts: printing freshest company news for top candidates
+  - 08:05:28  alt-data: pulling FRED macro/rates/credit, treasury curve, BTC funding, COT
+  - 08:05:46  catalyst calendar: Finnhub earnings/FDA/IPO + Polygon dividends (14d)
+  - 08:05:48  expanded news: sweeping all RSS feeds (equities/macro/CB/crypto/FX/commodities/regional)
+  - 08:05:59  expanded news: 23 feeds ok, 3 feeds failed
+  - 08:05:59  GDELT: 24h global market tone sweep

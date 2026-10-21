@@ -1,0 +1,365 @@
+{
+  "sym": "MPC",
+  "generated_utc": "2026-08-22T14:19:57Z",
+  "price": 360.72,
+  "data_sections": [
+    "quote",
+    "news",
+    "catalyst",
+    "analyst",
+    "insider",
+    "earnings",
+    "fundamentals",
+    "peers",
+    "clusters",
+    "gdelt_tone"
+  ],
+  "bull": {
+    "stance": "bullish",
+    "confidence": 0.72,
+    "claims": [
+      {
+        "claim": "MPC has consistently beaten earnings estimates, with the most recent quarter showing a 27.88% positive surprise.",
+        "evidence": "earnings.surprise_pct",
+        "impact": "positive"
+      },
+      {
+        "claim": "The company's return on equity is exceptionally high at 48.71%, indicating highly efficient use of shareholder capital.",
+        "evidence": "fundamentals.roe_ttm",
+        "impact": "positive"
+      },
+      {
+        "claim": "MPC trades at an attractive valuation with a P/E of 11.7 and P/S of 0.64, suggesting the stock is not overpriced relative to earnings and sales.",
+        "evidence": "fundamentals.pe_ttm",
+        "impact": "positive"
+      },
+      {
+        "claim": "Analyst consensus is strongly positive, with 15 out of 25 analysts rating the stock a Buy or Strong Buy.",
+        "evidence": "analyst.score",
+        "impact": "positive"
+      },
+      {
+        "claim": "The stock is benefiting from elevated crack spreads and a global refining capacity shortage, driving a 59% price increase since the U.S.-Iran war began.",
+        "evidence": "news.reasoning",
+        "impact": "positive"
+      },
+      {
+        "claim": "Revenue growth is robust at 14.39%, indicating strong top-line expansion.",
+        "evidence": "fundamentals.revenue_growth",
+        "impact": "positive"
+      }
+    ]
+  },
+  "bear": {
+    "stance": "bearish",
+    "confidence": 0.72,
+    "claims": [
+      {
+        "claim": "Insiders are aggressively selling shares with zero buys, signaling management's lack of confidence in current valuation.",
+        "evidence": "insider.n_buys",
+        "impact": "negative"
+      },
+      {
+        "claim": "The stock is trading within 2% of its 52-week high, leaving minimal upside and elevated downside risk.",
+        "evidence": "fundamentals.52w_high",
+        "impact": "negative"
+      },
+      {
+        "claim": "The debt-to-equity ratio of 1.90 indicates significant leverage that could pressure earnings if refining margins normalize.",
+        "evidence": "fundamentals.debt_eq",
+        "impact": "negative"
+      },
+      {
+        "claim": "Analyst consensus is lukewarm with 9 holds and 1 sell out of 25 ratings, suggesting limited conviction in further upside.",
+        "evidence": "analyst.hold",
+        "impact": "negative"
+      },
+      {
+        "claim": "The most recent insider sale of 6,011 shares at $341.56 by a senior executive occurred just days ago, reinforcing bearish insider sentiment.",
+        "evidence": "insider.recent",
+        "impact": "negative"
+      }
+    ]
+  },
+  "rebuttals": {
+    "bear": {
+      "rebuttals": [
+        {
+          "target_claim": "MPC has consistently beaten earnings estimates, with the most recent quarter showing a 27.88% positive surprise.",
+          "response": "The most recent quarter's 27.88% surprise is an outlier driven by a one-time geopolitical event (U.S.-Iran war); the prior quarter showed a -5.31% miss, so consistency is not established.",
+          "counter_evidence": "earnings.surprise_pct",
+          "concede": false,
+          "strength": 0.7
+        },
+        {
+          "target_claim": "The company's return on equity is exceptionally high at 48.71%, indicating highly efficient use of shareholder capital.",
+          "response": "High ROE is inflated by a 1.90 debt-to-equity ratio, meaning much of the return is leveraged rather than organic; this increases financial risk and is not purely efficient capital use.",
+          "counter_evidence": "fundamentals.debt_eq",
+          "concede": false,
+          "strength": 0.6
+        },
+        {
+          "target_claim": "MPC trades at an attractive valuation with a P/E of 11.7 and P/S of 0.64, suggesting the stock is not overpriced relative to earnings and sales.",
+          "response": "The low P/E reflects cyclical peak earnings that are unsustainable; with the stock up 59% since the war began and trading near its 52-week high of $367.60, the market has already priced in the current earnings boost.",
+          "counter_evidence": "fundamentals.52w_high",
+          "concede": false,
+          "strength": 0.5
+        },
+        {
+          "target_claim": "Analyst consensus is strongly positive, with 15 out of 25 analysts rating the stock a Buy or Strong Buy.",
+          "response": "The analyst score of 0.64 is only moderately positive, and 9 analysts (36%) rate it Hold, indicating significant caution; the 10 insider sells in the last 4 months contradict the bullish consensus.",
+          "counter_evidence": "analyst.score",
+          "concede": false,
+          "strength": 0.6
+        },
+        {
+          "target_claim": "The stock is benefiting from elevated crack spreads and a global refining capacity shortage, driving a 59% price increase since the U.S.-Iran war began.",
+          "response": "This 59% price surge is a war-driven spike that is likely to reverse as geopolitical tensions normalize; the stock is now at $360.72, near its 52-week high, leaving little upside and high downside risk.",
+          "counter_evidence": "quote.c",
+          "concede": false,
+          "strength": 0.8
+        },
+        {
+          "target_claim": "Revenue growth is robust at 14.39%, indicating strong top-line expansion.",
+          "response": "Revenue growth is cyclical and tied to refining margins, not secular expansion; the company's EPS swung from $3.01 to $17.73 in one quarter, showing extreme volatility that makes this growth unreliable.",
+          "counter_evidence": "earnings.surprise_pct",
+          "concede": false,
+          "strength": 0.5
+        }
+      ]
+    },
+    "bull": {
+      "rebuttals": [
+        {
+          "target_claim": "Insiders are aggressively selling shares with zero buys, signaling management's lack of confidence in current valuation.",
+          "response": "The zero buys are misleading\u2014the insider data shows a June 4 exercise (M) of 4,964 shares at $49.94 alongside sells, indicating option exercises rather than outright bearish sentiment. Also, the most recent sale of 6,011 shares at $341.56 is only 0.006% of the company's $100B market cap, immaterial to valuation confidence.",
+          "counter_evidence": "insider.recent",
+          "concede": false,
+          "strength": 0.7
+        },
+        {
+          "target_claim": "The stock is trading within 2% of its 52-week high, leaving minimal upside and elevated downside risk.",
+          "response": "Trading at $360.72 vs. $367.595 high is a 1.9% gap, but the stock has already rallied 59% since the U.S.-Iran war began per news, and with a P/E of 11.7 and 48.7% ROE, the valuation still supports further upside\u2014the 52-week low of $161.93 shows the stock has more than doubled, not that it's overextended.",
+          "counter_evidence": "fundamentals.pe_ttm",
+          "concede": false,
+          "strength": 0.6
+        },
+        {
+          "target_claim": "The debt-to-equity ratio of 1.90 indicates significant leverage that could pressure earnings if refining margins normalize.",
+          "response": "The 1.90 debt/equity is typical for a large-cap refiner and is offset by a 48.71% ROE and 14.39% revenue growth\u2014the company's earnings power (EPS beat of 27.88% last quarter) easily services this debt, and the leverage is being used to generate outsized returns, not to mask weakness.",
+          "counter_evidence": "fundamentals.roe_ttm",
+          "concede": false,
+          "strength": 0.5
+        },
+        {
+          "target_claim": "Analyst consensus is lukewarm with 9 holds and 1 sell out of 25 ratings, suggesting limited conviction in further upside.",
+          "response": "The consensus is actually bullish: 15 of 25 ratings are buy/strong_buy (13 buy + 2 strong_buy) versus only 1 sell, and the score of 0.64 on a 0-1 scale indicates net positive sentiment\u2014the 9 holds simply reflect caution, not bearishness, and the stock's 27.88% EPS surprise last quarter validates the bulls.",
+          "counter_evidence": "analyst.score",
+          "concede": false,
+          "strength": 0.8
+        },
+        {
+          "target_claim": "The most recent insider sale of 6,011 shares at $341.56 by a senior executive occurred just days ago, reinforcing bearish insider sentiment.",
+          "response": "That sale is a tiny fraction of the executive's holdings and occurred at $341.56, below the current price of $360.72\u2014if insiders were truly bearish, they'd sell at the higher price, not before a 5.6% rally. The June 4 exercise at $49.94 shows the sale was likely for tax/planning purposes, not a valuation signal.",
+          "counter_evidence": "quote.c",
+          "concede": false,
+          "strength": 0.6
+        }
+      ]
+    }
+  },
+  "grading": {
+    "bull": {
+      "side": "bull",
+      "n_claims": 6,
+      "grounded": 6,
+      "ungrounded": 0,
+      "sections_cited": [
+        "analyst",
+        "earnings",
+        "fundamentals",
+        "news"
+      ],
+      "claims": [
+        {
+          "claim": "MPC has consistently beaten earnings estimates, with the most recent quarter showing a 27.88% positive surprise.",
+          "evidence": "earnings.surprise_pct",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The company's return on equity is exceptionally high at 48.71%, indicating highly efficient use of shareholder capital.",
+          "evidence": "fundamentals.roe_ttm",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "MPC trades at an attractive valuation with a P/E of 11.7 and P/S of 0.64, suggesting the stock is not overpriced relative to earnings and sales.",
+          "evidence": "fundamentals.pe_ttm",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "Analyst consensus is strongly positive, with 15 out of 25 analysts rating the stock a Buy or Strong Buy.",
+          "evidence": "analyst.score",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The stock is benefiting from elevated crack spreads and a global refining capacity shortage, driving a 59% price increase since the U.S.-Iran war began.",
+          "evidence": "news.reasoning",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "Revenue growth is robust at 14.39%, indicating strong top-line expansion.",
+          "evidence": "fundamentals.revenue_growth",
+          "grounded": true,
+          "reason": "ok"
+        }
+      ]
+    },
+    "bear": {
+      "side": "bear",
+      "n_claims": 5,
+      "grounded": 5,
+      "ungrounded": 0,
+      "sections_cited": [
+        "analyst",
+        "fundamentals",
+        "insider"
+      ],
+      "claims": [
+        {
+          "claim": "Insiders are aggressively selling shares with zero buys, signaling management's lack of confidence in current valuation.",
+          "evidence": "insider.n_buys",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The stock is trading within 2% of its 52-week high, leaving minimal upside and elevated downside risk.",
+          "evidence": "fundamentals.52w_high",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The debt-to-equity ratio of 1.90 indicates significant leverage that could pressure earnings if refining margins normalize.",
+          "evidence": "fundamentals.debt_eq",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "Analyst consensus is lukewarm with 9 holds and 1 sell out of 25 ratings, suggesting limited conviction in further upside.",
+          "evidence": "analyst.hold",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The most recent insider sale of 6,011 shares at $341.56 by a senior executive occurred just days ago, reinforcing bearish insider sentiment.",
+          "evidence": "insider.recent",
+          "grounded": true,
+          "reason": "ok"
+        }
+      ]
+    }
+  },
+  "valuation": {
+    "sym": "MPC",
+    "price": 360.72,
+    "deterministic": true,
+    "inputs": {
+      "pe_ttm": 11.6995,
+      "roe_ttm": 48.71,
+      "debt_eq": 1.8988,
+      "ps_ttm": 0.6415,
+      "trailing_eps": 30.83,
+      "eps_growth_trend": 4.89,
+      "pe_band": {
+        "bear": 9.4,
+        "base": 11.6995,
+        "bull": 14.6
+      }
+    },
+    "outputs": {
+      "peg": 0.02,
+      "fair_value_basis": "trailing EPS",
+      "fair_value": {
+        "bear": 289.82,
+        "base": 360.72,
+        "bull": 450.15
+      },
+      "upside_base": 0.0,
+      "quality_signals": {
+        "roe_ttm": 48.71,
+        "debt_eq": 1.8988
+      }
+    },
+    "notes": [
+      "EPS growth = latest actual EPS vs the oldest EPS in the gathered history (rough trend)",
+      "PEG = trailing P/E / trailing EPS growth %",
+      "P/E band = trailing P/E x 0.8 / 1.0 / 1.25; mechanistic, no sector judgment"
+    ]
+  },
+  "judge": {
+    "convergence": false,
+    "rating": "HOLD",
+    "conviction": 0.55,
+    "scenarios": {
+      "bull": {
+        "prob": 0.3,
+        "pt": 450.15,
+        "thesis": "Elevated crack spreads and a global refining capacity shortage sustain earnings beats and justify a premium multiple."
+      },
+      "base": {
+        "prob": 0.5,
+        "pt": 360.72,
+        "thesis": "Strong fundamentals and bullish analyst consensus are offset by insider selling and cyclical peak-earnings risk."
+      },
+      "bear": {
+        "prob": 0.2,
+        "pt": 289.82,
+        "thesis": "War-driven margin spikes normalize, leverage becomes a burden, and insider selling proves prescient as the stock reverts from its 52-week high."
+      }
+    },
+    "catalysts": [
+      {
+        "catalyst": "Next earnings release",
+        "date": "unknown",
+        "impact": "positive"
+      },
+      {
+        "catalyst": "Geopolitical developments (U.S.-Iran tensions)",
+        "date": "unknown",
+        "impact": "negative"
+      },
+      {
+        "catalyst": "Insider transaction filings",
+        "date": "unknown",
+        "impact": "negative"
+      }
+    ],
+    "risks": [
+      {
+        "risk": "Normalization of refining margins",
+        "likelihood": "medium"
+      },
+      {
+        "risk": "High leverage (debt/equity 1.90) amplifying earnings volatility",
+        "likelihood": "medium"
+      },
+      {
+        "risk": "Continued insider selling",
+        "likelihood": "medium"
+      },
+      {
+        "risk": "Cyclical peak earnings reversal",
+        "likelihood": "medium"
+      }
+    ],
+    "decision_rationale": "The bull case is grounded in strong fundamentals (48.71% ROE, 11.7 P/E, 27.88% EPS beat) and a favorable refining environment, while the bear case highlights insider selling, high leverage, and proximity to the 52-week high. The deterministic valuation places fair value at the current price, with a wide bull-bear spread reflecting genuine uncertainty about the sustainability of war-driven margins. Given the balanced risk-reward and unresolved debate over whether current earnings are cyclical or structural, a HOLD rating with moderate conviction is appropriate."
+  },
+  "errors": [],
+  "elapsed_sec": 0.0,
+  "report_path": null,
+  "json_path": null
+}

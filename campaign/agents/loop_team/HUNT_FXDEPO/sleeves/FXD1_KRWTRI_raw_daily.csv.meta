@@ -1,0 +1,24 @@
+FXD1_KRWTRI_raw — HUNT_FXDEPO iter6 NEAR-MISS CANDIDATE (6/7 charter gates; FAILS yearly-count gate).
+Construction: 3-book DEX cross z-reversion. Spread_j = ln(P_A/P_B) for (DEXKOUS,DEXSDUS),
+(DEXKOUS,DEXSFUS),(DEXKOUS,DEXNOUS) [USD-per-local H.10 noon rates; cross = quotient].
+Per book: w = clip(-z_lb, ±2)/2 per LEG (z vs trailing mean/sd, lb = avg of 21d and 63d; cap=2).
+Books averaged EW. T+1: PnL = pos.shift(1)*(r_A - r_B). Costs 6bps/side on |dpos|/2 per leg.
+Borrow 0.5%/yr on short legs. Eval window 2008-01-02..2026-08-21, n=4666, no zero rows.
+Instruments for trade-record audit: KRW NDF (offshore) vs SEK/NOK/CHF spot-or-forward legs
+(cross executed as 2 USD legs). KRW NDF cost realism caveat: 6bps/side is optimistic (5-15bps
+typical bid/ask) — see FINDINGS cost section.
+GATES (2008+): SR 0.870 >=0.6 PASS | H1 1.075 / H2 0.606 >=0.3 PASS | neg years 8/19 FAIL
+(>2; worst -3.09% 2018, all >-5%) | 200x 10d-block position-lag scramble p=0.000 (seeds 0,1,2)
+PASS | ac1 -0.014 <0.5 PASS | uniqR 1.000 >=0.08 PASS | corr vs GOAL100_HONEST14V3_BALANCED
++0.005 (n=4665) PASS; corr vs CFX4 committed sleeve +0.1292 (n=1723) — below 0.15 but the two
+share z-reversion family DNA; disclosed.
+Stats: ann_geo 3.66% (arith 3.69%), vol 4.24%, MDD -10.2%, max|day| +5.05% (2008-10-30),
+skew +2.61. Turnover 33.5%/day one-side; cost drag 5.07%/yr; borrow 0.53%/yr; gross exposure
+mean 0.70x max 1.00x (no hidden leverage). 2008 crisis-weighted: 2008 +18.7%, 2009 +17.9%.
+Robustness: cap plateau 0.861-0.871; lb plateau (10..63) 0.64-0.87; IS(08-15)-picked lb(10,21,42)
+gives full-SR 0.869 (same verdict); OOS16+ 0.530, OOS17+ 0.624, OOS20+ 1.130, OOS23+ 1.202;
+T+2 probe SR 0.019 (edge decays fast with lag — consistent with real short-horizon reversion);
+zero-print-filtered 0.804; scrub-k 0.876/0.817/0.718/0.563 (k=5/10/20/50); LOYO min 0.706.
+G10-only 6-book version (no KRW): SR -0.141 — the KRW leg is the edge carrier; pure-Scandi dead.
+Verdict: REJECTED as a champion sleeve per charter (neg-year gate); delivered for chair review.
+Repro: python3 campaign/scripts/fxd1_krwtri.py (byte-identical, max|diff| 5e-13 float repr).

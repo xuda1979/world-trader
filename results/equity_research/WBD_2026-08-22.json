@@ -1,0 +1,352 @@
+{
+  "sym": "WBD",
+  "generated_utc": "2026-08-22T14:26:37Z",
+  "price": 28.55,
+  "data_sections": [
+    "quote",
+    "news",
+    "catalyst",
+    "analyst",
+    "insider",
+    "earnings",
+    "fundamentals",
+    "peers",
+    "clusters",
+    "gdelt_tone"
+  ],
+  "bull": {
+    "stance": "bullish",
+    "confidence": 0.62,
+    "claims": [
+      {
+        "claim": "WBD has beaten EPS estimates in two of the last three quarters, with the most recent quarter showing a massive 142% positive surprise.",
+        "evidence": "earnings.surprise_pct",
+        "impact": "positive"
+      },
+      {
+        "claim": "Revenue growth of 28.44% indicates strong top-line expansion despite profitability challenges.",
+        "evidence": "fundamentals.revenue_growth",
+        "impact": "positive"
+      },
+      {
+        "claim": "The stock is trading near its 52-week high of $30, showing strong momentum and investor confidence.",
+        "evidence": "fundamentals.52w_high",
+        "impact": "positive"
+      },
+      {
+        "claim": "The Game of Thrones IP licensing partnership demonstrates successful franchise monetization and new revenue stream generation.",
+        "evidence": "news.reasoning",
+        "impact": "positive"
+      },
+      {
+        "claim": "The stock trades at a reasonable P/S ratio of 1.92 given its 28% revenue growth rate.",
+        "evidence": "fundamentals.ps_ttm",
+        "impact": "positive"
+      }
+    ]
+  },
+  "bear": {
+    "stance": "bearish",
+    "confidence": 0.72,
+    "claims": [
+      {
+        "claim": "Insiders are aggressively selling shares with zero buys, signaling a lack of internal confidence in the stock's upside.",
+        "evidence": "insider.n_buys",
+        "impact": "negative"
+      },
+      {
+        "claim": "CEO David Zaslav has been systematically liquidating large blocks of stock at prices near the current level, creating persistent selling pressure.",
+        "evidence": "insider.recent",
+        "impact": "negative"
+      },
+      {
+        "claim": "The company is fundamentally unprofitable on a trailing basis, with a negative return on equity of over 9%.",
+        "evidence": "fundamentals.roe_ttm",
+        "impact": "negative"
+      },
+      {
+        "claim": "The balance sheet is highly leveraged with a debt-to-equity ratio approaching 1.0, limiting financial flexibility.",
+        "evidence": "fundamentals.debt_eq",
+        "impact": "negative"
+      },
+      {
+        "claim": "Analyst sentiment is overwhelmingly neutral, with 18 of 25 analysts rating the stock a Hold and only 6 recommending Buy or Strong Buy.",
+        "evidence": "analyst.hold",
+        "impact": "negative"
+      },
+      {
+        "claim": "The stock trades at a premium valuation of over 2x book value despite negative earnings and a 5-year EPS growth rate of -30.82%.",
+        "evidence": "fundamentals.pb",
+        "impact": "negative"
+      }
+    ]
+  },
+  "rebuttals": {
+    "bear": {
+      "rebuttals": [
+        {
+          "target_claim": "WBD has beaten EPS estimates in two of the last three quarters, with the most recent quarter showing a massive 142% positive surprise.",
+          "response": "The 142% surprise is misleading because the actual EPS was only $0.06, barely above zero, and the prior quarter (2025-12-31) missed by -222.58%. The company remains unprofitable on a trailing basis (ROE -9.22%), and the 'beat' is against very low or negative estimates.",
+          "counter_evidence": "earnings.surprise_pct",
+          "concede": false,
+          "strength": 0.7
+        },
+        {
+          "target_claim": "Revenue growth of 28.44% indicates strong top-line expansion despite profitability challenges.",
+          "response": "Revenue growth of 28.44% is not corroborated by actual revenue figures in the earnings data (rev_actual is null for all quarters), and the company's 5-year EPS growth is -30.82%, suggesting growth is not translating to shareholder value. High growth with negative ROE (-9.22%) often signals value destruction.",
+          "counter_evidence": "fundamentals.eps_growth5y",
+          "concede": false,
+          "strength": 0.6
+        },
+        {
+          "target_claim": "The stock is trading near its 52-week high of $30, showing strong momentum and investor confidence.",
+          "response": "Trading near the 52-week high is contradicted by massive insider selling: 19 sells totaling 5.4 million shares, including CEO Zaslav selling $19.4M at $28.02 on 2026-08-14. Insiders are cashing out near the top, which signals a lack of confidence in further upside.",
+          "counter_evidence": "insider.net_shares",
+          "concede": false,
+          "strength": 0.8
+        },
+        {
+          "target_claim": "The Game of Thrones IP licensing partnership demonstrates successful franchise monetization and new revenue stream generation.",
+          "response": "This is a single news item with no financial details or revenue contribution quantified. The news sentiment is only slightly positive (4 positive vs 1 negative), and the 'reasoning' is speculative\u2014there is no evidence this partnership materially impacts earnings or offsets the company's negative ROE.",
+          "counter_evidence": "news.reasoning",
+          "concede": false,
+          "strength": 0.4
+        },
+        {
+          "target_claim": "The stock trades at a reasonable P/S ratio of 1.92 given its 28% revenue growth rate.",
+          "response": "A P/S of 1.92 is not 'reasonable' for a company with negative ROE (-9.22%), negative EPS growth (-30.82%), and no P/E (pe_ttm is null because earnings are negative). The market is pricing in growth that has not materialized in profitability, and the high beta (1.56) adds downside risk.",
+          "counter_evidence": "fundamentals.roe_ttm",
+          "concede": false,
+          "strength": 0.6
+        }
+      ]
+    },
+    "bull": {
+      "rebuttals": [
+        {
+          "target_claim": "Insiders are aggressively selling shares with zero buys, signaling a lack of internal confidence in the stock's upside.",
+          "response": "The insider transactions are predominantly option exercises (code 'M') paired with same-day sales to cover tax obligations\u2014a routine compensation event, not a discretionary sell-off. The exercise price of $10.16 versus the $28.02 sale price shows these are non-cash exercises, and the zero buys are typical for a company with no insider purchase program.",
+          "counter_evidence": "insider.recent",
+          "concede": false,
+          "strength": 0.7
+        },
+        {
+          "target_claim": "CEO David Zaslav has been systematically liquidating large blocks of stock at prices near the current level, creating persistent selling pressure.",
+          "response": "Zaslav's sales are directly tied to option exercises at $10.16, meaning he is converting existing options into shares and selling to cover taxes\u2014not adding new exposure. The volume (~1.5M shares over two days) is small relative to the $69B market cap and represents less than 0.01% of shares outstanding, making any 'persistent selling pressure' negligible.",
+          "counter_evidence": "insider.recent",
+          "concede": false,
+          "strength": 0.6
+        },
+        {
+          "target_claim": "The company is fundamentally unprofitable on a trailing basis, with a negative return on equity of over 9%.",
+          "response": "While ROE is -9.22%, the company just posted a massive EPS beat of +142% in Q2 2026 (actual $0.06 vs estimate -$0.14), and revenue growth is a strong 28.44%\u2014indicating the trailing losses are rapidly reversing. The negative ROE is a lagging indicator that fails to capture the current earnings inflection.",
+          "counter_evidence": "earnings.0.surprise_pct",
+          "concede": true,
+          "strength": 0.5
+        },
+        {
+          "target_claim": "The balance sheet is highly leveraged with a debt-to-equity ratio approaching 1.0, limiting financial flexibility.",
+          "response": "A debt-to-equity of 0.91 is moderate for a media conglomerate with $69B in market cap and is actually below the 1.0 threshold the bear cites. More importantly, the company's revenue growth of 28.44% provides ample cash flow to service this debt, and the leverage is not constraining operations given the recent earnings beat.",
+          "counter_evidence": "fundamentals.revenue_growth",
+          "concede": false,
+          "strength": 0.4
+        },
+        {
+          "target_claim": "Analyst sentiment is overwhelmingly neutral, with 18 of 25 analysts rating the stock a Hold and only 6 recommending Buy or Strong Buy.",
+          "response": "The analyst score of 0.28 (on a scale where 0 is strong buy and 1 is strong sell) actually indicates a bullish tilt, with 6 buy/strong-buy versus only 1 sell/strong-sell. The 18 holds reflect caution, but the asymmetry toward buys over sells, combined with the recent earnings beat, suggests the hold ratings are likely to be upgraded.",
+          "counter_evidence": "analyst.score",
+          "concede": false,
+          "strength": 0.5
+        },
+        {
+          "target_claim": "The stock trades at a premium valuation of over 2x book value despite negative earnings and a 5-year EPS growth rate of -30.82%.",
+          "response": "The P/B of 2.04 is not a premium for a media company with 28.44% revenue growth\u2014it reflects the market pricing in the earnings turnaround, as evidenced by the +142% EPS surprise. The 5-year EPS decline is backward-looking; the forward trajectory is positive, and the stock is still 5% below its 52-week high of $30, suggesting room to run.",
+          "counter_evidence": "fundamentals.revenue_growth",
+          "concede": false,
+          "strength": 0.6
+        }
+      ]
+    }
+  },
+  "grading": {
+    "bull": {
+      "side": "bull",
+      "n_claims": 5,
+      "grounded": 5,
+      "ungrounded": 0,
+      "sections_cited": [
+        "earnings",
+        "fundamentals",
+        "news"
+      ],
+      "claims": [
+        {
+          "claim": "WBD has beaten EPS estimates in two of the last three quarters, with the most recent quarter showing a massive 142% positive surprise.",
+          "evidence": "earnings.surprise_pct",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "Revenue growth of 28.44% indicates strong top-line expansion despite profitability challenges.",
+          "evidence": "fundamentals.revenue_growth",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The stock is trading near its 52-week high of $30, showing strong momentum and investor confidence.",
+          "evidence": "fundamentals.52w_high",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The Game of Thrones IP licensing partnership demonstrates successful franchise monetization and new revenue stream generation.",
+          "evidence": "news.reasoning",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The stock trades at a reasonable P/S ratio of 1.92 given its 28% revenue growth rate.",
+          "evidence": "fundamentals.ps_ttm",
+          "grounded": true,
+          "reason": "ok"
+        }
+      ]
+    },
+    "bear": {
+      "side": "bear",
+      "n_claims": 6,
+      "grounded": 6,
+      "ungrounded": 0,
+      "sections_cited": [
+        "analyst",
+        "fundamentals",
+        "insider"
+      ],
+      "claims": [
+        {
+          "claim": "Insiders are aggressively selling shares with zero buys, signaling a lack of internal confidence in the stock's upside.",
+          "evidence": "insider.n_buys",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "CEO David Zaslav has been systematically liquidating large blocks of stock at prices near the current level, creating persistent selling pressure.",
+          "evidence": "insider.recent",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The company is fundamentally unprofitable on a trailing basis, with a negative return on equity of over 9%.",
+          "evidence": "fundamentals.roe_ttm",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The balance sheet is highly leveraged with a debt-to-equity ratio approaching 1.0, limiting financial flexibility.",
+          "evidence": "fundamentals.debt_eq",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "Analyst sentiment is overwhelmingly neutral, with 18 of 25 analysts rating the stock a Hold and only 6 recommending Buy or Strong Buy.",
+          "evidence": "analyst.hold",
+          "grounded": true,
+          "reason": "ok"
+        },
+        {
+          "claim": "The stock trades at a premium valuation of over 2x book value despite negative earnings and a 5-year EPS growth rate of -30.82%.",
+          "evidence": "fundamentals.pb",
+          "grounded": true,
+          "reason": "ok"
+        }
+      ]
+    }
+  },
+  "valuation": {
+    "sym": "WBD",
+    "price": 28.55,
+    "deterministic": true,
+    "inputs": {
+      "pe_ttm": null,
+      "roe_ttm": -9.22,
+      "debt_eq": 0.9067,
+      "ps_ttm": 1.9195,
+      "eps_growth_trend": -2.0
+    },
+    "outputs": {
+      "peg": null,
+      "fair_value": null,
+      "quality_signals": {
+        "roe_ttm": -9.22,
+        "debt_eq": 0.9067
+      }
+    },
+    "notes": [
+      "EPS growth = latest actual EPS vs the oldest EPS in the gathered history (rough trend)",
+      "PEG unavailable (no positive EPS growth trend in gathered history)",
+      "No forward/trailing EPS or P/E available -- fair value NOT computed (abstain, never fabricate)"
+    ]
+  },
+  "judge": {
+    "convergence": false,
+    "rating": "HOLD",
+    "conviction": 0.45,
+    "scenarios": {
+      "bull": {
+        "prob": 0.25,
+        "pt": 32.0,
+        "thesis": "The recent earnings inflection and strong revenue growth drive momentum toward the 52-week high."
+      },
+      "base": {
+        "prob": 0.5,
+        "pt": 28.0,
+        "thesis": "Mixed signals from improving earnings against insider selling and high leverage keep the stock range-bound."
+      },
+      "bear": {
+        "prob": 0.25,
+        "pt": 22.0,
+        "thesis": "Persistent insider selling, negative profitability, and high leverage erode confidence, pushing the stock lower."
+      }
+    },
+    "catalysts": [
+      {
+        "catalyst": "Next earnings release",
+        "date": "unknown",
+        "impact": "positive"
+      },
+      {
+        "catalyst": "Game of Thrones IP licensing partnership developments",
+        "date": "unknown",
+        "impact": "positive"
+      },
+      {
+        "catalyst": "Continued insider selling by CEO David Zaslav",
+        "date": "unknown",
+        "impact": "negative"
+      }
+    ],
+    "risks": [
+      {
+        "risk": "High leverage with debt-to-equity approaching 1.0",
+        "likelihood": "high"
+      },
+      {
+        "risk": "Persistent insider selling pressure",
+        "likelihood": "medium"
+      },
+      {
+        "risk": "Trailing unprofitability and negative ROE",
+        "likelihood": "high"
+      },
+      {
+        "risk": "Analyst sentiment remains neutral, limiting upside catalysts",
+        "likelihood": "medium"
+      }
+    ],
+    "decision_rationale": "The bull case rests on a recent EPS beat and revenue growth, but the bear case highlights persistent insider selling, negative profitability, and high leverage. The deterministic valuation abstains from a fair value due to lack of positive EPS growth, leaving no anchor for a strong directional call. Given the balanced evidence and mixed signals, a HOLD rating with moderate conviction is appropriate."
+  },
+  "errors": [],
+  "elapsed_sec": 0.0,
+  "report_path": null,
+  "json_path": null
+}

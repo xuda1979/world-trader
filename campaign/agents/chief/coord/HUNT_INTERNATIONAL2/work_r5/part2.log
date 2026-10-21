@@ -1,0 +1,59 @@
+NKY n=19190 1949-05-16 -> 2026-08-31
+
+=== (a) no-lookahead spot check (real data, mid-sample truncation) ===
+  PRIMARY cal_tom_weights(): identical=True
+  PRIMARY cal_toy_weights(): identical=True
+  PRIMARY cal_sellmay_weights(): identical=True
+  PRIMARY mom_weights(252, 'LS'): identical=True
+  PRIMARY mom_weights(252, 'LF'): identical=True
+  PRIMARY mom_weights(126, 'LF'): identical=True
+  PRIMARY mom_weights(63, 'LF'): identical=True
+  SECONDARY cal_tom_rank_weights(3, 3): diffs=3 all-in-cut-final-partial-month=True
+  SECONDARY cal_toy_rank_weights(5,): diffs=0 all-in-cut-final-partial-month=True
+
+=== (b) plateau grids (net SR, full 77y span) ===
+  MOM LF lb=63: SR 0.630
+  MOM LF lb=126: SR 0.577
+  MOM LF lb=189: SR 0.674
+  MOM LF lb=252: SR 0.735
+  MOM LF lb=378: SR 0.715
+  MOM LF lb=504: SR 0.645
+  plateau_ok(chosen=252): True neighbors={189: 0.674, 378: 0.715} peak=0.735 thr=0.588
+  TOM-rank k=1: SR 0.163
+  TOM-rank k=2: SR 0.262
+  TOM-rank k=3: SR 0.369
+  TOM-rank k=5: SR 0.446
+  plateau_ok(chosen=3): False neighbors={2: 0.262, 5: 0.446} peak=0.446
+  TOY-rank k=3: SR 0.148
+  TOY-rank k=5: SR 0.347
+  TOY-rank k=7: SR 0.313
+  plateau_ok(chosen=5): False neighbors={3: 0.148, 7: 0.313}
+
+=== (c) decade-by-decade net SR (charter sub-span decay evidence) ===
+                  CAL_TOM_dates  CAL_TOM_rank3  CAL_TOY_dates  CAL_TOY_rank5  CAL_SELLMAY  MOM_252_LS  MOM_252_LF  MOM_126_LF  MOM_63_LF
+observation_date                                                                                                                        
+1940                      -0.38          -0.58           4.32           5.09        -4.57         NaN         NaN         NaN      -3.34
+1950                       1.33           1.24           0.01           0.81         0.89        1.04        1.77        1.40       1.74
+1960                       0.57           0.92           0.39           1.10         1.02        0.64        0.92        1.08       1.01
+1970                       0.45           0.59           0.65           0.77         0.92        0.44        0.73        0.47       1.12
+1980                       0.80           0.80           0.38           0.52         1.42        1.16        1.30        1.26       1.11
+1990                       0.08          -0.14           0.24          -0.25         0.04       -0.05       -0.24        0.04      -0.23
+2000                       0.58           0.24           0.22          -0.15         0.04        0.31        0.22        0.16       0.14
+2010                      -0.17          -0.10           0.18          -0.05         0.68       -0.04        0.31        0.15       0.43
+2020                       0.11           0.14           0.15           0.68         0.52        0.36        0.71        0.25       0.39
+
+=== (d) beats-nothing audit: passive long-NKY B&H (vt10, same costs) ===
+  long-NKY B&H net full span : SR 0.475 n=19189
+  long-NKY B&H net post-1990 : SR 0.150
+  long-NKY B&H net champ-era : SR 0.495
+  CAL_TOM_dates  full +0.402 | post-1990 +0.175 | champ-era(2008+) +0.085
+  CAL_TOM_rank3  full +0.369 | post-1990 +0.031 | champ-era(2008+) +0.013
+  CAL_TOY_dates  full +0.267 | post-1990 +0.202 | champ-era(2008+) +0.234
+  CAL_TOY_rank5  full +0.347 | post-1990 -0.029 | champ-era(2008+) +0.160
+  CAL_SELLMAY    full +0.535 | post-1990 +0.252 | champ-era(2008+) +0.469
+  MOM_252_LS     full +0.440 | post-1990 +0.126 | champ-era(2008+) +0.137
+  MOM_252_LF     full +0.735 | post-1990 +0.257 | champ-era(2008+) +0.464
+  MOM_126_LF     full +0.577 | post-1990 +0.149 | champ-era(2008+) +0.160
+  MOM_63_LF      full +0.630 | post-1990 +0.176 | champ-era(2008+) +0.387
+
+part2 done

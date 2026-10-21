@@ -1,0 +1,18 @@
+=== agent F1_cost attempt 1 start Wed Sep 16 14:41:17 CST 2026 ===
+2026-09-16 F1_cost_model: frontier@1.6x 9bps=39.47%/SR3.216 12bps=39.44%/SR3.214; REJECTS: verify DIFF 1.13e-3, 0.90% anchor (real 1.077%), naive 1.6x 109% phantom (gross 4.03x uncharged), half|dW| undercharge 1.73pp/yr
+Mission complete. Summary of the F1_cost audit:
+
+**Deliverables** (offline, all T+1-causal, honest geometric math):
+- `campaign/agents/F1_cost_results/F1_report.md` (verdict-first, ends `DONE F1_cost`)
+- `campaign/agents/F1_cost_results/F1_cost_scenarios.csv` (21 rows: GEAR16 + SAFE16 × 1x/1.6x × 3/6/6.4/9/12bps)
+
+**TRUE frontier @1.6x (the ask):** champion of record GEAR16 re-priced — **@9bps: ann 39.47%, SR 3.216; @12bps: 39.44%, SR 3.214; MaxDD −6.52% at both**. Cost drag baseline is only 4.77bp/yr (0.745 turns/yr) → cost-invariant. PASS on cost robustness.
+
+**Key findings:**
+1. **Cost entry:** SAFE16 (`champion_build.py`) charges once at portfolio level `0.5Σ|dW| + 0.5|d(throttle)|` × 6bps; commission+spread+impact fully conflated, no margin despite **4.03x mean internal gross** (p90 6.2x). GEAR16 is the clean build: FULL |dW|@6.4bps + explicit 4.5% margin, gross pinned at 1.6x, byte-reproducible (1e-16).
+2. **REJECTs logged with numbers:** `--verify` FAILS on all 3 GOAL100_CHAMPION CSVs (max dev 1.13e-3, post-costfix wave; aggregates match to 0.05pp so scenarios hold); brief's "0.90%/yr" cost anchor is actually **1.077%/yr**; the half-leg convention undercharges **1.73pp/yr** vs FULL|dW| rules; the **109%/SR 5.0 naive @1.6x line is a financing phantom** (honest margin → 68.1% @ −22.6% DD, 6.45x gross — breaches cap and gates).
+3. **Impact model:** additive `κ_comm + s/2 + λσ√(q/ADV)`, λ≈0.85 — 6.4bps defensible to ~$50M AUM, true cost ~10.5bps at ~$500M; 12bps break-even ≈ $300–350M for the brwt block. Capacity is cost-creep-limited, not participation-limited (104×ADV headroom).
+4. **IR gate verified:** SR_new=√(SR_p²+IR²); IR 2.8 ⇒ +1.05 SR on the 3.2176 champion — the "+1.0 SR to matter" bar; must be evaluated jointly with ADV capacity (φ²-weighted contribution).
+
+DONE F1_cost
+=== agent F1_cost attempt 1 end Wed Sep 16 15:01:39 CST 2026 exit 0 ===

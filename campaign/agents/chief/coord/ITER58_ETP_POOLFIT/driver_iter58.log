@@ -1,0 +1,41 @@
+--------- ITER58 ETP-POOLFIT driver (2026-09-20 session 38). FINDINGS_PRECOMMIT sha16 26794451425eb4fb sealed BEFORE this run.
+FROZEN-BLOCK check: fit_relw/apply_cap/project_wmax/build_book text-identical to driver_iter41.py, driver_iter36.py AND driver_iter49.py
+Champion sha16 pre-run: cfa9ec4d38158691 / weights a384d6b92e258fd5 / precommit 26794451425eb4fb
+D17 pre-patch applied to BOTH identities (Amendment 1) before the r6lib-resolving import
+A1a canonical vt015 regen ok=True maxdev=9.996e-17 inner=4947 committed_nonnan=4947
+Stream seals: 13/13 byte-equal to the precommit table; source CSV sha16s 13/13 intact.
+A2 committed-frame continuity: weights maxdev=7.633e-17 bytes maxdev=9.991e-17 n=4806 rows=1809 k=11 IS-SR=4.218504 (bar 4.218504)
+CANDIDATE DBC   relw=0.03475 projid=3.346e-03 rows=1809 k=12 IS-SR=4.205084 IS-ann=18.286% IS-MDD=-2.5260% negyrs=0 Wmax_sf=2.0000x g8=0.000% filt=False
+CANDIDATE GSG   relw=0.00673 projid=9.205e-03 rows=1809 k=12 IS-SR=4.213544 IS-ann=18.351% IS-MDD=-2.5622% negyrs=0 Wmax_sf=2.0000x g8=0.000% filt=False
+CANDIDATE DBA   relw=0.05129 projid=0.000e+00 rows=1809 k=12 IS-SR=4.197807 IS-ann=18.221% IS-MDD=-2.5096% negyrs=0 Wmax_sf=1.9938x g8=0.000% filt=False
+CANDIDATE DBE   relw=0.00000 projid=1.068e-02 rows=1809 k=12 IS-SR=4.213206 IS-ann=18.370% IS-MDD=-2.5815% negyrs=0 Wmax_sf=2.0000x g8=0.000% filt=False
+CANDIDATE DBP   relw=0.01375 projid=8.464e-03 rows=1809 k=12 IS-SR=4.219268 IS-ann=18.343% IS-MDD=-2.5741% negyrs=0 Wmax_sf=2.0000x g8=0.000% filt=True
+CANDIDATE UNG   relw=0.02211 projid=5.192e-03 rows=1809 k=12 IS-SR=4.224282 IS-ann=18.356% IS-MDD=-2.5005% negyrs=0 Wmax_sf=2.0000x g8=0.000% filt=True
+CANDIDATE USO   relw=0.00000 projid=1.068e-02 rows=1809 k=12 IS-SR=4.213206 IS-ann=18.370% IS-MDD=-2.5815% negyrs=0 Wmax_sf=2.0000x g8=0.000% filt=False
+CANDIDATE UUP   relw=0.01064 projid=8.785e-03 rows=1809 k=12 IS-SR=4.218564 IS-ann=18.348% IS-MDD=-2.5506% negyrs=0 Wmax_sf=2.0000x g8=0.000% filt=False
+CANDIDATE BNO   relw=0.01116 projid=1.716e-02 rows=1577 k=12 IS-SR=4.233583 IS-ann=18.444% IS-MDD=-2.5193% negyrs=0 Wmax_sf=2.0000x g8=12.825% filt=False
+CANDIDATE CORN  relw=0.01987 projid=1.599e-02 rows=1572 k=12 IS-SR=4.233129 IS-ann=18.438% IS-MDD=-2.5129% negyrs=0 Wmax_sf=2.0000x g8=13.101% filt=False
+CANDIDATE SOYB  relw=0.00000 projid=0.000e+00 rows=1256 k=12 IS-SR=4.245865 IS-ann=18.426% IS-MDD=-2.4632% negyrs=0 Wmax_sf=1.8856x g8=30.569% filt=False
+CANDIDATE WEAT  relw=0.01988 projid=0.000e+00 rows=1256 k=12 IS-SR=4.247062 IS-ann=18.349% IS-MDD=-2.4596% negyrs=0 Wmax_sf=1.8380x g8=30.569% filt=False
+CANDIDATE USCI  relw=0.01418 projid=2.101e-02 rows=1530 k=12 IS-SR=4.234728 IS-ann=18.453% IS-MDD=-2.5126% negyrs=0 Wmax_sf=2.0000x g8=15.423% filt=False
+
+ARGMAX (ONE reveal): UNG IS-SR=4.224282
+REVEAL: 13-pool + UNG at gear 1.0, n=4806 (2008-03-31..2026-08-28)
+  FS SR=3.813340 (incumbent 3.820357)  ann arith=21.5261%  cagr=23.8128%  MDD=-3.5754%  negyrs=0
+  grossmax=1.000000000  turnover=4.3605 bp/yr  Wmax_sf=2.0000x (k=12)  CFX4=0.0e+00  UNG relw=0.02211
+  bin 2017-18 dSR=-0.0004 (cand 4.8110 vs inc 4.8114)
+  bin 2019-20 dSR=-0.0361 (cand 4.0995 vs inc 4.1356)
+  bin 2021-22 dSR=+0.0206 (cand 2.3516 vs inc 2.3310)
+  bin 2023-24 dSR=+0.0668 (cand 4.7521 vs inc 4.6854)
+  bin 2025-26 dSR=-0.0033 (cand 3.5778 vs inc 3.5810)
+  GATE 1 FS ann>=20pct                PASS
+  GATE 2 gross<=1.6                   PASS
+  GATE 3 FS MDD>=-7pct                PASS
+  GATE 4 0 FS neg yrs                 PASS
+  GATE 5 CFX4=0                       PASS
+  GATE 6 Wmax_sf<=2.0x (have-set)     PASS
+  GATE 7 OOS police                   FAIL
+  GATE 8 fit-row shrink<=2pct         PASS
+
+VERDICT: REJECT - failed gates: 7 OOS police (no second reveal per precommit)
+Champion sha16 post-run: cfa9ec4d38158691 / weights a384d6b92e258fd5 (pre==post: True)

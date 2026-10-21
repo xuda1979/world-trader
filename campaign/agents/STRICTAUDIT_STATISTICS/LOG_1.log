@@ -1,0 +1,19 @@
+=== STRICTAUDIT_STATISTICS start Wed Sep  2 11:00:20 CST 2026 ===
+Audit complete. FINDINGS.md is written (97 lines, last line exactly `STRICTAUDIT_STATISTICS DONE`). Summary of what I found:
+
+## Headline claims verify — from the file
+Ann 49.4%, SR 5.24 daily / 3.46 monthly, MaxDD −6.05%, 0/19 negative years, OOS 55.9%, LOYO 46.7–51.0%, worst 3y-window DD −6.05%: **all reproduce exactly** from `GOAL100_STRICTTRADE_BALANCED_daily.csv`.
+
+## Five findings the memos don't tell you
+
+1. **The flagship builder is not in the repo (fatal-class provenance gap).** Only the CSV+JSON were committed (28c892b). The closest documented-pipeline rebuilds reach corr 0.91–0.98 but give ann 51.5–57.2% @ SR 4.02–4.95 — never 49.4% @ 5.24. This is the same defect class (unregenerable artifact) that killed MHX/H21 in the prior audits, now sitting in the "one number you can bet today."
+
+2. **The daily SR 5.24 is the most flattering horizon.** The charter expected negative-autocorr inflation; the data shows the opposite (VR(21d)=2.07, positive momentum). So the honest penalty is horizon-adjustment: **monthly 3.46, 21-day 3.72, quarterly 2.80, annual-frequency 1.88**. Monthly CI [2.99,3.94] still clears SR≥2.
+
+3. **"12 engines" is really ~7 decorrelated families.** Drop-one shows XGB1y is a −10.4pp ann / −0.80 SR keystone (the old 16-pool finding persists); each of the four near-identical brwt slots *dilutes* (+1.2pp ann when dropped). 0/19 negative years survives every drop-one but is a ~5%-prior outcome (0.85¹⁹).
+
+4. **The two biggest up-days are a hidden short-vol signature**: 2020-09-01 (+14.7%, 7.8σ) came from brwt spread legs sized 6.3× (within the cap-8) because 60d trailing vol had collapsed to 1.58% ann before the Hurricane-Laura snap-back — in all four brwt slots simultaneously. Yet the headline is not tail-dependent: removing the top-10 days *raises* SR to 5.65.
+
+5. **Calendar defects both ways**: the flagship is clean of phantom holidays but **missing 92 genuine NYSE trading days** (Columbus/Veterans Days, Juneteenth 2021, scattered days) — zero-filling costs −1.0pp ann. The predecessor FINAL_TRUTH series still contains 22 NYSE-closed PnL days, contradicting the "NYSE-only" memo claim.
+
+**Bottom line written to FINDINGS.md**: defensible investor-horizon claim is ann ≈48–52%, monthly SR ≈3.4–3.7, DD 6–8%, 0/19 in-sample — robust system, but SR 5.24 should only be quoted after the builder script is committed and the CSV regenerates byte-exactly.

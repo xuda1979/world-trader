@@ -1,0 +1,10 @@
+name=FXCARRY2_R3_ddstop10_carry_EW
+status=DEAD_NOT_PROMOTED (round-3 charter a(i): tail-controlled carry)
+source=HUNT_FXCARRY2 round-3 (campaign/scripts/HUNT_FXCARRY2_round3.py, machinery TDD-locked by campaign/tests/test_hunt_fxcarry2_r3_tail.py 6/6 green)
+data=tools/quant/data/more_fx DEX daily FX + IRSTCI01 monthly immediate rates (FRED, linted; identical R2 panel)
+window=2004-01-01+ (charter-specified post-2004 era; 5680 obs)
+engine=R2 flagship 8-pair monthly IRSTCI01 carry (signal byte-identical to R2), + trailing-drawdown stop -10% with mom63 re-entry; state uses only data <= t; breach day realized, flat from t+1
+costs=6.4bps FULL |dW| + borrow 0.5%/yr + margin 4.5%/yr; costs accrue on stop re-entries (3303/5680 days flat)
+verdict=FAIL: net SR=-0.089 ann=-0.0031 H=(-0.18,0.03) neg_years=11 worst=-0.058 corrChamp=0.020 scramble_p=0.910 (worse than the R2 baseline -0.004)
+rationale=Pre-registered perfect-crash-oracle ceiling: zeroing all 2008 losses lifts baseline SR -0.004 -> 0.183; zeroing ALL 11 negative years -> 0.517. Still below the 1.0 gate. Tail control removes losses but cannot create the missing drift; every chartered mechanism lands SR in [-0.09, 0.06].
+gates=ALL FAIL (sr_ok=False, halves_ok=False, yearly_ok=False, corr_ok=True, scramble p=0.910)

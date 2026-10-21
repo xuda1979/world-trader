@@ -1,0 +1,25 @@
+=== DATA_ALTLIB start Tue Sep  8 21:23:12 CST 2026 ===
+**DATA_ALTLIB executed to completion.** Summary with fresh evidence:
+
+## What was done
+
+**Gap analysis (charter step 1)** — checked all existing alt dirs before adding anything:
+- `crypto_fg/`, `altme_fng/`, `coingecko_breadth/` had manifests with **0 data rows** → genuinely missing, filled
+- `defillama_stables/`, `more_crypto/`, `more_onchain/`, `binance/`, `deribit_dvol/`, `cnn_fg/`, `stocktwits/` already populated → **not duplicated**
+
+**Network reality (fail-closed, all probed fresh)** — CoinPaprika, CoinGecko, Binance, OKX, Bybit, Kraken, Coinbase, eastmoney all **timeout/blocked/refused** from this host; cryptocompare = 401. The charter's pip libraries are HTTP wrappers over those blocked hosts. Reachable no-key hosts: **alternative.me** and **DeFiLlama** — same families delivered direct-HTTP, no keys.
+
+**Deliverable** — 12 datasets in `tools/quant/data/altlib/` (charter write-scope respected):
+| Series | Rows | Span |
+|---|---|---|
+| `fng/crypto_fg.csv` | 3138 | 2018-02-01 → 2026-09-08 |
+| `defi_tvl/total.csv` (+7 chains) | 3269 | 2017-09-27 → today |
+| `defi_tvl/eth_dominance.csv` | 3131 | regime share series |
+| `defi_activity/dex_volume.csv` | **4587** | **2014-02-17** → today (long-span!) |
+| `defi_activity/proto_fees.csv` | 3089 | 2018-03-26 → today |
+
+**TDD rigor** — RED proven (collection error before impl) → GREEN `11 passed`. Fail-closed lint **caught a real bug live**: alternative.me returns newest-first; first production run failed lint (`dates not sorted`) and refused to write — fixed by sorting in the parser.
+
+**Fresh verification (all read directly this session)**: 12/12 CSVs nan=0, dup_dates=0, monotone dates; FNG ∈ [0,100]; eth_dominance max=1.000; manifest 12 datasets / 0 exceptions; all files ≤105 lines; final pytest `11 passed in 0.17s`.
+
+`FINDINGS.md` written with exact numbers and last line **`DATA_ALTLIB DONE`**.

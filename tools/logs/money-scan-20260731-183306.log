@@ -1,0 +1,215 @@
+=== MONEY-LOOP scan started 2026-07-31 18:33:06 ===
+=== WORLD-TRADER GLOBAL SCAN  2026-07-31T10:33:06+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+-- OPEN NOW: 11 markets --
+   + CH (Switzerland (SIX))
+   + CRYPTO (Crypto (24/7))
+   + DE (Germany (Xetra))
+   + ES (Spain (BME))
+   + FR (France (Euronext Paris))
+   + FUT (Futures (CME/GLOBEX: commodities, bonds, index))
+   + FX (FX (24/5))
+   + IT (Italy (Borsa Italiana))
+   + NL (Netherlands (Euronext Amsterdam))
+   + SE (Sweden (Nasdaq Stockholm))
+   + UK (UK (LSE))
+
+-- REGIME: NEUTRAL  (score +0.00) --
+   crypto fear&greed: 25 (Extreme Fear)
+
+-- LIVE QUOTES: 224 instruments fetched (crypto RT, US, China A-share live, Taiwan live, FX)  [wide US unavailable: OK]  [+wide CN A-share: 500 of 500 liquid names -> top 120, backtested] --
+
+=== OPPORTUNITIES (ranked by per-trade expected Sharpe = E[R]/sigma) ===
+  markets open now (2026-07-31T10:43:50+00:00): CH, CRYPTO, DE, ES, FR, FUT, FX, IT, NL, SE, UK
+  YOUR BAR to qualify: E[R]>=+1%/trade, sigma<=7%*sqrt(h/5), Sharpe>=0.40, n>=20, t>=2 (Bonferroni-adj.), OOS Sharpe>0
+  >> markets open (CH, CRYPTO, DE, ES, FR, FUT, FX, IT, NL, SE, UK) but no positive-expectancy edge measured this scan -- stand aside. An empty table is the honest answer.
+
+-- MACRO / RATES / CREDIT (FRED) --
+  US IG credit spread              0.81  (2026-07-29)
+  Fin conditions index         -0.55400  (2026-07-24)
+  M2 money supply            23155.2000000000  (2026-06-01)
+  Unemployment rate                 4.2  (2026-06-01)
+  CPI                           332.568  (2026-06-01)
+  5Y inflation breakeven           2.24  (2026-07-30)
+  UST curve: 3M 3.83%  2Y 4.22%  10Y 4.67%
+
+-- CATALYST CALENDAR (next 14d; today=2026-07-31) --
+  (no actionable upcoming catalysts found)
+  errors: earnings: net: [Errno 54] Connection reset by peer; ipo: net: [Errno 54] Connection reset by peer; dividends: ConnectionResetError: [Errno 54] Connection reset by peer
+
+-- NEWS (expanded feeds) --
+  [MarketWatch]
+    - ‘Don’t get suckered like I did’: I paid $185 to the wrong passport website. Can I get my money back?
+    - I’m 75 and afraid to let my retirement fund dip below $1 million. Am I being too aggressive?
+    - South Korea’s chip giants just logged their biggest rally ever. What it means for the global AI trade.
+  [Nasdaq-Mkts]
+    - Fairfax Financial Holdings Shares Trade Lower After Reporting Lower Earnings In Q2
+    - Fortis Inc. Bottom Line Climbs In Q2
+    - Bitcoin and XRP Are Missing From This Key New Crypto Index. Are They Still Worth Buying?
+  [Nasdaq-Stocks]
+    - Stocks Settle Sharply Higher as Microsoft Leads a Surge in Tech Stocks
+    - New Strong Sell Stocks for July 31st
+    - Nova Ltd. (NVMI) Soars 7.4%: Is Further Upside Left in the Stock?
+  [SeekingAlpha]
+    - Sivers Semiconductors: Overhyped With Poor Fundamentals
+    - Affiliated Managers Group, Inc. 2026 Q2 - Results - Earnings Call Presentation
+    - Syensqo SA/NV 2026 Q2 - Results - Earnings Call Presentation
+  [WSJ-Markets]
+    - ‘Don’t get suckered like I did’: I paid $185 to the wrong passport website. Can I get my money back?
+    - I’m 75 and afraid to let my retirement fund dip below $1 million. Am I being too aggressive?
+    - South Korea’s chip giants just logged their biggest rally ever. What it means for the global AI trade.
+  [CNBC-Top]
+    - Apple drops 7%, Amazon surges 12% as investors pick AI winners after earnings
+    - Iran targets strategic U.S. assets in Kuwait, Bahrain after Egypt drone attack
+    - Anthropic says its Claude models 'gained unauthorized access' to other organizations' systems
+  [CNBC-Markets]
+    - Rivian reduces 2026 spending plans, narrows earnings guidance
+    - 'The Odyssey' extends stay in 70 mm Imax theaters as shows sell out weeks in advance
+    - UEFA threatens World Cup boycott over FIFA private equity investment plan
+  [FedPress]
+    - Federal Reserve Board issues enforcement actions with former employee of Regions Bank and former employee of First Interstate Bank
+    - Federal Reserve Board issues enforcement action with Iuka Bancshares, Inc. and The Iuka State Bank
+    - Federal Reserve issues FOMC statement
+  [ECB]
+    - Digital euro app to incorporate highest accessibility standards
+    - ECB wage tracker at 2.7% in Q1 2027, indicating stable negotiated wage pressures
+    - Philip R. Lane: Outlook for the euro area economy
+  [BoE]
+    - Minutes of the Meeting of the Court of Directors held on 4 June 2026
+    - Bank Rate maintained at 3.75% - July 2026 Monetary Policy Summary and Minutes
+    - Letter from the Governor to the Daily Mail
+  [BoJ]
+    - Quarterly Schedule of Outright Purchases of Japanese Government Bonds (Competitive Auction Method) (July-September 2026) (Schedule Updates)
+    - Timetable and Schedule of U.S. Dollar Funds-Supplying Operations  (August-December 2026)
+    - Statement on Monetary Policy
+  [Cointelegraph]
+    - New York sues Kalshi over alleged illegal gambling operation
+    - Aave weighs closing 6 V3 blockchain markets, offboarding 50 low-use reserves
+    - RWA perpetual futures volume nears Bitcoin on Hyperliquid, Binance
+  [TheBlock]
+    - Senate Democrats propose anti-corruption bureau as Trumps crypto portfolio draws more scrutiny
+    - New York sues Kalshi over illegal gambling claims, seeks $36 billion in damages
+    - Funds may be at risk: Coinkite issues warning for Coldcard Mk3 users amid 594 BTC theft reports
+  [ForexLive]
+    - ECB's Kocher: Decisions to be based on incoming data to bring inflation back to the 2% target
+    - Euro area inflation nudges up in July, keeps the pressure on the ECB
+    - Italy July preliminary CPI +2.8% vs +2.8% y/y expected
+  [FXStreet]
+    - Experts agree: The US Dollar rally might have found serious headwinds
+    - US Dollar: Post-Fed losses extend as positioning unwinds – ING
+    - Euro rebounds vs Yen as BoJ rate hold, Eurozone inflation support
+  [OilPrice]
+    - ADNOC Buys Five Supertankers as Hormuz Crisis Tightens Shipping
+    - BP Puts Its North Sea Oil Business Up for Sale
+    - Japan Has Enough LNG to Avoid Summer Power Shortages
+  [Mining.com]
+    - IMC Rare Earths debuts on NYSE American
+    - Update almost triples contained metal at Selkirk Copper’s Minto mine
+    - Perpetua Resources, US Army and Idaho National Laboratory launch antimony pilot plant
+  [TechCrunch]
+    - Anthropic says its own AI models breached three companies during security tests
+    - Apple stockpiles inventory as it braces for significant supply constraints
+    - AI hedge fund Situational Awareness may have sold its public portfolio, but it still has its Anthropic shares
+  [BioPharma]
+    - <a href="/marketing/shionogi-makes-call-covid-pill-xocova-tv-spot" hreflang="en">Shionogi makes the call on COVID pill Xocova TV spot </a>
+    - <a href="/pharma/fierce-pharma-regulatory-tracker-2026-h2" hreflang="en">Regulatory tracker: Ahead of FDA verdicts, EU clears AbbVie's Rinvoq in alopecia, vitiligo</a>
+    - <a href="/pharma/pfizer-taking-litfulo-regulators-vitiligo-challenge-incyte-abbvie" hreflang="en">Pfizer takes Litfulo to regulators in vitiligo challenge to Incyte, AbbVie</a>
+  [PV-Magazine]
+    - Italy records 88 zero-price hours in H1
+    - Europes heatwave brings high irradiance as smoke, dust impact southern PV systems
+    - Chinese TOPCon module prices fall as high-efficiency supply adds pressure
+  [Electrek]
+    - Tesla weighs selling China business to clear path for SpaceX merger
+    - The PJM grids largest battery is now under construction in Ohio
+    - Juiced Scrambler: Testing the best bang-for-your-buck moto-style e-bike
+  [MoneyControl]
+    - Uncle Sam is wrong, India and China are doing their bit to fight climate change
+  [HinduBiz]
+    - Q1 Results Today Live: Bajaj Finserv, Sun Pharma, GAIL, Dixon Tech, Aether Q1 profit rise, Urban Company logs Q1 loss, Maruti Suzuki, ITC, IOC, Glenmark to announce Q1 results
+    - Sensex today | Stock Market Live: Markets end with marginal gains; Sensex up 166 pts, Nifty rises 66 pts to 24,383; Bajaj Finance, Bajaj Finserv, M&M top gainers
+    - Broker’s call: Sunteck Realty (Buy)
+  [FarmProgress]
+    - New genetic tools could match bulls to your farm’s environment
+    - Land auction methods: How selling farmland has changed
+    - Why one storage plan won’t work for both corn and soybeans
+  [CoinTelegraph]
+    - New York sues Kalshi over alleged illegal gambling operation
+    - Aave weighs closing 6 V3 blockchain markets, offboarding 50 low-use reserves
+    - RWA perpetual futures volume nears Bitcoin on Hyperliquid, Binance
+  [BeInCrypto]
+    - Bitcoins $437 Billion Quantum Exposure Meets IBMs 2028 Deadline
+    - Is Tesla Really Selling Gigafactory Shanghai? Elon Musk Says No
+    - Zoomex Launches “August Summer Airdrop”: New Users Can Unlock Up to $1,500 in Combined Rewards and Exclusive Benefits
+  [NewsBTC]
+    - BitMEX Faces Proposed Class Action Seeking Return Of 622 BTC
+    - CLARITY Act Delay Shows Crypto Market Structure Fight Is Not Over
+    - Robinhood CEO X Hack Shows Why Crypto Scams Still Target Trusted Names
+  [BitcoinMag]
+    - Bitcoin Senator Cynthia Lummis Blasts Democrats For Stalling Crypto Clarity Act
+    - Bitcoin Treasury Strategy Posts $8.2B Loss As BTC Price Suffered
+    - Legendary Investor Ray Dalio Still Holds Bitcoin — But Only 1% of His Portfolio
+  [TheDefiant]
+    - SummerFi to Wind Down After Seven Years, Citing Exploit
+    - eToro Takes Strategic Stake in Onchain Derivatives Exchange Extended, Plans Zengo Tie-Up
+    - NEAR Governance Votes to Scrap Developer Gas Rebate
+  [Pandaily]
+    - ByteDance Seedance 2.5 Released: 30-Second Single-Generation Video With Breakthrough Long-Narrative Capability, Multi-Modal Reference, and Precise Editing
+    - LimX Dynamics Co-Founder Shen Hua: The Next Stop for Humanoid Robots Is Landing, and Nothing but Landing, as Motion Control Converges and PMF Becomes the Battleground
+    - Kimi K3 Revealed Many Secrets, but Its Most Important Infra Is Hard to Copy: Moonshot AI Infrastructure Engineering as the Real Moat in Open-Source Model Economics
+
+-- SEC 8-K MATERIAL CATALYSTS (last 3 days) --
+  (unavailable: ConnectionResetError: [Errno 54] Connection reset by peer)
+
+-- INSIDER CLUSTER BUYS (last 30d, >=2 insiders) --
+  AVBC    2 insiders / 2 buys  val=$58K  2026-05-15  Avidia Bancorp, Inc.
+
+-- DEFI STABLECOIN YIELDS (top 8 by APY, TVL >=$10M) --
+  (unavailable: timeout)
+
+-- SHORT SQUEEZE WATCH (SI% float >= 10%) --
+  (no high-SI names found)
+
+-- ENERGY SNAPSHOT (FRED weekly) --
+  Gasoline retail: $4.096/gal  (4w: +6.9%)
+  WTI crude:       $None/bbl  (4w: -2.1%)
+  Heating oil:     $3.998/gal
+  Natgas:          $2.63/MMBtu
+
+research only, not financial advice. verify before acting.
+
+[scan task log]
+  - 18:33:06  regime: gathering FRED macro / VIX / fear-greed
+  - 18:33:44  regime: NEUTRAL score=+0.00
+  - 18:33:44  quotes: collecting global universe (crypto/US/CN/TW/HK/FX/futures/indices + region/macro ETFs)
+  - 18:41:37  quotes: 105 curated instruments fetched
+  - 18:41:37  wide US funnel: pulling ~12k tickers from Polygon, pre-screening top 150
+  - 18:42:02  wide US funnel: 0 of 0 -> top 150 backtested [err: OK]
+  - 18:42:02  spillover funnel: scanning RSS headlines for theme keywords -> peer candidates
+  - 18:42:34  spillover funnel: 0 candidates across 0 themes -> ? fetched
+  - 18:42:34  wide CN funnel: pulling ~5,500 A-shares, pre-screening top 120
+  - 18:42:37  wide CN funnel: 500 of 500 -> top 120 backtested
+  - 18:42:37  opportunities: building candidate set from quotes + regime
+  - 18:42:37  opportunities: 75 raw candidates
+  - 18:42:37  backtest: enriching with technicals + E[R]/sigma/Sharpe
+  - 18:43:17  backtest: per-candidate family m=10 (global total=98) -> Bonferroni t>=2.81
+  - 18:43:17  news enrichment: Finnhub headlines + Polygon sentiment per candidate
+  - 18:43:17  news enrichment: done (0 candidates have fresh headlines)
+  - 18:43:17  catalyst enrichment: scanning Finnhub earnings/FDA/IPO + Polygon dividends
+  - 18:43:30  catalyst enrichment: 0 candidates have a near-term catalyst (+0 new)
+  - 18:43:30  PEAD confirmation: looking up recent earnings surprises for PEAD setups
+  - 18:43:30  PEAD confirmation: 0 PEAD setups confirmed by earnings surprise (+0 new)
+  - 18:43:30  options enrichment: pulling ATM straddles (CBOE) for top US candidates
+  - 18:43:30  options enrichment: 0 candidates have an RV/IV signal (+0 new)
+  - 18:43:30  country crisis: scanning 32 country ETFs for crisis signals
+  - 18:43:50  country crisis: 0 candidates in crisis (+0 new)
+  - 18:43:50  veto gate: 0 rows vetoed (0 crash-in-progress, 0 news-contradicts) -> PASS rows 0 -> 0
+  - 18:43:50  catalysts: printing freshest company news for top candidates
+  - 18:43:50  alt-data: pulling FRED macro/rates/credit, treasury curve, BTC funding, COT
+  - 18:44:06  catalyst calendar: Finnhub earnings/FDA/IPO + Polygon dividends (14d)
+  - 18:44:08  expanded news: sweeping all RSS feeds (equities/macro/CB/crypto/FX/commodities/regional)
+  - 18:44:37  expanded news: 30 feeds ok, 74 feeds failed
+  - 18:44:37  GDELT: 24h global market tone sweep
+  - 18:44:48  altdata2: SEC 8-K + insider clusters + DeFi yields + short squeeze + energy
+  - 18:44:52  insider clusters: 1 tickers with >=2 insider buyers (30d)
+  - 18:45:32  energy: gas=$4.096 crude=$None gas4w=6.92% crude4w=-2.08%

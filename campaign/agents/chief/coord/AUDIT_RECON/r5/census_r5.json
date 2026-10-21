@@ -1,0 +1,519 @@
+{
+ "total_call_lines": 47,
+ "files": [
+  "campaign/agents/chief/coord/AUDIT_GATES2/r3/r3c_nearmiss_full.py",
+  "campaign/agents/chief/coord/AUDIT_RECON/r5/census_r5.py",
+  "campaign/agents/chief/coord/HUNT_INTERNATIONAL2/HUNT_INTL2_round5.py",
+  "campaign/agents/chief/coord/HUNT_INTERNATIONAL2/work_r4/beats_passive_pristine_snapshot.py",
+  "campaign/agents/chief/coord/HUNT_MACRO2/tests/test_macro_r5_regime.py",
+  "campaign/agents/chief/coord/HUNT_MACRO2/work_r5/HUNT_MACRO2_round5.py",
+  "campaign/agents/chief/coord/HUNT_SECTOR2/audit_r4/deep_check.py",
+  "campaign/agents/chief/coord/HUNT_SECTOR2/audit_r4/run_hunt.py",
+  "campaign/agents/chief/coord/HUNT_SECTOR2/audit_r4/run_tff.py",
+  "campaign/agents/chief/coord/HUNT_SECTOR2/hunt_sector2_r5.py",
+  "campaign/agents/chief/coord/HUNT_VOL2/work_r5/pcr5_lib.py",
+  "campaign/agents/chief/coord/HUNT_VOL2/work_r5/round5_scan.py",
+  "campaign/agents/loop_team/HUNT_AUCTION/deep2.py",
+  "campaign/agents/loop_team/HUNT_AUCTION/run_auction.py",
+  "campaign/agents/loop_team/HUNT_CIT_AG/deep_check.py",
+  "campaign/agents/loop_team/HUNT_CIT_AG/fundamental_check.py",
+  "campaign/agents/loop_team/HUNT_CIT_AG/run_hunt.py",
+  "campaign/agents/loop_team/HUNT_CURVES/run_curves.py",
+  "campaign/agents/loop_team/HUNT_GLOBALRATES/deep_gr.py",
+  "campaign/agents/loop_team/HUNT_GLOBALRATES/run_gr.py",
+  "campaign/agents/loop_team/HUNT_MACRO2/deep3.py",
+  "campaign/agents/loop_team/HUNT_MACRO2/run_macro.py",
+  "campaign/agents/loop_team/HUNT_PDA/deep_pda.py",
+  "campaign/agents/loop_team/HUNT_PDA/run_pda.py",
+  "campaign/agents/loop_team/HUNT_TFF/run_tff.py",
+  "campaign/bt/beats_passive.py",
+  "campaign/bt/gates.py",
+  "campaign/bt/leakcheck.py",
+  "campaign/bt/tests/test_fwbugs_audit_r3.py",
+  "campaign/scripts/HUNT_CMDT2_round5.py",
+  "campaign/scripts/HUNT_CREDIT2_round5.py",
+  "campaign/scripts/HUNT_FXCARRY2_round5.py",
+  "campaign/scripts/HUNT_TREASFUT_round5.py"
+ ],
+ "n_files": 33,
+ "production_lines": 46,
+ "scratch_lines": 1,
+ "summary": {
+  "SIGFUL_EXPLICIT_OK": 16,
+  "SIGLESS": 31
+ },
+ "hole_class_rows": [],
+ "violation_rows": [],
+ "rows": [
+  {
+   "file": "campaign/agents/chief/coord/HUNT_MACRO2/tests/test_macro_r5_regime.py",
+   "line": 15,
+   "sig": true,
+   "leak_check_true": true,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "(iv) leak_probe (V2 \u00a76 Step 1): gates.run(..., leak_check=True, sig=...) published",
+   "class": "SIGFUL_EXPLICIT_OK"
+  },
+  {
+   "file": "campaign/agents/chief/coord/HUNT_MACRO2/work_r5/HUNT_MACRO2_round5.py",
+   "line": 201,
+   "sig": true,
+   "leak_check_true": true,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "\"\"\"V2 \u00a76 Step 1 wrapper: gates.run(..., leak_check=True, sig=...) explicit.",
+   "class": "SIGFUL_EXPLICIT_OK"
+  },
+  {
+   "file": "campaign/agents/chief/coord/HUNT_MACRO2/work_r5/HUNT_MACRO2_round5.py",
+   "line": 207,
+   "sig": false,
+   "leak_check_true": true,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "res = gates.run(r, **kw)",
+   "class": "SIGLESS"
+  },
+  {
+   "file": "campaign/agents/chief/coord/AUDIT_RECON/r5/census_r5.py",
+   "line": 6,
+   "sig": false,
+   "leak_check_true": false,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "classify every gates.run( line, and for sig-ful sites WITHOUT explicit leak_check",
+   "class": "SIGLESS"
+  },
+  {
+   "file": "campaign/agents/chief/coord/AUDIT_GATES2/r3/r3c_nearmiss_full.py",
+   "line": 17,
+   "sig": false,
+   "leak_check_true": false,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "* gates.run() with the real champion ref on every sleeve (scr fails closed by design \u2014",
+   "class": "SIGLESS"
+  },
+  {
+   "file": "campaign/agents/chief/coord/HUNT_SECTOR2/hunt_sector2_r5.py",
+   "line": 230,
+   "sig": true,
+   "leak_check_true": true,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "g_on = bgates.run(r_pu, ref=champ, sig=scale, leak_check=True, beats_passive=True,",
+   "class": "SIGFUL_EXPLICIT_OK"
+  },
+  {
+   "file": "campaign/agents/chief/coord/HUNT_SECTOR2/audit_r4/run_tff.py",
+   "line": 21,
+   "sig": false,
+   "leak_check_true": false,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "rep = gates.run(net)",
+   "class": "SIGLESS"
+  },
+  {
+   "file": "campaign/agents/chief/coord/HUNT_SECTOR2/audit_r4/run_hunt.py",
+   "line": 36,
+   "sig": false,
+   "leak_check_true": false,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "rep = gates.run(net)",
+   "class": "SIGLESS"
+  },
+  {
+   "file": "campaign/agents/chief/coord/HUNT_SECTOR2/audit_r4/deep_check.py",
+   "line": 14,
+   "sig": false,
+   "leak_check_true": false,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "rep = gates.run(net)",
+   "class": "SIGLESS"
+  },
+  {
+   "file": "campaign/agents/chief/coord/HUNT_SECTOR2/audit_r4/deep_check.py",
+   "line": 40,
+   "sig": false,
+   "leak_check_true": false,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "r2 = gates.run(net2)",
+   "class": "SIGLESS"
+  },
+  {
+   "file": "campaign/agents/chief/coord/HUNT_SECTOR2/audit_r4/deep_check.py",
+   "line": 47,
+   "sig": false,
+   "leak_check_true": false,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "r3 = gates.run(net3)",
+   "class": "SIGLESS"
+  },
+  {
+   "file": "campaign/agents/chief/coord/HUNT_INTERNATIONAL2/HUNT_INTL2_round5.py",
+   "line": 184,
+   "sig": true,
+   "leak_check_true": true,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "\"\"\"Full V2 battery: gates.run(sig=, leak_check=True, beats_passive=True) + scramble,",
+   "class": "SIGFUL_EXPLICIT_OK"
+  },
+  {
+   "file": "campaign/agents/chief/coord/HUNT_INTERNATIONAL2/HUNT_INTL2_round5.py",
+   "line": 193,
+   "sig": true,
+   "leak_check_true": true,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "g = bgates.run(r_pu.reindex(net.index), ref=CHAMP, sig=sig, leak_check=True,",
+   "class": "SIGFUL_EXPLICIT_OK"
+  },
+  {
+   "file": "campaign/agents/chief/coord/HUNT_INTERNATIONAL2/HUNT_INTL2_round5.py",
+   "line": 259,
+   "sig": true,
+   "leak_check_true": true,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "g = bgates.run(r_pu, ref=champ, sig=sig, leak_check=True,",
+   "class": "SIGFUL_EXPLICIT_OK"
+  },
+  {
+   "file": "campaign/agents/chief/coord/HUNT_INTERNATIONAL2/work_r4/beats_passive_pristine_snapshot.py",
+   "line": 26,
+   "sig": false,
+   "leak_check_true": false,
+   "leak_check_false": false,
+   "scratch": true,
+   "text": "Wiring: opt-in via bt.gates.run(..., beats_passive=True, spy=..., ief=..., cta=...).",
+   "class": "SIGLESS"
+  },
+  {
+   "file": "campaign/agents/chief/coord/HUNT_VOL2/work_r5/round5_scan.py",
+   "line": 9,
+   "sig": true,
+   "leak_check_true": true,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "+ gates.run(sig=, leak_check=True) on the WINDOW. \u00a78 gates evaluated on the window.",
+   "class": "SIGFUL_EXPLICIT_OK"
+  },
+  {
+   "file": "campaign/agents/chief/coord/HUNT_VOL2/work_r5/pcr5_lib.py",
+   "line": 14,
+   "sig": true,
+   "leak_check_true": true,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "* gates.run(net, ref=champion_full, sig=<positions>, leak_check=True) \u2014 the mandatory",
+   "class": "SIGFUL_EXPLICIT_OK"
+  },
+  {
+   "file": "campaign/agents/loop_team/HUNT_PDA/deep_pda.py",
+   "line": 28,
+   "sig": false,
+   "leak_check_true": false,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "rep = gates.run(net)",
+   "class": "SIGLESS"
+  },
+  {
+   "file": "campaign/agents/loop_team/HUNT_PDA/run_pda.py",
+   "line": 14,
+   "sig": false,
+   "leak_check_true": false,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "rep = gates.run(net)",
+   "class": "SIGLESS"
+  },
+  {
+   "file": "campaign/agents/loop_team/HUNT_AUCTION/deep2.py",
+   "line": 34,
+   "sig": false,
+   "leak_check_true": false,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "rep = gates.run(net)",
+   "class": "SIGLESS"
+  },
+  {
+   "file": "campaign/agents/loop_team/HUNT_AUCTION/deep2.py",
+   "line": 52,
+   "sig": false,
+   "leak_check_true": false,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "rep = gates.run(net08)",
+   "class": "SIGLESS"
+  },
+  {
+   "file": "campaign/agents/loop_team/HUNT_AUCTION/run_auction.py",
+   "line": 16,
+   "sig": false,
+   "leak_check_true": false,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "rep = gates.run(net)",
+   "class": "SIGLESS"
+  },
+  {
+   "file": "campaign/agents/loop_team/HUNT_MACRO2/run_macro.py",
+   "line": 13,
+   "sig": false,
+   "leak_check_true": false,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "rep = gates.run(net)",
+   "class": "SIGLESS"
+  },
+  {
+   "file": "campaign/agents/loop_team/HUNT_MACRO2/deep3.py",
+   "line": 33,
+   "sig": false,
+   "leak_check_true": false,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "rep = gates.run(net)",
+   "class": "SIGLESS"
+  },
+  {
+   "file": "campaign/agents/loop_team/HUNT_MACRO2/deep3.py",
+   "line": 49,
+   "sig": false,
+   "leak_check_true": false,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "rep = gates.run(net)",
+   "class": "SIGLESS"
+  },
+  {
+   "file": "campaign/agents/loop_team/HUNT_CIT_AG/fundamental_check.py",
+   "line": 31,
+   "sig": false,
+   "leak_check_true": false,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "rep = gates.run(net)",
+   "class": "SIGLESS"
+  },
+  {
+   "file": "campaign/agents/loop_team/HUNT_CIT_AG/fundamental_check.py",
+   "line": 60,
+   "sig": false,
+   "leak_check_true": false,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "rep = gates.run(net)",
+   "class": "SIGLESS"
+  },
+  {
+   "file": "campaign/agents/loop_team/HUNT_CIT_AG/run_hunt.py",
+   "line": 36,
+   "sig": false,
+   "leak_check_true": false,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "rep = gates.run(net)",
+   "class": "SIGLESS"
+  },
+  {
+   "file": "campaign/agents/loop_team/HUNT_CIT_AG/deep_check.py",
+   "line": 14,
+   "sig": false,
+   "leak_check_true": false,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "rep = gates.run(net)",
+   "class": "SIGLESS"
+  },
+  {
+   "file": "campaign/agents/loop_team/HUNT_CIT_AG/deep_check.py",
+   "line": 40,
+   "sig": false,
+   "leak_check_true": false,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "r2 = gates.run(net2)",
+   "class": "SIGLESS"
+  },
+  {
+   "file": "campaign/agents/loop_team/HUNT_CIT_AG/deep_check.py",
+   "line": 47,
+   "sig": false,
+   "leak_check_true": false,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "r3 = gates.run(net3)",
+   "class": "SIGLESS"
+  },
+  {
+   "file": "campaign/agents/loop_team/HUNT_CURVES/run_curves.py",
+   "line": 15,
+   "sig": false,
+   "leak_check_true": false,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "rep = gates.run(net)",
+   "class": "SIGLESS"
+  },
+  {
+   "file": "campaign/agents/loop_team/HUNT_GLOBALRATES/deep_gr.py",
+   "line": 29,
+   "sig": false,
+   "leak_check_true": false,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "rep = gates.run(net)",
+   "class": "SIGLESS"
+  },
+  {
+   "file": "campaign/agents/loop_team/HUNT_GLOBALRATES/run_gr.py",
+   "line": 15,
+   "sig": false,
+   "leak_check_true": false,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "rep = gates.run(net)",
+   "class": "SIGLESS"
+  },
+  {
+   "file": "campaign/agents/loop_team/HUNT_TFF/run_tff.py",
+   "line": 21,
+   "sig": false,
+   "leak_check_true": false,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "rep = gates.run(net)",
+   "class": "SIGLESS"
+  },
+  {
+   "file": "campaign/bt/leakcheck.py",
+   "line": 26,
+   "sig": false,
+   "leak_check_true": true,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "Opt-in via bt.gates.run(..., leak_check=True); default OFF so existing callers are unchanged.",
+   "class": "SIGLESS"
+  },
+  {
+   "file": "campaign/bt/gates.py",
+   "line": 8,
+   "sig": false,
+   "leak_check_true": false,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "# were 0.6/0.3, i.e. LOOSER than the contract's SR>=1.0 / halves>=0.5, so gates.run() could",
+   "class": "SIGLESS"
+  },
+  {
+   "file": "campaign/bt/beats_passive.py",
+   "line": 26,
+   "sig": false,
+   "leak_check_true": false,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "Wiring: opt-in via bt.gates.run(..., beats_passive=True, spy=..., ief=..., cta=...).",
+   "class": "SIGLESS"
+  },
+  {
+   "file": "campaign/bt/tests/test_fwbugs_audit_r3.py",
+   "line": 13,
+   "sig": false,
+   "leak_check_true": true,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "- the opt-in bt.gates.run(leak_check=True) wiring, default OFF, fail-closed when unmeasurable.",
+   "class": "SIGLESS"
+  },
+  {
+   "file": "campaign/scripts/HUNT_TREASFUT_round5.py",
+   "line": 33,
+   "sig": true,
+   "leak_check_true": true,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "guards. Battery: gates.run(sig=, leak_check=True, beats_passive=True) full V2 set + row-",
+   "class": "SIGFUL_EXPLICIT_OK"
+  },
+  {
+   "file": "campaign/scripts/HUNT_TREASFUT_round5.py",
+   "line": 326,
+   "sig": true,
+   "leak_check_true": true,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "\"\"\"Full V2 battery for one book: gates.run(sig=, leak_check=True, beats_passive=True)",
+   "class": "SIGFUL_EXPLICIT_OK"
+  },
+  {
+   "file": "campaign/scripts/HUNT_TREASFUT_round5.py",
+   "line": 336,
+   "sig": true,
+   "leak_check_true": true,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "g = bgates.run(r_pu, ref=CHAMP, sig=sig, leak_check=True,",
+   "class": "SIGFUL_EXPLICIT_OK"
+  },
+  {
+   "file": "campaign/scripts/HUNT_CMDT2_round5.py",
+   "line": 24,
+   "sig": true,
+   "leak_check_true": true,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "(bt_sleeve / net_of shift(1)). V2 battery: gates.run(sig=..., leak_check=True,",
+   "class": "SIGFUL_EXPLICIT_OK"
+  },
+  {
+   "file": "campaign/scripts/HUNT_CREDIT2_round5.py",
+   "line": 52,
+   "sig": true,
+   "leak_check_true": true,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "Every config: gates.run(r=per-unit, sig=s, leak_check=True, beats_passive=True,",
+   "class": "SIGFUL_EXPLICIT_OK"
+  },
+  {
+   "file": "campaign/scripts/HUNT_CREDIT2_round5.py",
+   "line": 222,
+   "sig": true,
+   "leak_check_true": true,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "gr = bgates.run(r_per_unit, ref=ref, sig=sig, leak_check=True, scramble_n=scramble_n,",
+   "class": "SIGFUL_EXPLICIT_OK"
+  },
+  {
+   "file": "campaign/scripts/HUNT_FXCARRY2_round5.py",
+   "line": 16,
+   "sig": true,
+   "leak_check_true": true,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "margin, trailing-expanding VT10 cap3. Full V2 battery: gates.run(r=per-unit, sig=held",
+   "class": "SIGFUL_EXPLICIT_OK"
+  },
+  {
+   "file": "campaign/scripts/HUNT_FXCARRY2_round5.py",
+   "line": 266,
+   "sig": true,
+   "leak_check_true": true,
+   "leak_check_false": false,
+   "scratch": false,
+   "text": "g = bgates.run(r_pu, ref=ref, sig=sig, **kw)",
+   "class": "SIGFUL_EXPLICIT_OK"
+  }
+ ]
+}

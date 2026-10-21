@@ -1,0 +1,125 @@
+{
+ "config": "POST5_5_long",
+ "status": "DEAD_NOT_PROMOTED",
+ "family": "treasury_auction_cycle_r5",
+ "tenor": "5",
+ "kind": "post",
+ "sign": 1,
+ "primary": true,
+ "k": 5,
+ "span_class": "pre2007",
+ "n": 6581,
+ "start": "2000-05-12",
+ "end": "2026-09-03",
+ "net_sr": -0.3245,
+ "ann_geo": -0.0837,
+ "h1": -0.0805,
+ "h2": -0.0414,
+ "neg_years": 13,
+ "worst_year": -0.4898,
+ "ac1": 0.0154,
+ "scramble_p_gates": 0.65,
+ "scramble_p_perm": 0.0,
+ "lagroll_p": 0.01,
+ "corr_to_champion": 0.0303,
+ "corr_a6r7": 0.3874,
+ "corr_a1credit": 0.2402,
+ "leak": {
+  "same_period_corr": -0.008,
+  "same_period_p": 0.5156219662461953,
+  "leak_flag": false,
+  "leak_ok": true
+ },
+ "beats_passive": {
+  "beats_passive_ok": false,
+  "candidate_sr": -0.06289005643144557,
+  "best_passive_sr": 0.5169405408416147,
+  "best_passive_name": "spy_bh",
+  "margin": -0.5798305972730602,
+  "reason": "candidate_sr_le_passive",
+  "detail": {
+   "spy_bh": {
+    "sr": 0.5169405408416147,
+    "n": 4962
+   },
+   "sixty_forty": {
+    "sr": 0.4777110047456318,
+    "n": 6581
+   },
+   "cta_trend": {
+    "sr": -0.1323571219088378,
+    "n": 4647
+   }
+  }
+ },
+ "beats_passive_ok": false,
+ "era": {
+  "pre2013": -0.2875,
+  "post2013": -0.3748,
+  "ok": true
+ },
+ "gates_full_pass": false,
+ "v2_composite_pass": false,
+ "feed_notes": "r_pu = costed per-unit book; sig*r_pu == net exactly wherever sig!=0; flat-day exit-cost rows are in the published net series but not representable as sig*r_pu (<= 1 day's cost, 6.4bps).",
+ "economic_rationale": "Treasury auction-cycle positioning: dealers short the when-issued into auctions (inventory hedge) -> pre-auction concession and post-auction reversal; bid-to-cover vs its strictly-prior median times the post window. Pre-registered corner (charter R5 (a)); NOT row 51 (equity gates) and NOT any R1/R2 rates momentum/curve config (no MA/z/momentum of yields anywhere).",
+ "data_documentation": {
+  "source": "treasurydirect.gov TA-WS via tools/quant/data/treasury_auctions/ta_dl.py (keyless)",
+  "disk_file": "tools/quant/data/treasury_auctions/tauctions.csv",
+  "gap_structure_by_tenor": {
+   "2": {
+    "n": 370,
+    "first": "2000-01-26",
+    "last": "2026-08-25",
+    "max_gap_days": 42,
+    "gaps_gt35": 13
+   },
+   "5": {
+    "n": 315,
+    "first": "2000-05-09",
+    "last": "2026-08-26",
+    "max_gap_days": 182,
+    "gaps_gt35": 19
+   },
+   "10": {
+    "n": 153,
+    "first": "2000-01-12",
+    "last": "2026-08-12",
+    "max_gap_days": 182,
+    "gaps_gt35": 103
+   },
+   "30": {
+    "n": 92,
+    "first": "2001-02-08",
+    "last": "2026-08-13",
+    "max_gap_days": 1827,
+    "gaps_gt35": 74
+   }
+  },
+  "liveness_probe_2026": "2026-09-08 re-fetch: 304 rows 2025-12-29..2026-09-10, 0 field mismatches vs disk on all 4 audited fields, 0 missing rows; work_r5/tauctions_2026_probe.csv sha 275e1853da1a3aa8",
+  "drift_summary_k5": {
+   "n": 315,
+   "mean_bp_5d": 22.736872637944067,
+   "tstat": 5.768231434324867,
+   "hit": 0.6317460317460317,
+   "cond_weak_n": 159,
+   "cond_weak_mean": 0.0026284754667066,
+   "cond_strong_n": 146,
+   "cond_strong_mean": 0.0021506986573168073
+  }
+ },
+ "vintage_pins": {
+  "tauctions.csv": "b0e243c4e4681e32",
+  "champion": "4358dfab95679b97",
+  "SPY.csv": "d35d72808dcc9fc3",
+  "IEF.csv": "603cb2a56afd5616",
+  "CTA_15vol.csv": "d7f3b5cd4616f0f4",
+  "DGS2": "ec344c57a73a96b2",
+  "DGS5": "342bb5af97349271",
+  "DGS10": "476f26b9c6dd0a8d",
+  "DGS30": "e091296f888d0a4b"
+ },
+ "files": {
+  "sleeve": "TREASFUT5_POST5_5_long.csv",
+  "positions": "TREASFUT5_POST5_5_long_positions.csv"
+ }
+}

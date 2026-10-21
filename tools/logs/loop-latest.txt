@@ -1,0 +1,93 @@
+########## LOOP 2026-08-04 12:39:31 CST ##########
+/Users/daxu/software/world-trader/tools/loop_scan.py:132: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:14s} fr_1h={r['fr_pct_1h']:+.4f}% APR={r['apr_pct']:+.1f}% OI=\${r['oi_usd']/1e6:.1f}M")
+/Users/daxu/software/world-trader/tools/loop_scan.py:143: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:8s} avg=\${r['avg_price']:.5f} depeg={r['depeg_bps']:+.1f}bps "
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:168: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"straddle=\${r['straddle_cost']:.2f} ({r['trade']})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+=== LOOP SCAN 2026-08-04 12:39:31 CST ===
+
+--- Funding arb (single-exchange, relaxed) — 0 candidates ---
+
+--- Cross-exchange funding — 25 candidates (exchanges: ['binance', 'bitget', 'bybit', 'gate', 'okx']) ---
+  ONUSDT       SHORT bybit (+2.5000%) / LONG gate (+0.0050%) net_24h=+7.325% APR=+891.2%
+  BANKUSDT     SHORT gate (-0.1760%) / LONG bybit (-1.3900%) net_24h=+3.482% APR=+423.6%
+  SNXXUSDT     SHORT gate (+0.0100%) / LONG binance (-0.7459%) net_24h=+2.108% APR=+256.4%
+  GIGADEVUSDT  SHORT gate (-0.0016%) / LONG binance (-0.6490%) net_24h=+1.782% APR=+216.8%
+  LSKUSDT      SHORT bybit (+0.0050%) / LONG gate (-0.4010%) net_24h=+1.058% APR=+128.7%
+  RDWUSDT      SHORT gate (+0.0100%) / LONG bybit (-0.3651%) net_24h=+0.965% APR=+117.4%
+  BNCUSDT      SHORT binance (+0.3598%) / LONG bybit (+0.0000%) net_24h=+0.919% APR=+111.9%
+  FWDIUSDT     SHORT bybit (+0.0000%) / LONG binance (-0.3300%) net_24h=+0.830% APR=+101.0%
+
+--- Spot arb (order-book verified) — 0 candidates ---
+
+--- Quarterly basis (cash and carry) — 4 candidates ---
+  BTCUSDT_261225         basis=+1.684% days=142 APR=+4.33% net_APR=+3.84% (long_spot_short_quarterly)
+  BTCUSDT_260925         basis=+0.590% days=51 APR=+4.22% net_APR=+2.86% (long_spot_short_quarterly)
+  ETHUSDT_261225         basis=+0.982% days=142 APR=+2.52% net_APR=+2.04% (long_spot_short_quarterly)
+  ETHUSDT_260925         basis=+0.248% days=51 APR=+1.77% net_APR=+0.41% (long_spot_short_quarterly)
+
+--- Triangular arb (Binance spot) — 0 candidates ---
+
+--- Perp-spot basis (single-exchange) — 2 candidates ---
+  VICUSDT      basis=+0.518% fr_8h=-0.0011% net_24h=+0.328% APR=+39.9% (long_spot_short_perp)
+  MIRAUSDT     basis=-0.171% fr_8h=-0.0674% net_24h=+0.184% APR=+22.4% (short_spot_long_perp)
+
+--- Hyperliquid funding (1h interval) — 3 candidates ---
+  ACE            fr_1h=-0.0127% APR=-111.6% OI=\$0.5M
+  NIL            fr_1h=-0.0107% APR=-93.8% OI=\$0.5M
+  MOVE           fr_1h=-0.0101% APR=-88.6% OI=\$0.7M
+
+--- Stablecoin depeg — 6 candidates ---
+  USTC     avg=\$0.00496 depeg=-9950.4bps (hi gate \$0.00498 / lo bybit \$0.00492)
+  SUSD     avg=\$0.25070 depeg=-7493.0bps (hi gate \$0.50140 / lo binance \$0.00000)
+  FRAX     avg=\$0.27017 depeg=-7298.3bps (hi gate \$0.27110 / lo bybit \$0.26920)
+  TUSD     avg=\$0.99670 depeg=-33.0bps (hi bybit \$0.99720 / lo binance \$0.99630)
+  FDUSD    avg=\$0.99795 depeg=-20.5bps (hi binance \$0.99800 / lo gate \$0.99790)
+  USDD     avg=\$0.99850 depeg=-15.0bps (hi gate \$0.99850 / lo gate \$0.99850)
+
+--- DEX-CEX arb (Uniswap V3 vs Binance) — 0 candidates ---
+
+--- Options RV/IV edge — 0 candidates ---
+
+--- Kimchi premium (Korean BTC vs Binance) — 3 candidates ---
+  upbit_usdt     premium=-0.624% (KRW=63610 USD~=\$63610.34 vs Binance \$64009.86)
+  upbit_krw      premium=-0.526% (KRW=91027000 USD~=\$63673.48 vs Binance \$64009.86)
+  bithumb_krw    premium=-0.520% (KRW=91032000 USD~=\$63676.98 vs Binance \$64009.86)
+
+--- Prediction market arb (Polymarket) --- 0 candidates ---
+
+--- Calendar spread (quarterlies) --- 2 candidates ---
+  BTCUSDT    BTCUSDT_260925         -> BTCUSDT_261225         spread=+110.0bps APR=+7.88% (short_far_long_near)
+  ETHUSDT    ETHUSDT_260925         -> ETHUSDT_261225         spread=+73.1bps APR=+5.23% (short_far_long_near)
+
+--- Curve pool depeg --- 1341 candidates ---
+  Curve.fi Factory Plain Pool: Z ZALOOP     price=$0.90890 depeg=-699.2bps
+  Curve.fi Factory USD Metapool: clevUSD    price=$0.90845 depeg=-527.3bps
+  Curve.fi Factory USD Metapool: FRAXBP     price=$1.00959 depeg=+527.3bps
+  DOLA/fxSAVE                    DOLA       price=$0.99702 depeg=-480.4bps
+  DOLA/fxSAVE                    fxSAVE     price=$1.09765 depeg=+480.4bps
+  NapierV2-PT/YieldFi yToken@17/ yUSD       price=$1.07813 depeg=+472.8bps
+  NapierV2-PT/YieldFi yToken@17/ PT-yUSD@17/6/2025 price=$0.98078 depeg=-472.8bps
+  USD3/USDM                      USD3       price=$1.09826 depeg=+469.7bps
+
+--- Stat arb (cointegration) --- 4 candidates ---
+  BTCUSDT    / ETHUSDT    beta=22.507 z=+2.62 (short BTCUSDT / long 22.51x ETHUSDT)
+  SOLUSDT    / AVAXUSDT   beta=5.907 z=-2.62 (long SOLUSDT / short 5.91x AVAXUSDT)
+  ETHUSDT    / AVAXUSDT   beta=111.170 z=-2.30 (long ETHUSDT / short 111.17x AVAXUSDT)
+  ARBUSDT    / OPUSDT     beta=0.242 z=+2.13 (short ARBUSDT / long 0.24x OPUSDT)
+
+--- alert dispatched ---
+

@@ -1,0 +1,16 @@
+R3(a) p2 vintage analysis (HUNT_COT2, 2026-09-07 ~12:3x):
+hypothesis: 09:01-09:09 more_etf refresh appended/revised ONLY 2026-09-03/04 bars;
+saved sleeves end 09-02 with stub returns (-4e-6) on 09-03/04 -> tail-only difference.
+
+CMDT2_CotGatedMom_9m_k2_thr0.2:
+  full overlap   n=3543 max|d|=4.54e-03 SR theirs=0.2453 mine=0.2464 dSR=+0.0010
+  cut @09-02     n=3541 max|d|=9.97e-17 SR theirs=0.2454 mine=0.2454 dSR=+0.0000  -> EXACT MATCH
+  tail rows theirs 09-03/04: [-4e-06, -4e-06]  mine: [0.004533, -0.001255]
+CMDT2_CotMom_9m_k2_UNGATED_ablation:
+  full overlap   n=3543 max|d|=4.23e-03 SR theirs=0.2120 mine=0.2133 dSR=+0.0013
+  cut @09-02     n=3541 max|d|=9.97e-17 SR theirs=0.2113 mine=0.2113 dSR=+0.0000  -> EXACT MATCH
+  tail rows theirs 09-03/04: [0.002108, 0.000168]  mine: [0.00634, -0.000132]
+
+VERDICT: data-vintage tail effect only (2 sessions, postdates their sleeve save).
+No historical revision, no lookahead (truncation probes bitwise-identical 4/4), no fraud.
+HUNT_CMDT2 round-2 verdicts stand: every rebuilt sleeve fails gate (a) SR>=1 by a wide margin.

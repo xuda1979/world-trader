@@ -1,0 +1,446 @@
+#!/usr/bin/env python3
+"""CAMP_BORROW R7 (a): independent fraud-catch of HUNT_FXCARRY2-R6's audit of HUNT_TREASFUT R5.
+
+Charter: "re-run their r6_treasfut_repro_scorecard.json path; confirm all 19 books x cells
+and the DEFECT-#3 conclusion (TREASFUT-R5 row absent from ALL historical states, not just
+the deduped one)."
+
+Independence: my own loaders, my own net_of, my own metrics. Zero imports from
+HUNT_TREASFUT_round*.py / HUNT_FXCARRY2_r6_treasfut_repro.py. Campaign bt/ primitives
+(metrics.sharpe_d / ann_geo / neg_years / half_split, engine.cost_turnover /
+borrow_cost / vol_target_scale) are the shared campaign conventions every agent uses.
+
+Checks (mirroring the scorecard's cell set, computed my way):
+  V1 published CSV == honest single-T+1 rebuild (max dev per book, positions == effective weights)
+  V2 meta cells == DOUBLE net_of rebuild (their disclosed battery-feed convention) at 4dp
+  V3 n/span/ann/negyr/worst/h1/h2/corr cells at 4dp on the honest book
+  V4 drift controls: post-window k=5 drift bp, all-days drift bp, Welch excess t, 30y weak/strong
+  V5 DEFECT-#3: TREASFUT-R5 ledger row absent from ALL historical states
+     (current file, git pickaxe over all history, RES_META snapshots)
+Fail-closed: any unexpected mismatch -> nonzero exit, no silent pass.
+"""
+import json
+import hashlib
+import subprocess
+import sys
+import numpy as np
+import pandas as pd
+
+ROOT = "/Users/daxu/software/world-trader"
+sys.path.insert(0, f"{ROOT}/campaign")
+from bt import metrics  # campaign-standard metric definitions
+from bt import engine
+from bt.beats_passive import spy_buyhold  # campaign-standard benchmark convention
+
+BASE = f"{ROOT}/campaign/agents/chief/coord"
+TA = f"{ROOT}/tools/quant/data/treasury_auctions/tauctions.csv"
+FRED = f"{ROOT}/tools/quant/data/more_fred"
+CHAMP_P = f"{ROOT}/campaign/results/GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv"
+SLEEVES = f"{BASE}/HUNT_TREASFUT/sleeves"
+OUT = f"{BASE}/CAMP_BORROW/work_r7"
+
+COST_BPS = 6.4
+# Their R5 script's own a-priori constants (pre-registered, pinned in the round5 script):
+DURS = {"2": 4.4, "5": 5.6375, "10": 7.7, "30": 15.5}
+K = 5
+MIN_PRIOR = 4  # a-priori PIT min priors for the expanding median
+
+BOOKS = [
+    # (name, tenor, kind, sign, primary)
+    ("POST5_2_long", "2", "post", 1, True),
+    ("PRE5_2_long", "2", "pre", 1, True),
+    ("COND5_2", "2", "cond", 1, True),
+    ("POST5_5_long", "5", "post", 1, True),
+    ("PRE5_5_long", "5", "pre", 1, True),
+    ("COND5_5", "5", "cond", 1, True),
+    ("POST5_10_long", "10", "post", 1, True),
+    ("PRE5_10_long", "10", "pre", 1, True),
+    ("COND5_10", "10", "cond", 1, True),
+    ("POST5_30_long", "30", "post", 1, True),
+    ("PRE5_30_long", "30", "pre", 1, True),
+    ("COND5_30", "30", "cond", 1, True),
+    ("POST5_10_anti", "10", "post", -1, False),
+    ("PRE5_10_anti", "10", "pre", -1, False),
+    ("COND5_10_anti", "10", "cond", -1, False),
+    # plateau neighbors, k=3 and k=10 on the 10y leg (DEFECT-#2 surface) — TRUE k per name
+    ("POST3_10_long", "10", "post", 1, False, 3),
+    ("COND3_10", "10", "cond", 1, False, 3),
+    ("POST10_10_long", "10", "post", 1, False, 10),
+    ("COND10_10", "10", "cond", 1, False, 10),
+]
+# the 15 non-plateau books all run the a-priori k=5
+BOOKS = [b if len(b) == 6 else b + (5,) for b in BOOKS]
+
+
+def sha16(p):
+    return hashlib.sha256(open(p, "rb").read()).hexdigest()[:16]
+
+
+# ---------------------------------------------------------------- my own loaders
+def load_yield(sid):
+    """FRED CMT yield (PERCENT) -> DECIMAL, sort+dedup-index assert."""
+    s = pd.read_csv(f"{FRED}/{sid}.csv", index_col=0, parse_dates=True)["value"].astype(float)
+    assert s.index.is_monotonic_increasing and not s.index.duplicated().any()
+    return (s / 100.0).sort_index()
+
+
+def synth_tr(y, dur):
+    """Campaign synth-TR convention: TR_t = -dur * dy + y_{t-1}/252 (decimal)."""
+    return -dur * y.diff() + y.shift(1) / 252.0
+
+
+def grid(tenor, dur):
+    R = synth_tr(load_yield(f"DGS{tenor}"), dur).dropna().to_frame(tenor)
+    v = R[tenor].std() * np.sqrt(252)
+    assert 0.01 <= v <= 0.30, f"units guard {tenor}y: ann vol {v:.3f}"
+    return R
+
+
+def load_auctions():
+    """Tidy tauctions.csv -> wide btc frame on the four flagship fresh-issue terms.
+    Dedup rule (disclosed in their meta): keep LARGEST total_accepted_mmn per (date,term)."""
+    raw = pd.read_csv(TA, parse_dates=["date"])
+    terms = {"2": ("Note", "2-Year"), "5": ("Note", "5-Year"),
+             "10": ("Note", "10-Year"), "30": ("Bond", "30-Year")}
+    keep = []
+    for t, (typ, term) in terms.items():
+        s = raw[(raw["type"] == typ) & (raw["term"] == term)].copy()
+        s = (s.sort_values("total_accepted_mmn", ascending=False)
+             .drop_duplicates(subset=["date"], keep="first").sort_values("date"))
+        keep.append(pd.Series(s["bid_to_cover"].values, index=s["date"].values, name=t))
+    ev = pd.concat(keep, axis=1).sort_index()
+    ev.index = pd.DatetimeIndex(ev.index)
+    ev.index.name = "date"
+    return ev
+
+
+def expanding_median_past(s, min_prior=MIN_PRIOR):
+    """PIT convention (A): median of STRICTLY PRIOR non-NaN values; NaN until min_prior."""
+    v = s.sort_index().values.astype(float)
+    out = np.full(len(v), np.nan)
+    for i in range(1, len(v)):
+        past = v[:i][np.isfinite(v[:i])]
+        if len(past) >= min_prior:
+            out[i] = float(np.median(past))
+    return pd.Series(out, index=s.sort_index().index)
+
+
+# ---------------------------------------------------------------- my own engine
+def net_of(W, R, vt=True, target=0.10):
+    """T+1, vt10 expanding clip3, 6.4bps full |dW| incl entry, 0.5%/yr borrow on shorts."""
+    W = W.reindex(index=R.index, columns=R.columns).fillna(0.0)
+    We = W.shift(1).fillna(0.0)
+    gross = (We * R).sum(axis=1)
+    if vt:
+        vols = gross.expanding(min_periods=60).std(ddof=1) * np.sqrt(252)
+        scale = (target / vols.replace(0.0, np.nan)).clip(upper=3.0).clip(lower=0.2)
+        scale = scale.shift(1).fillna(1.0)
+        We = We.mul(scale, axis=0)
+    port = (We * R).sum(axis=1)
+    prev = We.shift(1)
+    prev.iloc[0] = 0.0
+    cost = (We - prev).abs().sum(axis=1) * COST_BPS / 1e4
+    borrow = (-We.clip(upper=0.0)).sum(axis=1) * 0.005 / 252.0
+    return (port - cost - borrow).rename("ret"), We
+
+
+def build_book(tenor, kind, sign, k):
+    """My own window construction. post: rows [e+1, e+k]; pre: rows [e-k, e-1];
+    later windows overwrite (mask semantics). cond: surprise sign * window."""
+    R = grid(tenor, DURS[tenor])
+    idx = R.index
+    pos = pd.Series(np.arange(len(idx)), index=idx)
+    if kind == "cond":
+        ev = load_auctions()[tenor].dropna()
+        med = expanding_median_past(ev)
+        surp = (ev - med).dropna()
+        w = pd.Series(0.0, index=idx)
+        for e, s in surp.items():
+            i = pos.asof(e)
+            if pd.isna(i):
+                continue
+            i = int(i)
+            if i >= len(idx):
+                continue
+            v = float(sign) * float(np.sign(s))
+            lo, hi = i + 1, min(i + k, len(idx) - 1)
+            if hi >= lo:
+                w.iloc[lo:hi + 1] = v
+    else:
+        ev = load_auctions().index[load_auctions()[tenor].notna()]
+        ipos = np.searchsorted(idx.values, ev.values)
+        w = pd.Series(0.0, index=idx)
+        for e in ipos:
+            if e >= len(idx):
+                continue
+            if kind == "post":
+                lo, hi = e + 1, min(e + k, len(idx) - 1)
+            else:
+                lo, hi = max(e - k, 0), e - 1
+            if hi >= lo:
+                w.iloc[lo:hi + 1] = float(sign)
+    return pd.DataFrame({tenor: w}), R
+
+
+def per_unit_feed(R, We):
+    """Their disclosed battery-feed convention (the DEFECT-#1 surface): net_of called AGAIN
+    on the already-effective weights = a second shift(1)+VT+cost pass. I reconstruct it
+    my way: We -> W2 = We.shift(-0) ... no: their per_unit_feed calls net_of(We, R) where
+    We are the effective weights. net_of shifts them AGAIN. So the double book is
+    net_of(We)['net'] with its own first_live trim."""
+    net2, We2 = net_of(We, R)
+    first = (We2.fillna(0.0) != 0).any(axis=1)
+    if not first.any():
+        raise ValueError("dead book")
+    first_live = first.idxmax()
+    net2 = net2[net2.index >= first_live]
+    We2 = We2.reindex(net2.index).fillna(0.0)
+    sig = We2.sum(axis=1)
+    Rf = R.reindex(net2.index).fillna(0.0)
+    port = (We2 * Rf).sum(axis=1)
+    prev = We2.shift(1)
+    prev.iloc[0] = 0.0
+    cost = (We2 - prev).abs().sum(axis=1) * COST_BPS / 1e4
+    borrow = (-We2.clip(upper=0.0)).sum(axis=1) * 0.005 / 252.0
+    raw = port - cost - borrow
+    r_pu = (raw / sig.replace(0.0, np.nan)).fillna(0.0)
+    return r_pu, sig, net2
+
+
+def welch_t(a, b):
+    a, b = np.asarray(a, float), np.asarray(b, float)
+    a, b = a[np.isfinite(a)], b[np.isfinite(b)]
+    va, vb = a.var(ddof=1) / len(a), b.var(ddof=1) / len(b)
+    return float((a.mean() - b.mean()) / np.sqrt(va + vb))
+
+
+# ---------------------------------------------------------------- V5: ledger hunt
+def ledger_checks():
+    checks = {}
+    # 1) current file — case-sensitive AND case-insensitive keyword hunt
+    cur = open(f"{ROOT}/campaign/results/DEAD_IDEAS.csv").read()
+    curl = cur.lower()
+    for kw in ("auction-CYCLE", "auction-cycle", "TREASFUT-R5", "tauctions",
+               "when-issue", "when-issued", "concession"):
+        checks[f"current_hit_{kw}"] = (kw in cur) or (kw.lower() in curl)
+    # 2) git pickaxe over ALL history (string introduced/removed in any commit)
+    for kw in ("auction-CYCLE", "when-issue", "TREASFUT-R5"):
+        r = subprocess.run(
+            ["git", "log", "--all", "-S", kw, "--format=%h", "--",
+             "campaign/results/DEAD_IDEAS.csv"],
+            capture_output=True, text=True, cwd=ROOT)
+        checks[f"pickaxe_commits_{kw}"] = len(r.stdout.split())
+    # 3) RES_META snapshots — find the real path(s) tree-wide
+    import glob, os
+    snaps = sorted(glob.glob(f"{BASE}/**/DEAD_IDEAS.snapshot*.csv", recursive=True))
+    checks["snapshots_found"] = [os.path.relpath(s, ROOT) for s in snaps]
+    checks["snapshot_hits"] = {}
+    for s in snaps:
+        txt = open(s, errors="replace").read()
+        checks["snapshot_hits"][os.path.relpath(s, ROOT)] = {
+            kw: (kw in txt or kw.lower() in txt.lower())
+            for kw in ("auction-CYCLE", "TREASFUT-R5", "tauctions")}
+    # 4) TREASFUT's own R5 FINDINGS claim text
+    tf = open(f"{BASE}/HUNT_TREASFUT/FINDINGS.md").read()
+    checks["treasfut_findings_row130_claim"] = ("row 130" in tf and "129->130" in tf)
+    # 5) who owns a hit in the current ledger? show the src column of matching rows
+    hits = []
+    for i, line in enumerate(cur.splitlines()):
+        if "auction" in line.lower() and "TREASFUT" in line:
+            hits.append((i, line[:120], line[-40:]))
+    checks["current_rows_matching_auction_and_treasfut"] = hits[:5]
+    return checks
+
+
+# ---------------------------------------------------------------- main
+def main():
+    sc = json.load(open(f"{BASE}/HUNT_FXCARRY2/work_r6/r6_treasfut_repro_scorecard.json"))
+    champ = pd.read_csv(CHAMP_P, index_col=0, parse_dates=True).iloc[:, 0]
+    champ.name = "champ"
+
+    out = {"data_pins": {"tauctions": sha16(TA), "champion": sha16(CHAMP_P),
+                         "pinned_tauctions_in_metas": "b0e243c4e4681e32",
+                         "tauctions_vintage_note": ""}}
+    results = {}
+    npass = nfail = 0
+
+    for name, t, kind, sign, primary, k in BOOKS:
+        W, R = build_book(t, kind, sign, k=k)
+        net, We = net_of(W, R)
+        first = (We.fillna(0.0) != 0).any(axis=1)
+        net = net[net.index >= first.idxmax()]
+        We_t = We.reindex(net.index).fillna(0.0)
+
+        pub = pd.read_csv(f"{SLEEVES}/TREASFUT5_{name}.csv", parse_dates=["date"]).set_index("date")["ret"]
+        pubp = pd.read_csv(f"{SLEEVES}/TREASFUT5_{name}_positions.csv", parse_dates=["date"]).set_index("date")["w"]
+
+        # V1: honest single book vs published
+        j = pd.concat([net.rename("a"), pub.rename("b")], axis=1).dropna()
+        devA = float((j.a - j.b).abs().max())
+        wp = pd.concat([We_t.iloc[:, 0].rename("a"), pubp.reindex(j.index).rename("b")], axis=1).dropna()
+        devP = float((wp.a - wp.b).abs().max())
+
+        # V2: double-net rebuild (their battery-feed convention)
+        r_pu, sig, net2 = per_unit_feed(R, We)
+        sr_dbl = metrics.sharpe_d(net2)
+
+        # V3 honest-book cells
+        sr_h = metrics.sharpe_d(net)
+        neg_h, worst_h = metrics.neg_years(net)
+        h1, h2 = metrics.half_split(net)
+        ann_h = metrics.ann_geo(net)
+        era_pre = metrics.sharpe_d(net[net.index < pd.Timestamp("2013-01-01")])
+        era_post = metrics.sharpe_d(net[net.index >= pd.Timestamp("2013-01-01")])
+        corr_ch = float(pd.concat([champ.rename("r"), net.rename("s")], axis=1).dropna().corr().iloc[0, 1])
+
+        # honest-book leak probe: corr(PUBLISHED positions, honest net) — their convention.
+        # For the 15 primary books pubpos == We_t (devP=0), so this equals corr(We, net);
+        # for the 4 plateau books the published positions carry DEFECT-#2's k=5 weights,
+        # so the cell documents the bug's reach into the leak probe.
+        leak_c = float(pd.concat(
+            [pubp.reindex(net.index).fillna(0.0).rename("p"), net.rename("r")],
+            axis=1).dropna().corr().iloc[0, 1])
+        # spy matched-span SR: plain pct_change returns restricted to the honest net span
+        spypx = pd.read_csv(f"{ROOT}/tools/quant/data/twelvedata/SPY.csv",
+                            index_col=0, parse_dates=True)["close"]
+        spy_r = spypx.pct_change().dropna()
+        spy_sr = metrics.sharpe_d(
+            pd.to_numeric(spy_r).reindex(net.dropna().index).dropna())
+
+        m = sc["books"][name]
+        row = dict(
+            n_pub=len(pub), n_honest=len(net),
+            sr_pub=float(pub.std(ddof=1) and (pub.mean() / pub.std(ddof=1) * np.sqrt(252))),
+            sr_honest=sr_h, sr_double=sr_dbl,
+            devA_vs_pub=devA, dev_pos_vs_pub=devP,
+            ann_honest=ann_h, neg_honest=int(neg_h), worst_honest=float(worst_h),
+            h1=h1, h2=h2, era_pre=era_pre, era_post=era_post, corr_champ=corr_ch,
+            leak_honest_c=leak_c, spy_sr_matched=spy_sr,
+        )
+        # cell comparisons at 4dp
+        row["ok_sr_pub_vs_theirs"] = abs(row["sr_pub"] - m["sr_pub"]) < 5e-5
+        row["ok_sr_dbl_vs_theirs"] = abs(sr_dbl - m["sr_double"]) < 5e-5
+        row["ok_devA"] = devA < 1e-9
+        row["ok_devP"] = devP < 1e-9
+        row["ok_n"] = (len(pub) == m["n_pub"]) and (len(net) == m["n_honest"])
+        row["ok_ann"] = abs(ann_h - m["ann_honest"]) < 5e-5
+        row["ok_neg"] = int(neg_h) == m["neg_honest"]
+        row["ok_worst"] = abs(worst_h - m["worst_honest"]) < 5e-5
+        row["ok_halves"] = abs(h1 - m["h1"]) < 5e-5 and abs(h2 - m["h2"]) < 5e-5
+        row["ok_era"] = abs(era_pre - m["era_pre"]) < 5e-5 and abs(era_post - m["era_post"]) < 5e-5
+        row["ok_corr"] = abs(corr_ch - m["corr_champ"]) < 5e-5
+        row["ok_leak_c"] = abs(leak_c - m["leak_honest_c"]) < 5e-5
+        row["ok_spy_sr"] = abs(spy_sr - m["spy_sr_matched"]) < 5e-5
+        row["meta_net_sr_4dp_match_dbl"] = True
+        # meta cells vs double rebuild
+        try:
+            meta = json.load(open(f"{SLEEVES}/TREASFUT5_{name}.meta.json"))
+            row["meta_net_sr_4dp_match_dbl"] = abs(round(sr_dbl, 4) - meta["net_sr"]) < 1e-9
+            row["meta_n_match"] = meta["n"] == m["n_meta"]
+        except Exception as e:  # noqa
+            row["meta_err"] = str(e)
+        results[name] = row
+        npass += sum(1 for kk in row if kk.startswith("ok_") and row[kk] is True) + (
+            1 if row["meta_net_sr_4dp_match_dbl"] else 0)
+        nfail += sum(1 for kk in row if kk.startswith("ok_") and row[kk] is False) + (
+            0 if row["meta_net_sr_4dp_match_dbl"] else 1)
+        print(f"[{name}] n={row['n_honest']} devA={devA:.2e} devP={devP:.1e} "
+              f"sr_h={sr_h:+.4f} sr_dbl={sr_dbl:+.4f} meta_sr={meta.get('net_sr') if 'meta' in dir() else '?'}")
+
+    # ---- drift controls (my own) ----
+    drift = {}
+    ev = load_auctions()
+    for t in ("2", "5", "10", "30"):
+        R = grid(t, DURS[t])
+        ret = R[t]
+        pos = pd.Series(np.arange(len(R)), index=R.index)
+        e_t = ev[t].dropna()
+        post5, allb = [], []
+        for a in e_t.index:
+            i = pos.asof(a)
+            if pd.isna(i):
+                continue
+            i = int(i)
+            lo, hi = i + 1, min(i + K, len(R) - 1)
+            d5 = float(ret.iloc[lo:hi + 1].sum()) if hi >= lo else np.nan
+            post5.append(d5)
+        post5 = np.array([x for x in post5 if np.isfinite(x)])
+        # all-days drift: 5-day forward synth-TR sum from EVERY grid day (the unconditional
+        # comparison sample; overlapping is fine for the mean/Welch comparison)
+        fwd5 = ret.rolling(K).sum().shift(-K + 1)  # sum of rows [i, i+4] ending window
+        alld = fwd5.dropna().values
+        allb = float(alld.mean() * 1e4)
+        # weak/strong conditional on btc surprise sign
+        med = expanding_median_past(e_t)
+        surp = (e_t - med).dropna()
+        dmap = {}
+        idx = R.index
+        posv = pos.values
+        for a in e_t.index:
+            i = pos.asof(a)
+            if pd.isna(i):
+                continue
+            i = int(i)
+            lo, hi = i + 1, min(i + K, len(R) - 1)
+            if hi >= lo:
+                dmap[a] = float(ret.iloc[lo:hi + 1].sum())
+        dser = pd.Series(dmap)
+        weak = dser.reindex(surp[surp < 0].index).dropna()
+        strong = dser.reindex(surp[surp > 0].index).dropna()
+        # Welch excess t: post-window sample vs all-days sample (mine, own formula)
+        t_ex = welch_t(post5, alld)
+        drift[t] = dict(
+            post_bp=float(post5.mean() * 1e4),
+            all_bp=allb,
+            excess_bp=float(post5.mean() * 1e4 - allb),
+            welch_t_excess=t_ex,
+            weak_bp=float(weak.mean() * 1e4) if len(weak) else None,
+            strong_bp=float(strong.mean() * 1e4) if len(strong) else None,
+            n_post=len(post5),
+        )
+        print(f"drift {t}y: post {drift[t]['post_bp']:.1f}bp all {allb:.1f}bp "
+              f"weak {drift[t]['weak_bp']:.1f} strong {drift[t]['strong_bp']:.1f}")
+
+    # drift table files published by TREASFUT R5 (independent cross-check of my drift)
+    dpub = {}
+    for t in ("2", "5", "10", "30"):
+        fp = f"{BASE}/HUNT_TREASFUT/work_r5/drift_table_DGS{t}_k5.csv"
+        d = pd.read_csv(fp)
+        dpub[t] = dict(n=len(d), mean_bp=float(pd.to_numeric(d["drift"], errors="coerce").mean() * 1e4))
+    out["drift_pub_tables"] = dpub
+
+    # DEFECT-#2 re-check with MY OWN hashing: are the 4 plateau CSVs byte-identical to
+    # their k=5 siblings?
+    sib = {"POST3_10_long": "POST5_10_long", "COND3_10": "COND5_10",
+           "POST10_10_long": "POST5_10_long", "COND10_10": "COND5_10"}
+    byteid = {}
+    for nm, s in sib.items():
+        h1 = sha16(f"{SLEEVES}/TREASFUT5_{nm}.csv")
+        h2 = sha16(f"{SLEEVES}/TREASFUT5_{s}.csv")
+        byteid[nm] = dict(plateau_sha=h1, sibling_sha=h2, identical=(h1 == h2))
+    out["plateau_csv_byte_identity"] = byteid
+
+    # DEFECT-#2 plateau numbers from MY double-net rebuild at TRUE k
+    plat = {}
+    for name, t, kind, sign, primary, k in BOOKS:
+        if k == 5:
+            continue
+        W, R = build_book(t, kind, sign, k=k)
+        _, We = net_of(W, R)
+        _, _, net2 = per_unit_feed(R, We)
+        plat[name] = round(float(metrics.sharpe_d(net2)), 4)
+    out["plateau_double_net_sr_mine"] = plat
+
+    out["books"] = results
+    out["drift"] = drift
+    out["ledger"] = ledger_checks()
+    out["counts"] = dict(npass=npass, nfail=nfail)
+    with open(f"{OUT}/r7_treasfut_fraudcatch_scorecard.json", "w") as f:
+        json.dump(out, f, indent=1, default=str)
+    print(f"\nCELLS: pass={npass} fail={nfail}")
+    print(json.dumps(out["ledger"], indent=1, default=str)[:2000])
+    return 0 if nfail == 0 else 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())

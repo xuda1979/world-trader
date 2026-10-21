@@ -1,0 +1,17 @@
+name=COMP_50_50_monthly
+verdict=FAIL_SR|FAIL_NEGYR
+sr=0.613
+ann=6.23
+vol=10.16
+h1=0.56
+h2=0.75
+neg_yr=1
+n_yr=9
+worst=-7.3
+corr_champ=-0.114
+scramble_p=0.01
+plateau=PASS
+yearly={2018: 7.79, 2019: 18.04, 2020: 0.52, 2021: 8.24, 2022: -7.3, 2023: 8.07, 2024: 5.83, 2025: 4.7, 2026: 3.56}
+cost=6.4bps FULL |dW| at ALLOCATION level (sleeve legs self-financing, internal turnover already in published nets) + day-0 entry; T+1; trailing VT10 clip3 on the WEIGHTED composite book
+ctl_p_meaning=adversarial control: corr/vol-matched ZERO-MEAN random leg in B's slot at same split; p>=0.05 -> edge is diversification-of-noise (FAIL_SCRAMBLE). p=0.01
+rationale=Diversification math on two PUBLISHED round-2 sleeves; no new signal params. Composite of decorrelated positive-SR books raises SR by 1/sqrt(1+rho) style math; charter asked whether 0.68/0.61 sleeves at rho=+0.72 clear 1.0 (they cannot).

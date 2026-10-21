@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.worldtrader.money-loop</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>-c</string>
+        <string>cd /Users/daxu/software/world-trader &amp;&amp; set -a &amp;&amp; . ./.env.local &amp;&amp; set +a &amp;&amp; /Users/daxu/homebrew/bin/python3 tools/money_loop.py &gt;&gt; tools/logs/money-loop-cron.log 2&gt;&amp;1</string>
+    </array>
+    <key>StartInterval</key>
+    <integer>1800</integer>
+    <key>StandardOutPath</key>
+    <string>/Users/daxu/software/world-trader/tools/logs/money-loop.out.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/daxu/software/world-trader/tools/logs/money-loop.err.log</string>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/Users/daxu/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+    </dict>
+    <key>ProcessType</key>
+    <string>Background</string>
+</dict>
+</plist>

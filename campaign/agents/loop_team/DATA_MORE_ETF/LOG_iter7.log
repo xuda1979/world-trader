@@ -1,0 +1,14 @@
+=== loop_team/DATA_MORE_ETF start Thu Sep  3 15:00:31 CST 2026 ===
+Charter fully executed. Final summary:
+
+**DATA_MORE_ETF results (all verified with fresh evidence):**
+- **45/46 charter symbols** delivered to `tools/quant/data/more_etf/` — 217,522 rows, all ending 2026-09-02, `ALL 45 LINT PASS`
+- **1 deterministic failure: EID** — invalid on TwelveData (retried) and Finnhub (all-zero quote); likely intended EIDO, flagged for coordinator approval rather than guessed
+- **11 targets skipped correctly** (already on disk in twelvedata/; not overwritten)
+- **TDD rigor**: 10 lint tests written first, RED observed (`ModuleNotFoundError`), then GREEN (`10 passed`); missing-file guard added later with regression re-run
+- **Fail-closed gate caught a real data bug**: TwelveData ships dual-vendor duplicate rows for EEM/EWT (1508 dup dates in main window + 106 pre-2012; EEM vendors disagree on 163 opens and volume digits) — root-caused, repaired via keep-first dedup with fresh two-window fetch + atomic write, and history extended (EWT back to 2000-06-23, 6587 rows)
+- **Cross-validation**: 5/5 Finnhub spot-checks match TwelveData closes exactly (XLK 183.60, SMH 550.48, EEM 67.15, DBC 31.93, SHY 81.64); plausibility multiples sane (XLK 16.24x vs XLU 2.45x over 20y)
+- **Containment**: 0 writes outside `more_etf/`; manifest-vs-disk mismatches: NONE; ~55 TwelveData calls with sleep(8), 0 HTTP 429s
+- All exact numbers, spans, gaps, and root-cause trails recorded in `FINDINGS.md`
+
+DATA_MORE_ETF DONE

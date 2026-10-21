@@ -1,0 +1,22 @@
+=== BLOTTER_TESTER start Thu Sep  3 10:18:53 CST 2026 ===
+FINDINGS.md is written with the required last line. Here's the summary of my adversarial audit:
+
+## BLOTTER_TESTER — Executive Summary
+
+**Baseline:** `honest13_build.py --verify-v3` reproduces all 3 champion CSVs (max|diff| 9.988e-17); the committed blotter code regenerates the delivered CSV **byte-exact (0.0)** — after the file was edited mid-session, which I caught and documented as a provenance hazard.
+
+**All 8 charter checks executed with exact numbers. Key verdicts:**
+
+1. **PnL repro (Check B) — FAIL from the ledger alone.** Full-model rebuild = 9.988e-17 ✓, but the ledger reconstructs the champion with max daily diff **1.181e-3** (5,024/5,086 days). WHY: the ledger is built from the **AGGRESSIVE book only** (`TGT=0.091` hardcode; 716.70x vs 600.78x charged = 119.30%) and **omits tw 293.37x (17.60% NAV), throttle dsc 8.75x, and borrow 6.35% NAV** entirely → net cost gap −14.65% NAV. The standard's "reconcile gate #2" is vacuous as written.
+
+2. **6 vs 6.4bps gap:** ledger stamps 6.4, builder charges 6.0 → **11.91 bps/yr = 0.1191%/yr**; champion ann 43.6122% → 43.4410%.
+
+3. **Sparse-gap undercharge:** reproduced exactly — **716.7 charged vs 746.4 held-across (+4.1%)**; my hybrid per-instrument-convention honest cost = **764.3x = 2.2722%/yr vs charged 1.7860%/yr → 0.4861%/yr undercharge** (~0.49pp off the headline).
+
+4. **189,832 GLD bug — CONFIRMED to the digit:** pre-fix `_synth_px` compounded `1+Sd` where Sd holds vol-target **scales** (mean 1.413862, cap 8) → **189,832.7 exactly at 2006-12-29**, then →inf. Delivered CSV is post-fix (SYNTH 96–753). But carryv2 can never print REAL: GLD isn't in the harness panel (298 tickers) though **xau.csv exists on disk** (5,000 rows → 4,367.22). Also flagged: a6r7/QAxasts print DGS yields (0.09–5.26) labeled "TREASURY FUT".
+
+5. **Borrow: ABSENT from ledger** — 0.3146%/yr charged in PnL (per-sleeve breakdown in FINDINGS), no borrow column.
+
+**Plus:** T+1 lookahead **PASS** (extra-lag probe: 5,026/9,293 days differ, no same-day leak), exec-price timestamp flaw (t-close vs t-1-close, mean 72 bps), 140 holiday-trade records.
+
+**Deliverable:** 9 severity-ranked bugs (1 critical, 5 major, 3 minor) + 6-step fix plan in `campaign/agents/loop_team/BLOTTER_TESTER/FINDINGS.md`.

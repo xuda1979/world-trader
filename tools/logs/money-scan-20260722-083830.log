@@ -1,0 +1,258 @@
+=== MONEY-LOOP scan started 2026-07-22 08:38:30 ===
+=== WORLD-TRADER GLOBAL SCAN  2026-07-22T00:38:31+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+-- OPEN NOW: 6 markets --
+   + AU (Australia (ASX))
+   + CRYPTO (Crypto (24/7))
+   + FUT (Futures (CME/GLOBEX: commodities, bonds, index))
+   + FX (FX (24/5))
+   + JP (Japan (TSE))
+   + KR (Korea (KRX))
+
+-- REGIME: RISK-ON  (score +0.46) --
+   VIX=18.65(+0.09)  HY=2.69(+0.91)  10Y-2Y=0.37(+0.37)
+   crypto fear&greed: 33 (Fear)
+   [+spillover: 5 cross-asset candidates from 1 themes]
+
+-- LIVE QUOTES: 214 instruments fetched (crypto RT, US, China A-share live, Taiwan live, FX)  [wide US unavailable: ConnectionResetError: [Errno 54] Connection reset by peer]  [+wide CN A-share: 600 of 600 liquid names -> top 120, backtested] --
+
+=== OPPORTUNITIES (ranked by per-trade expected Sharpe = E[R]/sigma) ===
+  markets open now (2026-07-22T00:48:42+00:00): AU, CRYPTO, FUT, FX, JP, KR
+  YOUR BAR to qualify: E[R]>=+1%/trade, sigma<=7%*sqrt(h/5), Sharpe>=0.40, n>=20, t>=2 (Bonferroni-adj.), OOS Sharpe>0
+  >> markets open (AU, CRYPTO, FUT, FX, JP, KR) but no positive-expectancy edge measured this scan -- stand aside. An empty table is the honest answer.
+
+-- MACRO / RATES / CREDIT (FRED) --
+  US 3M yield                3.8600000000  (2026-07-20)
+  US 2Y yield                4.2100000000  (2026-07-20)
+  US 10Y yield               4.6000000000  (2026-07-20)
+  US 30Y yield               5.1100000000  (2026-07-20)
+  10Y-2Y spread                    0.37  (2026-07-21)
+  10Y-3M spread                    0.76  (2026-07-21)
+  Fed funds                  3.6300000000  (2026-07-20)
+  VIX                             18.65  (2026-07-20)
+  US HY credit spread              2.69  (2026-07-20)
+  US IG credit spread              0.78  (2026-07-20)
+  WTI oil                          79.2  (2026-07-13)
+  Brent oil                       81.62  (2026-07-13)
+  USD/EUR                         1.144  (2026-07-17)
+  Broad USD index              120.5315  (2026-07-17)
+  Fin conditions index         -0.53800  (2026-07-10)
+  Fed balance sheet             6743028  (2026-07-15)
+  M2 money supply               23052.3  (2026-05-01)
+  Unemployment rate                 4.2  (2026-06-01)
+  CPI                           332.568  (2026-06-01)
+  5Y inflation breakeven           2.28  (2026-07-21)
+  UST curve: 10Y 4.60%  30Y 5.11%
+
+-- CATALYST CALENDAR (next 14d; today=2026-07-22) --
+  (no actionable upcoming catalysts found)
+  errors: earnings: net: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1081); ipo: net: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1081); fda: net: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1081); dividends: net: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1081)
+
+-- NEWS (expanded feeds) --
+  [MarketWatch]
+    - Super Micro’s stock soars as its margins unexpectedly double
+    - This is the ideal retirement strategy if you want to keep your healthcare costs down
+    - SpaceX’s stock snaps brutal losing streak ahead of key Starship rocket launch
+  [Nasdaq-Mkts]
+    - Should You Buy Moderna Stock Hand Over Fist Before Aug. 5?
+    - What This Synaptics CEO Filing Signals to Investors as Core IoT Sales Grow 31%
+    - Fantastic News for Netflix Stock Investors!
+  [Nasdaq-Stocks]
+    - Soybeans Ease Lower on Turnaround Tuesday
+    - Wheat Rallies Late on Tuesday
+    - Corn Firm Late to Close Tuesday with Gains
+  [SeekingAlpha]
+    - NPCT: High Leverage And Tight Spreads Equal A Clear 'Sell'
+    - The J. M. Smucker Company Is Looking Tasty Here
+    - Gasoline Prices Jump Back Above $4.00
+  [WSJ-Markets]
+    - Super Micro’s stock soars as its margins unexpectedly double
+    - This is the ideal retirement strategy if you want to keep your healthcare costs down
+    - SpaceX’s stock snaps brutal losing streak ahead of key Starship rocket launch
+  [CNBC-Top]
+    - Super Micro surges 15% on new order and margin disclosure after SpaceX announcement
+    - Goldman Sachs creates private markets platform as rich investors seek the next SpaceX and Stripe
+    - The Fed rang the alarm about Anthropic's Mythos AI model — but had to go months without it
+  [CNBC-Markets]
+    - Nike to cut off thousands of online distributors in China, restructure digital footprint
+    - RFK Jr. says cyclospora outbreak is 'under control'
+    - Goldman Sachs creates private markets platform as rich investors seek the next SpaceX and Stripe
+  [FedPress]
+    - Agencies issue joint statement on handling of highly sensitive information during bank examinations
+    - Federal Reserve Board issues enforcement action with former chief lending officer of Heritage State Bank
+    - Minutes of the Board's discount rate meetings on June 8 and June 17, 2026
+  [ECB]
+    - ECB appoints Boris Kisselevsky as Director General Secretariat
+    - July 2026 euro area bank lending survey
+    - Survey on the Access to Finance of Enterprises: lending conditions tightened
+  [BoE]
+    - PRA fines HDI Global SE £4,165,000 for inaccurate reporting of FSCS Liabilities and FSCS Fee Tariff data
+    - PRA and FCA propose new captive insurance regime to drive UK growth and competitiveness
+    - Minutes of the Money Market Committee meeting – June 2026
+  [BoJ]
+    - Statistics on Securities Financing Transactions in Japan
+    - Loan Disbursement under the Funds-Supplying Operations to Support Financing for Climate Change Responses
+    - Senior Loan Officer Opinion Survey (July)
+  [Cointelegraph]
+    - CLARITY Act could help CFTC deal with prediction markets: Lawyer
+    - Movement Labs files for Chapter 11 bankruptcy after months of MOVE token turmoil
+    - Ether breaks the $1.9K resistance; is $2.1K the next target for ETH bulls?
+  [Decrypt]
+    - DAT Went Wrong: Satsuma to Unwind Bitcoin Treasury, Sell Off $43 Million in BTC
+    - OpenAI Models Escaped Locked Test Environment, Hacked Hugging Face to Cheat on Benchmark
+    - Pavel Durov Wants to Give a Billion Telegram Users a Crypto Wallet
+  [TheBlock]
+    - Trump-backed crypto ethics rule puts DOJ in charge of enforcement, prohibits federal officials from issuing cryptocurrencies: sources
+    - The Digital Chamber sues Illinois over incoming crypto transaction tax
+    - Canton developer Digital Asset raises additional $10 million at same $2 billion equity valuation
+  [FXStreet]
+    - Iran says interests of US and its allies will be targeted if US strikes Iran's nuclear sites
+    - Gold rebounds above $4,050 as safe-haven demand intensified on persistent US‑Iran tensions
+    - British Pound Sterling gets a decent jobs report and sells off anyway
+  [OilPrice]
+    - Chinas Next Move Could Decide Where Oil Prices Go This Year
+    - Fossil Fuels Still Generate 57% of the Worlds Electricity
+    - US Crude Oil Inventories Build As Hormuz Shipping Headache Drags On
+  [Mining.com]
+    - US Departments of Energy and Labor ink MoU to accelerate AI deployment in mining sector
+    - ERI, Cyclic Materials partner to recover and recycle rare earths from e-waste
+    - Movie producer Lee Caplin joins NovaRed Mining after Noem
+  [SpaceNews]
+    - Zenno Astronautics to relocate to the United States
+    - SpaceX launches Northrop mission to extend the life of aging satellites
+    - Northrop adds to charges on Vulcan solid rocket motor program
+  [TechCrunch]
+    - Meta is testing an AI bedtime story app for people with no imagination
+    - These are the countries moving to ban social media for children
+    - OpenAI says Hugging Face was breached by its pre-release models
+  [BioPharma]
+    - <a href="/pharma/amgen-agrees-74m-settlement-resolve-investor-lawsuit-over-107b-tax-bill" hreflang="en">Amgen agrees to $74M settlement to resolve investor lawsuit over potential $10.7B tax bill</a>
+    - <a href="/pharma/sanofi-continues-tweaks-executive-roster-new-ceo-garijo-settles" hreflang="en">Sanofi continues tweaks to executive roster as new CEO Garijo settles in</a>
+    - <a href="/pharma/alembic-bioequivalence-site-slapped-fda-warning-letter-over-informed-consent-concerns" hreflang="en">Alembic site slapped with FDA warning letter over patient consent concerns</a>
+  [PV-Magazine]
+    - POWEROAD builds eco-partnerships to strengthen its presence in European market
+    - Germany’s degraded peatlands offer up to 268 GW of solar potential
+    - Acciona Energía tests hybrid battery-ultracapacitor storage in Spain
+  [Electrek]
+    - GM just added ChargePoint to its EV apps
+    - Kia PV5 High Roof spotted in public for the first time [Video]
+    - NHTSA targets Teslas Radar Saves Us document in FSD crash probe
+  [HinduBiz]
+    - Cube Highways Trust raises ₹1,687.5 crore from anchor investors ahead of InvIT IPO
+    - Oil climbs as traders weigh slew of risks from Hormuz to Red Sea
+    - India’s moong sowing dips 11% on lower rainfall, likely to gather pace
+  [Brazil-Exame]
+    - Por que nossos dedos têm tamanhos diferentes? A resposta está na evolução
+    - Como serão as Eliminatórias para a Copa do Mundo de 2030? Veja o que se sabe
+    - Odisseu existiu? Descoberta em Ítaca reacende mistério por trás da 'Odisseia'
+  [MiningCom]
+    - US Departments of Energy and Labor ink MoU to accelerate AI deployment in mining sector
+    - ERI, Cyclic Materials partner to recover and recycle rare earths from e-waste
+    - Movie producer Lee Caplin joins NovaRed Mining after Noem
+  [FarmProgress]
+    - Corn found some Tuesday traction
+    - Consider flying cereal rye into standing corn
+    - Crop progress: Corn ratings shift slightly lower
+  [BitcoinMag]
+    - Bitcoin is NOT Changed by Proof Of Node
+    - Bitcoin Maxi Jack Dorsey Unveils New Open Source Group Chat App
+    - Coinbase Wants To Be Canadas Everything Exchange — With Crypto, Stocks, and Prediction Markets
+  [TheDefiant]
+    - SummerFi to Wind Down After Seven Years, Citing Exploit
+    - eToro Takes Strategic Stake in Onchain Derivatives Exchange Extended, Plans Zengo Tie-Up
+    - NEAR Governance Votes to Scrap Developer Gas Rebate
+  [Pandaily]
+    - Zhipu AI Computing Ambitions Surface: 1GW Data Center, Hundreds of Millions in Infrastructure Acquisition, and Self-Developed Chip Plans Signal Nvidia Independence Push
+    - XPower Technology Defies Big-Chip Orthodoxy: Small RPP Architecture Chips Use Distributed Computing to Beat Giants at AI Inference
+    - Tencent ProLaViT Teaches Multimodal LLMs to Reason Step-by-Step in Latent Space, Ending Swallowing-Whole Visual Reasoning Failures
+  [TechNode]
+    - BrainCo demos thought-controlled robots at WAIC 2026
+    - Moore Threads packs 256 GPUs into its MTT C256 system
+    - Alibaba outlines Qwen3.8 with 2.4 trillion parameters
+  [ChinaBriefing]
+    - The Greater Bay Area IIT Subsidy for 2026 Kickstarts in Shenzhen
+    - US-China Relations in the Trump 2.0 Era: A Timeline
+    - Why China is Still the Top 1 Manufacturing Destination in Asia
+  [VentureBeat-AI]
+    - The AI compute gap: Enterprises are buying infrastructure faster than they can measure what it costs
+    - The agent security gap: 54% of enterprises have already had an AI agent incident, and most still let agents share credentials
+    - The AI context gap: Enterprise AI organizations have a trust problem, not a retrieval problem — and most are still building the fix
+
+-- SEC 8-K MATERIAL CATALYSTS (last 3 days) --
+  2026-07-21 ----   [1.01,2.01,5.02,5.07,]  Vicarious Surgical Inc.  (RBOT, RBOTW)
+  2026-07-21 ISSC   [1.01,2.01,2.03,8.01,]  INNOVATIVE SOLUTIONS & SUPPORT INC  (ISS
+  2026-07-21 NNDM   [1.01,5.01,5.02,5.07,]  Nano Dimension Ltd.  (NNDM)
+  2026-07-21 GOCOQ  [9.01]  GoHealth, Inc.  (GOCOQ)
+  2026-07-21 ----   [1.01,1.02,2.01,2.03,]  KORE Group Holdings, Inc.  (KORE, KORGW)
+  2026-07-21 AMAC   [1.01,3.02,5.02,5.03,]  AMR Resources Acquisition Corp.  (AMAC)
+  2026-07-21 IPW    [1.01,8.01,9.01]  iPower Inc.  (IPW)
+  2026-07-21 STCB   [1.01,2.01,2.03,7.01,]  Starco Brands, Inc.  (STCB)
+  2026-07-21 ----   [1.01,2.03,5.02,7.01,]  Neostellar Capital Corp.  (NSLR, NSLRL)
+  2026-07-20 ATER   [1.01,1.02,2.01,3.02,]  Aterian, Inc.  (ATER)
+  2026-07-20 APM    [2.01,3.03,5.02,5.03,]  Niki BioSolutions, Inc.  (APM)
+  2026-07-20 BGDE   [1.01,2.01,7.01,9.01]  Big Digital Energy, Inc.  (BGDE)
+  2026-07-20 WNC    [1.01,2.03,3.02,8.01,]  WABASH NATIONAL Corp  (WNC)
+  2026-07-20 ----   [1.01,2.03,5.02,9.01]  COLLECTIVE ACQUISITION CORP.  (CCAQ, CCA
+  2026-07-20 HASI   [1.01,1.02,2.03,8.01,]  HA Sustainable Infrastructure Capital, I
+
+-- INSIDER CLUSTER BUYS (last 30d, >=2 insiders) --
+  (unavailable: ConnectionResetError: [Errno 54] Connection reset by peer)
+
+-- DEFI STABLECOIN YIELDS (top 8 by APY, TVL >=$10M) --
+  saturn             SUSDAT         APY= 27.4%  TVL=$75.5M  Ethereum
+  accountable        USDC           APY= 17.8%  TVL=$80.6M  Monad
+  aave-v3            USDC           APY= 14.7%  TVL=$65.3M  Ethereum
+  mystic-finance-lending COREUSDT0      APY= 14.2%  TVL=$20.6M  Flare
+  apyx-protocol      APXUSD         APY= 13.9%  TVL=$152.5M  Ethereum
+  convex-finance     FRXUSD-MSUSD   APY= 13.9%  TVL=$10.1M  Ethereum
+  tori-finance       STRUSD         APY= 13.8%  TVL=$25.2M  Ethereum
+  morpho-blue        STEAKUSDTBETHENA APY= 13.5%  TVL=$12.2M  Ethereum
+
+-- SHORT SQUEEZE WATCH (SI% float >= 10%) --
+  (no high-SI names found)
+
+-- ENERGY SNAPSHOT (FRED weekly) --
+  Gasoline retail: $None/gal  (4w: +2.2%)
+  WTI crude:       $None/bbl  (4w: +10.7%)
+  Heating oil:     $3.743/gal
+  Natgas:          $2.83/MMBtu
+
+research only, not financial advice. verify before acting.
+
+[scan task log]
+  - 08:38:31  regime: gathering FRED macro / VIX / fear-greed
+  - 08:39:10  regime: RISK-ON score=+0.46
+  - 08:39:10  quotes: collecting global universe (crypto/US/CN/TW/HK/FX/futures/indices + region/macro ETFs)
+  - 08:47:08  quotes: 89 curated instruments fetched
+  - 08:47:08  wide US funnel: pulling ~12k tickers from Polygon, pre-screening top 150
+  - 08:47:11  wide US funnel: 0 of 0 -> top 150 backtested [err: ConnectionResetError: [Errno 54] Connection reset by peer]
+  - 08:47:11  spillover funnel: scanning RSS headlines for theme keywords -> peer candidates
+  - 08:47:38  spillover funnel: 6 candidates across 1 themes -> 5 fetched
+  - 08:47:38  wide CN funnel: pulling ~5,500 A-shares, pre-screening top 120
+  - 08:47:41  wide CN funnel: 600 of 600 -> top 120 backtested
+  - 08:47:41  opportunities: building candidate set from quotes + regime
+  - 08:47:41  opportunities: 68 raw candidates
+  - 08:47:41  backtest: enriching with technicals + E[R]/sigma/Sharpe
+  - 08:48:27  backtest: per-candidate family m=7 (global total=90) -> Bonferroni t>=2.69
+  - 08:48:27  news enrichment: Finnhub headlines + Polygon sentiment per candidate
+  - 08:48:27  news enrichment: done (0 candidates have fresh headlines)
+  - 08:48:27  catalyst enrichment: scanning Finnhub earnings/FDA/IPO + Polygon dividends
+  - 08:48:27  catalyst enrichment: 0 candidates have a near-term catalyst (+0 new)
+  - 08:48:27  PEAD confirmation: looking up recent earnings surprises for PEAD setups
+  - 08:48:27  PEAD confirmation: 0 PEAD setups confirmed by earnings surprise (+0 new)
+  - 08:48:27  options enrichment: pulling ATM straddles (CBOE) for top US candidates
+  - 08:48:27  options enrichment: 0 candidates have an RV/IV signal (+0 new)
+  - 08:48:27  country crisis: scanning 32 country ETFs for crisis signals
+  - 08:48:42  country crisis: 0 candidates in crisis (+0 new)
+  - 08:48:42  veto gate: 0 rows vetoed (0 crash-in-progress, 0 news-contradicts) -> PASS rows 1 -> 1
+  - 08:48:42  catalysts: printing freshest company news for top candidates
+  - 08:48:42  alt-data: pulling FRED macro/rates/credit, treasury curve, BTC funding, COT
+  - 08:48:59  catalyst calendar: Finnhub earnings/FDA/IPO + Polygon dividends (14d)
+  - 08:49:00  expanded news: sweeping all RSS feeds (equities/macro/CB/crypto/FX/commodities/regional)
+  - 08:49:24  expanded news: 32 feeds ok, 69 feeds failed
+  - 08:49:24  GDELT: 24h global market tone sweep
+  - 08:49:24  altdata2: SEC 8-K + insider clusters + DeFi yields + short squeeze + energy
+  - 08:49:25  SEC 8-K: 15 filings with material items (last 3d)
+  - 08:49:29  DeFi yields: 8 stablecoin pools
+  - 08:49:36  energy: gas=$None crude=$None gas4w=2.22% crude4w=10.72%

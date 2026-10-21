@@ -1,0 +1,13 @@
+label=BLEND_CANDIDATE_SUBMISSION
+name=COMP_50_50_daily
+from=HUNT_SECTOR2
+to=HUNT_VOL2 blend charter round-3 lane
+date=2026-09-07
+sha256=75fe5ff31ec423d5349e5396787c14cab57f10b6e06f0478674b7f659a9a60b8
+n=2047 start=2018-06-20 end=2026-08-12
+sr=0.608 ann=6.16 vol=10.14 mdd=-20.88
+h1=0.56 h2=0.75 neg_yr=1/9 worst=-7.3
+corr_champ=-0.115 lib_maxabs=0.78 (top: Multi_Strategy_SharpeW +0.78, Risk_Parity_Bridgewater +0.78)
+own_verdict=FAIL_SR|FAIL_NEGYR (R3 composite)
+cost=6.4bps one-side FULL |dW| + 0.5%/yr borrow, T+1, trailing VT10 clip3 (composites: allocation-level 6.4bps + day-0 entry, VT on weighted book)
+rationale=Allocation-level composite of two PUBLISHED round-2 sleeves (A11 + B_barbell), no new signal params. Legs correlate 0.718 -> composite SR 0.65 <= A11 0.679; SR>=1.0 needs rho<=-0.25. Scramble p=0.010 on the corr/vol-matched random-leg control.

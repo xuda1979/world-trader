@@ -1,0 +1,97 @@
+idea,status,evidence,source
+FF factor premia (HML/SMB/OP/INV),dead,all negative 2008+,HUNT_FF2
+industry/decile portfolios (L/S),dead,zero-to-negative PIT,HUNT_FUNDAMENTAL
+equal-wt betting-against-beta (BAB),dead,short-highvol=shorting survivors,HUNT_FUNDAMENTAL
+MM naive ivol,dead,negative,HUNT_FUNDAMENTAL
+value/growth/profitability screens,dead,zero predictive power PIT,HUNT_FUNDAMENTAL
+FX carry on 8 major pairs,dead,weak/decay,HUNT_CARRYFX
+NG/oil basis (single),dead,covered by existing sleeves,multiple
+gold-silver spread,dead,no edge,multiple
+"credit as PAPER synth (H21_f5/br,A1credit)",dead,"lease/synth corr 0.03, removed",FINAL_STATE
+MHX annual retrain,dead,"SR0.45 vs claimed 5.20, unreproducible",FINAL_STATE
+A1inf same-close leak,dead,"same-close signal leak, removed",FINAL_STATE
+XGB1y flattened-daily,dead,"ac1 0.951, 211 distinct values/4684rows, removed",LOOP_XGB1YFLAT
+FOMC x natgas/gold,dead,no edge,SKILL_ALPHAAGM
+M2-gold,dead,no edge,SKILL_ALPHAAGM
+CFNAI gates,dead,no lift,SKILL_ALPHAAGM
+calendar-seasonal equity book,dead,perm-SR p0.258 > real 0.365 (fail),SKILL_ALPHAAGM
+fx deposit-rate carry (blocked),blocked,need PIT deposit rates (not on disk),SKILL_ALPHAAGM
+China A-share (cn),blocked,only ~1.6y span-insufficient,SKILL_ALPHAAGM
+NKY calendars,data-acquired,"newdata/NIKKEI225.csv found on disk: 20166 daily rows 1949-05-16..2026-08-31 (77y) — span blocker cleared, ready for hunt",SKILL_ALPHAAGM
+propane,data-acquired,DPROPANEMBTX daily 1992+ n=8559 lint PASS (more_fred/) — ready for hunt; old DPROPANEMTXCF id was invalid,SKILL_ALPHAAGM
+TIPS breakeven tradable,blocked,no tradable instrument span,SKILL_ALPHAAGM
+SR-lift vol/timing overlay (60+ variants),dead,"""champion whitened, max dSR+0.035<0.15, scramble p0.085-0.115""",HUNT_VOLOVERLAY
+big-cap xs short-term reversal (twelve_big lb5/10/21),dead,"sign-inverted post-2008, SR -0.24..-0.02",SKILL_ALPHAAGB_B
+small-cap EXT reversal lb5,dead,"MDD -90.6%, worst yr -90.1%, SR 0.24, halves fail",SKILL_ALPHAAGB_B
+xs momentum L/S big-cap (lb63/126/252),dead,catastrophically negative SR -2.2..-1.6,SKILL_ALPHAAGB_B
+"gold x macro maps (real-rate chg, DXY-trend, breakeven)",dead,"no tradable daily edge, all dead; poslag p=1.0",SKILL_ALPHAAGB_B
+rates curve 2s10s slope zrev/mom,dead,"SR -6.6..-4.2, flatten-artifact flag",SKILL_ALPHAAGB_B
+QQQ/SPY + XLF/SPY ratio zrev,dead,SR <=0.29,SKILL_ALPHAAGB_B
+WALCL>median SPY gate,dead,"SR 0.22, poslag 1.0",SKILL_ALPHAAGB_B
+credit baa-aaa z/mom -> SPY,dead,"SR <=0.21, poslag 1.0",SKILL_ALPHAAGB_B
+short-VIX MA regime timing,dead,drift not timing (always-short control 0.53 SR); untradeable spot; roll 8%/yr cuts to 0.55,SKILL_ALPHAAGB_B
+USDJPY weekday sign-maps (30-grid),dead,best SR 0.599 <0.6 gate & best-of-30,SKILL_ALPHAAGB_B
+FX tsmom63 satellites EUR/GBP/AUD,dead,SR <=0.09,SKILL_ALPHAAGB_B
+FX Monday long (all pairs),dead,~1.1bp/day vs 12.8bp weekly cost,SKILL_ALPHAAGB_B
+international 10y daily (au/ca/ch/ez/gb/jp/nz),blocked,"MONTHLY 2018+ only, 102 obs",SKILL_ALPHAAGB_B
+48-industry cross-industry relative momentum (KF),dead,mom lb21/63/126 & 12-1 all negative; best longonly SR 0.22 poslag p=0.70; R8.xml exec fidelity 45/48 industries unverified,HUNT_INDUSTRY48
+sector-basket relative momentum (SPDR pairs),dead,all <=0.43; z-reversion w/o XLE near-miss 6/7 gates but 8/19 neg-yrs,HUNT_CROSSASSET2
+rates-curve steepener mom/rev (2s5s/2s10s/5s30s),dead,best 2s5s SR 0.46 H2-only post-2013; ETF-DV01 execution negative,HUNT_CROSSASSET2
+credit-OAS momentum on real HYG/LQD (baa-aaa/T10YIE),dead,best 0.27; credit cycle priced or beta-dominated,HUNT_CROSSASSET2
+BAML OAS daily as 2008+ signal,blocked,data starts 2023-09 (793 rows),HUNT_CROSSASSET2
+"""xs short-term reversal on twelve_liq (raw+volnorm, ON/IC)""",dead,"""sign-inverted as EQMOM; best zero-cost SR 0.27, full-engine best net -0.07..-2.47""",HUNT_LIQREV
+overnight/intraday decomposition harvesting (twelve_big),dead,ON-mom t+5.0 next-day-ON real but unownable at 6.4bps; honest RT SR 0.73/-0.82 vs paper 2.13; cc books SR<=0.28; weekday/IC/ONIC dead,HUNT_OVNIGHT
+overnight/intraday decomposition harvesting (twelve_big),dead,ON-mom t+5.0 next-day-ON real but unownable at 6.4bps; honest RT SR 0.73/-0.82 vs paper 2.13; cc books SR<=0.28; weekday/IC/ONIC dead,HUNT_OVNIGHT
+VXV/VIX term-structure overlay on champion,dead,whitened: max real dSR -0.292 (31 variants); quintile means all-positive; satellite A SR 0.612 but 4/19 neg + poslag p 0.08 = drift not timing,HUNT_VXV_TERM
+GVZ/OVX gold/oil vol regime timing (overlay + IAU/USO satellite),dead,overlay dSR -1.27..-3.6; USO roll-decay MDD -98%; control beats regime; 0 pass of 16,HUNT_VXV_TERM
+SPDR sector z-reversion full universe (incl XLK/XLU/XLV),dead,hardened negative: honest full-turnover cost cuts SEC3 0.667->0.18-0.26 (was 2.13x cost undercharge); all-105 EW negative; yearly-gate failure intrinsic (12/19 neg),HUNT_SECTOR_FULL
+crypto long-only TSMOM satellite,dead,"""own-span SR 1.11 but 4/10 neg yrs, H2 0.21, poslag p 0.083-0.13; padding 2008+ fails annual; blend dSR +0.063<<materiality; 2025-26 SR -0.23 (adoption drift)""",HUNT_CRYPTO_SAT
+SEC3 sector trio (original params),dead,cost-undercharge artifact: 0.667 quoted on 3.0bps/side (2.13x under); honest 6.4bps/side gives 0.18-0.26,HUNT_SECTOR_FULL
+CIT/noncomm ags z on ag-ETFs (coherent mapping),dead,"""best 0.21 SR, 5+ neg yrs; cross-complex 0.705 artifact rejected; PCPS spot-mom 0.465/6neg""",HUNT_CIT_AG
+sovereign-curve shape features (JGB/BoE/ECB-YC/BIS-EER) on FX/ETF proxies,dead,56 variants all <0.3 SR; best 0.261/4neg; confirms prior curve-dead verdicts,HUNT_CURVES
+Treasury-auction demand (btc/indirect-share) as equity regime gate,dead,"""screen 0.585 was book-path artifact; honest rebuild SR -0.015..-0.17, scramble 0.93-0.97, 9-10 neg yrs""",HUNT_AUCTION
+NFCIRISK/STLFSI4/JOLTS/RRP/TED/T10Y3M macro gates on equity,dead,best NFCIRISK gate SR0.90/ann5% standalone; blend dSR<0 all weights; rest 2-8 neg yrs,HUNT_MACRO2
+TFF trader-category z/diff/fade on proxies,dead,"""156 variants, 0>=0.3 SR; best 0.275/6neg; DIFF (new family) 0.203/8neg""",HUNT_TFF
+PD/SOMA/FIMA auction-flow shares as equity gates,dead,best 0.54/4neg = drift (B&H 0.77 same span); blend dSR<0 all weights,HUNT_PDA
+global LT-yield synchrony/US-lead equity gates,dead,0.584 = 18%-exposure flat-until-2022 drift; blend dSR +0.004 immaterial; uslead 11neg,HUNT_GLOBALRATES
+"""COT positioning extremes fade (commodity futures, crowded-long->short)""",dead,"""fade SR -0.58..-1.15 all configs; follow(SR -0.65..-0.81); raw corr +0.12..+0.22 same-period CONTAMINATION artifact (proper next-week corr +0.03 gold, SR ceiling ~0.2 << 1.0 gate); delta-follow corr decomposed to +0.03 forward. Both directions dead.""",HUNT_COT_ITER11 (coordinator)
+EIA L48 storage surprise/5y-band/WoW-injection on natgas (L48 only),dead,"""naive engines best SR 0.29 (WoW-follow g=10), all scramble p>=0.24; signal fully priced by publication (Wed 10:30 ET). REGIONAL storage + crude prod/imports/supplied remain UNTESTED affordances (13 series certified+linted, tools/quant/data/eia_weekly/)""",HUNT_EIA_STORAGE
+vol-surface risk-off gates / standalone vol-timing (VVIX/SKEW/VIX-TS/GVZ/OVX),dead,"""167 variants, best SR 0.78<1.0 gate (SKEW flip q0.98, ann 8.1%, worstYr -7.8%, 3 neg yrs); scramble-real but economically too small; overlays on CHAMP only reduce it (best: VVIXtrim SR +0.19, ann -6.7pts)""",HUNT_VOL2
+"""2s10s treasury steepener (duration-balanced, FRED CMT synth TR)""",dead,"""a-priori k=21 SR -0.11 (H2 -1.45, 31 neg yrs); scan-best k=126 SR 1.12 but H1/H2 1.96/0.11, signal dead post-2008 (SR_08+ -0.22), corr a6r7 0.216>0.15; naive/sym variants -0.82/-2.50""",HUNT_TREASFUT
+TIPS real-yield level reversion (DFII10/20),dead,"""all N{63,126,252,504} x th{0.5,1,1.5} SR in [-0.30,-0.09] every cell negative; 20y 0.05; long-only -0.06 (worst -36.7%); real yields tread, no reversion edge""",HUNT_TREASFUT
+2s10s30s butterfly mean-reversion,dead,"""chosen N504/t1.0 SR -0.78 (H2 -1.00, 33 neg yrs); full 4x4 scan SR all in [-2.05,-0.54]; reversion loses everywhere""",HUNT_TREASFUT
+"""US-DE-CA-JP 10y yield-spread carry (monthly, lag0/lag1)""",dead,best US-JP pair 0.48; blend lag0 SR 0.77 ann 1.2% << 1.0 gate; corrChamp 0.319-0.328 > 0.15; 13 neg yrs at lag1,HUNT_TREASFUT
+"""COT positioning cross-section/fade/mirror (9 markets, 1wk)""",dead,"""24/24 configs FAIL: best sw-follow lb12 SR 0.287 (halves -0.14/+0.58 fail), scramble p 0.10-0.88 never<0.05, negyr 4-12; signs unstable across mirrors; lookahead-control flips sign (+0.031->-0.220) = noise; only passes decorrelation (|corr|<=0.052)""",HUNT_COT2
+international equity cross-momentum/carry (US-DE-CA-JP),dead,6/6 main + 14/14 ext configs fail; best raw SR 0.15 carry w/ 9 neg yrs; best pos-SR family (EXT-B LO 0.68) is passive-beta (loses to static 50/50); no champion-eligible candidate,HUNT_INTERNATIONAL2
+"FX carry nominal (8-pair EW, IRSTCI01 diffs, carry accrual credited)",R2 dead,"2004+: net SR -0.004 ann -0.2% 11 negyr worst -19.4% (2008) H=(-0.13,0.16) corrChamp 0.028 scramble_p 0.760; gross(pre-cost) SR 0.106; 1990+ SR 0.230 / 1999+ SR 0.177 / 2012+ SR 0.092; HML2v2 SR 0.074 p 0.700; HML3v3 SR 0.009 p 0.710; vol-scaled SR -0.097 p 0.855; real-carry SR -0.131; +mom63 SR -0.026; all gates FAIL",HUNT_FXCARRY2-R2
+SPY/EWH/EWM RS-momentum rotation (US-vs-HK-vs-China) + VIXCLS de-risk,R2 dead,"""18/18 runs FAIL (9 raw + 9 split-adjusted): charter-spec RS126_LS SR 0.41 H1 -0.05; best RS252_LS SR 0.62 / 0.56 adj, halves 0.64/0.60 but 7 negyr, NO plateau (189:0.46 210:0.60 252:0.62 294:0.70 336:0.50); scramble ok but SR gate fails by 38%+; VIX gate and full-flat gate LOWER SR; beats-nothing test: loses to passive long-SPY 0.73 (edge -0.10); EWM 2015-12-21 -26.5% unadjusted-split artifact found+corrected (f 0.7352) and result got WORSE (0.62->0.56); corr to champion -0.009..-0.072 ok; international family DEAD""",HUNT_INTERNATIONAL2-R2
+vol-gates on champion (VVIX cond/SKEW tail/9d>3m),dead,0/34 dAnn>+0.3pp; best -0.14pp on 39.85%/yr 0-negyr book; real timing (nullP 0.000) but too small,HUNT_VOL2-R2
+crypto vol-scaled weekly crossover / daily reversal liq3 / BTC-ETH RV / BTC-MA champ gate,dead,"(a) best 10/30 SR 0.91 H2 0.24; (b) SR -0.21 (momentum regime); (c) SR 0.13/-0.14; (d) dSR +0.230..0.265 but scramble p 0.420 (denominator artifact, ann -6.5pp),fail-closed",HUNT_CRYPTO2
+crypto ETH-BTC-ratio & BTC-dominance regime overlay / BTC vol-of-vol de-risk gate (champ overlays),R2 dead,"dAnn 0/34 configs >= +0.3pp (best -1.35pp); dMDD passers all at +0.807pp oracle ceiling = 2018-06 single-episode lottery (0/38 pass excl 2018-06; random persistence-matched null p90 = same ceiling; ann -4.6..-10.9pp),fail-closed",HUNT_CRYPTO2-R2
+USREC 1yr-lag recession switch overlay (book+slot riskon x0.6/x0.0),dead,"""fires 2009-04..2010-08 only (after the damage): dAnn -0.27..-3.39pp, dMDD +0.000pp (champion has no dd in window); fails both acceptance arms""",HUNT_MACRO2
+T5YIFR 126d TIPS-vs-nominal tilt on a6r7 slot,dead,"""a6r7 ret exactly 0 on all trigger days (54%/46% of window, both directions, x0/x0.5): dAnn -0.016..-0.040pp dMDD ~0; overlay is cosmetic""",HUNT_MACRO2
+VIXCLS>30 sustained-21d vol-regime overlay (book x0.6/x0.0),dead,"""on 4.54% (2008-10, 2020-04 windows only): dMDD +0.000pp (champion dd shallow there), dAnn -1.63..-4.36pp; SR drift 3.32/3.62 but fails both arms; mean-21 variant same MDD null, dAnn -3.28..-8.69pp""",HUNT_MACRO2
+TOTALSL yoy<0 risk-appetite gate overlay (book+slot x0.6/x0.0),dead,"""on 14.01% (2009, 2020, 2025 windows): dMDD +0.000pp dAnn -0.53..-5.13pp; fails both arms""",HUNT_MACRO2
+Slot-level (risk-on-only) macro de-risk overlays (T10Y2Y/JOINT x0.6/x0.0),dead,max-dd episode is 96% brwt* energy-basis (DEF) slots -> slot overlay relieves +0.006..+0.014pp only; dAnn -0.13..-1.17pp for nothing; book-level is the honest form,HUNT_MACRO2
+"""COT-crowded-gated commodity ETF momentum (9 names, expanding pctl gate, daily mask)""",dead,best 9m k2 thr0.2 SR 0.25; gate adds +0.03-0.16 paired vs ungated 0.21 but plateau 2/5 and 12m rows negative; 60 cells fail SR/halves,HUNT_CMDT2
+CPER copper time-series trend 63-252d,dead,best 252d SR 0.23 (H1/H2 0.25/0.24 fail halves); COT-copper gate drops it to 0.10,HUNT_CMDT2
+CPER/GLD ratio momentum 63-252d,dead,SR -0.41..-0.60 (consistently wrong sign; mean-revert family),HUNT_CMDT2
+"""WTI-Brent spot-spread trend -> USO (BNO missing, EIA proxy)""",dead,"""21/63/126/252d SR -0.38/0.00/-0.30/-0.11, 11-15 neg yrs""",HUNT_CMDT2
+UNG Mar-Oct short / Nov-Feb long seasonal (vol-scaled),dead,SR -0.08 scram_p 0.30; winter leg itself -44.5%/yr ann (roll decay swamps calendar); constant-short decay harvest 0.37 fails H2+scramble and is not an admissible sleeve,HUNT_CMDT2
+"LQD-TLT log-spread momentum 126d (+1/-1 dollar, VT10%)",dead,"grossSR +0.01 netSR -0.31 (H1/H2 -0.24/-0.44, 13 negyr worst -32.7%, scram_p 0.000, corrChamp 0.142); post-hoc sign-flip also -0.33 -> dead both ways; k-scan 63/126/252 all negative",HUNT_CREDIT2
+T10YIE 63d breakeven trend TLT/TIP monthly tilt (extra publish-lag day),dead,"grossSR -0.40 netSR -0.80 (H1/H2 -1.10/-0.45, 21 negyr worst -35.3%, scram_p 0.000, corrChamp -0.050); flipped +0.09 still fails SR>=1; k-scan 21/63/126/252 all negative",HUNT_CREDIT2
+T10Y2Y 21d steepener via IEF/TLT 0.5/0.5 barbell (flat when falling),dead,"grossSR +0.07 netSR -0.54 (H1/H2 -0.59/-0.50, 21 negyr worst -17.9%, scram_p 0.000, corrChamp -0.128); flipped -0.64; k-scan 5..63 all negative",HUNT_CREDIT2
+"HY-stress gate overlay (BAA10Y 252d z>2 -> 0.7x champion) [charter (d) substitution for BAMLH0A0HYM2, FRED 2023+ only]",dead,"""delta +0.198 SR is CONTENT-FREE: gated days carry champ +66..202% ann (top-6 all Mar-Apr 2020 wins +18.3/+14.4%); net cum ret contribution -0.38 (pure variance-outlier effect); generic own-vol z-gate (no credit content) delta +0.224 >= credit gate; vol-matched CONSTANT scale delta 0.000 (SR scale-invariant); era split 2008-12 +0.05 / 2013-19 -0.06 / 2020-26 +0.30 (COVID-concentrated); true BAMLH0A0HYM2 only 2023+ = 15/4805 days, unjudgeable""",HUNT_CREDIT2
+"commodity-ETF COT-crowded-gated momentum (9 names, expanding pctl gate, daily mask)",dead,"""best 9m k2 thr0.2 SR 0.25 (gate adds +0.03..+0.16 paired vs ungated 0.21, plateau 2/5, 12m rows negative); CPER trend best 252d SR 0.23 fail halves; CPER/GLD ratio SR -0.41..-0.60; WTI-Brent spread -> USO SR -0.38..+0.00; UNG seasonal SR -0.08 (winter leg -44.5%/yr roll decay); 0/95 cells pass SR>=1.0; decorr never binding (|corr|<=0.058)""",HUNT_CMDT2-R2
+rates TS momentum DGS2/10/30 + 2s10s/10s30s kink steepener + yield-level momentum +/- T5YIFR regime,dead,"""charter-dur 4.4/7.7/15.5, 10% VT, 2008+: best kink_2s30 SR 0.52 fail halves (H2 0.09) and 18 negyr; TS mom k126 SR 0.22..0.37 all H2<0; curve fly SR -0.95; lvl+regime overlays NEGATIVE (-0.23..-0.33); SR_08+ in [-1.32,-0.10] ALL 12 configs; |corrChamp|<=0.038 uncorrelated because unrewarded""",HUNT_TREASFUT-R2
+macro de-risk overlays on champion (T10Y2Y z63<-2 / VIXsus21 / JOINT / USREC / TOTALSL / T5YIFR tilt / slot-level),dead,"""NO macro overlay adds return (0/28 ann arm); MDD arm nominal passers: T10Y2Yz63 x0.6 dMDD +1.114pp and JOINT x0.6 +1.376pp BUT coordinator single-episode exclusion test (2018-05..07 out): T10Y2Y falls to +0.319pp (72% of relief = one-episode lottery, FAILS); JOINT keeps +0.653pp (real 2008 relief -6.15->-3.67) but costs -2.7..-3.7pp ann on a book already inside the -7% MDD goal; USREC/TOTALSL/VIX standalone dMDD exactly 0.000 (no champ dd in trigger window); T5YIFR tilt cosmetic (slot ret exactly 0 on trigger days); slot-level variants relieve <=0.014pp""",HUNT_MACRO2-R2
+"COT horizon-match 4/8/13wk holds (pm_fade, dealer/lev_money fade, CIT fade vs R1 1wk)",dead,"""R1 negative NOT a horizon artifact: same signals at 4/8/13wk stays ~zero or WORSE (pm_fade_lb8 -0.03 -> -0.70); TFF dealer fade, lev_money follow, CIT extreme fade all 6/6 FAIL (best CIT h13 SR +0.294 but H2 zero, halves sign-flipped); 55/55 configs FAIL; NEW: 12 TFF-aggregate + 18 champion crowding overlays ALL worsen SR (best dSR -0.069, flip -1.39, MDD never improves); mean_xs_rank overlay vacuous by construction (xs ranks average to constant, std 0.0); scramble p 0.119-1.000""",HUNT_COT2-R2
+"aggregate COT spec-crowding regime overlay on champion (104wk trailing, self-excluded, COT+TFF aggregate)",dead,"""(merged into COT2-R2 row 1 evidence; every one of 18+12 overlays lowers champion SR, best -0.069 worst -1.461, MDD never improves)""",HUNT_COT2-R2
+"sector RS-ratio rotation (11-SPDR set, lb/k weekly + monthly, long and L/S)",dead,"""A11 literal-charter near-miss: n=2047 SR 0.679 ann 7.4% halves 0.55/0.95 negyr 2/9 worst -1.3% corr -0.147 plateau PASS — FAILS SR>=1.0 ONLY, honest ceiling ~0.68 (VT-off 0.723, monthly 0.675); full-universe best SR 0.534 (H2 0.70, 3 negyr); L/S variants ALL dead (short sector leg destroys, best 0.038, 8-13 negyr)""",HUNT_SECTOR2-R2
+sector-bond barbell / XLE-CRUD lead-lag / XLU-IEF stealth-rate (SPDR-complex arms B/C/D),dead,"""B m21 mean100 IEFhalf SR 0.613 (3 negyr, corr -0.076, plateau PASS, fail SR+negyr); C w126 switch SR 0.154 (8 negyr, plateau FAIL); D lb21 riskoff IEF SR 0.585 (3 negyr); bond-leg swap no rescue (LQD 0.483/0.520, TLT 0.584/0.596); 72-config scan, 0/4 arms within 37% of SR gate; Arm A correlates 0.87 with library Multi_Strategy_SharpeW""",HUNT_SECTOR2-R2
+"commodity ETF cross-sectional momentum (CORE9/EXT13, rank 6-18m, hold 1-6m, L/S+LO)",dead,best SR 0.35 (CORE9+MOO 9m k2); charter 12m k3 h3 SR -0.12; 0/27 grid + all universe variants fail SR/halves/yearly; scramble-real but tiny,HUNT_CMDT2
+commodity sector rotation ENE/PRE/AGR(+PMX),dead,family peak 6m h2 SR 0.577 but plateau 25% (lone grid point) and H1 0.46<0.5; 4-bucket w/ GDX drops 0.45->0.22; 16 cells all fail,HUNT_CMDT2
+commodity ETF-vs-FRED-spot basis carry (37d pub lag),dead,"best k1 h3 SR 0.24, h1 variants negative; proxy too noisy, 6-9 neg years; no curve data on disk (DBE/DBP/USCI missing)",HUNT_CMDT2
+inflation-regime gate on commodities (T10YIE trend / CPI yoy accel),dead,"gated SR 0.08-0.10 vs passive 0.08 (no value-add, gate ON 52-53%); 4 configs fail",HUNT_CMDT2
+"FX carry tail-controlled (R2 signal + dd-stop -10/-15 mom63 reentry / monthly loss-cap halve / EW+invvol VT crash-cap)",R3 dead,"""2004+ n=5680: pre-registered perfect-crash-oracle ceiling SR 0.183 (zero all 2008 losses), 0.517 (zero all 11 negyr) << gate 1.0; dd-stop-10 SR -0.089 (3303d flat, scr_p 0.910), losscap-3 SR +0.062 (scr_p 0.690), crashcap-2 SR -0.010 (scr_p 0.555), invvol+cap SR -0.095; all 11+ negyr, all corrChamp ~0.03; scramble p rises with control quality => drawdown conditioning carries zero timing info""",HUNT_FXCARRY2-R3
+"champion-blend integration (published decorrelated sleeves, w<=15% NAV)",dead,0/6 dAnn>0 (best -0.69pp MSSW@2.5%); dSR up to +0.149 real for 4/6 (200-null control) but 2/6 pure diversification artifact (frac_pos=1.000); relever-to-cap 0/30; dAnn>0 needs w<0,HUNT_VOL2-R3

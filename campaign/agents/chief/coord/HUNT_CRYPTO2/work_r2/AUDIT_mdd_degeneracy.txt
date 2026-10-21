@@ -1,0 +1,16 @@
+champ MDD -6.840% | 2008-episode -6.033% | structural dMDD ceiling 0.807pp (charter bar 0.5pp = 62% of ceiling)
+
+T1: random-gate null (200x persistence-matched Markov, off%+flip matched to dom_ma100)
+  dom_ma100 gate: off%=21 daily-flip-prob=1.21%
+  corrected null: med dMDD=+0.000pp p90=+0.807pp std=0.383pp | gate sanity off%=21 flips=42 mean_ep=114d
+  real configs clearing dMDD>=+0.5pp: 16/38 = 42% (all at exactly the +0.807pp ceiling)
+    null seed=42: p90 dMDD=+0.807pp -> random gates reach the ceiling often; single-episode bar is saturating
+    null seed=123: p90 dMDD=+0.807pp -> random gates reach the ceiling often; single-episode bar is saturating
+    null seed=777: p90 dMDD=+0.807pp -> random gates reach the ceiling often; single-episode bar is saturating
+
+T2: dMDD with 2018-05-01..2018-07-31 EXCLUDED (does ANY config still clear +0.5pp?)
+  configs still clearing +0.5pp with 2018-06 excluded: 0/38
+
+T3: sc0.9 dom configs (only Calmar improvers) — scramble on the MDD claim
+  dom_ma100_sc0.9: dAnn=-1.194pp dMDD=+0.671pp dSR=+0.081 Calmar 5.83->6.27 | p_SR=0.000 p_MDD=0.265
+  dom_ma200_sc0.9: dAnn=-0.923pp dMDD=+0.671pp dSR=+0.076 Calmar 5.83->6.31 | p_SR=0.020 p_MDD=0.300

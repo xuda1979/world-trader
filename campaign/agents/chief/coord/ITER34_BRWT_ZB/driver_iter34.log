@@ -1,0 +1,25 @@
+--------- ITER34 brwt-zb-axis driver (2026-09-19 session 16). FINDINGS_PRECOMMIT.md sha16 b9b9539c7dbe41ef sealed BEFORE this run.
+Champion sha16 pre-run: 8559fa55ee9a3417 / weights d2d11c92a98683df / precommit b9b9539c7dbe41ef
+ANCHOR A1 regen zb=1.0 vs saved: brwt10 maxdev=9.999e-17 (n=6567)
+ANCHOR A1 regen zb=1.0 vs saved: brwt7 maxdev=9.986e-17 (n=4580)
+ANCHOR A1 regen zb=1.0 vs saved: brwt5 maxdev=9.996e-17 (n=4580)
+ANCHOR A2 projection-identity on incumbent: maxdev=0.0 (need exactly 0)
+ANCHOR A2 weights maxdev=8.327e-17 (need <1e-12)
+ANCHOR A2 bytes   maxdev=9.996e-17 (need <1e-12) n=4806
+ANCHOR A2 grossmax=1.000000000  fit rows=1809  k_covered=11
+ANCHOR A2 incumbent Wmax_sf(x11)=1.8115x  IS-SR=4.198632 (continuity 4.198632)
+
+CELL SWEEP: z-threshold scalar zb grid, every other slot frozen per precommit; zb moves brwt10 AND brwt7 AND brwt5 (one shared family scalar)
+zb     regen-dev   is_sr     IS-ann pct  IS-MDD pct  negy  Wmax_sf   adm
+ANCHOR CELL zb=1.0: weights dev vs committed 8.903e-09 (need <1e-6); book dev vs champ 4.044e-10 (need <1e-9); block share=0.300000
+1.00   9.999e-17  4.198632    18.122       -2.56    0/9  1.8115x  no (anchor)  blk=0.3000
+1.25   1.290e-01  4.060778    16.492       -3.26    0/9  1.7859x  no  blk=0.3000
+1.50   1.300e-01  3.884666    15.578       -2.66    0/9  1.7584x  no  blk=0.3000
+1.75   1.300e-01  3.477293    13.046       -2.18    0/9  1.7148x  no  blk=0.3000
+2.00   1.873e-01  3.230354    11.812       -2.16    0/9  1.9867x  no  blk=0.2819
+
+ADMITTED: 0 / 5 (jitter tolerance 1e-4 on the IS bar)
+NO cell admitted -> HONEST NEGATIVE, no reveal (per precommit STOP RULE).
+
+VERDICT: NO-ADMISSION (IS level) -> honest negative, no reveal (per precommit stop rule)
+Champion sha16 post-run: 8559fa55ee9a3417 / weights d2d11c92a98683df (pre==post: True)

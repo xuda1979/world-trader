@@ -1,0 +1,162 @@
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260906200347204f73fdd962421f]
+=== HUNT_TREASFUT round 1 end Sun Sep  6 20:03:47 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090623335340395b5714fc4750]
+=== HUNT_TREASFUT rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609062343246541516084fd44ad]
+=== HUNT_TREASFUT rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090623475864406dcb76e54062]
+=== HUNT_TREASFUT rate-limited or errored (attempt 3, rc=1); backing off ===
+ROUND 1 COMPLETE — honest negative across all four charter sleeves.
+
+## What was tested (all FRED CMT-based, SYNTH TR approximating treasury futures, full gate battery)
+
+| Sleeve | Best config | SR | Verdict |
+|---|---|---|---|
+| (a) 2s10s steepener | a-priori k=21 | **-0.11** (scan-best k=126: 1.12 but H2=0.11, 20 neg yrs, died post-2008, cA6R7 0.216) | FAIL b/c/d |
+| (b) TIPS real-yield reversion | DFII10 N=252 th=1.0 | **-0.11**; entire 4×3 scan in [-0.30, -0.09] | FAIL all |
+| (c) 2s10s30s fly reversion | N=504 th=1.0 | **-0.78**; entire 4×4 scan in [-2.05, -0.54] | FAIL all |
+| (d) US-DE/CA/JP 10y carry (native monthly) | lag1 | **0.70** ann SR, corrChamp 0.328 | FAIL a/f |
+
+## Key findings
+1. **Caught a false positive that would have been embarrassing**: the steepener first showed SR 1.96 / ann 24.2% — an artifact of feeding FRED *percent* yields into the synth-TR formula as *decimals* (carry term 100× too big, fake 4%/day drift; synth 10y vol 695% vs 6.9% correct). Verified against the committed a6r7 convention (`y/100`), fixed, added a fail-closed `units_guard`. Same config collapsed to SR -0.11.
+2. **Fixed 3 more honesty defects in my own harness**: pandas-3 CoW silently no-oping chained weight assignment (weights never written); `half_split`'s √252 annualization inflating monthly H1/H2 by 4.58×; row-permutation scramble p≈0 by construction for low-turnover books → added `lagroll_p` (timing-only destruction, re-costed).
+3. No-lookahead truncation probes pass for all daily sleeves; no-lookahead verified; costs 6.4bps FULL |dW| + 0.5%/yr borrow throughout.
+4. **Environment note**: mid-round another agent re-emitted the champion (rawew13v2_build 00:37, champion CSV 00:45) — `test_reproducible_from_builder` currently fails against the stale test snapshot, **not** my doing. My corr gates re-verified against the re-emitted champion: conclusions unchanged.
+5. Sleeves + meta saved to `sleeves/` (4 CSVs, verified each contains its intended series after fixing a variable-shadowing bug in the save block). All are labeled NEGATIVE.
+
+FINDINGS.md updated with exact numbers and ends with `ROUND 1 DONE`.
+=== HUNT_TREASFUT round 1 end Mon Sep  7 00:48:22 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070150276197839b35b94f0c]
+=== HUNT_TREASFUT rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907020335895d543a67594208]
+=== HUNT_TREASFUT rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070208091b8ea067561e4896]
+=== HUNT_TREASFUT rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070246163cb641d059364fbd]
+=== HUNT_TREASFUT rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090702530490b57a3711794c3c]
+=== HUNT_TREASFUT rate-limited or errored (attempt 5, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907025840152e6ee536f84441]
+=== HUNT_TREASFUT rate-limited or errored (attempt 6, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907032725deecbad0d9e94efc]
+=== HUNT_TREASFUT rate-limited or errored (attempt 7, rc=1); backing off ===
+Round 2 executed per charter. Summary:
+
+**Verdict: honest negative on all 3 charter sleeves — zero passes.** Under the charter's premise (futures-proxy durs 4.4/7.7/15.5, real 10% vol-targeting, 2008+ depth n=4612), all 12 configs fail the full gate set, and every one is negative post-2008 (SR_08+ ∈ [−1.32, −0.10]). Best family member (kink_2s30 steepener, SR 0.52) still fails halves (H2 0.09), yearly (18 neg yrs), and plateau. Rates momentum, slope kink, and yield-level-momentum+T5YIFR are all refuted — R1's negative wasn't a duration-convention artifact.
+
+**Two live bugs found mid-round, fixed TDD-first** (`campaign/bt/tests/test_treasfut_r2.py`, 8 green):
+1. `mom1030` saved as a **dead all-zero book** — `0.5*W10 + 0.5*W30` with disjoint columns union-joined to all-NaN → `fillna(0)`. The prior session had shipped it as "SR 0.00 / scram_p 1.000" with no live rows. Fixed with `combine_W` (.add fill_value) + a `net_of` dead-book ValueError guard. True result: SR 0.23, still FAIL.
+2. **Regime overlay window dilution** — `net_of` padded the 2003+ T5YIFR book with 26 years of dead zero rows (60.8% air; reported SR −0.23 vs honest −0.30, H1 0.00 pure artifact). Fixed with `net_of(trim_coverage=True)`; default R-grid path preserved for R1 reproducibility. Both affected sleeves regenerated (04:02) with live books.
+
+**Environment:** the 7 failing tests in the broader `bt` suite are in files other agents modified after 03:00 today (`test_align.py`, `test_gates_audit_r2.py`, zero TREASFUT references) — not mine; flagged in FINDINGS for the coordinator. Coordinator also requested: 3 new DEAD_IDEAS rows (rates TS momentum / kink steepener / level-mom+regime) per the contract's via-coordinator convention. FINDINGS.md appended with exact numbers for every config, ending `ROUND 2 DONE`.
+=== HUNT_TREASFUT round 2 end Mon Sep  7 04:11:08 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907080202547ef6b9d5614871]
+=== HUNT_TREASFUT rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070807095d20142131384941]
+=== HUNT_TREASFUT rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070812294d172b5fc2e14e92]
+=== HUNT_TREASFUT rate-limited or errored (attempt 3, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070817136d64a090e1474531]
+=== HUNT_TREASFUT rate-limited or errored (attempt 4, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070834415a07d901487b42e6]
+=== HUNT_TREASFUT rate-limited or errored (attempt 5, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907084030fda926b7ff944827]
+=== HUNT_TREASFUT rate-limited or errored (attempt 6, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][202609070928464cd06062397645d0]
+=== HUNT_TREASFUT rate-limited or errored (attempt 7, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907093842f7436831f3034d37]
+=== HUNT_TREASFUT rate-limited or errored (attempt 8, rc=1); backing off ===
+Round 3 complete. FINDINGS.md ends with `ROUND 3 DONE`.
+
+## Summary
+
+**3(a) TRUTH20Y reconstruction — NOT REPRODUCED → quarantine recommended.** Verified the prior session's rebuild script from source (helpers byte-identical to `champion20y_build.py`, all 14 pool files exist — AUDIT_CHAMP2's "pool files missing" was a labels-vs-filenames error), then ran it: maxdev 1.38e-2–1.78e-2, exit 1. Positive forensics finding: I reproduced the committed 4990-day calendar **byte-exactly** — union-of-sleeves minus *US federal holidays with observance shifts*, not NYSE (Columbus/Veterans dropped, Good Friday kept 20/20 years; the JSON's "NYSE" note is a misnomer). Values still deviate ~3e-2 flat across 20 years despite testing Sep-1 git blobs, pre/post filter placement, and sparse-fill conventions — the Sep-1 input blobs are unrecoverable (A5r7 regenerated 34 min after TRUTH20Y was written). Quarantine doc written; the books fail champion constraints independently anyway (geo ann 69.09% vs the 53.0 arith headline, MDD −7.88% breaches −7%, 1 neg year).
+
+**3(a2) Lint test — RED first, GREEN via additive banner.** New whole-tree lint (`test_treasfut_r3_truth20y_lint.py`, composes with rather than duplicates AUDIT_CHAMP2's gated-docs-only test). RED evidence: the only unframed promotion-quote in the entire campaign tree is `G4_detrun/FINDINGS.md:21` ("…is the honest maximum with this pool", coordinator-authored 09-01, pre-audit). GREEN via prepend-only quarantine banner (sha256 captured, git numstat 8/0, history untouched). 3 passed; 19 passed across my r2 + both lint suites.
+
+**3(b) HUNT_CREDIT2 round-2 negatives — ALL MATCH, no escalation.** All 3 sleeves reproduce from saved CSVs (SR to ±0.00, negyr exact, corrChamp to ±0.001); gross SRs +0.01/−0.40/+0.07 re-derived from their own `net_of` machinery match; sleeve CSVs byte-identical across a generator re-run. Their (d) gate "content-free vol artifact" verdict holds on today's champion (credit delta +0.184 vs vol-control +0.204).
+
+**Coordinator flags:** champion was re-emitted again at 11:24 (now 37.20%/SR 3.181 — card already reflects it, AUDIT_CHAMP2's prose is 4h stale); the 17 bt-suite failures are another agent's census TDD RED phase (test 14:45, module absent); `champion20y_build.py --verify` now DIFFs its own V2 books.
+=== HUNT_TREASFUT round 3 end Mon Sep  7 14:50:53 CST 2026 exit 0 ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907212333ba09b899ee4b4553]
+=== HUNT_TREASFUT rate-limited or errored (attempt 1, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][20260907214316def8278bf3564987]
+=== HUNT_TREASFUT rate-limited or errored (attempt 2, rc=1); backing off ===
+API Error: Request rejected (429) · [1302][您的账户已达到速率限制，请您控制请求频率][2026090722055764f193a9d60847da]
+=== HUNT_TREASFUT rate-limited or errored (attempt 3, rc=1); backing off ===
+Round 4 executed and closed. Summary of what happened this session:
+
+## Round 4 execution report
+
+**Situation found**: FINDINGS.md already contained a ROUND 4 entry written by the prior session (21:19), plus a stray script `verify_finding_b1_decomp_r4.py` (21:58, *after* the entry) whose own docstring admitted FINDING (b)1's numbers had "no r4 script" behind them and was never run. Charter rule: every claim must reproduce from a saved script. So I re-executed the entire round claim-by-claim instead of rubber-stamping it.
+
+**Verified reproduced (exact)**:
+- **(a) CHAMPION20Y_V2 rebuild** — `--verify` → BAL 9.986e-17 / SAFE 9.996e-17 / AGGR 9.991e-17, all IDENTICAL, exit 0. Pinned blobs re-hashed == git c745682. Guard green (0 unpinned drifts). **Provenance break closed — V2 is not an orphan.**
+- **(a2) TRUTH20Y screen** — P1/P2/P3 configs 1.35e-2–1.78e-2 vs bar 1e-12; quarantine stands.
+- **(b) verbatim probe repros** — ran the ORIGINAL `p4b.py`/`p7.py`/`p8.py` myself: rows 29/33/34 digit-exact (−0.051/−0.230/−0.222; +0.293/+0.011/−0.044; map [3,4] +0.599; EUR −0.085/GBP +0.001/AUD −0.438).
+- Champion acceptance `verify_champion.py`: **ok=true, 7/7 checks**; headline 37.1954%/3.1810/0 neg yrs; bytes clean vs git.
+- My TDD suite: 19 passed.
+
+**Found + fixed (the one RED)**: the (b)1 decomposition verifier failed its own check (exit 1, 5/9 cells DRIFT) because it transcribed p4b's construction as `0.5*ra−0.5*rb`; the original `p4b.py:33` is `r = ra − rb` unweighted. Rewrote it TDD-style → **GREEN**: all 9 cells match within ±0.03, 2.133x undercharge factor exact, all three books dead under contract costing. Convention caveat recorded (their-tier was computed without borrow).
+
+**Files touched**: only `work_r4/verify_finding_b1_decomp_r4.py` (rewritten v2) + the FINDINGS.md append. Champion, builders, live sleeves, DEAD_IDEAS.csv untouched. FINDINGS.md ends with exactly `ROUND 4 DONE`.
+=== HUNT_TREASFUT round 4 end Mon Sep  7 22:30:42 CST 2026 exit 0 ===
+Round 5 complete. FINDINGS.md ends with exactly `ROUND 5 DONE`.
+
+## Summary
+
+**Charter corner (a): TreasuryDirect auction-CYCLE positioning on rates — HONEST NEGATIVE, 19/19 FAIL the full V2 battery.**
+
+**Corner discipline:** The charter's pre-registered corner is distinct from DEAD row 51 (HUNT_AUCTION killed auction demand as an *equity* gate). My family is the rates side: PRE/POST-auction windows in futures-proxy tenor books, with zero equity legs and zero yield-momentum inputs — no overlap with any dead config.
+
+**Data-backed (charter-mandated):** `tauctions.csv` n=7857 (2000→2026-09-10, lint PASS) + a fresh keyless TA-WS live probe: 304 records, **0 field mismatches, 0 missing rows** vs disk. Gap structure documented per tenor, including the 30y's 1827-day issuance suspension (2006→2011).
+
+**TDD:** RED first (ModuleNotFoundError), 9/9 GREEN. My own tests caught 2 live implementation bugs: a DataFrame×Series misalignment that zeroed the per-unit feed (exactness now 3.5e-18), and a union-calendar + fillna(1.0) pair that cross-contaminated drift stats and made the leak probe read −0.99 spuriously on 5%-live books (after fix: leak_ok **True 19/19**, |corr| ≤ 0.127).
+
+**Headline numbers:** Best book POST5_30 SR **0.468** (ann 7.69%, 9 neg yrs, worst −32.4%, beats spy_bh by only +0.010, perm_p 0.000) — fails SR, yearly, and scramble. All COND books (weak-auction long) went *negative* — the conditioner anti-works. Anti-controls dead both ways. Plateau FAIL on both k-grids.
+
+**The economic finding:** post-auction drift is real but mostly bond beta — unconditional 5-day drift is 10.3–13.8bp vs post-window 15.2/22.7/16.8/49.1bp (excess t-stats 2.0/3.2/0.8/1.8), and the market is only in-window 2.8–13.3% of days. cA6R7 +0.486 on the 2y post book also confirms champion-slot overlap.
+
+**Artifacts:** `HUNT_TREASFUT_round5.py`, `tests_tdd_r5.py` (9 tests; my full 4-round suite 28 passed), 19 sleeve CSVs + positions + metas with full V2 pins (champion sha 4358dfab95679b97 unchanged, bt/ untouched), drift tables, control JSON, run log. DEAD_IDEAS.csv appended 129→130.
+=== HUNT_TREASFUT round 5 end Tue Sep  8 07:12:32 CST 2026 exit 0 ===
+**ROUND 6 COMPLETE.** FINDINGS.md ends with exactly `ROUND 6 DONE`; 7/7 tests green; all writes confined to my agent dir.
+
+## Summary
+
+**Charter duty (a) — fraud-catch cross-verification of AUDIT_CHAMP2's GOAL80 repro: VERDICT CONFIRMED, zero discrepancies.**
+
+Method (TDD, own code): wrote `tests_tdd_r6.py` (7 tests) encoding their *claimed* numbers as pins, then built `work_r6/goal80_own_build.py` — my own implementation of the documented recipe (raw-first per-sleeve vt@0.10, EW mean, global vt@0.08, 126d DD-throttle, 6bps half-turn), with dualmom independently extracted by me from `b268e52~1` (my blob sha256 `7132a167f70f3a6c` = byte-identical to their pinned copy). No import of their builder or code.
+
+Exact numbers from my rebuild vs their claims:
+| Claim | Theirs | Mine | |
+|---|---|---|---|
+| byte-repro vs COORD_FINAL_daily.csv | 1.015e-16 | **1.014813e-16**, n=4696 | ✓ |
+| vs their saved repro CSV | — | **9.996e-17** (three-way match) | ✓ |
+| arith ann | 43.19 | **43.1918%** | ✓ |
+| geometric CAGR | 53.36 | **53.3570%** | ✓ |
+| SR_d / MDD | 4.84 / -7.48 | **4.8373 / -7.4817%**, 0 neg yrs | ✓ |
+| median gross | 2.13x | **2.1303x** (mean 2.1665, p90 2.9812, max 5.2947) | ✓ |
+| financing-priced @4.5% | 37.99 arith / MDD -9.27 | **37.9947% / -9.2731%** → breaches their own DD≤8% envelope | ✓ |
+| costed-B3 | -1.24pp | **-1.24pp** (43.19→41.95) | ✓ |
+
+**New contribution:** their 2.13x gross stat was prose-only (§10a gap — none of their 7 tests pin it). I pinned it, which required resolving their convention: gross = s_glob×throttle on **position-days only** (first 60d are scale-0/no-exposure; all-days gives 2.1175/5.197%/yr — both disclosed in FINDINGS). My test_6 also re-verifies the b268e52~1 blob pin is load-bearing (current dualmom diffs the artifact).
+
+**Duty (b):** no TRUTH20Y_QUARANTINE append — charter says only-on-discrepancy, and there is none.
+
+Integrity: champion sha `4358dfab95679b97` unchanged; AUDIT_CHAMP2/ and bt/ untouched by me (pre-existing `M` flags in bt/ are concurrent charter-named agents' work — flagged to coordinator in FINDINGS).
+=== HUNT_TREASFUT round 6 end Tue Sep  8 14:01:28 CST 2026 exit 0 ===
+Round 7 complete. FINDINGS.md ends with exactly `ROUND 7 DONE`.
+
+## ROUND 7 SUMMARY
+
+**Corner (a): ECB SDMX euro-area AAA yield-curve family — HONEST NEGATIVE (all 4 sleeves)**
+
+- **Data (new source, live, keyless):** ECB Data Portal SDMX 2.1 `YC` dataflow, AAA euro-area govt par yields, 1Y/2Y/5Y/10Y/30Y — **n=5625/tenor, 2004-09-06..2026-09-07, 0 blanks**, 5 sha16 pins in `work_r7/yields/manifest.json` (full-span pull 504s → chunked-by-year fetch). PIT by publication calendar: WED decisions on T-1bd prints (lag flips 5.03% of decisions — load-bearing).
+- **Construction:** DV01-neutral SLOPE (2s10s) + CURV (2s10s30s fly) × sign(Δ63bd) mom/rev, weekly-Wed decisions / daily-held, VT10 cap3, 6.4bps full-|dW| + 0.5%/yr borrow, T+1. No sweep; reversion is the pre-registered control.
+- **Verdict:** best sleeve SR **0.394** (SLOPE_mom; ann 3.74%, H2 0.23, 11 neg yr, worst −14.5%) — fails SR≥1, halves, neg≤2, beats_passive (0.552 sixty_forty), scr_p≥0.155. **The mandatory pre/post-2010 era bar kills it independently: effects are pre-2010-concentrated** (SLOPE_mom +0.639 → post2010 +0.290; CURV_mom +0.717 → post2010 +0.047). Decorrelation passed everywhere (|corr_champ|≤0.042, |corr_a6r7|≤0.065) — genuinely low-corr family, no alpha. Full leak probe published, leak_ok=True ×4.
+- **2 engine bugs caught TDD RED-first** (tests 9/10, now 11/11 green): weekly-fillna(0) made the book flat 4512/5625 days, and the battery feed `sig*r_pu` zeroed stranded-cost days — inflated SR **0.029→0.121** before fix. Feed==held book to 1e-12 now.
+
+**Duty (b):** re-ran the canonical 13-sleeve champion verifier myself — **ok=true 7/7** (byte_repro 1.11e-16, gross 1.6000000000007, mdd −6.692%, 0 neg yr, worst +7.31%). Zero discrepancies → **no quarantine append** (2nd consecutive clean round).
+
+**Integrity:** champion sha `4358dfab95679b97` verified start+end; bt/ + campaign/*.md untouched (pre-existing concurrent M-flags flagged); DEAD_IDEAS 149→**150** (one honest-negative row, tail re-read, trailing newline kept, recounted); bt suite 436/0 from repo root.
+=== HUNT_TREASFUT round 7 end Tue Sep  8 21:02:10 CST 2026 exit 0 ===

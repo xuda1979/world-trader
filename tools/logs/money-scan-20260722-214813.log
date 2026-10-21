@@ -1,0 +1,127 @@
+=== MONEY-LOOP scan started 2026-07-22 21:48:13 ===
+=== WORLD-TRADER GLOBAL SCAN  2026-07-22T13:48:14+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+-- OPEN NOW: 14 markets --
+   + BR (Brazil (B3))
+   + CA (Canada (TSX))
+   + CH (Switzerland (SIX))
+   + CRYPTO (Crypto (24/7))
+   + DE (Germany (Xetra))
+   + ES (Spain (BME))
+   + FR (France (Euronext Paris))
+   + FUT (Futures (CME/GLOBEX: commodities, bonds, index))
+   + FX (FX (24/5))
+   + IT (Italy (Borsa Italiana))
+   + NL (Netherlands (Euronext Amsterdam))
+   + SE (Sweden (Nasdaq Stockholm))
+   + UK (UK (LSE))
+   + US (US equities)
+
+-- REGIME: NEUTRAL  (score +0.00) --
+
+-- LIVE QUOTES: 160 instruments fetched (crypto RT, US, China A-share live, Taiwan live, FX)  [wide US unavailable: net: Remote end closed connection without response]  [+wide CN A-share: 100 of 100 liquid names -> top 120, backtested] --
+
+=== OPPORTUNITIES (ranked by per-trade expected Sharpe = E[R]/sigma) ===
+  markets open now (2026-07-22T13:49:39+00:00): BR, CA, CH, CRYPTO, DE, ES, FR, FUT, FX, IT, NL, SE, UK, US
+  YOUR BAR to qualify: E[R]>=+1%/trade, sigma<=7%*sqrt(h/5), Sharpe>=0.40, n>=20, t>=2 (Bonferroni-adj.), OOS Sharpe>0
+  >> markets open (BR, CA, CH, CRYPTO, DE, ES, FR, FUT, FX, IT, NL, SE, UK, US) but no positive-expectancy edge measured this scan -- stand aside. An empty table is the honest answer.
+
+-- MACRO / RATES / CREDIT (FRED) --
+
+-- CATALYST CALENDAR (next 14d; today=2026-07-22) --
+  2026-07-24  (1)
+    [IPO] SCTX     IPO Scribe Therapeutics, Inc. $?
+  2026-07-30  (2)
+    [IPO] JMKE     IPO Jersey Mike's Subs Inc. $?
+    [IPO] REF      IPO Reformation Inc. $?
+  (source errors: earnings: IncompleteRead: IncompleteRead(0 bytes read); dividends: net: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081))
+
+-- NEWS (expanded feeds) --
+  [TheBlock]
+    - Zilliqa halts native transactions over bug in its Ledger app dating to 2019
+    - BIS warns USD stablecoins can evade capital controls, challenging traditional market regulations
+    - US seeks forfeiture of $25 million in crypto tied to global fraud investigations
+  [Livemint]
+    - US stock market today: Wall Street edges lower ahead of Alphabet earnings; Brent climbs above $95
+    - PSU stock Coal India sets board meeting date to declare final dividend for FY26, record date. Details here
+    - Expert view: Market recovery may be closer than most people think, says Monarch Networth Capital CEO
+  [SpaceNews]
+    - The strategic competition with China: winning the multi-domain race
+    - Relativity Space to expand Terran R production in Florida
+    - Artemis 2 astronaut advocates for equatorial lunar landings
+  [TechCrunch]
+    - Cascade raises $3.5M to help construction firms find and win projects
+    - The browser wars arent about search anymore — here are the best alternatives to Chrome and Safari
+    - Passionfroot raises $15M to expand its B2B creator marketplace to the US
+  [TheRegister]
+    - OpenAI tries the consulting path with 'Presence', charging enterprises boots-on-the-ground prices to deploy agents
+    - Sneaky Windows stealer targets 300+ apps, gives crims an AI profiler to maximize profits
+    - Ireland stalls €1B Microsoft tender amid digital sovereignty questions
+  [Investing-DE]
+    - China Pharma stock tumbles nearly 70% on $5M direct offering
+    - Why is Philip Morris International stock surging today?
+    - Why is Nestlé stock rallying today?
+  [LiveMint]
+    - US stock market today: Wall Street edges lower ahead of Alphabet earnings; Brent climbs above $95
+    - PSU stock Coal India sets board meeting date to declare final dividend for FY26, record date. Details here
+    - Expert view: Market recovery may be closer than most people think, says Monarch Networth Capital CEO
+  [Brazil-Exame]
+    - CEO da Samsung explica como ganhou a confiança dos brasileiros no uso de IA
+    - Crianças no Roblox e Discord: ajustes de segurança que os pais precisam saber
+    - Alemanha aprova projeto nuclear com empresa estatal da Rússia
+  [Investing-FX]
+    - U.S. Treasury yields hover at multi-month highs as oil surge reignites Fed fears
+    - Euro and sterling hold firm ahead of ECB call as Bank Indonesia holds rates steady
+    - Forint weakens after Hungary’s central bank cuts rates
+
+-- SEC 8-K MATERIAL CATALYSTS (last 3 days) --
+  (unavailable: net: Remote end closed connection without response)
+
+-- INSIDER CLUSTER BUYS (last 30d, >=2 insiders) --
+  (unavailable: RemoteDisconnected: Remote end closed connection without response)
+
+-- DEFI STABLECOIN YIELDS (top 8 by APY, TVL >=$10M) --
+  (unavailable: net: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081))
+
+-- SHORT SQUEEZE WATCH (SI% float >= 10%) --
+  (no high-SI names found)
+
+-- ENERGY SNAPSHOT (FRED weekly) --
+  (unavailable: no data (FRED_KEY missing or all series failed))
+
+research only, not financial advice. verify before acting.
+
+[scan task log]
+  - 21:48:14  regime: gathering FRED macro / VIX / fear-greed
+  - 21:48:18  regime: NEUTRAL score=+0.00
+  - 21:48:18  quotes: collecting global universe (crypto/US/CN/TW/HK/FX/futures/indices + region/macro ETFs)
+  - 21:48:50  quotes: 67 curated instruments fetched
+  - 21:48:50  wide US funnel: pulling ~12k tickers from Polygon, pre-screening top 150
+  - 21:48:51  wide US funnel: 0 of 0 -> top 150 backtested [err: net: Remote end closed connection without response]
+  - 21:48:51  spillover funnel: scanning RSS headlines for theme keywords -> peer candidates
+  - 21:48:55  spillover funnel: 0 candidates across 0 themes -> ? fetched
+  - 21:48:55  wide CN funnel: pulling ~5,500 A-shares, pre-screening top 120
+  - 21:48:56  wide CN funnel: 100 of 100 -> top 120 backtested
+  - 21:48:56  opportunities: building candidate set from quotes + regime
+  - 21:48:56  opportunities: 97 raw candidates
+  - 21:48:56  backtest: enriching with technicals + E[R]/sigma/Sharpe
+  - 21:49:38  backtest: per-candidate family m=22 (global total=127) -> Bonferroni t>=3.05
+  - 21:49:38  news enrichment: Finnhub headlines + Polygon sentiment per candidate
+  - 21:49:38  news enrichment: done (0 candidates have fresh headlines)
+  - 21:49:38  catalyst enrichment: scanning Finnhub earnings/FDA/IPO + Polygon dividends
+  - 21:49:39  catalyst enrichment: 0 candidates have a near-term catalyst (+0 new)
+  - 21:49:39  PEAD confirmation: looking up recent earnings surprises for PEAD setups
+  - 21:49:39  PEAD confirmation: 0 PEAD setups confirmed by earnings surprise (+0 new)
+  - 21:49:39  options enrichment: pulling ATM straddles (CBOE) for top US candidates
+  - 21:49:39  options enrichment: 0 candidates have an RV/IV signal (+0 new)
+  - 21:49:39  country crisis: scanning 32 country ETFs for crisis signals
+  - 21:49:39  country crisis: 0 candidates in crisis (+0 new)
+  - 21:49:39  veto gate: 7 rows vetoed (7 crash-in-progress, 0 news-contradicts) -> PASS rows 0 -> 0
+  - 21:49:39  catalysts: printing freshest company news for top candidates
+  - 21:49:39  alt-data: pulling FRED macro/rates/credit, treasury curve, BTC funding, COT
+  - 21:49:41  catalyst calendar: Finnhub earnings/FDA/IPO + Polygon dividends (14d)
+  - 21:49:42  expanded news: sweeping all RSS feeds (equities/macro/CB/crypto/FX/commodities/regional)
+  - 21:49:56  expanded news: 9 feeds ok, 98 feeds failed
+  - 21:49:56  GDELT: 24h global market tone sweep
+  - 21:50:06  altdata2: SEC 8-K + insider clusters + DeFi yields + short squeeze + energy

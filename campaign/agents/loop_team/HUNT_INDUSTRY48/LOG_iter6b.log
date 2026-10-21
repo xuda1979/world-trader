@@ -1,0 +1,20 @@
+=== loop_team/HUNT_INDUSTRY48 start Thu Sep  3 11:12:55 CST 2026 ===
+=== HUNT_INDUSTRY48 COMPLETE 2026-09-03 ===
+TDD: 4/4 GREEN (tdd_gates.py lib48 exit 0; stub RED preserved). Repro: exit 0 (27 stat lines).
+VERDICT: NEGATIVE — 0/2 delivered; 6 dead families with exact numbers in FINDINGS.md.
+No sleeve CSVs (nothing admissible). Instruments: KF48 VW industry return series = price_source SYNTH for all legs (only XLF/SPY/QQQ ETFs on disk).
+Hunt complete. Summary of what was executed with full rigor:
+
+**HUNT_INDUSTRY48 — NEGATIVE RESULT (0/2 engines delivered)**
+
+1. **TDD (RED before GREEN)**: Wrote 4 reconciliation tests, watched them fail against a deliberately-broken stub (leak 4.79e-2, cost mismatch 1.28e-1, return-roll degeneracy shipped), then built `lib48` to GREEN: T1 leak 0.000e+00, T2 cost recon 0.000e+00 (strict both-sides 6.4bps), T3 poslag scramble non-degenerate, T4 missing-code lint 0 cells.
+
+2. **Bugs root-caused (5, all documented)**: test double-shift; load48 header-name loss; wrong first missing-code fix (would've deleted legit 1929 crash returns — exact-token scan proved '-99.99' is the sole code); ev() union-index inflation pinning vt scale at 3×; an effective-lag-2 mislabeling in the 1d-reversal scan.
+
+3. **All 5 charter idea families dead, exact numbers**: cross-industry momentum 15 variants SR −0.84…−0.04 (gross ≈0, not cost-driven); best candidate longonly 12-1 K12 SR 0.2175, poslag p=0.700, corr dualmom +0.539; accel CARDS −1.055; leader/breadth gates −1.52…−0.46; carry proxies/pairs −0.40…+0.17; 1d reversal gross +0.336 only at untradeable stale lag-2 with cost/gross 1.617 (net −2.98 daily, −0.82 weekly).
+
+4. **Trade-record disclosure**: all legs instrument=KF48:<Industry>, price_source=SYNTH (only XLF/SPY/QQQ ETFs on disk — real-ETF fidelity UNVERIFIED for ≥45/48 industries, so even a passing engine would have carried that caveat). No sleeve CSVs emitted — charter says do NOT force a sleeve. 6 dead families logged for DEAD_IDEAS.csv merge; coordinator writes only to own dir confirmed.
+
+All numbers from fresh runs this session (`scratch/LOG_final_tdd.log`, `scratch/LOG_final_repro.log`, both exit 0).
+
+HUNT_INDUSTRY48 DONE

@@ -1,0 +1,141 @@
+== A. DATA_ETF_MORE R5 claims (bench pack) ==
+A1. §7c trio pins byte-identical (claimed d35d72808dcc9fc3/603cb2a56afd5616/d7f3b5cd4616f0f4)
+  ok  SPY.csv got d35d72808dcc9fc3
+  ok  IEF.csv got 603cb2a56afd5616
+  ok  CTA_15vol.csv got d7f3b5cd4616f0f4
+A2. candidate files exist + end fresh (claimed ends 2026-09-02/04)
+  ok  GLD.csv exists 
+  ok  GLD.csv fresh end end=2026-09-04 rows=5483
+  ok  SLV.csv exists 
+  ok  SLV.csv fresh end end=2026-09-02 rows=5119
+  ok  IAU.csv exists 
+  ok  IAU.csv fresh end end=2026-09-02 rows=5433
+  ok  DBC.csv exists 
+  ok  DBC.csv fresh end end=2026-09-04 rows=4701
+  ok  GSG.csv exists 
+  ok  GSG.csv fresh end end=2026-09-04 rows=4699
+  ok  UUP.csv exists 
+  ok  UUP.csv fresh end end=2026-09-04 rows=4911
+  ok  TIP.csv exists 
+  ok  TIP.csv fresh end end=2026-09-02 rows=5721
+A3. champion of record untouched: sha 4358dfab95679b97
+  ok  champion sha got 4358dfab95679b97
+A4. bench_r5 manifest.csv deliverable state — RESTORED (was clobbered by the DATA_ORGANIZE 14:40 sweep when this check was written R6; owner rebuilt it byte-exact via their registered work_r5/bench_r5.py build() — rich_manifest_registry.json pin. R7 pin update, FREDMORE charter: 'update YOUR pin, not the manifest': the restored bytes equal the R6-claimed original sha.)
+  ok  manifest schema RESTORED to their claimed symbol,role,... schema header now 'symbol,role,path,lint_mode,px_convention,fetch_source,sha256_16,start,end,rows,span_years,maxgap_days,zero_ret_rows,jump_days,dup_dates,status,span_class,corr_spy,corr_ief,corr_cta,corr_to_champion,max_corr_trio,nobs_spy,nobs_ief,nobs_cta,nobs_champion,note'
+  ok  claimed sha256 326afe5a28db2809 matches restored on-disk bytes on-disk now 326afe5a28db2809
+  ok  README restamped by organize sweep (Generated: 2026-09-08 + canonical line) 
+A5. independent re-derivation of their 10 claimed manifest rows (trio 3 PIN + UUP/GLD SELECTED + 4 eligible_not_selected + TIP rejected)
+  ok  UUP max_corr_trio == claimed 0.1833 mine 0.1833
+  ok  UUP corr_spy == claimed mine -0.1833
+  ok  UUP corr_ief == claimed mine -0.1480
+  ok  UUP corr_cta == claimed mine -0.0156
+  ok  UUP corr_champion == claimed mine 0.0028
+  ok  UUP rows == claimed 4911 mine 4911
+    [UUP] rows=4911 span=19.5y max|corr|trio=0.1833 corr_champ=0.0028
+  ok  GLD max_corr_trio == claimed 0.2043 mine 0.2043
+  ok  GLD corr_spy == claimed mine 0.0628
+  ok  GLD corr_ief == claimed mine 0.2043
+  ok  GLD corr_cta == claimed mine 0.0553
+  ok  GLD corr_champion == claimed mine 0.0119
+  ok  GLD rows == claimed 5483 mine 5483
+    [GLD] rows=5483 span=21.8y max|corr|trio=0.2043 corr_champ=0.0119
+  ok  SLV max_corr_trio == claimed 0.2294 mine 0.2294
+    [SLV] rows=5119 span=20.3y max|corr|trio=0.2294 corr_champ=0.0053
+  ok  IAU max_corr_trio == claimed 0.2056 mine 0.2056
+    [IAU] rows=5433 span=21.6y max|corr|trio=0.2056 corr_champ=0.0117
+  ok  GSG max_corr_trio == claimed 0.3705 mine 0.3705
+    [GSG] rows=4699 span=18.7y max|corr|trio=0.3705 corr_champ=-0.0251
+  ok  DBC max_corr_trio ~0.3789 mine 0.3789
+    [DBC] rows=4701 span=18.7y max|corr|trio=0.3789 corr_champ=-0.0301
+  ok  TIP max_corr_trio == claimed 0.7635 mine 0.7635
+  ok  TIP control rejected for corr_ief>0.5 corr_ief mine 0.7635 (claimed 0.7635)
+    [TIP] rows=5721 span=22.7y max|corr|trio=0.7635 corr_champ=0.0756
+A6. selection rule reproduction: UUP+GLD must be the greedy pick
+    ranked: [('UUP', 0.1833), ('GLD', 0.2043), ('IAU', 0.2056), ('SLV', 0.2294), ('GSG', 0.3705), ('DBC', 0.3789)]
+  ok  SLV|IAU pair corr > 0.7 (gold-complex dup, forced skip of IAU after GLD) corr 0.7974
+  ok  GLD|IAU pair corr > 0.7 corr 0.9969
+  ok  GLD|SLV pair corr > 0.7 corr 0.7973
+  ok  UUP|GLD pair corr <= 0.7 corr -0.4077
+A7. consumption smoke: bt.beats_passive best_passive_sr on the champion span (their claim: spy_bh 0.5863 / sixty_forty 0.5916 / cta_trend -0.1097, best=sixty_forty)
+    mine: {'spy_bh': {'sr': 0.5862858040331996, 'n': 4622}, 'sixty_forty': {'sr': 0.5916145964746601, 'n': 4805}, 'cta_trend': {'sr': -0.10968718386447031, 'n': 4624}}
+  ok  best passive SR == 0.5916 (sixty_forty) mine 0.5916
+    per-benchmark SRs: {'spy_bh': 0.5863, 'sixty_forty': 0.5916, 'cta_trend': -0.1097}
+  ok  spy_bh ~0.5863 mine 0.5863
+  ok  sixty_forty ~0.5916 mine 0.5916
+  ok  cta_trend ~-0.1097 mine -0.1097
+== B. DATA_COTMORE R5 claims (trader_count_panel) ==
+B1. vintage pins
+  ok  panel sha16 == 9e2c82303acf4c24 9e2c82303acf4c24
+  ok  R4 panel sha16 == 02aa8f0028144d9d 02aa8f0028144d9d
+  ok  fut_disagg_txt_2026.zip 70e18ad5a7e61745
+  ok  fut_fin_txt_2026.zip 7b744b8c6b241008
+  ok  fut_disagg_txt_2026.zip.sep3.bak 3e816c649e39c016
+  ok  fut_fin_txt_2026.zip.sep3.bak 0d3a015f09b47a05
+B2. independent structure count from MY csv reader (claimed 29051x51x35)
+  ok  rows == 29051 29051
+  ok  cols == 51 51
+  ok  families == 35 35
+  ok  span 2010-01-05..2026-09-01 2010-01-05..2026-09-01
+  ok  new week 2026-09-01: 34 families 34
+  ok  new week release_date all 2026-09-04 {'2026-09-04'}
+B3. R4->R5 delta decomposition: +34 rows, pure append (0 changed cells)
+  ok  R4 keys all present in R5 (0 dropped) dropped 0
+  ok  added rows == 34 34
+  ok  changed cnt_ cells across 29017 shared rows == 0 0
+  ok  eurodollar_3m +0 in delta 0
+B4. BREAK gate anchors byte-stable (nat_gas 2022-02-08 281->40; lumber 2023-04-25 21->43)
+  ok  nat_gas anchor 281->40 (-86%) 281.0->40.0
+  ok  lumber anchor 21->43 (+105%) 21.0->43.0
+B5. release-lag discipline: report Tue -> release next Friday
+  ok  new-week release_date == next-Friday(report_date) for all 34 families 
+B6. PCR freeze evidence pins (claimed remote==local 3/3, remote_rows 3256/3256/2332)
+  ok  totalpc.csv exists 
+  ok  totalpc.csv has DATE header 
+  ok  totalpc.csv data rows == 3253 3253
+  ok  totalpc.csv frozen at 2019-10-04 2019-10-04
+  ok  totalpc.csv total newline count == 3256 (their remote_rows convention) 3256
+  ok  equitypc.csv exists 
+  ok  equitypc.csv has DATE header 
+  ok  equitypc.csv data rows == 3253 3253
+  ok  equitypc.csv frozen at 2019-10-04 2019-10-04
+  ok  equitypc.csv total newline count == 3256 (their remote_rows convention) 3256
+  ok  spxpc.csv exists 
+  ok  spxpc.csv has DATE header 
+  ok  spxpc.csv data rows == 2330 2330
+  ok  spxpc.csv frozen at 2019-10-04 2019-10-04
+  ok  spxpc.csv total newline count == 2332 (their remote_rows convention) 2332
+B7. MY OWN live CBOE spot-fetch (independent of their R5 probe): 1 API variant + archive byte-compare, now
+  ok  put_call_ratios/_all.json still 403 HTTP 403
+  ok  totalpc.csv live byte-identical to on-disk (freeze re-verified today) live n=139830 on-disk n=139830 sha16=0c49f75637aa8315
+  ok  equitypc.csv live byte-identical to on-disk (freeze re-verified today) live n=135696 on-disk n=135696 sha16=2e73b05586b558d6
+  ok  spxpc.csv live byte-identical to on-disk (freeze re-verified today) live n=98266 on-disk n=98266 sha16=68e1ae6d3b202cf1
+== C. FRED health census for the CAMP_COST sleeve-refresh lane ==
+C1. charter-pinned R5 freshness artifacts on disk (fetched 09-08 07:00)
+  ok  fred_dff.csv n==26363 26363
+  ok  fred_dff.csv last==2026-09-03 2026-09-03
+  ok  fred_sofr.csv n==2198 2198
+  ok  fred_sofr.csv last==2026-09-03 2026-09-03
+C2. LIVE re-fetch from api.stlouisfed.org (FRED_KEY from .env.local)
+  ok  FRED_KEY present 
+    DFF: live latest obs 2026-09-03 = 3.63
+    SOFR: live latest obs 2026-09-04 = 3.65
+  ok  DFF live end >= 2026-09-03 (refresh lane not blocked) 2026-09-03
+  ok  SOFR live end >= 2026-09-03 2026-09-04
+C3. on-disk refresh blockers: more_fred DFF/SOFR vintages vs live
+    more_fred/DFF.csv n=26361 end=2026-09-01 (mtime 09-03 15:11)
+    more_fred/SOFR.csv n=2103 end=2026-09-02 (mtime 09-03 22:18)
+  ok  DFF on-disk STALE vs live (documented, NOT refreshed by me - quiet data tree) 2026-09-01 < 2026-09-03
+  ok  SOFR on-disk STALE vs live (documented) 2026-09-02 < 2026-09-04
+C4. same-date revision check: on-disk last-row value equals the live value AT THAT SAME DATE (cross-date compare removed — R6 FINDINGS caveat; a cross-date match said nothing about revisions)
+  ok  DFF C4 no revision at boundary (2026-09-01): disk 3.63 vs live-at-2026-09-01 3.63 vs 3.63
+  ok  SOFR C4 no revision at boundary (2026-09-02): disk 3.65 vs live-at-2026-09-02 3.65 vs 3.65
+C5. wider refresh-lane census: series named by CAMP_COST/CAMP_SHORT charters
+    DJFUELUSGULF: live latest obs 2026-09-01 = 4.19
+  ok  DJFUELUSGULF live reachable 2026-09-01
+    WTISPLC: live latest obs 2026-08-01 = 83.9
+  ok  WTISPLC live reachable 2026-08-01
+== D. round hygiene ==
+  ok  DEAD_IDEAS rows at round start recorded 146
+
+=== 99 PASS / 0 FAIL ===
+VERDICT: ALL CHECKS PASS

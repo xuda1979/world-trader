@@ -1,0 +1,207 @@
+=== MONEY-LOOP scan started 2026-07-27 23:17:54 ===
+=== WORLD-TRADER GLOBAL SCAN  2026-07-27T15:17:54+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+-- OPEN NOW: 15 markets --
+   + BR (Brazil (B3))
+   + CA (Canada (TSX))
+   + CH (Switzerland (SIX))
+   + CRYPTO (Crypto (24/7))
+   + DE (Germany (Xetra))
+   + ES (Spain (BME))
+   + FR (France (Euronext Paris))
+   + FUT (Futures (CME/GLOBEX: commodities, bonds, index))
+   + FX (FX (24/5))
+   + IT (Italy (Borsa Italiana))
+   + MX (Mexico (BMV))
+   + NL (Netherlands (Euronext Amsterdam))
+   + SE (Sweden (Nasdaq Stockholm))
+   + UK (UK (LSE))
+   + US (US equities)
+
+-- REGIME: NEUTRAL  (score +0.23) --
+   VIX=18.58(+0.09)  10Y-2Y=0.36(+0.36)
+   [+spillover: 1 cross-asset candidates from 2 themes]
+
+-- LIVE QUOTES: 173 instruments fetched (crypto RT, US, China A-share live, Taiwan live, FX)  [wide US unavailable: net: Remote end closed connection without response]  [+wide CN A-share: 100 of 100 liquid names -> top 120, backtested] --
+
+=== OPPORTUNITIES (ranked by per-trade expected Sharpe = E[R]/sigma) ===
+  markets open now (2026-07-27T15:20:18+00:00): BR, CA, CH, CRYPTO, DE, ES, FR, FUT, FX, IT, MX, NL, SE, UK, US
+  YOUR BAR to qualify: E[R]>=+1%/trade, sigma<=7%*sqrt(h/5), Sharpe>=0.40, n>=20, t>=2 (Bonferroni-adj.), OOS Sharpe>0
+  >> markets open (BR, CA, CH, CRYPTO, DE, ES, FR, FUT, FX, IT, MX, NL, SE, UK, US) but no positive-expectancy edge measured this scan -- stand aside. An empty table is the honest answer.
+
+-- MACRO / RATES / CREDIT (FRED) --
+  US 2Y yield                4.3700000000  (2026-07-23)
+  US 10Y yield               4.7100000000  (2026-07-23)
+  US 30Y yield               5.1700000000  (2026-07-23)
+  10Y-2Y spread                    0.36  (2026-07-24)
+  10Y-3M spread                    0.73  (2026-07-24)
+  Fed funds                  3.6300000000  (2026-07-23)
+  VIX                             18.58  (2026-07-24)
+  M2 money supply               23052.3  (2026-05-01)
+  UST curve: 2Y 4.37%  10Y 4.71%
+
+-- CATALYST CALENDAR (next 14d; today=2026-07-27) --
+  (no actionable upcoming catalysts found)
+  errors: earnings: net: Remote end closed connection without response; ipo: RemoteDisconnected: Remote end closed connection without response; fda: RemoteDisconnected: Remote end closed connection without response; dividends: ConnectionResetError: [Errno 54] Connection reset by peer
+
+-- NEWS (expanded feeds) --
+  [FedPress]
+    - Agencies issue joint statement on handling of highly sensitive information during bank examinations
+    - Federal Reserve Board issues enforcement action with former chief lending officer of Heritage State Bank
+    - Minutes of the Board's discount rate meetings on June 8 and June 17, 2026
+  [Decrypt]
+    - Strategy Adds $525M to Cash Reserve, Skips Bitcoin Buy for Fifth Week
+    - Crypto Firms Pivoting to AI Is 'Zero-Sum' Thinking: Coinbase CEO
+    - Morning Minute: Tokenized Stocks Jump 5x on Robinhood Chain
+  [TheBlock]
+    - Metaplanets brokerage deal badly undersells plans for bitcoin-backed Bitbonds, Benchmark says
+    - Lido begins consolidating $16 billion worth of staked ETH as Curated Module v2 rolls out
+    - Bitmine adds nearly 10,000 ETH while repurchasing 6.1 million common shares
+  [Mining.com]
+    - Algae breakthrough could double rare earth concentrations
+    - Implats halts Rustenburg operations after six deaths
+    - Sundance Resources awarded $616M after Cameroons unlawful iron ore project grab
+  [SCMP-Biz]
+    - Hong Kong banks in early stages of preparing for quantum computing threats, HKMA says
+    - What CXMT must do to grow global memory market share and build on its surge: analysts
+    - Big Short trader Michael Burry’s rising bearish AI positions test China’s stock support
+  [SpaceNews]
+    - Orbes unveils Exo-ORB and agreement with Symphony Space
+    - Intel debuts new chip for space computing
+    - SpaceNews Welcomes Max Aliprandi as Business Development Associate
+  [TheRegister]
+    - Microsoft Defender for Endpoint leaves some Linux boxes defenseless after update
+    - Tech sector pours $1T into AI and sends customers the bill
+    - British Army finds a new eye in the sky after Watchkeeper woes
+  [BioPharma]
+    - <a href="/pharma/az-stays-track-80b-revenue-goal-cancer-meds-help-offset-ultomiris-miss" hreflang="en">AZ stays on track for $80B revenue goal as cancer meds, rare disease sales help offset Ultomiris miss</a>
+    - <a href="/pharma/legend-biotech-ceo-abruptly-steps-down-without-permanent-replacement" hreflang="en">Legend Biotech CEO abruptly steps down without permanent replacement</a>
+    - <a href="/sponsored/advancing-mcspc-treatment-closer-look-adt-darolutamide-dr-rana-mckay" hreflang="en">Advancing mCSPC Treatment: A Closer Look at ADT + Darolutamide with Dr. Rana McKay</a>
+  [Investing-UK]
+    - Global yields retreat as crude slide eases inflation fears ahead of Fed, BOE calls
+    - Sterling today: Pound edges lower against dollar ahead of Fed, BoE meetings
+    - Dollar slips as oil plunge cools rate-hike bets ahead of Fed, BOE and BOJ meetings
+  [Investing-DE]
+    - Micron vs SanDisk: comparing two memory stocks deep in correction territory
+    - On Semiconductor options point to 10% move on earnings
+    - NBCUniversal strikes a deal to offer Peacock to YouTube Premium subscribers
+  [Investing-IT]
+    - Drones attack Iran’s neighbours as Tehran appears to test Trump’s latest pause
+    - Gold rises as Middle East fighting pause weighs on oil
+    - Oil prices tumble over amid halt to fighting between U.S., Iran
+  [JijiPress]
+    - 米ウクライナ、空爆停止を提案か　ロシア側は慎重姿勢
+    - 作家の東野圭吾さん死去、６８歳　「白夜行」、「容疑者Ｘの献身」
+    - 米追加関税に「必要なあらゆる措置取る権利」　中国が「強制労働」否定し撤回要求
+  [MoneyControl]
+    - Sensex, Nifty wobbly; Hind Zinc, SBI, Force Motors most active
+    - Moneycontrol Exclusive: Govt plans overhaul of tax administration for smooth GST rollout
+    - Bond bull market may pause but is far from over: Expert
+  [LiveMint]
+    - Crude tumbles as US-Iran pause eases pressure, but risks to India’s oil supply remain
+    - PE at 18! Small-cap stock hits 52-week high logging 14% intraday gain
+    - Wall Street edges higher as oil prices slide after US-Iran hostilities pause, Microsoft climbs 2.6%, Google gains 2.8%
+  [BusinessStd]
+    - HDFC Bank concludes internal review on MSRDC arrangement
+    - NTPC fixes record date for final dividend
+    - Rupee posts biggest gain in six weeks as oil slump, inflows lift sentiment
+  [HinduBiz]
+    - Lohia Corp IPO subscribed 7.25 times on final day, QIBs lead the charge
+    - Xtranet Technologies IPO closes 12x subscribed; HNIs steal the show at 26x
+    - Q1 Results Today Live: BEL & Canara Bank Q1 PAT up, P N Gadgil PAT jumps 51%, HUDCO & TMB profit rise, Coal India, Tata Power, Indus Towers, Coforge, Godfrey Phillips to announce Q1 results
+  [EM-Investing]
+    - Langley Flower Shop Expands Flower Delivery Across the Lower Mainland
+    - Quote Trade Announces Native Support for XDC Network and Circle-Issued USDC on XDC
+    - MEXC Expands Ondo Tokenized Stock Offerings with AI Infrastructure and Mining Assets
+  [Brazil-Exame]
+    - Novo oficializa candidatura de Zema à Presidência, ainda sem vice nem alianças
+    - Nasa divulga imagem inédita que revela a 'verdadeira forma' da Terra
+    - Quais motos podem ser financiadas pelo programa do governo federal Move Brasil?
+  [MiningCom]
+    - Algae breakthrough could double rare earth concentrations
+    - Implats halts Rustenburg operations after six deaths
+    - Sundance Resources awarded $616M after Cameroons unlawful iron ore project grab
+  [FarmProgress]
+    - Should in-laws be included in family farm meetings?
+    - Will July go out with a whimper or a bang?
+    - USDA's record corn crop figures face growing skepticism
+  [CoinTelegraph]
+    - Bitcoin price eyes $66K as US stocks rise on Iran-strike pause
+    - Hong Kong crypto giant HashKey merges regional exchange into one
+    - Rate path still divides investors: Five things to know in Bitcoin this week
+  [CryptoSlate]
+    - On-chain data shows 5,280 ETH draining into single address following quiet Triple-A wallet breach
+    - SEC warning over crypto yield vaults puts DeFi’s secret human controllers in the crosshairs
+    - BitMart’s sudden shutdown triggers withdrawal delays and on-chain panic, echoing the ghosts of 2022
+  [BeInCrypto]
+    - Global Bond Yields Hit Highest Level Since 2008 as Fed Decision Looms
+    - Bitcoin Course at Risk in El Salvador? 2027 Election Rivals Challenge Nayib Bukele
+    - Anthropic Nearly Tripled Its Lobbying Bill to $3.53 Million in Six Months
+  [NewsBTC]
+    - BitMEX Faces Proposed Class Action Seeking Return Of 622 BTC
+    - CLARITY Act Delay Shows Crypto Market Structure Fight Is Not Over
+    - Robinhood CEO X Hack Shows Why Crypto Scams Still Target Trusted Names
+  [BitcoinMag]
+    - Strategy Skips Bitcoin Again, Buys Back $25M of STRC Stock
+    - Morgan Stanley Bitcoin ETF Nearly Notches $400M in Assets
+    - $7 Trillion Investment Giant Fidelity Backs New Crypto Clarity Act
+  [TheDefiant]
+    - SummerFi to Wind Down After Seven Years, Citing Exploit
+    - eToro Takes Strategic Stake in Onchain Derivatives Exchange Extended, Plans Zengo Tie-Up
+    - NEAR Governance Votes to Scrap Developer Gas Rebate
+  [Investing-FX]
+    - Global yields retreat as crude slide eases inflation fears ahead of Fed, BOE calls
+    - Sterling today: Pound edges lower against dollar ahead of Fed, BoE meetings
+    - Dollar slips as oil plunge cools rate-hike bets ahead of Fed, BOE and BOJ meetings
+
+-- SEC 8-K MATERIAL CATALYSTS (last 3 days) --
+  (unavailable: net: Remote end closed connection without response)
+
+-- INSIDER CLUSTER BUYS (last 30d, >=2 insiders) --
+  (unavailable: IncompleteRead: IncompleteRead(43548 bytes read))
+
+-- DEFI STABLECOIN YIELDS (top 8 by APY, TVL >=$10M) --
+  (unavailable: net: Remote end closed connection without response)
+
+-- SHORT SQUEEZE WATCH (SI% float >= 10%) --
+  (no high-SI names found)
+
+-- ENERGY SNAPSHOT (FRED weekly) --
+  (altdata2 error: TypeError: unsupported format string passed to NoneType.__for)
+
+research only, not financial advice. verify before acting.
+
+[scan task log]
+  - 23:17:54  regime: gathering FRED macro / VIX / fear-greed
+  - 23:17:59  regime: NEUTRAL score=+0.23
+  - 23:17:59  quotes: collecting global universe (crypto/US/CN/TW/HK/FX/futures/indices + region/macro ETFs)
+  - 23:19:10  quotes: 77 curated instruments fetched
+  - 23:19:10  wide US funnel: pulling ~12k tickers from Polygon, pre-screening top 150
+  - 23:19:13  wide US funnel: 0 of 0 -> top 150 backtested [err: net: Remote end closed connection without response]
+  - 23:19:13  spillover funnel: scanning RSS headlines for theme keywords -> peer candidates
+  - 23:19:30  spillover funnel: 11 candidates across 2 themes -> 1 fetched
+  - 23:19:30  wide CN funnel: pulling ~5,500 A-shares, pre-screening top 120
+  - 23:19:33  wide CN funnel: 100 of 100 -> top 120 backtested
+  - 23:19:33  opportunities: building candidate set from quotes + regime
+  - 23:19:33  opportunities: 66 raw candidates
+  - 23:19:33  backtest: enriching with technicals + E[R]/sigma/Sharpe
+  - 23:19:54  backtest: per-candidate family m=13 (global total=98) -> Bonferroni t>=2.89
+  - 23:19:54  news enrichment: Finnhub headlines + Polygon sentiment per candidate
+  - 23:19:54  news enrichment: done (0 candidates have fresh headlines)
+  - 23:19:54  catalyst enrichment: scanning Finnhub earnings/FDA/IPO + Polygon dividends
+  - 23:19:55  catalyst enrichment: 0 candidates have a near-term catalyst (+0 new)
+  - 23:19:55  PEAD confirmation: looking up recent earnings surprises for PEAD setups
+  - 23:19:55  PEAD confirmation: 0 PEAD setups confirmed by earnings surprise (+0 new)
+  - 23:19:55  options enrichment: pulling ATM straddles (CBOE) for top US candidates
+  - 23:19:55  options enrichment: 0 candidates have an RV/IV signal (+0 new)
+  - 23:19:55  country crisis: scanning 32 country ETFs for crisis signals
+  - 23:20:16  country crisis: 0 candidates in crisis (+0 new)
+  - 23:20:16  veto gate: 1 rows vetoed (1 crash-in-progress, 0 news-contradicts) -> PASS rows 0 -> 0
+  - 23:20:18  catalysts: printing freshest company news for top candidates
+  - 23:20:20  alt-data: pulling FRED macro/rates/credit, treasury curve, BTC funding, COT
+  - 23:20:29  catalyst calendar: Finnhub earnings/FDA/IPO + Polygon dividends (14d)
+  - 23:20:32  expanded news: sweeping all RSS feeds (equities/macro/CB/crypto/FX/commodities/regional)
+  - 23:21:45  expanded news: 27 feeds ok, 77 feeds failed
+  - 23:21:45  GDELT: 24h global market tone sweep
+  - 23:21:50  altdata2: SEC 8-K + insider clusters + DeFi yields + short squeeze + energy

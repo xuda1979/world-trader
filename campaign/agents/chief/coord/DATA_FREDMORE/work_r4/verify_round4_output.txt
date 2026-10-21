@@ -1,0 +1,71 @@
+PASS  manifest.no_dup_ids n=28
+PASS  manifest.pass_row_implies_file missing=[]
+PASS  manifest.no_file_for_failed_row []
+PASS  file.BXM n=6151 2002-03-22..2026-09-04 maxgap=5
+PASS  file.BXMD n=10125 1986-06-20..2026-09-04 maxgap=7
+PASS  file.BXY n=9633 1988-06-01..2026-09-04 maxgap=7
+PASS  file.CLL_era2 n=1134 2008-12-01..2013-06-21 maxgap=5
+PASS  file.CLL_era3 n=3299 2013-07-02..2026-09-04 maxgap=5
+PASS  file.LOVOL n=5145 2006-03-21..2026-09-04 maxgap=5
+PASS  file.PPUT n=10119 1986-06-30..2026-09-04 maxgap=7
+PASS  file.PUTR n=6434 2001-01-31..2026-09-04 maxgap=7
+PASS  file.VXAPL n=3934 2011-01-07..2026-09-04 maxgap=5
+PASS  file.VXEEM n=3888 2011-03-16..2026-09-04 maxgap=5
+PASS  file.VXFXI_era1 n=2744 2011-03-16..2022-02-11 maxgap=5
+PASS  file.VXFXI_era2 n=245 2025-09-16..2026-09-04 maxgap=4
+PASS  file.VXGDX_era1 n=2744 2011-03-16..2022-02-11 maxgap=5
+PASS  file.VXGDX_era2 n=245 2025-09-16..2026-09-04 maxgap=4
+PASS  file.VXGS n=3934 2011-01-07..2026-09-04 maxgap=5
+PASS  file.VXIBM n=3934 2011-01-07..2026-09-04 maxgap=5
+PASS  file.VXPFE n=490 2020-11-27..2022-11-07 maxgap=4
+PASS  file.VXSLV_era1 n=2744 2011-03-16..2022-02-11 maxgap=5
+PASS  file.VXSLV_era2 n=329 2025-05-15..2026-09-04 maxgap=4
+PASS  file.VXVXX n=490 2020-11-27..2022-11-07 maxgap=4
+PASS  file.VXWMT n=490 2020-11-27..2022-11-07 maxgap=4
+PASS  file.WPUT n=5179 2006-01-31..2026-09-04 maxgap=5
+PASS  file.count n_files=22
+PASS  era.VXGDX.parent_failed reason=gap: 1 gaps > 9d (max 1313d) | split into eras: VXGDX_era1 n
+PASS  era.VXGDX_era1.contig maxgap=5
+PASS  era.VXGDX_era2.contig maxgap=4
+PASS  era.VXGDX.order 2022-02-11 < 2025-09-16
+PASS  era.VXGDX.no_fabrication parent_n=2989 = 2744+245(+0 undelivered)
+PASS  era.VXGDX.span_matches 2011-03-16..2026-09-04
+PASS  era.VXGDX_era1.on_disk 
+PASS  era.VXGDX_era2.on_disk 
+PASS  era.VXSLV.parent_failed reason=gap: 1 gaps > 9d (max 1189d) | split into eras: VXSLV_era1 n
+PASS  era.VXSLV_era1.contig maxgap=5
+PASS  era.VXSLV_era2.contig maxgap=4
+PASS  era.VXSLV.order 2022-02-11 < 2025-05-15
+PASS  era.VXSLV.no_fabrication parent_n=3073 = 2744+329(+0 undelivered)
+PASS  era.VXSLV.span_matches 2011-03-16..2026-09-04
+PASS  era.VXSLV_era1.on_disk 
+PASS  era.VXSLV_era2.on_disk 
+PASS  era.VXFXI.parent_failed reason=gap: 1 gaps > 9d (max 1313d) | split into eras: VXFXI_era1 n
+PASS  era.VXFXI_era1.contig maxgap=5
+PASS  era.VXFXI_era2.contig maxgap=4
+PASS  era.VXFXI.order 2022-02-11 < 2025-09-16
+PASS  era.VXFXI.no_fabrication parent_n=2989 = 2744+245(+0 undelivered)
+PASS  era.VXFXI.span_matches 2011-03-16..2026-09-04
+PASS  era.VXFXI_era1.on_disk 
+PASS  era.VXFXI_era2.on_disk 
+PASS  era.CLL.parent_failed reason=gap: 2 gaps > 9d (max 11d) | split into eras: CLL_era2 n=113
+PASS  era.CLL_era2.contig maxgap=5
+PASS  era.CLL_era3.contig maxgap=5
+PASS  era.CLL.order 2013-06-21 < 2013-07-02
+PASS  era.CLL.no_fabrication parent_n=4494 = 1134+3299(+61 undelivered)
+PASS  era.CLL.span_matches 2008-08-26..2026-09-04
+PASS  era.CLL_era2.on_disk 
+PASS  era.CLL_era3.on_disk 
+PASS  fact.VXPFE_frozen_2022 end=2022-11-07
+PASS  fact.BXY_1988 start=1988-06-01
+PASS  fact.BXMD_1986 start=1986-06-20
+PASS  fact.PPUT_1986 start=1986-06-30
+PASS  fact.CLL_era1_failclosed n=61
+PASS  probe.saved_output 
+PASS  probe.blocked_403 n_blocked=4
+PASS  probe.ohlcv_has_no_putcall_fields ['close', 'date', 'high', 'low', 'open', 'volume']
+PASS  probe.snapshot_timestamp 2026-09-07 15:35:36
+PASS  probe.control_200 bytes=472309
+PASS  dedup.PUT_skipped dedup: already in tools/quant/data/cboe_flow
+
+TOTAL: 69 PASS / 0 FAIL

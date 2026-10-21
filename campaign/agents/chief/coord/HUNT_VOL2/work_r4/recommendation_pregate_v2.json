@@ -1,0 +1,41 @@
+{
+  "verdict": "NOTHING_ADOPTABLE (pregate re-statement, 0/6 candidates, 0/50 HARD-rung rungs)",
+  "champion_of_record": {
+    "file": "campaign/results/GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv",
+    "sha256_16": "4358dfab95679b97",
+    "committed_at_HEAD": true,
+    "ann_pct": 37.195,
+    "sr": 3.181,
+    "mdd_pct": -6.69,
+    "neg_years": 0,
+    "span": "2008-03-31..2026-08-27",
+    "n": 4805,
+    "note": "costfix re-emit (commit b268e52); worktree==HEAD \u2014 R3's pin-drift incident resolved"
+  },
+  "pregate_inputs": {
+    "MSSW": "SHORT_LEG_UNKNOWN -> RESOLVED: fixed-weight 6-stream blend (w_fx proven 0.042105263155818 via 134 fx-only-day ratio const to sd 2.9e-11); weights recovered ls .4482/cta .0819/macro .0185/statarb .0657/rp .3169/fx .0429, R2=.9995, residual 2.15bp/d rms 0.03% explained by streams (input drift, not weight error); byte-repro honestly FALSE (4/6 stream files regenerated post-commit e0e47e0). Short = 6.62% NAV -> HARD 8%/yr = 0.529%/yr sleeve drag = 1.32bp/yr book-level at w=2.5%",
+    "CRX1030": "perp funding stress 10%/yr on measured avg-long 52.8% = 13.2bp/yr book at w=2.5% (matches R3 disclosure)",
+    "A_rs": "long-only, delta 0",
+    "A11": "long-only, delta 0",
+    "COMP50d": "long-only, delta 0",
+    "CMDTrot_h2": "ETF, 0.5%/yr already inside published net, delta 0"
+  },
+  "best_dann_pp_HARD_rung_per_candidate": {
+    "MSSW": -0.635,
+    "CRX1030": -0.877,
+    "A_rs": -0.807,
+    "A11": -0.906,
+    "COMP50d": -0.992,
+    "CMDTrot_h2": -0.795
+  },
+  "gate_bar": "dAnn > 0 net of ALL costs incl pregate borrow",
+  "passed": 0,
+  "delta_vs_R3": "R3 best dAnn -0.69pp (MSSW@2.5%) becomes -0.63pp vs champion-of-record (champion lower ann 37.2 vs 39.9 raises sleeve relative value) minus 1.32bp pregate borrow = -0.65pp; universal dAnn<0-at-every-w pattern unchanged; dSR>0 unchanged (up to +0.126 MSSW@15%) but 2/6 artifact verdicts from R3 control unchanged",
+  "caveat_COMP50d_drift": "HUNT_SECTOR2 sleeve file regenerated 17:43 today (n 2064->2047, start 2018-09->2018-06); v2 table uses current file, dAnn@2.5% moved -1.18->-0.99pp",
+  "artifacts": [
+    "work_r4/blend_table_pregate_v2_champ.csv",
+    "work_r4/blend_table_pregate.csv (vs R3 pin, HARD+EASY rungs)",
+    "work_r4/mssw_reconstruct.py",
+    "work_r4/test_mssw_reconstruct.py (5/5 green)"
+  ]
+}

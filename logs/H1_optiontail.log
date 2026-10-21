@@ -1,0 +1,18 @@
+=== agent H1_optiontail attempt 1 start Wed Sep 16 14:45:58 CST 2026 ===
+**Complete.** Deliverables written to `campaign/agents/H1_optiontail_results/`:
+
+| file | status |
+|---|---|
+| `H1_tailfactor.csv` | 9 symbols × (symbol, p20_30d, var95, var99, skew, kurt) — 9/9 emitted, 0 rejects |
+| `H1_diagnostics.csv` | norm_Z, ATM iv30d, iv@0.8S, digital cross-check, wing mass per symbol |
+| `H1_build_tailfactor.py` | reproducible offline build |
+| `H1_report.md` | verdict at top, full derivation, collection schedule; last line `DONE H1_optiontail` |
+
+**Verdict: PASS as state estimation — explicitly NOT a backtest.** Only one options snapshot exists (2026-09-08); no historical IV series → backtest fail-open. Champion comparison N/A; cost rules (6bps/|dW| + 4.5% margin + 0.5% borrow) documented as requirements for the future sleeve.
+
+**Method (T+1 causal by construction, single-date input):** parity-regressed r,q per expiry → SVI fit of total-variance smile per expiry (delta is monotone in k, so this is the delta+iv interpolation) → linear total-variance interpolation to T=30/365 → Breeden–Litzenberger pdf on a log grid → P^Q(S_T<0.8S₀), var95/99, skew/excess kurt.
+
+**Headline Q-measure tail state:** SPY p20=0.34%, var99=−11.6%, skew −3.6 · QQQ/IWM ≈0.6% · TSLA 1.82%/NVDA 1.61% (steepest single-stock tails) · GLD +0.41 and TLT +0.12 positive skew · TLT p20=0.005%. All risk-neutral — overstate physical probabilities.
+
+**Validation:** norm_Z=1.000 (gate [0.9,1.1]) for all 9; independent model-free digital cross-check e^{rT}∂P/∂K agrees with BL p20 to ≤0.0002 abs on every symbol; 0.8S inside observed strike range for 9/9 (p20 quoted from data, not extrapolation). **Fail-closed REJECTs logged en route** (none shipped): constant-step ∂² on log grid (Z≈14–19), PCHIP+flat-wings smile (Z up to 1.58 on GLD/MSFT/QQQ), digital sign error — all replaced by the SVI/non-uniform-grid engine. Known caveat documented: kurt (SPY 39) is wing-extrapolation sensitive; skew/var95/var99 are in-data.
+=== agent H1_optiontail attempt 1 end Wed Sep 16 15:03:49 CST 2026 exit 0 ===

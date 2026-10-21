@@ -1,0 +1,1827 @@
+########## LOOP 2026-07-18 00:43:03 CST ##########
+/Users/daxu/software/world-trader/tools/loop_scan.py:132: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:14s} fr_1h={r['fr_pct_1h']:+.4f}% APR={r['apr_pct']:+.1f}% OI=\${r['oi_usd']/1e6:.1f}M")
+/Users/daxu/software/world-trader/tools/loop_scan.py:143: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:8s} avg=\${r['avg_price']:.5f} depeg={r['depeg_bps']:+.1f}bps "
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:168: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"straddle=\${r['straddle_cost']:.2f} ({r['trade']})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+=== LOOP SCAN 2026-07-18 00:43:03 CST ===
+--- Funding arb scanner error: <urlopen error timed out> ---
+
+--- Cross-exchange funding — 0 candidates (exchanges: ['binance_funding', 'bitget', 'bybit_funding', 'gate', 'okx_funding']) ---
+
+--- Spot arb (order-book verified) — 0 candidates ---
+
+--- Quarterly basis (cash and carry) — 0 candidates ---
+
+--- Triangular arb (Binance spot) — 0 candidates ---
+--- Perp-spot basis scanner error: <urlopen error timed out> ---
+
+--- Hyperliquid funding (1h interval) — 5 candidates ---
+  CASHCAT        fr_1h=+0.0288% APR=+252.3% OI=\$12.2M
+  STABLE         fr_1h=-0.0150% APR=-131.2% OI=\$2.5M
+  MET            fr_1h=-0.0127% APR=-111.3% OI=\$1.8M
+  kBONK          fr_1h=-0.0116% APR=-101.9% OI=\$7.7M
+  W              fr_1h=-0.0105% APR=-91.9% OI=\$1.4M
+
+--- Stablecoin depeg — 6 candidates ---
+  USTC     avg=\$0.00543 depeg=-9945.7bps (hi gate \$0.00543 / lo gate \$0.00543)
+  FRAX     avg=\$0.25700 depeg=-7430.0bps (hi gate \$0.25700 / lo gate \$0.25700)
+  SUSD     avg=\$0.66870 depeg=-3313.0bps (hi gate \$0.66870 / lo gate \$0.66870)
+  TUSD     avg=\$0.99800 depeg=-20.0bps (hi gate \$0.99800 / lo gate \$0.99800)
+  FDUSD    avg=\$0.99840 depeg=-16.0bps (hi gate \$0.99840 / lo gate \$0.99840)
+  GUSD     avg=\$0.99870 depeg=-13.0bps (hi gate \$0.99870 / lo gate \$0.99870)
+
+--- DEX-CEX arb (Uniswap V3 vs Binance) — 0 candidates ---
+
+--- Options RV/IV edge — 0 candidates ---
+
+--- Kimchi premium (Korean BTC vs Binance) — 0 candidates ---
+  error: binance unavailable
+
+--- Prediction market arb (Polymarket) --- 0 candidates ---
+  error: fetch error: <urlopen error timed out>
+--- Calendar spread scanner error: <urlopen error timed out> ---
+
+--- Curve pool depeg --- 0 candidates ---
+  error: curve API unavailable
+
+--- Stat arb (cointegration) --- 0 candidates ---
+
+########## LOOP 2026-07-18 01:21:10 CST ##########
+/Users/daxu/software/world-trader/tools/loop_scan.py:132: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:14s} fr_1h={r['fr_pct_1h']:+.4f}% APR={r['apr_pct']:+.1f}% OI=\${r['oi_usd']/1e6:.1f}M")
+/Users/daxu/software/world-trader/tools/loop_scan.py:143: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:8s} avg=\${r['avg_price']:.5f} depeg={r['depeg_bps']:+.1f}bps "
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:168: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"straddle=\${r['straddle_cost']:.2f} ({r['trade']})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+=== LOOP SCAN 2026-07-18 01:21:10 CST ===
+--- Funding arb scanner error: <urlopen error timed out> ---
+
+--- Cross-exchange funding — 0 candidates (exchanges: ['binance_funding', 'bitget', 'bybit_funding', 'gate', 'okx_funding']) ---
+
+--- Spot arb (order-book verified) — 0 candidates ---
+
+--- Quarterly basis (cash and carry) — 0 candidates ---
+
+--- Triangular arb (Binance spot) — 0 candidates ---
+--- Perp-spot basis scanner error: <urlopen error timed out> ---
+
+--- Hyperliquid funding (1h interval) — 4 candidates ---
+  CASHCAT        fr_1h=+0.0544% APR=+476.3% OI=\$13.4M
+  STABLE         fr_1h=-0.0260% APR=-227.4% OI=\$2.5M
+  MET            fr_1h=-0.0183% APR=-160.0% OI=\$1.8M
+  kBONK          fr_1h=-0.0151% APR=-132.7% OI=\$7.8M
+
+--- Stablecoin depeg — 6 candidates ---
+  USTC     avg=\$0.00543 depeg=-9945.7bps (hi gate \$0.00543 / lo gate \$0.00543)
+  FRAX     avg=\$0.26050 depeg=-7395.0bps (hi gate \$0.26050 / lo gate \$0.26050)
+  SUSD     avg=\$0.69080 depeg=-3092.0bps (hi gate \$0.69080 / lo gate \$0.69080)
+  TUSD     avg=\$0.99800 depeg=-20.0bps (hi gate \$0.99800 / lo gate \$0.99800)
+  FDUSD    avg=\$0.99840 depeg=-16.0bps (hi gate \$0.99840 / lo gate \$0.99840)
+  GUSD     avg=\$0.99870 depeg=-13.0bps (hi gate \$0.99870 / lo gate \$0.99870)
+
+--- DEX-CEX arb (Uniswap V3 vs Binance) — 0 candidates ---
+
+--- Options RV/IV edge — 0 candidates ---
+
+--- Kimchi premium (Korean BTC vs Binance) — 0 candidates ---
+  error: binance unavailable
+
+--- Prediction market arb (Polymarket) --- 0 candidates ---
+  error: fetch error: <urlopen error timed out>
+--- Calendar spread scanner error: <urlopen error [Errno 54] Connection reset by peer> ---
+
+--- Curve pool depeg --- 0 candidates ---
+  error: curve API unavailable
+
+--- Stat arb (cointegration) --- 0 candidates ---
+
+########## LOOP 2026-07-18 02:10:26 CST ##########
+/Users/daxu/software/world-trader/tools/loop_scan.py:132: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:14s} fr_1h={r['fr_pct_1h']:+.4f}% APR={r['apr_pct']:+.1f}% OI=\${r['oi_usd']/1e6:.1f}M")
+/Users/daxu/software/world-trader/tools/loop_scan.py:143: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:8s} avg=\${r['avg_price']:.5f} depeg={r['depeg_bps']:+.1f}bps "
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:168: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"straddle=\${r['straddle_cost']:.2f} ({r['trade']})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+=== LOOP SCAN 2026-07-18 02:10:27 CST ===
+--- Funding arb scanner error: <urlopen error timed out> ---
+
+--- Cross-exchange funding — 0 candidates (exchanges: ['binance_funding', 'bitget', 'bybit_funding', 'gate', 'okx_funding']) ---
+
+--- Spot arb (order-book verified) — 0 candidates ---
+
+--- Quarterly basis (cash and carry) — 0 candidates ---
+
+--- Triangular arb (Binance spot) — 0 candidates ---
+--- Perp-spot basis scanner error: <urlopen error timed out> ---
+
+--- Hyperliquid funding (1h interval) — 5 candidates ---
+  CASHCAT        fr_1h=+0.0400% APR=+350.7% OI=\$13.0M
+  kBONK          fr_1h=-0.0306% APR=-267.9% OI=\$7.8M
+  STABLE         fr_1h=-0.0256% APR=-224.3% OI=\$2.4M
+  VVV            fr_1h=+0.0149% APR=+130.9% OI=\$23.4M
+  W              fr_1h=-0.0102% APR=-89.4% OI=\$1.4M
+
+--- Stablecoin depeg — 6 candidates ---
+  USTC     avg=\$0.00553 depeg=-9944.7bps (hi gate \$0.00553 / lo gate \$0.00553)
+  FRAX     avg=\$0.26050 depeg=-7395.0bps (hi gate \$0.26050 / lo gate \$0.26050)
+  SUSD     avg=\$0.69170 depeg=-3083.0bps (hi gate \$0.69170 / lo gate \$0.69170)
+  TUSD     avg=\$0.99800 depeg=-20.0bps (hi gate \$0.99800 / lo gate \$0.99800)
+  FDUSD    avg=\$0.99840 depeg=-16.0bps (hi gate \$0.99840 / lo gate \$0.99840)
+  GUSD     avg=\$0.99870 depeg=-13.0bps (hi gate \$0.99870 / lo gate \$0.99870)
+
+--- DEX-CEX arb (Uniswap V3 vs Binance) — 0 candidates ---
+
+--- Options RV/IV edge — 0 candidates ---
+
+--- Kimchi premium (Korean BTC vs Binance) — 0 candidates ---
+  error: binance unavailable
+
+--- Prediction market arb (Polymarket) --- 0 candidates ---
+  error: fetch error: <urlopen error timed out>
+--- Calendar spread scanner error: <urlopen error timed out> ---
+
+--- Curve pool depeg --- 0 candidates ---
+  error: curve API unavailable
+
+--- Stat arb (cointegration) --- 0 candidates ---
+
+########## LOOP 2026-07-18 02:59:19 CST ##########
+/Users/daxu/software/world-trader/tools/loop_scan.py:132: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:14s} fr_1h={r['fr_pct_1h']:+.4f}% APR={r['apr_pct']:+.1f}% OI=\${r['oi_usd']/1e6:.1f}M")
+/Users/daxu/software/world-trader/tools/loop_scan.py:143: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:8s} avg=\${r['avg_price']:.5f} depeg={r['depeg_bps']:+.1f}bps "
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:168: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"straddle=\${r['straddle_cost']:.2f} ({r['trade']})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+=== LOOP SCAN 2026-07-18 02:59:19 CST ===
+--- Funding arb scanner error: <urlopen error timed out> ---
+
+--- Cross-exchange funding — 0 candidates (exchanges: ['binance_funding', 'bitget', 'bybit_funding', 'gate', 'okx_funding']) ---
+
+--- Spot arb (order-book verified) — 0 candidates ---
+
+--- Quarterly basis (cash and carry) — 0 candidates ---
+
+--- Triangular arb (Binance spot) — 0 candidates ---
+--- Perp-spot basis scanner error: <urlopen error timed out> ---
+
+--- Hyperliquid funding (1h interval) — 6 candidates ---
+  kBONK          fr_1h=-0.0363% APR=-318.1% OI=\$7.8M
+  CASHCAT        fr_1h=+0.0287% APR=+251.1% OI=\$12.9M
+  STABLE         fr_1h=-0.0205% APR=-179.7% OI=\$2.4M
+  VVV            fr_1h=+0.0184% APR=+161.2% OI=\$23.3M
+  MET            fr_1h=-0.0163% APR=-143.1% OI=\$1.7M
+  POLYX          fr_1h=-0.0110% APR=-96.8% OI=\$0.1M
+
+--- Stablecoin depeg — 6 candidates ---
+  USTC     avg=\$0.00553 depeg=-9944.7bps (hi gate \$0.00553 / lo gate \$0.00553)
+  FRAX     avg=\$0.26050 depeg=-7395.0bps (hi gate \$0.26050 / lo gate \$0.26050)
+  SUSD     avg=\$0.69170 depeg=-3083.0bps (hi gate \$0.69170 / lo gate \$0.69170)
+  TUSD     avg=\$0.99810 depeg=-19.0bps (hi gate \$0.99810 / lo gate \$0.99810)
+  FDUSD    avg=\$0.99840 depeg=-16.0bps (hi gate \$0.99840 / lo gate \$0.99840)
+  GUSD     avg=\$0.99880 depeg=-12.0bps (hi gate \$0.99880 / lo gate \$0.99880)
+
+--- DEX-CEX arb (Uniswap V3 vs Binance) — 0 candidates ---
+
+--- Options RV/IV edge — 0 candidates ---
+
+--- Kimchi premium (Korean BTC vs Binance) — 0 candidates ---
+  error: binance unavailable
+
+--- Prediction market arb (Polymarket) --- 0 candidates ---
+  error: fetch error: <urlopen error timed out>
+--- Calendar spread scanner error: <urlopen error timed out> ---
+
+--- Curve pool depeg --- 0 candidates ---
+  error: curve API unavailable
+
+--- Stat arb (cointegration) --- 0 candidates ---
+
+########## LOOP 2026-07-18 03:48:13 CST ##########
+/Users/daxu/software/world-trader/tools/loop_scan.py:132: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:14s} fr_1h={r['fr_pct_1h']:+.4f}% APR={r['apr_pct']:+.1f}% OI=\${r['oi_usd']/1e6:.1f}M")
+/Users/daxu/software/world-trader/tools/loop_scan.py:143: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:8s} avg=\${r['avg_price']:.5f} depeg={r['depeg_bps']:+.1f}bps "
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:168: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"straddle=\${r['straddle_cost']:.2f} ({r['trade']})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+=== LOOP SCAN 2026-07-18 03:48:13 CST ===
+--- Funding arb scanner error: <urlopen error timed out> ---
+
+--- Cross-exchange funding — 0 candidates (exchanges: ['binance_funding', 'bitget', 'bybit_funding', 'gate', 'okx_funding']) ---
+
+--- Spot arb (order-book verified) — 0 candidates ---
+
+--- Quarterly basis (cash and carry) — 0 candidates ---
+
+--- Triangular arb (Binance spot) — 0 candidates ---
+--- Perp-spot basis scanner error: <urlopen error timed out> ---
+
+--- Hyperliquid funding (1h interval) — 5 candidates ---
+  kBONK          fr_1h=-0.0423% APR=-370.6% OI=\$7.8M
+  CASHCAT        fr_1h=+0.0255% APR=+223.1% OI=\$11.9M
+  STABLE         fr_1h=-0.0217% APR=-190.0% OI=\$2.4M
+  MET            fr_1h=-0.0168% APR=-147.4% OI=\$1.7M
+  VVV            fr_1h=+0.0105% APR=+91.5% OI=\$23.1M
+
+--- Stablecoin depeg — 6 candidates ---
+  USTC     avg=\$0.00547 depeg=-9945.3bps (hi gate \$0.00547 / lo gate \$0.00547)
+  FRAX     avg=\$0.26050 depeg=-7395.0bps (hi gate \$0.26050 / lo gate \$0.26050)
+  SUSD     avg=\$0.69050 depeg=-3095.0bps (hi gate \$0.69050 / lo gate \$0.69050)
+  TUSD     avg=\$0.99810 depeg=-19.0bps (hi gate \$0.99810 / lo gate \$0.99810)
+  FDUSD    avg=\$0.99840 depeg=-16.0bps (hi gate \$0.99840 / lo gate \$0.99840)
+  GUSD     avg=\$0.99870 depeg=-13.0bps (hi gate \$0.99870 / lo gate \$0.99870)
+
+--- DEX-CEX arb (Uniswap V3 vs Binance) — 0 candidates ---
+
+--- Options RV/IV edge — 0 candidates ---
+
+--- Kimchi premium (Korean BTC vs Binance) — 0 candidates ---
+  error: binance unavailable
+
+--- Prediction market arb (Polymarket) --- 0 candidates ---
+  error: fetch error: <urlopen error timed out>
+--- Calendar spread scanner error: <urlopen error [Errno 61] Connection refused> ---
+
+--- Curve pool depeg --- 0 candidates ---
+  error: curve API unavailable
+
+--- Stat arb (cointegration) --- 0 candidates ---
+
+########## LOOP 2026-07-18 04:37:08 CST ##########
+/Users/daxu/software/world-trader/tools/loop_scan.py:132: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:14s} fr_1h={r['fr_pct_1h']:+.4f}% APR={r['apr_pct']:+.1f}% OI=\${r['oi_usd']/1e6:.1f}M")
+/Users/daxu/software/world-trader/tools/loop_scan.py:143: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:8s} avg=\${r['avg_price']:.5f} depeg={r['depeg_bps']:+.1f}bps "
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:168: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"straddle=\${r['straddle_cost']:.2f} ({r['trade']})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+=== LOOP SCAN 2026-07-18 04:37:08 CST ===
+--- Funding arb scanner error: <urlopen error timed out> ---
+
+--- Cross-exchange funding — 0 candidates (exchanges: ['binance_funding', 'bitget', 'bybit_funding', 'gate', 'okx_funding']) ---
+
+--- Spot arb (order-book verified) — 0 candidates ---
+
+--- Quarterly basis (cash and carry) — 0 candidates ---
+
+--- Triangular arb (Binance spot) — 0 candidates ---
+--- Perp-spot basis scanner error: <urlopen error timed out> ---
+
+--- Hyperliquid funding (1h interval) — 5 candidates ---
+  kBONK          fr_1h=-0.0377% APR=-329.9% OI=\$7.8M
+  XMR            fr_1h=+0.0235% APR=+205.9% OI=\$52.5M
+  STABLE         fr_1h=-0.0226% APR=-198.1% OI=\$2.4M
+  MET            fr_1h=-0.0113% APR=-99.4% OI=\$1.7M
+  W              fr_1h=-0.0107% APR=-93.8% OI=\$1.3M
+
+--- Stablecoin depeg — 6 candidates ---
+  USTC     avg=\$0.00548 depeg=-9945.2bps (hi gate \$0.00548 / lo gate \$0.00548)
+  FRAX     avg=\$0.26050 depeg=-7395.0bps (hi gate \$0.26050 / lo gate \$0.26050)
+  SUSD     avg=\$0.69050 depeg=-3095.0bps (hi gate \$0.69050 / lo gate \$0.69050)
+  TUSD     avg=\$0.99800 depeg=-20.0bps (hi gate \$0.99800 / lo gate \$0.99800)
+  FDUSD    avg=\$0.99840 depeg=-16.0bps (hi gate \$0.99840 / lo gate \$0.99840)
+  GUSD     avg=\$0.99880 depeg=-12.0bps (hi gate \$0.99880 / lo gate \$0.99880)
+
+--- DEX-CEX arb (Uniswap V3 vs Binance) — 0 candidates ---
+
+--- Options RV/IV edge — 0 candidates ---
+
+--- Kimchi premium (Korean BTC vs Binance) — 0 candidates ---
+  error: binance unavailable
+
+--- Prediction market arb (Polymarket) --- 0 candidates ---
+  error: fetch error: <urlopen error timed out>
+--- Calendar spread scanner error: <urlopen error timed out> ---
+
+--- Curve pool depeg --- 0 candidates ---
+  error: curve API unavailable
+
+--- Stat arb (cointegration) --- 0 candidates ---
+
+########## LOOP 2026-07-18 05:26:01 CST ##########
+/Users/daxu/software/world-trader/tools/loop_scan.py:132: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:14s} fr_1h={r['fr_pct_1h']:+.4f}% APR={r['apr_pct']:+.1f}% OI=\${r['oi_usd']/1e6:.1f}M")
+/Users/daxu/software/world-trader/tools/loop_scan.py:143: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:8s} avg=\${r['avg_price']:.5f} depeg={r['depeg_bps']:+.1f}bps "
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:168: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"straddle=\${r['straddle_cost']:.2f} ({r['trade']})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+=== LOOP SCAN 2026-07-18 05:26:01 CST ===
+--- Funding arb scanner error: <urlopen error timed out> ---
+
+--- Cross-exchange funding — 0 candidates (exchanges: ['binance_funding', 'bitget', 'bybit_funding', 'gate', 'okx_funding']) ---
+
+--- Spot arb (order-book verified) — 0 candidates ---
+
+--- Quarterly basis (cash and carry) — 0 candidates ---
+
+--- Triangular arb (Binance spot) — 0 candidates ---
+--- Perp-spot basis scanner error: <urlopen error timed out> ---
+
+--- Hyperliquid funding (1h interval) — 5 candidates ---
+  STABLE         fr_1h=-0.0173% APR=-151.2% OI=\$2.5M
+  XMR            fr_1h=+0.0159% APR=+139.6% OI=\$52.1M
+  kBONK          fr_1h=-0.0150% APR=-131.5% OI=\$7.8M
+  CASHCAT        fr_1h=+0.0108% APR=+94.7% OI=\$9.3M
+  POLYX          fr_1h=-0.0103% APR=-90.5% OI=\$0.1M
+
+--- Stablecoin depeg — 6 candidates ---
+  USTC     avg=\$0.00548 depeg=-9945.2bps (hi gate \$0.00548 / lo gate \$0.00548)
+  FRAX     avg=\$0.26050 depeg=-7395.0bps (hi gate \$0.26050 / lo gate \$0.26050)
+  SUSD     avg=\$0.64440 depeg=-3556.0bps (hi gate \$0.64440 / lo gate \$0.64440)
+  TUSD     avg=\$0.99800 depeg=-20.0bps (hi gate \$0.99800 / lo gate \$0.99800)
+  FDUSD    avg=\$0.99840 depeg=-16.0bps (hi gate \$0.99840 / lo gate \$0.99840)
+  GUSD     avg=\$0.99880 depeg=-12.0bps (hi gate \$0.99880 / lo gate \$0.99880)
+
+--- DEX-CEX arb (Uniswap V3 vs Binance) — 0 candidates ---
+
+--- Options RV/IV edge — 0 candidates ---
+
+--- Kimchi premium (Korean BTC vs Binance) — 0 candidates ---
+  error: binance unavailable
+
+--- Prediction market arb (Polymarket) --- 0 candidates ---
+  error: fetch error: <urlopen error timed out>
+--- Calendar spread scanner error: <urlopen error timed out> ---
+
+--- Curve pool depeg --- 0 candidates ---
+  error: curve API unavailable
+
+--- Stat arb (cointegration) --- 0 candidates ---
+
+########## LOOP 2026-07-18 06:14:53 CST ##########
+/Users/daxu/software/world-trader/tools/loop_scan.py:132: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:14s} fr_1h={r['fr_pct_1h']:+.4f}% APR={r['apr_pct']:+.1f}% OI=\${r['oi_usd']/1e6:.1f}M")
+/Users/daxu/software/world-trader/tools/loop_scan.py:143: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:8s} avg=\${r['avg_price']:.5f} depeg={r['depeg_bps']:+.1f}bps "
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:168: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"straddle=\${r['straddle_cost']:.2f} ({r['trade']})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+=== LOOP SCAN 2026-07-18 06:14:54 CST ===
+--- Funding arb scanner error: <urlopen error timed out> ---
+
+--- Cross-exchange funding — 0 candidates (exchanges: ['binance_funding', 'bitget', 'bybit_funding', 'gate', 'okx_funding']) ---
+
+--- Spot arb (order-book verified) — 0 candidates ---
+
+--- Quarterly basis (cash and carry) — 0 candidates ---
+
+--- Triangular arb (Binance spot) — 0 candidates ---
+--- Perp-spot basis scanner error: <urlopen error timed out> ---
+
+--- Hyperliquid funding (1h interval) — 5 candidates ---
+  CASHCAT        fr_1h=+0.0468% APR=+409.9% OI=\$9.9M
+  MET            fr_1h=-0.0132% APR=-115.4% OI=\$1.7M
+  XMR            fr_1h=+0.0115% APR=+100.9% OI=\$52.2M
+  VVV            fr_1h=+0.0113% APR=+99.3% OI=\$23.1M
+  BSV            fr_1h=-0.0112% APR=-98.1% OI=\$0.5M
+
+--- Stablecoin depeg — 6 candidates ---
+  USTC     avg=\$0.00551 depeg=-9944.9bps (hi gate \$0.00551 / lo gate \$0.00551)
+  FRAX     avg=\$0.26120 depeg=-7388.0bps (hi gate \$0.26120 / lo gate \$0.26120)
+  SUSD     avg=\$0.66640 depeg=-3336.0bps (hi gate \$0.66640 / lo gate \$0.66640)
+  TUSD     avg=\$0.99800 depeg=-20.0bps (hi gate \$0.99800 / lo gate \$0.99800)
+  FDUSD    avg=\$0.99840 depeg=-16.0bps (hi gate \$0.99840 / lo gate \$0.99840)
+  GUSD     avg=\$0.99870 depeg=-13.0bps (hi gate \$0.99870 / lo gate \$0.99870)
+
+--- DEX-CEX arb (Uniswap V3 vs Binance) — 0 candidates ---
+
+--- Options RV/IV edge — 0 candidates ---
+
+--- Kimchi premium (Korean BTC vs Binance) — 0 candidates ---
+  error: binance unavailable
+
+--- Prediction market arb (Polymarket) --- 0 candidates ---
+  error: fetch error: <urlopen error timed out>
+--- Calendar spread scanner error: <urlopen error timed out> ---
+
+--- Curve pool depeg --- 0 candidates ---
+  error: curve API unavailable
+
+--- Stat arb (cointegration) --- 0 candidates ---
+
+########## LOOP 2026-07-18 07:02:26 CST ##########
+/Users/daxu/software/world-trader/tools/loop_scan.py:132: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:14s} fr_1h={r['fr_pct_1h']:+.4f}% APR={r['apr_pct']:+.1f}% OI=\${r['oi_usd']/1e6:.1f}M")
+/Users/daxu/software/world-trader/tools/loop_scan.py:143: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:8s} avg=\${r['avg_price']:.5f} depeg={r['depeg_bps']:+.1f}bps "
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:168: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"straddle=\${r['straddle_cost']:.2f} ({r['trade']})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+=== LOOP SCAN 2026-07-18 07:02:26 CST ===
+--- Funding arb scanner error: <urlopen error timed out> ---
+
+--- Cross-exchange funding — 0 candidates (exchanges: ['binance_funding', 'bitget', 'bybit_funding', 'gate', 'okx_funding']) ---
+
+--- Spot arb (order-book verified) — 0 candidates ---
+
+--- Quarterly basis (cash and carry) — 0 candidates ---
+
+--- Triangular arb (Binance spot) — 0 candidates ---
+--- Perp-spot basis scanner error: <urlopen error timed out> ---
+
+--- Hyperliquid funding (1h interval) — 6 candidates ---
+  CASHCAT        fr_1h=+0.0262% APR=+229.6% OI=\$13.4M
+  BSV            fr_1h=-0.0257% APR=-225.5% OI=\$0.5M
+  NOT            fr_1h=-0.0177% APR=-155.2% OI=\$0.2M
+  VVV            fr_1h=+0.0148% APR=+130.0% OI=\$23.2M
+  W              fr_1h=-0.0136% APR=-118.9% OI=\$1.3M
+  S              fr_1h=-0.0115% APR=-100.5% OI=\$0.8M
+
+--- Stablecoin depeg — 6 candidates ---
+  USTC     avg=\$0.00553 depeg=-9944.7bps (hi gate \$0.00553 / lo gate \$0.00553)
+  FRAX     avg=\$0.26820 depeg=-7318.0bps (hi gate \$0.26820 / lo gate \$0.26820)
+  SUSD     avg=\$0.62000 depeg=-3800.0bps (hi gate \$0.62000 / lo gate \$0.62000)
+  TUSD     avg=\$0.99800 depeg=-20.0bps (hi gate \$0.99800 / lo gate \$0.99800)
+  FDUSD    avg=\$0.99840 depeg=-16.0bps (hi gate \$0.99840 / lo gate \$0.99840)
+  GUSD     avg=\$0.99880 depeg=-12.0bps (hi gate \$0.99880 / lo gate \$0.99880)
+
+--- DEX-CEX arb (Uniswap V3 vs Binance) — 0 candidates ---
+
+--- Options RV/IV edge — 0 candidates ---
+
+--- Kimchi premium (Korean BTC vs Binance) — 0 candidates ---
+  error: binance unavailable
+
+--- Prediction market arb (Polymarket) --- 0 candidates ---
+  error: fetch error: <urlopen error timed out>
+--- Calendar spread scanner error: <urlopen error timed out> ---
+
+--- Curve pool depeg --- 0 candidates ---
+  error: curve API unavailable
+
+--- Stat arb (cointegration) --- 0 candidates ---
+
+########## LOOP 2026-07-18 07:51:19 CST ##########
+/Users/daxu/software/world-trader/tools/loop_scan.py:132: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:14s} fr_1h={r['fr_pct_1h']:+.4f}% APR={r['apr_pct']:+.1f}% OI=\${r['oi_usd']/1e6:.1f}M")
+/Users/daxu/software/world-trader/tools/loop_scan.py:143: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:8s} avg=\${r['avg_price']:.5f} depeg={r['depeg_bps']:+.1f}bps "
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:168: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"straddle=\${r['straddle_cost']:.2f} ({r['trade']})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+=== LOOP SCAN 2026-07-18 07:51:19 CST ===
+--- Funding arb scanner error: <urlopen error timed out> ---
+
+--- Cross-exchange funding — 0 candidates (exchanges: ['binance_funding', 'bitget', 'bybit_funding', 'gate', 'okx_funding']) ---
+
+--- Spot arb (order-book verified) — 0 candidates ---
+
+--- Quarterly basis (cash and carry) — 0 candidates ---
+
+--- Triangular arb (Binance spot) — 0 candidates ---
+--- Perp-spot basis scanner error: <urlopen error timed out> ---
+
+--- Hyperliquid funding (1h interval) — 2 candidates ---
+  VVV            fr_1h=+0.0148% APR=+129.9% OI=\$23.4M
+  W              fr_1h=-0.0107% APR=-93.7% OI=\$1.3M
+
+--- Stablecoin depeg — 6 candidates ---
+  USTC     avg=\$0.00554 depeg=-9944.6bps (hi gate \$0.00554 / lo gate \$0.00554)
+  FRAX     avg=\$0.26820 depeg=-7318.0bps (hi gate \$0.26820 / lo gate \$0.26820)
+  SUSD     avg=\$0.62000 depeg=-3800.0bps (hi gate \$0.62000 / lo gate \$0.62000)
+  TUSD     avg=\$0.99810 depeg=-19.0bps (hi gate \$0.99810 / lo gate \$0.99810)
+  FDUSD    avg=\$0.99840 depeg=-16.0bps (hi gate \$0.99840 / lo gate \$0.99840)
+  GUSD     avg=\$0.99880 depeg=-12.0bps (hi gate \$0.99880 / lo gate \$0.99880)
+
+--- DEX-CEX arb (Uniswap V3 vs Binance) — 0 candidates ---
+
+--- Options RV/IV edge — 0 candidates ---
+
+--- Kimchi premium (Korean BTC vs Binance) — 0 candidates ---
+  error: binance unavailable
+
+--- Prediction market arb (Polymarket) --- 0 candidates ---
+  error: fetch error: <urlopen error timed out>
+--- Calendar spread scanner error: <urlopen error timed out> ---
+
+--- Curve pool depeg --- 0 candidates ---
+  error: curve API unavailable
+
+--- Stat arb (cointegration) --- 0 candidates ---
+
+########## LOOP 2026-07-18 08:40:13 CST ##########
+/Users/daxu/software/world-trader/tools/loop_scan.py:132: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:14s} fr_1h={r['fr_pct_1h']:+.4f}% APR={r['apr_pct']:+.1f}% OI=\${r['oi_usd']/1e6:.1f}M")
+/Users/daxu/software/world-trader/tools/loop_scan.py:143: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:8s} avg=\${r['avg_price']:.5f} depeg={r['depeg_bps']:+.1f}bps "
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:168: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"straddle=\${r['straddle_cost']:.2f} ({r['trade']})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+=== LOOP SCAN 2026-07-18 08:40:13 CST ===
+--- Funding arb scanner error: <urlopen error timed out> ---
+
+--- Cross-exchange funding — 0 candidates (exchanges: ['binance_funding', 'bitget', 'bybit_funding', 'gate', 'okx_funding']) ---
+
+--- Spot arb (order-book verified) — 0 candidates ---
+
+--- Quarterly basis (cash and carry) — 0 candidates ---
+
+--- Triangular arb (Binance spot) — 0 candidates ---
+--- Perp-spot basis scanner error: <urlopen error timed out> ---
+
+--- Hyperliquid funding (1h interval) — 4 candidates ---
+  STABLE         fr_1h=-0.0208% APR=-182.4% OI=\$2.5M
+  VVV            fr_1h=+0.0129% APR=+112.9% OI=\$23.7M
+  MET            fr_1h=-0.0127% APR=-110.9% OI=\$1.7M
+  XMR            fr_1h=+0.0115% APR=+100.5% OI=\$52.1M
+
+--- Stablecoin depeg — 6 candidates ---
+  USTC     avg=\$0.00554 depeg=-9944.6bps (hi gate \$0.00554 / lo gate \$0.00554)
+  FRAX     avg=\$0.26820 depeg=-7318.0bps (hi gate \$0.26820 / lo gate \$0.26820)
+  SUSD     avg=\$0.69310 depeg=-3069.0bps (hi gate \$0.69310 / lo gate \$0.69310)
+  FDUSD    avg=\$0.99760 depeg=-24.0bps (hi gate \$0.99760 / lo gate \$0.99760)
+  TUSD     avg=\$0.99800 depeg=-20.0bps (hi gate \$0.99800 / lo gate \$0.99800)
+  GUSD     avg=\$0.99870 depeg=-13.0bps (hi gate \$0.99870 / lo gate \$0.99870)
+
+--- DEX-CEX arb (Uniswap V3 vs Binance) — 0 candidates ---
+
+--- Options RV/IV edge — 0 candidates ---
+
+--- Kimchi premium (Korean BTC vs Binance) — 0 candidates ---
+  error: binance unavailable
+
+--- Prediction market arb (Polymarket) --- 0 candidates ---
+  error: fetch error: <urlopen error timed out>
+--- Calendar spread scanner error: <urlopen error timed out> ---
+
+--- Curve pool depeg --- 0 candidates ---
+  error: curve API unavailable
+
+--- Stat arb (cointegration) --- 0 candidates ---
+
+########## LOOP 2026-07-18 09:29:07 CST ##########
+/Users/daxu/software/world-trader/tools/loop_scan.py:132: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:14s} fr_1h={r['fr_pct_1h']:+.4f}% APR={r['apr_pct']:+.1f}% OI=\${r['oi_usd']/1e6:.1f}M")
+/Users/daxu/software/world-trader/tools/loop_scan.py:143: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:8s} avg=\${r['avg_price']:.5f} depeg={r['depeg_bps']:+.1f}bps "
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:168: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"straddle=\${r['straddle_cost']:.2f} ({r['trade']})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+=== LOOP SCAN 2026-07-18 09:29:07 CST ===
+--- Funding arb scanner error: <urlopen error timed out> ---
+
+--- Cross-exchange funding — 0 candidates (exchanges: ['binance_funding', 'bitget', 'bybit_funding', 'gate', 'okx_funding']) ---
+
+--- Spot arb (order-book verified) — 0 candidates ---
+
+--- Quarterly basis (cash and carry) — 0 candidates ---
+
+--- Triangular arb (Binance spot) — 0 candidates ---
+--- Perp-spot basis scanner error: <urlopen error timed out> ---
+
+--- Hyperliquid funding (1h interval) — 3 candidates ---
+  MET            fr_1h=-0.0206% APR=-180.9% OI=\$1.7M
+  CASHCAT        fr_1h=+0.0154% APR=+135.2% OI=\$10.5M
+  STABLE         fr_1h=-0.0140% APR=-122.5% OI=\$2.5M
+
+--- Stablecoin depeg — 6 candidates ---
+  USTC     avg=\$0.00554 depeg=-9944.6bps (hi gate \$0.00554 / lo gate \$0.00554)
+  FRAX     avg=\$0.27150 depeg=-7285.0bps (hi gate \$0.27150 / lo gate \$0.27150)
+  SUSD     avg=\$0.69310 depeg=-3069.0bps (hi gate \$0.69310 / lo gate \$0.69310)
+  FDUSD    avg=\$0.99760 depeg=-24.0bps (hi gate \$0.99760 / lo gate \$0.99760)
+  TUSD     avg=\$0.99800 depeg=-20.0bps (hi gate \$0.99800 / lo gate \$0.99800)
+  GUSD     avg=\$0.99880 depeg=-12.0bps (hi gate \$0.99880 / lo gate \$0.99880)
+
+--- DEX-CEX arb (Uniswap V3 vs Binance) — 0 candidates ---
+
+--- Options RV/IV edge — 0 candidates ---
+
+--- Kimchi premium (Korean BTC vs Binance) — 0 candidates ---
+  error: binance unavailable
+
+--- Prediction market arb (Polymarket) --- 0 candidates ---
+  error: fetch error: <urlopen error timed out>
+--- Calendar spread scanner error: <urlopen error timed out> ---
+
+--- Curve pool depeg --- 0 candidates ---
+  error: curve API unavailable
+
+--- Stat arb (cointegration) --- 0 candidates ---
+
+########## LOOP 2026-07-18 10:18:02 CST ##########
+/Users/daxu/software/world-trader/tools/loop_scan.py:132: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:14s} fr_1h={r['fr_pct_1h']:+.4f}% APR={r['apr_pct']:+.1f}% OI=\${r['oi_usd']/1e6:.1f}M")
+/Users/daxu/software/world-trader/tools/loop_scan.py:143: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:8s} avg=\${r['avg_price']:.5f} depeg={r['depeg_bps']:+.1f}bps "
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:168: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"straddle=\${r['straddle_cost']:.2f} ({r['trade']})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+=== LOOP SCAN 2026-07-18 10:18:02 CST ===
+--- Funding arb scanner error: <urlopen error timed out> ---
+
+--- Cross-exchange funding — 0 candidates (exchanges: ['binance_funding', 'bitget', 'bybit_funding', 'gate', 'okx_funding']) ---
+
+--- Spot arb (order-book verified) — 0 candidates ---
+
+--- Quarterly basis (cash and carry) — 0 candidates ---
+
+--- Triangular arb (Binance spot) — 0 candidates ---
+--- Perp-spot basis scanner error: <urlopen error timed out> ---
+
+--- Hyperliquid funding (1h interval) — 3 candidates ---
+  MET            fr_1h=-0.0202% APR=-176.7% OI=\$1.7M
+  CASHCAT        fr_1h=+0.0138% APR=+120.5% OI=\$9.2M
+  STABLE         fr_1h=-0.0108% APR=-94.8% OI=\$2.5M
+
+--- Stablecoin depeg — 6 candidates ---
+  USTC     avg=\$0.00555 depeg=-9944.5bps (hi gate \$0.00555 / lo gate \$0.00555)
+  FRAX     avg=\$0.27200 depeg=-7280.0bps (hi gate \$0.27200 / lo gate \$0.27200)
+  SUSD     avg=\$0.69310 depeg=-3069.0bps (hi gate \$0.69310 / lo gate \$0.69310)
+  FDUSD    avg=\$0.99760 depeg=-24.0bps (hi gate \$0.99760 / lo gate \$0.99760)
+  TUSD     avg=\$0.99800 depeg=-20.0bps (hi gate \$0.99800 / lo gate \$0.99800)
+  GUSD     avg=\$0.99870 depeg=-13.0bps (hi gate \$0.99870 / lo gate \$0.99870)
+
+--- DEX-CEX arb (Uniswap V3 vs Binance) — 0 candidates ---
+
+--- Options RV/IV edge — 0 candidates ---
+
+--- Kimchi premium (Korean BTC vs Binance) — 0 candidates ---
+  error: binance unavailable
+
+--- Prediction market arb (Polymarket) --- 0 candidates ---
+  error: fetch error: <urlopen error timed out>
+--- Calendar spread scanner error: <urlopen error timed out> ---
+
+--- Curve pool depeg --- 0 candidates ---
+  error: curve API unavailable
+
+--- Stat arb (cointegration) --- 0 candidates ---
+
+########## LOOP 2026-07-18 11:04:10 CST ##########
+/Users/daxu/software/world-trader/tools/loop_scan.py:132: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:14s} fr_1h={r['fr_pct_1h']:+.4f}% APR={r['apr_pct']:+.1f}% OI=\${r['oi_usd']/1e6:.1f}M")
+/Users/daxu/software/world-trader/tools/loop_scan.py:143: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:8s} avg=\${r['avg_price']:.5f} depeg={r['depeg_bps']:+.1f}bps "
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:168: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"straddle=\${r['straddle_cost']:.2f} ({r['trade']})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+=== LOOP SCAN 2026-07-18 11:04:10 CST ===
+--- Funding arb scanner error: <urlopen error timed out> ---
+
+--- Cross-exchange funding — 0 candidates (exchanges: ['binance_funding', 'bitget', 'bybit_funding', 'gate', 'okx_funding']) ---
+
+--- Spot arb (order-book verified) — 0 candidates ---
+
+--- Quarterly basis (cash and carry) — 0 candidates ---
+
+--- Triangular arb (Binance spot) — 0 candidates ---
+--- Perp-spot basis scanner error: <urlopen error timed out> ---
+
+--- Hyperliquid funding (1h interval) — 4 candidates ---
+  CASHCAT        fr_1h=+0.0410% APR=+359.4% OI=\$9.6M
+  UMA            fr_1h=-0.0114% APR=-99.9% OI=\$0.3M
+  MET            fr_1h=-0.0109% APR=-95.7% OI=\$1.7M
+  STABLE         fr_1h=-0.0107% APR=-93.4% OI=\$2.5M
+
+--- Stablecoin depeg — 6 candidates ---
+  USTC     avg=\$0.00553 depeg=-9944.6bps (hi gate \$0.00553 / lo gate \$0.00553)
+  FRAX     avg=\$0.27510 depeg=-7249.0bps (hi gate \$0.27510 / lo gate \$0.27510)
+  SUSD     avg=\$0.69310 depeg=-3069.0bps (hi gate \$0.69310 / lo gate \$0.69310)
+  FDUSD    avg=\$0.99770 depeg=-23.0bps (hi gate \$0.99770 / lo gate \$0.99770)
+  TUSD     avg=\$0.99800 depeg=-20.0bps (hi gate \$0.99800 / lo gate \$0.99800)
+  GUSD     avg=\$0.99880 depeg=-12.0bps (hi gate \$0.99880 / lo gate \$0.99880)
+
+--- DEX-CEX arb (Uniswap V3 vs Binance) — 0 candidates ---
+
+--- Options RV/IV edge — 0 candidates ---
+
+--- Kimchi premium (Korean BTC vs Binance) — 0 candidates ---
+  error: binance unavailable
+
+--- Prediction market arb (Polymarket) --- 0 candidates ---
+  error: fetch error: <urlopen error timed out>
+--- Calendar spread scanner error: <urlopen error timed out> ---
+
+--- Curve pool depeg --- 0 candidates ---
+  error: curve API unavailable
+
+--- Stat arb (cointegration) --- 0 candidates ---
+
+########## LOOP 2026-07-18 11:53:04 CST ##########
+/Users/daxu/software/world-trader/tools/loop_scan.py:132: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:14s} fr_1h={r['fr_pct_1h']:+.4f}% APR={r['apr_pct']:+.1f}% OI=\${r['oi_usd']/1e6:.1f}M")
+/Users/daxu/software/world-trader/tools/loop_scan.py:143: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:8s} avg=\${r['avg_price']:.5f} depeg={r['depeg_bps']:+.1f}bps "
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:168: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"straddle=\${r['straddle_cost']:.2f} ({r['trade']})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+=== LOOP SCAN 2026-07-18 11:53:05 CST ===
+--- Funding arb scanner error: <urlopen error timed out> ---
+
+--- Cross-exchange funding — 0 candidates (exchanges: ['binance_funding', 'bitget', 'bybit_funding', 'gate', 'okx_funding']) ---
+
+--- Spot arb (order-book verified) — 0 candidates ---
+
+--- Quarterly basis (cash and carry) — 0 candidates ---
+
+--- Triangular arb (Binance spot) — 0 candidates ---
+--- Perp-spot basis scanner error: <urlopen error timed out> ---
+
+--- Hyperliquid funding (1h interval) — 2 candidates ---
+  MOODENG        fr_1h=-0.0453% APR=-396.5% OI=\$0.3M
+  UMA            fr_1h=-0.0102% APR=-89.7% OI=\$0.3M
+
+--- Stablecoin depeg — 6 candidates ---
+  USTC     avg=\$0.00552 depeg=-9944.8bps (hi gate \$0.00552 / lo gate \$0.00552)
+  FRAX     avg=\$0.28530 depeg=-7147.0bps (hi gate \$0.28530 / lo gate \$0.28530)
+  SUSD     avg=\$0.69310 depeg=-3069.0bps (hi gate \$0.69310 / lo gate \$0.69310)
+  FDUSD    avg=\$0.99770 depeg=-23.0bps (hi gate \$0.99770 / lo gate \$0.99770)
+  TUSD     avg=\$0.99800 depeg=-20.0bps (hi gate \$0.99800 / lo gate \$0.99800)
+  GUSD     avg=\$0.99870 depeg=-13.0bps (hi gate \$0.99870 / lo gate \$0.99870)
+
+--- DEX-CEX arb (Uniswap V3 vs Binance) — 0 candidates ---
+
+--- Options RV/IV edge — 0 candidates ---
+
+--- Kimchi premium (Korean BTC vs Binance) — 0 candidates ---
+  error: binance unavailable
+
+--- Prediction market arb (Polymarket) --- 0 candidates ---
+  error: fetch error: <urlopen error timed out>
+--- Calendar spread scanner error: <urlopen error timed out> ---
+
+--- Curve pool depeg --- 0 candidates ---
+  error: curve API unavailable
+
+--- Stat arb (cointegration) --- 0 candidates ---
+
+########## LOOP 2026-07-18 12:42:00 CST ##########
+/Users/daxu/software/world-trader/tools/loop_scan.py:132: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:14s} fr_1h={r['fr_pct_1h']:+.4f}% APR={r['apr_pct']:+.1f}% OI=\${r['oi_usd']/1e6:.1f}M")
+/Users/daxu/software/world-trader/tools/loop_scan.py:143: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:8s} avg=\${r['avg_price']:.5f} depeg={r['depeg_bps']:+.1f}bps "
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:168: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"straddle=\${r['straddle_cost']:.2f} ({r['trade']})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+=== LOOP SCAN 2026-07-18 12:42:00 CST ===
+--- Funding arb scanner error: <urlopen error timed out> ---
+
+--- Cross-exchange funding — 0 candidates (exchanges: ['binance_funding', 'bitget', 'bybit_funding', 'gate', 'okx_funding']) ---
+
+--- Spot arb (order-book verified) — 0 candidates ---
+
+--- Quarterly basis (cash and carry) — 0 candidates ---
+
+--- Triangular arb (Binance spot) — 0 candidates ---
+--- Perp-spot basis scanner error: <urlopen error timed out> ---
+
+--- Hyperliquid funding (1h interval) — 4 candidates ---
+  MOODENG        fr_1h=-0.0365% APR=-319.9% OI=\$0.3M
+  CASHCAT        fr_1h=+0.0141% APR=+123.4% OI=\$9.3M
+  MET            fr_1h=-0.0106% APR=-92.5% OI=\$1.7M
+  UMA            fr_1h=-0.0103% APR=-90.0% OI=\$0.3M
+
+--- Stablecoin depeg — 6 candidates ---
+  USTC     avg=\$0.00552 depeg=-9944.8bps (hi gate \$0.00552 / lo gate \$0.00552)
+  FRAX     avg=\$0.28330 depeg=-7167.0bps (hi gate \$0.28330 / lo gate \$0.28330)
+  SUSD     avg=\$0.66670 depeg=-3333.0bps (hi gate \$0.66670 / lo gate \$0.66670)
+  FDUSD    avg=\$0.99770 depeg=-23.0bps (hi gate \$0.99770 / lo gate \$0.99770)
+  TUSD     avg=\$0.99800 depeg=-20.0bps (hi gate \$0.99800 / lo gate \$0.99800)
+  GUSD     avg=\$0.99870 depeg=-13.0bps (hi gate \$0.99870 / lo gate \$0.99870)
+
+--- DEX-CEX arb (Uniswap V3 vs Binance) — 0 candidates ---
+
+--- Options RV/IV edge — 0 candidates ---
+
+--- Kimchi premium (Korean BTC vs Binance) — 0 candidates ---
+  error: binance unavailable
+
+--- Prediction market arb (Polymarket) --- 0 candidates ---
+  error: fetch error: <urlopen error timed out>
+--- Calendar spread scanner error: <urlopen error timed out> ---
+
+--- Curve pool depeg --- 0 candidates ---
+  error: curve API unavailable
+
+--- Stat arb (cointegration) --- 0 candidates ---
+
+########## LOOP 2026-07-18 13:30:57 CST ##########
+/Users/daxu/software/world-trader/tools/loop_scan.py:132: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:14s} fr_1h={r['fr_pct_1h']:+.4f}% APR={r['apr_pct']:+.1f}% OI=\${r['oi_usd']/1e6:.1f}M")
+/Users/daxu/software/world-trader/tools/loop_scan.py:143: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:8s} avg=\${r['avg_price']:.5f} depeg={r['depeg_bps']:+.1f}bps "
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:168: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"straddle=\${r['straddle_cost']:.2f} ({r['trade']})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+=== LOOP SCAN 2026-07-18 13:30:57 CST ===
+--- Funding arb scanner error: <urlopen error timed out> ---
+
+--- Cross-exchange funding — 0 candidates (exchanges: ['binance_funding', 'bitget', 'bybit_funding', 'gate', 'okx_funding']) ---
+
+--- Spot arb (order-book verified) — 0 candidates ---
+
+--- Quarterly basis (cash and carry) — 0 candidates ---
+
+--- Triangular arb (Binance spot) — 0 candidates ---
+--- Perp-spot basis scanner error: <urlopen error timed out> ---
+
+--- Hyperliquid funding (1h interval) — 3 candidates ---
+  CASHCAT        fr_1h=+0.0239% APR=+209.5% OI=\$9.8M
+  MOODENG        fr_1h=-0.0224% APR=-196.4% OI=\$0.3M
+  XMR            fr_1h=+0.0109% APR=+95.9% OI=\$51.9M
+
+--- Stablecoin depeg — 6 candidates ---
+  USTC     avg=\$0.00552 depeg=-9944.8bps (hi gate \$0.00552 / lo gate \$0.00552)
+  FRAX     avg=\$0.28350 depeg=-7165.0bps (hi gate \$0.28350 / lo gate \$0.28350)
+  SUSD     avg=\$0.66670 depeg=-3333.0bps (hi gate \$0.66670 / lo gate \$0.66670)
+  FDUSD    avg=\$0.99760 depeg=-24.0bps (hi gate \$0.99760 / lo gate \$0.99760)
+  TUSD     avg=\$0.99800 depeg=-20.0bps (hi gate \$0.99800 / lo gate \$0.99800)
+  GUSD     avg=\$0.99870 depeg=-13.0bps (hi gate \$0.99870 / lo gate \$0.99870)
+
+--- DEX-CEX arb (Uniswap V3 vs Binance) — 0 candidates ---
+
+--- Options RV/IV edge — 0 candidates ---
+
+--- Kimchi premium (Korean BTC vs Binance) — 0 candidates ---
+  error: binance unavailable
+
+--- Prediction market arb (Polymarket) --- 0 candidates ---
+  error: fetch error: <urlopen error timed out>
+--- Calendar spread scanner error: <urlopen error timed out> ---
+
+--- Curve pool depeg --- 0 candidates ---
+  error: curve API unavailable
+
+--- Stat arb (cointegration) --- 0 candidates ---
+
+########## LOOP 2026-07-18 14:19:41 CST ##########
+/Users/daxu/software/world-trader/tools/loop_scan.py:132: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:14s} fr_1h={r['fr_pct_1h']:+.4f}% APR={r['apr_pct']:+.1f}% OI=\${r['oi_usd']/1e6:.1f}M")
+/Users/daxu/software/world-trader/tools/loop_scan.py:143: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:8s} avg=\${r['avg_price']:.5f} depeg={r['depeg_bps']:+.1f}bps "
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:168: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"straddle=\${r['straddle_cost']:.2f} ({r['trade']})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+=== LOOP SCAN 2026-07-18 14:19:41 CST ===
+--- Funding arb scanner error: <urlopen error timed out> ---
+
+--- Cross-exchange funding — 0 candidates (exchanges: ['binance_funding', 'bitget', 'bybit_funding', 'gate', 'okx_funding']) ---
+
+--- Spot arb (order-book verified) — 0 candidates ---
+
+--- Quarterly basis (cash and carry) — 0 candidates ---
+
+--- Triangular arb (Binance spot) — 0 candidates ---
+--- Perp-spot basis scanner error: <urlopen error timed out> ---
+
+--- Hyperliquid funding (1h interval) — 1 candidates ---
+  POLYX          fr_1h=-0.0153% APR=-133.8% OI=\$0.1M
+
+--- Stablecoin depeg — 6 candidates ---
+  USTC     avg=\$0.00552 depeg=-9944.8bps (hi gate \$0.00552 / lo gate \$0.00552)
+  FRAX     avg=\$0.27870 depeg=-7213.0bps (hi gate \$0.27870 / lo gate \$0.27870)
+  SUSD     avg=\$0.66670 depeg=-3333.0bps (hi gate \$0.66670 / lo gate \$0.66670)
+  FDUSD    avg=\$0.99760 depeg=-24.0bps (hi gate \$0.99760 / lo gate \$0.99760)
+  TUSD     avg=\$0.99800 depeg=-20.0bps (hi gate \$0.99800 / lo gate \$0.99800)
+  GUSD     avg=\$0.99880 depeg=-12.0bps (hi gate \$0.99880 / lo gate \$0.99880)
+
+--- DEX-CEX arb (Uniswap V3 vs Binance) — 0 candidates ---
+
+--- Options RV/IV edge — 0 candidates ---
+
+--- Kimchi premium (Korean BTC vs Binance) — 0 candidates ---
+  error: binance unavailable
+
+--- Prediction market arb (Polymarket) --- 0 candidates ---
+  error: fetch error: <urlopen error timed out>
+--- Calendar spread scanner error: <urlopen error timed out> ---
+
+--- Curve pool depeg --- 0 candidates ---
+  error: curve API unavailable
+
+--- Stat arb (cointegration) --- 0 candidates ---
+
+########## LOOP 2026-07-18 15:03:41 CST ##########
+/Users/daxu/software/world-trader/tools/loop_scan.py:132: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:14s} fr_1h={r['fr_pct_1h']:+.4f}% APR={r['apr_pct']:+.1f}% OI=\${r['oi_usd']/1e6:.1f}M")
+/Users/daxu/software/world-trader/tools/loop_scan.py:143: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:8s} avg=\${r['avg_price']:.5f} depeg={r['depeg_bps']:+.1f}bps "
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:168: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"straddle=\${r['straddle_cost']:.2f} ({r['trade']})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+=== LOOP SCAN 2026-07-18 15:03:41 CST ===
+--- Funding arb scanner error: <urlopen error [Errno 61] Connection refused> ---
+
+--- Cross-exchange funding — 0 candidates (exchanges: ['binance_funding', 'bitget', 'bybit_funding', 'gate', 'okx_funding']) ---
+
+--- Spot arb (order-book verified) — 0 candidates ---
+
+--- Quarterly basis (cash and carry) — 0 candidates ---
+
+--- Triangular arb (Binance spot) — 0 candidates ---
+--- Perp-spot basis scanner error: <urlopen error timed out> ---
+
+--- Hyperliquid funding (1h interval) — 2 candidates ---
+  XMR            fr_1h=+0.0217% APR=+189.9% OI=\$51.6M
+  VVV            fr_1h=+0.0178% APR=+156.1% OI=\$24.5M
+
+--- Stablecoin depeg — 6 candidates ---
+  USTC     avg=\$0.00552 depeg=-9944.8bps (hi gate \$0.00552 / lo gate \$0.00552)
+  FRAX     avg=\$0.28270 depeg=-7173.0bps (hi gate \$0.28270 / lo gate \$0.28270)
+  SUSD     avg=\$0.66670 depeg=-3333.0bps (hi gate \$0.66670 / lo gate \$0.66670)
+  FDUSD    avg=\$0.99770 depeg=-23.0bps (hi gate \$0.99770 / lo gate \$0.99770)
+  TUSD     avg=\$0.99800 depeg=-20.0bps (hi gate \$0.99800 / lo gate \$0.99800)
+  GUSD     avg=\$0.99870 depeg=-13.0bps (hi gate \$0.99870 / lo gate \$0.99870)
+
+--- DEX-CEX arb (Uniswap V3 vs Binance) — 0 candidates ---
+
+--- Options RV/IV edge — 0 candidates ---
+
+--- Kimchi premium (Korean BTC vs Binance) — 0 candidates ---
+  error: binance unavailable
+
+--- Prediction market arb (Polymarket) --- 0 candidates ---
+  error: fetch error: <urlopen error timed out>
+--- Calendar spread scanner error: <urlopen error timed out> ---
+
+--- Curve pool depeg --- 0 candidates ---
+  error: curve API unavailable
+
+--- Stat arb (cointegration) --- 0 candidates ---
+
+########## LOOP 2026-07-18 15:52:09 CST ##########
+/Users/daxu/software/world-trader/tools/loop_scan.py:132: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:14s} fr_1h={r['fr_pct_1h']:+.4f}% APR={r['apr_pct']:+.1f}% OI=\${r['oi_usd']/1e6:.1f}M")
+/Users/daxu/software/world-trader/tools/loop_scan.py:143: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:8s} avg=\${r['avg_price']:.5f} depeg={r['depeg_bps']:+.1f}bps "
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:168: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"straddle=\${r['straddle_cost']:.2f} ({r['trade']})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+=== LOOP SCAN 2026-07-18 15:52:09 CST ===
+--- Funding arb scanner error: <urlopen error timed out> ---
+
+--- Cross-exchange funding — 0 candidates (exchanges: ['binance_funding', 'bitget', 'bybit_funding', 'gate', 'okx_funding']) ---
+
+--- Spot arb (order-book verified) — 0 candidates ---
+
+--- Quarterly basis (cash and carry) — 0 candidates ---
+
+--- Triangular arb (Binance spot) — 0 candidates ---
+--- Perp-spot basis scanner error: <urlopen error timed out> ---
+
+--- Hyperliquid funding (1h interval) — 4 candidates ---
+  kBONK          fr_1h=-0.0180% APR=-158.1% OI=\$7.3M
+  CASHCAT        fr_1h=+0.0162% APR=+142.3% OI=\$9.9M
+  XMR            fr_1h=+0.0157% APR=+137.3% OI=\$51.6M
+  TRX            fr_1h=-0.0100% APR=-87.7% OI=\$17.5M
+
+--- Stablecoin depeg — 6 candidates ---
+  USTC     avg=\$0.00552 depeg=-9944.8bps (hi gate \$0.00552 / lo gate \$0.00552)
+  FRAX     avg=\$0.27580 depeg=-7242.0bps (hi gate \$0.27580 / lo gate \$0.27580)
+  SUSD     avg=\$0.66670 depeg=-3333.0bps (hi gate \$0.66670 / lo gate \$0.66670)
+  FDUSD    avg=\$0.99780 depeg=-22.0bps (hi gate \$0.99780 / lo gate \$0.99780)
+  TUSD     avg=\$0.99800 depeg=-20.0bps (hi gate \$0.99800 / lo gate \$0.99800)
+  GUSD     avg=\$0.99870 depeg=-13.0bps (hi gate \$0.99870 / lo gate \$0.99870)
+
+--- DEX-CEX arb (Uniswap V3 vs Binance) — 0 candidates ---
+
+--- Options RV/IV edge — 0 candidates ---
+
+--- Kimchi premium (Korean BTC vs Binance) — 0 candidates ---
+  error: binance unavailable
+
+--- Prediction market arb (Polymarket) --- 0 candidates ---
+  error: fetch error: <urlopen error timed out>
+--- Calendar spread scanner error: <urlopen error timed out> ---
+
+--- Curve pool depeg --- 0 candidates ---
+  error: curve API unavailable
+
+--- Stat arb (cointegration) --- 0 candidates ---
+
+########## LOOP 2026-07-18 16:41:02 CST ##########
+/Users/daxu/software/world-trader/tools/loop_scan.py:132: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:14s} fr_1h={r['fr_pct_1h']:+.4f}% APR={r['apr_pct']:+.1f}% OI=\${r['oi_usd']/1e6:.1f}M")
+/Users/daxu/software/world-trader/tools/loop_scan.py:143: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:8s} avg=\${r['avg_price']:.5f} depeg={r['depeg_bps']:+.1f}bps "
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:168: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"straddle=\${r['straddle_cost']:.2f} ({r['trade']})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+=== LOOP SCAN 2026-07-18 16:41:02 CST ===
+--- Funding arb scanner error: <urlopen error timed out> ---
+
+--- Cross-exchange funding — 0 candidates (exchanges: ['binance_funding', 'bitget', 'bybit_funding', 'gate', 'okx_funding']) ---
+
+--- Spot arb (order-book verified) — 0 candidates ---
+
+--- Quarterly basis (cash and carry) — 0 candidates ---
+
+--- Triangular arb (Binance spot) — 0 candidates ---
+--- Perp-spot basis scanner error: <urlopen error timed out> ---
+
+--- Hyperliquid funding (1h interval) — 5 candidates ---
+  kBONK          fr_1h=-0.0231% APR=-202.7% OI=\$7.6M
+  CASHCAT        fr_1h=+0.0166% APR=+145.7% OI=\$10.3M
+  XMR            fr_1h=+0.0149% APR=+130.7% OI=\$51.7M
+  VVV            fr_1h=+0.0123% APR=+107.7% OI=\$25.0M
+  HEMI           fr_1h=+0.0117% APR=+102.3% OI=\$1.2M
+
+--- Stablecoin depeg — 6 candidates ---
+  USTC     avg=\$0.00552 depeg=-9944.8bps (hi gate \$0.00552 / lo gate \$0.00552)
+  FRAX     avg=\$0.27360 depeg=-7264.0bps (hi gate \$0.27360 / lo gate \$0.27360)
+  SUSD     avg=\$0.66670 depeg=-3333.0bps (hi gate \$0.66670 / lo gate \$0.66670)
+  FDUSD    avg=\$0.99780 depeg=-22.0bps (hi gate \$0.99780 / lo gate \$0.99780)
+  TUSD     avg=\$0.99800 depeg=-20.0bps (hi gate \$0.99800 / lo gate \$0.99800)
+  GUSD     avg=\$0.99880 depeg=-12.0bps (hi gate \$0.99880 / lo gate \$0.99880)
+
+--- DEX-CEX arb (Uniswap V3 vs Binance) — 0 candidates ---
+
+--- Options RV/IV edge — 0 candidates ---
+
+--- Kimchi premium (Korean BTC vs Binance) — 0 candidates ---
+  error: binance unavailable
+
+--- Prediction market arb (Polymarket) --- 0 candidates ---
+  error: fetch error: <urlopen error timed out>
+--- Calendar spread scanner error: <urlopen error [Errno 61] Connection refused> ---
+
+--- Curve pool depeg --- 0 candidates ---
+  error: curve API unavailable
+
+--- Stat arb (cointegration) --- 0 candidates ---
+
+########## LOOP 2026-07-18 17:29:46 CST ##########
+/Users/daxu/software/world-trader/tools/loop_scan.py:132: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:14s} fr_1h={r['fr_pct_1h']:+.4f}% APR={r['apr_pct']:+.1f}% OI=\${r['oi_usd']/1e6:.1f}M")
+/Users/daxu/software/world-trader/tools/loop_scan.py:143: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:8s} avg=\${r['avg_price']:.5f} depeg={r['depeg_bps']:+.1f}bps "
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:168: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"straddle=\${r['straddle_cost']:.2f} ({r['trade']})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+=== LOOP SCAN 2026-07-18 17:29:46 CST ===
+--- Funding arb scanner error: <urlopen error timed out> ---
+
+--- Cross-exchange funding — 0 candidates (exchanges: ['binance_funding', 'bitget', 'bybit_funding', 'gate', 'okx_funding']) ---
+
+--- Spot arb (order-book verified) — 0 candidates ---
+
+--- Quarterly basis (cash and carry) — 0 candidates ---
+
+--- Triangular arb (Binance spot) — 0 candidates ---
+--- Perp-spot basis scanner error: <urlopen error timed out> ---
+
+--- Hyperliquid funding (1h interval) — 3 candidates ---
+  kBONK          fr_1h=-0.0355% APR=-311.1% OI=\$7.6M
+  HEMI           fr_1h=+0.0172% APR=+150.5% OI=\$1.1M
+  VVV            fr_1h=+0.0121% APR=+105.6% OI=\$25.0M
+
+--- Stablecoin depeg — 6 candidates ---
+  USTC     avg=\$0.00545 depeg=-9945.5bps (hi gate \$0.00545 / lo gate \$0.00545)
+  FRAX     avg=\$0.27440 depeg=-7256.0bps (hi gate \$0.27440 / lo gate \$0.27440)
+  SUSD     avg=\$0.66670 depeg=-3333.0bps (hi gate \$0.66670 / lo gate \$0.66670)
+  FDUSD    avg=\$0.99770 depeg=-23.0bps (hi gate \$0.99770 / lo gate \$0.99770)
+  TUSD     avg=\$0.99800 depeg=-20.0bps (hi gate \$0.99800 / lo gate \$0.99800)
+  GUSD     avg=\$0.99870 depeg=-13.0bps (hi gate \$0.99870 / lo gate \$0.99870)
+
+--- DEX-CEX arb (Uniswap V3 vs Binance) — 0 candidates ---
+
+--- Options RV/IV edge — 0 candidates ---
+
+--- Kimchi premium (Korean BTC vs Binance) — 0 candidates ---
+  error: binance unavailable
+
+--- Prediction market arb (Polymarket) --- 0 candidates ---
+  error: fetch error: <urlopen error timed out>
+--- Calendar spread scanner error: <urlopen error timed out> ---
+
+--- Curve pool depeg --- 0 candidates ---
+  error: curve API unavailable
+
+--- Stat arb (cointegration) --- 0 candidates ---
+
+########## LOOP 2026-07-18 18:13:40 CST ##########
+/Users/daxu/software/world-trader/tools/loop_scan.py:132: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:14s} fr_1h={r['fr_pct_1h']:+.4f}% APR={r['apr_pct']:+.1f}% OI=\${r['oi_usd']/1e6:.1f}M")
+/Users/daxu/software/world-trader/tools/loop_scan.py:143: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:8s} avg=\${r['avg_price']:.5f} depeg={r['depeg_bps']:+.1f}bps "
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:168: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"straddle=\${r['straddle_cost']:.2f} ({r['trade']})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+=== LOOP SCAN 2026-07-18 18:13:40 CST ===
+--- Funding arb scanner error: <urlopen error timed out> ---
+
+--- Cross-exchange funding — 0 candidates (exchanges: ['binance_funding', 'bitget', 'bybit_funding', 'gate', 'okx_funding']) ---
+
+--- Spot arb (order-book verified) — 0 candidates ---
+
+--- Quarterly basis (cash and carry) — 0 candidates ---
+
+--- Triangular arb (Binance spot) — 0 candidates ---
+--- Perp-spot basis scanner error: <urlopen error timed out> ---
+
+--- Hyperliquid funding (1h interval) — 5 candidates ---
+  CASHCAT        fr_1h=+0.0285% APR=+249.7% OI=\$9.8M
+  kBONK          fr_1h=-0.0238% APR=-208.4% OI=\$7.7M
+  AERO           fr_1h=-0.0142% APR=-124.7% OI=\$8.4M
+  GAS            fr_1h=-0.0111% APR=-97.6% OI=\$0.2M
+  MEME           fr_1h=-0.0108% APR=-94.5% OI=\$0.4M
+
+--- Stablecoin depeg — 6 candidates ---
+  USTC     avg=\$0.00545 depeg=-9945.5bps (hi gate \$0.00545 / lo gate \$0.00545)
+  FRAX     avg=\$0.26510 depeg=-7349.0bps (hi gate \$0.26510 / lo gate \$0.26510)
+  SUSD     avg=\$0.66670 depeg=-3333.0bps (hi gate \$0.66670 / lo gate \$0.66670)
+  FDUSD    avg=\$0.99770 depeg=-23.0bps (hi gate \$0.99770 / lo gate \$0.99770)
+  TUSD     avg=\$0.99800 depeg=-20.0bps (hi gate \$0.99800 / lo gate \$0.99800)
+  GUSD     avg=\$0.99870 depeg=-13.0bps (hi gate \$0.99870 / lo gate \$0.99870)
+
+--- DEX-CEX arb (Uniswap V3 vs Binance) — 0 candidates ---
+
+--- Options RV/IV edge — 0 candidates ---
+
+--- Kimchi premium (Korean BTC vs Binance) — 0 candidates ---
+  error: binance unavailable
+
+--- Prediction market arb (Polymarket) --- 0 candidates ---
+  error: fetch error: <urlopen error timed out>
+--- Calendar spread scanner error: <urlopen error timed out> ---
+
+--- Curve pool depeg --- 0 candidates ---
+  error: curve API unavailable
+
+--- Stat arb (cointegration) --- 0 candidates ---
+
+########## LOOP 2026-07-18 18:59:24 CST ##########
+/Users/daxu/software/world-trader/tools/loop_scan.py:132: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:14s} fr_1h={r['fr_pct_1h']:+.4f}% APR={r['apr_pct']:+.1f}% OI=\${r['oi_usd']/1e6:.1f}M")
+/Users/daxu/software/world-trader/tools/loop_scan.py:143: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:8s} avg=\${r['avg_price']:.5f} depeg={r['depeg_bps']:+.1f}bps "
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:168: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"straddle=\${r['straddle_cost']:.2f} ({r['trade']})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+=== LOOP SCAN 2026-07-18 18:59:24 CST ===
+--- Funding arb scanner error: <urlopen error timed out> ---
+
+--- Cross-exchange funding — 0 candidates (exchanges: ['binance_funding', 'bitget', 'bybit_funding', 'gate', 'okx_funding']) ---
+
+--- Spot arb (order-book verified) — 0 candidates ---
+
+--- Quarterly basis (cash and carry) — 0 candidates ---
+
+--- Triangular arb (Binance spot) — 0 candidates ---
+--- Perp-spot basis scanner error: <urlopen error [Errno 61] Connection refused> ---
+
+--- Hyperliquid funding (1h interval) — 3 candidates ---
+  kBONK          fr_1h=-0.0174% APR=-152.1% OI=\$7.8M
+  XAI            fr_1h=-0.0101% APR=-88.7% OI=\$0.3M
+  STABLE         fr_1h=-0.0100% APR=-88.0% OI=\$2.5M
+
+--- Stablecoin depeg — 6 candidates ---
+  USTC     avg=\$0.00545 depeg=-9945.5bps (hi gate \$0.00545 / lo gate \$0.00545)
+  FRAX     avg=\$0.26760 depeg=-7324.0bps (hi gate \$0.26760 / lo gate \$0.26760)
+  SUSD     avg=\$0.66670 depeg=-3333.0bps (hi gate \$0.66670 / lo gate \$0.66670)
+  FDUSD    avg=\$0.99780 depeg=-22.0bps (hi gate \$0.99780 / lo gate \$0.99780)
+  TUSD     avg=\$0.99800 depeg=-20.0bps (hi gate \$0.99800 / lo gate \$0.99800)
+  GUSD     avg=\$0.99870 depeg=-13.0bps (hi gate \$0.99870 / lo gate \$0.99870)
+
+--- DEX-CEX arb (Uniswap V3 vs Binance) — 0 candidates ---
+
+--- Options RV/IV edge — 0 candidates ---
+
+--- Kimchi premium (Korean BTC vs Binance) — 0 candidates ---
+  error: binance unavailable
+
+--- Prediction market arb (Polymarket) --- 0 candidates ---
+  error: fetch error: <urlopen error timed out>
+--- Calendar spread scanner error: <urlopen error [Errno 61] Connection refused> ---
+
+--- Curve pool depeg --- 0 candidates ---
+  error: curve API unavailable
+
+--- Stat arb (cointegration) --- 0 candidates ---
+
+########## LOOP 2026-07-18 19:48:24 CST ##########
+/Users/daxu/software/world-trader/tools/loop_scan.py:132: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:14s} fr_1h={r['fr_pct_1h']:+.4f}% APR={r['apr_pct']:+.1f}% OI=\${r['oi_usd']/1e6:.1f}M")
+/Users/daxu/software/world-trader/tools/loop_scan.py:143: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:8s} avg=\${r['avg_price']:.5f} depeg={r['depeg_bps']:+.1f}bps "
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:168: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"straddle=\${r['straddle_cost']:.2f} ({r['trade']})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+=== LOOP SCAN 2026-07-18 19:48:24 CST ===
+--- Funding arb scanner error: <urlopen error timed out> ---
+
+--- Cross-exchange funding — 0 candidates (exchanges: ['binance_funding', 'bitget', 'bybit_funding', 'gate', 'okx_funding']) ---
+
+--- Spot arb (order-book verified) — 0 candidates ---
+
+--- Quarterly basis (cash and carry) — 0 candidates ---
+
+--- Triangular arb (Binance spot) — 0 candidates ---
+--- Perp-spot basis scanner error: <urlopen error timed out> ---
+
+--- Hyperliquid funding (1h interval) — 3 candidates ---
+  kBONK          fr_1h=-0.0173% APR=-151.8% OI=\$7.8M
+  STABLE         fr_1h=-0.0139% APR=-122.0% OI=\$2.5M
+  POLYX          fr_1h=-0.0125% APR=-109.9% OI=\$0.1M
+
+--- Stablecoin depeg — 6 candidates ---
+  USTC     avg=\$0.00544 depeg=-9945.6bps (hi gate \$0.00544 / lo gate \$0.00544)
+  FRAX     avg=\$0.26080 depeg=-7392.0bps (hi gate \$0.26080 / lo gate \$0.26080)
+  SUSD     avg=\$0.66670 depeg=-3333.0bps (hi gate \$0.66670 / lo gate \$0.66670)
+  FDUSD    avg=\$0.99770 depeg=-23.0bps (hi gate \$0.99770 / lo gate \$0.99770)
+  TUSD     avg=\$0.99800 depeg=-20.0bps (hi gate \$0.99800 / lo gate \$0.99800)
+  GUSD     avg=\$0.99870 depeg=-13.0bps (hi gate \$0.99870 / lo gate \$0.99870)
+
+--- DEX-CEX arb (Uniswap V3 vs Binance) — 0 candidates ---
+
+--- Options RV/IV edge — 0 candidates ---
+
+--- Kimchi premium (Korean BTC vs Binance) — 0 candidates ---
+  error: binance unavailable
+
+--- Prediction market arb (Polymarket) --- 0 candidates ---
+  error: fetch error: <urlopen error timed out>
+--- Calendar spread scanner error: <urlopen error timed out> ---
+
+--- Curve pool depeg --- 0 candidates ---
+  error: curve API unavailable
+
+--- Stat arb (cointegration) --- 0 candidates ---
+
+########## LOOP 2026-07-18 20:36:17 CST ##########
+/Users/daxu/software/world-trader/tools/loop_scan.py:132: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:14s} fr_1h={r['fr_pct_1h']:+.4f}% APR={r['apr_pct']:+.1f}% OI=\${r['oi_usd']/1e6:.1f}M")
+/Users/daxu/software/world-trader/tools/loop_scan.py:143: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:8s} avg=\${r['avg_price']:.5f} depeg={r['depeg_bps']:+.1f}bps "
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:168: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"straddle=\${r['straddle_cost']:.2f} ({r['trade']})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+=== LOOP SCAN 2026-07-18 20:36:17 CST ===
+--- Funding arb scanner error: <urlopen error timed out> ---
+
+--- Cross-exchange funding — 0 candidates (exchanges: ['binance_funding', 'bitget', 'bybit_funding', 'gate', 'okx_funding']) ---
+
+--- Spot arb (order-book verified) — 0 candidates ---
+
+--- Quarterly basis (cash and carry) — 0 candidates ---
+
+--- Triangular arb (Binance spot) — 0 candidates ---
+--- Perp-spot basis scanner error: <urlopen error timed out> ---
+
+--- Hyperliquid funding (1h interval) — 3 candidates ---
+  CASHCAT        fr_1h=+0.0237% APR=+207.4% OI=\$10.3M
+  STABLE         fr_1h=-0.0108% APR=-94.5% OI=\$2.5M
+  kBONK          fr_1h=-0.0101% APR=-88.8% OI=\$7.7M
+
+--- Stablecoin depeg — 6 candidates ---
+  USTC     avg=\$0.00544 depeg=-9945.6bps (hi gate \$0.00544 / lo gate \$0.00544)
+  FRAX     avg=\$0.26080 depeg=-7392.0bps (hi gate \$0.26080 / lo gate \$0.26080)
+  SUSD     avg=\$0.66670 depeg=-3333.0bps (hi gate \$0.66670 / lo gate \$0.66670)
+  FDUSD    avg=\$0.99780 depeg=-22.0bps (hi gate \$0.99780 / lo gate \$0.99780)
+  TUSD     avg=\$0.99800 depeg=-20.0bps (hi gate \$0.99800 / lo gate \$0.99800)
+  GUSD     avg=\$0.99880 depeg=-12.0bps (hi gate \$0.99880 / lo gate \$0.99880)
+
+--- DEX-CEX arb (Uniswap V3 vs Binance) — 0 candidates ---
+
+--- Options RV/IV edge — 0 candidates ---
+
+--- Kimchi premium (Korean BTC vs Binance) — 0 candidates ---
+  error: binance unavailable
+
+--- Prediction market arb (Polymarket) --- 0 candidates ---
+  error: fetch error: <urlopen error timed out>
+--- Calendar spread scanner error: <urlopen error timed out> ---
+
+--- Curve pool depeg --- 0 candidates ---
+  error: curve API unavailable
+
+--- Stat arb (cointegration) --- 0 candidates ---
+
+########## LOOP 2026-07-18 21:25:13 CST ##########
+/Users/daxu/software/world-trader/tools/loop_scan.py:132: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:14s} fr_1h={r['fr_pct_1h']:+.4f}% APR={r['apr_pct']:+.1f}% OI=\${r['oi_usd']/1e6:.1f}M")
+/Users/daxu/software/world-trader/tools/loop_scan.py:143: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:8s} avg=\${r['avg_price']:.5f} depeg={r['depeg_bps']:+.1f}bps "
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:168: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"straddle=\${r['straddle_cost']:.2f} ({r['trade']})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+=== LOOP SCAN 2026-07-18 21:25:14 CST ===
+--- Funding arb scanner error: <urlopen error [Errno 61] Connection refused> ---
+
+--- Cross-exchange funding — 0 candidates (exchanges: ['binance_funding', 'bitget', 'bybit_funding', 'gate', 'okx_funding']) ---
+
+--- Spot arb (order-book verified) — 0 candidates ---
+
+--- Quarterly basis (cash and carry) — 0 candidates ---
+
+--- Triangular arb (Binance spot) — 0 candidates ---
+--- Perp-spot basis scanner error: <urlopen error timed out> ---
+
+--- Hyperliquid funding (1h interval) — 3 candidates ---
+  GAS            fr_1h=-0.0249% APR=-218.0% OI=\$0.2M
+  kBONK          fr_1h=-0.0140% APR=-123.1% OI=\$7.7M
+  CASHCAT        fr_1h=+0.0103% APR=+90.2% OI=\$9.1M
+
+--- Stablecoin depeg — 6 candidates ---
+  USTC     avg=\$0.00542 depeg=-9945.8bps (hi gate \$0.00542 / lo gate \$0.00542)
+  FRAX     avg=\$0.26400 depeg=-7360.0bps (hi gate \$0.26400 / lo gate \$0.26400)
+  SUSD     avg=\$0.66670 depeg=-3333.0bps (hi gate \$0.66670 / lo gate \$0.66670)
+  FDUSD    avg=\$0.99780 depeg=-22.0bps (hi gate \$0.99780 / lo gate \$0.99780)
+  TUSD     avg=\$0.99800 depeg=-20.0bps (hi gate \$0.99800 / lo gate \$0.99800)
+  GUSD     avg=\$0.99870 depeg=-13.0bps (hi gate \$0.99870 / lo gate \$0.99870)
+
+--- DEX-CEX arb (Uniswap V3 vs Binance) — 0 candidates ---
+
+--- Options RV/IV edge — 0 candidates ---
+
+--- Kimchi premium (Korean BTC vs Binance) — 0 candidates ---
+  error: binance unavailable
+
+--- Prediction market arb (Polymarket) --- 0 candidates ---
+  error: fetch error: <urlopen error timed out>
+--- Calendar spread scanner error: <urlopen error timed out> ---
+
+--- Curve pool depeg --- 0 candidates ---
+  error: curve API unavailable
+
+--- Stat arb (cointegration) --- 0 candidates ---
+
+########## LOOP 2026-07-18 22:10:44 CST ##########
+/Users/daxu/software/world-trader/tools/loop_scan.py:132: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:14s} fr_1h={r['fr_pct_1h']:+.4f}% APR={r['apr_pct']:+.1f}% OI=\${r['oi_usd']/1e6:.1f}M")
+/Users/daxu/software/world-trader/tools/loop_scan.py:143: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:8s} avg=\${r['avg_price']:.5f} depeg={r['depeg_bps']:+.1f}bps "
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:168: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"straddle=\${r['straddle_cost']:.2f} ({r['trade']})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+=== LOOP SCAN 2026-07-18 22:10:44 CST ===
+--- Funding arb scanner error: <urlopen error [Errno 54] Connection reset by peer> ---
+
+--- Cross-exchange funding — 0 candidates (exchanges: ['binance_funding', 'bitget', 'bybit_funding', 'gate', 'okx_funding']) ---
+
+--- Spot arb (order-book verified) — 0 candidates ---
+
+--- Quarterly basis (cash and carry) — 0 candidates ---
+
+--- Triangular arb (Binance spot) — 0 candidates ---
+--- Perp-spot basis scanner error: <urlopen error timed out> ---
+
+--- Hyperliquid funding (1h interval) — 4 candidates ---
+  CASHCAT        fr_1h=+0.0248% APR=+217.1% OI=\$9.7M
+  GAS            fr_1h=-0.0193% APR=-169.2% OI=\$0.2M
+  kBONK          fr_1h=-0.0156% APR=-136.4% OI=\$7.8M
+  kFLOKI         fr_1h=-0.0108% APR=-95.0% OI=\$0.6M
+
+--- Stablecoin depeg — 6 candidates ---
+  USTC     avg=\$0.00542 depeg=-9945.8bps (hi gate \$0.00542 / lo gate \$0.00542)
+  FRAX     avg=\$0.26880 depeg=-7312.0bps (hi gate \$0.26880 / lo gate \$0.26880)
+  SUSD     avg=\$0.66670 depeg=-3333.0bps (hi gate \$0.66670 / lo gate \$0.66670)
+  FDUSD    avg=\$0.99770 depeg=-23.0bps (hi gate \$0.99770 / lo gate \$0.99770)
+  TUSD     avg=\$0.99800 depeg=-20.0bps (hi gate \$0.99800 / lo gate \$0.99800)
+  GUSD     avg=\$0.99870 depeg=-13.0bps (hi gate \$0.99870 / lo gate \$0.99870)
+
+--- DEX-CEX arb (Uniswap V3 vs Binance) — 0 candidates ---
+
+--- Options RV/IV edge — 0 candidates ---
+
+--- Kimchi premium (Korean BTC vs Binance) — 0 candidates ---
+  error: binance unavailable
+
+--- Prediction market arb (Polymarket) --- 0 candidates ---
+  error: fetch error: <urlopen error timed out>
+--- Calendar spread scanner error: <urlopen error timed out> ---
+
+--- Curve pool depeg --- 0 candidates ---
+  error: curve API unavailable
+
+--- Stat arb (cointegration) --- 0 candidates ---
+
+########## LOOP 2026-07-18 22:59:11 CST ##########
+/Users/daxu/software/world-trader/tools/loop_scan.py:132: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:14s} fr_1h={r['fr_pct_1h']:+.4f}% APR={r['apr_pct']:+.1f}% OI=\${r['oi_usd']/1e6:.1f}M")
+/Users/daxu/software/world-trader/tools/loop_scan.py:143: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:8s} avg=\${r['avg_price']:.5f} depeg={r['depeg_bps']:+.1f}bps "
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:168: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"straddle=\${r['straddle_cost']:.2f} ({r['trade']})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+=== LOOP SCAN 2026-07-18 22:59:11 CST ===
+--- Funding arb scanner error: <urlopen error [Errno 61] Connection refused> ---
+
+--- Cross-exchange funding — 0 candidates (exchanges: ['binance_funding', 'bitget', 'bybit_funding', 'gate', 'okx_funding']) ---
+
+--- Spot arb (order-book verified) — 0 candidates ---
+
+--- Quarterly basis (cash and carry) — 0 candidates ---
+
+--- Triangular arb (Binance spot) — 0 candidates ---
+--- Perp-spot basis scanner error: <urlopen error timed out> ---
+
+--- Hyperliquid funding (1h interval) — 5 candidates ---
+  GAS            fr_1h=-0.0223% APR=-195.7% OI=\$0.2M
+  CASHCAT        fr_1h=+0.0197% APR=+172.5% OI=\$10.1M
+  kBONK          fr_1h=-0.0142% APR=-124.1% OI=\$8.3M
+  AERO           fr_1h=-0.0122% APR=-106.7% OI=\$8.3M
+  POLYX          fr_1h=-0.0107% APR=-93.8% OI=\$0.1M
+
+--- Stablecoin depeg — 6 candidates ---
+  USTC     avg=\$0.00544 depeg=-9945.6bps (hi gate \$0.00544 / lo gate \$0.00544)
+  FRAX     avg=\$0.26700 depeg=-7330.0bps (hi gate \$0.26700 / lo gate \$0.26700)
+  SUSD     avg=\$0.66670 depeg=-3333.0bps (hi gate \$0.66670 / lo gate \$0.66670)
+  TUSD     avg=\$0.99710 depeg=-29.0bps (hi gate \$0.99710 / lo gate \$0.99710)
+  FDUSD    avg=\$0.99780 depeg=-22.0bps (hi gate \$0.99780 / lo gate \$0.99780)
+  GUSD     avg=\$0.99870 depeg=-13.0bps (hi gate \$0.99870 / lo gate \$0.99870)
+
+--- DEX-CEX arb (Uniswap V3 vs Binance) — 0 candidates ---
+
+--- Options RV/IV edge — 0 candidates ---
+
+--- Kimchi premium (Korean BTC vs Binance) — 0 candidates ---
+  error: binance unavailable
+
+--- Prediction market arb (Polymarket) --- 0 candidates ---
+  error: fetch error: <urlopen error timed out>
+--- Calendar spread scanner error: <urlopen error timed out> ---
+
+--- Curve pool depeg --- 0 candidates ---
+  error: curve API unavailable
+
+--- Stat arb (cointegration) --- 0 candidates ---
+
+########## LOOP 2026-07-18 23:47:35 CST ##########
+/Users/daxu/software/world-trader/tools/loop_scan.py:132: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:14s} fr_1h={r['fr_pct_1h']:+.4f}% APR={r['apr_pct']:+.1f}% OI=\${r['oi_usd']/1e6:.1f}M")
+/Users/daxu/software/world-trader/tools/loop_scan.py:143: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:8s} avg=\${r['avg_price']:.5f} depeg={r['depeg_bps']:+.1f}bps "
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:144: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"(hi {r['hi_venue']} \${r['hi_price']:.5f} / lo {r['lo_venue']} \${r['lo_price']:.5f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:155: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  out_lines.append(f"  {r['symbol']:6s} binance=\${r['binance_px']:.4f} uniswap=\${r['uniswap_px']:.4f} "
+/Users/daxu/software/world-trader/tools/loop_scan.py:168: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"straddle=\${r['straddle_cost']:.2f} ({r['trade']})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+/Users/daxu/software/world-trader/tools/loop_scan.py:182: SyntaxWarning: "\$" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\$"? A raw string is also an option.
+  f"USD~=\${r['usd_equiv']:.2f} vs Binance \${r['binance_usd']:.2f})")
+=== LOOP SCAN 2026-07-18 23:47:35 CST ===
+--- Funding arb scanner error: <urlopen error timed out> ---
+
+--- Cross-exchange funding — 0 candidates (exchanges: ['binance_funding', 'bitget', 'bybit_funding', 'gate', 'okx_funding']) ---
+
+--- Spot arb (order-book verified) — 0 candidates ---
+
+--- Quarterly basis (cash and carry) — 0 candidates ---
+
+--- Triangular arb (Binance spot) — 0 candidates ---
+--- Perp-spot basis scanner error: <urlopen error timed out> ---
+
+--- Hyperliquid funding (1h interval) — 5 candidates ---
+  ACE            fr_1h=-0.0506% APR=-443.0% OI=\$0.3M
+  kBONK          fr_1h=-0.0147% APR=-129.1% OI=\$8.0M
+  POLYX          fr_1h=-0.0144% APR=-126.2% OI=\$0.1M
+  UMA            fr_1h=-0.0128% APR=-112.0% OI=\$0.3M
+  GAS            fr_1h=-0.0117% APR=-102.2% OI=\$0.2M
+
+--- Stablecoin depeg — 6 candidates ---
+  USTC     avg=\$0.00543 depeg=-9945.7bps (hi gate \$0.00543 / lo gate \$0.00543)
+  FRAX     avg=\$0.26590 depeg=-7341.0bps (hi gate \$0.26590 / lo gate \$0.26590)
+  SUSD     avg=\$0.66670 depeg=-3333.0bps (hi gate \$0.66670 / lo gate \$0.66670)
+  TUSD     avg=\$0.99710 depeg=-29.0bps (hi gate \$0.99710 / lo gate \$0.99710)
+  FDUSD    avg=\$0.99780 depeg=-22.0bps (hi gate \$0.99780 / lo gate \$0.99780)
+  GUSD     avg=\$0.99890 depeg=-11.0bps (hi gate \$0.99890 / lo gate \$0.99890)
+
+--- DEX-CEX arb (Uniswap V3 vs Binance) — 0 candidates ---
+
+--- Options RV/IV edge — 0 candidates ---
+
+--- Kimchi premium (Korean BTC vs Binance) — 0 candidates ---
+  error: binance unavailable
+
+--- Prediction market arb (Polymarket) --- 0 candidates ---
+  error: fetch error: <urlopen error timed out>
+--- Calendar spread scanner error: <urlopen error timed out> ---
+
+--- Curve pool depeg --- 0 candidates ---
+  error: curve API unavailable
+
+--- Stat arb (cointegration) --- 0 candidates ---
+

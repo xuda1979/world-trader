@@ -1,0 +1,280 @@
+=== MONEY-LOOP scan started 2026-07-26 09:36:02 ===
+=== WORLD-TRADER GLOBAL SCAN  2026-07-26T01:36:02+00:00 ===
+objective: short-term trades with HIGH expected return and LOW sigma -> maximize per-trade expected Sharpe (E[R]/sigma), risk hard-capped
+
+-- OPEN NOW: 1 markets --
+   + CRYPTO (Crypto (24/7))
+
+-- REGIME: NEUTRAL  (score +0.00) --
+   [+spillover: 12 cross-asset candidates from 2 themes]
+
+-- LIVE QUOTES: 96 instruments fetched (crypto RT, US, China A-share live, Taiwan live, FX)  [wide US unavailable: RemoteDisconnected: Remote end closed connection without response]  [wide CN unavailable: RemoteDisconnected: Remote end closed connection without response] --
+
+=== OPPORTUNITIES (ranked by per-trade expected Sharpe = E[R]/sigma) ===
+  markets open now (2026-07-26T01:37:41+00:00): CRYPTO
+  YOUR BAR to qualify: E[R]>=+1%/trade, sigma<=7%*sqrt(h/5), Sharpe>=0.40, n>=20, t>=2 (Bonferroni-adj.), OOS Sharpe>0
+  >> NOTHING cleared your bar this scan. The rows below are the best
+     MEASURED edges only -- they are NOT signals. DO NOT trade them.
+
+-- TRADE PLAN --
++---+--------------+------+--------+-------+--------------+-------+--------------+------+-------+-------+--------+-----+-------+----------+
+| # | Instrument   | Sym  | Mkt    | Dir   | Setup        | Price | Quote(Local) | Chg% | Entry |  Stop | Target | R:R | Risk% | Catalyst |
++===+==============+======+========+=======+==============+=======+==============+======+=======+=======+========+=====+=======+==========+
+| 1 | Crypto: AVAX | AVAX | CRYPTO | Short | ConnorsShort | 6.772 | 07-26 01:36  |   -- | 6.772 | 7.031 |  6.254 | 2.0 | 3.82% |          |
++---+--------------+------+--------+-------+--------------+-------+--------------+------+-------+-------+--------+-----+-------+----------+
+
+-- EDGE & RISK (evidence for the SAME numbered rows) --
++---+------+-------+--------------+---------+-------+--------+--------+-----+------+------+----+------+--------+-------+-------+
+| # | Sym  | Price | Quote(Local) | Verdict | E[R]% | sigma% | Sharpe |   t | oosS | Win% |  n | ATR% | Kelly% | RV/IV | Data  |
++===+======+=======+==============+=========+=======+========+========+=====+======+======+====+======+========+=======+=======+
+| 1 | AVAX | 6.772 | 07-26 01:36  | below   | 0.79% |  5.59% |   0.14 | 1.0 | 0.11 |  55% | 51 | 3.8% |  32.4% |    -- | RT 1m |
++---+------+-------+--------------+---------+-------+--------+--------+-----+------+------+----+------+--------+-------+-------+
+  note: 1 live instruments have no free daily history (China A-share/Taiwan) -> no expectancy, excluded from ranking.
+
+-- MACRO / RATES / CREDIT (FRED) --
+  UST curve: 30Y 5.17%
+
+-- CATALYST CALENDAR (next 14d; today=2026-07-26) --
+  2026-07-30  (2)
+    [IPO] JMKE     IPO Jersey Mike's Subs Inc. $?
+    [IPO] REF      IPO Reformation Inc. $?
+  2026-08-03  (88)
+    [ERN] AACB     Q2 2026 EPS est None
+    [ERN] ABTC     Q2 2026 EPS est 0 EPS~0
+    [ERN] ADEA     Q2 2026 EPS est 0.3142 EPS~0.3142
+    [ERN] ADTN     Q2 2026 EPS est 0.1312 EPS~0.1312
+    [ERN] ADUS     Q2 2026 EPS est 1.7331 EPS~1.7331
+    [ERN] AEIS     Q2 2026 EPS est 2.241 EPS~2.241
+    [ERN] AESI     Q2 2026 EPS est -0.1469 EPS~-0.1469
+    [ERN] AHR      Q2 2026 EPS est 0.1667 EPS~0.1667
+  2026-08-04  (331)
+    [ERN] AACG     Q2 2026 EPS est None
+    [ERN] ACAD     Q2 2026 EPS est 0.0572 EPS~0.0572
+    [ERN] ACEL     Q2 2026 EPS est 0.2132 EPS~0.2132
+    [ERN] ACNT     Q2 2026 EPS est None
+    [ERN] ACRE     Q2 2026 EPS est 0.0561 EPS~0.0561
+    [ERN] ACUT     Q2 2026 EPS est None
+    [ERN] ADM      Q2 2026 EPS est 1.3502 EPS~1.3502
+    [ERN] AFG      Q2 2026 EPS est 2.3327 EPS~2.3327
+  2026-08-05  (482)
+    [ERN] AATC     Q2 2026 EPS est None
+    [ERN] ABCL     Q2 2026 EPS est -0.1719 EPS~-0.1719
+    [ERN] ACA      Q2 2026 EPS est 1.2039 EPS~1.2039
+    [ERN] ACFN     Q2 2026 EPS est None
+    [ERN] ACLX     Q2 2026 EPS est -1.1546 EPS~-1.1546
+    [ERN] ACT      Q2 2026 EPS est 1.2049 EPS~1.2049
+    [ERN] ACTG     Q2 2026 EPS est -0.102 EPS~-0.102
+    [ERN] ADNT     Q3 2026 EPS est 0.5761 EPS~0.5761
+  2026-08-06  (508)
+    [ERN] AAM      Q2 2026 EPS est None
+    [ERN] AAOI     Q2 2026 EPS est 0.0153 EPS~0.0153
+    [ERN] ABNB     Q2 2026 EPS est 1.2766 EPS~1.2766
+    [ERN] ABX      Q2 2026 EPS est 0.2418 EPS~0.2418
+  (source errors: dividends: IncompleteRead: IncompleteRead(98290 bytes read))
+
+-- NEWS (expanded feeds) --
+  [BoJ]
+    - Developments in Real Exports and Real Imports
+    - Japanese Government Bonds Held by the Bank of Japan
+    - (BOJ Review) The Development and Strengthening of International Forums in Asia with the Participation of the Bank of Japan
+  [Cointelegraph]
+    - Robinhood in talks with Crypto.com over prediction markets: WSJ
+    - Bitcoin advocacy group to join US State Department’s ‘digital freedom’ program
+    - Wise to resubmit US charter application under GENIUS Act
+  [Decrypt]
+    - What Is an AI Kill Switch and Why Do US Lawmakers Want One?
+    - Stocks Just Topped Crypto on Hyperliquid. ARK Says That Changes Everything
+    - Samsung Wallet Will Add Stablecoin Support, Including USDC
+  [TheBlock]
+    - EU adds HTX to Russia sanctions list, barring transactions starting Aug. 23
+    - Robinhood in talks to add Crypto.com prediction markets as Kalshi rivalry grows: WSJ
+    - Bitcoin ETF weekly trading volume falls to lowest since October 2024 as ether funds lead inflows again
+  [CoinDesk]
+    - Russia’s largest bank Sberbank plans crypto trading infrastructure by December
+    - North Korea arrests hackers accused of laundering stolen funds from country's bank via crypto
+    - Democratizing weather derivatives through tokenization could be crypto's most important real-world use case
+  [ForexLive]
+    - What is tradeCompass at investingLive.com: Trading methodolgy explained and how traders can utilize it
+    - investingLive Americas FX news wrap 24 Jul: Geopolitics remain the focus for traders.
+    - US indices close mixed. Dow up. S&P unchanged. Nasdaq down
+  [FXStreet]
+    - Singapore Dollar: MAS seen on hold with cautious inflation tone – OCBC
+    - EUR/JPY Price Forecast: Cross consolidates under 187.00, bulls target 188.00
+    - Malaysia: Solid fundamentals support Ringgit and bonds – DBS
+  [Mining.com]
+    - MAX Power Mining increases landholding at Lawson hydrogen project in Saskatchewan
+    - American Mineral Resources bets on diversified project portfolio as US juniors struggle to raise capital
+    - US Department of Energy commits $65.5M to boost domestic oil and gas production
+  [JapanTimes]
+    - Russia wants 30,000 more North Korean troops for Ukraine war: Zelenskyy
+    - Iran war spreads to Red Sea and Caspian, but Gulf quiet as U.S. forgoes strikes
+    - India youth protests end as Modi bows to group’s demands
+  [SCMP-Biz]
+    - What is a supernode, and why does it matter for the China-US tech rivalry?
+    - Meet Yu Donglai, founder of China’s viral supermarket chain and guest of Premier Li Qiang
+    - China hits Trip.com with US$765 million antitrust penalty after 6-month investigation
+  [ET-Markets]
+    - Violent crypto attacks rise as criminals hunt bigger payouts
+    - IDFC First Bank Q1 Results: Profit shoots up 132% YoY to record Rs 1,075 crore; NII jumps 21%
+    - Govt of Singapore’s India portfolio: 7 stocks rally up to 135% in CY26
+  [Livemint]
+    - Expert view: Semiconductors, spacetech could unlock $500 bn-$1 tn market opportunity, says Piper Serica's Director
+    - Gold Edges Up as Traders Weigh Mideast Conflict, Fed Rate Path
+    - Metals Fluctuate as Middle East Escalation Keeps Bulls in Check
+  [SpaceNews]
+    - SpaceX conducts 13th Starship test flight
+    - ULA deals with financial challenges caused by Vulcan grounding
+    - LatConnect 60 Unveils Proprietary AI Capabilities Following Growing Indo-Pacific Defence Interest in SWIRSAT
+  [TechCrunch]
+    - Monday.com is the latest tech company to blame AI for layoffs — here are 20 others
+    - Warner Bros. lawsuit accuses Amazon of illegally poaching executives
+    - The hacker who humiliated spyware makers and was never caught
+  [BioPharma]
+    - <a href="/marketing/gastroenterologists-spot-treatment-gaps-clinical-remission-rates-durability-among-ibd" hreflang="en">Gastroenterologists flag clinical remission and its durability as unmet needs in IBD care: survey</a>
+    - <a href="/pharma/peptide-adcomm-day-2-emideltide-voted-down-panels-1st-peptide-pushback" hreflang="en">Peptide adcomm Day 2: Emideltide voted down in panel's 1st pushback</a>
+    - <a href="/pharma/oral-glp-1-tracker-launch-trajectories-lilly-foundayo-novo-wegovy-pill" hreflang="en">The Oral GLP-1 Tracker: Obesity prescriptions jump for both Novo and Lilly</a>
+  [PV-Magazine]
+    - China adopts tougher mandatory energy limits for polysilicon plants
+    - How to win and how not to lose: What the Football World Cup final teaches us about leading the energy transition
+    - Tunisia authorizes residential solar-plus-storage amid heatwave
+  [Electrek]
+    - Another day at the office: Fortescue CEO test drives 150 ton haul truck [video]
+    - Windrose says 10 of its electric semi trucks are coming to Texas I-35 corridor
+    - E-quipment highlight: Avant Tecno e727 electric wheel loader
+  [Investing-UK]
+    - Dollar set for biggest weekly gain in over a month; yen eyes worst week since May
+    - Canadian dollar slips as oil retreats, Fed decision looms
+    - South African rand nears 17 per dollar after rate decision
+  [CityAM]
+    - Exclusive: Saudi ship struck by Houthis had insurance from Lloyds insurance giant
+    - BP eyes finalising sale of solar arm to Kuwait-backed wealth fund
+    - Top-end priced UK properties may take four times longer to leave market
+  [Handelsblatt]
+    - Kabinettsumbau: „Bedrohung für die Regierung“ – Immer mehr CDU-Politiker stellen sich gegen Merz
+    - Deep Read: „Bei uns gibt es keine Brandmauer mehr“ – ein Land wird blau
+    - Auto fährt in Menschenmenge: Berliner CSD – Polizei identifiziert mutmaßlichen Verdächtigen
+  [Investing-DE]
+    - BofA lifts cybersecurity stock targets to reflect long-term growth outlook
+    - Russia stocks lower at close of trade; MOEX Russia Index unchanged
+    - Flavio Bolsonaro launches Brazil presidential campaign, touts support from Milei, Netanyahu
+  [Investing-IT]
+    - Iran war spreads to Red Sea and Caspian, Gulf quiet as US forgoes strikes
+    - Houthis fire on Saudi oil sites; no US strike on Iran for first time in two weeks
+    - Swiss cheesemakers try to fill hole in sales from US tariffs
+  [NikkeiAsia]
+    - Japan office workers cool off with shorts amid record-breaking summers
+    - In Focus: Thai military builds Cambodia border wall
+    - Exploring Vietnam's Red River Delta by boat
+  [JijiPress]
+    - 曲げぬ持論、弁護士に「反省」も　植松死刑囚「死刑には値しない」―相模原市の障害者施設殺傷
+    - 米メディアは、米大統領がイランへの攻撃を見送るよう軍に命じたと報じた
+    - 特別国会で首相の集中審議出席、大幅減　「国会嫌い」指摘、与野党で相次ぐ
+  [EconTimes]
+    - Violent crypto attacks rise as criminals hunt bigger payouts
+    - IDFC First Bank Q1 Results: Profit shoots up 132% YoY to record Rs 1,075 crore; NII jumps 21%
+    - Govt of Singapore’s India portfolio: 7 stocks rally up to 135% in CY26
+  [MoneyControl]
+    - Uncle Sam is wrong, India and China are doing their bit to fight climate change
+  [LiveMint]
+    - Expert view: Semiconductors, spacetech could unlock $500 bn-$1 tn market opportunity, says Piper Serica's Director
+    - Gold Edges Up as Traders Weigh Mideast Conflict, Fed Rate Path
+    - Metals Fluctuate as Middle East Escalation Keeps Bulls in Check
+  [BusinessStd]
+    - IDFC First Bank records PAT of Rs 1,075 crore in Q1 FY27, provisions drop over 31% YoY
+    - Cyient posts 90% sequential rise in Q1 PAT to Rs 104 crore
+    - Lodha Developers Q1 PAT more than doubles to Rs 1,372 crore
+  [HinduBiz]
+    - FPIs turn net sellers on Friday, weekly tally stays positive at ₹19,778 crore
+    - Q1 Results Today Live: AU Small Finance Bank, IDFC First Bank, Dr. Reddy's Lab, Zen Tech, SBFC Finance, Birla Corporation to announce Q1 results
+    - NTPC board approves raising up to ₹12,000 cr via NCD issue
+  [EM-Investing]
+    - Quote Trade Announces Native Support for XDC Network and Circle-Issued USDC on XDC
+    - MEXC Expands Ondo Tokenized Stock Offerings with AI Infrastructure and Mining Assets
+    - SHIBCAT Expands the Robinhood Chain Ecosystem with the Launch of Its Community-Driven Meme Token
+  [Brazil-Exame]
+    - Rato encontrado a quase 7 mil metros de altitude desafia os limites da vida
+    - Krakatoa: a erupção que produziu o som mais alto da história
+    - Atropelamento na Parada LGBTQIA+ de Berlim mata uma pessoa e deixa ao menos 15 feridos
+  [MiningCom]
+    - MAX Power Mining increases landholding at Lawson hydrogen project in Saskatchewan
+    - American Mineral Resources bets on diversified project portfolio as US juniors struggle to raise capital
+    - US Department of Energy commits $65.5M to boost domestic oil and gas production
+  [MetalMiner]
+    - How Aclara Plans to Build a Rare Earth Supply Chain Without China by 2028
+    - How to Judge Forecast Performance in Metals: Setting up an MCP for Metal Prices
+    - What Ideal Metal Price Forecasting Looks Like for Decision-Makers
+  [FarmProgress]
+    - This Week in Agribusiness, July 25, 2026
+    - FFA Chapter Tribute: Lilly Nyland
+    - Wheat takes a break from the bulls
+  [BeInCrypto]
+    - Top 3 US Stock Market Stories From This Week
+    - Top 5 Trump News That Moved Markets This Week
+    - When Will the Strait of Hormuz Open for Good? Analyst Gives Timeline
+  [NewsBTC]
+    - BitMEX Faces Proposed Class Action Seeking Return Of 622 BTC
+    - CLARITY Act Delay Shows Crypto Market Structure Fight Is Not Over
+    - Robinhood CEO X Hack Shows Why Crypto Scams Still Target Trusted Names
+  [Investing-FX]
+    - Dollar set for biggest weekly gain in over a month; yen eyes worst week since May
+    - Canadian dollar slips as oil retreats, Fed decision looms
+    - South African rand nears 17 per dollar after rate decision
+  [Pandaily]
+    - Chengdu Emerges as China Digital Economy Top Contender: APEC Digital Week Spotlights Western City AI Infrastructure, Green Computing, and Open Innovation Ecosystem
+    - Honor Changes Logo: The Ring of Honor Brand Identity Signals an All-In AI Strategy as the Smartphone Maker Bets on Agent Phone Transformation
+    - Zhuhai Semiconductor Veterans Pioneer Space Solar Cells: Hongjun New Energy HJT Modules Pass In-Orbit Verification on Computing Satellite Mission
+  [ChinaBriefing]
+    - The Greater Bay Area IIT Subsidy for 2026 Kickstarts in Shenzhen
+    - US-China Relations in the Trump 2.0 Era: A Timeline
+    - Why China is Still the Top 1 Manufacturing Destination in Asia
+
+-- SEC 8-K MATERIAL CATALYSTS (last 3 days) --
+  (unavailable: net: Remote end closed connection without response)
+
+-- INSIDER CLUSTER BUYS (last 30d, >=2 insiders) --
+  (unavailable: RemoteDisconnected: Remote end closed connection without response)
+
+-- DEFI STABLECOIN YIELDS (top 8 by APY, TVL >=$10M) --
+  (unavailable: net: Remote end closed connection without response)
+
+-- SHORT SQUEEZE WATCH (SI% float >= 10%) --
+  (no high-SI names found)
+
+-- ENERGY SNAPSHOT (FRED weekly) --
+  (unavailable: no data (FRED_KEY missing or all series failed))
+
+research only, not financial advice. verify before acting.
+
+[scan task log]
+  - 09:36:02  regime: gathering FRED macro / VIX / fear-greed
+  - 09:36:05  regime: NEUTRAL score=+0.00
+  - 09:36:05  quotes: collecting global universe (crypto/US/CN/TW/HK/FX/futures/indices + region/macro ETFs)
+  - 09:36:43  quotes: 84 curated instruments fetched
+  - 09:36:43  wide US funnel: pulling ~12k tickers from Polygon, pre-screening top 150
+  - 09:36:47  wide US funnel: 0 of 0 -> top 150 backtested [err: RemoteDisconnected: Remote end closed connection without response]
+  - 09:36:47  spillover funnel: scanning RSS headlines for theme keywords -> peer candidates
+  - 09:37:01  spillover funnel: 12 candidates across 2 themes -> 12 fetched
+  - 09:37:01  wide CN funnel: pulling ~5,500 A-shares, pre-screening top 120
+  - 09:37:01  wide CN funnel: 0 of 0 -> top 120 backtested [err: RemoteDisconnected: Remote end closed connection without response]
+  - 09:37:01  opportunities: building candidate set from quotes + regime
+  - 09:37:01  opportunities: 46 raw candidates
+  - 09:37:01  backtest: enriching with technicals + E[R]/sigma/Sharpe
+  - 09:37:34  backtest: per-candidate family m=10 (global total=80) -> Bonferroni t>=2.81
+  - 09:37:34  news enrichment: Finnhub headlines + Polygon sentiment per candidate
+  - 09:37:34  news enrichment: done (0 candidates have fresh headlines)
+  - 09:37:34  catalyst enrichment: scanning Finnhub earnings/FDA/IPO + Polygon dividends
+  - 09:37:36  catalyst enrichment: 0 candidates have a near-term catalyst (+0 new)
+  - 09:37:36  PEAD confirmation: looking up recent earnings surprises for PEAD setups
+  - 09:37:36  PEAD confirmation: 0 PEAD setups confirmed by earnings surprise (+0 new)
+  - 09:37:36  options enrichment: pulling ATM straddles (CBOE) for top US candidates
+  - 09:37:39  options enrichment: 8 candidates have an RV/IV signal (+8 new)
+  - 09:37:39  country crisis: scanning 32 country ETFs for crisis signals
+  - 09:37:41  country crisis: 0 candidates in crisis (+0 new)
+  - 09:37:41  veto gate: 0 rows vetoed (0 crash-in-progress, 0 news-contradicts) -> PASS rows 1 -> 1
+  - 09:37:41  catalysts: printing freshest company news for top candidates
+  - 09:37:41  alt-data: pulling FRED macro/rates/credit, treasury curve, BTC funding, COT
+  - 09:37:43  catalyst calendar: Finnhub earnings/FDA/IPO + Polygon dividends (14d)
+  - 09:37:45  expanded news: sweeping all RSS feeds (equities/macro/CB/crypto/FX/commodities/regional)
+  - 09:37:56  expanded news: 39 feeds ok, 65 feeds failed
+  - 09:37:56  GDELT: 24h global market tone sweep
+  - 09:38:04  altdata2: SEC 8-K + insider clusters + DeFi yields + short squeeze + energy

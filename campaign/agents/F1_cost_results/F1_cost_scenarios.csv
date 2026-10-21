@@ -1,0 +1,29 @@
+# F1 cost re-pricing. ann = (1+r).prod()**(252/n)-1 (%); SR daily; MaxDD % negative.
+# cost = one-side bps on turnover; 6bps baseline = committed convention.
+# GEAR16 = champion of record GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv (gross exactly 1.6x, FULL |dW|, margin 4.5%*(1.6-1), baseline 6.4bps).
+# SAFE16 = GOAL100_CHAMPION_daily.csv (config A, internal gross 4.03x mean NOT margin-charged in naive rows).
+# FULLdW = rules convention 6bps x FULL |dW| (= 2x committed 0.5*sum|dW| series).
+# HONESTmargin = adds 4.5%/yr on (book gross - 1) with measured internal gross (4.03x @1x -> 6.45x @1.6x).
+# naive levered rows are PHANTOM (financing on internal gross uncharged) - see F1_report.md REJECT log.
+book,lev,cost_bps,ann_pct,sr,maxdd_pct,dAnn_vs_6bps_pp
+GEAR16_champ_of_record,1.6,3.0,39.535,3.220,-6.52,0.031
+GEAR16_champ_of_record,1.6,6.0,39.504,3.218,-6.52,0.000
+GEAR16_champ_of_record,1.6,6.4,39.500,3.218,-6.52,-0.004
+GEAR16_champ_of_record,1.6,9.0,39.473,3.216,-6.52,-0.031
+GEAR16_champ_of_record,1.6,12.0,39.442,3.214,-6.52,-0.062
+SAFE16_at_1x,1.0,3.0,62.544,5.238,-7.21,0.871
+SAFE16_at_1x,1.0,6.0,61.673,5.182,-7.31,0.000
+SAFE16_at_1x,1.0,9.0,60.807,5.125,-7.41,-0.866
+SAFE16_at_1x,1.0,12.0,59.945,5.068,-7.52,-1.728
+SAFE16_at_1x_FULLdW,1.0,6.0,59.945,5.068,-7.52,0.000
+SAFE16_at_1x_FULLdW,1.0,9.0,58.235,4.952,-7.73,-1.710
+SAFE16_at_1x_FULLdW,1.0,12.0,56.542,4.834,-8.26,-3.403
+SAFE16_levered_naive,1.6,3.0,110.805,5.057,-11.62,1.802
+SAFE16_levered_naive,1.6,6.0,109.003,5.001,-11.78,0.000
+SAFE16_levered_naive,1.6,9.0,107.216,4.945,-11.94,-1.787
+SAFE16_levered_naive,1.6,12.0,105.444,4.888,-12.29,-3.559
+SAFE16_levered_HONESTmargin,1.6,6.0,68.147,3.546,-22.61,0.000
+SAFE16_levered_HONESTmargin,1.6,9.0,66.708,3.490,-22.94,-1.439
+SAFE16_levered_HONESTmargin,1.6,12.0,65.281,3.432,-23.26,-2.866
+SAFE16_1x_HONESTmargin,1.0,6.0,41.107,3.727,-13.53,0.000
+SAFE16_1x_HONESTmargin,1.0,12.0,39.597,3.613,-13.99,-1.510
