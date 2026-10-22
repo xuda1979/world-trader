@@ -1041,3 +1041,39 @@ Champion trio STAGED-UNCHANGED; no results/ metric touched; goal.md checklist
 updated. Standing items unchanged (fred BAML repair, beat-path-3 2027-09).
 
 DONE floored_flagship_falsealarm_fix_20261022
+
+## Round raw_data_manifest_repin_20261022 (chief, housekeeping)
+
+ROUND CONTEXT: post-adoption session (champion of record = RAW-EW13v2 WEIGHTED
+@1.6x + A_cap28 since db974c92, pin a8ed233bd0f6fd5d verified intact this
+round). Manifest verify RED on session open: 64 extra, 28 missing.
+
+INVESTIGATION BEFORE RE-PIN (loss-class alarms are falsified, not assumed
+benign). Decomposition of the 64-extra/28-missing drift:
+- 28 "missing" = same-path entries in BOTH lists (cboe_hist x6, twelve_big x6,
+  twelve_liq x6, twelvedata x9, cboe_options x1): in-place content refresh,
+  ZERO loss. Provenance: HUNT_H1_TAILFACTOR Addendum A.4 operational refresh,
+  documented pre-commit in 108ad4e3 standup iter-14 (twelvedata 9/9 + twelve
+  dirs via refresh_panel.py to 2026-10-16, cboe_hist ETFs to 2026-10-15;
+  git-ignored regenerable data, sealed panel prefix untouched).
+- 36 net-new = scheduled CBOE H1/flow pipeline archives 20261019/20261020/
+  20261021 (12 files each: 9 symbol chains + fetch_report.json +
+  H1_diagnostics + H1_tailfactor). Validated: fetch_report sha256/bytes
+  self-consistent vs archive files, 9/9 symbols_ok zero fail each date, spot
+  continuity smooth (SPY 762.52 -> 766.92 -> 769.34 -> 773.64; iv30 14.296 ->
+  13.676 -> 13.188 -> 13.008 declining), fetch_time 04:20 ET overnight
+  scheduler. h1_status.json: consecutive_failures 0, last_archive_date
+  20261021 = expected.
+
+ACTIONS: --emit re-run (11840 -> 11876 files, 87 axes unchanged, tree sha16
+2f8a754bd2b7285b -> cedac0a96ea250e3); test_raw_data_manifest.py baseline
+re-pinned (count + sha16 + ledger history docstring incl. the A.4 refresh
+note); verify GREEN; manifest tests 6/6.
+
+Champion trio STAGED-UNCHANGED; no results/ metric touched (manifest itself
+only). Standing data-side items unchanged: fred_full/more_fred BAML repair;
+beat-path-3 fires 2027-09. Next scheduled hunt session unchanged
+(HUNT_H1_TAILFACTOR adjudication ~early Dec 2026 at >=60 panel dates; A.6
+residual: refresh both price sources same-day before the December run).
+
+DONE raw_data_manifest_repin_20261022

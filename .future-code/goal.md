@@ -37,6 +37,11 @@ Do NOT run the real-mode grid before the >=60 dates / >=3 months maturity gate.
       launchd cwd=/ made every scheduled run since 2026-08-14 log a false breach);
       monitor honors WT_TBILL_CSV test override. tools/test_floored_flagship_daily.py
       2/2 GREEN; foreign-cwd end-to-end run healthy (T-bill 4.02%, margin +0.62pp).
+- [x] raw_data_manifest re-pin (scheduled drift class, 20261015 precedent):
+      RED decomposed 28 refreshed-in-place (A.4 operational refresh, provenance
+      108ad4e3) + 36 net-new (archives 20261019/20/21 validated); emit
+      11840->11876, tree sha16 cedac0a96ea250e3; baseline re-pinned with ledger;
+      verify GREEN; manifest tests 6/6.
 - [ ] Update Status
 
 ## Standing constraints
@@ -49,4 +54,12 @@ Do NOT run the real-mode grid before the >=60 dates / >=3 months maturity gate.
   >=1 trading day (benign — twelvedata fallback carries ETF T+1; fail-closed span guard).
 - Round history: see STANDUP_LOG.md, RESEARCH_LOG.md, campaign WORK.md (committed).
 
-## Status: in_progress
+## Status: completed
+Round DONE 2026-10-22 17:52 +0800, independently verified:
+- manifest re-emit 11,876 files / 87 axes; fail-closed tests 6/6 GREEN vs re-emitted manifest
+- suite delta vs HEAD fully attributed: exactly the 2 manifest fail-closed tests
+  (HEAD pin stale vs live tree from today's 16:20 H1 scheduler run; round re-emit
+  matches live tree); remaining 27F/4E = established pre-existing baseline (iter23
+  gridedge, treasfut rebuild, etc.), identical in both states
+- battery side-effects restored: V7/V71 reports, h1 logs, r1_results.json at HEAD
+- red lists reproduced twice independently (byte-identical, 31 lines)

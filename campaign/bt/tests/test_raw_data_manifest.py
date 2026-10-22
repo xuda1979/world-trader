@@ -131,7 +131,13 @@ def test_pinned_baseline_snapshot():
     restatements; eia_weekly 8 spots to 2026-10-14) -> 11828 /
     ab839894d9d8e46e. 2026-10-17 scheduled CBOE H1 pipeline (archive 20261016,
     +10 net files; panel 11803->12810 bytes, 20261016 coverage) -> 11840 /
-    2f8a754bd2b7285b."""
+    2f8a754bd2b7285b. 2026-10-18 HUNT_H1_TAILFACTOR Addendum A.4 operational
+    refresh (documented in 108ad4e3 standup: twelvedata 9/9 + twelve_big 6/6 +
+    twelve_liq 6/6 via refresh_panel.py to 2026-10-16; cboe_hist 6 ETFs to
+    2026-10-15, in-place content refresh, zero loss) + 2026-10-20..22 scheduled
+    CBOE H1/flow pipelines (archives 20261019/20261020/20261021, +36 net files,
+    9/9 symbols each, fetch_report sha256 self-consistent) -> 11876 /
+    cedac0a96ea250e3."""
     with open(MANIFEST) as f:
         rows = [r for r in csv.reader(f) if r and not r[0].startswith("#")]
     files = rows[1:]
@@ -139,13 +145,13 @@ def test_pinned_baseline_snapshot():
     assert len(axes) == 87, (
         f"axis count moved from 87: {len(axes)} -- if a new axis was acquired, "
         "update this pin AND the ledger note in the same commit")
-    assert len(files) == 11840, (
-        f"file count moved from 11840: {len(files)} -- re-run --emit and "
+    assert len(files) == 11876, (
+        f"file count moved from 11876: {len(files)} -- re-run --emit and "
         "re-pin if the change is deliberate")
     import hashlib
     h = hashlib.sha256()
     for r in files:
         h.update(r[2].encode())
     tree_sha16 = h.hexdigest()[:16]
-    assert tree_sha16 == "2f8a754bd2b7285b", (
-        f"data-tree content hash moved from 2f8a754bd2b7285b: {tree_sha16}")
+    assert tree_sha16 == "cedac0a96ea250e3", (
+        f"data-tree content hash moved from cedac0a96ea250e3: {tree_sha16}")
