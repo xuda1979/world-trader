@@ -1002,3 +1002,42 @@ only). goal.md round entry appended. Standing data-side item unchanged:
 fred_full/more_fred BAML repair; beat-path-3 fires 2027-09.
 
 DONE raw_data_manifest_repin_20261015
+
+## Round floored_flagship_falsealarm_fix_20261022 (chief, bug-fix)
+
+ROUND CONTEXT: daily floored-flagship launcher (tools/floored_flagship_daily.sh,
+scheduled since 2026-08-14) logged "!! FLOOR BREACH" banners on every run while
+the book was healthy — false alarms that would desensitize the pager when a real
+breach arrives.
+
+ROOT CAUSE (two stacked bugs, TDD):
+1. The launcher's post-run guard (line 19) invoked
+   tools/quant/hedge_fund_strats/monitor_tbill_floor.py via a path RELATIVE to
+   the caller's cwd. The `cd "$ROOT"` at line 10 is trapped inside the
+   `| tee -a "$LOG"` subshell, so the launcher's own cwd never moved — under
+   launchd that cwd is "/", so python exited 2 ("can't open file") and the
+   `rc -ge 2` guard misread the launcher-failure as a floor breach. Bug cleared
+   2026-09-13 per test docstring, regression-unprotected until now.
+2. monitor_tbill_floor.py hard-read data_fred/tbill3m.csv, so no test could
+   exercise both directions (healthy vs genuine breach) hermetically.
+
+FIX (minimal, both files are our own monitoring scripts):
+- floored_flagship_daily.sh: guard now invokes the monitor via ABSOLUTE path
+  ($ROOT/tools/...), with a NOTE explaining the tee-subshell cwd trap.
+- monitor_tbill_floor.py: honors WT_TBILL_CSV env override (default unchanged:
+  data_fred/tbill3m.csv) so the regression suite can drive both directions.
+
+VERIFICATION:
+- tools/test_floored_flagship_daily.py: 2/2 GREEN (no false breach from foreign
+  cwd with healthy CSV; genuine breach still surfaces loudly, with the monitor's
+  OWN "FLOOR BREACH RISK" line proving the synthetic CSV was actually read).
+- End-to-end from /tmp: launcher exit 0, no banner appended; monitor healthy —
+  T-bill 3m 4.02% as of 2026-09-21, 12-mo low 3.75% vs floor 3.40%,
+  margin +0.62pp, floor health OK.
+- floored-2026-10-22.log: today's append shows a clean healthy run (Sharpe 0.956,
+  no losing years, worst year 2022 +0.35%).
+
+Champion trio STAGED-UNCHANGED; no results/ metric touched; goal.md checklist
+updated. Standing items unchanged (fred BAML repair, beat-path-3 2027-09).
+
+DONE floored_flagship_falsealarm_fix_20261022

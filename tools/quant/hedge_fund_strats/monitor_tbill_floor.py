@@ -11,11 +11,14 @@ Usage: python tools/quant/hedge_fund_strats/monitor_tbill_floor.py
 Exit: 0 = healthy, 2 = floor breached, 1 = warning buffer.
 """
 from pathlib import Path
+import os
 import sys
 import pandas as pd
 
 HERE = Path(__file__).resolve().parent
-TRILL = HERE / "data_fred" / "tbill3m.csv"
+# WT_TBILL_CSV lets tests (tools/test_floored_flagship_daily.py) point the
+# monitor at a synthetic T-bill series without touching the real FRED data.
+TRILL = Path(os.environ.get("WT_TBILL_CSV", str(HERE / "data_fred" / "tbill3m.csv")))
 FLOOR = 3.4      # %/yr, the no-losing-year guarantee floor
 WARN_BUF = 0.5   # %: start warning when within this buffer above floor
 

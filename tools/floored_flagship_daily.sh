@@ -16,7 +16,9 @@ mkdir -p "$ROOT/tools/logs"
   echo ""
 } | tee -a "$LOG"
 # monitor exit 2 = floor breached -> surface loudly
-"$PY" tools/quant/hedge_fund_strats/monitor_tbill_floor.py >/dev/null 2>&1
+# NOTE: must be an ABSOLUTE path -- the `cd "$ROOT"` above is trapped inside the
+# tee subshell, so the launcher's cwd is still the caller's (launchd = "/").
+"$PY" "$ROOT/tools/quant/hedge_fund_strats/monitor_tbill_floor.py" >/dev/null 2>&1
 rc=$?
 if [ $rc -ge 2 ]; then
   echo "!! FLOOR BREACH: no-losing-year guarantee at risk (see $LOG)" >> "$LOG"
