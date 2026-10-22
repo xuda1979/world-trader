@@ -19,7 +19,18 @@ coverage.json
 .coverage
 
 # Real-data history cache (regenerable via tools/quant/data_history.py)
-tools/quant/data/
+# (/* patterns + parent negations keep the archive subtree re-includable;
+# the un-anchored `data/` rule above would otherwise exclude the parent)
+!tools/quant/data/
+tools/quant/data/*
+!tools/quant/data/cboe_options/
+tools/quant/data/cboe_options/*
+!tools/quant/data/cboe_options/archive/
+# CBOE daily option-chain snapshots are irreplaceable (no refetch after
+# the session) — always track the per-date archives
+!tools/quant/data/cboe_options/archive/**
+# ...but the regenerable cache files next to them stay ignored
+tools/quant/data/cboe_options/cache/
 # L/S backtest results (regenerable, 133MB+)
 tools/quant/ls/results/
 # bigmove regenerable data caches (parquet feature/prediction caches, 363MB)
