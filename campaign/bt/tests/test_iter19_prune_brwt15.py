@@ -56,11 +56,18 @@ def test_adopted_champion_stats_and_gates():
     # ITER47 re-pin (2026-09-19): vt024 extension; was 23.6813 / 3.764764 / -3.6603.
     # ITER49 re-pin (2026-09-19): tsmom vt015 adoption; was 23.7668 / 3.784099 / -3.7012 at ITER47.
     # (was 39.500 / 3.2176 / -6.5232 under ann-max; 36.4150 / 3.4551 / -5.9284 at ITER20.)
+    # ITER61 re-pin (2026-10-14 adoption, re-pinned 2026-10-27): champion of record
+    # moved to A_cap28 (natgas-block relw-share cap 0.28; coord/ITER61_DDCON/OPERATOR_
+    # DECISION_MEMO.md G1-G8 all YES). Old pre-ITER61 pins preserved here:
+    # ann 23.9215 -> 23.8610, SR 3.820357 -> 3.784489, MDD -3.7339 -> -3.3048.
+    # NOT a beat (SR 3.7845 < 3.820357 incumbent) — operator-objective adoption for
+    # the MDD improvement (-3.73% -> -3.30%); the prior champion is archived at
+    # coord/ITER61_DDCON/ (D1 uncapped rebuild row).
     net, relw, gross, to, _ = B.build()
     ann, sr, mdd = _stats(net)
-    assert abs(ann * 100 - 23.9215) < 0.05, f"ann drifted: {ann*100:.3f}%"
-    assert abs(sr - 3.820357) < 0.002, f"SR drifted: {sr:.4f}"
-    assert abs(mdd * 100 + 3.7339) < 0.02, f"MDD drifted: {mdd*100:.4f}%"
+    assert abs(ann * 100 - 23.8610) < 0.05, f"ann drifted: {ann*100:.3f}%"
+    assert abs(sr - 3.784489) < 0.002, f"SR drifted: {sr:.4f}"
+    assert abs(mdd * 100 + 3.3048) < 0.02, f"MDD drifted: {mdd*100:.4f}%"
     # gates
     assert gross.max() <= 1.6 + 1e-9, "leverage cap breached"
     assert int((gross > 1.6 + 1e-9).sum()) == 0

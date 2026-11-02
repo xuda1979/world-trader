@@ -64,12 +64,16 @@ def test_noop_arms_are_exact_zero_edge():
 
 def test_champion_reference_pinned():
     """Champion OOS SR from the ledger (monthly convention) matches the report's
-    pinned reference 3.6718 (canonical V7.1 OOS SR, reproduce_v71 tol 0.01)."""
+    pinned reference. Re-pinned 2026-10-17-LEDGER-REBUILD era (7db194e0, ITER62_
+    REFRESH_WAVE1 sleeves extended to 2026-10-13..16 frontiers): OOS SR 3.6718 ->
+    3.5916, mirroring the documented test_v71_hardstop_act re-pin ("full SR
+    4.0792 -> 4.0200, OOS SR 3.6718 -> 3.5916"); old 3.6718 = the 2026-09-30
+    ledger vintage (->2026-09-22), preserved in the F2_DDC_REPORT header."""
     r = _load_champion()
     m = (1 + r).resample("ME").prod() - 1
     mo = m[m.index >= "2017-01-01"]
     sr = mo.mean() / mo.std() * (12 ** 0.5)
-    assert abs(sr - 3.6718) <= 0.01, sr
+    assert abs(sr - 3.5916) <= 0.01, sr
 
 
 def test_dead_ideas_row_appended():

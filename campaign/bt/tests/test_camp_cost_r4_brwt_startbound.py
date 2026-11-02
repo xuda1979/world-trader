@@ -149,16 +149,34 @@ def test_verify_judgment_rejects_leading_generator_rows_diescrack_class():
     j = pd.concat([gen_valid.rename("a"), tgt.rename("b")], axis=1, join="inner").dropna()
     dev = float((j.a - j.b).abs().max())
 
-    # probe setup: real run has perfect overlap + benign trailing extras only
+    # probe setup: real run has perfect overlap; leading extras are ALWAYS a bug
+    # (diescrack class). Trailing extras depend on vintage state: they appear in
+    # steady state (live EIA tail accrues past the fixed committed vintage) but
+    # are 0 immediately after a refresh-wave re-emit catches the committed CSV up
+    # to the live tail (10-22 wave, commit 4cfa960d re-emitted brwt7). Both legal.
     assert dev < 1e-12 and len(j) == len(tgt), "real recon broken"
     n_leading = int((gen_valid.index < tgt.index.min()).sum())
     n_trailing = int((gen_valid.index > tgt.index.max()).sum())
-    assert n_leading == 0 and n_trailing > 0, (
-        f"expected vintage-tail shape, got leading={n_leading} trailing={n_trailing}")
+    assert n_leading == 0, (
+        f"real-run generator precedes committed index (diescrack class), got leading={n_leading}")
 
-    # (i) trailing extras (live vintage growth): recon stays BYTE-EXACT, extras disclosed
+    # (i-a) real run, whatever its vintage shape: recon stays BYTE-EXACT
     assert g.verify_judgment(dev=dev, n_inner=len(j), n_tgt=len(tgt),
                              n_gen_leading=n_leading) is True
+
+    # (i-b) SYNTHETIC stale committed vintage (10 rows short of the generator):
+    # pins trailing-benign independently of refresh-cycle position, so this
+    # contract survives catch-up re-emits that make the real run coextensive.
+    tgt_stale = tgt.iloc[:-10]
+    j_st = pd.concat([gen_valid.rename("a"), tgt_stale.rename("b")], axis=1,
+                     join="inner").dropna()
+    dev_st = float((j_st.a - j_st.b).abs().max())
+    lead_st = int((gen_valid.index < tgt_stale.index.min()).sum())
+    trail_st = int((gen_valid.index > tgt_stale.index.max()).sum())
+    assert lead_st == 0 and trail_st == 10, "synthetic stale-vintage probe broken"
+    assert g.verify_judgment(dev=dev_st, n_inner=len(j_st), n_tgt=len(tgt_stale),
+                             n_gen_leading=lead_st) is True, (
+        "verify judgment rejected benign TRAILING extras (stale committed vintage)")
 
     # (ii) LEADING extras = diescrack class: simulate an archive that DROPPED the first 10
     # valid generator dates (index-only change; values on shared dates stay byte-perfect).
