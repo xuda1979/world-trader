@@ -1002,3 +1002,78 @@ only). goal.md round entry appended. Standing data-side item unchanged:
 fred_full/more_fred BAML repair; beat-path-3 fires 2027-09.
 
 DONE raw_data_manifest_repin_20261015
+
+## Round floored_flagship_falsealarm_fix_20261022 (chief, bug-fix)
+
+ROUND CONTEXT: daily floored-flagship launcher (tools/floored_flagship_daily.sh,
+scheduled since 2026-08-14) logged "!! FLOOR BREACH" banners on every run while
+the book was healthy — false alarms that would desensitize the pager when a real
+breach arrives.
+
+ROOT CAUSE (two stacked bugs, TDD):
+1. The launcher's post-run guard (line 19) invoked
+   tools/quant/hedge_fund_strats/monitor_tbill_floor.py via a path RELATIVE to
+   the caller's cwd. The `cd "$ROOT"` at line 10 is trapped inside the
+   `| tee -a "$LOG"` subshell, so the launcher's own cwd never moved — under
+   launchd that cwd is "/", so python exited 2 ("can't open file") and the
+   `rc -ge 2` guard misread the launcher-failure as a floor breach. Bug cleared
+   2026-09-13 per test docstring, regression-unprotected until now.
+2. monitor_tbill_floor.py hard-read data_fred/tbill3m.csv, so no test could
+   exercise both directions (healthy vs genuine breach) hermetically.
+
+FIX (minimal, both files are our own monitoring scripts):
+- floored_flagship_daily.sh: guard now invokes the monitor via ABSOLUTE path
+  ($ROOT/tools/...), with a NOTE explaining the tee-subshell cwd trap.
+- monitor_tbill_floor.py: honors WT_TBILL_CSV env override (default unchanged:
+  data_fred/tbill3m.csv) so the regression suite can drive both directions.
+
+VERIFICATION:
+- tools/test_floored_flagship_daily.py: 2/2 GREEN (no false breach from foreign
+  cwd with healthy CSV; genuine breach still surfaces loudly, with the monitor's
+  OWN "FLOOR BREACH RISK" line proving the synthetic CSV was actually read).
+- End-to-end from /tmp: launcher exit 0, no banner appended; monitor healthy —
+  T-bill 3m 4.02% as of 2026-09-21, 12-mo low 3.75% vs floor 3.40%,
+  margin +0.62pp, floor health OK.
+- floored-2026-10-22.log: today's append shows a clean healthy run (Sharpe 0.956,
+  no losing years, worst year 2022 +0.35%).
+
+Champion trio STAGED-UNCHANGED; no results/ metric touched; goal.md checklist
+updated. Standing items unchanged (fred BAML repair, beat-path-3 2027-09).
+
+DONE floored_flagship_falsealarm_fix_20261022
+
+## Round raw_data_manifest_repin_20261022 (chief, housekeeping)
+
+ROUND CONTEXT: post-adoption session (champion of record = RAW-EW13v2 WEIGHTED
+@1.6x + A_cap28 since db974c92, pin a8ed233bd0f6fd5d verified intact this
+round). Manifest verify RED on session open: 64 extra, 28 missing.
+
+INVESTIGATION BEFORE RE-PIN (loss-class alarms are falsified, not assumed
+benign). Decomposition of the 64-extra/28-missing drift:
+- 28 "missing" = same-path entries in BOTH lists (cboe_hist x6, twelve_big x6,
+  twelve_liq x6, twelvedata x9, cboe_options x1): in-place content refresh,
+  ZERO loss. Provenance: HUNT_H1_TAILFACTOR Addendum A.4 operational refresh,
+  documented pre-commit in 108ad4e3 standup iter-14 (twelvedata 9/9 + twelve
+  dirs via refresh_panel.py to 2026-10-16, cboe_hist ETFs to 2026-10-15;
+  git-ignored regenerable data, sealed panel prefix untouched).
+- 36 net-new = scheduled CBOE H1/flow pipeline archives 20261019/20261020/
+  20261021 (12 files each: 9 symbol chains + fetch_report.json +
+  H1_diagnostics + H1_tailfactor). Validated: fetch_report sha256/bytes
+  self-consistent vs archive files, 9/9 symbols_ok zero fail each date, spot
+  continuity smooth (SPY 762.52 -> 766.92 -> 769.34 -> 773.64; iv30 14.296 ->
+  13.676 -> 13.188 -> 13.008 declining), fetch_time 04:20 ET overnight
+  scheduler. h1_status.json: consecutive_failures 0, last_archive_date
+  20261021 = expected.
+
+ACTIONS: --emit re-run (11840 -> 11876 files, 87 axes unchanged, tree sha16
+2f8a754bd2b7285b -> cedac0a96ea250e3); test_raw_data_manifest.py baseline
+re-pinned (count + sha16 + ledger history docstring incl. the A.4 refresh
+note); verify GREEN; manifest tests 6/6.
+
+Champion trio STAGED-UNCHANGED; no results/ metric touched (manifest itself
+only). Standing data-side items unchanged: fred_full/more_fred BAML repair;
+beat-path-3 fires 2027-09. Next scheduled hunt session unchanged
+(HUNT_H1_TAILFACTOR adjudication ~early Dec 2026 at >=60 panel dates; A.6
+residual: refresh both price sources same-day before the December run).
+
+DONE raw_data_manifest_repin_20261022

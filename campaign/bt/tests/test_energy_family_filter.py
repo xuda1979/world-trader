@@ -97,13 +97,16 @@ def test_brwt_only_filter_reproduces_pinned_candidate():
     B.PATHS["A5r2"] = _a5r2
     B.PATHS["QAxasts"] = _ts
     a, sr, dd, neg = stats(net)
-    # Re-pinned at ITER21 (2026-09-18): canonical gear 1.0 (was 28.41 / 3.406 / -7.53 at
-    # the ITER20 gear-1.6 vintage). At gear 1.0 the screen lands at MDD -4.60%, INSIDE the
-    # -7% FS wall -- still a SCREEN pin, NOT a candidate (admissibility is decided by the
-    # campaign gates, not by this regression pin).
-    assert a * 100 == pytest.approx(19.44, abs=0.05), f"ann {a*100:.2f} drifted"
-    assert sr == pytest.approx(3.730, abs=0.01), f"SR {sr:.3f} drifted"
-    assert dd * 100 == pytest.approx(-4.60, abs=0.03), f"MaxDD {dd*100:.2f} drifted"
+    # Re-pinned 2026-10-27 (diescrack-net re-emit session): the champion-of-record moved to
+    # the ITER61 A_cap28 (db974c92, 2026-10-14) and the 10-22 refresh wave extended the
+    # brwt7__costfix tail (4669 rows -> 2026-10-13), so the filtered screen re-optimizes
+    # on the new composite. Old pins (ITER21 gear-1.0 era, stats() arithmetic-ann
+    # convention) preserved here: ann 19.44 -> 19.38, SR 3.730 -> 3.7405,
+    # MDD -4.60 -> -4.4659, negYrs 0 unchanged. Still a SCREEN pin, NOT a candidate
+    # (admissibility is decided by the campaign gates, not by this regression pin).
+    assert a * 100 == pytest.approx(19.3827, abs=0.05), f"ann {a*100:.2f} drifted"
+    assert sr == pytest.approx(3.7405, abs=0.01), f"SR {sr:.3f} drifted"
+    assert dd * 100 == pytest.approx(-4.4659, abs=0.03), f"MaxDD {dd*100:.2f} drifted"
     assert neg == 0
 
 
@@ -130,7 +133,11 @@ def test_of_record_champion_not_overwritten_by_sweep():
     # Re-pinned at the 2026-09-19 ITER49 adoption (live champion cfa9ec4d38158691; the
     # ITER47 vt024 champion read 21.49 / 3.784 / -3.70 and is preserved byte-exact
     # in coord/ITER49_TSMOM_VT/prior_champion_backup/); stats() convention unchanged.
-    assert a * 100 == pytest.approx(21.61, abs=0.05)
-    assert sr == pytest.approx(3.820, abs=0.01)
-    assert dd * 100 == pytest.approx(-3.73, abs=0.03)
+    # Re-pinned 2026-10-27 (diescrack-net re-emit session): RECORD now holds the ITER61
+    # A_cap28 champion (db974c92, 2026-10-14; see test_iter19_prune_brwt15 re-pin).
+    # Old ITER49-era pins preserved here: ann 21.61 -> 21.5678, SR 3.820 -> 3.7845,
+    # MDD -3.73 -> -3.3048, negYrs 0 unchanged.
+    assert a * 100 == pytest.approx(21.5678, abs=0.05)
+    assert sr == pytest.approx(3.7845, abs=0.01)
+    assert dd * 100 == pytest.approx(-3.3048, abs=0.03)
     assert neg == 0

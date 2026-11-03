@@ -60,5 +60,11 @@ def test_cap_fix_leaves_committed_champion_weights_byte_identical():
     committed = pd.read_csv(WEIGHTS_CSV, index_col=0).iloc[:, 0]
     # ITER20: the committed weights are the fitted shares AFTER the brwt-block cap
     # transform; the W_MAX neutrality claim is evaluated on the same composite.
-    maxdev = float((B.apply_brwt_cap(fit) - committed).abs().max())
+    # RE-PINNED 2026-10-27: the committed weights are the ITER61 A_cap28 champion
+    # (db974c92, 2026-10-14) — the brwt-block cap PLUS the natgas-block cap 0.28
+    # (C5ng + C5ngsum; operator MDD adoption, see coord/ITER61_DDCON/). Reproducing
+    # them now requires the same composite transform: apply_brwt_cap -> cap_block
+    # (NG_BLOCK, 0.28). Old brwt-only comparison preserved maxdev 9.99e-17 pre-ITER61.
+    composite = B.cap_block(B.apply_brwt_cap(fit), B.NG_BLOCK, 0.28)
+    maxdev = float((composite - committed).abs().max())
     assert maxdev < 1e-12, f"cap fix moved the champion weights by {maxdev:.3e}"

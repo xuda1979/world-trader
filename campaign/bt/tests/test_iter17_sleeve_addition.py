@@ -45,9 +45,14 @@ def _sr(net):
 
 def test_rb_hobr_relaxes_the_is_rule_but_fails_the_oos_reveal():
     assert (ROOT / RB_HOBR).exists(), "RB_hobr sleeve artifact missing"
-    champion = pd.read_csv(
-        ROOT / "campaign" / "results" / "GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv",
-        index_col=0, parse_dates=True).iloc[:, 0]
+    # RE-PINNED 2026-10-27 (diescrack-net re-emit session): the champion reference is now
+    # BUILT as the uncapped SR-max incumbent (shrink 0.70, ng_cap lifted) instead of read
+    # from the committed GOAL100_RAWEW13v2_WEIGHTED_GEAR16_daily.csv — that CSV became the
+    # ITER61 A_cap28 champion (2026-10-14, db974c92), a DIFFERENT family (deliberately
+    # SR-reduced for the -3.73%->-3.30% MDD adoption). The ITER17 rejection premise is a
+    # like-for-like SR-max comparison, so the reference must be the uncapped incumbent
+    # (OOS SR 3.7064); the RB_hobr candidate (OOS SR 3.6784) still loses on every reveal.
+    champion, _, _, _, _ = B.build(shrink_d=0.70, ng_cap=1.0)
 
     saved_names, saved_paths = B.NAMES, dict(B.PATHS)
     try:

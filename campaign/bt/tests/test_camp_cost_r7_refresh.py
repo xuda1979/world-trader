@@ -105,11 +105,18 @@ def test_gross_rides_cap_exactly_never_over():
 def test_candidate_covers_the_adopted_generation():
     """The refresh candidate was ADOPTED (2026-09-09), so it no longer EXTENDS anything —
     it IS the pre-ITER15 champion generation. Pin that coverage instead of the retired
-    'candidate extends champion' premise."""
+    'candidate extends champion' premise. Re-pinned 2026-10-27 (diescrack-net re-emit
+    session): index EQUALITY -> archive-SUBSET coverage, because the 2026-09-28
+    E1/DHHNGSP landing (17e5be62) extended E1_C5ng_summer_weekday +19 rows
+    (->2026-09-21), moving the candidate's date-union past the frozen pre-ITER15
+    archive window (->2026-08-28). The adopted generation is fully covered;
+    the candidate now also carries its inputs' post-adoption frontier."""
     net, relw, gross, to, df = raw15.build()
     old = pd.read_csv(ARCH_CSV, index_col=0, parse_dates=True).iloc[:, 0]
     assert net.index.is_unique and net.index.is_monotonic_increasing
-    assert net.index.equals(old.index), "candidate must cover the adopted generation exactly"
+    assert old.index.isin(net.index).all(), (
+        "candidate must cover every adopted-generation (archived) date")
+    assert net.index.max() >= old.index.max(), "candidate must reach the archive frontier"
     assert (net.index > pd.Timestamp("2026-08-10")).any(), "refreshed tail rows must be present"
 
 
