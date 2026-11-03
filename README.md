@@ -9,6 +9,15 @@ Timezone-aware day boundaries use the operating system's IANA database; on syste
 本项目优先接入官方开放 API，保存数据来源、采集时间、可用时间和修订版本。
 当前快照与历史可得信息分开处理，便于后续回测避免前视偏差。
 
+## Investment research direction
+
+The [unlevered research plan](docs/research-plan-unlevered.md) defines the next study:
+high net compound returns and Sharpe, low drawdown and turnover, using only free public data.
+It specifies long-only cash funding, retail commissions and market impact, three falsifiable
+research hypotheses, chronological validation, and implementation milestones. Its numerical
+targets are research goals, not achieved performance. Earlier strategy experiments remain
+historical evidence and must be requalified under this stricter investment and data contract.
+
 ## Start without an account or API key
 
 Run from the repository root:
