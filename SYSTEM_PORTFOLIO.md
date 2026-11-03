@@ -1,5 +1,11 @@
 # Company-Level System Portfolio — Master Spec (2026-08-13)
 
+> **Historical specification.** The [2026-11-03 unlevered research plan](docs/research-plan-unlevered.md)
+> governs the new free-public-data, long-only, cash-funded study. The leverage, short/derivative
+> sleeves, return assumptions and guarantee language below do not establish compliance or
+> future performance under that plan. This document is preserved as research history; the
+> new plan does not authorize the operating defaults described here.
+
 **Goal (user)**: a comprehensive, company-level portfolio system that optimizes
 all profitable individual strategies into one system that stays profitable with
 high Sharpe **any time / long term / any market scenario**, with dynamic
